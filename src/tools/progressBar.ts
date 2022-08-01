@@ -22,23 +22,30 @@ const getBarString = (
 
 /**
  * Usage:
+ * ```typescript
  * import chalk from 'chalk'
  * import {getProgressBar} from 'swiss-ak';
  *
  * const progress = getProgressBar(5, 'ABC', 20, chalk);
  *
+ * console.log('-'.repeat(20) + ' < 20 Chars');
+ *
  * for (let i = 1; i <= 5; i++) {
  *   console.log(progress.set(i));
  * }
  * console.log(progress.finish());
+ * ```
  *
  * Output:
+ * ```
+ * -------------------- < 20 Chars
  * ABC ▕      ▏ [0 / 5]
  * ABC ▕█     ▏ [1 / 5]
  * ABC ▕██    ▏ [2 / 5]
  * ABC ▕████  ▏ [3 / 5]
  * ABC ▕█████ ▏ [4 / 5]
  * ABC ▕██████▏ [5 / 5]
+ * ```
  *
  * Tip: use printLn from README.md
  */
