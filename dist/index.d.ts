@@ -242,19 +242,41 @@ declare const timer: {
 };
 
 /**
+ * Can use instead of console.log
+ *
+ * Overwrites the previous line if possible (i.e. node);
+ *
+ * Usage
+ * ```javascript
+ * import { printLn } from 'swiss-ak';
+ *
+ * printLn('A');
+ * printLn('B'); // Replaces the 'A' line
+ * printLn('C'); // Replaces the 'B' line
+ * printLn(); // Jumps a line
+ * printLn('D'); // Replaces the empty line
+ * ```
+ *
+ * Output
+ * ```
+ * C
+ * D
+ * ```
+ */
+declare const printLn: (...text: any[]) => void;
+/**
  * Usage:
  * ```typescript
  * import chalk from 'chalk'
  * import {getProgressBar} from 'swiss-ak';
  *
- * const progress = getProgressBar(5, 'ABC', 20, chalk);
- *
  * console.log('-'.repeat(20) + ' < 20 Chars');
  *
+ * const progress = getProgressBar(5, 'ABC', 20, chalk, chalk.green);
  * for (let i = 1; i <= 5; i++) {
- *   console.log(progress.set(i));
+ *   progress.set(i);
  * }
- * console.log(progress.finish());
+ * progress.finish();
  * ```
  *
  * Output:
@@ -267,19 +289,20 @@ declare const timer: {
  * ABC ▕█████ ▏ [4 / 5]
  * ABC ▕██████▏ [5 / 5]
  * ```
- *
- * Tip: use printLn from README.md
  */
-declare const getProgressBar: (max: number, prefix?: string, maxWidth?: number, chalk?: any) => {
+declare const getProgressBar: (max: number, prefix?: string, maxWidth?: number, chalk?: any, wrapperFn?: any) => {
     next: () => string;
     set: (newCurrent: number) => string;
+    reset: () => string;
     update: () => string;
     finish: () => string;
 };
 
+declare const progressBar_printLn: typeof printLn;
 declare const progressBar_getProgressBar: typeof getProgressBar;
 declare namespace progressBar {
   export {
+    progressBar_printLn as printLn,
     progressBar_getProgressBar as getProgressBar,
   };
 }
@@ -326,4 +349,4 @@ declare const PromiseUtils: {
     }>;
 };
 
-export { CENTURY, DAY, DECADE, DeferredPromise, HOUR, MILLENNIUM, MILLISECOND, MINUTE, MONTH, PromiseUtils, SECOND, WEEK, YEAR, centuries, century, day, days, decade, decades, getDeferred, getProgressBar, getTimer, hour, hours, interval, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, progressBar, second, seconds, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years };
+export { CENTURY, DAY, DECADE, DeferredPromise, HOUR, MILLENNIUM, MILLISECOND, MINUTE, MONTH, PromiseUtils, SECOND, WEEK, YEAR, centuries, century, day, days, decade, decades, getDeferred, getProgressBar, getTimer, hour, hours, interval, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, second, seconds, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years };

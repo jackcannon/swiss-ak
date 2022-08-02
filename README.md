@@ -291,14 +291,13 @@ A util for creating a 'visual' progress bar for better representing progress of 
 import chalk from 'chalk';
 import { getProgressBar } from 'swiss-ak';
 
-const progress = getProgressBar(5, 'ABC', 20, chalk);
-
 console.log('-'.repeat(20) + ' < 20 Chars');
 
+const progress = getProgressBar(5, 'ABC', 20, chalk, chalk.green);
 for (let i = 1; i <= 5; i++) {
-  console.log(progress.set(i));
+  progress.set(i);
 }
-console.log(progress.finish());
+progress.finish();
 ```
 
 Output
@@ -313,21 +312,27 @@ ABC ▕█████ ▏ [4 / 5]
 ABC ▕██████▏ [5 / 5]
 ```
 
-### printLn function for node
+### printLn
 
-Use instead of console.log.
+Can use instead of console.log
 
-Overwrites the previous line to give an updating progress bar
+Overwrites the previous line if possible (i.e. node);
 
 ```javascript
-const printLn = (text) => {
-  process.stdout.clearLine(0);
-  process.stdout.cursorTo(0);
-  process.stdout.moveCursor(0, -1);
-  process.stdout.clearLine(0);
-  process.stdout.write(text);
-  process.stdout.write('\n');
-};
+import { printLn } from 'swiss-ak';
+
+printLn('A');
+printLn('B'); // Replaces the 'A' line
+printLn('C'); // Replaces the 'B' line
+printLn(); // Jumps a line
+printLn('D'); // Replaces the empty line
+```
+
+Output
+
+```
+C
+D
 ```
 
 ## Notes

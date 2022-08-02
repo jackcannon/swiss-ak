@@ -140,44 +140,82 @@ var timer = getTimer();
 // src/tools/progressBar.ts
 var progressBar_exports = {};
 __export(progressBar_exports, {
-  getProgressBar: () => getProgressBar
+  getProgressBar: () => getProgressBar,
+  printLn: () => printLn
 });
+var noWrap = (x) => x;
 var noChalk = {
-  dim: (str) => str,
-  bold: (str) => str
+  dim: noWrap,
+  bold: noWrap
 };
-var getBarString = (current, max, width = 50, progChar = "\u2588", emptyChar = " ", prefix = "\u2595", suffix = "\u258F", chalk = noChalk) => {
+var getBarString = (current, max, width = 50, chalk = noChalk, progChar = "\u2588", emptyChar = " ", prefix = "\u2595", suffix = "\u258F") => {
   const numProgChars = Math.round(width * (Math.max(0, Math.min(current / max, 1)) / 1));
   const numEmptyChars = width - numProgChars;
   const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
   return `${chalk.dim(prefix)}${chalk.bold(body)}${chalk.dim(suffix)}`;
 };
-var getProgressBar = (max, prefix = "", maxWidth = 100, chalk = noChalk) => {
+var getDefaultWidth = () => {
+  if (process == null ? void 0 : process.stdout) {
+    return process.stdout.columns;
+  } else {
+    return 100;
+  }
+};
+var printLn = (...text) => {
+  if (process == null ? void 0 : process.stdout) {
+    if (!text.length) {
+      process.stdout.write("\n");
+    } else {
+      const output = text.map((item) => item.toString()).join(" ");
+      process.stdout.clearLine(0);
+      process.stdout.cursorTo(0);
+      process.stdout.moveCursor(0, -1);
+      process.stdout.clearLine(0);
+      process.stdout.write(output);
+      process.stdout.write("\n");
+    }
+  } else {
+    console.log(...text);
+  }
+};
+var print = (text, wrapperFn = noWrap) => {
+  const wrapped = wrapperFn(text || "");
+  printLn(wrapped);
+};
+var getProgressBar = (max, prefix = "", maxWidth = getDefaultWidth(), chalk = noChalk, wrapperFn = noChalk) => {
   let current = 0;
   let finished = false;
   const update = () => {
-    if (finished) {
-      return;
-    }
     const suffix = `[${current.toString().padStart(max.toString().length, " ")} / ${max}]`;
-    const output = `${prefix} ${getBarString(current, max, Math.max(0, maxWidth - (prefix.length + suffix.length + 4)))} ${suffix}`;
+    const output = `${prefix} ${getBarString(current, max, Math.max(0, maxWidth - (prefix.length + suffix.length + 4)), chalk)} ${suffix}`;
+    print(output, wrapperFn);
     return output;
   };
   const next = () => {
+    if (finished)
+      return "";
     current++;
     return update();
   };
   const set = (newCurrent) => {
+    if (finished)
+      return "";
     current = newCurrent;
     return update();
   };
+  const reset = () => {
+    return set(0);
+  };
   const finish = () => {
     finished = true;
-    return update();
+    const output = update();
+    print();
+    return output;
   };
   return {
     next,
     set,
+    reset,
     update,
     finish
   };
@@ -282,6 +320,7 @@ export {
   milliseconds,
   minutes,
   months,
+  printLn,
   progressBar_exports as progressBar,
   seconds,
   stopInterval,
