@@ -1,5 +1,6 @@
 import { ms, SECOND } from './times';
 import { KeysOnly } from './types';
+import { noChalk, noWrap } from './fakeChalk';
 
 // Hacky little display function
 const formatDuration = (duration: ms) => {
@@ -39,7 +40,7 @@ interface ITimer<TName> {
 /**
  * Usage:
  * ```typescript
- * const timer = getTimer('Example', false, {
+ * const timer = getTimer('Example', false, chalk.red, chalk, {
  *   TOTAL: 'TOTAL',
  *   INTRO: 'Action 1',
  *   ENDING: 'Action 2'
@@ -64,19 +65,35 @@ interface ITimer<TName> {
  * 	Action 2: 6s
  * ```
  */
-export const getTimer = <TName extends INames>(name?: string, verbose: boolean = false, displayNames?: TName): ITimer<TName> & KeysOnly<TName> => {
+export const getTimer = <TName extends INames>(
+  name?: string,
+  verbose: boolean = false,
+  wrapperFn: any = noWrap,
+  chalk: any = noChalk,
+  displayNames?: TName
+): ITimer<TName> & KeysOnly<TName> => {
   let startTimes: { [label: string]: ms } = {};
   let endTimes: { [label: string]: ms } = {};
 
-  let dispNames = (displayNames || { TOTAL: 'TOTAL' }) as TName;
+  let dispNames = {
+    ...(displayNames || {})
+  } as TName;
   const names = Object.fromEntries(Object.keys(dispNames).map((key) => [key, key])) as KeysOnly<TName>;
 
-  const logLine = (label: string, prefix: string = '') => {
+  const logLine = (label: string, prefix: string = ''): number => {
     const start = startTimes[label];
     const end = endTimes[label] || Date.now();
     const duration = end - start;
-    console.log(`${prefix}${dispNames[label] || label}: ${formatDuration(duration)}`);
+
+    const lineStart = `${prefix}${dispNames[label] || label}: `;
+    const lineEnd = `${formatDuration(duration)}`;
+
+    const line = chalk.bold(lineStart) + lineEnd;
+    console.log(wrapperFn(line));
+    return (lineStart + lineEnd).replace('	', '').length;
   };
+
+  startTimes.TOTAL = Date.now();
 
   return {
     ...names,
@@ -100,10 +117,17 @@ export const getTimer = <TName extends INames>(name?: string, verbose: boolean =
     },
     log(prefix?: string) {
       console.log('');
-      console.log([prefix, name, 'Times:'].filter((x) => x && x.trim()).join(' '));
+      console.log(wrapperFn(chalk.bold([prefix, name, 'Times:'].filter((x) => x && x.trim()).join(' '))));
+
+      let longest = 0;
+
       for (let label of Object.keys(startTimes)) {
-        logLine(label, '	');
+        if (label !== 'TOTAL') {
+          longest = Math.max(longest, logLine(label, '	'));
+        }
       }
+      console.log(wrapperFn(chalk.dim('	' + '⎯'.repeat(longest))));
+      logLine('TOTAL', '	');
       console.log('');
     },
     reset() {

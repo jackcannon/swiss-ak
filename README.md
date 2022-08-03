@@ -113,7 +113,7 @@ A handy little tool for tracking how long things are taking
 ### Usage
 
 ```typescript
-const timer = getTimer('Example', false, {
+const timer = getTimer('Example', false, chalk.red, chalk, {
   TOTAL: 'TOTAL',
   INTRO: 'Action 1',
   ENDING: 'Action 2'

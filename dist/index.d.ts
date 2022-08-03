@@ -221,7 +221,7 @@ interface ITimer<TName> {
 /**
  * Usage:
  * ```typescript
- * const timer = getTimer('Example', false, {
+ * const timer = getTimer('Example', false, chalk.red, chalk, {
  *   TOTAL: 'TOTAL',
  *   INTRO: 'Action 1',
  *   ENDING: 'Action 2'
@@ -246,7 +246,7 @@ interface ITimer<TName> {
  * 	Action 2: 6s
  * ```
  */
-declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean, displayNames?: TName) => ITimer<TName> & KeysOnly<TName>;
+declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean, wrapperFn?: any, chalk?: any, displayNames?: TName) => ITimer<TName> & KeysOnly<TName>;
 /**
  * Global timer
  */

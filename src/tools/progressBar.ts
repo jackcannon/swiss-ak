@@ -1,8 +1,4 @@
-const noWrap = (x: any) => x;
-const noChalk = {
-  dim: noWrap,
-  bold: noWrap
-};
+import { noChalk, noWrap } from './fakeChalk';
 
 /**
  * Can use instead of console.log

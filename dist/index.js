@@ -152,6 +152,13 @@ var interval = (action, timing) => {
   return intID;
 };
 
+// src/tools/fakeChalk.ts
+var noWrap = (x) => x;
+var noChalk = {
+  dim: noWrap,
+  bold: noWrap
+};
+
 // src/tools/timer.ts
 var formatDuration = (duration) => {
   const seconds2 = duration / SECOND;
@@ -169,17 +176,24 @@ var formatDuration = (duration) => {
   }
   return `${extra}${extra ? ` (${seconds2}s)` : `${seconds2}s`}`;
 };
-var getTimer = (name, verbose = false, displayNames) => {
+var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, displayNames) => {
   let startTimes = {};
   let endTimes = {};
-  let dispNames = displayNames || { TOTAL: "TOTAL" };
+  let dispNames = {
+    ...displayNames || {}
+  };
   const names = Object.fromEntries(Object.keys(dispNames).map((key) => [key, key]));
   const logLine = (label, prefix = "") => {
     const start = startTimes[label];
     const end = endTimes[label] || Date.now();
     const duration = end - start;
-    console.log(`${prefix}${dispNames[label] || label}: ${formatDuration(duration)}`);
+    const lineStart = `${prefix}${dispNames[label] || label}: `;
+    const lineEnd = `${formatDuration(duration)}`;
+    const line = chalk.bold(lineStart) + lineEnd;
+    console.log(wrapperFn(line));
+    return (lineStart + lineEnd).replace("	", "").length;
   };
+  startTimes.TOTAL = Date.now();
   return {
     ...names,
     start(...labelArr) {
@@ -204,10 +218,15 @@ var getTimer = (name, verbose = false, displayNames) => {
     },
     log(prefix) {
       console.log("");
-      console.log([prefix, name, "Times:"].filter((x) => x && x.trim()).join(" "));
+      console.log(wrapperFn(chalk.bold([prefix, name, "Times:"].filter((x) => x && x.trim()).join(" "))));
+      let longest = 0;
       for (let label of Object.keys(startTimes)) {
-        logLine(label, "	");
+        if (label !== "TOTAL") {
+          longest = Math.max(longest, logLine(label, "	"));
+        }
       }
+      console.log(wrapperFn(chalk.dim("	" + "\u23AF".repeat(longest))));
+      logLine("TOTAL", "	");
       console.log("");
     },
     reset() {
@@ -226,11 +245,6 @@ __export(progressBar_exports, {
   getProgressBar: () => getProgressBar,
   printLn: () => printLn
 });
-var noWrap = (x) => x;
-var noChalk = {
-  dim: noWrap,
-  bold: noWrap
-};
 var printLn = (...text) => {
   if (process == null ? void 0 : process.stdout) {
     if (!text.length) {
