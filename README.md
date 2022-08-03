@@ -113,18 +113,20 @@ A handy little tool for tracking how long things are taking
 ### Usage
 
 ```typescript
-import { getTimer } from 'swiss-ak';
-
-const timer = getTimer('Example');
-timer.start('TOTAL', 'intro');
+const timer = getTimer('Example', false, {
+  TOTAL: 'TOTAL',
+  INTRO: 'Action 1',
+  ENDING: 'Action 2'
+});
+timer.start(timer.TOTAL, timer.INTRO);
 
 await wait(seconds(4)); // do something async
 
-timer.switch('intro', 'ending'); // same as calling end('intro') and start('ending')
+timer.switch(timer.INTRO, timer.ENDING); // same as calling end(timer.INTRO) and start(timer.ENDING)
 
 await wait(seconds(6)); // do something async
 
-timer.end('TOTAL', 'ending');
+timer.end(timer.TOTAL, timer.ENDING);
 timer.log();
 ```
 
@@ -133,8 +135,8 @@ Output:
 ```
 Example Times:
 	TOTAL: 10s
-	intro: 4s
-	ending: 6s
+	Action 1: 4s
+	Action 2: 6s
 ```
 
 ### timer
@@ -144,7 +146,7 @@ There is also a global instance for smaller projects/scripts
 ```typescript
 import { timer } from 'swiss-ak';
 
-timer.start('TOTAL');
+timer.start(timer.TOTAL);
 ```
 
 ## PromiseUtils
@@ -169,6 +171,117 @@ const run = () => {
 };
 
 const luckyNumber: number = await run();
+```
+
+### PromiseUtils.all
+
+An alias for Promise.all
+
+### PromiseUtils.allLimit
+
+Like Promise.all, but limits the numbers of concurrently running items.
+
+Takes an array of functions (that return Promises), rather than an array of Promises
+
+```typescript
+import { PromiseUtils, timer, ms, seconds } from 'swiss-ak';
+
+const give = async (delay: ms, result: number, label: string) => {
+  await waitFor(delay);
+  timer.end(label);
+  return result;
+};
+
+timer.start('allLimit', 'a', 'b', 'c', 'd');
+
+const results = PromiseUtils.allLimit<number>(2, [
+  give(seconds(5), 1, 'a'),
+  give(seconds(5), 2, 'b'),
+  give(seconds(5), 3, 'c'),
+  give(seconds(5), 4, 'd')
+]);
+
+timer.end('allLimit');
+
+console.log(results); // [ 1, 2, 3, 4 ]
+
+timer.log();
+// Times:
+// 	allLimit: 10s
+// 	a: 5s
+// 	b: 5s
+// 	c: 10s
+// 	d: 10s
+```
+
+### PromiseUtils.each
+
+Run an async function against each item in an array
+
+```typescript
+import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+
+const arr = [1, 2, 3, 4];
+
+await PromiseUtils.each<number>(arr, async (val: number) => {
+  await wait(seconds(2));
+  sendToSomewhere(val);
+});
+console.log(''); // after 2 seconds
+```
+
+### PromiseUtils.eachLimit
+
+Run an async function against each item in an array, limiting the number of items that can run concurrently.
+
+See PromiseUtils.allLimit for information about limited functions.
+
+```typescript
+import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+
+const arr = [1, 2, 3, 4];
+
+await PromiseUtils.eachLimit<number>(2, arr, async (val: number) => {
+  await wait(seconds(2));
+  sendToSomewhere(val);
+});
+console.log(''); // after 4 seconds
+```
+
+### PromiseUtils.map
+
+Run an async map function against each item in an array, mapping the results to a returned array
+
+```typescript
+import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+
+const arr = [1, 2, 3, 4];
+
+const mapped = await PromiseUtils.map<number>(arr, async (val: number) => {
+  await wait(seconds(2));
+  return val * 2;
+});
+
+console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
+```
+
+### PromiseUtils.mapLimit
+
+Run an async map function against each item in an array, mapping the results to a returned array, and limiting the number of items that can run concurrently.
+
+See PromiseUtils.allLimit for information about limited functions.
+
+```typescript
+import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+
+const arr = [1, 2, 3, 4];
+
+const mapped = await PromiseUtils.mapLimit<number>(2, arr, async (val: number) => {
+  await wait(seconds(2));
+  return val * 2;
+});
+
+console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
 ```
 
 ### PromiseUtils.allObj
@@ -204,42 +317,6 @@ timer.log();
 // 	c: 20s
 ```
 
-### PromiseUtils.allLimit
-
-Like Promise.all, but limits the numbers of concurrently running items.
-
-Takes an array of functions (that return Promises), rather than an array of Promises
-
-```typescript
-import { PromiseUtils, timer, ms, seconds } from 'swiss-ak';
-
-const give = async (delay: ms, result: number, label: string) => {
-  await waitFor(delay);
-  timer.end(label);
-  return result;
-};
-
-timer.start('allLimit', 'a', 'b', 'c', 'd');
-
-const results = PromiseUtils.allLimit<number>(
-  [give(seconds(5), 1, 'a'), give(seconds(5), 2, 'b'), give(seconds(5), 3, 'c'), give(seconds(5), 4, 'd')],
-  2,
-  true
-);
-
-timer.end('allLimit');
-
-console.log(results); // [ 1, 2, 3, 4 ]
-
-timer.log();
-// Times:
-// 	allLimit: 10s
-// 	a: 5s
-// 	b: 5s
-// 	c: 10s
-// 	d: 10s
-```
-
 ### PromiseUtils.allLimitObj
 
 A mix of allObj and allLimit.
@@ -257,16 +334,12 @@ const give = async (delay: ms, result: number, label: string) => {
 
 timer.start('allLimitObj', 'a', 'b', 'c', 'd');
 
-const results = PromiseUtils.allLimitObj<number>(
-  {
-    a: give(seconds(5), 1, 'a'),
-    b: give(seconds(5), 2, 'b'),
-    c: give(seconds(5), 3, 'c'),
-    d: give(seconds(5), 4, 'd')
-  },
-  2,
-  true
-);
+const results = PromiseUtils.allLimitObj<number>(2, {
+  a: give(seconds(5), 1, 'a'),
+  b: give(seconds(5), 2, 'b'),
+  c: give(seconds(5), 3, 'c'),
+  d: give(seconds(5), 4, 'd')
+});
 
 timer.end('allLimitObj');
 
@@ -285,6 +358,23 @@ timer.log();
 
 A util for creating a 'visual' progress bar for better representing progress of multiple operations.
 
+### Options
+
+All options are optional.
+
+| Property    | Default                           | Description                                           |
+| ----------- | --------------------------------- | ----------------------------------------------------- |
+| prefix      | `''`                              | String to show to left of progress bar                |
+| maxWidth    | `process.stdout.columns` or `100` | The maximum width the entire string may extend        |
+| chalk       | nothing                           | the `chalk` module, if available                      |
+| wrapperFn   | nothing                           | function to wrap the printed string (eg `chalk.cyan)` |
+| showCount   | `true`                            | Show numerical values of the count - `[11 / 15]`      |
+| showPercent | `false`                           | Show percentage completed - `( 69%)`                  |
+| progChar    | `'█'`                             | Character to use for progress section of bar          |
+| emptyChar   | `' '`                             | Character to use for empty (rail) section of bar      |
+| prefixChar  | `'▕'`                             | Character to start the progress bar with              |
+| suffixChar  | `'▏'`                             | Character to end the progress bar with                |
+
 ### Usage
 
 ```typescript
@@ -293,14 +383,19 @@ import { getProgressBar } from 'swiss-ak';
 
 console.log('-'.repeat(20) + ' < 20 Chars');
 
-const progress = getProgressBar(5, 'ABC', 20, chalk, chalk.green);
+const progress = getProgressBar(5, {
+  prefix: 'ABC',
+  maxWidth: 20,
+  chalk,
+  wrapperFn: chalk.green
+});
 for (let i = 1; i <= 5; i++) {
   progress.set(i);
 }
 progress.finish();
 ```
 
-Output
+Output:
 
 ```
 -------------------- < 20 Chars

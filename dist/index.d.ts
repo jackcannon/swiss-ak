@@ -1,3 +1,10 @@
+declare type Partial$1<T> = {
+    [K in keyof T]?: T[K];
+};
+declare type KeysOnly<T> = {
+    [K in keyof T]: K;
+};
+
 declare type ms = number;
 declare type second = number;
 declare type minute = number;
@@ -199,19 +206,35 @@ declare namespace waiters {
   };
 }
 
+interface INames {
+    [k: string]: string;
+}
+interface ITimer<TName> {
+    start(...labelArr: string[]): void;
+    end(...labelArr: string[]): void;
+    switch(endLabel: string | string[], startLabel: string | string[]): void;
+    log(prefix?: string): void;
+    reset(): void;
+    names: KeysOnly<TName>;
+    displayNames: TName;
+}
 /**
  * Usage:
  * ```typescript
- * const timer = getTimer('Example');
- * timer.start('TOTAL', 'intro');
+ * const timer = getTimer('Example', false, {
+ *   TOTAL: 'TOTAL',
+ *   INTRO: 'Action 1',
+ *   ENDING: 'Action 2'
+ * });
+ * timer.start(timer.TOTAL, timer.INTRO);
 
  * await wait(seconds(4)); // do something async
 
- * timer.switch('intro', 'ending'); // same as calling end('intro') and start('ending')
+ * timer.switch(timer.INTRO, timer.ENDING); // same as calling end(timer.INTRO) and start(timer.ENDING)
 
  * await wait(seconds(6)); // do something async
 
- * timer.end('TOTAL', 'ending');
+ * timer.end(timer.TOTAL, timer.ENDING);
  * timer.log();
  * ```
  *
@@ -219,27 +242,15 @@ declare namespace waiters {
  * ```
  * Example Times:
  * 	TOTAL: 10s
- * 	intro: 4s
- * 	ending: 6s
+ * 	Action 1: 4s
+ * 	Action 2: 6s
  * ```
  */
-declare const getTimer: (name?: string) => {
-    start(...labelArr: string[]): void;
-    end(...labelArr: string[]): void;
-    switch(endLabel: string | string[], startLabel: string | string[]): void;
-    log(prefix?: string): void;
-    reset(): void;
-};
+declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean, displayNames?: TName) => ITimer<TName> & KeysOnly<TName>;
 /**
  * Global timer
  */
-declare const timer: {
-    start(...labelArr: string[]): void;
-    end(...labelArr: string[]): void;
-    switch(endLabel: string | string[], startLabel: string | string[]): void;
-    log(prefix?: string): void;
-    reset(): void;
-};
+declare const timer: ITimer<INames> & KeysOnly<INames>;
 
 /**
  * Can use instead of console.log
@@ -264,6 +275,19 @@ declare const timer: {
  * ```
  */
 declare const printLn: (...text: any[]) => void;
+interface ProgressBarOptionsFull {
+    prefix: string;
+    maxWidth: number;
+    chalk: any;
+    wrapperFn: any;
+    showCount: boolean;
+    showPercent: boolean;
+    progChar: string;
+    emptyChar: string;
+    prefixChar: string;
+    suffixChar: string;
+}
+declare type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
 /**
  * Usage:
  * ```typescript
@@ -272,7 +296,12 @@ declare const printLn: (...text: any[]) => void;
  *
  * console.log('-'.repeat(20) + ' < 20 Chars');
  *
- * const progress = getProgressBar(5, 'ABC', 20, chalk, chalk.green);
+ * const progress = getProgressBar(5, {
+ *   prefix: 'ABC',
+ *   maxWidth: 20,
+ *   chalk,
+ *   wrapperFn: chalk.green
+ * });
  * for (let i = 1; i <= 5; i++) {
  *   progress.set(i);
  * }
@@ -290,7 +319,7 @@ declare const printLn: (...text: any[]) => void;
  * ABC ▕██████▏ [5 / 5]
  * ```
  */
-declare const getProgressBar: (max: number, prefix?: string, maxWidth?: number, chalk?: any, wrapperFn?: any) => {
+declare const getProgressBar: (max: number, options?: ProgressBarOptions) => {
     next: () => string;
     set: (newCurrent: number) => string;
     reset: () => string;
@@ -299,10 +328,12 @@ declare const getProgressBar: (max: number, prefix?: string, maxWidth?: number, 
 };
 
 declare const progressBar_printLn: typeof printLn;
+type progressBar_ProgressBarOptions = ProgressBarOptions;
 declare const progressBar_getProgressBar: typeof getProgressBar;
 declare namespace progressBar {
   export {
     progressBar_printLn as printLn,
+    progressBar_ProgressBarOptions as ProgressBarOptions,
     progressBar_getProgressBar as getProgressBar,
   };
 }
@@ -336,17 +367,22 @@ interface DeferredPromise<T> {
 declare const getDeferred: <T extends unknown>() => DeferredPromise<T>;
 declare const PromiseUtils: {
     getDeferred: <T extends unknown>() => DeferredPromise<T>;
-    allObj: <T_1 extends unknown>(input: {
-        [key: string]: Promise<T_1>;
+    all: <T_1 extends unknown>(promises: Promise<T_1>[]) => Promise<any>;
+    allLimit: <T_2 extends unknown>(limit: number, items: ((index: number) => Promise<T_2>)[], noThrow?: boolean) => Promise<T_2[]>;
+    each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
+    eachLimit: <Ti_1 extends unknown>(limit: number, items: Ti_1[], func: (item?: Ti_1, index?: number, array?: Ti_1[]) => Promise<any>) => Promise<any>;
+    map: <Ti_2 extends unknown, To extends unknown>(items: Ti_2[], func: (item?: Ti_2, index?: number, array?: Ti_2[]) => Promise<To>) => Promise<To[]>;
+    mapLimit: <Ti_3 extends unknown, To_1 extends unknown>(limit: number, items: Ti_3[], func: (item?: Ti_3, index?: number, array?: Ti_3[]) => Promise<To_1>) => Promise<To_1[]>;
+    allObj: <T_3 extends unknown>(input: {
+        [key: string]: Promise<T_3>;
     }) => Promise<{
-        [key: string]: T_1;
-    }>;
-    allLimit: <T_2 extends unknown>(items: ((index: number) => Promise<T_2>)[], limit?: number, noThrow?: boolean) => Promise<T_2[]>;
-    allLimitObj: <T_3 extends unknown>(input: {
-        [key: string]: (index: number) => Promise<T_3>;
-    }, limit?: number, noThrow?: boolean) => Promise<{
         [key: string]: T_3;
+    }>;
+    allLimitObj: <T_4 extends unknown>(limit: number, input: {
+        [key: string]: (index: number) => Promise<T_4>;
+    }, noThrow?: boolean) => Promise<{
+        [key: string]: T_4;
     }>;
 };
 
-export { CENTURY, DAY, DECADE, DeferredPromise, HOUR, MILLENNIUM, MILLISECOND, MINUTE, MONTH, PromiseUtils, SECOND, WEEK, YEAR, centuries, century, day, days, decade, decades, getDeferred, getProgressBar, getTimer, hour, hours, interval, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, second, seconds, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years };
+export { CENTURY, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, centuries, century, day, days, decade, decades, getDeferred, getProgressBar, getTimer, hour, hours, interval, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, second, seconds, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years };

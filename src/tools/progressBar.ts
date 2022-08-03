@@ -4,31 +4,6 @@ const noChalk = {
   bold: noWrap
 };
 
-const getBarString = (
-  current: number,
-  max: number,
-  width: number = 50,
-  chalk: any = noChalk,
-  progChar: string = '█',
-  emptyChar: string = ' ',
-  prefix: string = '▕',
-  suffix: string = '▏'
-) => {
-  const numProgChars = Math.round(width * (Math.max(0, Math.min(current / max, 1)) / 1));
-  const numEmptyChars = width - numProgChars;
-  const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
-
-  return `${chalk.dim(prefix)}${chalk.bold(body)}${chalk.dim(suffix)}`;
-};
-
-const getDefaultWidth = () => {
-  if (process?.stdout) {
-    return process.stdout.columns;
-  } else {
-    return 100;
-  }
-};
-
 /**
  * Can use instead of console.log
  *
@@ -74,6 +49,55 @@ const print = (text?: string, wrapperFn: any = noWrap) => {
   printLn(wrapped);
 };
 
+const getBarString = (current: number, max: number, width: number, opts: ProgressBarOptionsFull) => {
+  const { progChar, emptyChar, prefixChar, suffixChar, chalk } = opts;
+  const numProgChars = Math.round(width * (Math.max(0, Math.min(current / max, 1)) / 1));
+  const numEmptyChars = width - numProgChars;
+  const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
+
+  return `${chalk.dim(prefixChar)}${chalk.bold(body)}${chalk.dim(suffixChar)}`;
+};
+
+const getSuffix = (current: number, max: number, opts: ProgressBarOptionsFull) => {
+  let items = [''];
+  if (opts.showCount) {
+    items.push(`[${current.toString().padStart(max.toString().length, ' ')} / ${max}]`);
+  }
+  if (opts.showPercent) {
+    const percent = Math.round((current / max) * 100);
+    items.push(`(${percent.toString().padStart('100'.toString().length, ' ')}%)`);
+  }
+  const joined = items.filter((x) => x).join(' ');
+  return joined.length ? ' ' + joined : '';
+};
+
+interface ProgressBarOptionsFull {
+  prefix: string;
+  maxWidth: number;
+  chalk: any;
+  wrapperFn: any;
+  showCount: boolean;
+  showPercent: boolean;
+  progChar: string;
+  emptyChar: string;
+  prefixChar: string;
+  suffixChar: string;
+}
+export type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
+const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull => ({
+  maxWidth: process?.stdout ? process.stdout.columns : 100,
+  chalk: noChalk,
+  wrapperFn: noWrap,
+  showCount: true,
+  showPercent: false,
+  progChar: '█',
+  emptyChar: ' ',
+  prefixChar: '▕',
+  suffixChar: '▏',
+  ...opts,
+  prefix: (opts.prefix || '').length ? opts.prefix + ' ' : ''
+});
+
 /**
  * Usage:
  * ```typescript
@@ -82,7 +106,12 @@ const print = (text?: string, wrapperFn: any = noWrap) => {
  *
  * console.log('-'.repeat(20) + ' < 20 Chars');
  *
- * const progress = getProgressBar(5, 'ABC', 20, chalk, chalk.green);
+ * const progress = getProgressBar(5, {
+ *   prefix: 'ABC',
+ *   maxWidth: 20,
+ *   chalk,
+ *   wrapperFn: chalk.green
+ * });
  * for (let i = 1; i <= 5; i++) {
  *   progress.set(i);
  * }
@@ -100,19 +129,20 @@ const print = (text?: string, wrapperFn: any = noWrap) => {
  * ABC ▕██████▏ [5 / 5]
  * ```
  */
-export const getProgressBar = (
-  max: number,
-  prefix: string = '',
-  maxWidth: number = getDefaultWidth(),
-  chalk: any = noChalk,
-  wrapperFn: any = noChalk
-) => {
+export const getProgressBar = (max: number, options: ProgressBarOptions = {}) => {
+  const opts = getFullOptions(options);
+  const { prefix, maxWidth, wrapperFn, prefixChar, suffixChar } = opts;
   let current = 0;
   let finished = false;
 
   const update = () => {
-    const suffix = `[${current.toString().padStart(max.toString().length, ' ')} / ${max}]`;
-    const output = `${prefix} ${getBarString(current, max, Math.max(0, maxWidth - (prefix.length + suffix.length + 4)), chalk)} ${suffix}`;
+    const suffix = getSuffix(current, max, opts);
+    const output = `${prefix}${getBarString(
+      current,
+      max,
+      Math.max(0, maxWidth - [prefix, suffix, prefixChar, suffixChar].join('').length),
+      opts
+    )}${suffix}`;
 
     print(output, wrapperFn);
     return output;
@@ -137,7 +167,7 @@ export const getProgressBar = (
   const finish = (): string => {
     finished = true;
     const output = update();
-    print(); // blank/new line
+    printLn(); // blank/new line
     return output;
   };
 

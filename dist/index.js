@@ -2,9 +2,9 @@ var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
+var __export = (target, all2) => {
+  for (var name in all2)
+    __defProp(target, name, { get: all2[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -153,10 +153,35 @@ var interval = (action, timing) => {
 };
 
 // src/tools/timer.ts
-var getTimer = (name) => {
+var formatDuration = (duration) => {
+  const seconds2 = duration / SECOND;
+  let extra = "";
+  let secsEx = Math.round(seconds2);
+  let minsEx = Math.floor(secsEx / 60);
+  if (minsEx >= 1) {
+    secsEx %= 60;
+    extra = `${minsEx}m ${secsEx}s`;
+    let hoursEx = Math.floor(minsEx / 60);
+    if (hoursEx >= 1) {
+      minsEx %= 60;
+      extra = `${hoursEx}h ${minsEx}m ${secsEx}s`;
+    }
+  }
+  return `${extra}${extra ? ` (${seconds2}s)` : `${seconds2}s`}`;
+};
+var getTimer = (name, verbose = false, displayNames) => {
   let startTimes = {};
   let endTimes = {};
+  let dispNames = displayNames || { TOTAL: "TOTAL" };
+  const names = Object.fromEntries(Object.keys(dispNames).map((key) => [key, key]));
+  const logLine = (label, prefix = "") => {
+    const start = startTimes[label];
+    const end = endTimes[label] || Date.now();
+    const duration = end - start;
+    console.log(`${prefix}${dispNames[label] || label}: ${formatDuration(duration)}`);
+  };
   return {
+    ...names,
     start(...labelArr) {
       for (let label of labelArr) {
         startTimes[label] = Date.now();
@@ -165,6 +190,10 @@ var getTimer = (name) => {
     end(...labelArr) {
       for (let label of labelArr) {
         endTimes[label] = Date.now();
+        if (verbose) {
+          logLine(label);
+          console.log("");
+        }
       }
     },
     switch(endLabel, startLabel) {
@@ -177,17 +206,16 @@ var getTimer = (name) => {
       console.log("");
       console.log([prefix, name, "Times:"].filter((x) => x && x.trim()).join(" "));
       for (let label of Object.keys(startTimes)) {
-        const start = startTimes[label];
-        const end = endTimes[label] || Date.now();
-        const duration = end - start;
-        console.log(`	${label}: ${duration / SECOND}s`);
+        logLine(label, "	");
       }
       console.log("");
     },
     reset() {
       startTimes = {};
       endTimes = {};
-    }
+    },
+    names,
+    displayNames: dispNames
   };
 };
 var timer = getTimer();
@@ -202,19 +230,6 @@ var noWrap = (x) => x;
 var noChalk = {
   dim: noWrap,
   bold: noWrap
-};
-var getBarString = (current, max, width = 50, chalk = noChalk, progChar = "\u2588", emptyChar = " ", prefix = "\u2595", suffix = "\u258F") => {
-  const numProgChars = Math.round(width * (Math.max(0, Math.min(current / max, 1)) / 1));
-  const numEmptyChars = width - numProgChars;
-  const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
-  return `${chalk.dim(prefix)}${chalk.bold(body)}${chalk.dim(suffix)}`;
-};
-var getDefaultWidth = () => {
-  if (process == null ? void 0 : process.stdout) {
-    return process.stdout.columns;
-  } else {
-    return 100;
-  }
 };
 var printLn = (...text) => {
   if (process == null ? void 0 : process.stdout) {
@@ -237,12 +252,51 @@ var print = (text, wrapperFn = noWrap) => {
   const wrapped = wrapperFn(text || "");
   printLn(wrapped);
 };
-var getProgressBar = (max, prefix = "", maxWidth = getDefaultWidth(), chalk = noChalk, wrapperFn = noChalk) => {
+var getBarString = (current, max, width, opts) => {
+  const { progChar, emptyChar, prefixChar, suffixChar, chalk } = opts;
+  const numProgChars = Math.round(width * (Math.max(0, Math.min(current / max, 1)) / 1));
+  const numEmptyChars = width - numProgChars;
+  const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
+  return `${chalk.dim(prefixChar)}${chalk.bold(body)}${chalk.dim(suffixChar)}`;
+};
+var getSuffix = (current, max, opts) => {
+  let items = [""];
+  if (opts.showCount) {
+    items.push(`[${current.toString().padStart(max.toString().length, " ")} / ${max}]`);
+  }
+  if (opts.showPercent) {
+    const percent = Math.round(current / max * 100);
+    items.push(`(${percent.toString().padStart("100".toString().length, " ")}%)`);
+  }
+  const joined = items.filter((x) => x).join(" ");
+  return joined.length ? " " + joined : "";
+};
+var getFullOptions = (opts = {}) => ({
+  maxWidth: (process == null ? void 0 : process.stdout) ? process.stdout.columns : 100,
+  chalk: noChalk,
+  wrapperFn: noWrap,
+  showCount: true,
+  showPercent: false,
+  progChar: "\u2588",
+  emptyChar: " ",
+  prefixChar: "\u2595",
+  suffixChar: "\u258F",
+  ...opts,
+  prefix: (opts.prefix || "").length ? opts.prefix + " " : ""
+});
+var getProgressBar = (max, options = {}) => {
+  const opts = getFullOptions(options);
+  const { prefix, maxWidth, wrapperFn, prefixChar, suffixChar } = opts;
   let current = 0;
   let finished = false;
   const update = () => {
-    const suffix = `[${current.toString().padStart(max.toString().length, " ")} / ${max}]`;
-    const output = `${prefix} ${getBarString(current, max, Math.max(0, maxWidth - (prefix.length + suffix.length + 4)), chalk)} ${suffix}`;
+    const suffix = getSuffix(current, max, opts);
+    const output = `${prefix}${getBarString(
+      current,
+      max,
+      Math.max(0, maxWidth - [prefix, suffix, prefixChar, suffixChar].join("").length),
+      opts
+    )}${suffix}`;
     print(output, wrapperFn);
     return output;
   };
@@ -264,7 +318,7 @@ var getProgressBar = (max, prefix = "", maxWidth = getDefaultWidth(), chalk = no
   const finish = () => {
     finished = true;
     const output = update();
-    print();
+    printLn();
     return output;
   };
   return {
@@ -295,7 +349,10 @@ var getDeferred = () => {
     promise
   };
 };
-var allLimit = (items, limit = items.length, noThrow = false) => {
+var all = async (promises) => {
+  await Promise.all(promises);
+};
+var allLimit = (limit, items, noThrow = false) => {
   let runningCount = 0;
   let errors = [];
   let remaining = [...items];
@@ -336,18 +393,49 @@ var objectify = async (func, input) => {
   const results = await func(Object.values(input));
   return Object.fromEntries(keys.map((key, index) => [key, results[index]]));
 };
+var each = async (items, func) => {
+  await Promise.all(items.map((item, index, array) => func(item, index, array)));
+};
+var eachLimit = async (limit, items, func) => {
+  await allLimit(
+    limit,
+    items.map((item, index, array) => () => func(item, index, array))
+  );
+};
+var map = async (items, func) => {
+  const result = [];
+  await Promise.all(
+    items.map(async (item, index, array) => {
+      const res = await func(item, index, array);
+      result[index] = res;
+    })
+  );
+  return result;
+};
+var mapLimit = async (limit, items, func) => await allLimit(
+  limit,
+  items.map((item, index, array) => () => {
+    const res = func(item, index, array);
+    return res;
+  })
+);
 var allObj = async (input) => {
   return objectify(Promise.all, input);
 };
-var allLimitObj = async (input, limit, noThrow = false) => {
+var allLimitObj = async (limit, input, noThrow = false) => {
   return objectify((items) => {
-    return allLimit(items, limit, noThrow);
+    return allLimit(limit, items, noThrow);
   }, input);
 };
 var PromiseUtils = {
   getDeferred,
-  allObj,
+  all,
   allLimit,
+  each,
+  eachLimit,
+  map,
+  mapLimit,
+  allObj,
   allLimitObj
 };
 // Annotate the CommonJS export names for ESM import in node:

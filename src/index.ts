@@ -1,3 +1,4 @@
+export * from './tools/types';
 export * from './tools/times';
 export * from './tools/waiters';
 export * from './tools/timer';
