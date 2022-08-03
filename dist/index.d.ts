@@ -4,6 +4,9 @@ declare type Partial$1<T> = {
 declare type KeysOnly<T> = {
     [K in keyof T]: K;
 };
+declare type Numbered<T> = {
+    [K in keyof T]: number;
+};
 
 declare type ms = number;
 declare type second = number;
@@ -209,11 +212,24 @@ declare namespace waiters {
 interface INames {
     [k: string]: string;
 }
+declare type TimerDurations<TName> = Numbered<TName & {
+    TOTAL: number;
+    [label: string]: number;
+}>;
+declare type CustomEntryDict<T, TName> = {
+    [K in keyof T]: (durations: TimerDurations<TName>) => number;
+};
+interface CustomEntryObj {
+    label: string;
+    start?: number;
+    end?: number;
+    duration?: number;
+}
 interface ITimer<TName> {
     start(...labelArr: string[]): void;
     end(...labelArr: string[]): void;
     switch(endLabel: string | string[], startLabel: string | string[]): void;
-    log(prefix?: string): void;
+    log(prefix?: string, customEntries?: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): void;
     reset(): void;
     names: KeysOnly<TName>;
     displayNames: TName;
@@ -241,9 +257,10 @@ interface ITimer<TName> {
  * Output:
  * ```
  * Example Times:
- * 	TOTAL: 10s
  * 	Action 1: 4s
  * 	Action 2: 6s
+ * 	⎯⎯⎯⎯⎯⎯⎯
+ * 	TOTAL:    10s
  * ```
  */
 declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean, wrapperFn?: any, chalk?: any, displayNames?: TName) => ITimer<TName> & KeysOnly<TName>;
@@ -385,4 +402,4 @@ declare const PromiseUtils: {
     }>;
 };
 
-export { CENTURY, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, centuries, century, day, days, decade, decades, getDeferred, getProgressBar, getTimer, hour, hours, interval, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, second, seconds, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years };
+export { CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, centuries, century, day, days, decade, decades, getDeferred, getProgressBar, getTimer, hour, hours, interval, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, second, seconds, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years };

@@ -128,15 +128,17 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
     ...displayNames || {}
   };
   const names = Object.fromEntries(Object.keys(dispNames).map((key) => [key, key]));
-  const logLine = (label, prefix = "") => {
+  const getDuration = (label) => {
     const start = startTimes[label];
     const end = endTimes[label] || Date.now();
-    const duration = end - start;
-    const lineStart = `${prefix}${dispNames[label] || label}: `;
+    return end - start;
+  };
+  const logLine = (label, prefix = "", nameColLength = 0, duration = getDuration(label)) => {
+    const lineStart = `${dispNames[label] || label}: `.padEnd(nameColLength + 1, " ");
     const lineEnd = `${formatDuration(duration)}`;
-    const line = chalk.bold(lineStart) + lineEnd;
+    const line = chalk.bold(prefix + lineStart) + lineEnd;
     console.log(wrapperFn(line));
-    return (lineStart + lineEnd).replace("	", "").length;
+    return (prefix + lineStart + lineEnd).replace("	", "").length;
   };
   startTimes.TOTAL = Date.now();
   return {
@@ -161,17 +163,33 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
       if (startLabel)
         this.start(...[startLabel].flat());
     },
-    log(prefix) {
+    log(prefix, customEntries) {
+      const labels = Object.keys(startTimes);
       console.log("");
       console.log(wrapperFn(chalk.bold([prefix, name, "Times:"].filter((x) => x && x.trim()).join(" "))));
+      const displayNames2 = [...labels, ...Object.keys(names)].map((label) => dispNames[label] || label);
+      const nameColLength = Math.max(...displayNames2.map((text) => `${text}: `.length));
       let longest = 0;
-      for (let label of Object.keys(startTimes)) {
+      for (let label of labels) {
         if (label !== "TOTAL") {
-          longest = Math.max(longest, logLine(label, "	"));
+          longest = Math.max(longest, logLine(label, "	", nameColLength));
+        }
+      }
+      if (customEntries) {
+        const durations = Object.fromEntries(labels.map((label) => [label, getDuration(label)]));
+        let cEntries = [];
+        if (customEntries instanceof Array) {
+          cEntries = customEntries.map((func) => func(durations)).map((obj) => ({ ...obj, duration: obj.duration || (obj.end || Date.now()) - (obj.start || Date.now()) }));
+        } else {
+          cEntries = Object.entries(customEntries).map(([label, func]) => ({ label, duration: func(durations) }));
+        }
+        console.log(wrapperFn(chalk.dim("	" + "\u23AF".repeat(longest))));
+        for (let { label, duration } of cEntries) {
+          logLine(label, "	", nameColLength, duration);
         }
       }
       console.log(wrapperFn(chalk.dim("	" + "\u23AF".repeat(longest))));
-      logLine("TOTAL", "	");
+      logLine("TOTAL", "	", nameColLength);
       console.log("");
     },
     reset() {

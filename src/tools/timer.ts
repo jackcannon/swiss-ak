@@ -1,5 +1,5 @@
 import { ms, SECOND } from './times';
-import { KeysOnly } from './types';
+import { KeysOnly, Numbered } from './types';
 import { noChalk, noWrap } from './fakeChalk';
 
 // Hacky little display function
@@ -27,11 +27,32 @@ interface INames {
   [k: string]: string;
 }
 
+type TimerDurations<TName> = Numbered<
+  TName & {
+    TOTAL: number;
+    [label: string]: number;
+  }
+>;
+
+export type CustomEntryDict<T, TName> = {
+  [K in keyof T]: (durations: TimerDurations<TName>) => number;
+};
+
+interface CustomEntryObj {
+  label: string;
+  start?: number;
+  end?: number;
+  duration?: number;
+}
+
 interface ITimer<TName> {
   start(...labelArr: string[]): void;
   end(...labelArr: string[]): void;
   switch(endLabel: string | string[], startLabel: string | string[]): void;
-  log(prefix?: string): void;
+  log(
+    prefix?: string,
+    customEntries?: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>
+  ): void;
   reset(): void;
   names: KeysOnly<TName>;
   displayNames: TName;
@@ -60,9 +81,10 @@ interface ITimer<TName> {
  * Output:
  * ```
  * Example Times:
- * 	TOTAL: 10s
  * 	Action 1: 4s
  * 	Action 2: 6s
+ * 	⎯⎯⎯⎯⎯⎯⎯
+ * 	TOTAL:    10s
  * ```
  */
 export const getTimer = <TName extends INames>(
@@ -80,17 +102,19 @@ export const getTimer = <TName extends INames>(
   } as TName;
   const names = Object.fromEntries(Object.keys(dispNames).map((key) => [key, key])) as KeysOnly<TName>;
 
-  const logLine = (label: string, prefix: string = ''): number => {
+  const getDuration = (label: string) => {
     const start = startTimes[label];
     const end = endTimes[label] || Date.now();
-    const duration = end - start;
+    return end - start;
+  };
 
-    const lineStart = `${prefix}${dispNames[label] || label}: `;
+  const logLine = (label: string, prefix: string = '', nameColLength: number = 0, duration: number = getDuration(label)): number => {
+    const lineStart = `${dispNames[label] || label}: `.padEnd(nameColLength + 1, ' ');
     const lineEnd = `${formatDuration(duration)}`;
 
-    const line = chalk.bold(lineStart) + lineEnd;
+    const line = chalk.bold(prefix + lineStart) + lineEnd;
     console.log(wrapperFn(line));
-    return (lineStart + lineEnd).replace('	', '').length;
+    return (prefix + lineStart + lineEnd).replace('	', '').length;
   };
 
   startTimes.TOTAL = Date.now();
@@ -115,19 +139,48 @@ export const getTimer = <TName extends INames>(
       if (endLabel) this.end(...[endLabel].flat());
       if (startLabel) this.start(...[startLabel].flat());
     },
-    log(prefix?: string) {
+    log(
+      prefix?: string,
+      customEntries?: ((durations: Numbered<TName & { TOTAL: number }>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>
+    ) {
+      const labels = Object.keys(startTimes);
+
       console.log('');
       console.log(wrapperFn(chalk.bold([prefix, name, 'Times:'].filter((x) => x && x.trim()).join(' '))));
 
+      const displayNames = [...labels, ...Object.keys(names)].map((label) => dispNames[label] || label);
+      const nameColLength = Math.max(...displayNames.map((text) => `${text}: `.length));
+
       let longest = 0;
 
-      for (let label of Object.keys(startTimes)) {
+      for (let label of labels) {
         if (label !== 'TOTAL') {
-          longest = Math.max(longest, logLine(label, '	'));
+          longest = Math.max(longest, logLine(label, '	', nameColLength));
         }
       }
+
+      if (customEntries) {
+        const durations = Object.fromEntries(labels.map((label) => [label, getDuration(label)])) as Numbered<TName & { TOTAL: number }>;
+
+        let cEntries: CustomEntryObj[] = [];
+
+        if (customEntries instanceof Array) {
+          cEntries = customEntries
+            .map((func) => func(durations))
+            .map((obj) => ({ ...obj, duration: obj.duration || (obj.end || Date.now()) - (obj.start || Date.now()) }));
+        } else {
+          cEntries = Object.entries(customEntries).map(([label, func]) => ({ label, duration: func(durations) }));
+        }
+
+        console.log(wrapperFn(chalk.dim('	' + '⎯'.repeat(longest))));
+        for (let { label, duration } of cEntries) {
+          logLine(label, '	', nameColLength, duration);
+        }
+      }
+
       console.log(wrapperFn(chalk.dim('	' + '⎯'.repeat(longest))));
-      logLine('TOTAL', '	');
+      logLine('TOTAL', '	', nameColLength);
+
       console.log('');
     },
     reset() {
