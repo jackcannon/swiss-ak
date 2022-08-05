@@ -35,7 +35,7 @@ type TimerDurations<TName> = Numbered<
 >;
 
 export type CustomEntryDict<T, TName> = {
-  [K in keyof T]: (durations: TimerDurations<TName>) => number;
+  [K in keyof T]?: (durations: TimerDurations<TName>) => number;
 };
 
 interface CustomEntryObj {
@@ -169,7 +169,7 @@ export const getTimer = <TName extends INames>(
             .map((func) => func(durations))
             .map((obj) => ({ ...obj, duration: obj.duration || (obj.end || Date.now()) - (obj.start || Date.now()) }));
         } else {
-          cEntries = Object.entries(customEntries).map(([label, func]) => ({ label, duration: func(durations) }));
+          cEntries = Object.entries(customEntries).map(([label, func]) => ({ label, duration: (func || (() => 0))(durations) || 0 }));
         }
 
         console.log(wrapperFn(chalk.dim('	' + '⎯'.repeat(longest))));

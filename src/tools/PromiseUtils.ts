@@ -46,7 +46,7 @@ export const getDeferred = <T extends unknown>(): DeferredPromise<T> => {
 /**
  * An alias for Promise.all
  */
-const all = async <T extends unknown>(promises: Promise<T>[]): Promise<any> => {
+export const all = async <T extends unknown>(promises: Promise<T>[]): Promise<any> => {
   await Promise.all(promises);
 };
 
@@ -86,7 +86,7 @@ const all = async <T extends unknown>(promises: Promise<T>[]): Promise<any> => {
  * // 	d: 10s
  * ```
  */
-const allLimit = <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow: boolean = false): Promise<T[]> => {
+export const allLimit = <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow: boolean = false): Promise<T[]> => {
   let runningCount: number = 0;
   let errors: any[] = [];
   let remaining: ((index: number) => Promise<T>)[] = [...items];
@@ -126,12 +126,6 @@ const allLimit = <T extends unknown>(limit: number, items: ((index: number) => P
   return deferred.promise;
 };
 
-const objectify = async (func: Function, input: any) => {
-  const keys = Object.keys(input);
-  const results = await func(Object.values(input));
-  return Object.fromEntries(keys.map((key, index) => [key, results[index]]));
-};
-
 /**
  * Run an async function against each item in an array
  *
@@ -147,7 +141,7 @@ const objectify = async (func: Function, input: any) => {
  * console.log(''); // after 2 seconds
  * ```
  */
-const each = async <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any> => {
+export const each = async <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any> => {
   await Promise.all(items.map((item: Ti, index: number, array: Ti[]) => func(item, index, array)));
 };
 
@@ -168,7 +162,7 @@ const each = async <Ti extends unknown>(items: Ti[], func: (item: Ti, index: num
  * console.log(''); // after 4 seconds
  * ```
  */
-const eachLimit = async <Ti extends unknown>(
+export const eachLimit = async <Ti extends unknown>(
   limit: number,
   items: Ti[],
   func: (item?: Ti, index?: number, array?: Ti[]) => Promise<any>
@@ -195,7 +189,7 @@ const eachLimit = async <Ti extends unknown>(
  * console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
  * ```
  */
-const map = async <Ti extends unknown, To extends unknown>(
+export const map = async <Ti extends unknown, To extends unknown>(
   items: Ti[],
   func: (item?: Ti, index?: number, array?: Ti[]) => Promise<To>
 ): Promise<To[]> => {
@@ -229,7 +223,7 @@ const map = async <Ti extends unknown, To extends unknown>(
  * console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
  * ```
  */
-const mapLimit = async <Ti extends unknown, To extends unknown>(
+export const mapLimit = async <Ti extends unknown, To extends unknown>(
   limit: number,
   items: Ti[],
   func: (item?: Ti, index?: number, array?: Ti[]) => Promise<To>
@@ -241,6 +235,12 @@ const mapLimit = async <Ti extends unknown, To extends unknown>(
       return res;
     })
   );
+
+const objectify = async (func: Function, input: any) => {
+  const keys = Object.keys(input);
+  const results = await func(Object.values(input));
+  return Object.fromEntries(keys.map((key, index) => [key, results[index]]));
+};
 
 /**
  * Like Promise.all, but pass/receive objects rather than arrays
@@ -274,7 +274,7 @@ const mapLimit = async <Ti extends unknown, To extends unknown>(
  * // 	c: 20s
  * ```
  */
-const allObj = async <T extends unknown>(input: { [key: string]: Promise<T> }): Promise<{ [key: string]: T }> => {
+export const allObj = async <T extends unknown>(input: { [key: string]: Promise<T> }): Promise<{ [key: string]: T }> => {
   return objectify(Promise.all, input);
 };
 
@@ -314,7 +314,7 @@ const allObj = async <T extends unknown>(input: { [key: string]: Promise<T> }): 
  * // 	d: 10s
  * ```
  */
-const allLimitObj = async <T extends unknown>(
+export const allLimitObj = async <T extends unknown>(
   limit: number,
   input: { [key: string]: (index: number) => Promise<T> },
   noThrow: boolean = false

@@ -217,7 +217,7 @@ declare type TimerDurations<TName> = Numbered<TName & {
     [label: string]: number;
 }>;
 declare type CustomEntryDict<T, TName> = {
-    [K in keyof T]: (durations: TimerDurations<TName>) => number;
+    [K in keyof T]?: (durations: TimerDurations<TName>) => number;
 };
 interface CustomEntryObj {
     label: string;
@@ -382,6 +382,195 @@ interface DeferredPromise<T> {
 ```
  */
 declare const getDeferred: <T extends unknown>() => DeferredPromise<T>;
+/**
+ * An alias for Promise.all
+ */
+declare const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
+/**
+ * Like Promise.all, but limits the numbers of concurrently running items.
+ *
+ * Takes an array of functions (that return Promises), rather than an array of Promises
+ *
+ * ```typescript
+ * import { PromiseUtils, timer, ms, seconds } from 'swiss-ak';
+ *
+ * const give = async (delay: ms, result: number, label: string) => {
+ *   await waitFor(delay);
+ *   timer.end(label);
+ *   return result;
+ * };
+ *
+ * timer.start('allLimit', 'a', 'b', 'c', 'd');
+ *
+ * const results = PromiseUtils.allLimit<number>(2, [
+ *   give(seconds(5), 1, 'a'),
+ *   give(seconds(5), 2, 'b'),
+ *   give(seconds(5), 3, 'c'),
+ *   give(seconds(5), 4, 'd')
+ * ]);
+ *
+ * timer.end('allLimit');
+ *
+ * console.log(results); // [ 1, 2, 3, 4 ]
+ *
+ * timer.log();
+ * // Times:
+ * // 	allLimit: 10s
+ * // 	a: 5s
+ * // 	b: 5s
+ * // 	c: 10s
+ * // 	d: 10s
+ * ```
+ */
+declare const allLimit: <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow?: boolean) => Promise<T[]>;
+/**
+ * Run an async function against each item in an array
+ *
+ * ```typescript
+ * import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+ *
+ * const arr = [1, 2, 3, 4];
+ *
+ * await PromiseUtils.each<number>(arr, async (val: number) => {
+ *   await wait(seconds(2));
+ *   sendToSomewhere(val);
+ * });
+ * console.log(''); // after 2 seconds
+ * ```
+ */
+declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
+/**
+ * Run an async function against each item in an array, limiting the number of items that can run concurrently.
+ *
+ * See PromiseUtils.allLimit for information about limited functions.
+ *
+ * ```typescript
+ * import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+ *
+ * const arr = [1, 2, 3, 4];
+ *
+ * await PromiseUtils.eachLimit<number>(2, arr, async (val: number) => {
+ *   await wait(seconds(2));
+ *   sendToSomewhere(val);
+ * });
+ * console.log(''); // after 4 seconds
+ * ```
+ */
+declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item?: Ti, index?: number, array?: Ti[]) => Promise<any>) => Promise<any>;
+/**
+ * Run an async map function against each item in an array, mapping the results to a returned array
+ *
+ * ```typescript
+ * import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+ *
+ * const arr = [1, 2, 3, 4];
+ *
+ * const mapped = await PromiseUtils.map<number>(arr, async (val: number) => {
+ *   await wait(seconds(2));
+ *   return val * 2;
+ * });
+ *
+ * console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
+ * ```
+ */
+declare const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (item?: Ti, index?: number, array?: Ti[]) => Promise<To>) => Promise<To[]>;
+/**
+ * Run an async map function against each item in an array, mapping the results to a returned array, and limiting the number of items that can run concurrently.
+ *
+ * See PromiseUtils.allLimit for information about limited functions.
+ *
+ * ```typescript
+ * import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+ *
+ * const arr = [1, 2, 3, 4];
+ *
+ * const mapped = await PromiseUtils.mapLimit<number>(2, arr, async (val: number) => {
+ *   await wait(seconds(2));
+ *   return val * 2;
+ * });
+ *
+ * console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
+ * ```
+ */
+declare const mapLimit: <Ti extends unknown, To extends unknown>(limit: number, items: Ti[], func: (item?: Ti, index?: number, array?: Ti[]) => Promise<To>) => Promise<To[]>;
+/**
+ * Like Promise.all, but pass/receive objects rather than arrays
+ *
+ * ```typescript
+ * import { PromiseUtils, timer, ms, seconds } from 'swiss-ak';
+ *
+ * const give = async (delay: ms, result: number, label: string) => {
+ *   await waitFor(delay);
+ *   timer.end(label);
+ *   return result;
+ * };
+ *
+ * timer.start('allObj', 'a', 'b', 'c');
+ *
+ * const results = PromiseUtils.allObj<number>({
+ *   a: give(seconds(10), 1, 'a'),
+ *   b: give(seconds(15), 2, 'b'),
+ *   c: give(seconds(20), 3, 'c')
+ * });
+ *
+ * timer.end('allObj');
+ *
+ * console.log(results); // { a: 1, b: 2, c: 3 }
+ *
+ * timer.log();
+ * // Times:
+ * // 	allObj: 20s
+ * // 	a: 10s
+ * // 	b: 15s
+ * // 	c: 20s
+ * ```
+ */
+declare const allObj: <T extends unknown>(input: {
+    [key: string]: Promise<T>;
+}) => Promise<{
+    [key: string]: T;
+}>;
+/**
+ * A mix of allObj and allLimit.
+ *
+ * Takes an array of functions (that return Promises), and limits the numbers of concurrently running items.
+ *
+ * ```typescript
+ * import { PromiseUtils, timer, ms, seconds } from 'swiss-ak';
+ *
+ * const give = async (delay: ms, result: number, label: string) => {
+ *   await waitFor(delay);
+ *   timer.end(label);
+ *   return result;
+ * };
+ *
+ * timer.start('allLimitObj', 'a', 'b', 'c', 'd');
+ *
+ * const results = PromiseUtils.allLimitObj<number>(2, {
+ *   a: give(seconds(5), 1, 'a'),
+ *   b: give(seconds(5), 2, 'b'),
+ *   c: give(seconds(5), 3, 'c'),
+ *   d: give(seconds(5), 4, 'd')
+ * });
+ *
+ * timer.end('allLimitObj');
+ *
+ * console.log(results); // { a: 1, b: 2, c: 3, d: 4 }
+ *
+ * timer.log();
+ * // Times:
+ * // 	allLimitObj: 10s
+ * // 	a: 5s
+ * // 	b: 5s
+ * // 	c: 10s
+ * // 	d: 10s
+ * ```
+ */
+declare const allLimitObj: <T extends unknown>(limit: number, input: {
+    [key: string]: (index: number) => Promise<T>;
+}, noThrow?: boolean) => Promise<{
+    [key: string]: T;
+}>;
 declare const PromiseUtils: {
     getDeferred: <T extends unknown>() => DeferredPromise<T>;
     all: <T_1 extends unknown>(promises: Promise<T_1>[]) => Promise<any>;
@@ -396,10 +585,92 @@ declare const PromiseUtils: {
         [key: string]: T_3;
     }>;
     allLimitObj: <T_4 extends unknown>(limit: number, input: {
-        [key: string]: (index: number) => Promise<T_4>;
+        [key: string]: (index: number) => Promise<T>;
     }, noThrow?: boolean) => Promise<{
         [key: string]: T_4;
     }>;
 };
 
-export { CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, centuries, century, day, days, decade, decades, getDeferred, getProgressBar, getTimer, hour, hours, interval, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, second, seconds, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years };
+/**
+ * Returns an array of the given length, where each value is equal to it's index
+ * e.g. [0, 1, 2, ..., length]
+ *
+ * ```typescript
+ * range(3);  // [0, 1, 2]
+ * range(5);  // [0, 1, 2, 3, 4]
+ * range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+ * ```
+ */
+declare const range: (length?: number) => number[];
+/**
+ * Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
+ *
+ * Limited to the length of the shortest provided array
+ *
+ * Inspired by python's 'zip'
+ *
+ * > Note: The typing of this is messy - needs improvement
+ *
+ * ```typescript
+ * zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
+ * ```
+ */
+declare const zip: <T1 = undefined, T2 = undefined, T3 = undefined, T4 = undefined, T5 = undefined>(arrs_0?: T1[], arrs_1?: T2[], arrs_2?: T3[], arrs_3?: T4[], arrs_4?: T5[]) => [T1, T2, T3, T4, T5][];
+/**
+ * Sort an array by a mapped form of the values, but returning the initial values
+ *
+ * ```typescript
+ * sortByMapped(['2p', '3p', '1p'], (v) => Number(v.replace('p', ''))); // ['1p', '2p', '3p']
+ * sortByMapped(
+ *   ['2p', '3p', '1p'],
+ *   (v) => Number(v.replace('p', '')),
+ *   (a, b) => b - a
+ * ); // ['3p', '2p', '1p']
+ * ```
+ */
+declare const sortByMapped: <T, M>(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn?: (a: M, b: M) => number) => T[];
+/**
+ * Returns a clone of the provided array with it's items in a random order
+ *
+ * ```typescript
+ * randomise([1, 2, 3, 4, 5, 6]); // [ 5, 3, 4, 1, 2, 6 ]
+ * randomise([1, 2, 3, 4, 5, 6]); // [ 5, 1, 3, 2, 4, 6 ]
+ * randomise([1, 2, 3, 4, 5, 6]); // [ 6, 1, 4, 5, 2, 3 ]
+ * randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
+ * randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
+ * ```
+ */
+declare const randomise: <T>(arr: T[]) => T[];
+/**
+ * Returns a new array with the order reversed without affecting original array
+ *
+ * ```typescript
+ * const arr1 = [1, 2, 3];
+ * arr1            // [1, 2, 3]
+ * arr1.reverse(); // [3, 2, 1]
+ * arr1            // [3, 2, 1]
+ *
+ * const arr2 = [1, 2, 3];
+ * arr2            // [1, 2, 3]
+ * reverse(arr2);  // [3, 2, 1]
+ * arr2            // [1, 2, 3]
+ * ```
+ */
+declare const reverse: <T>(arr: T[]) => T[];
+
+declare const ArrayUtils_range: typeof range;
+declare const ArrayUtils_zip: typeof zip;
+declare const ArrayUtils_sortByMapped: typeof sortByMapped;
+declare const ArrayUtils_randomise: typeof randomise;
+declare const ArrayUtils_reverse: typeof reverse;
+declare namespace ArrayUtils {
+  export {
+    ArrayUtils_range as range,
+    ArrayUtils_zip as zip,
+    ArrayUtils_sortByMapped as sortByMapped,
+    ArrayUtils_randomise as randomise,
+    ArrayUtils_reverse as reverse,
+  };
+}
+
+export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reverse, second, seconds, sortByMapped, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };

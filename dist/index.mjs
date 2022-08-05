@@ -181,7 +181,7 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
         if (customEntries instanceof Array) {
           cEntries = customEntries.map((func) => func(durations)).map((obj) => ({ ...obj, duration: obj.duration || (obj.end || Date.now()) - (obj.start || Date.now()) }));
         } else {
-          cEntries = Object.entries(customEntries).map(([label, func]) => ({ label, duration: func(durations) }));
+          cEntries = Object.entries(customEntries).map(([label, func]) => ({ label, duration: (func || (() => 0))(durations) || 0 }));
         }
         console.log(wrapperFn(chalk.dim("	" + "\u23AF".repeat(longest))));
         for (let { label, duration } of cEntries) {
@@ -365,11 +365,6 @@ var allLimit = (limit, items, noThrow = false) => {
   }
   return deferred.promise;
 };
-var objectify = async (func, input) => {
-  const keys = Object.keys(input);
-  const results = await func(Object.values(input));
-  return Object.fromEntries(keys.map((key, index) => [key, results[index]]));
-};
 var each = async (items, func) => {
   await Promise.all(items.map((item, index, array) => func(item, index, array)));
 };
@@ -396,6 +391,11 @@ var mapLimit = async (limit, items, func) => await allLimit(
     return res;
   })
 );
+var objectify = async (func, input) => {
+  const keys = Object.keys(input);
+  const results = await func(Object.values(input));
+  return Object.fromEntries(keys.map((key, index) => [key, results[index]]));
+};
 var allObj = async (input) => {
   return objectify(Promise.all, input);
 };
@@ -415,7 +415,26 @@ var PromiseUtils = {
   allObj,
   allLimitObj
 };
+
+// src/tools/ArrayUtils.ts
+var ArrayUtils_exports = {};
+__export(ArrayUtils_exports, {
+  randomise: () => randomise,
+  range: () => range,
+  reverse: () => reverse,
+  sortByMapped: () => sortByMapped,
+  zip: () => zip
+});
+var range = (length = 1) => new Array(length).fill(1).map((v, i) => i);
+var zip = (...arrs) => {
+  const length = Math.min(...arrs.map((arr) => (arr || []).length));
+  return range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
+};
+var sortByMapped = (arr, mapFn, sortFn = (a, b) => Number(a) - Number(b)) => zip(arr, arr.map(mapFn)).sort((a, b) => sortFn(a[1], b[1])).map(([v]) => v);
+var randomise = (arr) => sortByMapped(arr, () => Math.random());
+var reverse = (arr) => [...arr].reverse();
 export {
+  ArrayUtils_exports as ArrayUtils,
   CENTURY,
   DAY,
   DECADE,
@@ -428,21 +447,33 @@ export {
   SECOND,
   WEEK,
   YEAR,
+  all,
+  allLimit,
+  allLimitObj,
+  allObj,
   centuries,
   days,
   decades,
+  each,
+  eachLimit,
   getDeferred,
   getProgressBar,
   getTimer,
   hours,
   interval,
+  map,
+  mapLimit,
   millenniums,
   milliseconds,
   minutes,
   months,
   printLn,
   progressBar_exports as progressBar,
+  randomise,
+  range,
+  reverse,
   seconds,
+  sortByMapped,
   stopInterval,
   timer,
   times_exports as times,
@@ -452,5 +483,6 @@ export {
   waitUntil,
   waiters_exports as waiters,
   weeks,
-  years
+  years,
+  zip
 };

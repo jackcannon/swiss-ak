@@ -19,6 +19,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
+  ArrayUtils: () => ArrayUtils_exports,
   CENTURY: () => CENTURY,
   DAY: () => DAY,
   DECADE: () => DECADE,
@@ -31,21 +32,33 @@ __export(src_exports, {
   SECOND: () => SECOND,
   WEEK: () => WEEK,
   YEAR: () => YEAR,
+  all: () => all,
+  allLimit: () => allLimit,
+  allLimitObj: () => allLimitObj,
+  allObj: () => allObj,
   centuries: () => centuries,
   days: () => days,
   decades: () => decades,
+  each: () => each,
+  eachLimit: () => eachLimit,
   getDeferred: () => getDeferred,
   getProgressBar: () => getProgressBar,
   getTimer: () => getTimer,
   hours: () => hours,
   interval: () => interval,
+  map: () => map,
+  mapLimit: () => mapLimit,
   millenniums: () => millenniums,
   milliseconds: () => milliseconds,
   minutes: () => minutes,
   months: () => months,
   printLn: () => printLn,
   progressBar: () => progressBar_exports,
+  randomise: () => randomise,
+  range: () => range,
+  reverse: () => reverse,
   seconds: () => seconds,
+  sortByMapped: () => sortByMapped,
   stopInterval: () => stopInterval,
   timer: () => timer,
   times: () => times_exports,
@@ -55,7 +68,8 @@ __export(src_exports, {
   waitUntil: () => waitUntil,
   waiters: () => waiters_exports,
   weeks: () => weeks,
-  years: () => years
+  years: () => years,
+  zip: () => zip
 });
 module.exports = __toCommonJS(src_exports);
 
@@ -236,7 +250,7 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
         if (customEntries instanceof Array) {
           cEntries = customEntries.map((func) => func(durations)).map((obj) => ({ ...obj, duration: obj.duration || (obj.end || Date.now()) - (obj.start || Date.now()) }));
         } else {
-          cEntries = Object.entries(customEntries).map(([label, func]) => ({ label, duration: func(durations) }));
+          cEntries = Object.entries(customEntries).map(([label, func]) => ({ label, duration: (func || (() => 0))(durations) || 0 }));
         }
         console.log(wrapperFn(chalk.dim("	" + "\u23AF".repeat(longest))));
         for (let { label, duration } of cEntries) {
@@ -420,11 +434,6 @@ var allLimit = (limit, items, noThrow = false) => {
   }
   return deferred.promise;
 };
-var objectify = async (func, input) => {
-  const keys = Object.keys(input);
-  const results = await func(Object.values(input));
-  return Object.fromEntries(keys.map((key, index) => [key, results[index]]));
-};
 var each = async (items, func) => {
   await Promise.all(items.map((item, index, array) => func(item, index, array)));
 };
@@ -451,6 +460,11 @@ var mapLimit = async (limit, items, func) => await allLimit(
     return res;
   })
 );
+var objectify = async (func, input) => {
+  const keys = Object.keys(input);
+  const results = await func(Object.values(input));
+  return Object.fromEntries(keys.map((key, index) => [key, results[index]]));
+};
 var allObj = async (input) => {
   return objectify(Promise.all, input);
 };
@@ -470,8 +484,27 @@ var PromiseUtils = {
   allObj,
   allLimitObj
 };
+
+// src/tools/ArrayUtils.ts
+var ArrayUtils_exports = {};
+__export(ArrayUtils_exports, {
+  randomise: () => randomise,
+  range: () => range,
+  reverse: () => reverse,
+  sortByMapped: () => sortByMapped,
+  zip: () => zip
+});
+var range = (length = 1) => new Array(length).fill(1).map((v, i) => i);
+var zip = (...arrs) => {
+  const length = Math.min(...arrs.map((arr) => (arr || []).length));
+  return range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
+};
+var sortByMapped = (arr, mapFn, sortFn = (a, b) => Number(a) - Number(b)) => zip(arr, arr.map(mapFn)).sort((a, b) => sortFn(a[1], b[1])).map(([v]) => v);
+var randomise = (arr) => sortByMapped(arr, () => Math.random());
+var reverse = (arr) => [...arr].reverse();
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  ArrayUtils,
   CENTURY,
   DAY,
   DECADE,
@@ -484,21 +517,33 @@ var PromiseUtils = {
   SECOND,
   WEEK,
   YEAR,
+  all,
+  allLimit,
+  allLimitObj,
+  allObj,
   centuries,
   days,
   decades,
+  each,
+  eachLimit,
   getDeferred,
   getProgressBar,
   getTimer,
   hours,
   interval,
+  map,
+  mapLimit,
   millenniums,
   milliseconds,
   minutes,
   months,
   printLn,
   progressBar,
+  randomise,
+  range,
+  reverse,
   seconds,
+  sortByMapped,
   stopInterval,
   timer,
   times,
@@ -508,5 +553,6 @@ var PromiseUtils = {
   waitUntil,
   waiters,
   weeks,
-  years
+  years,
+  zip
 });
