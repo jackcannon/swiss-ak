@@ -80,3 +80,18 @@ export const randomise = <T>(arr: T[]): T[] => sortByMapped(arr, () => Math.rand
  * ```
  */
 export const reverse = <T>(arr: T[]): T[] => [...arr].reverse();
+
+/**
+ * Returns array of 'tuples' of index/value pairs
+ *
+ * ```typescript
+ * const arr = ['a', 'b', 'c'];
+ * entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
+ *
+ * for (let [index, value] of entries(arr)) {
+ *  console.log(index); // 0, 1, 2
+ *  console.log(value); // 'a', 'b', 'c'
+ * }
+ * ```
+ */
+export const entries = <T>(arr: T[]): [number, T][] => zip(range(arr.length), arr) as any;

@@ -217,6 +217,20 @@ reverse(arr2); // [3, 2, 1]
 arr2; // [1, 2, 3]
 ```
 
+### entries
+
+Returns array of 'tuples' of index/value pairs
+
+```typescript
+const arr = ['a', 'b', 'c'];
+entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
+
+for (let [index, value] of entries(arr)) {
+  console.log(index); // 0, 1, 2
+  console.log(value); // 'a', 'b', 'c'
+}
+```
+
 ## PromiseUtils
 
 ### DeferredPromise
@@ -430,18 +444,20 @@ A util for creating a 'visual' progress bar for better representing progress of 
 
 All options are optional.
 
-| Property    | Default                           | Description                                           |
-| ----------- | --------------------------------- | ----------------------------------------------------- |
-| prefix      | `''`                              | String to show to left of progress bar                |
-| maxWidth    | `process.stdout.columns` or `100` | The maximum width the entire string may extend        |
-| chalk       | nothing                           | the `chalk` module, if available                      |
-| wrapperFn   | nothing                           | function to wrap the printed string (eg `chalk.cyan)` |
-| showCount   | `true`                            | Show numerical values of the count - `[11 / 15]`      |
-| showPercent | `false`                           | Show percentage completed - `( 69%)`                  |
-| progChar    | `'█'`                             | Character to use for progress section of bar          |
-| emptyChar   | `' '`                             | Character to use for empty (rail) section of bar      |
-| prefixChar  | `'▕'`                             | Character to start the progress bar with              |
-| suffixChar  | `'▏'`                             | Character to end the progress bar with                |
+| Property    | Default                           | Description                                            |
+| ----------- | --------------------------------- | ------------------------------------------------------ |
+| prefix      | `''`                              | String to show to left of progress bar                 |
+| prefixWidth | `1`                               | Min width of prefix - `10` => `Example˽˽˽`             |
+| maxWidth    | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
+| chalk       | nothing                           | the `chalk` module, if available                       |
+| wrapperFn   | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
+| showPercent | `false`                           | Show percentage completed - `( 69%)`                   |
+| showCount   | `true`                            | Show numerical values of the count - `[11 / 15]`       |
+| countWidth  | `0`                               | Min width of nums for showCount - `3` => `[˽˽1 / ˽15]` |
+| progChar    | `'█'`                             | Character to use for progress section of bar           |
+| emptyChar   | `' '`                             | Character to use for empty (rail) section of bar       |
+| startChar   | `'▕'`                             | Character to start the progress bar with               |
+| endChar     | `'▏'`                             | Character to end the progress bar with                 |
 
 ### Usage
 

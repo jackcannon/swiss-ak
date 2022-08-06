@@ -46,18 +46,19 @@ const print = (text?: string, wrapperFn: any = noWrap) => {
 };
 
 const getBarString = (current: number, max: number, width: number, opts: ProgressBarOptionsFull) => {
-  const { progChar, emptyChar, prefixChar, suffixChar, chalk } = opts;
+  const { progChar, emptyChar, startChar, endChar, chalk } = opts;
   const numProgChars = Math.round(width * (Math.max(0, Math.min(current / max, 1)) / 1));
   const numEmptyChars = width - numProgChars;
   const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
 
-  return `${chalk.dim(prefixChar)}${chalk.bold(body)}${chalk.dim(suffixChar)}`;
+  return `${chalk.dim(startChar)}${chalk.bold(body)}${chalk.dim(endChar)}`;
 };
 
 const getSuffix = (current: number, max: number, opts: ProgressBarOptionsFull) => {
   let items = [''];
   if (opts.showCount) {
-    items.push(`[${current.toString().padStart(max.toString().length, ' ')} / ${max}]`);
+    const pad = Math.max(max.toString().length, opts.countWidth);
+    items.push(`[${current.toString().padStart(pad, ' ')} / ${max.toString().padStart(pad, ' ')}]`);
   }
   if (opts.showPercent) {
     const percent = Math.round((current / max) * 100);
@@ -69,29 +70,33 @@ const getSuffix = (current: number, max: number, opts: ProgressBarOptionsFull) =
 
 interface ProgressBarOptionsFull {
   prefix: string;
+  prefixWidth: number;
   maxWidth: number;
   chalk: any;
   wrapperFn: any;
   showCount: boolean;
   showPercent: boolean;
+  countWidth: number;
   progChar: string;
   emptyChar: string;
-  prefixChar: string;
-  suffixChar: string;
+  startChar: string;
+  endChar: string;
 }
 export type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
 const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull => ({
+  prefix: '',
+  prefixWidth: 1,
   maxWidth: process?.stdout ? process.stdout.columns : 100,
   chalk: noChalk,
   wrapperFn: noWrap,
   showCount: true,
   showPercent: false,
+  countWidth: 0,
   progChar: '█',
   emptyChar: ' ',
-  prefixChar: '▕',
-  suffixChar: '▏',
-  ...opts,
-  prefix: (opts.prefix || '').length ? opts.prefix + ' ' : ''
+  startChar: '▕',
+  endChar: '▏',
+  ...opts
 });
 
 /**
@@ -127,16 +132,17 @@ const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull =
  */
 export const getProgressBar = (max: number, options: ProgressBarOptions = {}) => {
   const opts = getFullOptions(options);
-  const { prefix, maxWidth, wrapperFn, prefixChar, suffixChar } = opts;
+  const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar } = opts;
   let current = 0;
   let finished = false;
 
   const update = () => {
     const suffix = getSuffix(current, max, opts);
-    const output = `${prefix}${getBarString(
+    const fullPrefix = prefix.padEnd(prefixWidth);
+    const output = `${fullPrefix}${getBarString(
       current,
       max,
-      Math.max(0, maxWidth - [prefix, suffix, prefixChar, suffixChar].join('').length),
+      Math.max(0, maxWidth - [fullPrefix, suffix, startChar, endChar].join('').length),
       opts
     )}${suffix}`;
 

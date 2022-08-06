@@ -41,6 +41,7 @@ __export(src_exports, {
   decades: () => decades,
   each: () => each,
   eachLimit: () => eachLimit,
+  entries: () => entries,
   getDeferred: () => getDeferred,
   getProgressBar: () => getProgressBar,
   getTimer: () => getTimer,
@@ -299,16 +300,17 @@ var print = (text, wrapperFn = noWrap) => {
   printLn(wrapped);
 };
 var getBarString = (current, max, width, opts) => {
-  const { progChar, emptyChar, prefixChar, suffixChar, chalk } = opts;
+  const { progChar, emptyChar, startChar, endChar, chalk } = opts;
   const numProgChars = Math.round(width * (Math.max(0, Math.min(current / max, 1)) / 1));
   const numEmptyChars = width - numProgChars;
   const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
-  return `${chalk.dim(prefixChar)}${chalk.bold(body)}${chalk.dim(suffixChar)}`;
+  return `${chalk.dim(startChar)}${chalk.bold(body)}${chalk.dim(endChar)}`;
 };
 var getSuffix = (current, max, opts) => {
   let items = [""];
   if (opts.showCount) {
-    items.push(`[${current.toString().padStart(max.toString().length, " ")} / ${max}]`);
+    const pad = Math.max(max.toString().length, opts.countWidth);
+    items.push(`[${current.toString().padStart(pad, " ")} / ${max.toString().padStart(pad, " ")}]`);
   }
   if (opts.showPercent) {
     const percent = Math.round(current / max * 100);
@@ -318,29 +320,32 @@ var getSuffix = (current, max, opts) => {
   return joined.length ? " " + joined : "";
 };
 var getFullOptions = (opts = {}) => ({
+  prefix: "",
+  prefixWidth: 1,
   maxWidth: (process == null ? void 0 : process.stdout) ? process.stdout.columns : 100,
   chalk: noChalk,
   wrapperFn: noWrap,
   showCount: true,
   showPercent: false,
+  countWidth: 0,
   progChar: "\u2588",
   emptyChar: " ",
-  prefixChar: "\u2595",
-  suffixChar: "\u258F",
-  ...opts,
-  prefix: (opts.prefix || "").length ? opts.prefix + " " : ""
+  startChar: "\u2595",
+  endChar: "\u258F",
+  ...opts
 });
 var getProgressBar = (max, options = {}) => {
   const opts = getFullOptions(options);
-  const { prefix, maxWidth, wrapperFn, prefixChar, suffixChar } = opts;
+  const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar } = opts;
   let current = 0;
   let finished = false;
   const update = () => {
     const suffix = getSuffix(current, max, opts);
-    const output = `${prefix}${getBarString(
+    const fullPrefix = prefix.padEnd(prefixWidth);
+    const output = `${fullPrefix}${getBarString(
       current,
       max,
-      Math.max(0, maxWidth - [prefix, suffix, prefixChar, suffixChar].join("").length),
+      Math.max(0, maxWidth - [fullPrefix, suffix, startChar, endChar].join("").length),
       opts
     )}${suffix}`;
     print(output, wrapperFn);
@@ -488,6 +493,7 @@ var PromiseUtils = {
 // src/tools/ArrayUtils.ts
 var ArrayUtils_exports = {};
 __export(ArrayUtils_exports, {
+  entries: () => entries,
   randomise: () => randomise,
   range: () => range,
   reverse: () => reverse,
@@ -502,6 +508,7 @@ var zip = (...arrs) => {
 var sortByMapped = (arr, mapFn, sortFn = (a, b) => Number(a) - Number(b)) => zip(arr, arr.map(mapFn)).sort((a, b) => sortFn(a[1], b[1])).map(([v]) => v);
 var randomise = (arr) => sortByMapped(arr, () => Math.random());
 var reverse = (arr) => [...arr].reverse();
+var entries = (arr) => zip(range(arr.length), arr);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ArrayUtils,
@@ -526,6 +533,7 @@ var reverse = (arr) => [...arr].reverse();
   decades,
   each,
   eachLimit,
+  entries,
   getDeferred,
   getProgressBar,
   getTimer,

@@ -294,15 +294,17 @@ declare const timer: ITimer<INames> & KeysOnly<INames>;
 declare const printLn: (...text: any[]) => void;
 interface ProgressBarOptionsFull {
     prefix: string;
+    prefixWidth: number;
     maxWidth: number;
     chalk: any;
     wrapperFn: any;
     showCount: boolean;
     showPercent: boolean;
+    countWidth: number;
     progChar: string;
     emptyChar: string;
-    prefixChar: string;
-    suffixChar: string;
+    startChar: string;
+    endChar: string;
 }
 declare type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
 /**
@@ -657,12 +659,27 @@ declare const randomise: <T>(arr: T[]) => T[];
  * ```
  */
 declare const reverse: <T>(arr: T[]) => T[];
+/**
+ * Returns array of 'tuples' of index/value pairs
+ *
+ * ```typescript
+ * const arr = ['a', 'b', 'c'];
+ * entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
+ *
+ * for (let [index, value] of entries(arr)) {
+ *  console.log(index); // 0, 1, 2
+ *  console.log(value); // 'a', 'b', 'c'
+ * }
+ * ```
+ */
+declare const entries: <T>(arr: T[]) => [number, T][];
 
 declare const ArrayUtils_range: typeof range;
 declare const ArrayUtils_zip: typeof zip;
 declare const ArrayUtils_sortByMapped: typeof sortByMapped;
 declare const ArrayUtils_randomise: typeof randomise;
 declare const ArrayUtils_reverse: typeof reverse;
+declare const ArrayUtils_entries: typeof entries;
 declare namespace ArrayUtils {
   export {
     ArrayUtils_range as range,
@@ -670,7 +687,8 @@ declare namespace ArrayUtils {
     ArrayUtils_sortByMapped as sortByMapped,
     ArrayUtils_randomise as randomise,
     ArrayUtils_reverse as reverse,
+    ArrayUtils_entries as entries,
   };
 }
 
-export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reverse, second, seconds, sortByMapped, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
+export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reverse, second, seconds, sortByMapped, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
