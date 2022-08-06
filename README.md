@@ -231,6 +231,14 @@ for (let [index, value] of entries(arr)) {
 }
 ```
 
+### repeat
+
+Returns an array with the given items repeated
+
+```typescript
+repeat(5, 'a', 'b'); // 'a', 'b', 'a', 'b', 'a'
+```
+
 ## PromiseUtils
 
 ### DeferredPromise

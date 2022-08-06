@@ -95,3 +95,15 @@ export const reverse = <T>(arr: T[]): T[] => [...arr].reverse();
  * ```
  */
 export const entries = <T>(arr: T[]): [number, T][] => zip(range(arr.length), arr) as any;
+
+/**
+ * Returns an array with the given items repeated
+ *
+ * ```typescript
+ * repeat(5, 'a', 'b'); // 'a', 'b', 'a', 'b', 'a'
+ * ```
+ */
+export const repeat = <T>(maxLength: number, ...items: T[]): T[] => {
+  const simple = new Array(maxLength).fill(items[0]);
+  return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
+};

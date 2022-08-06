@@ -673,6 +673,14 @@ declare const reverse: <T>(arr: T[]) => T[];
  * ```
  */
 declare const entries: <T>(arr: T[]) => [number, T][];
+/**
+ * Returns an array with the given items repeated
+ *
+ * ```typescript
+ * repeat(5, 'a', 'b'); // 'a', 'b', 'a', 'b', 'a'
+ * ```
+ */
+declare const repeat: <T>(maxLength: number, ...items: T[]) => T[];
 
 declare const ArrayUtils_range: typeof range;
 declare const ArrayUtils_zip: typeof zip;
@@ -680,6 +688,7 @@ declare const ArrayUtils_sortByMapped: typeof sortByMapped;
 declare const ArrayUtils_randomise: typeof randomise;
 declare const ArrayUtils_reverse: typeof reverse;
 declare const ArrayUtils_entries: typeof entries;
+declare const ArrayUtils_repeat: typeof repeat;
 declare namespace ArrayUtils {
   export {
     ArrayUtils_range as range,
@@ -688,7 +697,8 @@ declare namespace ArrayUtils {
     ArrayUtils_randomise as randomise,
     ArrayUtils_reverse as reverse,
     ArrayUtils_entries as entries,
+    ArrayUtils_repeat as repeat,
   };
 }
 
-export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reverse, second, seconds, sortByMapped, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
+export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, repeat, reverse, second, seconds, sortByMapped, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };

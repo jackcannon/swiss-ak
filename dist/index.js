@@ -57,6 +57,7 @@ __export(src_exports, {
   progressBar: () => progressBar_exports,
   randomise: () => randomise,
   range: () => range,
+  repeat: () => repeat,
   reverse: () => reverse,
   seconds: () => seconds,
   sortByMapped: () => sortByMapped,
@@ -496,6 +497,7 @@ __export(ArrayUtils_exports, {
   entries: () => entries,
   randomise: () => randomise,
   range: () => range,
+  repeat: () => repeat,
   reverse: () => reverse,
   sortByMapped: () => sortByMapped,
   zip: () => zip
@@ -509,6 +511,10 @@ var sortByMapped = (arr, mapFn, sortFn = (a, b) => Number(a) - Number(b)) => zip
 var randomise = (arr) => sortByMapped(arr, () => Math.random());
 var reverse = (arr) => [...arr].reverse();
 var entries = (arr) => zip(range(arr.length), arr);
+var repeat = (maxLength, ...items) => {
+  const simple = new Array(maxLength).fill(items[0]);
+  return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ArrayUtils,
@@ -549,6 +555,7 @@ var entries = (arr) => zip(range(arr.length), arr);
   progressBar,
   randomise,
   range,
+  repeat,
   reverse,
   seconds,
   sortByMapped,

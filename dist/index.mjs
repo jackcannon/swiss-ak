@@ -426,6 +426,7 @@ __export(ArrayUtils_exports, {
   entries: () => entries,
   randomise: () => randomise,
   range: () => range,
+  repeat: () => repeat,
   reverse: () => reverse,
   sortByMapped: () => sortByMapped,
   zip: () => zip
@@ -439,6 +440,10 @@ var sortByMapped = (arr, mapFn, sortFn = (a, b) => Number(a) - Number(b)) => zip
 var randomise = (arr) => sortByMapped(arr, () => Math.random());
 var reverse = (arr) => [...arr].reverse();
 var entries = (arr) => zip(range(arr.length), arr);
+var repeat = (maxLength, ...items) => {
+  const simple = new Array(maxLength).fill(items[0]);
+  return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
+};
 export {
   ArrayUtils_exports as ArrayUtils,
   CENTURY,
@@ -478,6 +483,7 @@ export {
   progressBar_exports as progressBar,
   randomise,
   range,
+  repeat,
   reverse,
   seconds,
   sortByMapped,
