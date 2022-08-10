@@ -209,7 +209,8 @@ __export(progressBar_exports, {
   printLn: () => printLn
 });
 var printLn = (...text) => {
-  if (process == null ? void 0 : process.stdout) {
+  var _a, _b;
+  if (((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.clearLine) && ((_b = process == null ? void 0 : process.stdout) == null ? void 0 : _b.cursorTo)) {
     if (!text.length) {
       process.stdout.write("\n");
     } else {
@@ -249,21 +250,24 @@ var getSuffix = (current, max, opts) => {
   const joined = items.filter((x) => x).join(" ");
   return joined.length ? " " + joined : "";
 };
-var getFullOptions = (opts = {}) => ({
-  prefix: "",
-  prefixWidth: 1,
-  maxWidth: (process == null ? void 0 : process.stdout) ? process.stdout.columns : 100,
-  chalk: noChalk,
-  wrapperFn: noWrap,
-  showCount: true,
-  showPercent: false,
-  countWidth: 0,
-  progChar: "\u2588",
-  emptyChar: " ",
-  startChar: "\u2595",
-  endChar: "\u258F",
-  ...opts
-});
+var getFullOptions = (opts = {}) => {
+  var _a;
+  return {
+    prefix: "",
+    prefixWidth: 1,
+    maxWidth: ((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.columns) ? process.stdout.columns : 100,
+    chalk: noChalk,
+    wrapperFn: noWrap,
+    showCount: true,
+    showPercent: false,
+    countWidth: 0,
+    progChar: "\u2588",
+    emptyChar: " ",
+    startChar: "\u2595",
+    endChar: "\u258F",
+    ...opts
+  };
+};
 var getProgressBar = (max, options = {}) => {
   const opts = getFullOptions(options);
   const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar } = opts;

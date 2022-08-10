@@ -23,7 +23,7 @@ import { noChalk, noWrap } from './fakeChalk';
  * ```
  */
 export const printLn = (...text: any[]) => {
-  if (process?.stdout) {
+  if (process?.stdout?.clearLine && process?.stdout?.cursorTo) {
     if (!text.length) {
       process.stdout.write('\n');
     } else {
@@ -86,7 +86,7 @@ export type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
 const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull => ({
   prefix: '',
   prefixWidth: 1,
-  maxWidth: process?.stdout ? process.stdout.columns : 100,
+  maxWidth: process?.stdout?.columns ? process.stdout.columns : 100,
   chalk: noChalk,
   wrapperFn: noWrap,
   showCount: true,
