@@ -448,6 +448,36 @@ var repeat = (maxLength, ...items) => {
   const simple = new Array(maxLength).fill(items[0]);
   return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
 };
+
+// src/tools/higherOrder.ts
+var noop = () => {
+};
+var exists = (item) => item !== void 0 && item !== null;
+var filters = {
+  exists
+};
+var toString = (item) => (item || "") + "";
+var toNumber = (item) => Number(item);
+var toBool = (item) => Boolean(item);
+var toProp = (propName) => (item) => item && item[propName];
+var maps = {
+  toString,
+  toNumber,
+  toBool,
+  toProp
+};
+var asc = (a, b) => Number(a) - Number(b);
+var desc = (a, b) => Number(b) - Number(a);
+var sorts = {
+  asc,
+  desc
+};
+var combine = (a, b) => a + b;
+var combineProp = (propName) => (a, b) => a[propName] + b[propName];
+var reduces = {
+  combine,
+  combineProp
+};
 export {
   ArrayUtils_exports as ArrayUtils,
   CENTURY,
@@ -466,12 +496,18 @@ export {
   allLimit,
   allLimitObj,
   allObj,
+  asc,
   centuries,
+  combine,
+  combineProp,
   days,
   decades,
+  desc,
   each,
   eachLimit,
   entries,
+  exists,
+  filters,
   getDeferred,
   getProgressBar,
   getTimer,
@@ -479,21 +515,29 @@ export {
   interval,
   map,
   mapLimit,
+  maps,
   millenniums,
   milliseconds,
   minutes,
   months,
+  noop,
   printLn,
   progressBar_exports as progressBar,
   randomise,
   range,
+  reduces,
   repeat,
   reverse,
   seconds,
   sortByMapped,
+  sorts,
   stopInterval,
   timer,
   times_exports as times,
+  toBool,
+  toNumber,
+  toProp,
+  toString,
   wait,
   waitEvery,
   waitFor,

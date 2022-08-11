@@ -6,11 +6,11 @@ var __export = (target, all2) => {
   for (var name in all2)
     __defProp(target, name, { get: all2[name], enumerable: true });
 };
-var __copyProps = (to, from, except, desc) => {
+var __copyProps = (to, from, except, desc2) => {
   if (from && typeof from === "object" || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
       if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc2 = __getOwnPropDesc(from, key)) || desc2.enumerable });
   }
   return to;
 };
@@ -36,12 +36,18 @@ __export(src_exports, {
   allLimit: () => allLimit,
   allLimitObj: () => allLimitObj,
   allObj: () => allObj,
+  asc: () => asc,
   centuries: () => centuries,
+  combine: () => combine,
+  combineProp: () => combineProp,
   days: () => days,
   decades: () => decades,
+  desc: () => desc,
   each: () => each,
   eachLimit: () => eachLimit,
   entries: () => entries,
+  exists: () => exists,
+  filters: () => filters,
   getDeferred: () => getDeferred,
   getProgressBar: () => getProgressBar,
   getTimer: () => getTimer,
@@ -49,21 +55,29 @@ __export(src_exports, {
   interval: () => interval,
   map: () => map,
   mapLimit: () => mapLimit,
+  maps: () => maps,
   millenniums: () => millenniums,
   milliseconds: () => milliseconds,
   minutes: () => minutes,
   months: () => months,
+  noop: () => noop,
   printLn: () => printLn,
   progressBar: () => progressBar_exports,
   randomise: () => randomise,
   range: () => range,
+  reduces: () => reduces,
   repeat: () => repeat,
   reverse: () => reverse,
   seconds: () => seconds,
   sortByMapped: () => sortByMapped,
+  sorts: () => sorts,
   stopInterval: () => stopInterval,
   timer: () => timer,
   times: () => times_exports,
+  toBool: () => toBool,
+  toNumber: () => toNumber,
+  toProp: () => toProp,
+  toString: () => toString,
   wait: () => wait,
   waitEvery: () => waitEvery,
   waitFor: () => waitFor,
@@ -519,6 +533,36 @@ var repeat = (maxLength, ...items) => {
   const simple = new Array(maxLength).fill(items[0]);
   return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
 };
+
+// src/tools/higherOrder.ts
+var noop = () => {
+};
+var exists = (item) => item !== void 0 && item !== null;
+var filters = {
+  exists
+};
+var toString = (item) => (item || "") + "";
+var toNumber = (item) => Number(item);
+var toBool = (item) => Boolean(item);
+var toProp = (propName) => (item) => item && item[propName];
+var maps = {
+  toString,
+  toNumber,
+  toBool,
+  toProp
+};
+var asc = (a, b) => Number(a) - Number(b);
+var desc = (a, b) => Number(b) - Number(a);
+var sorts = {
+  asc,
+  desc
+};
+var combine = (a, b) => a + b;
+var combineProp = (propName) => (a, b) => a[propName] + b[propName];
+var reduces = {
+  combine,
+  combineProp
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ArrayUtils,
@@ -538,12 +582,18 @@ var repeat = (maxLength, ...items) => {
   allLimit,
   allLimitObj,
   allObj,
+  asc,
   centuries,
+  combine,
+  combineProp,
   days,
   decades,
+  desc,
   each,
   eachLimit,
   entries,
+  exists,
+  filters,
   getDeferred,
   getProgressBar,
   getTimer,
@@ -551,21 +601,29 @@ var repeat = (maxLength, ...items) => {
   interval,
   map,
   mapLimit,
+  maps,
   millenniums,
   milliseconds,
   minutes,
   months,
+  noop,
   printLn,
   progressBar,
   randomise,
   range,
+  reduces,
   repeat,
   reverse,
   seconds,
   sortByMapped,
+  sorts,
   stopInterval,
   timer,
   times,
+  toBool,
+  toNumber,
+  toProp,
+  toString,
   wait,
   waitEvery,
   waitFor,

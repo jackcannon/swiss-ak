@@ -701,4 +701,32 @@ declare namespace ArrayUtils {
   };
 }
 
-export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, repeat, reverse, second, seconds, sortByMapped, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
+declare const noop: () => void;
+declare const exists: <T extends unknown>(item: T) => boolean;
+declare const filters: {
+    exists: <T extends unknown>(item: T) => boolean;
+};
+declare const toString: <T extends unknown>(item: T) => string;
+declare const toNumber: <T extends unknown>(item: T) => number;
+declare const toBool: <T extends unknown>(item: T) => boolean;
+declare const toProp: <T extends unknown, P extends unknown>(propName: string) => (item: T) => P;
+declare const maps: {
+    toString: <T extends unknown>(item: T) => string;
+    toNumber: <T_1 extends unknown>(item: T_1) => number;
+    toBool: <T_2 extends unknown>(item: T_2) => boolean;
+    toProp: <T_3 extends unknown, P extends unknown>(propName: string) => (item: T_3) => P;
+};
+declare const asc: (a: any, b: any) => number;
+declare const desc: (a: any, b: any) => number;
+declare const sorts: {
+    asc: (a: any, b: any) => number;
+    desc: (a: any, b: any) => number;
+};
+declare const combine: (a: any, b: any) => any;
+declare const combineProp: (propName: string) => (a: any, b: any) => any;
+declare const reduces: {
+    combine: (a: any, b: any) => any;
+    combineProp: (propName: string) => (a: any, b: any) => any;
+};
+
+export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, asc, centuries, century, combine, combineProp, day, days, decade, decades, desc, each, eachLimit, entries, exists, filters, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, noop, printLn, progressBar, randomise, range, reduces, repeat, reverse, second, seconds, sortByMapped, sorts, stopInterval, timer, times, toBool, toNumber, toProp, toString, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
