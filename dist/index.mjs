@@ -452,6 +452,7 @@ var repeat = (maxLength, ...items) => {
 // src/tools/higherOrder.ts
 var noop = () => {
 };
+var noact = (item) => item;
 var exists = (item) => item !== void 0 && item !== null;
 var filters = {
   exists
@@ -520,6 +521,7 @@ export {
   milliseconds,
   minutes,
   months,
+  noact,
   noop,
   printLn,
   progressBar_exports as progressBar,

@@ -1,5 +1,6 @@
 // no operation
 export const noop = () => {};
+export const noact = <T extends unknown>(item: T): T => item;
 
 // filter
 export const exists = <T extends unknown>(item: T): boolean => item !== undefined && item !== null;

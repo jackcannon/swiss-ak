@@ -60,6 +60,7 @@ __export(src_exports, {
   milliseconds: () => milliseconds,
   minutes: () => minutes,
   months: () => months,
+  noact: () => noact,
   noop: () => noop,
   printLn: () => printLn,
   progressBar: () => progressBar_exports,
@@ -537,6 +538,7 @@ var repeat = (maxLength, ...items) => {
 // src/tools/higherOrder.ts
 var noop = () => {
 };
+var noact = (item) => item;
 var exists = (item) => item !== void 0 && item !== null;
 var filters = {
   exists
@@ -606,6 +608,7 @@ var reduces = {
   milliseconds,
   minutes,
   months,
+  noact,
   noop,
   printLn,
   progressBar,
