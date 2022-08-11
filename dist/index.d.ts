@@ -703,6 +703,7 @@ declare namespace ArrayUtils {
 
 declare const noop: () => void;
 declare const noact: <T extends unknown>(item: T) => T;
+declare const result: <T extends unknown>(item: T) => () => T;
 declare const exists: <T extends unknown>(item: T) => boolean;
 declare const filters: {
     exists: <T extends unknown>(item: T) => boolean;
@@ -730,4 +731,4 @@ declare const reduces: {
     combineProp: (propName: string) => (a: any, b: any) => any;
 };
 
-export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, asc, centuries, century, combine, combineProp, day, days, decade, decades, desc, each, eachLimit, entries, exists, filters, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, noact, noop, printLn, progressBar, randomise, range, reduces, repeat, reverse, second, seconds, sortByMapped, sorts, stopInterval, timer, times, toBool, toNumber, toProp, toString, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
+export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, asc, centuries, century, combine, combineProp, day, days, decade, decades, desc, each, eachLimit, entries, exists, filters, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, noact, noop, printLn, progressBar, randomise, range, reduces, repeat, result, reverse, second, seconds, sortByMapped, sorts, stopInterval, timer, times, toBool, toNumber, toProp, toString, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };

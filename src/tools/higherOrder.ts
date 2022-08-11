@@ -1,6 +1,10 @@
 // no operation
 export const noop = () => {};
 export const noact = <T extends unknown>(item: T): T => item;
+export const result =
+  <T extends unknown>(item: T) =>
+  (): T =>
+    item;
 
 // filter
 export const exists = <T extends unknown>(item: T): boolean => item !== undefined && item !== null;
@@ -10,7 +14,7 @@ export const filters = {
 };
 
 // map
-export const toString = <T extends unknown>(item: T): string => (item || '') + '';
+export const toString = <T extends unknown>(item: T): string => item + '';
 export const toNumber = <T extends unknown>(item: T): number => Number(item);
 export const toBool = <T extends unknown>(item: T): boolean => Boolean(item);
 

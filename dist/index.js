@@ -68,6 +68,7 @@ __export(src_exports, {
   range: () => range,
   reduces: () => reduces,
   repeat: () => repeat,
+  result: () => result,
   reverse: () => reverse,
   seconds: () => seconds,
   sortByMapped: () => sortByMapped,
@@ -162,8 +163,8 @@ var waitUntil = async (time) => {
 var waitFor = async (time) => waitUntil(Date.now() + time);
 var getNextEvery = (timing, offset = 0) => {
   const now = Date.now();
-  const result = timing - (now - offset) % timing;
-  return result <= 10 ? timing : result;
+  const result2 = timing - (now - offset) % timing;
+  return result2 <= 10 ? timing : result2;
 };
 var waitEvery = (timing, offset) => waitFor(getNextEvery(timing, offset));
 var stopped = [];
@@ -427,7 +428,7 @@ var allLimit = (limit, items, noThrow = false) => {
   let runningCount = 0;
   let errors = [];
   let remaining = [...items];
-  const result = [];
+  const result2 = [];
   const deferred = getDeferred();
   const update = () => {
     if (remaining.length === 0 && runningCount === 0) {
@@ -435,7 +436,7 @@ var allLimit = (limit, items, noThrow = false) => {
         deferred.reject(errors);
         return;
       }
-      deferred.resolve(result);
+      deferred.resolve(result2);
       return;
     }
     if (runningCount < limit && remaining.length) {
@@ -447,7 +448,7 @@ var allLimit = (limit, items, noThrow = false) => {
   const run = async (prom, index) => {
     runningCount++;
     try {
-      result[index] = await prom(index);
+      result2[index] = await prom(index);
     } catch (err) {
       errors.push(err);
     }
@@ -469,14 +470,14 @@ var eachLimit = async (limit, items, func) => {
   );
 };
 var map = async (items, func) => {
-  const result = [];
+  const result2 = [];
   await Promise.all(
     items.map(async (item, index, array) => {
       const res = await func(item, index, array);
-      result[index] = res;
+      result2[index] = res;
     })
   );
-  return result;
+  return result2;
 };
 var mapLimit = async (limit, items, func) => await allLimit(
   limit,
@@ -539,11 +540,12 @@ var repeat = (maxLength, ...items) => {
 var noop = () => {
 };
 var noact = (item) => item;
+var result = (item) => () => item;
 var exists = (item) => item !== void 0 && item !== null;
 var filters = {
   exists
 };
-var toString = (item) => (item || "") + "";
+var toString = (item) => item + "";
 var toNumber = (item) => Number(item);
 var toBool = (item) => Boolean(item);
 var toProp = (propName) => (item) => item && item[propName];
@@ -616,6 +618,7 @@ var reduces = {
   range,
   reduces,
   repeat,
+  result,
   reverse,
   seconds,
   sortByMapped,
