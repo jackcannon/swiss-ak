@@ -53,6 +53,12 @@ __export(src_exports, {
   getTimer: () => getTimer,
   hours: () => hours,
   interval: () => interval,
+  isEmpty: () => isEmpty,
+  isEqual: () => isEqual,
+  isFalsy: () => isFalsy,
+  isNotEmpty: () => isNotEmpty,
+  isNotEqual: () => isNotEqual,
+  isTruthy: () => isTruthy,
   map: () => map,
   mapLimit: () => mapLimit,
   maps: () => maps,
@@ -458,6 +464,9 @@ var allLimit = (limit, items, noThrow = false) => {
   for (let i = 0; i < Math.min(limit, items.length); i++) {
     update();
   }
+  if (!items || items.length === 0) {
+    deferred.resolve(result2);
+  }
   return deferred.promise;
 };
 var each = async (items, func) => {
@@ -542,6 +551,12 @@ var noop = () => {
 var noact = (item) => item;
 var result = (item) => () => item;
 var exists = (item) => item !== void 0 && item !== null;
+var isTruthy = (item) => Boolean(item);
+var isFalsy = (item) => !Boolean(item);
+var isEmpty = (item) => Boolean(!item || !item.length);
+var isNotEmpty = (item) => Boolean(item && item.length);
+var isEqual = (item) => (other) => Boolean(item === other);
+var isNotEqual = (item) => (other) => Boolean(item !== other);
 var filters = {
   exists
 };
@@ -603,6 +618,12 @@ var reduces = {
   getTimer,
   hours,
   interval,
+  isEmpty,
+  isEqual,
+  isFalsy,
+  isNotEmpty,
+  isNotEqual,
+  isTruthy,
   map,
   mapLimit,
   maps,

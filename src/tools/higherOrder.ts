@@ -8,6 +8,18 @@ export const result =
 
 // filter
 export const exists = <T extends unknown>(item: T): boolean => item !== undefined && item !== null;
+export const isTruthy = <T extends unknown>(item: T): boolean => Boolean(item);
+export const isFalsy = <T extends unknown>(item: T): boolean => !Boolean(item);
+export const isEmpty = <T extends unknown>(item: T[] | string): boolean => Boolean(!item || !item.length);
+export const isNotEmpty = <T extends unknown>(item: T[] | string): boolean => Boolean(item && item.length);
+export const isEqual =
+  <T extends unknown>(item: T) =>
+  (other: T) =>
+    Boolean(item === other);
+export const isNotEqual =
+  <T extends unknown>(item: T) =>
+  (other: T) =>
+    Boolean(item !== other);
 
 export const filters = {
   exists

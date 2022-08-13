@@ -458,7 +458,7 @@ declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: nu
  * console.log(''); // after 4 seconds
  * ```
  */
-declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item?: Ti, index?: number, array?: Ti[]) => Promise<any>) => Promise<any>;
+declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
 /**
  * Run an async map function against each item in an array, mapping the results to a returned array
  *
@@ -475,7 +475,7 @@ declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: 
  * console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
  * ```
  */
-declare const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (item?: Ti, index?: number, array?: Ti[]) => Promise<To>) => Promise<To[]>;
+declare const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
 /**
  * Run an async map function against each item in an array, mapping the results to a returned array, and limiting the number of items that can run concurrently.
  *
@@ -494,7 +494,7 @@ declare const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (
  * console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
  * ```
  */
-declare const mapLimit: <Ti extends unknown, To extends unknown>(limit: number, items: Ti[], func: (item?: Ti, index?: number, array?: Ti[]) => Promise<To>) => Promise<To[]>;
+declare const mapLimit: <Ti extends unknown, To extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
 /**
  * Like Promise.all, but pass/receive objects rather than arrays
  *
@@ -578,9 +578,9 @@ declare const PromiseUtils: {
     all: <T_1 extends unknown>(promises: Promise<T_1>[]) => Promise<any>;
     allLimit: <T_2 extends unknown>(limit: number, items: ((index: number) => Promise<T_2>)[], noThrow?: boolean) => Promise<T_2[]>;
     each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
-    eachLimit: <Ti_1 extends unknown>(limit: number, items: Ti_1[], func: (item?: Ti_1, index?: number, array?: Ti_1[]) => Promise<any>) => Promise<any>;
-    map: <Ti_2 extends unknown, To extends unknown>(items: Ti_2[], func: (item?: Ti_2, index?: number, array?: Ti_2[]) => Promise<To>) => Promise<To[]>;
-    mapLimit: <Ti_3 extends unknown, To_1 extends unknown>(limit: number, items: Ti_3[], func: (item?: Ti_3, index?: number, array?: Ti_3[]) => Promise<To_1>) => Promise<To_1[]>;
+    eachLimit: <Ti_1 extends unknown>(limit: number, items: Ti_1[], func: (item: Ti_1, index: number, array: Ti_1[]) => Promise<any>) => Promise<any>;
+    map: <Ti_2 extends unknown, To extends unknown>(items: Ti_2[], func: (item: Ti_2, index: number, array: Ti_2[]) => Promise<To>) => Promise<To[]>;
+    mapLimit: <Ti_3 extends unknown, To_1 extends unknown>(limit: number, items: Ti_3[], func: (item: Ti_3, index: number, array: Ti_3[]) => Promise<To_1>) => Promise<To_1[]>;
     allObj: <T_3 extends unknown>(input: {
         [key: string]: Promise<T_3>;
     }) => Promise<{
@@ -705,6 +705,12 @@ declare const noop: () => void;
 declare const noact: <T extends unknown>(item: T) => T;
 declare const result: <T extends unknown>(item: T) => () => T;
 declare const exists: <T extends unknown>(item: T) => boolean;
+declare const isTruthy: <T extends unknown>(item: T) => boolean;
+declare const isFalsy: <T extends unknown>(item: T) => boolean;
+declare const isEmpty: <T extends unknown>(item: string | T[]) => boolean;
+declare const isNotEmpty: <T extends unknown>(item: string | T[]) => boolean;
+declare const isEqual: <T extends unknown>(item: T) => (other: T) => boolean;
+declare const isNotEqual: <T extends unknown>(item: T) => (other: T) => boolean;
 declare const filters: {
     exists: <T extends unknown>(item: T) => boolean;
 };
@@ -731,4 +737,4 @@ declare const reduces: {
     combineProp: (propName: string) => (a: any, b: any) => any;
 };
 
-export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, asc, centuries, century, combine, combineProp, day, days, decade, decades, desc, each, eachLimit, entries, exists, filters, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, noact, noop, printLn, progressBar, randomise, range, reduces, repeat, result, reverse, second, seconds, sortByMapped, sorts, stopInterval, timer, times, toBool, toNumber, toProp, toString, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
+export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, asc, centuries, century, combine, combineProp, day, days, decade, decades, desc, each, eachLimit, entries, exists, filters, getDeferred, getProgressBar, getTimer, hour, hours, interval, isEmpty, isEqual, isFalsy, isNotEmpty, isNotEqual, isTruthy, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, noact, noop, printLn, progressBar, randomise, range, reduces, repeat, result, reverse, second, seconds, sortByMapped, sorts, stopInterval, timer, times, toBool, toNumber, toProp, toString, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };

@@ -123,6 +123,10 @@ export const allLimit = <T extends unknown>(limit: number, items: ((index: numbe
     update();
   }
 
+  if (!items || items.length === 0) {
+    deferred.resolve(result);
+  }
+
   return deferred.promise;
 };
 
@@ -165,7 +169,7 @@ export const each = async <Ti extends unknown>(items: Ti[], func: (item: Ti, ind
 export const eachLimit = async <Ti extends unknown>(
   limit: number,
   items: Ti[],
-  func: (item?: Ti, index?: number, array?: Ti[]) => Promise<any>
+  func: (item: Ti, index: number, array: Ti[]) => Promise<any>
 ): Promise<any> => {
   await allLimit(
     limit,
@@ -191,7 +195,7 @@ export const eachLimit = async <Ti extends unknown>(
  */
 export const map = async <Ti extends unknown, To extends unknown>(
   items: Ti[],
-  func: (item?: Ti, index?: number, array?: Ti[]) => Promise<To>
+  func: (item: Ti, index: number, array: Ti[]) => Promise<To>
 ): Promise<To[]> => {
   const result: To[] = [];
 
@@ -226,7 +230,7 @@ export const map = async <Ti extends unknown, To extends unknown>(
 export const mapLimit = async <Ti extends unknown, To extends unknown>(
   limit: number,
   items: Ti[],
-  func: (item?: Ti, index?: number, array?: Ti[]) => Promise<To>
+  func: (item: Ti, index: number, array: Ti[]) => Promise<To>
 ): Promise<To[]> =>
   await allLimit(
     limit,
