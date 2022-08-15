@@ -166,6 +166,11 @@ export const getProgressBar = (max: number, options: ProgressBarOptions = {}) =>
     return set(0);
   };
 
+  const start = (): string => {
+    printLn(); // blank/new line
+    return update();
+  };
+
   const finish = (): string => {
     finished = true;
     const output = update();
@@ -178,6 +183,7 @@ export const getProgressBar = (max: number, options: ProgressBarOptions = {}) =>
     set,
     reset,
     update,
+    start,
     finish
   };
 };

@@ -1,3 +1,5 @@
+import { sorts } from './higherOrder';
+
 /**
  * Returns an array of the given length, where each value is equal to it's index
  * e.g. [0, 1, 2, ..., length]
@@ -42,11 +44,7 @@ export const zip = <T1 = undefined, T2 = undefined, T3 = undefined, T4 = undefin
  * ); // ['3p', '2p', '1p']
  * ```
  */
-export const sortByMapped = <T, M>(
-  arr: T[],
-  mapFn: (value: T, index: number, array: T[]) => M,
-  sortFn: (a: M, b: M) => number = (a, b) => Number(a) - Number(b)
-): T[] =>
+export const sortByMapped = <T, M>(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn: (a: M, b: M) => number = sorts.asc): T[] =>
   zip(arr, arr.map(mapFn))
     .sort((a, b) => sortFn(a[1] as M, b[1] as M))
     .map(([v]) => v);
@@ -100,7 +98,8 @@ export const entries = <T>(arr: T[]): [number, T][] => zip(range(arr.length), ar
  * Returns an array with the given items repeated
  *
  * ```typescript
- * repeat(5, 'a', 'b'); // 'a', 'b', 'a', 'b', 'a'
+ * repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
+ * repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
  * ```
  */
 export const repeat = <T>(maxLength: number, ...items: T[]): T[] => {

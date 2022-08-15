@@ -2,7 +2,7 @@
 
 A collection of useful little things that I like to reuse across projects
 
-## times
+# times
 
 A collection of utils for calculating simple times.
 Each unit (e.g. second) has: a type (`second`), a constant (`SECOND`) and a function for getting multiples (`seconds(x: second) => ms`)
@@ -21,7 +21,7 @@ Each unit (e.g. second) has: a type (`second`), a constant (`SECOND`) and a func
 | century     | `century`    | `CENTURY`     | `centuries(x: century) => ms`      |
 | millennium  | `millennium` | `MILLENNIUM`  | `millenniums(x: millennium) => ms` |
 
-### Usage
+## Usage
 
 Examples
 
@@ -36,7 +36,7 @@ setTimeout(() => {
 }, hours(2) + minutes(12));
 ```
 
-## waiters
+# waiters
 
 Async functions that return promises at or after a given time.
 
@@ -50,9 +50,9 @@ Async functions that return promises at or after a given time.
 | waitEvery | Accurate (pinged) wait for next 'every X' event      | `hours(1)` = next full hour (e.g. 17:00, 22:00) |
 | interval  | Accurate (pinged) interval for every 'every X' event | `hours(1)` = every hour, on the hour            |
 
-### Usage
+## Usage
 
-#### wait
+### wait
 
 ```typescript
 import { wait } from 'swiss-ak';
@@ -62,7 +62,7 @@ await wait(minutes(2));
 console.log(new Date().toTimeString()); // 12:32:10
 ```
 
-#### waitFor
+### waitFor
 
 ```typescript
 import { waitFor } from 'swiss-ak';
@@ -72,7 +72,7 @@ await waitFor(minutes(5));
 console.log(new Date().toTimeString()); // 12:35:10
 ```
 
-#### waitUntil
+### waitUntil
 
 ```typescript
 import { waitUntil } from 'swiss-ak';
@@ -82,7 +82,7 @@ await waitUntil(Date.now() + minutes(10));
 console.log(new Date().toTimeString()); // 12:40:10
 ```
 
-#### waitEvery
+### waitEvery
 
 ```typescript
 import { waitEvery } from 'swiss-ak';
@@ -92,7 +92,7 @@ await waitEvery(hours(2));
 console.log(new Date().toTimeString()); // 14:00:00
 ```
 
-#### interval / stopInterval
+### interval / stopInterval
 
 ```typescript
 import { interval, stopInterval } from 'swiss-ak';
@@ -106,11 +106,198 @@ interval((intID, count) => {
 }, hours(1));
 ```
 
-## getTimer
+# fn (Higher Order Functions)
+
+### fn.noop
+
+No operation. Do nothing, return nothing.
+
+```typescript
+const run = condition ? doSomething : fn.noop;
+run();
+```
+
+### fn.noact
+
+No action. Returns the first argument it receives.
+
+```typescript
+const items = stuff.map(condition ? mapSomething : fn.noact);
+```
+
+### fn.result
+
+Returns a function that returns a function that returns the first argument.
+
+```typescript
+const items = stuff.filter(condition ? mapSomething : fn.result(true));
+```
+
+## Filters
+
+### fn.filters.exists / fn.exists
+
+Returns true if item isn't null or undefined.
+
+```typescript
+[null, 1, undefined, 2].filter(fn.exists); // [1, 2]
+```
+
+### fn.filters.isTruthy / fn.isTruthy
+
+Returns true if item is truthy.
+
+```typescript
+[0, 1, 2].filter(fn.isTruthy); // [1, 2]
+['', 'a', 'b'].filter(fn.isTruthy); // ['a', 'b']
+```
+
+### fn.filters.isFalsy / fn.isFalsy
+
+Returns true if item is falsy.
+
+```typescript
+[0, 1, 2].filter(fn.isFalsy); // [0]
+['', 'a', 'b'].filter(fn.isFalsy); // ['']
+```
+
+### fn.filters.isEmpty / fn.isEmpty
+
+Returns true if item's length is 0
+
+```typescript
+['', 'a', 'b'].filter(fn.isEmpty); // ['']
+[[], [1], [2]].filter(fn.isEmpty); // [[]]
+```
+
+### fn.filters.isNotEmpty / fn.isNotEmpty
+
+Returns true if item's length is 1 or more
+
+```typescript
+['', 'a', 'b'].filter(fn.isNotEmpty); // ['a', 'b']
+[[], [1], [2]].filter(fn.isNotEmpty); // [[1], [2]]
+```
+
+### fn.filters.isEqual / fn.isEqual
+
+Returns a function that returns true if the item is equal to provided value.
+
+```typescript
+[0, 1, 2].filter(fn.isEqual(1)); // [1]
+```
+
+### fn.filters.isNotEqual / fn.isNotEqual
+
+Returns a function that returns true if the item is not equal to provided value.
+
+```typescript
+[0, 1, 2].filter(fn.isNotEqual(1)); // [0, 2]
+```
+
+## Maps
+
+### fn.maps.toString / fn.toString
+
+Maps the item to a string.
+
+```typescript
+[0, 1, 2].map(fn.toString); // ['0', '1', '2']
+```
+
+### fn.maps.toNumber / fn.toNumber
+
+Maps the item to a number.
+
+```typescript
+['0', '1', '2'].map(fn.toNumber); // [0, 1, 2]
+```
+
+### fn.maps.toBool / fn.toBool
+
+Maps the item to a boolean.
+
+```typescript
+[0, 1, 2].map(fn.toBool); // [false, true, true]
+['true', 'false', '', 'text'].map(fn.toBool); // [true, false, false, true]
+```
+
+### fn.maps.toProp / fn.toProp
+
+Maps the item to a given property of the item
+
+```typescript
+[{ name: 'Jack' }, { name: 'Jill' }].map(fn.toProp('name')); // ['Jack', 'Jill']
+```
+
+## Sorts
+
+### fn.sorts.asc / fn.asc
+
+Sort ascending.
+
+```typescript
+[2, 4, 3, 1].sort(fn.asc); // [1, 2, 3, 4]
+```
+
+### fn.sorts.desc / fn.desc
+
+Sort descending.
+
+```typescript
+[2, 4, 3, 1].sort(fn.asc); // [4, 3, 2, 1]
+```
+
+### fn.sorts.byProp / fn.byProp
+
+Sort by a given property.
+
+```typescript
+const people = [{ age: 2 }, { age: 4 }, { age: 3 }, { age: 1 }];
+people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
+```
+
+## Reduces
+
+### fn.reduces.combine / fn.combine
+
+Adds or concats the items
+
+```typescript
+[1, 2, 3].reduce(fn.combine); // 6
+['a', 'b', 'c'].reduce(fn.combine); // 'abc'
+```
+
+### fn.reduces.combineProp / fn.combineProp
+
+Adds or concats the given property of the items
+
+```typescript
+const people = [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 2 },
+  { name: 'c', age: 3 }
+];
+people.reduce(fn.combineProp('age')); // 6
+people.reduce(fn.combineProp('name')); // 'abc'
+```
+
+## Everys
+
+### fn.everys.isAllEqual / fn.isAllEqual
+
+Returns if all the items are equal to one another.
+
+```typescript
+[1, 1, 1].every(fn.isAllEqual); // true
+[1, 2, 1].every(fn.isAllEqual); // false
+```
+
+# getTimer
 
 A handy little tool for tracking how long things are taking
 
-### Usage
+## Usage
 
 ```typescript
 const timer = getTimer('Example', false, chalk.red, chalk, {
@@ -139,7 +326,7 @@ Example Times:
 	Action 2: 6s
 ```
 
-### timer
+## timer
 
 There is also a global instance for smaller projects/scripts
 
@@ -149,9 +336,9 @@ import { timer } from 'swiss-ak';
 timer.start(timer.TOTAL);
 ```
 
-## ArrayUtils
+# ArrayUtils
 
-### range
+## range
 
 Returns an array of the given length, where each value is equal to it's index
 e.g. [0, 1, 2, ..., length]
@@ -162,7 +349,7 @@ range(5); // [0, 1, 2, 3, 4]
 range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
-### zip
+## zip
 
 Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
 
@@ -176,7 +363,7 @@ Inspired by python's 'zip'
 zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
 ```
 
-### sortByMapped
+## sortByMapped
 
 Sort an array by a mapped form of the values, but returning the initial values
 
@@ -189,7 +376,7 @@ sortByMapped(
 ); // ['3p', '2p', '1p']
 ```
 
-### randomise
+## randomise
 
 Returns a clone of the provided array with it's items in a random order
 
@@ -201,7 +388,7 @@ randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
 randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
 ```
 
-### reverse
+## reverse
 
 Returns a new array with the order reversed without affecting original array
 
@@ -217,7 +404,7 @@ reverse(arr2); // [3, 2, 1]
 arr2; // [1, 2, 3]
 ```
 
-### entries
+## entries
 
 Returns array of 'tuples' of index/value pairs
 
@@ -231,17 +418,18 @@ for (let [index, value] of entries(arr)) {
 }
 ```
 
-### repeat
+## repeat
 
 Returns an array with the given items repeated
 
 ```typescript
-repeat(5, 'a', 'b'); // 'a', 'b', 'a', 'b', 'a'
+repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
+repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
 ```
 
-## PromiseUtils
+# PromiseUtils
 
-### DeferredPromise
+## DeferredPromise
 
 A good old-fashioned (not recommended) deferred promise.
 
@@ -263,11 +451,11 @@ const run = () => {
 const luckyNumber: number = await run();
 ```
 
-### PromiseUtils.all
+## PromiseUtils.all
 
 An alias for Promise.all
 
-### PromiseUtils.allLimit
+## PromiseUtils.allLimit
 
 Like Promise.all, but limits the numbers of concurrently running items.
 
@@ -304,7 +492,7 @@ timer.log();
 // 	d: 10s
 ```
 
-### PromiseUtils.each
+## PromiseUtils.each
 
 Run an async function against each item in an array
 
@@ -320,7 +508,7 @@ await PromiseUtils.each<number>(arr, async (val: number) => {
 console.log(''); // after 2 seconds
 ```
 
-### PromiseUtils.eachLimit
+## PromiseUtils.eachLimit
 
 Run an async function against each item in an array, limiting the number of items that can run concurrently.
 
@@ -338,7 +526,7 @@ await PromiseUtils.eachLimit<number>(2, arr, async (val: number) => {
 console.log(''); // after 4 seconds
 ```
 
-### PromiseUtils.map
+## PromiseUtils.map
 
 Run an async map function against each item in an array, mapping the results to a returned array
 
@@ -355,7 +543,7 @@ const mapped = await PromiseUtils.map<number>(arr, async (val: number) => {
 console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
 ```
 
-### PromiseUtils.mapLimit
+## PromiseUtils.mapLimit
 
 Run an async map function against each item in an array, mapping the results to a returned array, and limiting the number of items that can run concurrently.
 
@@ -374,7 +562,7 @@ const mapped = await PromiseUtils.mapLimit<number>(2, arr, async (val: number) =
 console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
 ```
 
-### PromiseUtils.allObj
+## PromiseUtils.allObj
 
 Like Promise.all, but takes/gives an object instead of an array
 
@@ -407,7 +595,7 @@ timer.log();
 // 	c: 20s
 ```
 
-### PromiseUtils.allLimitObj
+## PromiseUtils.allLimitObj
 
 A mix of allObj and allLimit.
 
@@ -444,11 +632,11 @@ timer.log();
 // 	d: 10s
 ```
 
-## progressBar
+# progressBar
 
 A util for creating a 'visual' progress bar for better representing progress of multiple operations.
 
-### Options
+## Options
 
 All options are optional.
 
@@ -467,7 +655,7 @@ All options are optional.
 | startChar   | `'▕'`                             | Character to start the progress bar with               |
 | endChar     | `'▏'`                             | Character to end the progress bar with                 |
 
-### Usage
+## Usage
 
 ```typescript
 import chalk from 'chalk';
@@ -499,7 +687,7 @@ ABC ▕█████ ▏ [4 / 5]
 ABC ▕██████▏ [5 / 5]
 ```
 
-### printLn
+## printLn
 
 Can use instead of console.log
 
@@ -522,10 +710,52 @@ C
 D
 ```
 
-## Notes
+# Types
+
+## Partial<T>
+
+Makes all properties in T optional.
+
+```typescript
+interface ITest {
+  a: string;
+  b: boolean;
+}
+type PartialTest = Partial<ITest>; // { a?: string, b?: boolean }
+```
+
+## KeysOnly<T>
+
+Makes all the values equal to the keys of T
+
+```typescript
+interface ITest {
+  a: string;
+  b: boolean;
+}
+type KeysOnlyTest = KeysOnly<ITest>; // { a: 'a', b: 'b' }
+```
+
+## Numbered<T>
+
+Makes all the values numbers
+
+```typescript
+interface ITest {
+  a: string;
+  b: boolean;
+}
+type NumberedTest = Numbered<ITest>; // { a: number, b: number }
+```
+
+# Notes
 
 > These are used in non-vital personal projects and scripts.
 
 > Need to be better tested before being used in prod.
 
 > Failing/erroring/rejected promises may not behave as expected.
+
+```
+
+```

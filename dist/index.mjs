@@ -300,6 +300,10 @@ var getProgressBar = (max, options = {}) => {
   const reset = () => {
     return set(0);
   };
+  const start = () => {
+    printLn();
+    return update();
+  };
   const finish = () => {
     finished = true;
     const output = update();
@@ -311,6 +315,7 @@ var getProgressBar = (max, options = {}) => {
     set,
     reset,
     update,
+    start,
     finish
   };
 };
@@ -438,21 +443,36 @@ __export(ArrayUtils_exports, {
   sortByMapped: () => sortByMapped,
   zip: () => zip
 });
-var range = (length = 1) => new Array(length).fill(1).map((v, i) => i);
-var zip = (...arrs) => {
-  const length = Math.min(...arrs.map((arr) => (arr || []).length));
-  return range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
-};
-var sortByMapped = (arr, mapFn, sortFn = (a, b) => Number(a) - Number(b)) => zip(arr, arr.map(mapFn)).sort((a, b) => sortFn(a[1], b[1])).map(([v]) => v);
-var randomise = (arr) => sortByMapped(arr, () => Math.random());
-var reverse = (arr) => [...arr].reverse();
-var entries = (arr) => zip(range(arr.length), arr);
-var repeat = (maxLength, ...items) => {
-  const simple = new Array(maxLength).fill(items[0]);
-  return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
-};
 
 // src/tools/higherOrder.ts
+var higherOrder_exports = {};
+__export(higherOrder_exports, {
+  asc: () => asc,
+  byProp: () => byProp,
+  combine: () => combine,
+  combineProp: () => combineProp,
+  desc: () => desc,
+  everys: () => everys,
+  exists: () => exists,
+  filters: () => filters,
+  isAllEqual: () => isAllEqual,
+  isEmpty: () => isEmpty,
+  isEqual: () => isEqual,
+  isFalsy: () => isFalsy,
+  isNotEmpty: () => isNotEmpty,
+  isNotEqual: () => isNotEqual,
+  isTruthy: () => isTruthy,
+  maps: () => maps,
+  noact: () => noact,
+  noop: () => noop,
+  reduces: () => reduces,
+  result: () => result,
+  sorts: () => sorts,
+  toBool: () => toBool,
+  toNumber: () => toNumber,
+  toProp: () => toProp,
+  toString: () => toString
+});
 var noop = () => {
 };
 var noact = (item) => item;
@@ -465,12 +485,18 @@ var isNotEmpty = (item) => Boolean(item && item.length);
 var isEqual = (item) => (other) => Boolean(item === other);
 var isNotEqual = (item) => (other) => Boolean(item !== other);
 var filters = {
-  exists
+  exists,
+  isTruthy,
+  isFalsy,
+  isEmpty,
+  isNotEmpty,
+  isEqual,
+  isNotEqual
 };
 var toString = (item) => item + "";
 var toNumber = (item) => Number(item);
-var toBool = (item) => Boolean(item);
-var toProp = (propName) => (item) => item && item[propName];
+var toBool = (item) => item !== "false" && Boolean(item);
+var toProp = (prop) => (item) => item && item[prop];
 var maps = {
   toString,
   toNumber,
@@ -479,9 +505,13 @@ var maps = {
 };
 var asc = (a, b) => Number(a) - Number(b);
 var desc = (a, b) => Number(b) - Number(a);
+var byProp = (propName, sortFn = asc) => {
+  return (a, b) => sortFn(a[propName], b[propName]);
+};
 var sorts = {
   asc,
-  desc
+  desc,
+  byProp
 };
 var combine = (a, b) => a + b;
 var combineProp = (propName) => (a, b) => a[propName] + b[propName];
@@ -489,6 +519,28 @@ var reduces = {
   combine,
   combineProp
 };
+var isAllEqual = (val, i, arr) => val === arr[0];
+var everys = {
+  isAllEqual
+};
+
+// src/tools/ArrayUtils.ts
+var range = (length = 1) => new Array(length).fill(1).map((v, i) => i);
+var zip = (...arrs) => {
+  const length = Math.min(...arrs.map((arr) => (arr || []).length));
+  return range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
+};
+var sortByMapped = (arr, mapFn, sortFn = sorts.asc) => zip(arr, arr.map(mapFn)).sort((a, b) => sortFn(a[1], b[1])).map(([v]) => v);
+var randomise = (arr) => sortByMapped(arr, () => Math.random());
+var reverse = (arr) => [...arr].reverse();
+var entries = (arr) => zip(range(arr.length), arr);
+var repeat = (maxLength, ...items) => {
+  const simple = new Array(maxLength).fill(items[0]);
+  return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
+};
+
+// src/index.ts
+var { filters: filters2, maps: maps2, sorts: sorts2, reduces: reduces2, everys: everys2 } = higherOrder_exports;
 export {
   ArrayUtils_exports as ArrayUtils,
   CENTURY,
@@ -507,56 +559,40 @@ export {
   allLimit,
   allLimitObj,
   allObj,
-  asc,
   centuries,
-  combine,
-  combineProp,
   days,
   decades,
-  desc,
   each,
   eachLimit,
   entries,
-  exists,
-  filters,
+  everys2 as everys,
+  filters2 as filters,
+  higherOrder_exports as fn,
   getDeferred,
   getProgressBar,
   getTimer,
   hours,
   interval,
-  isEmpty,
-  isEqual,
-  isFalsy,
-  isNotEmpty,
-  isNotEqual,
-  isTruthy,
   map,
   mapLimit,
-  maps,
+  maps2 as maps,
   millenniums,
   milliseconds,
   minutes,
   months,
-  noact,
-  noop,
   printLn,
   progressBar_exports as progressBar,
   randomise,
   range,
-  reduces,
+  reduces2 as reduces,
   repeat,
-  result,
   reverse,
   seconds,
   sortByMapped,
-  sorts,
+  sorts2 as sorts,
   stopInterval,
   timer,
   times_exports as times,
-  toBool,
-  toNumber,
-  toProp,
-  toString,
   wait,
   waitEvery,
   waitFor,

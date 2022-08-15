@@ -1,9 +1,41 @@
+/**
+ * Makes all properties in T optional.
+ *
+ * ```typescript
+ * interface ITest {
+ *   a: string,
+ *   b: boolean
+ * };
+ * type PartialTest = Partial<ITest>; // { a?: string, b?: boolean }
+ * ```
+ */
 declare type Partial$1<T> = {
     [K in keyof T]?: T[K];
 };
+/**
+ * Makes all the values equal to the keys of T
+ *
+ * ```typescript
+ * interface ITest {
+ *   a: string,
+ *   b: boolean
+ * };
+ * type KeysOnlyTest = KeysOnly<ITest>; // { a: 'a', b: 'b' }
+ * ```
+ */
 declare type KeysOnly<T> = {
     [K in keyof T]: K;
 };
+/**
+ * Makes all the values numbers
+ *
+ * ```typescript
+ * interface ITest {
+ *   a: string,
+ *   b: boolean
+ * };
+ * type NumberedTest = Numbered<ITest>; // { a: number, b: number }
+ */
 declare type Numbered<T> = {
     [K in keyof T]: number;
 };
@@ -343,6 +375,7 @@ declare const getProgressBar: (max: number, options?: ProgressBarOptions) => {
     set: (newCurrent: number) => string;
     reset: () => string;
     update: () => string;
+    start: () => string;
     finish: () => string;
 };
 
@@ -677,7 +710,8 @@ declare const entries: <T>(arr: T[]) => [number, T][];
  * Returns an array with the given items repeated
  *
  * ```typescript
- * repeat(5, 'a', 'b'); // 'a', 'b', 'a', 'b', 'a'
+ * repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
+ * repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
  * ```
  */
 declare const repeat: <T>(maxLength: number, ...items: T[]) => T[];
@@ -701,40 +735,324 @@ declare namespace ArrayUtils {
   };
 }
 
+/**
+ * fn.noop
+ *
+ * No operation. Do nothing, return nothing.
+ *
+ * ```typescript
+ * const run = condition ? doSomething : fn.noop;
+ * run();
+ * ```
+ */
 declare const noop: () => void;
+/**
+ * fn.noact
+ *
+ * No action. Returns the first argument it receives.
+ *
+ * ```typescript
+ * const items = stuff
+ *   .map(condition ? mapSomething : fn.noact)
+ * ```
+ */
 declare const noact: <T extends unknown>(item: T) => T;
+/**
+ * fn.result
+ *
+ * Returns a function that returns a function that returns the first argument.
+ *
+ * ```typescript
+ * const items = stuff
+ *   .filter(condition ? mapSomething : fn.result(true))
+ * ```
+ */
 declare const result: <T extends unknown>(item: T) => () => T;
+/**
+ * fn.filters.exists / fn.exists
+ *
+ * Returns true if item isn't null or undefined.
+ *
+ * ```typescript
+ * [null, 1, undefined, 2].filter(fn.exists); // [1, 2]
+ * ```
+ */
 declare const exists: <T extends unknown>(item: T) => boolean;
+/**
+ * fn.filters.isTruthy / fn.isTruthy
+ *
+ * Returns true if item is truthy.
+ *
+ * ```typescript
+ * [0, 1, 2].filter(fn.isTruthy); // [1, 2]
+ * ['', 'a', 'b'].filter(fn.isTruthy); // ['a', 'b']
+ * ```
+ */
 declare const isTruthy: <T extends unknown>(item: T) => boolean;
+/**
+ * fn.filters.isFalsy / fn.isFalsy
+ *
+ * Returns true if item is falsy.
+ *
+ * ```typescript
+ * [0, 1, 2].filter(fn.isFalsy); // [0]
+ * ['', 'a', 'b'].filter(fn.isFalsy); // ['']
+ * ```
+ */
 declare const isFalsy: <T extends unknown>(item: T) => boolean;
+/**
+ * fn.filters.isEmpty / fn.isEmpty
+ *
+ * Returns true if item's length is 0
+ *
+ * ```typescript
+ * ['', 'a', 'b'].filter(fn.isEmpty); // ['']
+ * [[], [1], [2]].filter(fn.isEmpty); // [[]]
+ * ```
+ */
 declare const isEmpty: <T extends unknown>(item: string | T[]) => boolean;
+/**
+ * fn.filters.isNotEmpty / fn.isNotEmpty
+ *
+ * Returns true if item's length is 1 or more
+ *
+ * ```typescript
+ * ['', 'a', 'b'].filter(fn.isNotEmpty); // ['a', 'b']
+ * [[], [1], [2]].filter(fn.isNotEmpty); // [[1], [2]]
+ * ```
+ */
 declare const isNotEmpty: <T extends unknown>(item: string | T[]) => boolean;
+/**
+ * fn.filters.isEqual / fn.isEqual
+ *
+ * Returns a function that returns true if the item is equal to provided value.
+ *
+ * ```typescript
+ * [0, 1, 2].filter(fn.isEqual(1)); // [1]
+ * ```
+ */
 declare const isEqual: <T extends unknown>(item: T) => (other: T) => boolean;
+/**
+ * fn.filters.isNotEqual / fn.isNotEqual
+ *
+ * Returns a function that returns true if the item is not equal to provided value.
+ *
+ * ```typescript
+ * [0, 1, 2].filter(fn.isNotEqual(1)); // [0, 2]
+ * ```
+ */
 declare const isNotEqual: <T extends unknown>(item: T) => (other: T) => boolean;
+declare const filters$1: {
+    exists: <T extends unknown>(item: T) => boolean;
+    isTruthy: <T_1 extends unknown>(item: T_1) => boolean;
+    isFalsy: <T_2 extends unknown>(item: T_2) => boolean;
+    isEmpty: <T_3 extends unknown>(item: string | T_3[]) => boolean;
+    isNotEmpty: <T_4 extends unknown>(item: string | T_4[]) => boolean;
+    isEqual: <T_5 extends unknown>(item: T_5) => (other: T_5) => boolean;
+    isNotEqual: <T_6 extends unknown>(item: T_6) => (other: T_6) => boolean;
+};
+/**
+ * fn.maps.toString / fn.toString
+ *
+ * Maps the item to a string.
+ *
+ * ```typescript
+ * [0, 1, 2].map(fn.toString); // ['0', '1', '2']
+ * ```
+ */
+declare const toString: <T extends unknown>(item: T) => string;
+/**
+ * fn.maps.toNumber / fn.toNumber
+ *
+ * Maps the item to a number.
+ *
+ * ```typescript
+ * ['0', '1', '2'].map(fn.toNumber); // [0, 1, 2]
+ * ```
+ */
+declare const toNumber: <T extends unknown>(item: T) => number;
+/**
+ * fn.maps.toBool / fn.toBool
+ *
+ * Maps the item to a boolean.
+ *
+ * ```typescript
+ * [0, 1, 2].map(fn.toBool); // [false, true, true]
+ * ['true', 'false', '', 'text'].map(fn.toBool); // [true, false, false, true]
+ * ```
+ */
+declare const toBool: <T extends unknown>(item: T) => boolean;
+/**
+ * fn.maps.toProp / fn.toProp
+ *
+ * Maps the item to a given property of the item
+ *
+ * ```typescript
+ * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
+ * ```
+ */
+declare const toProp: <T extends unknown, P extends unknown>(prop: string) => (item: T) => P;
+declare const maps$1: {
+    toString: <T extends unknown>(item: T) => string;
+    toNumber: <T_1 extends unknown>(item: T_1) => number;
+    toBool: <T_2 extends unknown>(item: T_2) => boolean;
+    toProp: <T_3 extends unknown, P extends unknown>(prop: string) => (item: T_3) => P;
+};
+/**
+ * fn.sorts.asc / fn.asc
+ *
+ * Sort ascending.
+ *
+ * ```typescript
+ * [2, 4, 3, 1].sort(fn.asc); // [1, 2, 3, 4]
+ * ```
+ */
+declare const asc: (a: any, b: any) => number;
+/**
+ * fn.sorts.desc / fn.desc
+ *
+ * Sort descending.
+ *
+ * ```typescript
+ * [2, 4, 3, 1].sort(fn.asc); // [4, 3, 2, 1]
+ * ```
+ */
+declare const desc: (a: any, b: any) => number;
+declare type SortFn<T> = (a: T, b: T) => number;
+/**
+ * fn.sorts.byProp / fn.byProp
+ *
+ * Sort by a given property.
+ *
+ * ```typescript
+ * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
+ * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
+ * ```
+ */
+declare const byProp: <T extends unknown, O extends Object>(propName: string, sortFn?: SortFn<T>) => SortFn<O>;
+declare const sorts$1: {
+    asc: (a: any, b: any) => number;
+    desc: (a: any, b: any) => number;
+    byProp: <T extends unknown, O extends Object>(propName: string, sortFn?: SortFn<T>) => SortFn<O>;
+};
+/**
+ * fn.reduces.combine / fn.combine
+ *
+ * Adds or concats the items
+ *
+ * ```typescript
+ * [1, 2, 3].reduce(fn.combine); // 6
+ * ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
+ * ```
+ */
+declare const combine: (a: any, b: any) => any;
+/**
+ * fn.reduces.combineProp / fn.combineProp
+ *
+ * Adds or concats the given property of the items
+ *
+ * ```typescript
+ * const people = [{name: 'a', age: 1}, {name: 'b', age: 2}, {name: 'c', age: 3}];
+ * people.reduce(fn.combineProp('age')); // 6
+ * people.reduce(fn.combineProp('name')); // 'abc'
+ * ```
+ */
+declare const combineProp: (propName: string) => (a: any, b: any) => any;
+declare const reduces$1: {
+    combine: (a: any, b: any) => any;
+    combineProp: (propName: string) => (a: any, b: any) => any;
+};
+/**
+ * fn.everys.isAllEqual / fn.isAllEqual
+ *
+ * Returns if all the items are equal to one another.
+ *
+ * ```typescript
+ * [1, 1, 1].every(fn.isAllEqual); // true
+ * [1, 2, 1].every(fn.isAllEqual); // false
+ * ```
+ */
+declare const isAllEqual: <T extends unknown>(val: T, i: any, arr: T[]) => boolean;
+declare const everys$1: {
+    isAllEqual: <T extends unknown>(val: T, i: any, arr: T[]) => boolean;
+};
+
+declare const higherOrder_noop: typeof noop;
+declare const higherOrder_noact: typeof noact;
+declare const higherOrder_result: typeof result;
+declare const higherOrder_exists: typeof exists;
+declare const higherOrder_isTruthy: typeof isTruthy;
+declare const higherOrder_isFalsy: typeof isFalsy;
+declare const higherOrder_isEmpty: typeof isEmpty;
+declare const higherOrder_isNotEmpty: typeof isNotEmpty;
+declare const higherOrder_isEqual: typeof isEqual;
+declare const higherOrder_isNotEqual: typeof isNotEqual;
+declare const higherOrder_toString: typeof toString;
+declare const higherOrder_toNumber: typeof toNumber;
+declare const higherOrder_toBool: typeof toBool;
+declare const higherOrder_toProp: typeof toProp;
+declare const higherOrder_asc: typeof asc;
+declare const higherOrder_desc: typeof desc;
+declare const higherOrder_byProp: typeof byProp;
+declare const higherOrder_combine: typeof combine;
+declare const higherOrder_combineProp: typeof combineProp;
+declare const higherOrder_isAllEqual: typeof isAllEqual;
+declare namespace higherOrder {
+  export {
+    higherOrder_noop as noop,
+    higherOrder_noact as noact,
+    higherOrder_result as result,
+    higherOrder_exists as exists,
+    higherOrder_isTruthy as isTruthy,
+    higherOrder_isFalsy as isFalsy,
+    higherOrder_isEmpty as isEmpty,
+    higherOrder_isNotEmpty as isNotEmpty,
+    higherOrder_isEqual as isEqual,
+    higherOrder_isNotEqual as isNotEqual,
+    filters$1 as filters,
+    higherOrder_toString as toString,
+    higherOrder_toNumber as toNumber,
+    higherOrder_toBool as toBool,
+    higherOrder_toProp as toProp,
+    maps$1 as maps,
+    higherOrder_asc as asc,
+    higherOrder_desc as desc,
+    higherOrder_byProp as byProp,
+    sorts$1 as sorts,
+    higherOrder_combine as combine,
+    higherOrder_combineProp as combineProp,
+    reduces$1 as reduces,
+    higherOrder_isAllEqual as isAllEqual,
+    everys$1 as everys,
+  };
+}
+
 declare const filters: {
     exists: <T extends unknown>(item: T) => boolean;
+    isTruthy: <T_1 extends unknown>(item: T_1) => boolean;
+    isFalsy: <T_2 extends unknown>(item: T_2) => boolean;
+    isEmpty: <T_3 extends unknown>(item: string | T_3[]) => boolean;
+    isNotEmpty: <T_4 extends unknown>(item: string | T_4[]) => boolean;
+    isEqual: <T_5 extends unknown>(item: T_5) => (other: T_5) => boolean;
+    isNotEqual: <T_6 extends unknown>(item: T_6) => (other: T_6) => boolean;
 };
-declare const toString: <T extends unknown>(item: T) => string;
-declare const toNumber: <T extends unknown>(item: T) => number;
-declare const toBool: <T extends unknown>(item: T) => boolean;
-declare const toProp: <T extends unknown, P extends unknown>(propName: string) => (item: T) => P;
 declare const maps: {
     toString: <T extends unknown>(item: T) => string;
     toNumber: <T_1 extends unknown>(item: T_1) => number;
     toBool: <T_2 extends unknown>(item: T_2) => boolean;
-    toProp: <T_3 extends unknown, P extends unknown>(propName: string) => (item: T_3) => P;
+    toProp: <T_3 extends unknown, P extends unknown>(prop: string) => (item: T_3) => P;
 };
-declare const asc: (a: any, b: any) => number;
-declare const desc: (a: any, b: any) => number;
 declare const sorts: {
     asc: (a: any, b: any) => number;
     desc: (a: any, b: any) => number;
+    byProp: <T extends unknown, O extends Object>(propName: string, sortFn?: (a: T, b: T) => number) => (a: O, b: O) => number;
 };
-declare const combine: (a: any, b: any) => any;
-declare const combineProp: (propName: string) => (a: any, b: any) => any;
 declare const reduces: {
     combine: (a: any, b: any) => any;
     combineProp: (propName: string) => (a: any, b: any) => any;
 };
+declare const everys: {
+    isAllEqual: <T extends unknown>(val: T, i: any, arr: T[]) => boolean;
+};
 
-export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, asc, centuries, century, combine, combineProp, day, days, decade, decades, desc, each, eachLimit, entries, exists, filters, getDeferred, getProgressBar, getTimer, hour, hours, interval, isEmpty, isEqual, isFalsy, isNotEmpty, isNotEqual, isTruthy, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, noact, noop, printLn, progressBar, randomise, range, reduces, repeat, result, reverse, second, seconds, sortByMapped, sorts, stopInterval, timer, times, toBool, toNumber, toProp, toString, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
+export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, higherOrder as fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reduces, repeat, reverse, second, seconds, sortByMapped, sorts, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
