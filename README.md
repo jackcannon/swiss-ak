@@ -2,6 +2,75 @@
 
 A collection of useful little things that I like to reuse across projects
 
+[Back to top](#swiss-ak-swiss-army-knife)
+
+- [swiss-ak (Swiss Army Knife)](#swiss-ak-swiss-army-knife)
+- [times](#times)
+  - [Usage (times)](#usage-times)
+- [waiters](#waiters)
+  - [Usage (waiters)](#usage-waiters)
+    - [wait](#wait)
+    - [waitFor](#waitfor)
+    - [waitUntil](#waituntil)
+    - [waitEvery](#waitevery)
+    - [interval / stopInterval](#interval--stopinterval)
+- [fn (Higher Order Functions)](#fn-higher-order-functions)
+    - [fn.noop](#fnnoop)
+    - [fn.noact](#fnnoact)
+    - [fn.result](#fnresult)
+  - [Filters](#filters)
+    - [fn.filters.exists / fn.exists](#fnfiltersexists--fnexists)
+    - [fn.filters.isTruthy / fn.isTruthy](#fnfiltersistruthy--fnistruthy)
+    - [fn.filters.isFalsy / fn.isFalsy](#fnfiltersisfalsy--fnisfalsy)
+    - [fn.filters.isEmpty / fn.isEmpty](#fnfiltersisempty--fnisempty)
+    - [fn.filters.isNotEmpty / fn.isNotEmpty](#fnfiltersisnotempty--fnisnotempty)
+    - [fn.filters.isEqual / fn.isEqual](#fnfiltersisequal--fnisequal)
+    - [fn.filters.isNotEqual / fn.isNotEqual](#fnfiltersisnotequal--fnisnotequal)
+  - [Maps](#maps)
+    - [fn.maps.toString / fn.toString](#fnmapstostring--fntostring)
+    - [fn.maps.toNumber / fn.toNumber](#fnmapstonumber--fntonumber)
+    - [fn.maps.toBool / fn.toBool](#fnmapstobool--fntobool)
+    - [fn.maps.toProp / fn.toProp](#fnmapstoprop--fntoprop)
+  - [Sorts](#sorts)
+    - [fn.sorts.asc / fn.asc](#fnsortsasc--fnasc)
+    - [fn.sorts.desc / fn.desc](#fnsortsdesc--fndesc)
+    - [fn.sorts.byProp / fn.byProp](#fnsortsbyprop--fnbyprop)
+  - [Reduces](#reduces)
+    - [fn.reduces.combine / fn.combine](#fnreducescombine--fncombine)
+    - [fn.reduces.combineProp / fn.combineProp](#fnreducescombineprop--fncombineprop)
+  - [Everys](#everys)
+    - [fn.everys.isAllEqual / fn.isAllEqual](#fneverysisallequal--fnisallequal)
+- [getTimer](#gettimer)
+  - [Usage (getTimer)](#usage-gettimer)
+  - [timer](#timer)
+- [ArrayUtils](#arrayutils)
+  - [range](#range)
+  - [zip](#zip)
+  - [sortByMapped](#sortbymapped)
+  - [randomise](#randomise)
+  - [reverse](#reverse)
+  - [entries](#entries)
+  - [repeat](#repeat)
+- [PromiseUtils](#promiseutils)
+  - [DeferredPromise](#deferredpromise)
+  - [PromiseUtils.all](#promiseutilsall)
+  - [PromiseUtils.allLimit](#promiseutilsalllimit)
+  - [PromiseUtils.each](#promiseutilseach)
+  - [PromiseUtils.eachLimit](#promiseutilseachlimit)
+  - [PromiseUtils.map](#promiseutilsmap)
+  - [PromiseUtils.mapLimit](#promiseutilsmaplimit)
+  - [PromiseUtils.allObj](#promiseutilsallobj)
+  - [PromiseUtils.allLimitObj](#promiseutilsalllimitobj)
+- [progressBar](#progressbar)
+  - [Options](#options)
+  - [Usage (progressBar)](#usage-progressbar)
+  - [printLn](#println)
+- [Types](#types)
+  - [Partial<T>](#partialt)
+  - [KeysOnly<T>](#keysonlyt)
+  - [Numbered<T>](#numberedt)
+- [Notes](#notes)
+
 # times
 
 A collection of utils for calculating simple times.
@@ -21,7 +90,7 @@ Each unit (e.g. second) has: a type (`second`), a constant (`SECOND`) and a func
 | century     | `century`    | `CENTURY`     | `centuries(x: century) => ms`      |
 | millennium  | `millennium` | `MILLENNIUM`  | `millenniums(x: millennium) => ms` |
 
-## Usage
+## Usage (times)
 
 Examples
 
@@ -35,6 +104,8 @@ setTimeout(() => {
   console.log(`It's been ${duration / MINUTE} mins`); // Result: It's been 132 minutes
 }, hours(2) + minutes(12));
 ```
+
+[Back to top](#swiss-ak-swiss-army-knife)
 
 # waiters
 
@@ -50,7 +121,7 @@ Async functions that return promises at or after a given time.
 | waitEvery | Accurate (pinged) wait for next 'every X' event      | `hours(1)` = next full hour (e.g. 17:00, 22:00) |
 | interval  | Accurate (pinged) interval for every 'every X' event | `hours(1)` = every hour, on the hour            |
 
-## Usage
+## Usage (waiters)
 
 ### wait
 
@@ -105,6 +176,8 @@ interval((intID, count) => {
   }
 }, hours(1));
 ```
+
+[Back to top](#swiss-ak-swiss-army-knife)
 
 # fn (Higher Order Functions)
 
@@ -195,6 +268,8 @@ Returns a function that returns true if the item is not equal to provided value.
 [0, 1, 2].filter(fn.isNotEqual(1)); // [0, 2]
 ```
 
+[Back to top](#swiss-ak-swiss-army-knife)
+
 ## Maps
 
 ### fn.maps.toString / fn.toString
@@ -230,6 +305,8 @@ Maps the item to a given property of the item
 [{ name: 'Jack' }, { name: 'Jill' }].map(fn.toProp('name')); // ['Jack', 'Jill']
 ```
 
+[Back to top](#swiss-ak-swiss-army-knife)
+
 ## Sorts
 
 ### fn.sorts.asc / fn.asc
@@ -257,6 +334,8 @@ const people = [{ age: 2 }, { age: 4 }, { age: 3 }, { age: 1 }];
 people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
 ```
 
+[Back to top](#swiss-ak-swiss-army-knife)
+
 ## Reduces
 
 ### fn.reduces.combine / fn.combine
@@ -282,6 +361,8 @@ people.reduce(fn.combineProp('age')); // 6
 people.reduce(fn.combineProp('name')); // 'abc'
 ```
 
+[Back to top](#swiss-ak-swiss-army-knife)
+
 ## Everys
 
 ### fn.everys.isAllEqual / fn.isAllEqual
@@ -293,11 +374,13 @@ Returns if all the items are equal to one another.
 [1, 2, 1].every(fn.isAllEqual); // false
 ```
 
+[Back to top](#swiss-ak-swiss-army-knife)
+
 # getTimer
 
 A handy little tool for tracking how long things are taking
 
-## Usage
+## Usage (getTimer)
 
 ```typescript
 const timer = getTimer('Example', false, chalk.red, chalk, {
@@ -335,6 +418,8 @@ import { timer } from 'swiss-ak';
 
 timer.start(timer.TOTAL);
 ```
+
+[Back to top](#swiss-ak-swiss-army-knife)
 
 # ArrayUtils
 
@@ -426,6 +511,8 @@ Returns an array with the given items repeated
 repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
 repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
 ```
+
+[Back to top](#swiss-ak-swiss-army-knife)
 
 # PromiseUtils
 
@@ -632,6 +719,8 @@ timer.log();
 // 	d: 10s
 ```
 
+[Back to top](#swiss-ak-swiss-army-knife)
+
 # progressBar
 
 A util for creating a 'visual' progress bar for better representing progress of multiple operations.
@@ -655,7 +744,7 @@ All options are optional.
 | startChar   | `'▕'`                             | Character to start the progress bar with               |
 | endChar     | `'▏'`                             | Character to end the progress bar with                 |
 
-## Usage
+## Usage (progressBar)
 
 ```typescript
 import chalk from 'chalk';
@@ -710,6 +799,8 @@ C
 D
 ```
 
+[Back to top](#swiss-ak-swiss-army-knife)
+
 # Types
 
 ## Partial<T>
@@ -748,6 +839,8 @@ interface ITest {
 type NumberedTest = Numbered<ITest>; // { a: number, b: number }
 ```
 
+[Back to top](#swiss-ak-swiss-army-knife)
+
 # Notes
 
 > These are used in non-vital personal projects and scripts.
@@ -756,6 +849,4 @@ type NumberedTest = Numbered<ITest>; // { a: number, b: number }
 
 > Failing/erroring/rejected promises may not behave as expected.
 
-```
-
-```
+[Back to top](#swiss-ak-swiss-army-knife)
