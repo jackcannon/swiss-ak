@@ -3,6 +3,7 @@ export * from './tools/times';
 export * from './tools/waiters';
 export * from './tools/timer';
 export * from './tools/progressBar';
+export * from './tools/errorHandling';
 export * from './tools/PromiseUtils';
 export * from './tools/ArrayUtils';
 // export * from './tools/higherOrder';

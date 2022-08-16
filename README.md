@@ -2,8 +2,6 @@
 
 A collection of useful little things that I like to reuse across projects
 
-[Back to top](#swiss-ak-swiss-army-knife)
-
 - [swiss-ak (Swiss Army Knife)](#swiss-ak-swiss-army-knife)
 - [times](#times)
   - [Usage (times)](#usage-times)
@@ -40,6 +38,10 @@ A collection of useful little things that I like to reuse across projects
     - [fn.reduces.combineProp / fn.combineProp](#fnreducescombineprop--fncombineprop)
   - [Everys](#everys)
     - [fn.everys.isAllEqual / fn.isAllEqual](#fneverysisallequal--fnisallequal)
+- [Error handling](#error-handling)
+    - [tryOr](#tryor)
+    - [retry](#retry)
+    - [retryOr](#retryor)
 - [getTimer](#gettimer)
   - [Usage (getTimer)](#usage-gettimer)
   - [timer](#timer)
@@ -90,6 +92,8 @@ Each unit (e.g. second) has: a type (`second`), a constant (`SECOND`) and a func
 | century     | `century`    | `CENTURY`     | `centuries(x: century) => ms`      |
 | millennium  | `millennium` | `MILLENNIUM`  | `millenniums(x: millennium) => ms` |
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## Usage (times)
 
 Examples
@@ -105,7 +109,7 @@ setTimeout(() => {
 }, hours(2) + minutes(12));
 ```
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 # waiters
 
@@ -121,6 +125,8 @@ Async functions that return promises at or after a given time.
 | waitEvery | Accurate (pinged) wait for next 'every X' event      | `hours(1)` = next full hour (e.g. 17:00, 22:00) |
 | interval  | Accurate (pinged) interval for every 'every X' event | `hours(1)` = every hour, on the hour            |
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## Usage (waiters)
 
 ### wait
@@ -133,6 +139,8 @@ await wait(minutes(2));
 console.log(new Date().toTimeString()); // 12:32:10
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ### waitFor
 
 ```typescript
@@ -142,6 +150,8 @@ console.log(new Date().toTimeString()); // 12:30:10
 await waitFor(minutes(5));
 console.log(new Date().toTimeString()); // 12:35:10
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ### waitUntil
 
@@ -153,6 +163,8 @@ await waitUntil(Date.now() + minutes(10));
 console.log(new Date().toTimeString()); // 12:40:10
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ### waitEvery
 
 ```typescript
@@ -162,6 +174,8 @@ console.log(new Date().toTimeString()); // 12:30:10
 await waitEvery(hours(2));
 console.log(new Date().toTimeString()); // 14:00:00
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ### interval / stopInterval
 
@@ -177,7 +191,7 @@ interval((intID, count) => {
 }, hours(1));
 ```
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 # fn (Higher Order Functions)
 
@@ -190,6 +204,8 @@ const run = condition ? doSomething : fn.noop;
 run();
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ### fn.noact
 
 No action. Returns the first argument it receives.
@@ -198,6 +214,8 @@ No action. Returns the first argument it receives.
 const items = stuff.map(condition ? mapSomething : fn.noact);
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ### fn.result
 
 Returns a function that returns a function that returns the first argument.
@@ -205,6 +223,8 @@ Returns a function that returns a function that returns the first argument.
 ```typescript
 const items = stuff.filter(condition ? mapSomething : fn.result(true));
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## Filters
 
@@ -216,6 +236,8 @@ Returns true if item isn't null or undefined.
 [null, 1, undefined, 2].filter(fn.exists); // [1, 2]
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ### fn.filters.isTruthy / fn.isTruthy
 
 Returns true if item is truthy.
@@ -224,6 +246,8 @@ Returns true if item is truthy.
 [0, 1, 2].filter(fn.isTruthy); // [1, 2]
 ['', 'a', 'b'].filter(fn.isTruthy); // ['a', 'b']
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ### fn.filters.isFalsy / fn.isFalsy
 
@@ -234,6 +258,8 @@ Returns true if item is falsy.
 ['', 'a', 'b'].filter(fn.isFalsy); // ['']
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ### fn.filters.isEmpty / fn.isEmpty
 
 Returns true if item's length is 0
@@ -242,6 +268,8 @@ Returns true if item's length is 0
 ['', 'a', 'b'].filter(fn.isEmpty); // ['']
 [[], [1], [2]].filter(fn.isEmpty); // [[]]
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ### fn.filters.isNotEmpty / fn.isNotEmpty
 
@@ -252,6 +280,8 @@ Returns true if item's length is 1 or more
 [[], [1], [2]].filter(fn.isNotEmpty); // [[1], [2]]
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ### fn.filters.isEqual / fn.isEqual
 
 Returns a function that returns true if the item is equal to provided value.
@@ -259,6 +289,8 @@ Returns a function that returns true if the item is equal to provided value.
 ```typescript
 [0, 1, 2].filter(fn.isEqual(1)); // [1]
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ### fn.filters.isNotEqual / fn.isNotEqual
 
@@ -268,7 +300,7 @@ Returns a function that returns true if the item is not equal to provided value.
 [0, 1, 2].filter(fn.isNotEqual(1)); // [0, 2]
 ```
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## Maps
 
@@ -280,6 +312,8 @@ Maps the item to a string.
 [0, 1, 2].map(fn.toString); // ['0', '1', '2']
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ### fn.maps.toNumber / fn.toNumber
 
 Maps the item to a number.
@@ -287,6 +321,8 @@ Maps the item to a number.
 ```typescript
 ['0', '1', '2'].map(fn.toNumber); // [0, 1, 2]
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ### fn.maps.toBool / fn.toBool
 
@@ -297,6 +333,8 @@ Maps the item to a boolean.
 ['true', 'false', '', 'text'].map(fn.toBool); // [true, false, false, true]
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ### fn.maps.toProp / fn.toProp
 
 Maps the item to a given property of the item
@@ -305,7 +343,7 @@ Maps the item to a given property of the item
 [{ name: 'Jack' }, { name: 'Jill' }].map(fn.toProp('name')); // ['Jack', 'Jill']
 ```
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## Sorts
 
@@ -317,6 +355,8 @@ Sort ascending.
 [2, 4, 3, 1].sort(fn.asc); // [1, 2, 3, 4]
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ### fn.sorts.desc / fn.desc
 
 Sort descending.
@@ -324,6 +364,8 @@ Sort descending.
 ```typescript
 [2, 4, 3, 1].sort(fn.asc); // [4, 3, 2, 1]
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ### fn.sorts.byProp / fn.byProp
 
@@ -334,7 +376,7 @@ const people = [{ age: 2 }, { age: 4 }, { age: 3 }, { age: 1 }];
 people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
 ```
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## Reduces
 
@@ -346,6 +388,8 @@ Adds or concats the items
 [1, 2, 3].reduce(fn.combine); // 6
 ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ### fn.reduces.combineProp / fn.combineProp
 
@@ -361,7 +405,7 @@ people.reduce(fn.combineProp('age')); // 6
 people.reduce(fn.combineProp('name')); // 'abc'
 ```
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## Everys
 
@@ -374,11 +418,47 @@ Returns if all the items are equal to one another.
 [1, 2, 1].every(fn.isAllEqual); // false
 ```
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+# Error handling
+
+### tryOr
+
+Try to execute a function and return its result if it succeeds, or return the default value if it fails.
+
+```typescript
+const result = tryOr('default', () => getSomething());
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+### retry
+
+Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
+
+```typescript
+const result = tryOr(5, seconds(1),, true, () => getSomething());
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+### retryOr
+
+Combination of retry and tryOr.
+
+Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
+
+```typescript
+const result = retryOr('default', 5, seconds(1), true, () => getSomething());
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 # getTimer
 
 A handy little tool for tracking how long things are taking
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## Usage (getTimer)
 
@@ -409,6 +489,8 @@ Example Times:
 	Action 2: 6s
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## timer
 
 There is also a global instance for smaller projects/scripts
@@ -419,7 +501,7 @@ import { timer } from 'swiss-ak';
 timer.start(timer.TOTAL);
 ```
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 # ArrayUtils
 
@@ -433,6 +515,8 @@ range(3); // [0, 1, 2]
 range(5); // [0, 1, 2, 3, 4]
 range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## zip
 
@@ -448,6 +532,8 @@ Inspired by python's 'zip'
 zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## sortByMapped
 
 Sort an array by a mapped form of the values, but returning the initial values
@@ -461,6 +547,8 @@ sortByMapped(
 ); // ['3p', '2p', '1p']
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## randomise
 
 Returns a clone of the provided array with it's items in a random order
@@ -472,6 +560,8 @@ randomise([1, 2, 3, 4, 5, 6]); // [ 6, 1, 4, 5, 2, 3 ]
 randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
 randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## reverse
 
@@ -489,6 +579,8 @@ reverse(arr2); // [3, 2, 1]
 arr2; // [1, 2, 3]
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## entries
 
 Returns array of 'tuples' of index/value pairs
@@ -503,6 +595,8 @@ for (let [index, value] of entries(arr)) {
 }
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## repeat
 
 Returns an array with the given items repeated
@@ -512,7 +606,7 @@ repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
 repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
 ```
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 # PromiseUtils
 
@@ -538,9 +632,13 @@ const run = () => {
 const luckyNumber: number = await run();
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## PromiseUtils.all
 
 An alias for Promise.all
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## PromiseUtils.allLimit
 
@@ -579,6 +677,8 @@ timer.log();
 // 	d: 10s
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## PromiseUtils.each
 
 Run an async function against each item in an array
@@ -594,6 +694,8 @@ await PromiseUtils.each<number>(arr, async (val: number) => {
 });
 console.log(''); // after 2 seconds
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## PromiseUtils.eachLimit
 
@@ -613,6 +715,8 @@ await PromiseUtils.eachLimit<number>(2, arr, async (val: number) => {
 console.log(''); // after 4 seconds
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## PromiseUtils.map
 
 Run an async map function against each item in an array, mapping the results to a returned array
@@ -629,6 +733,8 @@ const mapped = await PromiseUtils.map<number>(arr, async (val: number) => {
 
 console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## PromiseUtils.mapLimit
 
@@ -648,6 +754,8 @@ const mapped = await PromiseUtils.mapLimit<number>(2, arr, async (val: number) =
 
 console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## PromiseUtils.allObj
 
@@ -681,6 +789,8 @@ timer.log();
 // 	b: 15s
 // 	c: 20s
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## PromiseUtils.allLimitObj
 
@@ -719,11 +829,13 @@ timer.log();
 // 	d: 10s
 ```
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 # progressBar
 
 A util for creating a 'visual' progress bar for better representing progress of multiple operations.
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## Options
 
@@ -743,6 +855,8 @@ All options are optional.
 | emptyChar   | `' '`                             | Character to use for empty (rail) section of bar       |
 | startChar   | `'▕'`                             | Character to start the progress bar with               |
 | endChar     | `'▏'`                             | Character to end the progress bar with                 |
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## Usage (progressBar)
 
@@ -776,6 +890,8 @@ ABC ▕█████ ▏ [4 / 5]
 ABC ▕██████▏ [5 / 5]
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## printLn
 
 Can use instead of console.log
@@ -799,7 +915,7 @@ C
 D
 ```
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 # Types
 
@@ -815,6 +931,8 @@ interface ITest {
 type PartialTest = Partial<ITest>; // { a?: string, b?: boolean }
 ```
 
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## KeysOnly<T>
 
 Makes all the values equal to the keys of T
@@ -826,6 +944,8 @@ interface ITest {
 }
 type KeysOnlyTest = KeysOnly<ITest>; // { a: 'a', b: 'b' }
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 ## Numbered<T>
 
@@ -839,7 +959,7 @@ interface ITest {
 type NumberedTest = Numbered<ITest>; // { a: number, b: number }
 ```
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
 # Notes
 
@@ -849,4 +969,4 @@ type NumberedTest = Numbered<ITest>; // { a: number, b: number }
 
 > Failing/erroring/rejected promises may not behave as expected.
 
-[Back to top](#swiss-ak-swiss-army-knife)
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
