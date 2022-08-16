@@ -390,6 +390,39 @@ declare namespace progressBar {
   };
 }
 
+/**
+ * tryOr
+ *
+ * Try to execute a function and return its result if it succeeds, or return the default value if it fails.
+ *
+ * ```typescript
+ * const result = tryOr('default', () => getSomething());
+ * ```
+ */
+declare const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: (...args: A) => Promise<T>, ...args: A) => Promise<T>;
+/**
+ * retry
+ *
+ * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
+ *
+ * ```typescript
+ * const result = tryOr(5, seconds(1),, true, () => getSomething());
+ * ```
+ */
+declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
+/**
+ * retryOr
+ *
+ * Combination of retry and tryOr.
+ *
+ * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
+ *
+ * ```typescript
+ * const result = retryOr('default', 5, seconds(1), true, () => getSomething());
+ * ```
+ */
+declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, suppress?: boolean, run?: () => T) => Promise<T>;
+
 interface DeferredPromise<T> {
     resolve: (value: T) => Promise<T>;
     reject: (value: T) => Promise<T>;
@@ -1055,4 +1088,4 @@ declare const everys: {
     isAllEqual: <T extends unknown>(val: T, i: any, arr: T[]) => boolean;
 };
 
-export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, higherOrder as fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reduces, repeat, reverse, second, seconds, sortByMapped, sorts, stopInterval, timer, times, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
+export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, higherOrder as fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reduces, repeat, retry, retryOr, reverse, second, seconds, sortByMapped, sorts, stopInterval, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };

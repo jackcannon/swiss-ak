@@ -320,6 +320,114 @@ var getProgressBar = (max, options = {}) => {
   };
 };
 
+// src/tools/higherOrder.ts
+var higherOrder_exports = {};
+__export(higherOrder_exports, {
+  asc: () => asc,
+  byProp: () => byProp,
+  combine: () => combine,
+  combineProp: () => combineProp,
+  desc: () => desc,
+  everys: () => everys,
+  exists: () => exists,
+  filters: () => filters,
+  isAllEqual: () => isAllEqual,
+  isEmpty: () => isEmpty,
+  isEqual: () => isEqual,
+  isFalsy: () => isFalsy,
+  isNotEmpty: () => isNotEmpty,
+  isNotEqual: () => isNotEqual,
+  isTruthy: () => isTruthy,
+  maps: () => maps,
+  noact: () => noact,
+  noop: () => noop,
+  reduces: () => reduces,
+  result: () => result,
+  sorts: () => sorts,
+  toBool: () => toBool,
+  toNumber: () => toNumber,
+  toProp: () => toProp,
+  toString: () => toString
+});
+var noop = () => {
+};
+var noact = (item) => item;
+var result = (item) => () => item;
+var exists = (item) => item !== void 0 && item !== null;
+var isTruthy = (item) => Boolean(item);
+var isFalsy = (item) => !Boolean(item);
+var isEmpty = (item) => Boolean(!item || !item.length);
+var isNotEmpty = (item) => Boolean(item && item.length);
+var isEqual = (item) => (other) => Boolean(item === other);
+var isNotEqual = (item) => (other) => Boolean(item !== other);
+var filters = {
+  exists,
+  isTruthy,
+  isFalsy,
+  isEmpty,
+  isNotEmpty,
+  isEqual,
+  isNotEqual
+};
+var toString = (item) => item + "";
+var toNumber = (item) => Number(item);
+var toBool = (item) => item !== "false" && Boolean(item);
+var toProp = (prop) => (item) => item && item[prop];
+var maps = {
+  toString,
+  toNumber,
+  toBool,
+  toProp
+};
+var asc = (a, b) => Number(a) - Number(b);
+var desc = (a, b) => Number(b) - Number(a);
+var byProp = (propName, sortFn = asc) => {
+  return (a, b) => sortFn(a[propName], b[propName]);
+};
+var sorts = {
+  asc,
+  desc,
+  byProp
+};
+var combine = (a, b) => a + b;
+var combineProp = (propName) => (a, b) => a[propName] + b[propName];
+var reduces = {
+  combine,
+  combineProp
+};
+var isAllEqual = (val, i, arr) => val === arr[0];
+var everys = {
+  isAllEqual
+};
+
+// src/tools/errorHandling.ts
+var tryOr = async (orValue, func, ...args) => {
+  try {
+    return await func(...args);
+  } catch (err) {
+    return orValue;
+  }
+};
+var retry = async (maxTries = 10, delay = 0, suppress = true, run = result(void 0)) => {
+  const loop = async (attempt, lastErr) => {
+    if (attempt >= maxTries) {
+      if (!suppress)
+        throw lastErr;
+      return void 0;
+    }
+    try {
+      const result2 = await run(attempt);
+      return result2;
+    } catch (err) {
+      if (delay)
+        await wait(delay);
+      return await loop(attempt + 1, err);
+    }
+  };
+  return await loop(0);
+};
+var retryOr = async (orValue, maxTries = 10, delay = 0, suppress = true, run = result(orValue)) => tryOr(orValue, () => retry(maxTries, delay, suppress, run));
+
 // src/tools/PromiseUtils.ts
 var getDeferred = () => {
   let resolve, reject;
@@ -443,88 +551,6 @@ __export(ArrayUtils_exports, {
   sortByMapped: () => sortByMapped,
   zip: () => zip
 });
-
-// src/tools/higherOrder.ts
-var higherOrder_exports = {};
-__export(higherOrder_exports, {
-  asc: () => asc,
-  byProp: () => byProp,
-  combine: () => combine,
-  combineProp: () => combineProp,
-  desc: () => desc,
-  everys: () => everys,
-  exists: () => exists,
-  filters: () => filters,
-  isAllEqual: () => isAllEqual,
-  isEmpty: () => isEmpty,
-  isEqual: () => isEqual,
-  isFalsy: () => isFalsy,
-  isNotEmpty: () => isNotEmpty,
-  isNotEqual: () => isNotEqual,
-  isTruthy: () => isTruthy,
-  maps: () => maps,
-  noact: () => noact,
-  noop: () => noop,
-  reduces: () => reduces,
-  result: () => result,
-  sorts: () => sorts,
-  toBool: () => toBool,
-  toNumber: () => toNumber,
-  toProp: () => toProp,
-  toString: () => toString
-});
-var noop = () => {
-};
-var noact = (item) => item;
-var result = (item) => () => item;
-var exists = (item) => item !== void 0 && item !== null;
-var isTruthy = (item) => Boolean(item);
-var isFalsy = (item) => !Boolean(item);
-var isEmpty = (item) => Boolean(!item || !item.length);
-var isNotEmpty = (item) => Boolean(item && item.length);
-var isEqual = (item) => (other) => Boolean(item === other);
-var isNotEqual = (item) => (other) => Boolean(item !== other);
-var filters = {
-  exists,
-  isTruthy,
-  isFalsy,
-  isEmpty,
-  isNotEmpty,
-  isEqual,
-  isNotEqual
-};
-var toString = (item) => item + "";
-var toNumber = (item) => Number(item);
-var toBool = (item) => item !== "false" && Boolean(item);
-var toProp = (prop) => (item) => item && item[prop];
-var maps = {
-  toString,
-  toNumber,
-  toBool,
-  toProp
-};
-var asc = (a, b) => Number(a) - Number(b);
-var desc = (a, b) => Number(b) - Number(a);
-var byProp = (propName, sortFn = asc) => {
-  return (a, b) => sortFn(a[propName], b[propName]);
-};
-var sorts = {
-  asc,
-  desc,
-  byProp
-};
-var combine = (a, b) => a + b;
-var combineProp = (propName) => (a, b) => a[propName] + b[propName];
-var reduces = {
-  combine,
-  combineProp
-};
-var isAllEqual = (val, i, arr) => val === arr[0];
-var everys = {
-  isAllEqual
-};
-
-// src/tools/ArrayUtils.ts
 var range = (length = 1) => new Array(length).fill(1).map((v, i) => i);
 var zip = (...arrs) => {
   const length = Math.min(...arrs.map((arr) => (arr || []).length));
@@ -586,6 +612,8 @@ export {
   range,
   reduces2 as reduces,
   repeat,
+  retry,
+  retryOr,
   reverse,
   seconds,
   sortByMapped,
@@ -593,6 +621,7 @@ export {
   stopInterval,
   timer,
   times_exports as times,
+  tryOr,
   wait,
   waitEvery,
   waitFor,
