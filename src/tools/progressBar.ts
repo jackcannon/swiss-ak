@@ -1,4 +1,4 @@
-import { noChalk, noWrap } from './fakeChalk';
+import * as fn from './higherOrder';
 
 /**
  * Can use instead of console.log
@@ -40,18 +40,18 @@ export const printLn = (...text: any[]) => {
   }
 };
 
-const print = (text?: string, wrapperFn: any = noWrap) => {
+const print = (text?: string, wrapperFn: any = fn.noact) => {
   const wrapped = wrapperFn(text || '');
   printLn(wrapped);
 };
 
 const getBarString = (current: number, max: number, width: number, opts: ProgressBarOptionsFull) => {
-  const { progChar, emptyChar, startChar, endChar, chalk } = opts;
+  const { progChar, emptyChar, startChar, endChar } = opts;
   const numProgChars = Math.round(width * (Math.max(0, Math.min(current / max, 1)) / 1));
   const numEmptyChars = width - numProgChars;
   const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
 
-  return `${chalk.dim(startChar)}${chalk.bold(body)}${chalk.dim(endChar)}`;
+  return `${startChar}${body}${endChar}`;
 };
 
 const getSuffix = (current: number, max: number, opts: ProgressBarOptionsFull) => {
@@ -72,7 +72,6 @@ interface ProgressBarOptionsFull {
   prefix: string;
   prefixWidth: number;
   maxWidth: number;
-  chalk: any;
   wrapperFn: any;
   showCount: boolean;
   showPercent: boolean;
@@ -87,8 +86,7 @@ const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull =
   prefix: '',
   prefixWidth: 1,
   maxWidth: process?.stdout?.columns ? process.stdout.columns : 100,
-  chalk: noChalk,
-  wrapperFn: noWrap,
+  wrapperFn: fn.noact,
   showCount: true,
   showPercent: false,
   countWidth: 0,

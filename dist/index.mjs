@@ -208,117 +208,6 @@ __export(progressBar_exports, {
   getProgressBar: () => getProgressBar,
   printLn: () => printLn
 });
-var printLn = (...text) => {
-  var _a, _b;
-  if (((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.clearLine) && ((_b = process == null ? void 0 : process.stdout) == null ? void 0 : _b.cursorTo)) {
-    if (!text.length) {
-      process.stdout.write("\n");
-    } else {
-      const output = text.map((item) => item.toString()).join(" ");
-      process.stdout.clearLine(0);
-      process.stdout.cursorTo(0);
-      process.stdout.moveCursor(0, -1);
-      process.stdout.clearLine(0);
-      process.stdout.write(output);
-      process.stdout.write("\n");
-    }
-  } else {
-    console.log(...text);
-  }
-};
-var print = (text, wrapperFn = noWrap) => {
-  const wrapped = wrapperFn(text || "");
-  printLn(wrapped);
-};
-var getBarString = (current, max, width, opts) => {
-  const { progChar, emptyChar, startChar, endChar, chalk } = opts;
-  const numProgChars = Math.round(width * (Math.max(0, Math.min(current / max, 1)) / 1));
-  const numEmptyChars = width - numProgChars;
-  const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
-  return `${chalk.dim(startChar)}${chalk.bold(body)}${chalk.dim(endChar)}`;
-};
-var getSuffix = (current, max, opts) => {
-  let items = [""];
-  if (opts.showCount) {
-    const pad = Math.max(max.toString().length, opts.countWidth);
-    items.push(`[${current.toString().padStart(pad, " ")} / ${max.toString().padStart(pad, " ")}]`);
-  }
-  if (opts.showPercent) {
-    const percent = Math.round(current / max * 100);
-    items.push(`(${percent.toString().padStart("100".toString().length, " ")}%)`);
-  }
-  const joined = items.filter((x) => x).join(" ");
-  return joined.length ? " " + joined : "";
-};
-var getFullOptions = (opts = {}) => {
-  var _a;
-  return {
-    prefix: "",
-    prefixWidth: 1,
-    maxWidth: ((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.columns) ? process.stdout.columns : 100,
-    chalk: noChalk,
-    wrapperFn: noWrap,
-    showCount: true,
-    showPercent: false,
-    countWidth: 0,
-    progChar: "\u2588",
-    emptyChar: " ",
-    startChar: "\u2595",
-    endChar: "\u258F",
-    ...opts
-  };
-};
-var getProgressBar = (max, options = {}) => {
-  const opts = getFullOptions(options);
-  const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar } = opts;
-  let current = 0;
-  let finished = false;
-  const update = () => {
-    const suffix = getSuffix(current, max, opts);
-    const fullPrefix = prefix.padEnd(prefixWidth);
-    const output = `${fullPrefix}${getBarString(
-      current,
-      max,
-      Math.max(0, maxWidth - [fullPrefix, suffix, startChar, endChar].join("").length),
-      opts
-    )}${suffix}`;
-    print(output, wrapperFn);
-    return output;
-  };
-  const next = () => {
-    if (finished)
-      return "";
-    current++;
-    return update();
-  };
-  const set = (newCurrent) => {
-    if (finished)
-      return "";
-    current = newCurrent;
-    return update();
-  };
-  const reset = () => {
-    return set(0);
-  };
-  const start = () => {
-    printLn();
-    return update();
-  };
-  const finish = () => {
-    finished = true;
-    const output = update();
-    printLn();
-    return output;
-  };
-  return {
-    next,
-    set,
-    reset,
-    update,
-    start,
-    finish
-  };
-};
 
 // src/tools/higherOrder.ts
 var higherOrder_exports = {};
@@ -398,6 +287,118 @@ var reduces = {
 var isAllEqual = (val, i, arr) => val === arr[0];
 var everys = {
   isAllEqual
+};
+
+// src/tools/progressBar.ts
+var printLn = (...text) => {
+  var _a, _b;
+  if (((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.clearLine) && ((_b = process == null ? void 0 : process.stdout) == null ? void 0 : _b.cursorTo)) {
+    if (!text.length) {
+      process.stdout.write("\n");
+    } else {
+      const output = text.map((item) => item.toString()).join(" ");
+      process.stdout.clearLine(0);
+      process.stdout.cursorTo(0);
+      process.stdout.moveCursor(0, -1);
+      process.stdout.clearLine(0);
+      process.stdout.write(output);
+      process.stdout.write("\n");
+    }
+  } else {
+    console.log(...text);
+  }
+};
+var print = (text, wrapperFn = noact) => {
+  const wrapped = wrapperFn(text || "");
+  printLn(wrapped);
+};
+var getBarString = (current, max, width, opts) => {
+  const { progChar, emptyChar, startChar, endChar } = opts;
+  const numProgChars = Math.round(width * (Math.max(0, Math.min(current / max, 1)) / 1));
+  const numEmptyChars = width - numProgChars;
+  const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
+  return `${startChar}${body}${endChar}`;
+};
+var getSuffix = (current, max, opts) => {
+  let items = [""];
+  if (opts.showCount) {
+    const pad = Math.max(max.toString().length, opts.countWidth);
+    items.push(`[${current.toString().padStart(pad, " ")} / ${max.toString().padStart(pad, " ")}]`);
+  }
+  if (opts.showPercent) {
+    const percent = Math.round(current / max * 100);
+    items.push(`(${percent.toString().padStart("100".toString().length, " ")}%)`);
+  }
+  const joined = items.filter((x) => x).join(" ");
+  return joined.length ? " " + joined : "";
+};
+var getFullOptions = (opts = {}) => {
+  var _a;
+  return {
+    prefix: "",
+    prefixWidth: 1,
+    maxWidth: ((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.columns) ? process.stdout.columns : 100,
+    wrapperFn: noact,
+    showCount: true,
+    showPercent: false,
+    countWidth: 0,
+    progChar: "\u2588",
+    emptyChar: " ",
+    startChar: "\u2595",
+    endChar: "\u258F",
+    ...opts
+  };
+};
+var getProgressBar = (max, options = {}) => {
+  const opts = getFullOptions(options);
+  const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar } = opts;
+  let current = 0;
+  let finished = false;
+  const update = () => {
+    const suffix = getSuffix(current, max, opts);
+    const fullPrefix = prefix.padEnd(prefixWidth);
+    const output = `${fullPrefix}${getBarString(
+      current,
+      max,
+      Math.max(0, maxWidth - [fullPrefix, suffix, startChar, endChar].join("").length),
+      opts
+    )}${suffix}`;
+    print(output, wrapperFn);
+    return output;
+  };
+  const next = () => {
+    if (finished)
+      return "";
+    current++;
+    return update();
+  };
+  const set = (newCurrent) => {
+    if (finished)
+      return "";
+    current = newCurrent;
+    return update();
+  };
+  const reset = () => {
+    return set(0);
+  };
+  const start = () => {
+    printLn();
+    return update();
+  };
+  const finish = () => {
+    finished = true;
+    const output = update();
+    printLn();
+    return output;
+  };
+  return {
+    next,
+    set,
+    reset,
+    update,
+    start,
+    finish
+  };
 };
 
 // src/tools/errorHandling.ts

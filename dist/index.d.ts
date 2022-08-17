@@ -328,7 +328,6 @@ interface ProgressBarOptionsFull {
     prefix: string;
     prefixWidth: number;
     maxWidth: number;
-    chalk: any;
     wrapperFn: any;
     showCount: boolean;
     showPercent: boolean;
