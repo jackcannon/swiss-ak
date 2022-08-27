@@ -573,8 +573,6 @@ Limited to the length of the shortest provided array
 
 Inspired by python's 'zip'
 
-> Note: The typing of this is messy - needs improvement
-
 ```typescript
 zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
 ```
