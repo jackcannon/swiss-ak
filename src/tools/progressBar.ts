@@ -1,4 +1,4 @@
-import * as fn from './higherOrder';
+import * as fn from './fn';
 
 /**
  * Can use instead of console.log

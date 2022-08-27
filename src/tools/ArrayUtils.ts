@@ -1,4 +1,4 @@
-import { sorts } from './higherOrder';
+import { sorts } from './fn';
 
 /**
  * Returns an array of the given length, where each value is equal to it's index
@@ -12,6 +12,9 @@ import { sorts } from './higherOrder';
  */
 export const range = (length: number = 1): number[] => new Array(length).fill(1).map((v, i) => i);
 
+type UnwrapArray<T> = T extends Array<infer U> ? U : T;
+type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];
+
 /**
  * Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
  *
@@ -19,17 +22,13 @@ export const range = (length: number = 1): number[] => new Array(length).fill(1)
  *
  * Inspired by python's 'zip'
  *
- * > Note: The typing of this is messy - needs improvement
- *
  * ```typescript
  * zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
  * ```
  */
-export const zip = <T1 = undefined, T2 = undefined, T3 = undefined, T4 = undefined, T5 = undefined>(
-  ...arrs: [T1[]?, T2[]?, T3[]?, T4[]?, T5[]?]
-): [T1, T2, T3, T4, T5][] => {
+export const zip = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] => {
   const length = Math.min(...arrs.map((arr) => (arr || []).length));
-  return range(length).map((i) => arrs.map((arr) => (arr || [])[i])) as [T1, T2, T3, T4, T5][];
+  return range(length).map((i) => arrs.map((arr) => (arr || [])[i])) as UnwrapArrays<T>[];
 };
 
 /**
@@ -44,7 +43,11 @@ export const zip = <T1 = undefined, T2 = undefined, T3 = undefined, T4 = undefin
  * ); // ['3p', '2p', '1p']
  * ```
  */
-export const sortByMapped = <T, M>(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn: (a: M, b: M) => number = sorts.asc): T[] =>
+export const sortByMapped = <T = string, M = number>(
+  arr: T[],
+  mapFn: (value: T, index: number, array: T[]) => M,
+  sortFn: (a: M, b: M) => number = sorts.asc
+): T[] =>
   zip(arr, arr.map(mapFn))
     .sort((a, b) => sortFn(a[1] as M, b[1] as M))
     .map(([v]) => v);
@@ -60,7 +63,7 @@ export const sortByMapped = <T, M>(arr: T[], mapFn: (value: T, index: number, ar
  * randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
  * ```
  */
-export const randomise = <T>(arr: T[]): T[] => sortByMapped(arr, () => Math.random());
+export const randomise = <T = string>(arr: T[]): T[] => sortByMapped(arr, () => Math.random());
 
 /**
  * Returns a new array with the order reversed without affecting original array
@@ -77,7 +80,7 @@ export const randomise = <T>(arr: T[]): T[] => sortByMapped(arr, () => Math.rand
  * arr2            // [1, 2, 3]
  * ```
  */
-export const reverse = <T>(arr: T[]): T[] => [...arr].reverse();
+export const reverse = <T = string>(arr: T[]): T[] => [...arr].reverse();
 
 /**
  * Returns array of 'tuples' of index/value pairs
@@ -92,7 +95,7 @@ export const reverse = <T>(arr: T[]): T[] => [...arr].reverse();
  * }
  * ```
  */
-export const entries = <T>(arr: T[]): [number, T][] => zip(range(arr.length), arr) as any;
+export const entries = <T = string>(arr: T[]): [number, T][] => zip(range(arr.length), arr) as any;
 
 /**
  * Returns an array with the given items repeated
@@ -102,7 +105,7 @@ export const entries = <T>(arr: T[]): [number, T][] => zip(range(arr.length), ar
  * repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
  * ```
  */
-export const repeat = <T>(maxLength: number, ...items: T[]): T[] => {
+export const repeat = <T = string>(maxLength: number, ...items: T[]): T[] => {
   const simple = new Array(maxLength).fill(items[0]);
   return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
 };

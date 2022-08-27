@@ -41,3 +41,25 @@ export type KeysOnly<T> = {
 export type Numbered<T> = {
   [K in keyof T]: number;
 };
+
+/**
+ * OfType<T, U>
+ *
+ * Makes all the properties of object T have type U
+ */
+export type OfType<T, U> = {
+  [K in keyof T]: U;
+};
+
+/**
+ * ObjOfType<T>
+ *
+ * An object with any properties of type T
+ */
+export type ObjOfType<T = string> = {
+  [key: string]: T;
+};
+
+export type RemapOf<O = Object, T = string> = {
+  [K in keyof O]: T;
+};

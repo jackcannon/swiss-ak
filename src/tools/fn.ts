@@ -20,7 +20,7 @@ export const noop = () => {};
  *   .map(condition ? mapSomething : fn.noact)
  * ```
  */
-export const noact = <T extends unknown>(item: T): T => item;
+export const noact = <T = any>(item: T): T => item;
 
 /**
  * fn.result
@@ -33,9 +33,31 @@ export const noact = <T extends unknown>(item: T): T => item;
  * ```
  */
 export const result =
-  <T extends unknown>(item: T) =>
+  <T = any>(item: T) =>
   (): T =>
     item;
+
+/**
+ * fn.resolve
+ *
+ * Returns an async function that resolves to the first argument
+ *
+ * Like fn.result, but wrapped in a Promise
+ */
+export const resolve =
+  <T = any>(item: T) =>
+  (): Promise<T> =>
+    Promise.resolve(item);
+
+/**
+ * fn.reject
+ *
+ * Returns an async function that rejects with the first argument
+ */
+export const reject =
+  <T = any>(item: T) =>
+  (): Promise<T> =>
+    Promise.reject(item);
 
 /**
  * fn.filters.exists / fn.exists
@@ -46,7 +68,7 @@ export const result =
  * [null, 1, undefined, 2].filter(fn.exists); // [1, 2]
  * ```
  */
-export const exists = <T extends unknown>(item: T): boolean => item !== undefined && item !== null;
+export const exists = <T = any>(item: T): boolean => item !== undefined && item !== null;
 
 /**
  * fn.filters.isTruthy / fn.isTruthy
@@ -58,7 +80,7 @@ export const exists = <T extends unknown>(item: T): boolean => item !== undefine
  * ['', 'a', 'b'].filter(fn.isTruthy); // ['a', 'b']
  * ```
  */
-export const isTruthy = <T extends unknown>(item: T): boolean => Boolean(item);
+export const isTruthy = <T = any>(item: T): boolean => Boolean(item);
 
 /**
  * fn.filters.isFalsy / fn.isFalsy
@@ -70,7 +92,7 @@ export const isTruthy = <T extends unknown>(item: T): boolean => Boolean(item);
  * ['', 'a', 'b'].filter(fn.isFalsy); // ['']
  * ```
  */
-export const isFalsy = <T extends unknown>(item: T): boolean => !Boolean(item);
+export const isFalsy = <T = any>(item: T): boolean => !Boolean(item);
 
 /**
  * fn.filters.isEmpty / fn.isEmpty
@@ -82,7 +104,7 @@ export const isFalsy = <T extends unknown>(item: T): boolean => !Boolean(item);
  * [[], [1], [2]].filter(fn.isEmpty); // [[]]
  * ```
  */
-export const isEmpty = <T extends unknown>(item: T[] | string): boolean => Boolean(!item || !item.length);
+export const isEmpty = <T = any>(item: T[] | string): boolean => Boolean(!item || !item.length);
 
 /**
  * fn.filters.isNotEmpty / fn.isNotEmpty
@@ -94,7 +116,7 @@ export const isEmpty = <T extends unknown>(item: T[] | string): boolean => Boole
  * [[], [1], [2]].filter(fn.isNotEmpty); // [[1], [2]]
  * ```
  */
-export const isNotEmpty = <T extends unknown>(item: T[] | string): boolean => Boolean(item && item.length);
+export const isNotEmpty = <T = any>(item: T[] | string): boolean => Boolean(item && item.length);
 
 /**
  * fn.filters.isEqual / fn.isEqual
@@ -106,7 +128,7 @@ export const isNotEmpty = <T extends unknown>(item: T[] | string): boolean => Bo
  * ```
  */
 export const isEqual =
-  <T extends unknown>(item: T) =>
+  <T = any>(item: T) =>
   (other: T) =>
     Boolean(item === other);
 
@@ -120,7 +142,7 @@ export const isEqual =
  * ```
  */
 export const isNotEqual =
-  <T extends unknown>(item: T) =>
+  <T = any>(item: T) =>
   (other: T) =>
     Boolean(item !== other);
 
@@ -143,7 +165,7 @@ export const filters = {
  * [0, 1, 2].map(fn.toString); // ['0', '1', '2']
  * ```
  */
-export const toString = <T extends unknown>(item: T): string => item + '';
+export const toString = <T = any>(item: T): string => item + '';
 
 /**
  * fn.maps.toNumber / fn.toNumber
@@ -154,7 +176,7 @@ export const toString = <T extends unknown>(item: T): string => item + '';
  * ['0', '1', '2'].map(fn.toNumber); // [0, 1, 2]
  * ```
  */
-export const toNumber = <T extends unknown>(item: T): number => Number(item);
+export const toNumber = <T = any>(item: T): number => Number(item);
 
 /**
  * fn.maps.toBool / fn.toBool
@@ -166,7 +188,7 @@ export const toNumber = <T extends unknown>(item: T): number => Number(item);
  * ['true', 'false', '', 'text'].map(fn.toBool); // [true, false, false, true]
  * ```
  */
-export const toBool = <T extends unknown>(item: T): boolean => item !== 'false' && Boolean(item);
+export const toBool = <T = any>(item: T): boolean => (item as any) !== 'false' && Boolean(item);
 
 /**
  * fn.maps.toProp / fn.toProp
@@ -178,25 +200,25 @@ export const toBool = <T extends unknown>(item: T): boolean => item !== 'false' 
  * ```
  */
 export const toProp =
-  <T extends unknown, P extends unknown>(prop: string) =>
-  (item: T): P =>
+  <P = string, O = Object>(prop: string) =>
+  (item: O): P =>
     item && item[prop];
 
 // This is a bad idea, as it provides no benefits, but makes code harder to read.
-const multimap = <TIn extends unknown, TOut extends unknown>(
-  ...mapFns: ((val: any, index: number, arr: any[]) => any)[]
-): ((val: TIn, index: number, arr: TIn[]) => TOut) => {
-  let mapped;
-  return (val, index, arr) => {
-    if (!mapped) {
-      mapped = arr;
-      for (let mapFn of mapFns) {
-        mapped = mapped.map(mapFn);
-      }
-    }
-    return mapped[index];
-  };
-};
+// const multimap = <TIn = any, TOut = any>(
+//   ...mapFns: ((val: any, index: number, arr: any[]) => any)[]
+// ): ((val: TIn, index: number, arr: TIn[]) => TOut) => {
+//   let mapped;
+//   return (val, index, arr) => {
+//     if (!mapped) {
+//       mapped = arr;
+//       for (let mapFn of mapFns) {
+//         mapped = mapped.map(mapFn);
+//       }
+//     }
+//     return mapped[index];
+//   };
+// };
 
 export const maps = {
   toString,
@@ -227,7 +249,7 @@ export const asc = (a: any, b: any): number => Number(a) - Number(b);
  */
 export const desc = (a: any, b: any): number => Number(b) - Number(a);
 
-type SortFn<T> = (a: T, b: T) => number;
+type SortFn<T = number> = (a: T, b: T) => number;
 
 /**
  * fn.sorts.byProp / fn.byProp
@@ -239,14 +261,46 @@ type SortFn<T> = (a: T, b: T) => number;
  * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
  * ```
  */
-export const byProp = <T extends unknown, O extends Object>(propName: string, sortFn: SortFn<T> = asc): SortFn<O> => {
+export const byProp = <T = number, O = Object>(propName: string, sortFn: SortFn<T> = asc): SortFn<O> => {
   return (a: O, b: O) => sortFn(a[propName] as T, b[propName] as T);
 };
+
+/**
+ * fn.sorts.nearestTo / fn.nearestTo
+ *
+ * Sort by the nearest value to the given value.
+ *
+ * ```typescript
+ * const people = [2, 4, 3, 1];
+ * people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
+ * ```
+ */
+export const nearestTo =
+  <T = number>(target: T) =>
+  (a: any, b: any) =>
+    Math.abs(Number(target) - Number(a)) - Math.abs(Number(target) - Number(b));
+
+/**
+ * fn.sorts.furthestFrom / fn.furthestFrom
+ *
+ * Sort by the furthest value to the given value.
+ *
+ * ```typescript
+ * const people = [2, 4, 3, 1];
+ * people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
+ * ```
+ */
+export const furthestFrom =
+  <T = number>(target: T) =>
+  (a: any, b: any) =>
+    Math.abs(Number(target) - Number(b)) - Math.abs(Number(target) - Number(a));
 
 export const sorts = {
   asc,
   desc,
-  byProp
+  byProp,
+  nearestTo,
+  furthestFrom
 };
 
 /**
@@ -292,29 +346,18 @@ export const reduces = {
  * [1, 2, 1].every(fn.isAllEqual); // false
  * ```
  */
-export const isAllEqual = <T extends unknown>(val: T, i, arr: T[]): boolean => val === arr[0];
-
-// TODO
-const isAllNotEqual = <T extends unknown>(val: T, i, arr: T[]): boolean => val !== arr[0];
+export const isAllEqual = <T = any>(val: T, i, arr: T[]): boolean => val === arr[0];
 
 export const everys = {
   isAllEqual
 };
 
-// export const areEqual = <T extends unknown>(val: T, i, arr: T[]): boolean => val === arr[0];
-// export const areNotEqual = <T extends unknown>(val: T, i, arr: T[]): boolean => val !== arr[0];
-
-// export const somes = {
-//   areEqual,
-//   areNotEqual
-// };
-
 // Another bad idea. Don't use it.
-const mappedTo = (...hoFns) => {
-  const checkFn = hoFns.pop();
-  let mapped;
-  return (val, index, arr) => {
-    if (!mapped) mapped = arr.map(multimap(...hoFns));
-    return checkFn(mapped[index], index, mapped);
-  };
-};
+// const mappedTo = (...hoFns) => {
+//   const checkFn = hoFns.pop();
+//   let mapped;
+//   return (val, index, arr) => {
+//     if (!mapped) mapped = arr.map(multimap(...hoFns));
+//     return checkFn(mapped[index], index, mapped);
+//   };
+// };

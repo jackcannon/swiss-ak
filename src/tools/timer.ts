@@ -45,7 +45,7 @@ interface CustomEntryObj {
   duration?: number;
 }
 
-interface ITimer<TName> {
+export interface ITimer<TName> {
   start(...labelArr: string[]): void;
   end(...labelArr: string[]): void;
   switch(endLabel: string | string[], startLabel: string | string[]): void;

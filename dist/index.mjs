@@ -63,7 +63,7 @@ __export(waiters_exports, {
   waitFor: () => waitFor,
   waitUntil: () => waitUntil
 });
-var wait = (time) => new Promise((resolve) => setTimeout(resolve, time));
+var wait = (time) => new Promise((resolve2) => setTimeout(resolve2, time));
 var PING_RATIO = 0.75;
 var ROUND_AMOUNT = 1.5;
 var getPingDuration = (time, now = Date.now()) => Math.ceil((time - now) * PING_RATIO / ROUND_AMOUNT) * ROUND_AMOUNT;
@@ -209,9 +209,9 @@ __export(progressBar_exports, {
   printLn: () => printLn
 });
 
-// src/tools/higherOrder.ts
-var higherOrder_exports = {};
-__export(higherOrder_exports, {
+// src/tools/fn.ts
+var fn_exports = {};
+__export(fn_exports, {
   asc: () => asc,
   byProp: () => byProp,
   combine: () => combine,
@@ -220,6 +220,7 @@ __export(higherOrder_exports, {
   everys: () => everys,
   exists: () => exists,
   filters: () => filters,
+  furthestFrom: () => furthestFrom,
   isAllEqual: () => isAllEqual,
   isEmpty: () => isEmpty,
   isEqual: () => isEqual,
@@ -228,9 +229,12 @@ __export(higherOrder_exports, {
   isNotEqual: () => isNotEqual,
   isTruthy: () => isTruthy,
   maps: () => maps,
+  nearestTo: () => nearestTo,
   noact: () => noact,
   noop: () => noop,
   reduces: () => reduces,
+  reject: () => reject,
+  resolve: () => resolve,
   result: () => result,
   sorts: () => sorts,
   toBool: () => toBool,
@@ -242,6 +246,8 @@ var noop = () => {
 };
 var noact = (item) => item;
 var result = (item) => () => item;
+var resolve = (item) => () => Promise.resolve(item);
+var reject = (item) => () => Promise.reject(item);
 var exists = (item) => item !== void 0 && item !== null;
 var isTruthy = (item) => Boolean(item);
 var isFalsy = (item) => !Boolean(item);
@@ -273,10 +279,14 @@ var desc = (a, b) => Number(b) - Number(a);
 var byProp = (propName, sortFn = asc) => {
   return (a, b) => sortFn(a[propName], b[propName]);
 };
+var nearestTo = (target) => (a, b) => Math.abs(Number(target) - Number(a)) - Math.abs(Number(target) - Number(b));
+var furthestFrom = (target) => (a, b) => Math.abs(Number(target) - Number(b)) - Math.abs(Number(target) - Number(a));
 var sorts = {
   asc,
   desc,
-  byProp
+  byProp,
+  nearestTo,
+  furthestFrom
 };
 var combine = (a, b) => a + b;
 var combineProp = (propName) => (a, b) => a[propName] + b[propName];
@@ -431,20 +441,20 @@ var retryOr = async (orValue, maxTries = 10, delay = 0, suppress = true, run = r
 
 // src/tools/PromiseUtils.ts
 var getDeferred = () => {
-  let resolve, reject;
+  let resolve2, reject2;
   const promise = new Promise((res, rej) => {
-    resolve = (arg) => {
+    resolve2 = (arg) => {
       res(arg);
       return promise;
     };
-    reject = (...args) => {
+    reject2 = (...args) => {
       rej(...args);
       return promise;
     };
   });
   return {
-    resolve,
-    reject,
+    resolve: resolve2,
+    reject: reject2,
     promise
   };
 };
@@ -566,8 +576,82 @@ var repeat = (maxLength, ...items) => {
   return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
 };
 
+// src/tools/ObjectUtils.ts
+var map2 = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value]) => func(key, value)));
+var mapValues = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, func(key, value)]));
+var mapKeys = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value]) => [func(key, value), value]));
+var ObjectUtils = {
+  map: map2,
+  mapValues,
+  mapKeys
+};
+
+// src/tools/symbols.ts
+var symbols = {
+  TAB: "	",
+  TICK: "\u2714",
+  CROSS: "\u2716",
+  PLUS: "+",
+  MINUS: "-",
+  TIMES: "\xD7",
+  DIVIDE: "\xF7",
+  ELLIPSIS: "\u2026",
+  BULLET: "\u2022",
+  EJECT: "\u23CF",
+  TILDE: "~",
+  HOME: "~",
+  CHEV_LFT: "\u2039",
+  CHEV_RGT: "\u203A",
+  TRI_UPP: "\u25B2",
+  TRI_DWN: "\u25BC",
+  TRI_RGT: "\u25B6",
+  TRI_LFT: "\u25C0",
+  ARROW_UPP: "\u2191",
+  ARROW_DWN: "\u2193",
+  ARROW_RGT: "\u2192",
+  ARROW_LFT: "\u2190",
+  ARROW_UPP_RGT: "\u2197",
+  ARROW_DWN_RGT: "\u2198",
+  ARROW_DWN_LFT: "\u2199",
+  ARROW_UPP_LFT: "\u2196",
+  ARROW_STILL: "\u2022",
+  ARROW_FLIP_H: "\u2194",
+  ARROW_FLIP_V: "\u2195",
+  ARROW_ROTATE_UPP: "\u2934",
+  ARROW_ROTATE_DWN: "\u2935",
+  ARROW_ROTATE_LFT: "\u2936",
+  ARROW_ROTATE_RGT: "\u2937",
+  ARROW_ROTATE_CLOCK: "\u21BB",
+  ARROW_ROTATE_ANTI_CLOCK: "\u21BA",
+  FRACTION_1_4: "\xBC",
+  FRACTION_1_2: "\xBD",
+  FRACTION_3_4: "\xBE",
+  SUPERSCRIPT: {
+    1: "\xB9",
+    2: "\xB2",
+    3: "\xB3",
+    4: "\u2074",
+    5: "\u2075",
+    6: "\u2076",
+    7: "\u2077",
+    8: "\u2078",
+    9: "\u2079",
+    0: "\u2070",
+    "-": "\u207B",
+    "+": "\u207A",
+    "=": "\u207C",
+    "(": "\u207D",
+    ")": "\u207E",
+    i: "\u2071",
+    n: "\u207F",
+    o: "\xB0",
+    "*": "\xB0"
+  }
+};
+var superscript = (num) => num.toString().split("").map((char) => symbols.SUPERSCRIPT[char] || symbols.SUPERSCRIPT["*"]).join("");
+
 // src/index.ts
-var { filters: filters2, maps: maps2, sorts: sorts2, reduces: reduces2, everys: everys2 } = higherOrder_exports;
+var { filters: filters2, maps: maps2, sorts: sorts2, reduces: reduces2, everys: everys2 } = fn_exports;
 export {
   ArrayUtils_exports as ArrayUtils,
   CENTURY,
@@ -578,6 +662,7 @@ export {
   MILLISECOND,
   MINUTE,
   MONTH,
+  ObjectUtils,
   PromiseUtils,
   SECOND,
   WEEK,
@@ -594,7 +679,7 @@ export {
   entries,
   everys2 as everys,
   filters2 as filters,
-  higherOrder_exports as fn,
+  fn_exports as fn,
   getDeferred,
   getProgressBar,
   getTimer,
@@ -620,6 +705,8 @@ export {
   sortByMapped,
   sorts2 as sorts,
   stopInterval,
+  superscript,
+  symbols,
   timer,
   times_exports as times,
   tryOr,

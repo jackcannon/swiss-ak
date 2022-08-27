@@ -1,6 +1,6 @@
 // import { ms, wait, fn }
 
-import * as fn from './higherOrder';
+import * as fn from './fn';
 import { ms } from './times';
 import { wait } from './waiters';
 

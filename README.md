@@ -16,6 +16,8 @@ A collection of useful little things that I like to reuse across projects
     - [fn.noop](#fnnoop)
     - [fn.noact](#fnnoact)
     - [fn.result](#fnresult)
+    - [fn.resolve](#fnresolve)
+    - [fn.reject](#fnreject)
   - [Filters](#filters)
     - [fn.filters.exists / fn.exists](#fnfiltersexists--fnexists)
     - [fn.filters.isTruthy / fn.isTruthy](#fnfiltersistruthy--fnistruthy)
@@ -33,6 +35,8 @@ A collection of useful little things that I like to reuse across projects
     - [fn.sorts.asc / fn.asc](#fnsortsasc--fnasc)
     - [fn.sorts.desc / fn.desc](#fnsortsdesc--fndesc)
     - [fn.sorts.byProp / fn.byProp](#fnsortsbyprop--fnbyprop)
+    - [fn.sorts.nearestTo / fn.nearestTo](#fnsortsnearestto--fnnearestto)
+    - [fn.sorts.furthestFrom / fn.furthestFrom](#fnsortsfurthestfrom--fnfurthestfrom)
   - [Reduces](#reduces)
     - [fn.reduces.combine / fn.combine](#fnreducescombine--fncombine)
     - [fn.reduces.combineProp / fn.combineProp](#fnreducescombineprop--fncombineprop)
@@ -53,6 +57,10 @@ A collection of useful little things that I like to reuse across projects
   - [reverse](#reverse)
   - [entries](#entries)
   - [repeat](#repeat)
+- [ObjectUtils](#objectutils)
+  - [ObjectUtils.map](#objectutilsmap)
+  - [ObjectUtils.mapValues](#objectutilsmapvalues)
+  - [ObjectUtils.mapKeys](#objectutilsmapkeys)
 - [PromiseUtils](#promiseutils)
   - [DeferredPromise](#deferredpromise)
   - [PromiseUtils.all](#promiseutilsall)
@@ -67,10 +75,13 @@ A collection of useful little things that I like to reuse across projects
   - [Options](#options)
   - [Usage (progressBar)](#usage-progressbar)
   - [printLn](#println)
+- [symbols](#symbols)
 - [Types](#types)
   - [Partial<T>](#partialt)
   - [KeysOnly<T>](#keysonlyt)
   - [Numbered<T>](#numberedt)
+  - [OfType<T, U>](#oftypet-u)
+  - [ObjOfType<T>](#objoftypet)
 - [Notes](#notes)
 
 # times
@@ -226,6 +237,20 @@ const items = stuff.filter(condition ? mapSomething : fn.result(true));
 
 [↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
+### fn.resolve
+
+Returns an async function that resolves to the first argument
+
+Like fn.result, but wrapped in a Promise
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+### fn.reject
+
+Returns an async function that rejects with the first argument
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## Filters
 
 ### fn.filters.exists / fn.exists
@@ -374,6 +399,28 @@ Sort by a given property.
 ```typescript
 const people = [{ age: 2 }, { age: 4 }, { age: 3 }, { age: 1 }];
 people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+### fn.sorts.nearestTo / fn.nearestTo
+
+Sort by the nearest value to the given value.
+
+```typescript
+const people = [2, 4, 3, 1];
+people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+### fn.sorts.furthestFrom / fn.furthestFrom
+
+Sort by the furthest value to the given value.
+
+```typescript
+const people = [2, 4, 3, 1];
+people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
 ```
 
 [↑ Back to top ↑](#swiss-ak-swiss-army-knife)
@@ -604,6 +651,38 @@ Returns an array with the given items repeated
 ```typescript
 repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
 repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+# ObjectUtils
+
+## ObjectUtils.map
+
+Maps the keys and values of an object in a similar way to Array.map
+
+```typescript
+ObjectUtils.map({ a: 1, b: 2, c: 3 }, (key, value) => [key, key + value]); // {a: 'a1', b: 'b2', c: 'c3'}
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+## ObjectUtils.mapValues
+
+Maps the values of an object in a similar way to Array.map
+
+```typescript
+ObjectUtils.map({ a: 1, b: 2, c: 3 }, (key, value) => key.repeat(value)); // {a: 'a', b: 'bb', c: 'ccc'}
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+## ObjectUtils.mapKeys
+
+Maps the values of an object in a similar way to Array.map
+
+```typescript
+ObjectUtils.map({ a: 1, b: 2, c: 3 }, (key, value) => key.repeat(value)); // {a: 1, bb: 2, ccc: 3}
 ```
 
 [↑ Back to top ↑](#swiss-ak-swiss-army-knife)
@@ -917,6 +996,72 @@ D
 
 [↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
+# symbols
+
+A series of characters that can be used for display symbols
+
+| Key                             | Symbol |
+| :------------------------------ | :----: |
+| symbols.TAB                     |  ` `   |
+| symbols.TICK                    |   ✔    |
+| symbols.CROSS                   |   ✖    |
+| symbols.PLUS                    |   +    |
+| symbols.MINUS                   |   -    |
+| symbols.TIMES                   |   ×    |
+| symbols.DIVIDE                  |   ÷    |
+| symbols.ELLIPSIS                |   …    |
+| symbols.BULLET                  |   •    |
+| symbols.EJECT                   |   ⏏    |
+| symbols.TILDE                   |   ~    |
+| symbols.HOME                    |   ~    |
+| symbols.CHEV_LFT                |   ‹    |
+| symbols.CHEV_RGT                |   ›    |
+| symbols.TRI_UPP                 |   ▲    |
+| symbols.TRI_DWN                 |   ▼    |
+| symbols.TRI_RGT                 |   ▶    |
+| symbols.TRI_LFT                 |   ◀    |
+| symbols.ARROW_UPP               |   ↑    |
+| symbols.ARROW_DWN               |   ↓    |
+| symbols.ARROW_RGT               |   →    |
+| symbols.ARROW_LFT               |   ←    |
+| symbols.ARROW_UPP_RGT           |   ↗    |
+| symbols.ARROW_DWN_RGT           |   ↘    |
+| symbols.ARROW_DWN_LFT           |   ↙    |
+| symbols.ARROW_UPP_LFT           |   ↖    |
+| symbols.ARROW_STILL             |   •    |
+| symbols.ARROW_FLIP_H            |   ↔    |
+| symbols.ARROW_FLIP_V            |   ↕    |
+| symbols.ARROW_ROTATE_UPP        |   ⤴    |
+| symbols.ARROW_ROTATE_DWN        |   ⤵    |
+| symbols.ARROW_ROTATE_LFT        |   ⤶    |
+| symbols.ARROW_ROTATE_RGT        |   ⤷    |
+| symbols.ARROW_ROTATE_CLOCK      |   ↻    |
+| symbols.ARROW_ROTATE_ANTI_CLOCK |   ↺    |
+| symbols.FRACTION_1_4            |   ¼    |
+| symbols.FRACTION_1_2            |   ½    |
+| symbols.FRACTION_3_4            |   ¾    |
+| symbols.SUPERSCRIPT['1']        |   ¹    |
+| symbols.SUPERSCRIPT['2']        |   ²    |
+| symbols.SUPERSCRIPT['3']        |   ³    |
+| symbols.SUPERSCRIPT['4']        |   ⁴    |
+| symbols.SUPERSCRIPT['5']        |   ⁵    |
+| symbols.SUPERSCRIPT['6']        |   ⁶    |
+| symbols.SUPERSCRIPT['7']        |   ⁷    |
+| symbols.SUPERSCRIPT['8']        |   ⁸    |
+| symbols.SUPERSCRIPT['9']        |   ⁹    |
+| symbols.SUPERSCRIPT['0']        |   ⁰    |
+| symbols.SUPERSCRIPT['-']        |   ⁻    |
+| symbols.SUPERSCRIPT['+']        |   ⁺    |
+| symbols.SUPERSCRIPT['=']        |   ⁼    |
+| symbols.SUPERSCRIPT['(']        |   ⁽    |
+| symbols.SUPERSCRIPT[')']        |   ⁾    |
+| symbols.SUPERSCRIPT['i']        |   ⁱ    |
+| symbols.SUPERSCRIPT['n']        |   ⁿ    |
+| symbols.SUPERSCRIPT['o']        |   °    |
+| symbols.SUPERSCRIPT['*']        |   °    |
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 # Types
 
 ## Partial<T>
@@ -958,6 +1103,18 @@ interface ITest {
 }
 type NumberedTest = Numbered<ITest>; // { a: number, b: number }
 ```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+## OfType<T, U>
+
+Makes all the properties of object T have type U
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+## ObjOfType<T>
+
+An object with any properties of type T
 
 [↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
