@@ -8,9 +8,13 @@ import { sorts } from './fn';
  * range(3);  // [0, 1, 2]
  * range(5);  // [0, 1, 2, 3, 4]
  * range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+ *
+ * range(3, 2);  // [0, 2, 4]
+ * range(5, 2);  // [0, 2, 4, 6, 8]
+ * range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
  * ```
  */
-export const range = (length: number = 1): number[] => new Array(length).fill(1).map((v, i) => i);
+export const range = (length: number = 1, multiplier: number = 1): number[] => new Array(Math.floor(length)).fill(1).map((v, i) => i * multiplier);
 
 type UnwrapArray<T> = T extends Array<infer U> ? U : T;
 type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];
@@ -98,6 +102,8 @@ export const reverse = <T = string>(arr: T[]): T[] => [...arr].reverse();
 export const entries = <T = string>(arr: T[]): [number, T][] => zip(range(arr.length), arr) as any;
 
 /**
+ * ArrayUtils.repeat
+ *
  * Returns an array with the given items repeated
  *
  * ```typescript
@@ -108,4 +114,59 @@ export const entries = <T = string>(arr: T[]): [number, T][] => zip(range(arr.le
 export const repeat = <T = string>(maxLength: number, ...items: T[]): T[] => {
   const simple = new Array(maxLength).fill(items[0]);
   return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
+};
+
+/**
+ * ArrayUtils.roll
+ *
+ * 'Roll' the array by a given amount so that is has a new first item. Length and contents remain the same, but the order is changed
+ *
+ * ```typescript
+ * roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
+ * roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
+ * ```
+ */
+export const roll = <T extends unknown>(distance: number, arr: T[]): T[] => [
+  ...arr.slice(distance % arr.length),
+  ...arr.slice(0, distance % arr.length)
+];
+
+const isNumString = (text: string) => Boolean(text.match(/^[0-9]+$/));
+const partitionNums = (name: string) => name.split(/([0-9]+)/).map((s) => (isNumString(s) ? Number(s) : s));
+
+/**
+ * ArrayUtils.sortNumberedText
+ *
+ * Alphabetically sorts a list of strings, but keeps multi-digit numbers in numerical order (rather than alphabetical)
+ *
+ * ```typescript
+ * const names = ['name1', 'name10', 'name2', 'foo20', 'foo10', 'foo9'];
+ * names.sort(); // [ 'foo10', 'foo20', 'foo9', 'name1', 'name10', 'name2' ]
+ * sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
+ * ```
+ */
+export const sortNumberedText = (texts: string[]): string[] => {
+  return sortByMapped(texts, partitionNums, (a, b) => {
+    for (let i in a) {
+      const result = sorts.asc(a[i], b[i]);
+      if (result !== 0) return result;
+    }
+    return 0;
+  });
+};
+
+export const ArrayUtils = {
+  range,
+  zip,
+  sortByMapped,
+  randomise,
+  reverse,
+  entries,
+  repeat,
+  roll,
+  sortNumberedText,
+  utils: {
+    isNumString,
+    partitionNums
+  }
 };

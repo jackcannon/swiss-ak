@@ -52,7 +52,7 @@ export interface ITimer<TName> {
   log(
     prefix?: string,
     customEntries?: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>
-  ): void;
+  ): number;
   reset(): void;
   names: KeysOnly<TName>;
   displayNames: TName;
@@ -142,11 +142,17 @@ export const getTimer = <TName extends INames>(
     log(
       prefix?: string,
       customEntries?: ((durations: Numbered<TName & { TOTAL: number }>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>
-    ) {
+    ): number {
+      let lc = 0;
+      const log = (...args) => {
+        lc++;
+        console.log(...args);
+      };
+
       const labels = Object.keys(startTimes);
 
-      console.log('');
-      console.log(wrapperFn(chalk.bold([prefix, name, 'Times:'].filter((x) => x && x.trim()).join(' '))));
+      log('');
+      log(wrapperFn(chalk.bold([prefix, name, 'Times:'].filter((x) => x && x.trim()).join(' '))));
 
       const displayNames = [...labels, ...Object.keys(names)].map((label) => dispNames[label] || label);
       const nameColLength = Math.max(...displayNames.map((text) => `${text}: `.length));
@@ -172,16 +178,18 @@ export const getTimer = <TName extends INames>(
           cEntries = Object.entries(customEntries).map(([label, func]) => ({ label, duration: (func || (() => 0))(durations) || 0 }));
         }
 
-        console.log(wrapperFn(chalk.dim('	' + '⎯'.repeat(longest))));
+        log(wrapperFn(chalk.dim('	' + '⎯'.repeat(longest))));
         for (let { label, duration } of cEntries) {
           logLine(label, '	', nameColLength, duration);
         }
       }
 
-      console.log(wrapperFn(chalk.dim('	' + '⎯'.repeat(longest))));
+      log(wrapperFn(chalk.dim('	' + '⎯'.repeat(longest))));
       logLine('TOTAL', '	', nameColLength);
 
-      console.log('');
+      log('');
+
+      return lc;
     },
     reset() {
       startTimes = {};

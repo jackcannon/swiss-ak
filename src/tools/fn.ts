@@ -60,6 +60,29 @@ export const reject =
     Promise.reject(item);
 
 /**
+ * fn.fixFloat
+ *
+ * Fixes floating point errors that may occur when adding/subtracting/multiplying/dividing real/float numbers
+ *
+ * ```typescript
+ * 0.1 + 0.2 // 0.30000000000000004
+ * fixFloat(0.1 + 0.2) // 0.3
+ * ```
+ */
+export const fixFloat = (num: number, precision = 6): number => Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision);
+
+/**
+ * fn.addAll
+ *
+ * Adds all numbers together. Each argument is a number (use spread operator to pass in an array) similar to Math.min/Math.max
+ *
+ * ```typescript
+ * addAll(1, 2, 3, 4, 5); // 15
+ * ```
+ */
+export const addAll = (...args: number[]): number => args.reduce((acc, num) => acc + num, 0);
+
+/**
  * fn.filters.exists / fn.exists
  *
  * Returns true if item isn't null or undefined.
@@ -236,7 +259,11 @@ export const maps = {
  * [2, 4, 3, 1].sort(fn.asc); // [1, 2, 3, 4]
  * ```
  */
-export const asc = (a: any, b: any): number => Number(a) - Number(b);
+export const asc = (a: any, b: any): number => {
+  if (a < b) return -1;
+  if (b < a) return 1;
+  return 0;
+};
 
 /**
  * fn.sorts.desc / fn.desc
@@ -247,7 +274,11 @@ export const asc = (a: any, b: any): number => Number(a) - Number(b);
  * [2, 4, 3, 1].sort(fn.asc); // [4, 3, 2, 1]
  * ```
  */
-export const desc = (a: any, b: any): number => Number(b) - Number(a);
+export const desc = (a: any, b: any): number => {
+  if (a < b) return 1;
+  if (b < a) return -1;
+  return 0;
+};
 
 type SortFn<T = number> = (a: T, b: T) => number;
 
@@ -295,12 +326,40 @@ export const furthestFrom =
   (a: any, b: any) =>
     Math.abs(Number(target) - Number(b)) - Math.abs(Number(target) - Number(a));
 
+/**
+ * fn.sorts.arrayAsc / fn.arrayAsc
+ *
+ * Sort an array of arrays in ascending order
+ */
+export const arrayAsc = (a: any[], b: any[]) => {
+  for (let i in a) {
+    const result = sorts.asc(a[i], b[i]);
+    if (result !== 0) return result;
+  }
+  return 0;
+};
+
+/**
+ * fn.sorts.arrayDesc/ fn.arrayDesc
+ *
+ * Sort an array of arrays in descending order
+ */
+export const arrayDesc = (a: any[], b: any[]) => {
+  for (let i in a) {
+    const result = sorts.desc(a[i], b[i]);
+    if (result !== 0) return result;
+  }
+  return 0;
+};
+
 export const sorts = {
   asc,
   desc,
   byProp,
   nearestTo,
-  furthestFrom
+  furthestFrom,
+  arrayAsc,
+  arrayDesc
 };
 
 /**
@@ -361,3 +420,49 @@ export const everys = {
 //     return checkFn(mapped[index], index, mapped);
 //   };
 // };
+
+/**
+ * fn.round.floorTo / fn.floorTo
+ *
+ * Floors a number down to the nearest multiple of the given number.
+ *
+ * ```typescript
+ * fn.round.floorTo(10, 102); // 100
+ * fn.round.floorTo(5, 53); // 50
+ * fn.round.floorTo(0.1, 0.25); // 0.2
+ * ```
+ */
+export const floorTo = (to: number, value: number) => fixFloat(Math.floor(value / to) * to);
+
+/**
+ * fn.round.to / fn.round.roundTo / fn.roundTo
+ *
+ * Floors a number down to the nearest multiple of the given number.
+ *
+ * ```typescript
+ * fn.round.to(10, 102); // 100
+ * fn.round.to(5, 53); // 55
+ * fn.round.to(0.1, 0.25); // 0.3
+ * ```
+ */
+export const roundTo = (to: number, value: number) => fixFloat(Math.round(value / to) * to);
+
+/**
+ * fn.round.ceilTo / fn.ceilTo
+ *
+ * Floors a number down to the nearest multiple of the given number.
+ *
+ * ```typescript
+ * fn.round.ceilTo(10, 102); // 110
+ * fn.round.ceilTo(5, 53); // 55
+ * fn.round.ceilTo(0.1, 0.25); // 0.3
+ * ```
+ */
+export const ceilTo = (to: number, value: number) => fixFloat(Math.ceil(value / to) * to);
+
+export const round = {
+  floorTo,
+  roundTo,
+  ceilTo,
+  to: roundTo
+};

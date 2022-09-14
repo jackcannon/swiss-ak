@@ -280,7 +280,7 @@ interface ITimer<TName> {
     start(...labelArr: string[]): void;
     end(...labelArr: string[]): void;
     switch(endLabel: string | string[], startLabel: string | string[]): void;
-    log(prefix?: string, customEntries?: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): void;
+    log(prefix?: string, customEntries?: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): number;
     reset(): void;
     names: KeysOnly<TName>;
     displayNames: TName;
@@ -579,6 +579,10 @@ declare const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (
  * ```
  */
 declare const mapLimit: <Ti extends unknown, To extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
+declare type UnWrapPromise<T> = T extends Promise<infer U> ? U : T;
+declare type UnWrapPromiseObject<T> = {
+    [K in keyof T]: UnWrapPromise<T[K]>;
+};
 /**
  * Like Promise.all, but pass/receive objects rather than arrays
  *
@@ -611,11 +615,7 @@ declare const mapLimit: <Ti extends unknown, To extends unknown>(limit: number, 
  * // 	c: 20s
  * ```
  */
-declare const allObj: <T extends unknown>(input: {
-    [key: string]: Promise<T>;
-}) => Promise<{
-    [key: string]: T;
-}>;
+declare const allObj: <T extends Object>(input: T) => Promise<UnWrapPromiseObject<T>>;
 /**
  * A mix of allObj and allLimit.
  *
@@ -652,11 +652,7 @@ declare const allObj: <T extends unknown>(input: {
  * // 	d: 10s
  * ```
  */
-declare const allLimitObj: <T extends unknown>(limit: number, input: {
-    [key: string]: (index: number) => Promise<T>;
-}, noThrow?: boolean) => Promise<{
-    [key: string]: T;
-}>;
+declare const allLimitObj: <T extends Object>(limit: number, input: T, noThrow?: boolean) => Promise<UnWrapPromiseObject<T>>;
 declare const PromiseUtils: {
     getDeferred: <T extends unknown>() => DeferredPromise<T>;
     all: <T_1 extends unknown>(promises: Promise<T_1>[]) => Promise<any>;
@@ -665,16 +661,8 @@ declare const PromiseUtils: {
     eachLimit: <Ti_1 extends unknown>(limit: number, items: Ti_1[], func: (item: Ti_1, index: number, array: Ti_1[]) => Promise<any>) => Promise<any>;
     map: <Ti_2 extends unknown, To extends unknown>(items: Ti_2[], func: (item: Ti_2, index: number, array: Ti_2[]) => Promise<To>) => Promise<To[]>;
     mapLimit: <Ti_3 extends unknown, To_1 extends unknown>(limit: number, items: Ti_3[], func: (item: Ti_3, index: number, array: Ti_3[]) => Promise<To_1>) => Promise<To_1[]>;
-    allObj: <T_3 extends unknown>(input: {
-        [key: string]: Promise<T_3>;
-    }) => Promise<{
-        [key: string]: T_3;
-    }>;
-    allLimitObj: <T_4 extends unknown>(limit: number, input: {
-        [key: string]: (index: number) => Promise<T>;
-    }, noThrow?: boolean) => Promise<{
-        [key: string]: T_4;
-    }>;
+    allObj: <T_3 extends Object>(input: T_3) => Promise<UnWrapPromiseObject<T_3>>;
+    allLimitObj: <T_4 extends Object>(limit: number, input: T_4, noThrow?: boolean) => Promise<UnWrapPromiseObject<T_4>>;
 };
 
 /**
@@ -685,9 +673,13 @@ declare const PromiseUtils: {
  * range(3);  // [0, 1, 2]
  * range(5);  // [0, 1, 2, 3, 4]
  * range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+ *
+ * range(3, 2);  // [0, 2, 4]
+ * range(5, 2);  // [0, 2, 4, 6, 8]
+ * range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
  * ```
  */
-declare const range: (length?: number) => number[];
+declare const range: (length?: number, multiplier?: number) => number[];
 declare type UnwrapArray<T> = T extends Array<infer U> ? U : T;
 declare type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];
 /**
@@ -758,6 +750,8 @@ declare const reverse: <T = string>(arr: T[]) => T[];
  */
 declare const entries: <T = string>(arr: T[]) => [number, T][];
 /**
+ * ArrayUtils.repeat
+ *
  * Returns an array with the given items repeated
  *
  * ```typescript
@@ -766,25 +760,44 @@ declare const entries: <T = string>(arr: T[]) => [number, T][];
  * ```
  */
 declare const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
-
-declare const ArrayUtils_range: typeof range;
-declare const ArrayUtils_zip: typeof zip;
-declare const ArrayUtils_sortByMapped: typeof sortByMapped;
-declare const ArrayUtils_randomise: typeof randomise;
-declare const ArrayUtils_reverse: typeof reverse;
-declare const ArrayUtils_entries: typeof entries;
-declare const ArrayUtils_repeat: typeof repeat;
-declare namespace ArrayUtils {
-  export {
-    ArrayUtils_range as range,
-    ArrayUtils_zip as zip,
-    ArrayUtils_sortByMapped as sortByMapped,
-    ArrayUtils_randomise as randomise,
-    ArrayUtils_reverse as reverse,
-    ArrayUtils_entries as entries,
-    ArrayUtils_repeat as repeat,
-  };
-}
+/**
+ * ArrayUtils.roll
+ *
+ * 'Roll' the array by a given amount so that is has a new first item. Length and contents remain the same, but the order is changed
+ *
+ * ```typescript
+ * roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
+ * roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
+ * ```
+ */
+declare const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
+/**
+ * ArrayUtils.sortNumberedText
+ *
+ * Alphabetically sorts a list of strings, but keeps multi-digit numbers in numerical order (rather than alphabetical)
+ *
+ * ```typescript
+ * const names = ['name1', 'name10', 'name2', 'foo20', 'foo10', 'foo9'];
+ * names.sort(); // [ 'foo10', 'foo20', 'foo9', 'name1', 'name10', 'name2' ]
+ * sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
+ * ```
+ */
+declare const sortNumberedText: (texts: string[]) => string[];
+declare const ArrayUtils: {
+    range: (length?: number, multiplier?: number) => number[];
+    zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
+    sortByMapped: <T_1 = string, M = number>(arr: T_1[], mapFn: (value: T_1, index: number, array: T_1[]) => M, sortFn?: (a: M, b: M) => number) => T_1[];
+    randomise: <T_2 = string>(arr: T_2[]) => T_2[];
+    reverse: <T_3 = string>(arr: T_3[]) => T_3[];
+    entries: <T_4 = string>(arr: T_4[]) => [number, T_4][];
+    repeat: <T_5 = string>(maxLength: number, ...items: T_5[]) => T_5[];
+    roll: <T_6 extends unknown>(distance: number, arr: T_6[]) => T_6[];
+    sortNumberedText: (texts: string[]) => string[];
+    utils: {
+        isNumString: (text: string) => boolean;
+        partitionNums: (name: string) => (string | number)[];
+    };
+};
 
 declare const ObjectUtils: {
     map: <T extends Object, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V) => [string, W]) => OfType<T, W>;
@@ -860,6 +873,361 @@ declare const symbols: {
 };
 declare const superscript: (num: any) => any;
 
+declare type ColourValues = [number, number, number];
+/**
+ * ColourUtils.namedColours
+ *
+ * A dictionary of different colour names and their RGB values
+ *
+ * ```typescript
+ * ColourUtils.namedColours.blue // [0, 0, 255]
+ * ColourUtils.namedColours.red // [255, 0, 0]
+ * ColourUtils.namedColours.green // [0, 255, 0]
+ *
+ * ColourUtils.namedColours.azure // [240, 255, 255]
+ * ColourUtils.namedColours.darkorange // [255, 140, 0]
+ * ColourUtils.namedColours.dodgerblue // [30, 144, 255]
+ * ```
+ */
+declare const namedColours: {
+    aliceblue: number[];
+    antiquewhite: number[];
+    aqua: number[];
+    aquamarine: number[];
+    azure: number[];
+    beige: number[];
+    bisque: number[];
+    black: number[];
+    blanchedalmond: number[];
+    blue: number[];
+    blueviolet: number[];
+    brown: number[];
+    burlywood: number[];
+    cadetblue: number[];
+    chartreuse: number[];
+    chocolate: number[];
+    coral: number[];
+    cornflowerblue: number[];
+    cornsilk: number[];
+    crimson: number[];
+    cyan: number[];
+    darkblue: number[];
+    darkcyan: number[];
+    darkgoldenrod: number[];
+    darkgray: number[];
+    darkgreen: number[];
+    darkgrey: number[];
+    darkkhaki: number[];
+    darkmagenta: number[];
+    darkolivegreen: number[];
+    darkorange: number[];
+    darkorchid: number[];
+    darkred: number[];
+    darksalmon: number[];
+    darkseagreen: number[];
+    darkslateblue: number[];
+    darkslategray: number[];
+    darkslategrey: number[];
+    darkturquoise: number[];
+    darkviolet: number[];
+    deeppink: number[];
+    deepskyblue: number[];
+    dimgray: number[];
+    dimgrey: number[];
+    dodgerblue: number[];
+    firebrick: number[];
+    floralwhite: number[];
+    forestgreen: number[];
+    fractal: number[];
+    fuchsia: number[];
+    gainsboro: number[];
+    ghostwhite: number[];
+    gold: number[];
+    goldenrod: number[];
+    gray0: number[];
+    gray1: number[];
+    gray2: number[];
+    gray3: number[];
+    gray4: number[];
+    gray5: number[];
+    gray6: number[];
+    gray7: number[];
+    gray8: number[];
+    gray9: number[];
+    gray10: number[];
+    gray11: number[];
+    gray12: number[];
+    gray13: number[];
+    gray14: number[];
+    gray15: number[];
+    gray16: number[];
+    gray17: number[];
+    gray18: number[];
+    gray19: number[];
+    gray20: number[];
+    gray21: number[];
+    gray22: number[];
+    gray23: number[];
+    gray24: number[];
+    gray25: number[];
+    gray26: number[];
+    gray27: number[];
+    gray28: number[];
+    gray29: number[];
+    gray30: number[];
+    gray31: number[];
+    gray32: number[];
+    gray33: number[];
+    gray34: number[];
+    gray35: number[];
+    gray36: number[];
+    gray37: number[];
+    gray38: number[];
+    gray39: number[];
+    gray40: number[];
+    gray41: number[];
+    gray42: number[];
+    gray43: number[];
+    gray44: number[];
+    gray45: number[];
+    gray46: number[];
+    gray47: number[];
+    gray48: number[];
+    gray49: number[];
+    gray50: number[];
+    gray51: number[];
+    gray52: number[];
+    gray53: number[];
+    gray54: number[];
+    gray55: number[];
+    gray56: number[];
+    gray57: number[];
+    gray58: number[];
+    gray59: number[];
+    gray60: number[];
+    gray61: number[];
+    gray62: number[];
+    gray63: number[];
+    gray64: number[];
+    gray65: number[];
+    gray66: number[];
+    gray67: number[];
+    gray68: number[];
+    gray69: number[];
+    gray70: number[];
+    gray71: number[];
+    gray72: number[];
+    gray73: number[];
+    gray74: number[];
+    gray75: number[];
+    gray76: number[];
+    gray77: number[];
+    gray78: number[];
+    gray79: number[];
+    gray80: number[];
+    gray81: number[];
+    gray82: number[];
+    gray83: number[];
+    gray84: number[];
+    gray85: number[];
+    gray86: number[];
+    gray87: number[];
+    gray88: number[];
+    gray89: number[];
+    gray90: number[];
+    gray91: number[];
+    gray92: number[];
+    gray93: number[];
+    gray94: number[];
+    gray95: number[];
+    gray96: number[];
+    gray97: number[];
+    gray98: number[];
+    gray99: number[];
+    gray100: number[];
+    gray: number[];
+    green: number[];
+    greenyellow: number[];
+    grey: number[];
+    honeydew: number[];
+    hotpink: number[];
+    indianred: number[];
+    indigo: number[];
+    ivory: number[];
+    khaki: number[];
+    lavender: number[];
+    lavenderblush: number[];
+    lawngreen: number[];
+    lemonchiffon: number[];
+    lightblue: number[];
+    lightcoral: number[];
+    lightcyan: number[];
+    lightgoldenrodyellow: number[];
+    lightgray: number[];
+    lightgreen: number[];
+    lightgrey: number[];
+    lightpink: number[];
+    lightsalmon: number[];
+    lightseagreen: number[];
+    lightskyblue: number[];
+    lightslategray: number[];
+    lightslategrey: number[];
+    lightsteelblue: number[];
+    lightyellow: number[];
+    lime: number[];
+    limegreen: number[];
+    linen: number[];
+    magenta: number[];
+    maroon: number[];
+    mediumaquamarine: number[];
+    mediumblue: number[];
+    mediumorchid: number[];
+    mediumpurple: number[];
+    mediumseagreen: number[];
+    mediumslateblue: number[];
+    mediumspringgreen: number[];
+    mediumturquoise: number[];
+    mediumvioletred: number[];
+    midnightblue: number[];
+    mintcream: number[];
+    mistyrose: number[];
+    moccasin: number[];
+    navajowhite: number[];
+    navy: number[];
+    none: number[];
+    oldlace: number[];
+    olive: number[];
+    olivedrab: number[];
+    orange: number[];
+    orangered: number[];
+    orchid: number[];
+    palegoldenrod: number[];
+    palegreen: number[];
+    paleturquoise: number[];
+    palevioletred: number[];
+    papayawhip: number[];
+    peachpuff: number[];
+    peru: number[];
+    pink: number[];
+    plum: number[];
+    powderblue: number[];
+    purple: number[];
+    red: number[];
+    rosybrown: number[];
+    royalblue: number[];
+    saddlebrown: number[];
+    salmon: number[];
+    sandybrown: number[];
+    seagreen: number[];
+    seashell: number[];
+    sienna: number[];
+    silver: number[];
+    skyblue: number[];
+    slateblue: number[];
+    slategray: number[];
+    slategrey: number[];
+    snow: number[];
+    springgreen: number[];
+    steelblue: number[];
+    tan: number[];
+    teal: number[];
+    thistle: number[];
+    tomato: number[];
+    turquoise: number[];
+    violet: number[];
+    wheat: number[];
+    white: number[];
+    whitesmoke: number[];
+    yellow: number[];
+    yellowgreen: number[];
+};
+/**
+ * ColourUtils.parse
+ *
+ * Parse a string into a colour object (RGB array)
+ * Not extensive. Currently limited to:
+ * - 3 char hexes
+ * - 6 char hexes
+ * - comma separated RGB values
+ * - named colours (from namedColours dictionary)
+ *
+ * ```typescript
+ * ColourUtils.parse('#FF0000') // [255, 0, 0]
+ * ColourUtils.parse('rgb(255, 0, 0)') // [255, 0, 0]
+ * ColourUtils.parse('red') // [255, 0, 0]
+ * ```
+ */
+declare const parse: (input: string) => ColourValues;
+/**
+ * ColourUtils.toHex
+ *
+ * Convert a colour object (RGB array) to a hex string
+ *
+ * ```typescript
+ * ColourUtils.toHex([255, 0, 0]) // '#FF0000'
+ * ```
+ */
+declare const toHex: (colour: ColourValues) => string;
+/**
+ * ColourUtils.getLuminance
+ *
+ * Get the luminance value of a given colour.
+ *
+ * Between 0 and 255. Calculated using the formula:
+ *  (RED × 0.299) + (GREEN × 0.587) + (BLUE × 0.114)
+ *
+ * ```typescript
+ * getLuminance([255, 0, 0]); // 76.245
+ * getLuminance([0, 255, 0]); // 149.685
+ * getLuminance([0, 0, 255]); // 29.07
+ * ```
+ */
+declare const getLuminance: ([r, g, b]: ColourValues) => number;
+/**
+ * ColourUtils.invertColour
+ *
+ * Get the opposite colour of a given colour.
+ *
+ * ```typescript
+ * invertColour([255, 0, 0]); // [0, 255, 255]
+ * invertColour([0, 255, 0]); // [ 255, 0, 255 ]
+ * invertColour([0, 0, 255]); // [ 255, 255, 0 ]
+ * ```
+ */
+declare const invertColour: ([r, g, b]: ColourValues) => ColourValues;
+/**
+ * ColourUtils.getContrastedColour
+ *
+ * Get the colour that contrasts the most with a given colour. (White or black)
+ *
+ * Returned colour can be used as a text colour on top of the provided colour
+ *
+ * ```typescript
+ * getContrastedColour([255, 0, 0]); // [255, 255, 255]
+ * getContrastedColour([255, 255, 0]); // [0, 0, 0]
+ * ```
+ */
+declare const getContrastedColour: (colour: ColourValues) => ColourValues;
+
+type ColourUtils_ColourValues = ColourValues;
+declare const ColourUtils_namedColours: typeof namedColours;
+declare const ColourUtils_parse: typeof parse;
+declare const ColourUtils_toHex: typeof toHex;
+declare const ColourUtils_getLuminance: typeof getLuminance;
+declare const ColourUtils_invertColour: typeof invertColour;
+declare const ColourUtils_getContrastedColour: typeof getContrastedColour;
+declare namespace ColourUtils {
+  export {
+    ColourUtils_ColourValues as ColourValues,
+    ColourUtils_namedColours as namedColours,
+    ColourUtils_parse as parse,
+    ColourUtils_toHex as toHex,
+    ColourUtils_getLuminance as getLuminance,
+    ColourUtils_invertColour as invertColour,
+    ColourUtils_getContrastedColour as getContrastedColour,
+  };
+}
+
 /**
  * fn.noop
  *
@@ -907,6 +1275,27 @@ declare const resolve: <T = any>(item: T) => () => Promise<T>;
  * Returns an async function that rejects with the first argument
  */
 declare const reject: <T = any>(item: T) => () => Promise<T>;
+/**
+ * fn.fixFloat
+ *
+ * Fixes floating point errors that may occur when adding/subtracting/multiplying/dividing real/float numbers
+ *
+ * ```typescript
+ * 0.1 + 0.2 // 0.30000000000000004
+ * fixFloat(0.1 + 0.2) // 0.3
+ * ```
+ */
+declare const fixFloat: (num: number, precision?: number) => number;
+/**
+ * fn.addAll
+ *
+ * Adds all numbers together. Each argument is a number (use spread operator to pass in an array) similar to Math.min/Math.max
+ *
+ * ```typescript
+ * addAll(1, 2, 3, 4, 5); // 15
+ * ```
+ */
+declare const addAll: (...args: number[]) => number;
 /**
  * fn.filters.exists / fn.exists
  *
@@ -1091,12 +1480,26 @@ declare const nearestTo: <T = number>(target: T) => (a: any, b: any) => number;
  * ```
  */
 declare const furthestFrom: <T = number>(target: T) => (a: any, b: any) => number;
+/**
+ * fn.sorts.arrayAsc / fn.arrayAsc
+ *
+ * Sort an array of arrays in ascending order
+ */
+declare const arrayAsc: (a: any[], b: any[]) => number;
+/**
+ * fn.sorts.arrayDesc/ fn.arrayDesc
+ *
+ * Sort an array of arrays in descending order
+ */
+declare const arrayDesc: (a: any[], b: any[]) => number;
 declare const sorts$1: {
     asc: (a: any, b: any) => number;
     desc: (a: any, b: any) => number;
     byProp: <T = number, O = Object>(propName: string, sortFn?: SortFn<T>) => SortFn<O>;
     nearestTo: <T_1 = number>(target: T_1) => (a: any, b: any) => number;
     furthestFrom: <T_2 = number>(target: T_2) => (a: any, b: any) => number;
+    arrayAsc: (a: any[], b: any[]) => number;
+    arrayDesc: (a: any[], b: any[]) => number;
 };
 /**
  * fn.reduces.combine / fn.combine
@@ -1139,12 +1542,56 @@ declare const isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 declare const everys$1: {
     isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 };
+/**
+ * fn.round.floorTo / fn.floorTo
+ *
+ * Floors a number down to the nearest multiple of the given number.
+ *
+ * ```typescript
+ * fn.round.floorTo(10, 102); // 100
+ * fn.round.floorTo(5, 53); // 50
+ * fn.round.floorTo(0.1, 0.25); // 0.2
+ * ```
+ */
+declare const floorTo: (to: number, value: number) => number;
+/**
+ * fn.round.to / fn.round.roundTo / fn.roundTo
+ *
+ * Floors a number down to the nearest multiple of the given number.
+ *
+ * ```typescript
+ * fn.round.to(10, 102); // 100
+ * fn.round.to(5, 53); // 55
+ * fn.round.to(0.1, 0.25); // 0.3
+ * ```
+ */
+declare const roundTo: (to: number, value: number) => number;
+/**
+ * fn.round.ceilTo / fn.ceilTo
+ *
+ * Floors a number down to the nearest multiple of the given number.
+ *
+ * ```typescript
+ * fn.round.ceilTo(10, 102); // 110
+ * fn.round.ceilTo(5, 53); // 55
+ * fn.round.ceilTo(0.1, 0.25); // 0.3
+ * ```
+ */
+declare const ceilTo: (to: number, value: number) => number;
+declare const round: {
+    floorTo: (to: number, value: number) => number;
+    roundTo: (to: number, value: number) => number;
+    ceilTo: (to: number, value: number) => number;
+    to: (to: number, value: number) => number;
+};
 
 declare const fn_noop: typeof noop;
 declare const fn_noact: typeof noact;
 declare const fn_result: typeof result;
 declare const fn_resolve: typeof resolve;
 declare const fn_reject: typeof reject;
+declare const fn_fixFloat: typeof fixFloat;
+declare const fn_addAll: typeof addAll;
 declare const fn_exists: typeof exists;
 declare const fn_isTruthy: typeof isTruthy;
 declare const fn_isFalsy: typeof isFalsy;
@@ -1161,9 +1608,15 @@ declare const fn_desc: typeof desc;
 declare const fn_byProp: typeof byProp;
 declare const fn_nearestTo: typeof nearestTo;
 declare const fn_furthestFrom: typeof furthestFrom;
+declare const fn_arrayAsc: typeof arrayAsc;
+declare const fn_arrayDesc: typeof arrayDesc;
 declare const fn_combine: typeof combine;
 declare const fn_combineProp: typeof combineProp;
 declare const fn_isAllEqual: typeof isAllEqual;
+declare const fn_floorTo: typeof floorTo;
+declare const fn_roundTo: typeof roundTo;
+declare const fn_ceilTo: typeof ceilTo;
+declare const fn_round: typeof round;
 declare namespace fn {
   export {
     fn_noop as noop,
@@ -1171,6 +1624,8 @@ declare namespace fn {
     fn_result as result,
     fn_resolve as resolve,
     fn_reject as reject,
+    fn_fixFloat as fixFloat,
+    fn_addAll as addAll,
     fn_exists as exists,
     fn_isTruthy as isTruthy,
     fn_isFalsy as isFalsy,
@@ -1189,12 +1644,18 @@ declare namespace fn {
     fn_byProp as byProp,
     fn_nearestTo as nearestTo,
     fn_furthestFrom as furthestFrom,
+    fn_arrayAsc as arrayAsc,
+    fn_arrayDesc as arrayDesc,
     sorts$1 as sorts,
     fn_combine as combine,
     fn_combineProp as combineProp,
     reduces$1 as reduces,
     fn_isAllEqual as isAllEqual,
     everys$1 as everys,
+    fn_floorTo as floorTo,
+    fn_roundTo as roundTo,
+    fn_ceilTo as ceilTo,
+    fn_round as round,
   };
 }
 
@@ -1219,6 +1680,8 @@ declare const sorts: {
     byProp: <T = number, O = Object>(propName: string, sortFn?: (a: T, b: T) => number) => (a: O, b: O) => number;
     nearestTo: <T_1 = number>(target: T_1) => (a: any, b: any) => number;
     furthestFrom: <T_2 = number>(target: T_2) => (a: any, b: any) => number;
+    arrayAsc: (a: any[], b: any[]) => number;
+    arrayDesc: (a: any[], b: any[]) => number;
 };
 declare const reduces: {
     combine: (a: any, b: any) => any;
@@ -1228,4 +1691,4 @@ declare const everys: {
     isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 };
 
-export { ArrayUtils, CENTURY, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, ObjOfType, ObjectUtils, OfType, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, RemapOf, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reduces, repeat, retry, retryOr, reverse, second, seconds, sortByMapped, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
+export { ArrayUtils, CENTURY, ColourUtils, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, ObjOfType, ObjectUtils, OfType, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, RemapOf, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };

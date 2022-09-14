@@ -12,9 +12,9 @@ export * from './tools/symbols';
 import * as times from './tools/times';
 import * as waiters from './tools/waiters';
 import * as progressBar from './tools/progressBar';
-import * as ArrayUtils from './tools/ArrayUtils';
+import * as ColourUtils from './tools/ColourUtils';
 
-export { times, waiters, progressBar, ArrayUtils };
+export { times, waiters, progressBar, ColourUtils };
 
 // Higher order functions
 import * as fn from './tools/fn';

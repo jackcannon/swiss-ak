@@ -18,6 +18,8 @@ A collection of useful little things that I like to reuse across projects
     - [fn.result](#fnresult)
     - [fn.resolve](#fnresolve)
     - [fn.reject](#fnreject)
+    - [fn.fixFloat](#fnfixfloat)
+    - [fn.addAll](#fnaddall)
   - [Filters](#filters)
     - [fn.filters.exists / fn.exists](#fnfiltersexists--fnexists)
     - [fn.filters.isTruthy / fn.isTruthy](#fnfiltersistruthy--fnistruthy)
@@ -37,11 +39,17 @@ A collection of useful little things that I like to reuse across projects
     - [fn.sorts.byProp / fn.byProp](#fnsortsbyprop--fnbyprop)
     - [fn.sorts.nearestTo / fn.nearestTo](#fnsortsnearestto--fnnearestto)
     - [fn.sorts.furthestFrom / fn.furthestFrom](#fnsortsfurthestfrom--fnfurthestfrom)
+    - [fn.sorts.arrayAsc / fn.arrayAsc](#fnsortsarrayasc--fnarrayasc)
+    - [fn.sorts.arrayDesc/ fn.arrayDesc](#fnsortsarraydesc-fnarraydesc)
   - [Reduces](#reduces)
     - [fn.reduces.combine / fn.combine](#fnreducescombine--fncombine)
     - [fn.reduces.combineProp / fn.combineProp](#fnreducescombineprop--fncombineprop)
   - [Everys](#everys)
     - [fn.everys.isAllEqual / fn.isAllEqual](#fneverysisallequal--fnisallequal)
+  - [Round](#round)
+    - [fn.round.floorTo / fn.floorTo](#fnroundfloorto--fnfloorto)
+    - [fn.round.to / fn.round.roundTo / fn.roundTo](#fnroundto--fnroundroundto--fnroundto)
+    - [fn.round.ceilTo / fn.ceilTo](#fnroundceilto--fnceilto)
 - [Error handling](#error-handling)
     - [tryOr](#tryor)
     - [retry](#retry)
@@ -57,6 +65,8 @@ A collection of useful little things that I like to reuse across projects
   - [reverse](#reverse)
   - [entries](#entries)
   - [repeat](#repeat)
+  - [roll](#roll)
+  - [sortNumberedText](#sortnumberedtext)
 - [ObjectUtils](#objectutils)
   - [ObjectUtils.map](#objectutilsmap)
   - [ObjectUtils.mapValues](#objectutilsmapvalues)
@@ -71,6 +81,13 @@ A collection of useful little things that I like to reuse across projects
   - [PromiseUtils.mapLimit](#promiseutilsmaplimit)
   - [PromiseUtils.allObj](#promiseutilsallobj)
   - [PromiseUtils.allLimitObj](#promiseutilsalllimitobj)
+- [ColourUtils](#colourutils)
+  - [ColourUtils.namedColours](#colourutilsnamedcolours)
+  - [ColourUtils.parse](#colourutilsparse)
+  - [ColourUtils.toHex](#colourutilstohex)
+  - [ColourUtils.getLuminance](#colourutilsgetluminance)
+  - [ColourUtils.invertColour](#colourutilsinvertcolour)
+  - [ColourUtils.getContrastedColour](#colourutilsgetcontrastedcolour)
 - [progressBar](#progressbar)
   - [Options](#options)
   - [Usage (progressBar)](#usage-progressbar)
@@ -251,6 +268,27 @@ Returns an async function that rejects with the first argument
 
 [↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
+### fn.fixFloat
+
+Fixes floating point errors that may occur when adding/subtracting/multiplying/dividing real/float numbers
+
+```typescript
+0.1 + 0.2; // 0.30000000000000004
+fixFloat(0.1 + 0.2); // 0.3
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+### fn.addAll
+
+Adds all numbers together. Each argument is a number (use spread operator to pass in an array) similar to Math.min/Math.max
+
+```typescript
+addAll(1, 2, 3, 4, 5); // 15
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## Filters
 
 ### fn.filters.exists / fn.exists
@@ -425,6 +463,18 @@ people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
 
 [↑ Back to top ↑](#swiss-ak-swiss-army-knife)
 
+### fn.sorts.arrayAsc / fn.arrayAsc
+
+Sort an array of arrays in ascending order
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+### fn.sorts.arrayDesc/ fn.arrayDesc
+
+Sort an array of arrays in descending order
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
 ## Reduces
 
 ### fn.reduces.combine / fn.combine
@@ -463,6 +513,44 @@ Returns if all the items are equal to one another.
 ```typescript
 [1, 1, 1].every(fn.isAllEqual); // true
 [1, 2, 1].every(fn.isAllEqual); // false
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+## Round
+
+### fn.round.floorTo / fn.floorTo
+
+Floors a number down to the nearest multiple of the given number.
+
+```typescript
+fn.round.floorTo(10, 102); // 100
+fn.round.floorTo(5, 53); // 50
+fn.round.floorTo(0.1, 0.25); // 0.2
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+### fn.round.to / fn.round.roundTo / fn.roundTo
+
+Floors a number down to the nearest multiple of the given number.
+
+```typescript
+fn.round.to(10, 102); // 100
+fn.round.to(5, 53); // 55
+fn.round.to(0.1, 0.25); // 0.3
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+### fn.round.ceilTo / fn.ceilTo
+
+Floors a number down to the nearest multiple of the given number.
+
+```typescript
+fn.round.ceilTo(10, 102); // 110
+fn.round.ceilTo(5, 53); // 55
+fn.round.ceilTo(0.1, 0.25); // 0.3
 ```
 
 [↑ Back to top ↑](#swiss-ak-swiss-army-knife)
@@ -561,6 +649,10 @@ e.g. [0, 1, 2, ..., length]
 range(3); // [0, 1, 2]
 range(5); // [0, 1, 2, 3, 4]
 range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+range(3, 2); // [0, 2, 4]
+range(5, 2); // [0, 2, 4, 6, 8]
+range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
 ```
 
 [↑ Back to top ↑](#swiss-ak-swiss-army-knife)
@@ -649,6 +741,29 @@ Returns an array with the given items repeated
 ```typescript
 repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
 repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+## roll
+
+'Roll' the array by a given amount so that is has a new first item. Length and contents remain the same, but the order is changed
+
+```typescript
+roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
+roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+## sortNumberedText
+
+Alphabetically sorts a list of strings, but keeps multi-digit numbers in numerical order (rather than alphabetical)
+
+```typescript
+const names = ['name1', 'name10', 'name2', 'foo20', 'foo10', 'foo9'];
+names.sort(); // [ 'foo10', 'foo20', 'foo9', 'name1', 'name10', 'name2' ]
+sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
 ```
 
 [↑ Back to top ↑](#swiss-ak-swiss-army-knife)
@@ -904,6 +1019,92 @@ timer.log();
 // 	b: 5s
 // 	c: 10s
 // 	d: 10s
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+# ColourUtils
+
+## ColourUtils.namedColours
+
+A dictionary of different colour names and their RGB values
+
+```typescript
+ColourUtils.namedColours.blue; // [0, 0, 255]
+ColourUtils.namedColours.red; // [255, 0, 0]
+ColourUtils.namedColours.green; // [0, 255, 0]
+
+ColourUtils.namedColours.azure; // [240, 255, 255]
+ColourUtils.namedColours.darkorange; // [255, 140, 0]
+ColourUtils.namedColours.dodgerblue; // [30, 144, 255]
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+## ColourUtils.parse
+
+Parse a string into a colour object (RGB array)
+Not extensive. Currently limited to:
+
+- 3 char hexes
+- 6 char hexes
+- comma separated RGB values
+- named colours (from namedColours dictionary)
+
+```typescript
+ColourUtils.parse('#FF0000'); // [255, 0, 0]
+ColourUtils.parse('rgb(255, 0, 0)'); // [255, 0, 0]
+ColourUtils.parse('red'); // [255, 0, 0]
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+## ColourUtils.toHex
+
+Convert a colour object (RGB array) to a hex string
+
+```typescript
+ColourUtils.toHex([255, 0, 0]); // '#FF0000'
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+## ColourUtils.getLuminance
+
+Get the luminance value of a given colour.
+
+Between 0 and 255. Calculated using the formula:
+(RED × 0.299) + (GREEN × 0.587) + (BLUE × 0.114)
+
+```typescript
+getLuminance([255, 0, 0]); // 76.245
+getLuminance([0, 255, 0]); // 149.685
+getLuminance([0, 0, 255]); // 29.07
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+## ColourUtils.invertColour
+
+Get the opposite colour of a given colour.
+
+```typescript
+invertColour([255, 0, 0]); // [0, 255, 255]
+invertColour([0, 255, 0]); // [ 255, 0, 255 ]
+invertColour([0, 0, 255]); // [ 255, 255, 0 ]
+```
+
+[↑ Back to top ↑](#swiss-ak-swiss-army-knife)
+
+## ColourUtils.getContrastedColour
+
+Get the colour that contrasts the most with a given colour. (White or black)
+
+Returned colour can be used as a text colour on top of the provided colour
+
+```typescript
+getContrastedColour([255, 0, 0]); // [255, 255, 255]
+getContrastedColour([255, 255, 0]); // [0, 0, 0]
 ```
 
 [↑ Back to top ↑](#swiss-ak-swiss-army-knife)

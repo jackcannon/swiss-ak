@@ -240,12 +240,14 @@ export const mapLimit = async <Ti extends unknown, To extends unknown>(
     })
   );
 
-const objectify = async (func: Function, input: any) => {
+const objectify = async <T extends Object>(func: Function, input: T): Promise<UnWrapPromiseObject<T>> => {
   const keys = Object.keys(input);
   const results = await func(Object.values(input));
-  return Object.fromEntries(keys.map((key, index) => [key, results[index]]));
+  return Object.fromEntries(keys.map((key, index) => [key, results[index]])) as UnWrapPromiseObject<T>;
 };
 
+type UnWrapPromise<T> = T extends Promise<infer U> ? U : T;
+type UnWrapPromiseObject<T> = { [K in keyof T]: UnWrapPromise<T[K]> };
 /**
  * Like Promise.all, but pass/receive objects rather than arrays
  *
@@ -278,8 +280,8 @@ const objectify = async (func: Function, input: any) => {
  * // 	c: 20s
  * ```
  */
-export const allObj = async <T extends unknown>(input: { [key: string]: Promise<T> }): Promise<{ [key: string]: T }> => {
-  return objectify(Promise.all, input);
+export const allObj = async <T extends Object>(input: T): Promise<UnWrapPromiseObject<T>> => {
+  return objectify((arr) => Promise.all(arr), input);
 };
 
 /**
@@ -318,11 +320,7 @@ export const allObj = async <T extends unknown>(input: { [key: string]: Promise<
  * // 	d: 10s
  * ```
  */
-export const allLimitObj = async <T extends unknown>(
-  limit: number,
-  input: { [key: string]: (index: number) => Promise<T> },
-  noThrow: boolean = false
-): Promise<{ [key: string]: T }> => {
+export const allLimitObj = async <T extends Object>(limit: number, input: T, noThrow: boolean = false): Promise<UnWrapPromiseObject<T>> => {
   return objectify((items: ((index: number) => Promise<T>)[]) => {
     return allLimit(limit, items, noThrow);
   }, input);
