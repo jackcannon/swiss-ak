@@ -7,6 +7,7 @@ export * from './tools/errorHandling';
 export * from './tools/PromiseUtils';
 export * from './tools/ArrayUtils';
 export * from './tools/ObjectUtils';
+export * from './tools/TimeUtils';
 export * from './tools/symbols';
 
 import * as times from './tools/times';

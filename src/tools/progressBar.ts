@@ -54,14 +54,14 @@ const getBarString = (current: number, max: number, width: number, opts: Progres
   return `${startChar}${body}${endChar}`;
 };
 
-const getSuffix = (current: number, max: number, opts: ProgressBarOptionsFull) => {
+const getSuffix = (current: number, maxNum: number, isMaxKnown: boolean, opts: ProgressBarOptionsFull) => {
   let items = [''];
   if (opts.showCount) {
-    const pad = Math.max(max.toString().length, opts.countWidth);
-    items.push(`[${current.toString().padStart(pad, ' ')} / ${max.toString().padStart(pad, ' ')}]`);
+    const pad = Math.max(maxNum.toString().length, opts.countWidth);
+    items.push(`[${current.toString().padStart(pad, ' ')} / ${(isMaxKnown ? maxNum.toString() : '?').padStart(pad, ' ')}]`);
   }
   if (opts.showPercent) {
-    const percent = Math.round((current / max) * 100);
+    const percent = Math.round((current / maxNum) * 100);
     items.push(`(${percent.toString().padStart('100'.toString().length, ' ')}%)`);
   }
   const joined = items.filter((x) => x).join(' ');
@@ -97,6 +97,16 @@ const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull =
   ...opts
 });
 
+export interface ProgressBar {
+  next: () => string;
+  set: (newCurrent: number) => string;
+  reset: () => string;
+  update: () => string;
+  start: () => string;
+  finish: () => string;
+  readonly max: number;
+}
+
 /**
  * Usage:
  * ```typescript
@@ -128,18 +138,21 @@ const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull =
  * ABC ▕██████▏ [5 / 5]
  * ```
  */
-export const getProgressBar = (max: number, options: ProgressBarOptions = {}) => {
+export const getProgressBar = (max: number, options: ProgressBarOptions = {}): ProgressBar => {
   const opts = getFullOptions(options);
   const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar } = opts;
   let current = 0;
   let finished = false;
 
+  const maxNum = typeof max === 'number' ? max : 1;
+  const isMaxKnown = typeof max === 'number';
+
   const update = () => {
-    const suffix = getSuffix(current, max, opts);
+    const suffix = getSuffix(current, maxNum, isMaxKnown, opts);
     const fullPrefix = prefix.padEnd(prefixWidth);
     const output = `${fullPrefix}${getBarString(
       current,
-      max,
+      maxNum,
       Math.max(0, maxWidth - [fullPrefix, suffix, startChar, endChar].join('').length),
       opts
     )}${suffix}`;
@@ -182,6 +195,7 @@ export const getProgressBar = (max: number, options: ProgressBarOptions = {}) =>
     reset,
     update,
     start,
-    finish
+    finish,
+    max
   };
 };

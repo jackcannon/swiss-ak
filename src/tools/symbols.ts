@@ -18,6 +18,11 @@ export const symbols = {
   TILDE: '~',
   HOME: '~',
 
+  RADIO_EMPTY: '◯',
+  RADIO_FULL: '◉',
+
+  CURSOR: '❯',
+
   CHEV_LFT: '‹',
   CHEV_RGT: '›',
 
@@ -72,7 +77,7 @@ export const symbols = {
     i: 'ⁱ',
     n: 'ⁿ',
     o: '°',
-    '*': '°',
+    '*': '°'
   }
 };
 

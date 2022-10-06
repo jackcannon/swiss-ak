@@ -104,23 +104,78 @@ var noChalk = {
   bold: noWrap
 };
 
-// src/tools/timer.ts
-var formatDuration = (duration) => {
-  const seconds2 = duration / SECOND;
-  let extra = "";
-  let secsEx = Math.round(seconds2);
-  let minsEx = Math.floor(secsEx / 60);
-  if (minsEx >= 1) {
-    secsEx %= 60;
-    extra = `${minsEx}m ${secsEx}s`;
-    let hoursEx = Math.floor(minsEx / 60);
-    if (hoursEx >= 1) {
-      minsEx %= 60;
-      extra = `${hoursEx}h ${minsEx}m ${secsEx}s`;
-    }
+// src/tools/TimeUtils.ts
+var units = [
+  {
+    value: MILLENNIUM,
+    short: { singular: "mill", plural: "mills" },
+    long: { singular: " millennium", plural: " millenniums" }
+  },
+  {
+    value: CENTURY,
+    short: { singular: "cent", plural: "cents" },
+    long: { singular: " century", plural: " centuries" }
+  },
+  {
+    value: YEAR,
+    short: { singular: "y", plural: "y" },
+    long: { singular: " year", plural: " years" }
+  },
+  {
+    value: MONTH,
+    short: { singular: "mon", plural: "mons" },
+    long: { singular: " month", plural: " months" }
+  },
+  {
+    value: DAY,
+    short: { singular: "d", plural: "d" },
+    long: { singular: " day", plural: " days" }
+  },
+  {
+    value: HOUR,
+    short: { singular: "h", plural: "h" },
+    long: { singular: " hour", plural: " hours" }
+  },
+  {
+    value: MINUTE,
+    short: { singular: "m", plural: "m" },
+    long: { singular: " minute", plural: " minutes" }
+  },
+  {
+    value: SECOND,
+    short: { singular: "s", plural: "s" },
+    long: { singular: " second", plural: " seconds" }
+  },
+  {
+    value: MILLISECOND,
+    short: { singular: "ms", plural: "ms" },
+    long: { singular: " millisecond", plural: " milliseconds" }
   }
-  return `${extra}${extra ? ` (${seconds2}s)` : `${seconds2}s`}`;
+];
+var toReadableDuration = (duration, longNames = false, maxUnits = 3) => {
+  if (duration === 0)
+    return "";
+  const allUnitValues = units.map((unit, index) => {
+    var _a;
+    const previousUnitValue = ((_a = units[index - 1]) == null ? void 0 : _a.value) ?? Infinity;
+    const amount = Math.floor(Math.abs(duration) % previousUnitValue / unit.value);
+    return { amount, unit };
+  }).filter(({ amount }) => amount > 0);
+  const results = allUnitValues.slice(0, maxUnits).map(({ amount, unit }) => {
+    const labelObj = longNames ? unit.long : unit.short;
+    const label = amount > 1 ? labelObj.plural : labelObj.singular;
+    return `${amount}${label}`;
+  });
+  if (longNames) {
+    return [...results.slice(0, -1), "&&&&", ...results.slice(-1)].join(", ").replace("&&&&,", "&");
+  }
+  return results.join(" ");
 };
+var TimeUtils = {
+  toReadableDuration
+};
+
+// src/tools/timer.ts
 var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, displayNames) => {
   let startTimes = {};
   let endTimes = {};
@@ -135,7 +190,7 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
   };
   const logLine = (label, prefix = "", nameColLength = 0, duration = getDuration(label)) => {
     const lineStart = `${dispNames[label] || label}: `.padEnd(nameColLength + 1, " ");
-    const lineEnd = `${formatDuration(duration)}`;
+    const lineEnd = `${TimeUtils.toReadableDuration(duration, false, 4)}`;
     const line = chalk.bold(prefix + lineStart) + lineEnd;
     console.log(wrapperFn(line));
     return (prefix + lineStart + lineEnd).replace("	", "").length;
@@ -223,6 +278,7 @@ __export(fn_exports, {
   arrayDesc: () => arrayDesc,
   asc: () => asc,
   byProp: () => byProp,
+  capitalise: () => capitalise,
   ceilTo: () => ceilTo,
   combine: () => combine,
   combineProp: () => combineProp,
@@ -240,6 +296,9 @@ __export(fn_exports, {
   isNotEmpty: () => isNotEmpty,
   isNotEqual: () => isNotEqual,
   isTruthy: () => isTruthy,
+  lerp: () => lerp,
+  lerpArray: () => lerpArray,
+  lerpObj: () => lerpObj,
   maps: () => maps,
   nearestTo: () => nearestTo,
   noact: () => noact,
@@ -252,10 +311,59 @@ __export(fn_exports, {
   roundTo: () => roundTo,
   sorts: () => sorts,
   toBool: () => toBool,
+  toFixed: () => toFixed,
   toNumber: () => toNumber,
   toProp: () => toProp,
   toString: () => toString
 });
+
+// src/tools/ArrayUtils.ts
+var range = (length = 1, multiplier = 1) => new Array(Math.floor(length)).fill(1).map((v, i) => fixFloat(i * multiplier));
+var zip = (...arrs) => {
+  const length = Math.min(...arrs.map((arr) => (arr || []).length));
+  return range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
+};
+var sortByMapped = (arr, mapFn, sortFn = sorts.asc) => zip(arr, arr.map(mapFn)).sort((a, b) => sortFn(a[1], b[1])).map(([v]) => v);
+var randomise = (arr) => sortByMapped(arr, () => Math.random());
+var reverse = (arr) => [...arr].reverse();
+var entries = (arr) => zip(range(arr.length), arr);
+var repeat = (maxLength, ...items) => {
+  const simple = new Array(maxLength).fill(items[0]);
+  return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
+};
+var roll = (distance, arr) => [
+  ...arr.slice(distance % arr.length),
+  ...arr.slice(0, distance % arr.length)
+];
+var isNumString = (text) => Boolean(text.match(/^[0-9]+$/));
+var partitionNums = (name) => name.split(/([0-9]+)/).map((s) => isNumString(s) ? Number(s) : s);
+var sortNumberedText = (texts) => {
+  return sortByMapped(texts, partitionNums, (a, b) => {
+    for (let i in a) {
+      const result2 = sorts.asc(a[i], b[i]);
+      if (result2 !== 0)
+        return result2;
+    }
+    return 0;
+  });
+};
+var ArrayUtils = {
+  range,
+  zip,
+  sortByMapped,
+  randomise,
+  reverse,
+  entries,
+  repeat,
+  roll,
+  sortNumberedText,
+  utils: {
+    isNumString,
+    partitionNums
+  }
+};
+
+// src/tools/fn.ts
 var noop = () => {
 };
 var noact = (item) => item;
@@ -284,11 +392,13 @@ var toString = (item) => item + "";
 var toNumber = (item) => Number(item);
 var toBool = (item) => item !== "false" && Boolean(item);
 var toProp = (prop) => (item) => item && item[prop];
+var toFixed = (precision) => (num) => fixFloat(num, precision);
 var maps = {
   toString,
   toNumber,
   toBool,
-  toProp
+  toProp,
+  toFixed
 };
 var asc = (a, b) => {
   if (a < b)
@@ -353,6 +463,14 @@ var round = {
   ceilTo,
   to: roundTo
 };
+var lerp = (progress, fromVal, toVal) => fromVal + (toVal - fromVal) * progress;
+var lerpArray = (progress, fromArr, toArr) => zip(fromArr, toArr).map(([fromVal, toVal]) => lerp(progress, fromVal, toVal));
+var lerpObj = (progress, fromObj, toObj) => {
+  const entries2 = Object.entries(fromObj);
+  const lerped = entries2.map(([key, fromVal]) => typeof fromVal === "number" ? [key, lerp(progress, fromVal, toObj[key])] : [key, fromVal]);
+  return Object.fromEntries(lerped);
+};
+var capitalise = (str) => str.split(/\s/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
 
 // src/tools/progressBar.ts
 var printLn = (...text) => {
@@ -384,14 +502,14 @@ var getBarString = (current, max, width, opts) => {
   const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
   return `${startChar}${body}${endChar}`;
 };
-var getSuffix = (current, max, opts) => {
+var getSuffix = (current, maxNum, isMaxKnown, opts) => {
   let items = [""];
   if (opts.showCount) {
-    const pad = Math.max(max.toString().length, opts.countWidth);
-    items.push(`[${current.toString().padStart(pad, " ")} / ${max.toString().padStart(pad, " ")}]`);
+    const pad = Math.max(maxNum.toString().length, opts.countWidth);
+    items.push(`[${current.toString().padStart(pad, " ")} / ${(isMaxKnown ? maxNum.toString() : "?").padStart(pad, " ")}]`);
   }
   if (opts.showPercent) {
-    const percent = Math.round(current / max * 100);
+    const percent = Math.round(current / maxNum * 100);
     items.push(`(${percent.toString().padStart("100".toString().length, " ")}%)`);
   }
   const joined = items.filter((x) => x).join(" ");
@@ -419,12 +537,14 @@ var getProgressBar = (max, options = {}) => {
   const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar } = opts;
   let current = 0;
   let finished = false;
+  const maxNum = typeof max === "number" ? max : 1;
+  const isMaxKnown = typeof max === "number";
   const update = () => {
-    const suffix = getSuffix(current, max, opts);
+    const suffix = getSuffix(current, maxNum, isMaxKnown, opts);
     const fullPrefix = prefix.padEnd(prefixWidth);
     const output = `${fullPrefix}${getBarString(
       current,
-      max,
+      maxNum,
       Math.max(0, maxWidth - [fullPrefix, suffix, startChar, endChar].join("").length),
       opts
     )}${suffix}`;
@@ -462,7 +582,8 @@ var getProgressBar = (max, options = {}) => {
     reset,
     update,
     start,
-    finish
+    finish,
+    max
   };
 };
 
@@ -606,52 +727,6 @@ var PromiseUtils = {
   allLimitObj
 };
 
-// src/tools/ArrayUtils.ts
-var range = (length = 1, multiplier = 1) => new Array(Math.floor(length)).fill(1).map((v, i) => i * multiplier);
-var zip = (...arrs) => {
-  const length = Math.min(...arrs.map((arr) => (arr || []).length));
-  return range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
-};
-var sortByMapped = (arr, mapFn, sortFn = sorts.asc) => zip(arr, arr.map(mapFn)).sort((a, b) => sortFn(a[1], b[1])).map(([v]) => v);
-var randomise = (arr) => sortByMapped(arr, () => Math.random());
-var reverse = (arr) => [...arr].reverse();
-var entries = (arr) => zip(range(arr.length), arr);
-var repeat = (maxLength, ...items) => {
-  const simple = new Array(maxLength).fill(items[0]);
-  return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
-};
-var roll = (distance, arr) => [
-  ...arr.slice(distance % arr.length),
-  ...arr.slice(0, distance % arr.length)
-];
-var isNumString = (text) => Boolean(text.match(/^[0-9]+$/));
-var partitionNums = (name) => name.split(/([0-9]+)/).map((s) => isNumString(s) ? Number(s) : s);
-var sortNumberedText = (texts) => {
-  return sortByMapped(texts, partitionNums, (a, b) => {
-    for (let i in a) {
-      const result2 = sorts.asc(a[i], b[i]);
-      if (result2 !== 0)
-        return result2;
-    }
-    return 0;
-  });
-};
-var ArrayUtils = {
-  range,
-  zip,
-  sortByMapped,
-  randomise,
-  reverse,
-  entries,
-  repeat,
-  roll,
-  sortNumberedText,
-  utils: {
-    isNumString,
-    partitionNums
-  }
-};
-
 // src/tools/ObjectUtils.ts
 var map2 = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value]) => func(key, value)));
 var mapValues = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, func(key, value)]));
@@ -676,6 +751,9 @@ var symbols = {
   EJECT: "\u23CF",
   TILDE: "~",
   HOME: "~",
+  RADIO_EMPTY: "\u25EF",
+  RADIO_FULL: "\u25C9",
+  CURSOR: "\u276F",
   CHEV_LFT: "\u2039",
   CHEV_RGT: "\u203A",
   TRI_UPP: "\u25B2",
@@ -1015,10 +1093,10 @@ var parse = (input) => {
   return [0, 0, 0];
 };
 var toHex = (colour) => {
-  const hexs = colour.map((val) => val.toString(16).padStart(2, "0"));
+  const hexs = colour.map((val) => (val ?? 0).toString(16).padStart(2, "0"));
   return `#${hexs.join("")}`;
 };
-var getLuminance = ([r, g, b]) => fixFloat(0.299 * r + 0.587 * g + 0.114 * b);
+var getLuminance = ([r, g, b]) => fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
 var invertColour = ([r, g, b]) => [255 - r, 255 - g, 255 - b];
 var white = [255, 255, 255];
 var black = [0, 0, 0];
@@ -1040,6 +1118,7 @@ export {
   ObjectUtils,
   PromiseUtils,
   SECOND,
+  TimeUtils,
   WEEK,
   YEAR,
   all,

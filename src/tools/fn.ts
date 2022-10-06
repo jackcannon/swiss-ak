@@ -1,3 +1,5 @@
+import { range, zip } from './ArrayUtils';
+
 /**
  * fn.noop
  *
@@ -243,11 +245,18 @@ export const toProp =
 //   };
 // };
 
+// todo docs
+export const toFixed =
+  (precision: number) =>
+  (num: number): number =>
+    fixFloat(num, precision);
+
 export const maps = {
   toString,
   toNumber,
   toBool,
-  toProp
+  toProp,
+  toFixed
 };
 
 /**
@@ -466,3 +475,23 @@ export const round = {
   ceilTo,
   to: roundTo
 };
+
+// TODO docs
+
+export const lerp = (progress: number, fromVal: number, toVal: number): number => fromVal + (toVal - fromVal) * progress;
+
+export const lerpArray = (progress: number, fromArr: number[], toArr: number[]): number[] =>
+  zip(fromArr, toArr).map(([fromVal, toVal]) => lerp(progress, fromVal, toVal));
+
+export const lerpObj = <T extends object>(progress: number, fromObj: T, toObj: T): T => {
+  const entries = Object.entries(fromObj);
+  const lerped = entries.map(([key, fromVal]) => (typeof fromVal === 'number' ? [key, lerp(progress, fromVal, toObj[key])] : [key, fromVal]));
+  return Object.fromEntries(lerped) as T;
+};
+
+// TODO docs
+export const capitalise = (str: string): string =>
+  str
+    .split(/\s/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');

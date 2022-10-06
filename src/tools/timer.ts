@@ -1,27 +1,7 @@
-import { ms, SECOND } from './times';
+import { ms } from './times';
 import { KeysOnly, Numbered } from './types';
 import { noChalk, noWrap } from './fakeChalk';
-
-// Hacky little display function
-const formatDuration = (duration: ms) => {
-  const seconds = duration / SECOND;
-  let extra = '';
-  let secsEx = Math.round(seconds);
-
-  let minsEx = Math.floor(secsEx / 60);
-  if (minsEx >= 1) {
-    secsEx %= 60;
-    extra = `${minsEx}m ${secsEx}s`;
-
-    let hoursEx = Math.floor(minsEx / 60);
-    if (hoursEx >= 1) {
-      minsEx %= 60;
-      extra = `${hoursEx}h ${minsEx}m ${secsEx}s`;
-    }
-  }
-
-  return `${extra}${extra ? ` (${seconds}s)` : `${seconds}s`}`;
-};
+import { TimeUtils } from './TimeUtils';
 
 interface INames {
   [k: string]: string;
@@ -110,7 +90,7 @@ export const getTimer = <TName extends INames>(
 
   const logLine = (label: string, prefix: string = '', nameColLength: number = 0, duration: number = getDuration(label)): number => {
     const lineStart = `${dispNames[label] || label}: `.padEnd(nameColLength + 1, ' ');
-    const lineEnd = `${formatDuration(duration)}`;
+    const lineEnd = `${TimeUtils.toReadableDuration(duration, false, 4)}`;
 
     const line = chalk.bold(prefix + lineStart) + lineEnd;
     console.log(wrapperFn(line));

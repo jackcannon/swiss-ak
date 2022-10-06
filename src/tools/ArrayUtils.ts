@@ -1,4 +1,4 @@
-import { sorts } from './fn';
+import { sorts, fixFloat } from './fn';
 
 /**
  * Returns an array of the given length, where each value is equal to it's index
@@ -14,7 +14,8 @@ import { sorts } from './fn';
  * range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
  * ```
  */
-export const range = (length: number = 1, multiplier: number = 1): number[] => new Array(Math.floor(length)).fill(1).map((v, i) => i * multiplier);
+export const range = (length: number = 1, multiplier: number = 1): number[] =>
+  new Array(Math.floor(length)).fill(1).map((v, i) => fixFloat(i * multiplier));
 
 type UnwrapArray<T> = T extends Array<infer U> ? U : T;
 type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];

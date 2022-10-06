@@ -357,6 +357,15 @@ interface ProgressBarOptionsFull {
     endChar: string;
 }
 declare type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
+interface ProgressBar {
+    next: () => string;
+    set: (newCurrent: number) => string;
+    reset: () => string;
+    update: () => string;
+    start: () => string;
+    finish: () => string;
+    readonly max: number;
+}
 /**
  * Usage:
  * ```typescript
@@ -388,22 +397,17 @@ declare type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
  * ABC ▕██████▏ [5 / 5]
  * ```
  */
-declare const getProgressBar: (max: number, options?: ProgressBarOptions) => {
-    next: () => string;
-    set: (newCurrent: number) => string;
-    reset: () => string;
-    update: () => string;
-    start: () => string;
-    finish: () => string;
-};
+declare const getProgressBar: (max: number, options?: ProgressBarOptions) => ProgressBar;
 
 declare const progressBar_printLn: typeof printLn;
 type progressBar_ProgressBarOptions = ProgressBarOptions;
+type progressBar_ProgressBar = ProgressBar;
 declare const progressBar_getProgressBar: typeof getProgressBar;
 declare namespace progressBar {
   export {
     progressBar_printLn as printLn,
     progressBar_ProgressBarOptions as ProgressBarOptions,
+    progressBar_ProgressBar as ProgressBar,
     progressBar_getProgressBar as getProgressBar,
   };
 }
@@ -805,6 +809,10 @@ declare const ObjectUtils: {
     mapKeys: <T_2 extends Object, V_2 extends unknown>(obj: T_2, func: (key: string, value: V_2) => string) => T_2;
 };
 
+declare const TimeUtils: {
+    toReadableDuration: (duration: ms, longNames?: boolean, maxUnits?: number) => string;
+};
+
 /**
  * symbols
  *
@@ -823,6 +831,9 @@ declare const symbols: {
     EJECT: string;
     TILDE: string;
     HOME: string;
+    RADIO_EMPTY: string;
+    RADIO_FULL: string;
+    CURSOR: string;
     CHEV_LFT: string;
     CHEV_RGT: string;
     TRI_UPP: string;
@@ -1420,11 +1431,13 @@ declare const toBool: <T = any>(item: T) => boolean;
  * ```
  */
 declare const toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
+declare const toFixed: (precision: number) => (num: number) => number;
 declare const maps$1: {
     toString: <T = any>(item: T) => string;
     toNumber: <T_1 = any>(item: T_1) => number;
     toBool: <T_2 = any>(item: T_2) => boolean;
     toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
+    toFixed: (precision: number) => (num: number) => number;
 };
 /**
  * fn.sorts.asc / fn.asc
@@ -1584,6 +1597,10 @@ declare const round: {
     ceilTo: (to: number, value: number) => number;
     to: (to: number, value: number) => number;
 };
+declare const lerp: (progress: number, fromVal: number, toVal: number) => number;
+declare const lerpArray: (progress: number, fromArr: number[], toArr: number[]) => number[];
+declare const lerpObj: <T extends object>(progress: number, fromObj: T, toObj: T) => T;
+declare const capitalise: (str: string) => string;
 
 declare const fn_noop: typeof noop;
 declare const fn_noact: typeof noact;
@@ -1603,6 +1620,7 @@ declare const fn_toString: typeof toString;
 declare const fn_toNumber: typeof toNumber;
 declare const fn_toBool: typeof toBool;
 declare const fn_toProp: typeof toProp;
+declare const fn_toFixed: typeof toFixed;
 declare const fn_asc: typeof asc;
 declare const fn_desc: typeof desc;
 declare const fn_byProp: typeof byProp;
@@ -1617,6 +1635,10 @@ declare const fn_floorTo: typeof floorTo;
 declare const fn_roundTo: typeof roundTo;
 declare const fn_ceilTo: typeof ceilTo;
 declare const fn_round: typeof round;
+declare const fn_lerp: typeof lerp;
+declare const fn_lerpArray: typeof lerpArray;
+declare const fn_lerpObj: typeof lerpObj;
+declare const fn_capitalise: typeof capitalise;
 declare namespace fn {
   export {
     fn_noop as noop,
@@ -1638,6 +1660,7 @@ declare namespace fn {
     fn_toNumber as toNumber,
     fn_toBool as toBool,
     fn_toProp as toProp,
+    fn_toFixed as toFixed,
     maps$1 as maps,
     fn_asc as asc,
     fn_desc as desc,
@@ -1656,6 +1679,10 @@ declare namespace fn {
     fn_roundTo as roundTo,
     fn_ceilTo as ceilTo,
     fn_round as round,
+    fn_lerp as lerp,
+    fn_lerpArray as lerpArray,
+    fn_lerpObj as lerpObj,
+    fn_capitalise as capitalise,
   };
 }
 
@@ -1673,6 +1700,7 @@ declare const maps: {
     toNumber: <T_1 = any>(item: T_1) => number;
     toBool: <T_2 = any>(item: T_2) => boolean;
     toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
+    toFixed: (precision: number) => (num: number) => number;
 };
 declare const sorts: {
     asc: (a: any, b: any) => number;
@@ -1691,4 +1719,4 @@ declare const everys: {
     isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 };
 
-export { ArrayUtils, CENTURY, ColourUtils, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, ObjOfType, ObjectUtils, OfType, Partial$1 as Partial, ProgressBarOptions, PromiseUtils, RemapOf, SECOND, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
+export { ArrayUtils, CENTURY, ColourUtils, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, ObjOfType, ObjectUtils, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseUtils, RemapOf, SECOND, TimeUtils, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };

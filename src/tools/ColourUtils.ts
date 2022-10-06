@@ -326,7 +326,7 @@ export const parse = (input: string): ColourValues => {
  * ```
  */
 export const toHex = (colour: ColourValues): string => {
-  const hexs = colour.map((val) => val.toString(16).padStart(2, '0'));
+  const hexs = colour.map((val) => (val ?? 0).toString(16).padStart(2, '0'));
   return `#${hexs.join('')}`;
 };
 
@@ -344,7 +344,7 @@ export const toHex = (colour: ColourValues): string => {
  * getLuminance([0, 0, 255]); // 29.07
  * ```
  */
-export const getLuminance = ([r, g, b]: ColourValues): number => fn.fixFloat(0.299 * r + 0.587 * g + 0.114 * b);
+export const getLuminance = ([r, g, b]: ColourValues): number => fn.fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
 
 /**
  * ColourUtils.invertColour
