@@ -355,6 +355,8 @@ interface ProgressBarOptionsFull {
     emptyChar: string;
     startChar: string;
     endChar: string;
+    showCurrent: boolean;
+    currentChar: string;
 }
 declare type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
 interface ProgressBar {

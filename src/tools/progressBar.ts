@@ -45,11 +45,14 @@ const print = (text?: string, wrapperFn: any = fn.noact) => {
   printLn(wrapped);
 };
 
+const getCharWidth = (num: number, max: number, width: number) => Math.round(width * (Math.max(0, Math.min(num / max, 1)) / 1));
 const getBarString = (current: number, max: number, width: number, opts: ProgressBarOptionsFull) => {
-  const { progChar, emptyChar, startChar, endChar } = opts;
-  const numProgChars = Math.round(width * (Math.max(0, Math.min(current / max, 1)) / 1));
-  const numEmptyChars = width - numProgChars;
-  const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
+  const { progChar, emptyChar, startChar, endChar, showCurrent, currentChar } = opts;
+  const numProgChars = getCharWidth(current, max, width);
+  const numNextChars = getCharWidth(current + 1, max, width);
+  const numCurrentChars = showCurrent ? numNextChars - numProgChars : 0;
+  const numEmptyChars = width - numProgChars - numCurrentChars;
+  const body = `${progChar.repeat(numProgChars)}${currentChar.repeat(numCurrentChars)}${emptyChar.repeat(numEmptyChars)}`;
 
   return `${startChar}${body}${endChar}`;
 };
@@ -80,6 +83,8 @@ interface ProgressBarOptionsFull {
   emptyChar: string;
   startChar: string;
   endChar: string;
+  showCurrent: boolean;
+  currentChar: string;
 }
 export type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
 const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull => ({
@@ -94,6 +99,8 @@ const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull =
   emptyChar: ' ',
   startChar: '▕',
   endChar: '▏',
+  showCurrent: false,
+  currentChar: '▞',
   ...opts
 });
 

@@ -582,11 +582,14 @@ var print = (text, wrapperFn = noact) => {
   const wrapped = wrapperFn(text || "");
   printLn(wrapped);
 };
+var getCharWidth = (num, max, width) => Math.round(width * (Math.max(0, Math.min(num / max, 1)) / 1));
 var getBarString = (current, max, width, opts) => {
-  const { progChar, emptyChar, startChar, endChar } = opts;
-  const numProgChars = Math.round(width * (Math.max(0, Math.min(current / max, 1)) / 1));
-  const numEmptyChars = width - numProgChars;
-  const body = `${progChar.repeat(numProgChars)}${emptyChar.repeat(numEmptyChars)}`;
+  const { progChar, emptyChar, startChar, endChar, showCurrent, currentChar } = opts;
+  const numProgChars = getCharWidth(current, max, width);
+  const numNextChars = getCharWidth(current + 1, max, width);
+  const numCurrentChars = showCurrent ? numNextChars - numProgChars : 0;
+  const numEmptyChars = width - numProgChars - numCurrentChars;
+  const body = `${progChar.repeat(numProgChars)}${currentChar.repeat(numCurrentChars)}${emptyChar.repeat(numEmptyChars)}`;
   return `${startChar}${body}${endChar}`;
 };
 var getSuffix = (current, maxNum, isMaxKnown, opts) => {
@@ -616,6 +619,8 @@ var getFullOptions = (opts = {}) => {
     emptyChar: " ",
     startChar: "\u2595",
     endChar: "\u258F",
+    showCurrent: false,
+    currentChar: "\u259E",
     ...opts
   };
 };
