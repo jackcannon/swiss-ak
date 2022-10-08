@@ -336,9 +336,9 @@ var roll = (distance, arr) => [
   ...arr.slice(0, distance % arr.length)
 ];
 var isNumString = (text) => Boolean(text.match(/^[0-9]+$/));
-var partitionNums = (name) => name.split(/([0-9]+)/).map((s) => isNumString(s) ? Number(s) : s);
-var sortNumberedText = (texts) => {
-  return sortByMapped(texts, partitionNums, (a, b) => {
+var partitionNums = (ignoreCase) => (name) => (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => isNumString(s) ? Number(s) : s);
+var sortNumberedText = (texts, ignoreCase = true) => {
+  return sortByMapped(texts, partitionNums(ignoreCase), (a, b) => {
     for (let i in a) {
       const result2 = sorts.asc(a[i], b[i]);
       if (result2 !== 0)

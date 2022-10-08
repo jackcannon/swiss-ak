@@ -788,7 +788,7 @@ declare const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
  * sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
  * ```
  */
-declare const sortNumberedText: (texts: string[]) => string[];
+declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
 declare const ArrayUtils: {
     range: (length?: number, multiplier?: number) => number[];
     zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
@@ -798,10 +798,10 @@ declare const ArrayUtils: {
     entries: <T_4 = string>(arr: T_4[]) => [number, T_4][];
     repeat: <T_5 = string>(maxLength: number, ...items: T_5[]) => T_5[];
     roll: <T_6 extends unknown>(distance: number, arr: T_6[]) => T_6[];
-    sortNumberedText: (texts: string[]) => string[];
+    sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
     utils: {
         isNumString: (text: string) => boolean;
-        partitionNums: (name: string) => (string | number)[];
+        partitionNums: (ignoreCase: boolean) => (name: string) => (string | number)[];
     };
 };
 

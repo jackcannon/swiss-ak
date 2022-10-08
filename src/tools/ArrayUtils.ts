@@ -133,7 +133,8 @@ export const roll = <T extends unknown>(distance: number, arr: T[]): T[] => [
 ];
 
 const isNumString = (text: string) => Boolean(text.match(/^[0-9]+$/));
-const partitionNums = (name: string) => name.split(/([0-9]+)/).map((s) => (isNumString(s) ? Number(s) : s));
+const partitionNums = (ignoreCase: boolean) => (name: string) =>
+  (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => (isNumString(s) ? Number(s) : s));
 
 /**
  * ArrayUtils.sortNumberedText
@@ -146,8 +147,8 @@ const partitionNums = (name: string) => name.split(/([0-9]+)/).map((s) => (isNum
  * sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
  * ```
  */
-export const sortNumberedText = (texts: string[]): string[] => {
-  return sortByMapped(texts, partitionNums, (a, b) => {
+export const sortNumberedText = (texts: string[], ignoreCase: boolean = true): string[] => {
+  return sortByMapped(texts, partitionNums(ignoreCase), (a, b) => {
     for (let i in a) {
       const result = sorts.asc(a[i], b[i]);
       if (result !== 0) return result;
