@@ -5,6 +5,8 @@
  */
 export const symbols = {
   TAB: '	',
+  // NBSP: '\xa0',
+  NBSP: ' ',
 
   TICK: '✔',
   CROSS: '✖',
@@ -25,6 +27,8 @@ export const symbols = {
 
   CHEV_LFT: '‹',
   CHEV_RGT: '›',
+
+  CHAIN: '⫘',
 
   TRI_UPP: '▲',
   TRI_DWN: '▼',
