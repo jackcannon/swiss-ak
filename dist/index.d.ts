@@ -348,6 +348,10 @@ interface ProgressBarOptionsFull {
     prefixWidth: number;
     maxWidth: number;
     wrapperFn: any;
+    barWrapFn: any;
+    barProgWrapFn: any;
+    barCurrentWrapFn: any;
+    barEmptyWrapFn: any;
     showCount: boolean;
     showPercent: boolean;
     countWidth: number;

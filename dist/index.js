@@ -589,7 +589,10 @@ var getBarString = (current, max, width, opts) => {
   const numNextChars = getCharWidth(current + 1, max, width);
   const numCurrentChars = showCurrent ? numNextChars - numProgChars : 0;
   const numEmptyChars = width - numProgChars - numCurrentChars;
-  const body = `${progChar.repeat(numProgChars)}${currentChar.repeat(numCurrentChars)}${emptyChar.repeat(numEmptyChars)}`;
+  const prog = opts.barProgWrapFn(progChar.repeat(numProgChars));
+  const curr = opts.barCurrentWrapFn(currentChar.repeat(numCurrentChars));
+  const empt = opts.barEmptyWrapFn(emptyChar.repeat(numEmptyChars));
+  const body = opts.barWrapFn(`${prog}${curr}${empt}`);
   return `${startChar}${body}${endChar}`;
 };
 var getSuffix = (current, maxNum, isMaxKnown, opts) => {
@@ -612,6 +615,10 @@ var getFullOptions = (opts = {}) => {
     prefixWidth: 1,
     maxWidth: ((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.columns) ? process.stdout.columns : 100,
     wrapperFn: noact,
+    barWrapFn: noact,
+    barProgWrapFn: noact,
+    barCurrentWrapFn: noact,
+    barEmptyWrapFn: noact,
     showCount: true,
     showPercent: false,
     countWidth: 0,

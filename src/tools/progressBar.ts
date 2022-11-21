@@ -52,7 +52,12 @@ const getBarString = (current: number, max: number, width: number, opts: Progres
   const numNextChars = getCharWidth(current + 1, max, width);
   const numCurrentChars = showCurrent ? numNextChars - numProgChars : 0;
   const numEmptyChars = width - numProgChars - numCurrentChars;
-  const body = `${progChar.repeat(numProgChars)}${currentChar.repeat(numCurrentChars)}${emptyChar.repeat(numEmptyChars)}`;
+
+  const prog = opts.barProgWrapFn(progChar.repeat(numProgChars));
+  const curr = opts.barCurrentWrapFn(currentChar.repeat(numCurrentChars));
+  const empt = opts.barEmptyWrapFn(emptyChar.repeat(numEmptyChars));
+
+  const body = opts.barWrapFn(`${prog}${curr}${empt}`);
 
   return `${startChar}${body}${endChar}`;
 };
@@ -76,6 +81,10 @@ interface ProgressBarOptionsFull {
   prefixWidth: number;
   maxWidth: number;
   wrapperFn: any;
+  barWrapFn: any;
+  barProgWrapFn: any;
+  barCurrentWrapFn: any;
+  barEmptyWrapFn: any;
   showCount: boolean;
   showPercent: boolean;
   countWidth: number;
@@ -92,6 +101,10 @@ const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull =
   prefixWidth: 1,
   maxWidth: process?.stdout?.columns ? process.stdout.columns : 100,
   wrapperFn: fn.noact,
+  barWrapFn: fn.noact,
+  barProgWrapFn: fn.noact,
+  barCurrentWrapFn: fn.noact,
+  barEmptyWrapFn: fn.noact,
   showCount: true,
   showPercent: false,
   countWidth: 0,
