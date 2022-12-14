@@ -689,7 +689,7 @@ declare const PromiseUtils: {
  * range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
  * ```
  */
-declare const range: (length?: number, multiplier?: number) => number[];
+declare const range: (length?: number, multiplier?: number, offset?: number) => number[];
 declare type UnwrapArray<T> = T extends Array<infer U> ? U : T;
 declare type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];
 /**
@@ -704,6 +704,7 @@ declare type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infe
  * ```
  */
 declare const zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
+declare const zipMax: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
 /**
  * Sort an array by a mapped form of the values, but returning the initial values
  *
@@ -794,14 +795,15 @@ declare const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
  */
 declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
 declare const ArrayUtils: {
-    range: (length?: number, multiplier?: number) => number[];
+    range: (length?: number, multiplier?: number, offset?: number) => number[];
     zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
-    sortByMapped: <T_1 = string, M = number>(arr: T_1[], mapFn: (value: T_1, index: number, array: T_1[]) => M, sortFn?: (a: M, b: M) => number) => T_1[];
-    randomise: <T_2 = string>(arr: T_2[]) => T_2[];
-    reverse: <T_3 = string>(arr: T_3[]) => T_3[];
-    entries: <T_4 = string>(arr: T_4[]) => [number, T_4][];
-    repeat: <T_5 = string>(maxLength: number, ...items: T_5[]) => T_5[];
-    roll: <T_6 extends unknown>(distance: number, arr: T_6[]) => T_6[];
+    zipMax: <T_1 extends any[]>(...arrs: T_1) => UnwrapArrays<T_1>[];
+    sortByMapped: <T_2 = string, M = number>(arr: T_2[], mapFn: (value: T_2, index: number, array: T_2[]) => M, sortFn?: (a: M, b: M) => number) => T_2[];
+    randomise: <T_3 = string>(arr: T_3[]) => T_3[];
+    reverse: <T_4 = string>(arr: T_4[]) => T_4[];
+    entries: <T_5 = string>(arr: T_5[]) => [number, T_5][];
+    repeat: <T_6 = string>(maxLength: number, ...items: T_6[]) => T_6[];
+    roll: <T_7 extends unknown>(distance: number, arr: T_7[]) => T_7[];
     sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
     utils: {
         isNumString: (text: string) => boolean;
@@ -826,6 +828,7 @@ declare const TimeUtils: {
  */
 declare const symbols: {
     TAB: string;
+    NBSP: string;
     TICK: string;
     CROSS: string;
     PLUS: string;
@@ -842,6 +845,7 @@ declare const symbols: {
     CURSOR: string;
     CHEV_LFT: string;
     CHEV_RGT: string;
+    CHAIN: string;
     TRI_UPP: string;
     TRI_DWN: string;
     TRI_RGT: string;
@@ -1606,6 +1610,7 @@ declare const round: {
 declare const lerp: (progress: number, fromVal: number, toVal: number) => number;
 declare const lerpArray: (progress: number, fromArr: number[], toArr: number[]) => number[];
 declare const lerpObj: <T extends object>(progress: number, fromObj: T, toObj: T) => T;
+declare const clamp: (value: number, a: number, b: number) => number;
 declare const capitalise: (str: string) => string;
 
 declare const fn_noop: typeof noop;
@@ -1644,6 +1649,7 @@ declare const fn_round: typeof round;
 declare const fn_lerp: typeof lerp;
 declare const fn_lerpArray: typeof lerpArray;
 declare const fn_lerpObj: typeof lerpObj;
+declare const fn_clamp: typeof clamp;
 declare const fn_capitalise: typeof capitalise;
 declare namespace fn {
   export {
@@ -1688,6 +1694,7 @@ declare namespace fn {
     fn_lerp as lerp,
     fn_lerpArray as lerpArray,
     fn_lerpObj as lerpObj,
+    fn_clamp as clamp,
     fn_capitalise as capitalise,
   };
 }
@@ -1725,4 +1732,4 @@ declare const everys: {
     isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 };
 
-export { ArrayUtils, CENTURY, ColourUtils, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, ObjOfType, ObjectUtils, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseUtils, RemapOf, SECOND, TimeUtils, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip };
+export { ArrayUtils, CENTURY, ColourUtils, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, ObjOfType, ObjectUtils, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseUtils, RemapOf, SECOND, TimeUtils, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

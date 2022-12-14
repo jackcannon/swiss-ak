@@ -14,11 +14,14 @@ import { sorts, fixFloat } from './fn';
  * range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
  * ```
  */
-export const range = (length: number = 1, multiplier: number = 1): number[] =>
-  new Array(Math.floor(length)).fill(1).map((v, i) => fixFloat(i * multiplier));
+export const range = (length: number = 1, multiplier: number = 1, offset: number = 0): number[] =>
+  new Array(Math.floor(length)).fill(1).map((v, i) => fixFloat(i * multiplier) + offset);
 
 type UnwrapArray<T> = T extends Array<infer U> ? U : T;
 type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];
+
+const zipFn = <T extends [...any[]]>(length: number, arrs: T): UnwrapArrays<T>[] =>
+  range(length).map((i) => arrs.map((arr) => (arr || [])[i])) as UnwrapArrays<T>[];
 
 /**
  * Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
@@ -31,10 +34,12 @@ type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] 
  * zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
  * ```
  */
-export const zip = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] => {
-  const length = Math.min(...arrs.map((arr) => (arr || []).length));
-  return range(length).map((i) => arrs.map((arr) => (arr || [])[i])) as UnwrapArrays<T>[];
-};
+export const zip = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] =>
+  zipFn(Math.min(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
+
+// TODO docs
+export const zipMax = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] =>
+  zipFn(Math.max(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
 
 /**
  * Sort an array by a mapped form of the values, but returning the initial values
@@ -160,6 +165,7 @@ export const sortNumberedText = (texts: string[], ignoreCase: boolean = true): s
 export const ArrayUtils = {
   range,
   zip,
+  zipMax,
   sortByMapped,
   randomise,
   reverse,

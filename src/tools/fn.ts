@@ -490,6 +490,10 @@ export const lerpObj = <T extends object>(progress: number, fromObj: T, toObj: T
 };
 
 // TODO docs
+// TODO move non high-level functions elsewhere (e.g. MathsUtils, StringUtils, etc)
+export const clamp = (value: number, a: number, b: number) => Math.max(Math.min(a, b), Math.min(value, Math.max(a, b)));
+
+// TODO docs
 export const capitalise = (str: string): string =>
   str
     .split(/\s/)

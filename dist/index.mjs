@@ -224,6 +224,10 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
         lc++;
         console.log(...args);
       };
+      const logLine2 = (label, prefix2, nameColLength2, duration) => {
+        lc++;
+        return logLine(label, prefix2, nameColLength2, duration);
+      };
       const labels = Object.keys(startTimes);
       log("");
       log(wrapperFn(chalk.bold([prefix, name, "Times:"].filter((x) => x && x.trim()).join(" "))));
@@ -232,7 +236,7 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
       let longest = 0;
       for (let label of labels) {
         if (label !== "TOTAL") {
-          longest = Math.max(longest, logLine(label, "	", nameColLength));
+          longest = Math.max(longest, logLine2(label, "	", nameColLength));
         }
       }
       if (customEntries) {
@@ -245,11 +249,11 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
         }
         log(wrapperFn(chalk.dim("	" + "\u23AF".repeat(longest))));
         for (let { label, duration } of cEntries) {
-          logLine(label, "	", nameColLength, duration);
+          logLine2(label, "	", nameColLength, duration);
         }
       }
       log(wrapperFn(chalk.dim("	" + "\u23AF".repeat(longest))));
-      logLine("TOTAL", "	", nameColLength);
+      logLine2("TOTAL", "	", nameColLength);
       log("");
       return lc;
     },
@@ -280,6 +284,7 @@ __export(fn_exports, {
   byProp: () => byProp,
   capitalise: () => capitalise,
   ceilTo: () => ceilTo,
+  clamp: () => clamp,
   combine: () => combine,
   combineProp: () => combineProp,
   desc: () => desc,
@@ -318,11 +323,10 @@ __export(fn_exports, {
 });
 
 // src/tools/ArrayUtils.ts
-var range = (length = 1, multiplier = 1) => new Array(Math.floor(length)).fill(1).map((v, i) => fixFloat(i * multiplier));
-var zip = (...arrs) => {
-  const length = Math.min(...arrs.map((arr) => (arr || []).length));
-  return range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
-};
+var range = (length = 1, multiplier = 1, offset = 0) => new Array(Math.floor(length)).fill(1).map((v, i) => fixFloat(i * multiplier) + offset);
+var zipFn = (length, arrs) => range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
+var zip = (...arrs) => zipFn(Math.min(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
+var zipMax = (...arrs) => zipFn(Math.max(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
 var sortByMapped = (arr, mapFn, sortFn = sorts.asc) => zip(arr, arr.map(mapFn)).sort((a, b) => sortFn(a[1], b[1])).map(([v]) => v);
 var randomise = (arr) => sortByMapped(arr, () => Math.random());
 var reverse = (arr) => [...arr].reverse();
@@ -350,6 +354,7 @@ var sortNumberedText = (texts, ignoreCase = true) => {
 var ArrayUtils = {
   range,
   zip,
+  zipMax,
   sortByMapped,
   randomise,
   reverse,
@@ -470,6 +475,7 @@ var lerpObj = (progress, fromObj, toObj) => {
   const lerped = entries2.map(([key, fromVal]) => typeof fromVal === "number" ? [key, lerp(progress, fromVal, toObj[key])] : [key, fromVal]);
   return Object.fromEntries(lerped);
 };
+var clamp = (value, a, b) => Math.max(Math.min(a, b), Math.min(value, Math.max(a, b)));
 var capitalise = (str) => str.split(/\s/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
 
 // src/tools/progressBar.ts
@@ -752,6 +758,7 @@ var ObjectUtils = {
 // src/tools/symbols.ts
 var symbols = {
   TAB: "	",
+  NBSP: " ",
   TICK: "\u2714",
   CROSS: "\u2716",
   PLUS: "+",
@@ -768,6 +775,7 @@ var symbols = {
   CURSOR: "\u276F",
   CHEV_LFT: "\u2039",
   CHEV_RGT: "\u203A",
+  CHAIN: "\u2AD8",
   TRI_UPP: "\u25B2",
   TRI_DWN: "\u25BC",
   TRI_RGT: "\u25B6",
@@ -1185,5 +1193,6 @@ export {
   waiters_exports as waiters,
   weeks,
   years,
-  zip
+  zip,
+  zipMax
 };

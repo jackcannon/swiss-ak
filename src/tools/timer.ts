@@ -128,6 +128,10 @@ export const getTimer = <TName extends INames>(
         lc++;
         console.log(...args);
       };
+      const logLine2 = (label: string, prefix?: string, nameColLength?: number, duration?: number) => {
+        lc++;
+        return logLine(label, prefix, nameColLength, duration);
+      };
 
       const labels = Object.keys(startTimes);
 
@@ -141,7 +145,7 @@ export const getTimer = <TName extends INames>(
 
       for (let label of labels) {
         if (label !== 'TOTAL') {
-          longest = Math.max(longest, logLine(label, '	', nameColLength));
+          longest = Math.max(longest, logLine2(label, '	', nameColLength));
         }
       }
 
@@ -160,12 +164,12 @@ export const getTimer = <TName extends INames>(
 
         log(wrapperFn(chalk.dim('	' + '⎯'.repeat(longest))));
         for (let { label, duration } of cEntries) {
-          logLine(label, '	', nameColLength, duration);
+          logLine2(label, '	', nameColLength, duration);
         }
       }
 
       log(wrapperFn(chalk.dim('	' + '⎯'.repeat(longest))));
-      logLine('TOTAL', '	', nameColLength);
+      logLine2('TOTAL', '	', nameColLength);
 
       log('');
 
