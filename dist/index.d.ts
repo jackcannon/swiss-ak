@@ -794,6 +794,7 @@ declare const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
  * ```
  */
 declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
+declare const partition: <T extends unknown>(array: T[], partitionSize?: number) => T[][];
 declare const ArrayUtils: {
     range: (length?: number, multiplier?: number, offset?: number) => number[];
     zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
@@ -805,6 +806,7 @@ declare const ArrayUtils: {
     repeat: <T_6 = string>(maxLength: number, ...items: T_6[]) => T_6[];
     roll: <T_7 extends unknown>(distance: number, arr: T_7[]) => T_7[];
     sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
+    partition: <T_8 extends unknown>(array: T_8[], partitionSize?: number) => T_8[][];
     utils: {
         isNumString: (text: string) => boolean;
         partitionNums: (ignoreCase: boolean) => (name: string) => (string | number)[];
@@ -815,6 +817,7 @@ declare const ObjectUtils: {
     map: <T extends Object, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V) => [string, W]) => OfType<T, W>;
     mapValues: <T_1 extends Object, V_1 extends unknown, W_1 extends unknown>(obj: T_1, func: (key: string, value: V_1) => W_1) => OfType<T_1, W_1>;
     mapKeys: <T_2 extends Object, V_2 extends unknown>(obj: T_2, func: (key: string, value: V_2) => string) => T_2;
+    clean: <T_3 extends Object>(obj: T_3) => Partial<T_3>;
 };
 
 declare const TimeUtils: {
@@ -1732,4 +1735,4 @@ declare const everys: {
     isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 };
 
-export { ArrayUtils, CENTURY, ColourUtils, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, ObjOfType, ObjectUtils, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseUtils, RemapOf, SECOND, TimeUtils, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, printLn, progressBar, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayUtils, CENTURY, ColourUtils, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, ObjOfType, ObjectUtils, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseUtils, RemapOf, SECOND, TimeUtils, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

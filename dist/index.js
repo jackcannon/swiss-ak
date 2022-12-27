@@ -60,6 +60,7 @@ __export(src_exports, {
   milliseconds: () => milliseconds,
   minutes: () => minutes,
   months: () => months,
+  partition: () => partition,
   printLn: () => printLn,
   progressBar: () => progressBar_exports,
   randomise: () => randomise,
@@ -439,6 +440,14 @@ var sortNumberedText = (texts, ignoreCase = true) => {
     return 0;
   });
 };
+var partition = (array, partitionSize = Math.ceil(array.length / 2)) => {
+  const numParts = Math.ceil(array.length / partitionSize);
+  const result2 = [];
+  for (let i = 0; i < numParts; i++) {
+    result2.push(array.slice(i * partitionSize, (i + 1) * partitionSize));
+  }
+  return result2;
+};
 var ArrayUtils = {
   range,
   zip,
@@ -450,6 +459,7 @@ var ArrayUtils = {
   repeat,
   roll,
   sortNumberedText,
+  partition,
   utils: {
     isNumString,
     partitionNums
@@ -837,10 +847,12 @@ var PromiseUtils = {
 var map2 = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value]) => func(key, value)));
 var mapValues = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, func(key, value)]));
 var mapKeys = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value]) => [func(key, value), value]));
+var clean = (obj) => Object.fromEntries(Object.entries(obj).filter(([, value]) => value !== void 0));
 var ObjectUtils = {
   map: map2,
   mapValues,
-  mapKeys
+  mapKeys,
+  clean
 };
 
 // src/tools/symbols.ts
@@ -1255,6 +1267,7 @@ var { filters: filters2, maps: maps2, sorts: sorts2, reduces: reduces2, everys: 
   milliseconds,
   minutes,
   months,
+  partition,
   printLn,
   progressBar,
   randomise,

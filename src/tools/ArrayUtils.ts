@@ -162,6 +162,16 @@ export const sortNumberedText = (texts: string[], ignoreCase: boolean = true): s
   });
 };
 
+// TODO docs
+export const partition = <T extends unknown>(array: T[], partitionSize: number = Math.ceil(array.length / 2)): T[][] => {
+  const numParts = Math.ceil(array.length / partitionSize);
+  const result: T[][] = [];
+  for (let i = 0; i < numParts; i++) {
+    result.push(array.slice(i * partitionSize, (i + 1) * partitionSize));
+  }
+  return result;
+};
+
 export const ArrayUtils = {
   range,
   zip,
@@ -173,6 +183,7 @@ export const ArrayUtils = {
   repeat,
   roll,
   sortNumberedText,
+  partition,
   utils: {
     isNumString,
     partitionNums

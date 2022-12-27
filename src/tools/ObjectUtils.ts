@@ -36,8 +36,14 @@ const mapValues = <T extends Object, V extends any, W extends any>(obj: T, func:
 const mapKeys = <T extends Object, V extends any>(obj: T, func: (key: string, value: V) => string): T =>
   Object.fromEntries(Object.entries(obj).map(([key, value]) => [func(key, value), value])) as T;
 
+// TODO docs
+// removes properties with undefined values
+const clean = <T extends Object>(obj: T): Partial<T> =>
+  Object.fromEntries(Object.entries(obj).filter(([, value]) => value !== undefined)) as Partial<T>;
+
 export const ObjectUtils = {
   map,
   mapValues,
-  mapKeys
+  mapKeys,
+  clean
 };
