@@ -814,10 +814,11 @@ declare const ArrayUtils: {
 };
 
 declare const ObjectUtils: {
-    map: <T extends Object, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V) => [string, W]) => OfType<T, W>;
-    mapValues: <T_1 extends Object, V_1 extends unknown, W_1 extends unknown>(obj: T_1, func: (key: string, value: V_1) => W_1) => OfType<T_1, W_1>;
-    mapKeys: <T_2 extends Object, V_2 extends unknown>(obj: T_2, func: (key: string, value: V_2) => string) => T_2;
-    clean: <T_3 extends Object>(obj: T_3) => Partial<T_3>;
+    map: <T extends Object, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V, index: number) => [string, W]) => OfType<T, W>;
+    mapValues: <T_1 extends Object, V_1 extends unknown, W_1 extends unknown>(obj: T_1, func: (key: string, value: V_1, index: number) => W_1) => OfType<T_1, W_1>;
+    mapKeys: <T_2 extends Object, V_2 extends unknown>(obj: T_2, func: (key: string, value: V_2, index: number) => string) => T_2;
+    filter: <T_3 extends Object, V_3 extends unknown, O extends Partial<T_3>>(obj: T_3, func: (key: string, value: V_3, index: number) => boolean) => O;
+    clean: <T_4 extends Object, O_1 extends Partial<T_4>>(obj: T_4) => O_1;
 };
 
 declare const TimeUtils: {

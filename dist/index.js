@@ -844,14 +844,16 @@ var PromiseUtils = {
 };
 
 // src/tools/ObjectUtils.ts
-var map2 = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value]) => func(key, value)));
-var mapValues = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, func(key, value)]));
-var mapKeys = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value]) => [func(key, value), value]));
-var clean = (obj) => Object.fromEntries(Object.entries(obj).filter(([, value]) => value !== void 0));
+var map2 = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value], index) => func(key, value, index)));
+var mapValues = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value], index) => [key, func(key, value, index)]));
+var mapKeys = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value], index) => [func(key, value, index), value]));
+var filter = (obj, func) => Object.fromEntries(Object.entries(obj).filter(([key, value], index) => func(key, value, index)));
+var clean = (obj) => filter(obj, (key, value) => value !== void 0);
 var ObjectUtils = {
   map: map2,
   mapValues,
   mapKeys,
+  filter,
   clean
 };
 
