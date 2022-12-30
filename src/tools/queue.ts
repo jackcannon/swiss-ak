@@ -3,9 +3,10 @@ import { wait } from './waiters';
 /**
  * TODO docs
  */
-export const queue = new (class QueueManager {
+export class QueueManager {
   promises: Map<string, Promise<any>> = new Map<string, Promise<any>>();
   pauseTimes: Map<string, number> = new Map<string, number>();
+  defaultPauseTime: number = 0;
 
   constructor() {}
 
@@ -19,10 +20,23 @@ export const queue = new (class QueueManager {
     return promise;
   }
 
+  /**
+   * TODO docs
+   */
+  setDefaultPauseTime(time: number) {
+    this.defaultPauseTime = time;
+  }
+
+  /**
+   * TODO docs
+   */
   setPauseTime(id: string, time: number) {
     this.pauseTimes.set(id, time);
   }
 
+  /**
+   * TODO docs
+   */
   add<T>(id: string, fn: () => Promise<T>): Promise<T> {
     const promise = this.getPromise(id).then(async () => {
       const result: T = await fn();
@@ -35,4 +49,9 @@ export const queue = new (class QueueManager {
 
     return promise;
   }
-})();
+}
+
+/**
+ * TODO docs
+ */
+export const queue = new QueueManager();

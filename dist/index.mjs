@@ -838,10 +838,11 @@ var symbols = {
 var superscript = (num) => num.toString().split("").map((char) => symbols.SUPERSCRIPT[char] || symbols.SUPERSCRIPT["*"]).join("");
 
 // src/tools/queue.ts
-var queue = new class QueueManager {
+var QueueManager = class {
   constructor() {
     this.promises = /* @__PURE__ */ new Map();
     this.pauseTimes = /* @__PURE__ */ new Map();
+    this.defaultPauseTime = 0;
   }
   getPromise(id) {
     const existing = this.promises.get(id);
@@ -850,6 +851,9 @@ var queue = new class QueueManager {
     const promise = Promise.resolve();
     this.promises.set(id, promise);
     return promise;
+  }
+  setDefaultPauseTime(time) {
+    this.defaultPauseTime = time;
   }
   setPauseTime(id, time) {
     this.pauseTimes.set(id, time);
@@ -865,7 +869,8 @@ var queue = new class QueueManager {
     this.promises.set(id, promise);
     return promise;
   }
-}();
+};
+var queue = new QueueManager();
 
 // src/tools/ColourUtils.ts
 var ColourUtils_exports = {};
@@ -1180,6 +1185,7 @@ export {
   MONTH,
   ObjectUtils,
   PromiseUtils,
+  QueueManager,
   SECOND,
   TimeUtils,
   WEEK,
