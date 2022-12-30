@@ -8,7 +8,9 @@ export class QueueManager {
   pauseTimes: Map<string, number> = new Map<string, number>();
   defaultPauseTime: number = 0;
 
-  constructor() {}
+  constructor(defaultPauseTime?: number) {
+    if (defaultPauseTime) this.setDefaultPauseTime(defaultPauseTime);
+  }
 
   getPromise(id: string): Promise<any> {
     const existing = this.promises.get(id);
@@ -48,6 +50,13 @@ export class QueueManager {
     this.promises.set(id, promise);
 
     return promise;
+  }
+
+  /**
+   * TODO docs
+   */
+  new(defaultPauseTime?: number) {
+    return new QueueManager(defaultPauseTime);
   }
 }
 
