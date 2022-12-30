@@ -9,6 +9,7 @@ export * from './tools/ArrayUtils';
 export * from './tools/ObjectUtils';
 export * from './tools/TimeUtils';
 export * from './tools/symbols';
+export * from './tools/queue';
 
 import * as times from './tools/times';
 import * as waiters from './tools/waiters';

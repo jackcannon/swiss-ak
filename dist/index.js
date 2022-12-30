@@ -63,6 +63,7 @@ __export(src_exports, {
   partition: () => partition,
   printLn: () => printLn,
   progressBar: () => progressBar_exports,
+  queue: () => queue,
   randomise: () => randomise,
   range: () => range,
   reduces: () => reduces2,
@@ -926,6 +927,36 @@ var symbols = {
 };
 var superscript = (num) => num.toString().split("").map((char) => symbols.SUPERSCRIPT[char] || symbols.SUPERSCRIPT["*"]).join("");
 
+// src/tools/queue.ts
+var queue = new class QueueManager {
+  constructor() {
+    this.promises = /* @__PURE__ */ new Map();
+    this.pauseTimes = /* @__PURE__ */ new Map();
+  }
+  getPromise(id) {
+    const existing = this.promises.get(id);
+    if (existing)
+      return existing;
+    const promise = Promise.resolve();
+    this.promises.set(id, promise);
+    return promise;
+  }
+  setPauseTime(id, time) {
+    this.pauseTimes.set(id, time);
+  }
+  add(id, fn) {
+    const promise = this.getPromise(id).then(async () => {
+      const result2 = await fn();
+      const pauseTime = this.pauseTimes.get(id) ?? -1;
+      if (pauseTime >= 0)
+        await wait(pauseTime);
+      return result2;
+    });
+    this.promises.set(id, promise);
+    return promise;
+  }
+}();
+
 // src/tools/ColourUtils.ts
 var ColourUtils_exports = {};
 __export(ColourUtils_exports, {
@@ -1272,6 +1303,7 @@ var { filters: filters2, maps: maps2, sorts: sorts2, reduces: reduces2, everys: 
   partition,
   printLn,
   progressBar,
+  queue,
   randomise,
   range,
   reduces,
