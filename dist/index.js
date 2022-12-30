@@ -930,10 +930,12 @@ var superscript = (num) => num.toString().split("").map((char) => symbols.SUPERS
 
 // src/tools/queue.ts
 var QueueManager = class {
-  constructor() {
+  constructor(defaultPauseTime) {
     this.promises = /* @__PURE__ */ new Map();
     this.pauseTimes = /* @__PURE__ */ new Map();
     this.defaultPauseTime = 0;
+    if (defaultPauseTime)
+      this.setDefaultPauseTime(defaultPauseTime);
   }
   getPromise(id) {
     const existing = this.promises.get(id);
@@ -959,6 +961,9 @@ var QueueManager = class {
     });
     this.promises.set(id, promise);
     return promise;
+  }
+  new(defaultPauseTime) {
+    return new QueueManager(defaultPauseTime);
   }
 };
 var queue = new QueueManager();

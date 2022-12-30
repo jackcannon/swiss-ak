@@ -905,7 +905,7 @@ declare class QueueManager {
     promises: Map<string, Promise<any>>;
     pauseTimes: Map<string, number>;
     defaultPauseTime: number;
-    constructor();
+    constructor(defaultPauseTime?: number);
     getPromise(id: string): Promise<any>;
     /**
      * TODO docs
@@ -919,6 +919,10 @@ declare class QueueManager {
      * TODO docs
      */
     add<T>(id: string, fn: () => Promise<T>): Promise<T>;
+    /**
+     * TODO docs
+     */
+    new(defaultPauseTime?: number): QueueManager;
 }
 /**
  * TODO docs
