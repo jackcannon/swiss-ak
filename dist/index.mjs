@@ -530,7 +530,7 @@ var getSuffix = (current, maxNum, isMaxKnown, opts) => {
     items.push(`[${current.toString().padStart(pad, " ")} / ${(isMaxKnown ? maxNum.toString() : "?").padStart(pad, " ")}]`);
   }
   if (opts.showPercent) {
-    const percent = Math.round(current / maxNum * 100);
+    const percent = Math.round(current / Math.max(1, maxNum) * 100);
     items.push(`(${percent.toString().padStart("100".toString().length, " ")}%)`);
   }
   const joined = items.filter((x) => x).join(" ");
@@ -571,7 +571,7 @@ var getProgressBar = (max, options = {}) => {
     const fullPrefix = prefix.padEnd(prefixWidth);
     const output = `${fullPrefix}${getBarString(
       current,
-      maxNum,
+      Math.max(1, maxNum),
       Math.max(0, maxWidth - [fullPrefix, suffix, startChar, endChar].join("").length),
       opts
     )}${suffix}`;
