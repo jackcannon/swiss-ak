@@ -171,6 +171,18 @@ export const isNotEqual =
   (other: T) =>
     Boolean(item !== other);
 
+// TODO docs
+export const dedupe = <T extends unknown>(item: T, index: number, array: T[]): boolean => array.indexOf(item) === index;
+
+// TODO docs
+export const dedupeMapped = <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => {
+  let mapped: U[];
+  return (item: T, index: number, array: T[]): boolean => {
+    if (!mapped) mapped = array.map(mapFn);
+    return mapped.indexOf(mapped[index]) === index;
+  };
+};
+
 export const filters = {
   exists,
   isTruthy,
@@ -178,7 +190,9 @@ export const filters = {
   isEmpty,
   isNotEmpty,
   isEqual,
-  isNotEqual
+  isNotEqual,
+  dedupe,
+  dedupeMapped
 };
 
 /**

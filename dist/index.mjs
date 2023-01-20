@@ -287,6 +287,8 @@ __export(fn_exports, {
   clamp: () => clamp,
   combine: () => combine,
   combineProp: () => combineProp,
+  dedupe: () => dedupe,
+  dedupeMapped: () => dedupeMapped,
   desc: () => desc,
   everys: () => everys,
   exists: () => exists,
@@ -393,6 +395,15 @@ var isEmpty = (item) => Boolean(!item || !item.length);
 var isNotEmpty = (item) => Boolean(item && item.length);
 var isEqual = (item) => (other) => Boolean(item === other);
 var isNotEqual = (item) => (other) => Boolean(item !== other);
+var dedupe = (item, index, array) => array.indexOf(item) === index;
+var dedupeMapped = (mapFn) => {
+  let mapped;
+  return (item, index, array) => {
+    if (!mapped)
+      mapped = array.map(mapFn);
+    return mapped.indexOf(mapped[index]) === index;
+  };
+};
 var filters = {
   exists,
   isTruthy,
@@ -400,7 +411,9 @@ var filters = {
   isEmpty,
   isNotEmpty,
   isEqual,
-  isNotEqual
+  isNotEqual,
+  dedupe,
+  dedupeMapped
 };
 var toString = (item) => item + "";
 var toNumber = (item) => Number(item);

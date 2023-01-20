@@ -1426,6 +1426,8 @@ declare const isEqual: <T = any>(item: T) => (other: T) => boolean;
  * ```
  */
 declare const isNotEqual: <T = any>(item: T) => (other: T) => boolean;
+declare const dedupe: <T extends unknown>(item: T, index: number, array: T[]) => boolean;
+declare const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
 declare const filters$1: {
     exists: <T = any>(item: T) => boolean;
     isTruthy: <T_1 = any>(item: T_1) => boolean;
@@ -1434,6 +1436,8 @@ declare const filters$1: {
     isNotEmpty: <T_4 = any>(item: string | T_4[]) => boolean;
     isEqual: <T_5 = any>(item: T_5) => (other: T_5) => boolean;
     isNotEqual: <T_6 = any>(item: T_6) => (other: T_6) => boolean;
+    dedupe: <T_7 extends unknown>(item: T_7, index: number, array: T_7[]) => boolean;
+    dedupeMapped: <T_8 extends unknown, U extends unknown>(mapFn: (value: T_8, index: number, array: T_8[]) => U) => (item: T_8, index: number, array: T_8[]) => boolean;
 };
 /**
  * fn.maps.toString / fn.toString
@@ -1662,6 +1666,8 @@ declare const fn_isEmpty: typeof isEmpty;
 declare const fn_isNotEmpty: typeof isNotEmpty;
 declare const fn_isEqual: typeof isEqual;
 declare const fn_isNotEqual: typeof isNotEqual;
+declare const fn_dedupe: typeof dedupe;
+declare const fn_dedupeMapped: typeof dedupeMapped;
 declare const fn_toString: typeof toString;
 declare const fn_toNumber: typeof toNumber;
 declare const fn_toBool: typeof toBool;
@@ -1702,6 +1708,8 @@ declare namespace fn {
     fn_isNotEmpty as isNotEmpty,
     fn_isEqual as isEqual,
     fn_isNotEqual as isNotEqual,
+    fn_dedupe as dedupe,
+    fn_dedupeMapped as dedupeMapped,
     filters$1 as filters,
     fn_toString as toString,
     fn_toNumber as toNumber,
@@ -1742,6 +1750,8 @@ declare const filters: {
     isNotEmpty: <T_4 = any>(item: string | T_4[]) => boolean;
     isEqual: <T_5 = any>(item: T_5) => (other: T_5) => boolean;
     isNotEqual: <T_6 = any>(item: T_6) => (other: T_6) => boolean;
+    dedupe: <T_7 extends unknown>(item: T_7, index: number, array: T_7[]) => boolean;
+    dedupeMapped: <T_8 extends unknown, U extends unknown>(mapFn: (value: T_8, index: number, array: T_8[]) => U) => (item: T_8, index: number, array: T_8[]) => boolean;
 };
 declare const maps: {
     toString: <T = any>(item: T) => string;
