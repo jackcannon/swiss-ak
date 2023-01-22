@@ -413,9 +413,56 @@ export const combineProp =
   (a: any, b: any): any =>
     a[propName] + b[propName];
 
+// TODO docs
+/**
+ * fn.reduces.mode / fn.mode
+ *
+ * Returns the most common value in an array.
+ */
+export const mode = <T extends unknown>(prev: T, curr: T, index: number, arr: T[]): T => {
+  if (index > 1) {
+    // First iteration will be index 1, because it will
+    // skip index 0, and use value at [0] for first 'prev'.
+    return prev;
+  }
+  const unique = arr.filter(filters.dedupe);
+  const counts = unique.map((item) => arr.filter((i) => i === item)).map((a) => a.length);
+  const max = Math.max(...counts);
+
+  return unique[counts.indexOf(max)];
+};
+
+// TODO docs
+/**
+ * fn.reduces.modeMapped / fn.modeMapped
+ *
+ * Returns the most common value in an array, based on a given map function.
+ */
+export const modeMapped = <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => {
+  let result: T;
+
+  return (prev: T, curr: T, index: number, arr: T[]): T => {
+    if (result) return result;
+
+    const mapped: U[] = arr.map(mapFn);
+
+    const uniqueU: U[] = mapped.filter(filters.dedupe);
+    const uniqueT: T[] = arr.filter(filters.dedupeMapped(mapFn));
+
+    const counts: number[] = uniqueU.map((item) => mapped.filter((i) => i === item)).map((a) => a.length);
+    const max: number = Math.max(...counts);
+
+    result = uniqueT[counts.indexOf(max)];
+
+    return result;
+  };
+};
+
 export const reduces = {
   combine,
-  combineProp
+  combineProp,
+  mode,
+  modeMapped
 };
 
 /**

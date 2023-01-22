@@ -1586,9 +1586,23 @@ declare const combine: (a: any, b: any) => any;
  * ```
  */
 declare const combineProp: (propName: string) => (a: any, b: any) => any;
+/**
+ * fn.reduces.mode / fn.mode
+ *
+ * Returns the most common value in an array.
+ */
+declare const mode: <T extends unknown>(prev: T, curr: T, index: number, arr: T[]) => T;
+/**
+ * fn.reduces.modeMapped / fn.modeMapped
+ *
+ * Returns the most common value in an array, based on a given map function.
+ */
+declare const modeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
 declare const reduces$1: {
     combine: (a: any, b: any) => any;
     combineProp: (propName: string) => (a: any, b: any) => any;
+    mode: <T extends unknown>(prev: T, curr: T, index: number, arr: T[]) => T;
+    modeMapped: <T_1 extends unknown, U extends unknown>(mapFn: (value: T_1, index: number, array: T_1[]) => U) => (prev: T_1, curr: T_1, index: number, arr: T_1[]) => T_1;
 };
 /**
  * fn.everys.isAllEqual / fn.isAllEqual
@@ -1682,6 +1696,8 @@ declare const fn_arrayAsc: typeof arrayAsc;
 declare const fn_arrayDesc: typeof arrayDesc;
 declare const fn_combine: typeof combine;
 declare const fn_combineProp: typeof combineProp;
+declare const fn_mode: typeof mode;
+declare const fn_modeMapped: typeof modeMapped;
 declare const fn_isAllEqual: typeof isAllEqual;
 declare const fn_floorTo: typeof floorTo;
 declare const fn_roundTo: typeof roundTo;
@@ -1727,6 +1743,8 @@ declare namespace fn {
     sorts$1 as sorts,
     fn_combine as combine,
     fn_combineProp as combineProp,
+    fn_mode as mode,
+    fn_modeMapped as modeMapped,
     reduces$1 as reduces,
     fn_isAllEqual as isAllEqual,
     everys$1 as everys,
@@ -1772,6 +1790,8 @@ declare const sorts: {
 declare const reduces: {
     combine: (a: any, b: any) => any;
     combineProp: (propName: string) => (a: any, b: any) => any;
+    mode: <T extends unknown>(prev: T, curr: T, index: number, arr: T[]) => T;
+    modeMapped: <T_1 extends unknown, U extends unknown>(mapFn: (value: T_1, index: number, array: T_1[]) => U) => (prev: T_1, curr: T_1, index: number, arr: T_1[]) => T_1;
 };
 declare const everys: {
     isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;

@@ -398,6 +398,8 @@ __export(fn_exports, {
   lerpArray: () => lerpArray,
   lerpObj: () => lerpObj,
   maps: () => maps,
+  mode: () => mode,
+  modeMapped: () => modeMapped,
   nearestTo: () => nearestTo,
   noact: () => noact,
   noop: () => noop,
@@ -564,9 +566,34 @@ var sorts = {
 };
 var combine = (a, b) => a + b;
 var combineProp = (propName) => (a, b) => a[propName] + b[propName];
+var mode = (prev, curr, index, arr) => {
+  if (index > 1) {
+    return prev;
+  }
+  const unique = arr.filter(filters.dedupe);
+  const counts = unique.map((item) => arr.filter((i) => i === item)).map((a) => a.length);
+  const max = Math.max(...counts);
+  return unique[counts.indexOf(max)];
+};
+var modeMapped = (mapFn) => {
+  let result2;
+  return (prev, curr, index, arr) => {
+    if (result2)
+      return result2;
+    const mapped = arr.map(mapFn);
+    const uniqueU = mapped.filter(filters.dedupe);
+    const uniqueT = arr.filter(filters.dedupeMapped(mapFn));
+    const counts = uniqueU.map((item) => mapped.filter((i) => i === item)).map((a) => a.length);
+    const max = Math.max(...counts);
+    result2 = uniqueT[counts.indexOf(max)];
+    return result2;
+  };
+};
 var reduces = {
   combine,
-  combineProp
+  combineProp,
+  mode,
+  modeMapped
 };
 var isAllEqual = (val, i, arr) => val === arr[0];
 var everys = {
