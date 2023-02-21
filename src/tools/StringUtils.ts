@@ -56,10 +56,13 @@ export interface StringCaseHandler {
   toCharacterSeparated(input: CaseInput, char: string, toUpper?: boolean): string;
 }
 const caseHandler = (overrideSplitter?: SplittingFn): StringCaseHandler => {
-  const getSplit: SplittingFn = (input: CaseInput): string[] => {
+  const getSplit: SplittingFn = (input: CaseInput = ''): string[] => {
     if (overrideSplitter) return overrideSplitter(input);
     const arr = [input].flat();
-    return arr.map((s) => clean(s.replace(/-|_/g, ' ')).split(' ')).flat();
+    return arr
+      .map((s) => clean(s.replace(/-|_/g, ' ')).split(' '))
+      .flat()
+      .filter((s) => s.length);
   };
 
   const toCamelCase = (input: CaseInput, capitaliseFirst: boolean = false): string => {

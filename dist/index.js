@@ -478,11 +478,11 @@ var capitalise = (input = "") => (input || "").split(/\s/).map((word) => word.ch
 var angloise = (input) => input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 var clean = (input = "") => angloise([input].flat().join(" ")).replace(/\s{1,}/g, " ").replace(/[^A-Za-z0-9 ]/gi, "");
 var caseHandler = (overrideSplitter) => {
-  const getSplit = (input) => {
+  const getSplit = (input = "") => {
     if (overrideSplitter)
       return overrideSplitter(input);
     const arr = [input].flat();
-    return arr.map((s) => clean(s.replace(/-|_/g, " ")).split(" ")).flat();
+    return arr.map((s) => clean(s.replace(/-|_/g, " ")).split(" ")).flat().filter((s) => s.length);
   };
   const toCamelCase = (input, capitaliseFirst = false) => {
     const split = getSplit(input);
