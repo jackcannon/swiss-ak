@@ -163,6 +163,9 @@ export const sortNumberedText = (texts: string[], ignoreCase: boolean = true): s
 };
 
 // TODO docs
+/**
+ * To equal size 2d array
+ */
 export const partition = <T extends unknown>(array: T[], partitionSize: number = Math.ceil(array.length / 2)): T[][] => {
   const numParts = Math.ceil(array.length / partitionSize);
   const result: T[][] = [];
@@ -170,6 +173,37 @@ export const partition = <T extends unknown>(array: T[], partitionSize: number =
     result.push(array.slice(i * partitionSize, (i + 1) * partitionSize));
   }
   return result;
+};
+
+// TODO docs
+/**
+ * group items into an object of arrays, based on a given map function.
+ */
+export const groupObj = <T extends unknown>(
+  array: T[],
+  mapFn: (item: T, index: number, arr: T[]) => string | number
+): { [id: string | number]: T[] } => {
+  const result: { [id: string | number]: T[] } = {};
+
+  array.forEach((item, index) => {
+    const key = mapFn(item, index, array);
+
+    if (key === undefined) return;
+
+    if (!result[key]) result[key] = [];
+    result[key].push(item);
+  });
+
+  return result;
+};
+
+// TODO docs
+/**
+ * group items into an array of arrays, based on a given map function.
+ */
+export const group = <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): T[][] => {
+  const obj = groupObj(array, mapFn);
+  return Object.values(obj);
 };
 
 export const ArrayUtils = {
@@ -184,6 +218,8 @@ export const ArrayUtils = {
   roll,
   sortNumberedText,
   partition,
+  groupObj,
+  group,
   utils: {
     isNumString,
     partitionNums

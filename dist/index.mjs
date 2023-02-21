@@ -363,6 +363,22 @@ var partition = (array, partitionSize = Math.ceil(array.length / 2)) => {
   }
   return result2;
 };
+var groupObj = (array, mapFn) => {
+  const result2 = {};
+  array.forEach((item, index) => {
+    const key = mapFn(item, index, array);
+    if (key === void 0)
+      return;
+    if (!result2[key])
+      result2[key] = [];
+    result2[key].push(item);
+  });
+  return result2;
+};
+var group = (array, mapFn) => {
+  const obj = groupObj(array, mapFn);
+  return Object.values(obj);
+};
 var ArrayUtils = {
   range,
   zip,
@@ -375,6 +391,8 @@ var ArrayUtils = {
   roll,
   sortNumberedText,
   partition,
+  groupObj,
+  group,
   utils: {
     isNumString,
     partitionNums
@@ -1323,6 +1341,8 @@ export {
   getDeferred,
   getProgressBar,
   getTimer,
+  group,
+  groupObj,
   hours,
   interval,
   map,
