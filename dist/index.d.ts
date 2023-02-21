@@ -825,6 +825,47 @@ declare const TimeUtils: {
     toReadableDuration: (duration: ms, longNames?: boolean, maxUnits?: number) => string;
 };
 
+declare type CaseInput = string | string[];
+interface StringCaseHandler {
+    toLowerCamelCase(input: CaseInput): string;
+    toUpperCamelCase(input: CaseInput): string;
+    toCamelCase(input: CaseInput, capitaliseFirst?: boolean): string;
+    toLowerSlugCase(input: CaseInput): string;
+    toUpperSlugCase(input: CaseInput): string;
+    toSlugCase(input: CaseInput, toUpper?: boolean): string;
+    toLowerSnakeCase(input: CaseInput): string;
+    toUpperSnakeCase(input: CaseInput): string;
+    toSnakeCase(input: CaseInput, toUpper?: boolean): string;
+    toLowerSpaced(input: CaseInput): string;
+    toUpperSpaced(input: CaseInput): string;
+    toCapitalisedSpaced(input: CaseInput): string;
+    toSpaced(input: CaseInput, toUpper?: boolean): string;
+    toCharacterSeparated(input: CaseInput, char: string, toUpper?: boolean): string;
+}
+declare const StringUtils: {
+    fromSlugCase: StringCaseHandler;
+    fromSnakeCase: StringCaseHandler;
+    fromSpaced: StringCaseHandler;
+    fromCamelCase: StringCaseHandler;
+    toLowerCamelCase(input: CaseInput): string;
+    toUpperCamelCase(input: CaseInput): string;
+    toCamelCase(input: CaseInput, capitaliseFirst?: boolean): string;
+    toLowerSlugCase(input: CaseInput): string;
+    toUpperSlugCase(input: CaseInput): string;
+    toSlugCase(input: CaseInput, toUpper?: boolean): string;
+    toLowerSnakeCase(input: CaseInput): string;
+    toUpperSnakeCase(input: CaseInput): string;
+    toSnakeCase(input: CaseInput, toUpper?: boolean): string;
+    toLowerSpaced(input: CaseInput): string;
+    toUpperSpaced(input: CaseInput): string;
+    toCapitalisedSpaced(input: CaseInput): string;
+    toSpaced(input: CaseInput, toUpper?: boolean): string;
+    toCharacterSeparated(input: CaseInput, char: string, toUpper?: boolean): string;
+    capitalise: (input?: string) => string;
+    angloise: (input: string) => string;
+    clean: (input?: string) => string;
+};
+
 /**
  * symbols
  *
@@ -1797,4 +1838,4 @@ declare const everys: {
     isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 };
 
-export { ArrayUtils, CENTURY, ColourUtils, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, ObjOfType, ObjectUtils, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseUtils, QueueManager, RemapOf, SECOND, TimeUtils, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayUtils, CENTURY, CaseInput, ColourUtils, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, ObjOfType, ObjectUtils, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseUtils, QueueManager, RemapOf, SECOND, StringCaseHandler, StringUtils, TimeUtils, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

@@ -8,6 +8,7 @@ export * from './tools/PromiseUtils';
 export * from './tools/ArrayUtils';
 export * from './tools/ObjectUtils';
 export * from './tools/TimeUtils';
+export * from './tools/StringUtils';
 export * from './tools/symbols';
 export * from './tools/queue';
 

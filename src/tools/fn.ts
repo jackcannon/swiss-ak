@@ -1,4 +1,5 @@
 import { range, zip } from './ArrayUtils';
+import { StringUtils } from './StringUtils';
 
 /**
  * fn.noop
@@ -555,8 +556,7 @@ export const lerpObj = <T extends object>(progress: number, fromObj: T, toObj: T
 export const clamp = (value: number, a: number, b: number) => Math.max(Math.min(a, b), Math.min(value, Math.max(a, b)));
 
 // TODO docs
-export const capitalise = (str: string): string =>
-  str
-    .split(/\s/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
+export const capitalise = (str: string): string => {
+  console.warn('fn.capitalise is deprecated, use StringUtils.capitalize instead');
+  return StringUtils.capitalise(str);
+};

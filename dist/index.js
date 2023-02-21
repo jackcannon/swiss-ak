@@ -33,6 +33,7 @@ __export(src_exports, {
   PromiseUtils: () => PromiseUtils,
   QueueManager: () => QueueManager,
   SECOND: () => SECOND,
+  StringUtils: () => StringUtils,
   TimeUtils: () => TimeUtils,
   WEEK: () => WEEK,
   YEAR: () => YEAR,
@@ -373,7 +374,7 @@ __export(fn_exports, {
   arrayDesc: () => arrayDesc,
   asc: () => asc,
   byProp: () => byProp,
-  capitalise: () => capitalise,
+  capitalise: () => capitalise2,
   ceilTo: () => ceilTo,
   clamp: () => clamp,
   combine: () => combine,
@@ -470,6 +471,74 @@ var ArrayUtils = {
     isNumString,
     partitionNums
   }
+};
+
+// src/tools/StringUtils.ts
+var capitalise = (input = "") => (input || "").split(/\s/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+var angloise = (input) => input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+var clean = (input = "") => angloise([input].flat().join(" ")).replace(/\s{1,}/g, " ").replace(/[^A-Za-z0-9 ]/gi, "");
+var caseHandler = (overrideSplitter) => {
+  const getSplit = (input) => {
+    if (overrideSplitter)
+      return overrideSplitter(input);
+    const arr = [input].flat();
+    return arr.map((s) => clean(s.replace(/-|_/g, " ")).split(" ")).flat();
+  };
+  const toCamelCase = (input, capitaliseFirst = false) => {
+    const split = getSplit(input);
+    return split.map((word, index) => index === 0 && !capitaliseFirst ? word.toLowerCase() : capitalise(word)).join("");
+  };
+  const toLowerCamelCase = (input) => toCamelCase(input, false);
+  const toUpperCamelCase = (input) => toCamelCase(input, true);
+  const toCharacterSeparated = (input, char, toUpper = false) => {
+    const split = getSplit(input);
+    return split.map((word, index) => toUpper ? word.toUpperCase() : word.toLowerCase()).join(char);
+  };
+  const toSlugCase = (input, toUpper = false) => toCharacterSeparated(input, "-", toUpper);
+  const toLowerSlugCase = (input) => toSlugCase(input, false);
+  const toUpperSlugCase = (input) => toSlugCase(input, true);
+  const toSnakeCase = (input, toUpper = false) => toCharacterSeparated(input, "_", toUpper);
+  const toLowerSnakeCase = (input) => toSnakeCase(input, false);
+  const toUpperSnakeCase = (input) => toSnakeCase(input, true);
+  const toSpaced = (input, toUpper = false) => toCharacterSeparated(input, " ", toUpper);
+  const toLowerSpaced = (input) => toSpaced(input, false);
+  const toUpperSpaced = (input) => toSpaced(input, true);
+  const toCapitalisedSpaced = (input) => capitalise(toSpaced(input, false));
+  return {
+    toLowerCamelCase,
+    toUpperCamelCase,
+    toCamelCase,
+    toLowerSlugCase,
+    toUpperSlugCase,
+    toSlugCase,
+    toLowerSnakeCase,
+    toUpperSnakeCase,
+    toSnakeCase,
+    toLowerSpaced,
+    toUpperSpaced,
+    toCapitalisedSpaced,
+    toSpaced,
+    toCharacterSeparated
+  };
+};
+var standardCaseHandler = caseHandler();
+var fromSlugCase = standardCaseHandler;
+var fromSnakeCase = standardCaseHandler;
+var fromSpaced = standardCaseHandler;
+var fromCamelCase = caseHandler(
+  (input) => [input].flat().map((s) => clean(s)).map(
+    (s) => s.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").trim()
+  ).map((s) => s.split(" ")).flat()
+);
+var StringUtils = {
+  capitalise,
+  angloise,
+  clean,
+  ...standardCaseHandler,
+  fromSlugCase,
+  fromSnakeCase,
+  fromSpaced,
+  fromCamelCase
 };
 
 // src/tools/fn.ts
@@ -616,7 +685,10 @@ var lerpObj = (progress, fromObj, toObj) => {
   return Object.fromEntries(lerped);
 };
 var clamp = (value, a, b) => Math.max(Math.min(a, b), Math.min(value, Math.max(a, b)));
-var capitalise = (str) => str.split(/\s/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+var capitalise2 = (str) => {
+  console.warn("fn.capitalise is deprecated, use StringUtils.capitalize instead");
+  return StringUtils.capitalise(str);
+};
 
 // src/tools/progressBar.ts
 var printLn = (...text) => {
@@ -890,13 +962,13 @@ var map2 = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, valu
 var mapValues = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value], index) => [key, func(key, value, index)]));
 var mapKeys = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value], index) => [func(key, value, index), value]));
 var filter = (obj, func) => Object.fromEntries(Object.entries(obj).filter(([key, value], index) => func(key, value, index)));
-var clean = (obj) => filter(obj, (key, value) => value !== void 0);
+var clean2 = (obj) => filter(obj, (key, value) => value !== void 0);
 var ObjectUtils = {
   map: map2,
   mapValues,
   mapKeys,
   filter,
-  clean
+  clean: clean2
 };
 
 // src/tools/symbols.ts
@@ -1324,6 +1396,7 @@ var { filters: filters2, maps: maps2, sorts: sorts2, reduces: reduces2, everys: 
   PromiseUtils,
   QueueManager,
   SECOND,
+  StringUtils,
   TimeUtils,
   WEEK,
   YEAR,
