@@ -833,13 +833,13 @@ declare const ArrayUtils: {
 };
 
 declare const ObjectUtils: {
-    map: <T extends Object, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V, index: number) => [string, W]) => OfType<T, W>;
-    mapValues: <T_1 extends Object, V_1 extends unknown, W_1 extends unknown>(obj: T_1, func: (key: string, value: V_1, index: number) => W_1) => OfType<T_1, W_1>;
-    mapKeys: <T_2 extends Object, V_2 extends unknown>(obj: T_2, func: (key: string, value: V_2, index: number) => string) => T_2;
-    filter: <T_3 extends Object, V_3 extends unknown, O extends Partial<T_3>>(obj: T_3, func: (key: string, value: V_3, index: number) => boolean) => O;
-    clean: <T_4 extends Object, O_1 extends Partial<T_4>>(obj: T_4) => O_1;
-    remodel: <T_5 extends Object = Object, V_4 extends unknown = any, W_2 extends unknown = any, O_2 extends unknown = OfType<T_5, W_2>>(obj: T_5, func: (entries: [string, V_4][]) => [string, W_2][]) => O_2;
-    remodelEach: <T_6 extends Object = Object, V_5 extends unknown = any, W_3 extends unknown = any, O_3 extends unknown = OfType<T_6, W_3>>(obj: T_6, func: (entry: [string, V_5], index: number, entries: [string, V_5][]) => [string, W_3]) => O_3;
+    remodel: <T extends Object = Object, V extends unknown = any, W extends unknown = any, O extends unknown = OfType<T, W>>(obj: T, func: (entries: [string, V][]) => [string, W][]) => O;
+    remodelEach: <T_1 extends Object = Object, V_1 extends unknown = any, W_1 extends unknown = any, O_1 extends unknown = OfType<T_1, W_1>>(obj: T_1, func: (entry: [string, V_1], index: number, entries: [string, V_1][]) => [string, W_1]) => O_1;
+    map: <T_2 extends Object, V_2 extends unknown, W_2 extends unknown>(obj: T_2, func: (key: string, value: V_2, index: number) => [string, W_2]) => OfType<T_2, W_2>;
+    mapValues: <T_3 extends Object, V_3 extends unknown, W_3 extends unknown>(obj: T_3, func: (key: string, value: V_3, index: number) => W_3) => OfType<T_3, W_3>;
+    mapKeys: <T_4 extends Object, V_4 extends unknown>(obj: T_4, func: (key: string, value: V_4, index: number) => string) => T_4;
+    filter: <T_5 extends Object, V_5 extends unknown, O_2 extends Partial<T_5>>(obj: T_5, func: (key: string, value: V_5, index: number) => boolean) => O_2;
+    clean: <T_6 extends Object, O_3 extends Partial<T_6>>(obj: T_6) => O_3;
 };
 
 declare const TimeUtils: {
