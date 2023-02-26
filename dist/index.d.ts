@@ -838,6 +838,8 @@ declare const ObjectUtils: {
     mapKeys: <T_2 extends Object, V_2 extends unknown>(obj: T_2, func: (key: string, value: V_2, index: number) => string) => T_2;
     filter: <T_3 extends Object, V_3 extends unknown, O extends Partial<T_3>>(obj: T_3, func: (key: string, value: V_3, index: number) => boolean) => O;
     clean: <T_4 extends Object, O_1 extends Partial<T_4>>(obj: T_4) => O_1;
+    remodel: <T_5 extends Object = Object, V_4 extends unknown = any, W_2 extends unknown = any, O_2 extends unknown = OfType<T_5, W_2>>(obj: T_5, func: (entries: [string, V_4][]) => [string, W_2][]) => O_2;
+    remodelEach: <T_6 extends Object = Object, V_5 extends unknown = any, W_3 extends unknown = any, O_3 extends unknown = OfType<T_6, W_3>>(obj: T_6, func: (entry: [string, V_5], index: number, entries: [string, V_5][]) => [string, W_3]) => O_3;
 };
 
 declare const TimeUtils: {

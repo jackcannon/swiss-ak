@@ -44,10 +44,25 @@ const filter = <T extends Object, V extends any, O extends Partial<T>>(obj: T, f
 // removes properties with undefined values
 const clean = <T extends Object, O extends Partial<T>>(obj: T): O => filter(obj, (key, value) => value !== undefined) as O;
 
+// TODO docs
+// add remodel (apply a function to the entries of than object)
+const remodel = <T extends Object = Object, V extends any = any, W extends any = any, O extends any = OfType<T, W>>(
+  obj: T,
+  func: (entries: [string, V][]) => [string, W][]
+): O => Object.fromEntries(func(Object.entries(obj)) ?? Object.entries(obj)) as O;
+
+// TODO docs
+const remodelEach = <T extends Object = Object, V extends any = any, W extends any = any, O extends any = OfType<T, W>>(
+  obj: T,
+  func: (entry: [string, V], index: number, entries: [string, V][]) => [string, W]
+): O => Object.fromEntries(Object.entries(obj).map((entry, index, entries) => func(entry, index, entries) ?? entry)) as O;
+
 export const ObjectUtils = {
   map,
   mapValues,
   mapKeys,
   filter,
-  clean
+  clean,
+  remodel,
+  remodelEach
 };

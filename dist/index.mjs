@@ -889,12 +889,16 @@ var mapValues = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key,
 var mapKeys = (obj, func) => Object.fromEntries(Object.entries(obj).map(([key, value], index) => [func(key, value, index), value]));
 var filter = (obj, func) => Object.fromEntries(Object.entries(obj).filter(([key, value], index) => func(key, value, index)));
 var clean2 = (obj) => filter(obj, (key, value) => value !== void 0);
+var remodel = (obj, func) => Object.fromEntries(func(Object.entries(obj)) ?? Object.entries(obj));
+var remodelEach = (obj, func) => Object.fromEntries(Object.entries(obj).map((entry, index, entries2) => func(entry, index, entries2) ?? entry));
 var ObjectUtils = {
   map: map2,
   mapValues,
   mapKeys,
   filter,
-  clean: clean2
+  clean: clean2,
+  remodel,
+  remodelEach
 };
 
 // src/tools/symbols.ts
