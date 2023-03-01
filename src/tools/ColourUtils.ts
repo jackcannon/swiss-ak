@@ -1,6 +1,7 @@
 import * as fn from './fn';
 
 export type ColourValues = [number, number, number];
+export type HSLValues = [number, number, number];
 
 /**
  * ColourUtils.namedColours
@@ -271,6 +272,7 @@ export const namedColours = {
 };
 
 const limitValue = (val: number) => Math.max(0, Math.min(255, val));
+const roundMinMax = (value: number, min: number = 0, max: number = 255) => Math.min(max, Math.max(min, Math.round(value)));
 
 /**
  * ColourUtils.parse
@@ -301,7 +303,7 @@ export const parse = (input: string): ColourValues => {
     return [r, g, b];
   }
   if (/^#/.test(trimmed) || /^([0-9A-F]{3}|[0-9A-F]{6})$/.test(trimmed)) {
-    const stripped = trimmed.replace(/[^0-9A-F]/g, '');
+    const stripped = trimmed.toUpperCase().replace(/[^0-9A-F]/g, '');
     let hexs: number[] = [];
     if (/^[0-9A-F]{3}$/.test(stripped)) {
       hexs = [...(stripped.match(/[0-9A-F]{1}/g) || [])].map((hex) => parseInt(hex, 16));
@@ -333,10 +335,14 @@ export const toHex = (colour: ColourValues): string => {
 /**
  * ColourUtils.getLuminance
  *
+ * IMPORTANT: This is not the same as the HSL luminance value.
+ *
  * Get the luminance value of a given colour.
  *
  * Between 0 and 255. Calculated using the formula:
  *  (RED × 0.299) + (GREEN × 0.587) + (BLUE × 0.114)
+ *
+ * Is the Y (Luma) component of the YUV444 color model.
  *
  * ```typescript
  * getLuminance([255, 0, 0]); // 76.245
@@ -344,7 +350,76 @@ export const toHex = (colour: ColourValues): string => {
  * getLuminance([0, 0, 255]); // 29.07
  * ```
  */
-export const getLuminance = ([r, g, b]: ColourValues): number => fn.fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
+export const getLuminance = ([r, g, b]: ColourValues): number => {
+  const [y, u, v] = toYUV([r, g, b]);
+  return y;
+};
+
+//TODO docs
+// YUV - https://en.wikipedia.org/wiki/YUV#Y%E2%80%B2UV444_to_RGB888_conversion
+export const toYUV = ([r, g, b]: ColourValues): ColourValues => {
+  const y = fn.fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
+  const u = fn.fixFloat(-0.14713 * (r ?? 0) - 0.28886 * (g ?? 0) + 0.436 * (b ?? 0));
+  const v = fn.fixFloat(0.615 * (r ?? 0) - 0.51499 * (g ?? 0) - 0.10001 * (b ?? 0));
+  return [y, u, v];
+};
+
+// TODO docs
+// https://www.30secondsofcode.org/js/s/rgb-to-hsl
+export const toHSL = (colour: ColourValues, round: boolean = true): HSLValues => {
+  const r = colour[0] / 255;
+  const g = colour[1] / 255;
+  const b = colour[2] / 255;
+
+  const M = Math.max(r, g, b);
+  const m = M - Math.min(r, g, b);
+
+  let d = 0;
+  if (m) {
+    if (M === r) {
+      // prodominantly red
+      d = (g - b) / m;
+    } else {
+      if (M === g) {
+        // prodominantly green
+        d = 2 + (b - r) / m;
+      } else {
+        // prodominantly blue
+        d = 4 + (r - g) / m;
+      }
+    }
+  }
+
+  const result: HSLValues = [
+    60 * d < 0 ? 60 * d + 360 : 60 * d,
+    100 * (m ? (M <= 0.5 ? m / (2 * M - m) : m / (2 - (2 * M - m))) : 0),
+    (100 * (2 * M - m)) / 2
+  ];
+
+  if (round) {
+    return [roundMinMax(result[0], 0, 360), roundMinMax(result[1], 0, 100), roundMinMax(result[2], 0, 100)];
+  }
+  return result;
+};
+
+// TODO docs
+// https://www.30secondsofcode.org/js/s/hsl-to-rgb
+export const fromHSL = (hsl: HSLValues, round: boolean = true): ColourValues => {
+  const h = hsl[0];
+  const s = hsl[1] / 100;
+  const l = hsl[2] / 100;
+
+  const k = (n) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+
+  const result: ColourValues = [255 * f(0), 255 * f(8), 255 * f(4)];
+
+  if (round) {
+    return [roundMinMax(result[0], 0, 255), roundMinMax(result[1], 0, 255), roundMinMax(result[2], 0, 255)];
+  }
+  return result;
+};
 
 /**
  * ColourUtils.invertColour
@@ -361,6 +436,7 @@ export const invertColour = ([r, g, b]: ColourValues): ColourValues => [255 - r,
 
 const white = [255, 255, 255] as ColourValues;
 const black = [0, 0, 0] as ColourValues;
+
 /**
  * ColourUtils.getContrastedColour
  *
@@ -374,3 +450,16 @@ const black = [0, 0, 0] as ColourValues;
  * ```
  */
 export const getContrastedColour = (colour: ColourValues): ColourValues => (getLuminance(colour) > 186 ? black : white);
+
+// TODO docs
+// adjust a colour if a certain condition is met
+// used for lightneing/darkening colours that are too light/dark
+// all func values are HSL
+export const getLimitedColour = (colour: ColourValues, checkFn: (hsl: HSLValues) => boolean, adjustFn: (hsl: HSLValues) => HSLValues) => {
+  let hsl = toHSL(colour);
+  if (checkFn(hsl)) {
+    hsl = adjustFn(hsl);
+  }
+  const out = fromHSL(hsl);
+  return out;
+};

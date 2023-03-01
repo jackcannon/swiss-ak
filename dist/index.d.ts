@@ -992,6 +992,7 @@ declare class QueueManager {
 declare const queue: QueueManager;
 
 declare type ColourValues = [number, number, number];
+declare type HSLValues = [number, number, number];
 /**
  * ColourUtils.namedColours
  *
@@ -1289,10 +1290,14 @@ declare const toHex: (colour: ColourValues) => string;
 /**
  * ColourUtils.getLuminance
  *
+ * IMPORTANT: This is not the same as the HSL luminance value.
+ *
  * Get the luminance value of a given colour.
  *
  * Between 0 and 255. Calculated using the formula:
  *  (RED × 0.299) + (GREEN × 0.587) + (BLUE × 0.114)
+ *
+ * Is the Y (Luma) component of the YUV444 color model.
  *
  * ```typescript
  * getLuminance([255, 0, 0]); // 76.245
@@ -1301,6 +1306,9 @@ declare const toHex: (colour: ColourValues) => string;
  * ```
  */
 declare const getLuminance: ([r, g, b]: ColourValues) => number;
+declare const toYUV: ([r, g, b]: ColourValues) => ColourValues;
+declare const toHSL: (colour: ColourValues, round?: boolean) => HSLValues;
+declare const fromHSL: (hsl: HSLValues, round?: boolean) => ColourValues;
 /**
  * ColourUtils.invertColour
  *
@@ -1326,23 +1334,34 @@ declare const invertColour: ([r, g, b]: ColourValues) => ColourValues;
  * ```
  */
 declare const getContrastedColour: (colour: ColourValues) => ColourValues;
+declare const getLimitedColour: (colour: ColourValues, checkFn: (hsl: HSLValues) => boolean, adjustFn: (hsl: HSLValues) => HSLValues) => ColourValues;
 
 type ColourUtils_ColourValues = ColourValues;
+type ColourUtils_HSLValues = HSLValues;
 declare const ColourUtils_namedColours: typeof namedColours;
 declare const ColourUtils_parse: typeof parse;
 declare const ColourUtils_toHex: typeof toHex;
 declare const ColourUtils_getLuminance: typeof getLuminance;
+declare const ColourUtils_toYUV: typeof toYUV;
+declare const ColourUtils_toHSL: typeof toHSL;
+declare const ColourUtils_fromHSL: typeof fromHSL;
 declare const ColourUtils_invertColour: typeof invertColour;
 declare const ColourUtils_getContrastedColour: typeof getContrastedColour;
+declare const ColourUtils_getLimitedColour: typeof getLimitedColour;
 declare namespace ColourUtils {
   export {
     ColourUtils_ColourValues as ColourValues,
+    ColourUtils_HSLValues as HSLValues,
     ColourUtils_namedColours as namedColours,
     ColourUtils_parse as parse,
     ColourUtils_toHex as toHex,
     ColourUtils_getLuminance as getLuminance,
+    ColourUtils_toYUV as toYUV,
+    ColourUtils_toHSL as toHSL,
+    ColourUtils_fromHSL as fromHSL,
     ColourUtils_invertColour as invertColour,
     ColourUtils_getContrastedColour as getContrastedColour,
+    ColourUtils_getLimitedColour as getLimitedColour,
   };
 }
 

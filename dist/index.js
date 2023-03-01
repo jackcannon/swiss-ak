@@ -1107,12 +1107,16 @@ var queue = new QueueManager();
 // src/tools/ColourUtils.ts
 var ColourUtils_exports = {};
 __export(ColourUtils_exports, {
+  fromHSL: () => fromHSL,
   getContrastedColour: () => getContrastedColour,
+  getLimitedColour: () => getLimitedColour,
   getLuminance: () => getLuminance,
   invertColour: () => invertColour,
   namedColours: () => namedColours,
   parse: () => parse,
-  toHex: () => toHex
+  toHSL: () => toHSL,
+  toHex: () => toHex,
+  toYUV: () => toYUV
 });
 var namedColours = {
   aliceblue: [240, 248, 255],
@@ -1367,6 +1371,7 @@ var namedColours = {
   yellowgreen: [154, 205, 50]
 };
 var limitValue = (val) => Math.max(0, Math.min(255, val));
+var roundMinMax = (value, min = 0, max = 255) => Math.min(max, Math.max(min, Math.round(value)));
 var parse = (input) => {
   const trimmed = (input + "").trim();
   if (namedColours[trimmed]) {
@@ -1378,7 +1383,7 @@ var parse = (input) => {
     return [r, g, b];
   }
   if (/^#/.test(trimmed) || /^([0-9A-F]{3}|[0-9A-F]{6})$/.test(trimmed)) {
-    const stripped = trimmed.replace(/[^0-9A-F]/g, "");
+    const stripped = trimmed.toUpperCase().replace(/[^0-9A-F]/g, "");
     let hexs = [];
     if (/^[0-9A-F]{3}$/.test(stripped)) {
       hexs = [...stripped.match(/[0-9A-F]{1}/g) || []].map((hex) => parseInt(hex, 16));
@@ -1396,11 +1401,69 @@ var toHex = (colour) => {
   const hexs = colour.map((val) => (val ?? 0).toString(16).padStart(2, "0"));
   return `#${hexs.join("")}`;
 };
-var getLuminance = ([r, g, b]) => fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
+var getLuminance = ([r, g, b]) => {
+  const [y, u, v] = toYUV([r, g, b]);
+  return y;
+};
+var toYUV = ([r, g, b]) => {
+  const y = fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
+  const u = fixFloat(-0.14713 * (r ?? 0) - 0.28886 * (g ?? 0) + 0.436 * (b ?? 0));
+  const v = fixFloat(0.615 * (r ?? 0) - 0.51499 * (g ?? 0) - 0.10001 * (b ?? 0));
+  return [y, u, v];
+};
+var toHSL = (colour, round2 = true) => {
+  const r = colour[0] / 255;
+  const g = colour[1] / 255;
+  const b = colour[2] / 255;
+  const M = Math.max(r, g, b);
+  const m = M - Math.min(r, g, b);
+  let d = 0;
+  if (m) {
+    if (M === r) {
+      d = (g - b) / m;
+    } else {
+      if (M === g) {
+        d = 2 + (b - r) / m;
+      } else {
+        d = 4 + (r - g) / m;
+      }
+    }
+  }
+  const result2 = [
+    60 * d < 0 ? 60 * d + 360 : 60 * d,
+    100 * (m ? M <= 0.5 ? m / (2 * M - m) : m / (2 - (2 * M - m)) : 0),
+    100 * (2 * M - m) / 2
+  ];
+  if (round2) {
+    return [roundMinMax(result2[0], 0, 360), roundMinMax(result2[1], 0, 100), roundMinMax(result2[2], 0, 100)];
+  }
+  return result2;
+};
+var fromHSL = (hsl, round2 = true) => {
+  const h = hsl[0];
+  const s = hsl[1] / 100;
+  const l = hsl[2] / 100;
+  const k = (n) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  const result2 = [255 * f(0), 255 * f(8), 255 * f(4)];
+  if (round2) {
+    return [roundMinMax(result2[0], 0, 255), roundMinMax(result2[1], 0, 255), roundMinMax(result2[2], 0, 255)];
+  }
+  return result2;
+};
 var invertColour = ([r, g, b]) => [255 - r, 255 - g, 255 - b];
 var white = [255, 255, 255];
 var black = [0, 0, 0];
 var getContrastedColour = (colour) => getLuminance(colour) > 186 ? black : white;
+var getLimitedColour = (colour, checkFn, adjustFn) => {
+  let hsl = toHSL(colour);
+  if (checkFn(hsl)) {
+    hsl = adjustFn(hsl);
+  }
+  const out = fromHSL(hsl);
+  return out;
+};
 
 // src/index.ts
 var { filters: filters2, maps: maps2, sorts: sorts2, reduces: reduces2, everys: everys2 } = fn_exports;
