@@ -1457,12 +1457,13 @@ var white = [255, 255, 255];
 var black = [0, 0, 0];
 var getContrastedColour = (colour) => getLuminance(colour) > 186 ? black : white;
 var getLimitedColour = (colour, checkFn, adjustFn) => {
-  let hsl = toHSL(colour);
+  const hsl = toHSL(colour);
   if (checkFn(hsl)) {
-    hsl = adjustFn(hsl);
+    const adjusted = adjustFn(hsl);
+    const out = fromHSL(adjusted);
+    return out;
   }
-  const out = fromHSL(hsl);
-  return out;
+  return colour;
 };
 
 // src/index.ts

@@ -456,10 +456,11 @@ export const getContrastedColour = (colour: ColourValues): ColourValues => (getL
 // used for lightneing/darkening colours that are too light/dark
 // all func values are HSL
 export const getLimitedColour = (colour: ColourValues, checkFn: (hsl: HSLValues) => boolean, adjustFn: (hsl: HSLValues) => HSLValues) => {
-  let hsl = toHSL(colour);
+  const hsl = toHSL(colour);
   if (checkFn(hsl)) {
-    hsl = adjustFn(hsl);
+    const adjusted = adjustFn(hsl);
+    const out = fromHSL(adjusted);
+    return out;
   }
-  const out = fromHSL(hsl);
-  return out;
+  return colour;
 };
