@@ -16,7 +16,7 @@
  * StringTools.capitalise('hello world'); // 'Hello World'
  * ```
  */
-const capitalise = (input: string = '') =>
+export const capitalise = (input: string = '') =>
   (input || '')
     .split(/\s/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
@@ -33,7 +33,7 @@ const capitalise = (input: string = '') =>
  * StringTools.angloise('éèêë'); // 'eeee'
  * ```
  */
-const angloise = (input: string): string => input.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+export const angloise = (input: string): string => input.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
 /**<!-- DOCS: ### -->
  * clean
@@ -46,7 +46,7 @@ const angloise = (input: string): string => input.normalize('NFD').replace(/[\u0
  * StringTools.clean('éèêë_--ab0'); // 'eeeeab0'
  * ```
  */
-const clean = (input: string = ''): string =>
+export const clean = (input: string = ''): string =>
   angloise([input].flat().join(' '))
     .replace(/\s{1,}/g, ' ')
     .replace(/[^A-Za-z0-9 ]/gi, '');
@@ -289,6 +289,26 @@ const caseHandler = (overrideSplitter?: SplittingFn): StringCaseHandler => {
 };
 
 const standardCaseHandler = caseHandler();
+export const {
+  toLowerCamelCase,
+  toUpperCamelCase,
+  toCamelCase,
+
+  toLowerSlugCase,
+  toUpperSlugCase,
+  toSlugCase,
+
+  toLowerSnakeCase,
+  toUpperSnakeCase,
+  toSnakeCase,
+
+  toLowerSpaced,
+  toUpperSpaced,
+  toCapitalisedSpaced,
+  toSpaced,
+
+  toCharacterSeparated
+} = standardCaseHandler;
 
 /**<!-- DOCS: ### -->
  * fromSlugCase
@@ -309,7 +329,7 @@ const standardCaseHandler = caseHandler();
  * - `StringTools.fromSlugCase.toSpaced`
  * - `StringTools.fromSlugCase.toCharacterSeparated`
  */
-const fromSlugCase = standardCaseHandler;
+export const fromSlugCase = standardCaseHandler;
 
 /**<!-- DOCS: ### -->
  * fromSnakeCase
@@ -330,7 +350,7 @@ const fromSlugCase = standardCaseHandler;
  * - `StringTools.fromSnakeCase.toSpaced`
  * - `StringTools.fromSnakeCase.toCharacterSeparated`
  */
-const fromSnakeCase = standardCaseHandler;
+export const fromSnakeCase = standardCaseHandler;
 
 /**<!-- DOCS: ### -->
  * fromSpaced
@@ -351,7 +371,7 @@ const fromSnakeCase = standardCaseHandler;
  * - `StringTools.fromSpaced.toSpaced`
  * - `StringTools.fromSpaced.toCharacterSeparated`
  */
-const fromSpaced = standardCaseHandler;
+export const fromSpaced = standardCaseHandler;
 
 /**<!-- DOCS: ### -->
  * fromCamelCase
@@ -372,7 +392,7 @@ const fromSpaced = standardCaseHandler;
  * - `StringTools.fromCamelCase.toSpaced`
  * - `StringTools.fromCamelCase.toCharacterSeparated`
  */
-const fromCamelCase = caseHandler((input: CaseInput) =>
+export const fromCamelCase = caseHandler((input: CaseInput) =>
   [input]
     .flat()
     .map((s) => clean(s))
@@ -385,14 +405,3 @@ const fromCamelCase = caseHandler((input: CaseInput) =>
     .map((s) => s.split(' '))
     .flat()
 );
-
-export const StringTools = {
-  capitalise,
-  angloise,
-  clean,
-  ...standardCaseHandler,
-  fromSlugCase,
-  fromSnakeCase,
-  fromSpaced,
-  fromCamelCase
-};

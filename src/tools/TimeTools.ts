@@ -1,6 +1,6 @@
 import { ms, MILLISECOND, SECOND, MINUTE, HOUR, DAY, MONTH, YEAR, CENTURY, MILLENNIUM } from './times';
 
-//<!-- DOCS: 150 -->
+//<!-- DOCS: 160 -->
 /**<!-- DOCS: ## -->
  * TimeTools
  *

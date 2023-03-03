@@ -1,4 +1,5 @@
-import { sorts, fixFloat } from './fn';
+import { sorts } from './fn';
+import { fixFloat } from './MathsTools';
 
 //<!-- DOCS: 100 -->
 /**<!-- DOCS: ## -->

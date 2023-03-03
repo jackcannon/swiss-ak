@@ -8,7 +8,6 @@ export * from './tools/PromiseTools';
 export * from './tools/ArrayTools';
 export * from './tools/ObjectTools';
 export * from './tools/TimeTools';
-export * from './tools/StringTools';
 export * from './tools/symbols';
 export * from './tools/queue';
 
@@ -16,6 +15,8 @@ import * as times from './tools/times';
 import * as waiters from './tools/waiters';
 import * as progressBar from './tools/progressBar';
 import * as ColourTools from './tools/ColourTools';
+export * as StringTools from './tools/StringTools';
+export * as MathsTools from './tools/MathsTools';
 
 export { times, waiters, progressBar, ColourTools };
 

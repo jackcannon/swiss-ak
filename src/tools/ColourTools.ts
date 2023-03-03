@@ -1,5 +1,6 @@
-import * as fn from './fn';
-//<!-- DOCS: 140 -->
+import { fixFloat } from './MathsTools';
+
+//<!-- DOCS: 150 -->
 /**<!-- DOCS: ## -->
  * ColourTools
  *
@@ -404,9 +405,9 @@ export const getLuminance = ([r, g, b]: ColourValues): number => {
  * ```
  */
 export const toYUV = ([r, g, b]: ColourValues): ColourValues => {
-  const y = fn.fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
-  const u = fn.fixFloat(-0.14713 * (r ?? 0) - 0.28886 * (g ?? 0) + 0.436 * (b ?? 0));
-  const v = fn.fixFloat(0.615 * (r ?? 0) - 0.51499 * (g ?? 0) - 0.10001 * (b ?? 0));
+  const y = fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
+  const u = fixFloat(-0.14713 * (r ?? 0) - 0.28886 * (g ?? 0) + 0.436 * (b ?? 0));
+  const v = fixFloat(0.615 * (r ?? 0) - 0.51499 * (g ?? 0) - 0.10001 * (b ?? 0));
   return [y, u, v];
 };
 

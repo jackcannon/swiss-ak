@@ -2457,10 +2457,10 @@ swiss-ak@^1.22.1:
   resolved "https://registry.yarnpkg.com/swiss-ak/-/swiss-ak-1.22.1.tgz#0d71ffffd25f475927101fae35629395c41643cf"
   integrity sha512-JIUAeWRgG1aoAVazd8F09Qto/8bZWiq/Dbx4Cm4ZBEjYzZ0+razdVHItlVTt2w925XTZ9MyxYMDD+cirvVPARw==
 
-swiss-docs@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/swiss-docs/-/swiss-docs-0.2.0.tgz#9bb6e83a3b508bc02ec752c62366f3069f7b7826"
-  integrity sha512-F+M7WaQBxsiAQkthW5/oct6LXnyqNIwzEK5Wge3KjjtlrjWcNIBY667Q+chx5FWICVr6Jhin/a4YyNXAFYeglA==
+swiss-docs@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/swiss-docs/-/swiss-docs-0.3.0.tgz#0d2e6cc531e37bb6fc4a5ce6d17491cecf61c0c0"
+  integrity sha512-qnJ1ToGIHqLAE+Jm3x5cNk5fVd1KlCMlQ9O6HF4/05JNuD1Xut/Y6zf/2MNTr2Pm/7h+na1mpFCNrCEhmE3saw==
   dependencies:
     glob "^9.1.2"
     minimist "^1.2.8"

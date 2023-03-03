@@ -580,7 +580,7 @@ declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress
 declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, suppress?: boolean, run?: () => T) => Promise<T>;
 
 /**<!-- DOCS: ## -->
- * PromiseUtils
+ * PromiseTools
  *
  * A collection of promise utilities
  */
@@ -593,7 +593,7 @@ interface DeferredPromise<T> {
  * getDeferred
  *
  * - `getDeferred`
- * - `PromiseUtils.getDeferred`
+ * - `PromiseTools.getDeferred`
  *
  * A deferred promise
  *
@@ -620,7 +620,7 @@ declare const getDeferred: <T extends unknown>() => DeferredPromise<T>;
  * all
  *
  * - `all`
- * - `PromiseUtils.all`
+ * - `PromiseTools.all`
  *
  * An alias for Promise.all
  */
@@ -629,14 +629,14 @@ declare const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
  * allLimit
  *
  * - `allLimit`
- * - `PromiseUtils.allLimit`
+ * - `PromiseTools.allLimit`
  *
  * Like Promise.all, but limits the numbers of concurrently running items.
  *
  * Takes an array of functions (that return Promises), rather than an array of Promises
  *
  * ```typescript
- * import { PromiseUtils, timer, ms, seconds } from 'swiss-ak';
+ * import { PromiseTools, timer, ms, seconds } from 'swiss-ak';
  *
  * const give = async (delay: ms, result: number, label: string) => {
  *   await waitFor(delay);
@@ -646,7 +646,7 @@ declare const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
  *
  * timer.start('allLimit', 'a', 'b', 'c', 'd');
  *
- * const results = PromiseUtils.allLimit<number>(2, [
+ * const results = PromiseTools.allLimit<number>(2, [
  *   give(seconds(5), 1, 'a'),
  *   give(seconds(5), 2, 'b'),
  *   give(seconds(5), 3, 'c'),
@@ -671,16 +671,16 @@ declare const allLimit: <T extends unknown>(limit: number, items: ((index: numbe
  * each
  *
  * - `each`
- * - `PromiseUtils.each`
+ * - `PromiseTools.each`
  *
  * Run an async function against each item in an array
  *
  * ```typescript
- * import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+ * import { PromiseTools, ms, seconds, wait } from 'swiss-ak';
  *
  * const arr = [1, 2, 3, 4];
  *
- * await PromiseUtils.each<number>(arr, async (val: number) => {
+ * await PromiseTools.each<number>(arr, async (val: number) => {
  *   await wait(seconds(2));
  *   sendToSomewhere(val);
  * });
@@ -692,18 +692,18 @@ declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: nu
  * eachLimit
  *
  * - `eachLimit`
- * - `PromiseUtils.eachLimit`
+ * - `PromiseTools.eachLimit`
  *
  * Run an async function against each item in an array, limiting the number of items that can run concurrently.
  *
- * See PromiseUtils.allLimit for information about limited functions.
+ * See PromiseTools.allLimit for information about limited functions.
  *
  * ```typescript
- * import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+ * import { PromiseTools, ms, seconds, wait } from 'swiss-ak';
  *
  * const arr = [1, 2, 3, 4];
  *
- * await PromiseUtils.eachLimit<number>(2, arr, async (val: number) => {
+ * await PromiseTools.eachLimit<number>(2, arr, async (val: number) => {
  *   await wait(seconds(2));
  *   sendToSomewhere(val);
  * });
@@ -715,16 +715,16 @@ declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: 
  * map
  *
  * - `map`
- * - `PromiseUtils.map`
+ * - `PromiseTools.map`
  *
  * Run an async map function against each item in an array, mapping the results to a returned array
  *
  * ```typescript
- * import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+ * import { PromiseTools, ms, seconds, wait } from 'swiss-ak';
  *
  * const arr = [1, 2, 3, 4];
  *
- * const mapped = await PromiseUtils.map<number>(arr, async (val: number) => {
+ * const mapped = await PromiseTools.map<number>(arr, async (val: number) => {
  *   await wait(seconds(2));
  *   return val * 2;
  * });
@@ -737,18 +737,18 @@ declare const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (
  * mapLimit
  *
  * - `mapLimit`
- * - `PromiseUtils.mapLimit`
+ * - `PromiseTools.mapLimit`
  *
  * Run an async map function against each item in an array, mapping the results to a returned array, and limiting the number of items that can run concurrently.
  *
- * See PromiseUtils.allLimit for information about limited functions.
+ * See PromiseTools.allLimit for information about limited functions.
  *
  * ```typescript
- * import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+ * import { PromiseTools, ms, seconds, wait } from 'swiss-ak';
  *
  * const arr = [1, 2, 3, 4];
  *
- * const mapped = await PromiseUtils.mapLimit<number>(2, arr, async (val: number) => {
+ * const mapped = await PromiseTools.mapLimit<number>(2, arr, async (val: number) => {
  *   await wait(seconds(2));
  *   return val * 2;
  * });
@@ -765,12 +765,12 @@ declare type UnWrapPromiseObject<T> = {
  * allObj
  *
  * - `allObj`
- * - `PromiseUtils.allObj`
+ * - `PromiseTools.allObj`
  *
  * Like Promise.all, but pass/receive objects rather than arrays
  *
  * ```typescript
- * import { PromiseUtils, timer, ms, seconds } from 'swiss-ak';
+ * import { PromiseTools, timer, ms, seconds } from 'swiss-ak';
  *
  * const give = async (delay: ms, result: number, label: string) => {
  *   await waitFor(delay);
@@ -780,7 +780,7 @@ declare type UnWrapPromiseObject<T> = {
  *
  * timer.start('allObj', 'a', 'b', 'c');
  *
- * const results = PromiseUtils.allObj<number>({
+ * const results = PromiseTools.allObj<number>({
  *   a: give(seconds(10), 1, 'a'),
  *   b: give(seconds(15), 2, 'b'),
  *   c: give(seconds(20), 3, 'c')
@@ -803,14 +803,14 @@ declare const allObj: <T extends Object>(input: T) => Promise<UnWrapPromiseObjec
  * allLimitObj
  *
  * - `allLimitObj`
- * - `PromiseUtils.allLimitObj`
+ * - `PromiseTools.allLimitObj`
  *
  * A mix of allObj and allLimit.
  *
  * Takes an array of functions (that return Promises), and limits the numbers of concurrently running items.
  *
  * ```typescript
- * import { PromiseUtils, timer, ms, seconds } from 'swiss-ak';
+ * import { PromiseTools, timer, ms, seconds } from 'swiss-ak';
  *
  * const give = async (delay: ms, result: number, label: string) => {
  *   await waitFor(delay);
@@ -820,7 +820,7 @@ declare const allObj: <T extends Object>(input: T) => Promise<UnWrapPromiseObjec
  *
  * timer.start('allLimitObj', 'a', 'b', 'c', 'd');
  *
- * const results = PromiseUtils.allLimitObj<number>(2, {
+ * const results = PromiseTools.allLimitObj<number>(2, {
  *   a: give(seconds(5), 1, 'a'),
  *   b: give(seconds(5), 2, 'b'),
  *   c: give(seconds(5), 3, 'c'),
@@ -841,7 +841,7 @@ declare const allObj: <T extends Object>(input: T) => Promise<UnWrapPromiseObjec
  * ```
  */
 declare const allLimitObj: <T extends Object>(limit: number, input: T, noThrow?: boolean) => Promise<UnWrapPromiseObject<T>>;
-declare const PromiseUtils: {
+declare const PromiseTools: {
     getDeferred: <T extends unknown>() => DeferredPromise<T>;
     all: <T_1 extends unknown>(promises: Promise<T_1>[]) => Promise<any>;
     allLimit: <T_2 extends unknown>(limit: number, items: ((index: number) => Promise<T_2>)[], noThrow?: boolean) => Promise<T_2[]>;
@@ -854,7 +854,7 @@ declare const PromiseUtils: {
 };
 
 /**<!-- DOCS: ## -->
- * ArrayUtils
+ * ArrayTools
  *
  * A collection of useful array functions.
  */
@@ -862,19 +862,19 @@ declare const PromiseUtils: {
  * range
  *
  * - `range`
- * - `ArrayUtils.range`
+ * - `ArrayTools.range`
  *
  * Returns an array of the given length, where each value is equal to it's index
  * e.g. [0, 1, 2, ..., length]
  *
  * ```typescript
- * ArrayUtils.range(3);  // [0, 1, 2]
- * ArrayUtils.range(5);  // [0, 1, 2, 3, 4]
- * ArrayUtils.range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+ * ArrayTools.range(3);  // [0, 1, 2]
+ * ArrayTools.range(5);  // [0, 1, 2, 3, 4]
+ * ArrayTools.range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
  *
- * ArrayUtils.range(3, 2);  // [0, 2, 4]
- * ArrayUtils.range(5, 2);  // [0, 2, 4, 6, 8]
- * ArrayUtils.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
+ * ArrayTools.range(3, 2);  // [0, 2, 4]
+ * ArrayTools.range(5, 2);  // [0, 2, 4, 6, 8]
+ * ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
  * ```
  */
 declare const range: (length?: number, multiplier?: number, offset?: number) => number[];
@@ -884,7 +884,7 @@ declare type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infe
  * zip
  *
  * - `zip`
- * - `ArrayUtils.zip`
+ * - `ArrayTools.zip`
  *
  * Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
  *
@@ -893,7 +893,7 @@ declare type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infe
  * Inspired by python's 'zip'
  *
  * ```typescript
- * ArrayUtils.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
+ * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
  * ```
  */
 declare const zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
@@ -901,7 +901,7 @@ declare const zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
  * zipMax
  *
  * - `zipMax`
- * - `ArrayUtils.zipMax`
+ * - `ArrayTools.zipMax`
  *
  * Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
  *
@@ -910,7 +910,7 @@ declare const zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
  * Inspired by python's 'zip'
  *
  * ```typescript
- * ArrayUtils.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
+ * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
  * ```
  */
 declare const zipMax: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
@@ -918,13 +918,13 @@ declare const zipMax: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
  * sortByMapped
  *
  * - `sortByMapped`
- * - `ArrayUtils.sortByMapped`
+ * - `ArrayTools.sortByMapped`
  *
  * Sort an array by a mapped form of the values, but returning the initial values
  *
  * ```typescript
- * ArrayUtils.sortByMapped(['2p', '3p', '1p'], (v) => Number(v.replace('p', ''))); // ['1p', '2p', '3p']
- * ArrayUtils.sortByMapped(
+ * ArrayTools.sortByMapped(['2p', '3p', '1p'], (v) => Number(v.replace('p', ''))); // ['1p', '2p', '3p']
+ * ArrayTools.sortByMapped(
  *   ['2p', '3p', '1p'],
  *   (v) => Number(v.replace('p', '')),
  *   (a, b) => b - a
@@ -936,16 +936,16 @@ declare const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T,
  * randomise
  *
  * - `randomise`
- * - `ArrayUtils.randomise`
+ * - `ArrayTools.randomise`
  *
  * Returns a clone of the provided array with it's items in a random order
  *
  * ```typescript
- * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 5, 3, 4, 1, 2, 6 ]
- * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 5, 1, 3, 2, 4, 6 ]
- * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 6, 1, 4, 5, 2, 3 ]
- * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
- * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
+ * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 5, 3, 4, 1, 2, 6 ]
+ * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 5, 1, 3, 2, 4, 6 ]
+ * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 6, 1, 4, 5, 2, 3 ]
+ * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
+ * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
  * ```
  */
 declare const randomise: <T = string>(arr: T[]) => T[];
@@ -953,7 +953,7 @@ declare const randomise: <T = string>(arr: T[]) => T[];
  * reverse
  *
  * - `reverse`
- * - `ArrayUtils.reverse`
+ * - `ArrayTools.reverse`
  *
  * Returns a new array with the order reversed without affecting original array
  *
@@ -965,7 +965,7 @@ declare const randomise: <T = string>(arr: T[]) => T[];
  *
  * const arr2 = [1, 2, 3];
  * arr2            // [1, 2, 3]
- * ArrayUtils.reverse(arr2);  // [3, 2, 1]
+ * ArrayTools.reverse(arr2);  // [3, 2, 1]
  * arr2            // [1, 2, 3]
  * ```
  */
@@ -974,13 +974,13 @@ declare const reverse: <T = string>(arr: T[]) => T[];
  * entries
  *
  * - `entries`
- * - `ArrayUtils.entries`
+ * - `ArrayTools.entries`
  *
  * Returns array of 'tuples' of index/value pairs
  *
  * ```typescript
  * const arr = ['a', 'b', 'c'];
- * ArrayUtils.entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
+ * ArrayTools.entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
  *
  * for (let [index, value] of entries(arr)) {
  *  console.log(index); // 0, 1, 2
@@ -993,13 +993,13 @@ declare const entries: <T = string>(arr: T[]) => [number, T][];
  * repeat
  *
  * - `repeat`
- * - `ArrayUtils.repeat`
+ * - `ArrayTools.repeat`
  *
  * Returns an array with the given items repeated
  *
  * ```typescript
- * ArrayUtils.repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
- * ArrayUtils.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
+ * ArrayTools.repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
+ * ArrayTools.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
  * ```
  */
 declare const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
@@ -1007,13 +1007,13 @@ declare const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
  * roll
  *
  * - `roll`
- * - `ArrayUtils.roll`
+ * - `ArrayTools.roll`
  *
  * 'Roll' the array by a given amount so that is has a new first item. Length and contents remain the same, but the order is changed
  *
  * ```typescript
- * ArrayUtils.roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
- * ArrayUtils.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
+ * ArrayTools.roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
+ * ArrayTools.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
  * ```
  */
 declare const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
@@ -1021,14 +1021,14 @@ declare const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
  * sortNumberedText
  *
  * - `sortNumberedText`
- * - `ArrayUtils.sortNumberedText`
+ * - `ArrayTools.sortNumberedText`
  *
  * Alphabetically sorts a list of strings, but keeps multi-digit numbers in numerical order (rather than alphabetical)
  *
  * ```typescript
  * const names = ['name1', 'name10', 'name2', 'foo20', 'foo10', 'foo9'];
  * names.sort(); // [ 'foo10', 'foo20', 'foo9', 'name1', 'name10', 'name2' ]
- * ArrayUtils.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
+ * ArrayTools.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
  * ```
  */
 declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
@@ -1036,12 +1036,12 @@ declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => strin
  * partition
  *
  * - `partition`
- * - `ArrayUtils.partition`
+ * - `ArrayTools.partition`
  *
  * Breaks an array into smaller arrays of a given size
  *
  * ```typescript
- * ArrayUtils.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
+ * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
  * ```
  */
 declare const partition: <T extends unknown>(array: T[], partitionSize?: number) => T[][];
@@ -1049,7 +1049,7 @@ declare const partition: <T extends unknown>(array: T[], partitionSize?: number)
  * groupObj
  *
  * - `groupObj`
- * - `ArrayUtils.groupObj`
+ * - `ArrayTools.groupObj`
  *
  * Group items from an array into an object of arrays, based on a given map function.
  *
@@ -1059,7 +1059,7 @@ declare const partition: <T extends unknown>(array: T[], partitionSize?: number)
  *   { group: 2, name: 'b' },
  *   { group: 1, name: 'c' },
  * ];
- * ArrayUtils.groupObj(arr, item => item.id); // {
+ * ArrayTools.groupObj(arr, item => item.id); // {
  * //   1: [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
  * //   2: [ { group: 2, name: 'b' } ]
  * // }
@@ -1073,7 +1073,7 @@ declare const groupObj: <T extends unknown>(array: T[], mapFn: (item: T, index: 
  * group
  *
  * - `group`
- * - `ArrayUtils.group`
+ * - `ArrayTools.group`
  *
  * Group items from an array into an array of arrays, based on a given map function.
  *
@@ -1083,14 +1083,14 @@ declare const groupObj: <T extends unknown>(array: T[], mapFn: (item: T, index: 
  *   { group: 2, name: 'b' },
  *   { group: 1, name: 'c' },
  * ];
- * ArrayUtils.groupObj(arr, item => item.id); // [
+ * ArrayTools.groupObj(arr, item => item.id); // [
  * //   [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
  * //   [ { group: 2, name: 'b' } ]
  * // ]
  * ```
  */
 declare const group: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
-declare const ArrayUtils: {
+declare const ArrayTools: {
     range: (length?: number, multiplier?: number, offset?: number) => number[];
     zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
     zipMax: <T_1 extends any[]>(...arrs: T_1) => UnwrapArrays<T_1>[];
@@ -1107,13 +1107,13 @@ declare const ArrayUtils: {
         [id: number]: T_9[];
     };
     group: <T_10 extends unknown>(array: T_10[], mapFn: (item: T_10, index: number, arr: T_10[]) => string | number) => T_10[][];
-    utils: {
+    Tools: {
         isNumString: (text: string) => boolean;
         partitionNums: (ignoreCase: boolean) => (name: string) => (string | number)[];
     };
 };
 
-declare const ObjectUtils: {
+declare const ObjectTools: {
     remodel: <T extends Object = Object, V extends unknown = any, W extends unknown = any, O extends unknown = OfType<T, W>>(obj: T, func: (entries: [string, V][]) => [string, W][]) => O;
     remodelEach: <T_1 extends Object = Object, V_1 extends unknown = any, W_1 extends unknown = any, O_1 extends unknown = OfType<T_1, W_1>>(obj: T_1, func: (entry: [string, V_1], index: number, entries: [string, V_1][]) => [string, W_1]) => O_1;
     map: <T_2 extends Object, V_2 extends unknown, W_2 extends unknown>(obj: T_2, func: (key: string, value: V_2, index: number) => [string, W_2]) => OfType<T_2, W_2>;
@@ -1123,365 +1123,8 @@ declare const ObjectUtils: {
     clean: <T_6 extends Object, O_3 extends Partial<T_6>>(obj: T_6) => O_3;
 };
 
-declare const TimeUtils: {
+declare const TimeTools: {
     toReadableDuration: (duration: ms, longNames?: boolean, maxUnits?: number) => string;
-};
-
-/**<!-- DOCS: ## -->
- * StringUtils
- *
- * A collection of string utilities
- */
-declare type CaseInput = string | string[];
-/**<!-- DOCS: ### -->
- * StringCaseHandler
- */
-interface StringCaseHandler {
-    /**<!-- DOCS: #### -->
-     * toLowerCamelCase
-     *
-     * - `StringUtils.toLowerCamelCase`
-     * - `StringUtils.fromSlugCase.toLowerCamelCase`
-     * - `StringUtils.fromSnakeCase.toLowerCamelCase`
-     * - `StringUtils.fromSpaced.toLowerCamelCase`
-     * - `StringUtils.fromCamelCase.toLowerCamelCase`
-     *
-     * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
-     */
-    toLowerCamelCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toUpperCamelCase
-     *
-     * - `StringUtils.toUpperCamelCase`
-     * - `StringUtils.fromSlugCase.toUpperCamelCase`
-     * - `StringUtils.fromSnakeCase.toUpperCamelCase`
-     * - `StringUtils.fromSpaced.toUpperCamelCase`
-     * - `StringUtils.fromCamelCase.toUpperCamelCase`
-     *
-     * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
-     */
-    toUpperCamelCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toCamelCase
-     *
-     * - `StringUtils.toCamelCase`
-     * - `StringUtils.fromSlugCase.toCamelCase`
-     * - `StringUtils.fromSnakeCase.toCamelCase`
-     * - `StringUtils.fromSpaced.toCamelCase`
-     * - `StringUtils.fromCamelCase.toCamelCase`
-     *
-     * Convert a string to camel case (e.g. `thisIsCamelCase`)
-     */
-    toCamelCase(input: CaseInput, capitaliseFirst?: boolean): string;
-    /**<!-- DOCS: #### -->
-     * toLowerSlugCase
-     *
-     * - `StringUtils.toLowerSlugCase`
-     * - `StringUtils.fromSlugCase.toLowerSlugCase`
-     * - `StringUtils.fromSnakeCase.toLowerSlugCase`
-     * - `StringUtils.fromSpaced.toLowerSlugCase`
-     * - `StringUtils.fromCamelCase.toLowerSlugCase`
-     *
-     * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
-     */
-    toLowerSlugCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toUpperSlugCase
-     *
-     * - `StringUtils.toUpperSlugCase`
-     * - `StringUtils.fromSlugCase.toUpperSlugCase`
-     * - `StringUtils.fromSnakeCase.toUpperSlugCase`
-     * - `StringUtils.fromSpaced.toUpperSlugCase`
-     * - `StringUtils.fromCamelCase.toUpperSlugCase`
-     *
-     * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
-     */
-    toUpperSlugCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toSlugCase
-     *
-     * - `StringUtils.toSlugCase`
-     * - `StringUtils.fromSlugCase.toSlugCase`
-     * - `StringUtils.fromSnakeCase.toSlugCase`
-     * - `StringUtils.fromSpaced.toSlugCase`
-     * - `StringUtils.fromCamelCase.toSlugCase`
-     *
-     * Convert a string to camel case (e.g. `this-is-slug-case`)
-     */
-    toSlugCase(input: CaseInput, toUpper?: boolean): string;
-    /**<!-- DOCS: #### -->
-     * toLowerSnakeCase
-     *
-     * - `StringUtils.toLowerSnakeCase`
-     * - `StringUtils.fromSlugCase.toLowerSnakeCase`
-     * - `StringUtils.fromSnakeCase.toLowerSnakeCase`
-     * - `StringUtils.fromSpaced.toLowerSnakeCase`
-     * - `StringUtils.fromCamelCase.toLowerSnakeCase`
-     *
-     * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
-     */
-    toLowerSnakeCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toUpperSnakeCase
-     *
-     * - `StringUtils.toUpperSnakeCase`
-     * - `StringUtils.fromSlugCase.toUpperSnakeCase`
-     * - `StringUtils.fromSnakeCase.toUpperSnakeCase`
-     * - `StringUtils.fromSpaced.toUpperSnakeCase`
-     * - `StringUtils.fromCamelCase.toUpperSnakeCase`
-     *
-     * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
-     */
-    toUpperSnakeCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toSnakeCase
-     *
-     * - `StringUtils.toSnakeCase`
-     * - `StringUtils.fromSlugCase.toSnakeCase`
-     * - `StringUtils.fromSnakeCase.toSnakeCase`
-     * - `StringUtils.fromSpaced.toSnakeCase`
-     * - `StringUtils.fromCamelCase.toSnakeCase`
-     *
-     * Convert a string to snake case (e.g. `this_is_snake_case`)
-     */
-    toSnakeCase(input: CaseInput, toUpper?: boolean): string;
-    /**<!-- DOCS: #### -->
-     * toLowerSpaced
-     *
-     * - `StringUtils.toLowerSpaced`
-     * - `StringUtils.fromSlugCase.toLowerSpaced`
-     * - `StringUtils.fromSnakeCase.toLowerSpaced`
-     * - `StringUtils.fromSpaced.toLowerSpaced`
-     * - `StringUtils.fromCamelCase.toLowerSpaced`
-     *
-     * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
-     */
-    toLowerSpaced(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toUpperSpaced
-     *
-     * - `StringUtils.toUpperSpaced`
-     * - `StringUtils.fromSlugCase.toUpperSpaced`
-     * - `StringUtils.fromSnakeCase.toUpperSpaced`
-     * - `StringUtils.fromSpaced.toUpperSpaced`
-     * - `StringUtils.fromCamelCase.toUpperSpaced`
-     *
-     * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
-     */
-    toUpperSpaced(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toCapitalisedSpaced
-     *
-     * - `StringUtils.toCapitalisedSpaced`
-     * - `StringUtils.fromSlugCase.toCapitalisedSpaced`
-     * - `StringUtils.fromSnakeCase.toCapitalisedSpaced`
-     * - `StringUtils.fromSpaced.toCapitalisedSpaced`
-     * - `StringUtils.fromCamelCase.toCapitalisedSpaced`
-     *
-     * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
-     */
-    toCapitalisedSpaced(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toSpaced
-     *
-     * - `StringUtils.toSpaced`
-     * - `StringUtils.fromSlugCase.toSpaced`
-     * - `StringUtils.fromSnakeCase.toSpaced`
-     * - `StringUtils.fromSpaced.toSpaced`
-     * - `StringUtils.fromCamelCase.toSpaced`
-     *
-     * Convert a string to spaced case (e.g. `this is spaced case`)
-     */
-    toSpaced(input: CaseInput, toUpper?: boolean): string;
-    /**<!-- DOCS: #### -->
-     * toCharacterSeparated
-     *
-     * - `StringUtils.toCharacterSeparated`
-     * - `StringUtils.fromSlugCase.toCharacterSeparated`
-     * - `StringUtils.fromSnakeCase.toCharacterSeparated`
-     * - `StringUtils.fromSpaced.toCharacterSeparated`
-     * - `StringUtils.fromCamelCase.toCharacterSeparated`
-     *
-     * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
-     */
-    toCharacterSeparated(input: CaseInput, char: string, toUpper?: boolean): string;
-}
-declare const StringUtils: {
-    fromSlugCase: StringCaseHandler;
-    fromSnakeCase: StringCaseHandler;
-    fromSpaced: StringCaseHandler;
-    fromCamelCase: StringCaseHandler;
-    /**<!-- DOCS: #### -->
-     * toLowerCamelCase
-     *
-     * - `StringUtils.toLowerCamelCase`
-     * - `StringUtils.fromSlugCase.toLowerCamelCase`
-     * - `StringUtils.fromSnakeCase.toLowerCamelCase`
-     * - `StringUtils.fromSpaced.toLowerCamelCase`
-     * - `StringUtils.fromCamelCase.toLowerCamelCase`
-     *
-     * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
-     */
-    toLowerCamelCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toUpperCamelCase
-     *
-     * - `StringUtils.toUpperCamelCase`
-     * - `StringUtils.fromSlugCase.toUpperCamelCase`
-     * - `StringUtils.fromSnakeCase.toUpperCamelCase`
-     * - `StringUtils.fromSpaced.toUpperCamelCase`
-     * - `StringUtils.fromCamelCase.toUpperCamelCase`
-     *
-     * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
-     */
-    toUpperCamelCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toCamelCase
-     *
-     * - `StringUtils.toCamelCase`
-     * - `StringUtils.fromSlugCase.toCamelCase`
-     * - `StringUtils.fromSnakeCase.toCamelCase`
-     * - `StringUtils.fromSpaced.toCamelCase`
-     * - `StringUtils.fromCamelCase.toCamelCase`
-     *
-     * Convert a string to camel case (e.g. `thisIsCamelCase`)
-     */
-    toCamelCase(input: CaseInput, capitaliseFirst?: boolean): string;
-    /**<!-- DOCS: #### -->
-     * toLowerSlugCase
-     *
-     * - `StringUtils.toLowerSlugCase`
-     * - `StringUtils.fromSlugCase.toLowerSlugCase`
-     * - `StringUtils.fromSnakeCase.toLowerSlugCase`
-     * - `StringUtils.fromSpaced.toLowerSlugCase`
-     * - `StringUtils.fromCamelCase.toLowerSlugCase`
-     *
-     * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
-     */
-    toLowerSlugCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toUpperSlugCase
-     *
-     * - `StringUtils.toUpperSlugCase`
-     * - `StringUtils.fromSlugCase.toUpperSlugCase`
-     * - `StringUtils.fromSnakeCase.toUpperSlugCase`
-     * - `StringUtils.fromSpaced.toUpperSlugCase`
-     * - `StringUtils.fromCamelCase.toUpperSlugCase`
-     *
-     * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
-     */
-    toUpperSlugCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toSlugCase
-     *
-     * - `StringUtils.toSlugCase`
-     * - `StringUtils.fromSlugCase.toSlugCase`
-     * - `StringUtils.fromSnakeCase.toSlugCase`
-     * - `StringUtils.fromSpaced.toSlugCase`
-     * - `StringUtils.fromCamelCase.toSlugCase`
-     *
-     * Convert a string to camel case (e.g. `this-is-slug-case`)
-     */
-    toSlugCase(input: CaseInput, toUpper?: boolean): string;
-    /**<!-- DOCS: #### -->
-     * toLowerSnakeCase
-     *
-     * - `StringUtils.toLowerSnakeCase`
-     * - `StringUtils.fromSlugCase.toLowerSnakeCase`
-     * - `StringUtils.fromSnakeCase.toLowerSnakeCase`
-     * - `StringUtils.fromSpaced.toLowerSnakeCase`
-     * - `StringUtils.fromCamelCase.toLowerSnakeCase`
-     *
-     * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
-     */
-    toLowerSnakeCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toUpperSnakeCase
-     *
-     * - `StringUtils.toUpperSnakeCase`
-     * - `StringUtils.fromSlugCase.toUpperSnakeCase`
-     * - `StringUtils.fromSnakeCase.toUpperSnakeCase`
-     * - `StringUtils.fromSpaced.toUpperSnakeCase`
-     * - `StringUtils.fromCamelCase.toUpperSnakeCase`
-     *
-     * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
-     */
-    toUpperSnakeCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toSnakeCase
-     *
-     * - `StringUtils.toSnakeCase`
-     * - `StringUtils.fromSlugCase.toSnakeCase`
-     * - `StringUtils.fromSnakeCase.toSnakeCase`
-     * - `StringUtils.fromSpaced.toSnakeCase`
-     * - `StringUtils.fromCamelCase.toSnakeCase`
-     *
-     * Convert a string to snake case (e.g. `this_is_snake_case`)
-     */
-    toSnakeCase(input: CaseInput, toUpper?: boolean): string;
-    /**<!-- DOCS: #### -->
-     * toLowerSpaced
-     *
-     * - `StringUtils.toLowerSpaced`
-     * - `StringUtils.fromSlugCase.toLowerSpaced`
-     * - `StringUtils.fromSnakeCase.toLowerSpaced`
-     * - `StringUtils.fromSpaced.toLowerSpaced`
-     * - `StringUtils.fromCamelCase.toLowerSpaced`
-     *
-     * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
-     */
-    toLowerSpaced(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toUpperSpaced
-     *
-     * - `StringUtils.toUpperSpaced`
-     * - `StringUtils.fromSlugCase.toUpperSpaced`
-     * - `StringUtils.fromSnakeCase.toUpperSpaced`
-     * - `StringUtils.fromSpaced.toUpperSpaced`
-     * - `StringUtils.fromCamelCase.toUpperSpaced`
-     *
-     * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
-     */
-    toUpperSpaced(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toCapitalisedSpaced
-     *
-     * - `StringUtils.toCapitalisedSpaced`
-     * - `StringUtils.fromSlugCase.toCapitalisedSpaced`
-     * - `StringUtils.fromSnakeCase.toCapitalisedSpaced`
-     * - `StringUtils.fromSpaced.toCapitalisedSpaced`
-     * - `StringUtils.fromCamelCase.toCapitalisedSpaced`
-     *
-     * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
-     */
-    toCapitalisedSpaced(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
-     * toSpaced
-     *
-     * - `StringUtils.toSpaced`
-     * - `StringUtils.fromSlugCase.toSpaced`
-     * - `StringUtils.fromSnakeCase.toSpaced`
-     * - `StringUtils.fromSpaced.toSpaced`
-     * - `StringUtils.fromCamelCase.toSpaced`
-     *
-     * Convert a string to spaced case (e.g. `this is spaced case`)
-     */
-    toSpaced(input: CaseInput, toUpper?: boolean): string;
-    /**<!-- DOCS: #### -->
-     * toCharacterSeparated
-     *
-     * - `StringUtils.toCharacterSeparated`
-     * - `StringUtils.fromSlugCase.toCharacterSeparated`
-     * - `StringUtils.fromSnakeCase.toCharacterSeparated`
-     * - `StringUtils.fromSpaced.toCharacterSeparated`
-     * - `StringUtils.fromCamelCase.toCharacterSeparated`
-     *
-     * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
-     */
-    toCharacterSeparated(input: CaseInput, char: string, toUpper?: boolean): string;
-    capitalise: (input?: string) => string;
-    angloise: (input: string) => string;
-    clean: (input?: string) => string;
 };
 
 /**<!-- DOCS: ## -->
@@ -1656,7 +1299,7 @@ declare const superscript: (num: number) => string;
  * const start = Date.now();
  *
  * // happening async/concurrently
- * PromiseUtils.each(range(5), async (i) => {
+ * PromiseTools.each(range(5), async (i) => {
  *   await wait(seconds(Math.random() * 1));
  *   console.log(Date.now() - start, ' - trigger:', i, );
  *   await queue.add('printer', () => printDocument(i))
@@ -1732,14 +1375,14 @@ declare class QueueManager {
 declare const queue: QueueManager;
 
 /**<!-- DOCS: ## -->
- * ColourUtils
+ * ColourTools
  *
  * A collection of functions for working with colours.
  */
 /**<!-- DOCS: ### -->
  * ColourValues
  *
- * - `ColourUtils.ColourValues`
+ * - `ColourTools.ColourValues`
  *
  * A type with 3 numbers:
  * - red [0-255]
@@ -1750,7 +1393,7 @@ declare type ColourValues = [number, number, number];
 /**<!-- DOCS: ### -->
  * HSLValues
  *
- * - `ColourUtils.HSLValues`
+ * - `ColourTools.HSLValues`
  *
  * A type with 3 numbers:
  * - hue [0-360]
@@ -1761,18 +1404,18 @@ declare type HSLValues = [number, number, number];
 /**<!-- DOCS: ### -->
  * namedColours
  *
- * - `ColourUtils.namedColours`
+ * - `ColourTools.namedColours`
  *
  * A dictionary of different colour names and their RGB values
  *
  * ```typescript
- * ColourUtils.namedColours.blue // [0, 0, 255]
- * ColourUtils.namedColours.red // [255, 0, 0]
- * ColourUtils.namedColours.green // [0, 255, 0]
+ * ColourTools.namedColours.blue // [0, 0, 255]
+ * ColourTools.namedColours.red // [255, 0, 0]
+ * ColourTools.namedColours.green // [0, 255, 0]
  *
- * ColourUtils.namedColours.azure // [240, 255, 255]
- * ColourUtils.namedColours.darkorange // [255, 140, 0]
- * ColourUtils.namedColours.dodgerblue // [30, 144, 255]
+ * ColourTools.namedColours.azure // [240, 255, 255]
+ * ColourTools.namedColours.darkorange // [255, 140, 0]
+ * ColourTools.namedColours.dodgerblue // [30, 144, 255]
  * ```
  */
 declare const namedColours: {
@@ -2030,7 +1673,7 @@ declare const namedColours: {
 /**<!-- DOCS: ### -->
  * parse
  *
- * - `ColourUtils.parse`
+ * - `ColourTools.parse`
  *
  * Parse a string into a colour object (RGB array)
  * Not extensive. Currently limited to:
@@ -2040,28 +1683,28 @@ declare const namedColours: {
  * - named colours (from namedColours dictionary)
  *
  * ```typescript
- * ColourUtils.parse('#FF0000') // [255, 0, 0]
- * ColourUtils.parse('rgb(255, 0, 0)') // [255, 0, 0]
- * ColourUtils.parse('red') // [255, 0, 0]
+ * ColourTools.parse('#FF0000') // [255, 0, 0]
+ * ColourTools.parse('rgb(255, 0, 0)') // [255, 0, 0]
+ * ColourTools.parse('red') // [255, 0, 0]
  * ```
  */
 declare const parse: (input: string) => ColourValues;
 /**<!-- DOCS: ### -->
  * toHex
  *
- * - `ColourUtils.toHex`
+ * - `ColourTools.toHex`
  *
  * Convert a colour object (RGB array) to a hex string
  *
  * ```typescript
- * ColourUtils.toHex([255, 0, 0]) // '#FF0000'
+ * ColourTools.toHex([255, 0, 0]) // '#FF0000'
  * ```
  */
 declare const toHex: (colour: ColourValues) => string;
 /**<!-- DOCS: ### -->
  * getLuminance
  *
- * - `ColourUtils.getLuminance`
+ * - `ColourTools.getLuminance`
  *
  * IMPORTANT: This is not the same as the HSL luminance value.
  *
@@ -2073,89 +1716,89 @@ declare const toHex: (colour: ColourValues) => string;
  * Is the Y (Luma) component of the YUV444 color model.
  *
  * ```typescript
- * ColourUtils.getLuminance([255, 0, 0]); // 76.245
- * ColourUtils.getLuminance([0, 255, 0]); // 149.685
- * ColourUtils.getLuminance([0, 0, 255]); // 29.07
+ * ColourTools.getLuminance([255, 0, 0]); // 76.245
+ * ColourTools.getLuminance([0, 255, 0]); // 149.685
+ * ColourTools.getLuminance([0, 0, 255]); // 29.07
  * ```
  */
 declare const getLuminance: ([r, g, b]: ColourValues) => number;
 /**<!-- DOCS: ### -->
  * toYUV
  *
- * - `ColourUtils.toYUV`
+ * - `ColourTools.toYUV`
  *
  * Convert a colour object (RGB array) to a YUV array.
  *
  * See https://en.wikipedia.org/wiki/YUV#Y%E2%80%B2UV444_to_RGB888_conversion
  *
  * ```typescript
- * ColourUtils.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
+ * ColourTools.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
  * ```
  */
 declare const toYUV: ([r, g, b]: ColourValues) => ColourValues;
 /**<!-- DOCS: ### -->
  * toHSL
  *
- * - `ColourUtils.toHSL`
+ * - `ColourTools.toHSL`
  *
  * Convert a RGB array to a HSL array.
  *
  * Adapted from https://www.30secondsofcode.org/js/s/rgb-to-hsl
  *
  * ```typescript
- * ColourUtils.toHSL([255, 0, 0]); // [0, 100, 50]
- * ColourUtils.toHSL([0, 255, 0]); // [120, 100, 50]
+ * ColourTools.toHSL([255, 0, 0]); // [0, 100, 50]
+ * ColourTools.toHSL([0, 255, 0]); // [120, 100, 50]
  * ```
  */
 declare const toHSL: (colour: ColourValues, round?: boolean) => HSLValues;
 /**<!-- DOCS: ### -->
  * fromHSL
  *
- * - `ColourUtils.fromHSL`
+ * - `ColourTools.fromHSL`
  *
  * Convert a HSL array to a RGB array.
  *
  * Adapted from https://www.30secondsofcode.org/js/s/hsl-to-rgb
  *
  * ```typescript
- * ColourUtils.fromHSL([0, 100, 50]); // [255, 0, 0]
- * ColourUtils.fromHSL([120, 100, 50]); // [0, 255, 0]
+ * ColourTools.fromHSL([0, 100, 50]); // [255, 0, 0]
+ * ColourTools.fromHSL([120, 100, 50]); // [0, 255, 0]
  * ```
  */
 declare const fromHSL: (hsl: HSLValues, round?: boolean) => ColourValues;
 /**<!-- DOCS: ### -->
  * invertColour
  *
- * - `ColourUtils.invertColour`
+ * - `ColourTools.invertColour`
  *
  * Get the opposite colour of a given colour.
  *
  * ```typescript
- * ColourUtils.invertColour([255, 0, 0]); // [0, 255, 255]
- * ColourUtils.invertColour([0, 255, 0]); // [ 255, 0, 255 ]
- * ColourUtils.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
+ * ColourTools.invertColour([255, 0, 0]); // [0, 255, 255]
+ * ColourTools.invertColour([0, 255, 0]); // [ 255, 0, 255 ]
+ * ColourTools.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
  * ```
  */
 declare const invertColour: ([r, g, b]: ColourValues) => ColourValues;
 /**<!-- DOCS: ### -->
  * getContrastedColour
  *
- * - `ColourUtils.getContrastedColour`
+ * - `ColourTools.getContrastedColour`
  *
  * Get the colour that contrasts the most with a given colour. (White or black)
  *
  * Returned colour can be used as a text colour on top of the provided colour
  *
  * ```typescript
- * ColourUtils.getContrastedColour([255, 0, 0]); // [255, 255, 255]
- * ColourUtils.getContrastedColour([255, 255, 0]); // [0, 0, 0]
+ * ColourTools.getContrastedColour([255, 0, 0]); // [255, 255, 255]
+ * ColourTools.getContrastedColour([255, 255, 0]); // [0, 0, 0]
  * ```
  */
 declare const getContrastedColour: (colour: ColourValues) => ColourValues;
 /**<!-- DOCS: ### -->
  * getLimitedColour
  *
- * - `ColourUtils.getLimitedColour`
+ * - `ColourTools.getLimitedColour`
  *
  * Adjust a colour if a certain condition is met.
  * Used for lightening/darkening colours that are too light/dark
@@ -2163,38 +1806,565 @@ declare const getContrastedColour: (colour: ColourValues) => ColourValues;
  * All values in functions are HSL
  *
  * ```typescript
- * ColourUtils.getLimitedColour([255, 255, 255], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 230, 230, 230 ]
- * ColourUtils.getLimitedColour([128, 128, 128], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 128, 128, 128 ]
+ * ColourTools.getLimitedColour([255, 255, 255], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 230, 230, 230 ]
+ * ColourTools.getLimitedColour([128, 128, 128], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 128, 128, 128 ]
  * ```
  */
 declare const getLimitedColour: (colour: ColourValues, checkFn: (hsl: HSLValues) => boolean, adjustFn: (hsl: HSLValues) => HSLValues) => ColourValues;
 
-type ColourUtils_ColourValues = ColourValues;
-type ColourUtils_HSLValues = HSLValues;
-declare const ColourUtils_namedColours: typeof namedColours;
-declare const ColourUtils_parse: typeof parse;
-declare const ColourUtils_toHex: typeof toHex;
-declare const ColourUtils_getLuminance: typeof getLuminance;
-declare const ColourUtils_toYUV: typeof toYUV;
-declare const ColourUtils_toHSL: typeof toHSL;
-declare const ColourUtils_fromHSL: typeof fromHSL;
-declare const ColourUtils_invertColour: typeof invertColour;
-declare const ColourUtils_getContrastedColour: typeof getContrastedColour;
-declare const ColourUtils_getLimitedColour: typeof getLimitedColour;
-declare namespace ColourUtils {
+type ColourTools_ColourValues = ColourValues;
+type ColourTools_HSLValues = HSLValues;
+declare const ColourTools_namedColours: typeof namedColours;
+declare const ColourTools_parse: typeof parse;
+declare const ColourTools_toHex: typeof toHex;
+declare const ColourTools_getLuminance: typeof getLuminance;
+declare const ColourTools_toYUV: typeof toYUV;
+declare const ColourTools_toHSL: typeof toHSL;
+declare const ColourTools_fromHSL: typeof fromHSL;
+declare const ColourTools_invertColour: typeof invertColour;
+declare const ColourTools_getContrastedColour: typeof getContrastedColour;
+declare const ColourTools_getLimitedColour: typeof getLimitedColour;
+declare namespace ColourTools {
   export {
-    ColourUtils_ColourValues as ColourValues,
-    ColourUtils_HSLValues as HSLValues,
-    ColourUtils_namedColours as namedColours,
-    ColourUtils_parse as parse,
-    ColourUtils_toHex as toHex,
-    ColourUtils_getLuminance as getLuminance,
-    ColourUtils_toYUV as toYUV,
-    ColourUtils_toHSL as toHSL,
-    ColourUtils_fromHSL as fromHSL,
-    ColourUtils_invertColour as invertColour,
-    ColourUtils_getContrastedColour as getContrastedColour,
-    ColourUtils_getLimitedColour as getLimitedColour,
+    ColourTools_ColourValues as ColourValues,
+    ColourTools_HSLValues as HSLValues,
+    ColourTools_namedColours as namedColours,
+    ColourTools_parse as parse,
+    ColourTools_toHex as toHex,
+    ColourTools_getLuminance as getLuminance,
+    ColourTools_toYUV as toYUV,
+    ColourTools_toHSL as toHSL,
+    ColourTools_fromHSL as fromHSL,
+    ColourTools_invertColour as invertColour,
+    ColourTools_getContrastedColour as getContrastedColour,
+    ColourTools_getLimitedColour as getLimitedColour,
+  };
+}
+
+/**<!-- DOCS: ## -->
+ * StringTools
+ *
+ * A collection of string utilities
+ */
+/**<!-- DOCS: ### -->
+ * capitalise
+ *
+ * - `StringTools.capitalise`
+ *
+ * Capitalises the first letter of each word in a string
+ *
+ * ```typescript
+ * StringTools.capitalise('hello world'); // 'Hello World'
+ * ```
+ */
+declare const capitalise: (input?: string) => string;
+/**<!-- DOCS: ### -->
+ * angloise
+ *
+ * - `StringTools.angloise`
+ *
+ * Remove accents from a string
+ *
+ * ```typescript
+ * StringTools.angloise('éèêë'); // 'eeee'
+ * ```
+ */
+declare const angloise: (input: string) => string;
+/**<!-- DOCS: ### -->
+ * clean
+ *
+ * - `StringTools.clean`
+ *
+ * Remove accents and non alphanumerics from a string
+ *
+ * ```typescript
+ * StringTools.clean('éèêë_--ab0'); // 'eeeeab0'
+ * ```
+ */
+declare const clean: (input?: string) => string;
+declare type CaseInput = string | string[];
+/**<!-- DOCS: ### -->
+ * StringCaseHandler
+ */
+interface StringCaseHandler {
+    /**<!-- DOCS: #### -->
+     * toLowerCamelCase
+     *
+     * - `StringTools.toLowerCamelCase`
+     * - `StringTools.fromSlugCase.toLowerCamelCase`
+     * - `StringTools.fromSnakeCase.toLowerCamelCase`
+     * - `StringTools.fromSpaced.toLowerCamelCase`
+     * - `StringTools.fromCamelCase.toLowerCamelCase`
+     *
+     * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
+     */
+    toLowerCamelCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toUpperCamelCase
+     *
+     * - `StringTools.toUpperCamelCase`
+     * - `StringTools.fromSlugCase.toUpperCamelCase`
+     * - `StringTools.fromSnakeCase.toUpperCamelCase`
+     * - `StringTools.fromSpaced.toUpperCamelCase`
+     * - `StringTools.fromCamelCase.toUpperCamelCase`
+     *
+     * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
+     */
+    toUpperCamelCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toCamelCase
+     *
+     * - `StringTools.toCamelCase`
+     * - `StringTools.fromSlugCase.toCamelCase`
+     * - `StringTools.fromSnakeCase.toCamelCase`
+     * - `StringTools.fromSpaced.toCamelCase`
+     * - `StringTools.fromCamelCase.toCamelCase`
+     *
+     * Convert a string to camel case (e.g. `thisIsCamelCase`)
+     */
+    toCamelCase(input: CaseInput, capitaliseFirst?: boolean): string;
+    /**<!-- DOCS: #### -->
+     * toLowerSlugCase
+     *
+     * - `StringTools.toLowerSlugCase`
+     * - `StringTools.fromSlugCase.toLowerSlugCase`
+     * - `StringTools.fromSnakeCase.toLowerSlugCase`
+     * - `StringTools.fromSpaced.toLowerSlugCase`
+     * - `StringTools.fromCamelCase.toLowerSlugCase`
+     *
+     * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
+     */
+    toLowerSlugCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toUpperSlugCase
+     *
+     * - `StringTools.toUpperSlugCase`
+     * - `StringTools.fromSlugCase.toUpperSlugCase`
+     * - `StringTools.fromSnakeCase.toUpperSlugCase`
+     * - `StringTools.fromSpaced.toUpperSlugCase`
+     * - `StringTools.fromCamelCase.toUpperSlugCase`
+     *
+     * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
+     */
+    toUpperSlugCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toSlugCase
+     *
+     * - `StringTools.toSlugCase`
+     * - `StringTools.fromSlugCase.toSlugCase`
+     * - `StringTools.fromSnakeCase.toSlugCase`
+     * - `StringTools.fromSpaced.toSlugCase`
+     * - `StringTools.fromCamelCase.toSlugCase`
+     *
+     * Convert a string to camel case (e.g. `this-is-slug-case`)
+     */
+    toSlugCase(input: CaseInput, toUpper?: boolean): string;
+    /**<!-- DOCS: #### -->
+     * toLowerSnakeCase
+     *
+     * - `StringTools.toLowerSnakeCase`
+     * - `StringTools.fromSlugCase.toLowerSnakeCase`
+     * - `StringTools.fromSnakeCase.toLowerSnakeCase`
+     * - `StringTools.fromSpaced.toLowerSnakeCase`
+     * - `StringTools.fromCamelCase.toLowerSnakeCase`
+     *
+     * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
+     */
+    toLowerSnakeCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toUpperSnakeCase
+     *
+     * - `StringTools.toUpperSnakeCase`
+     * - `StringTools.fromSlugCase.toUpperSnakeCase`
+     * - `StringTools.fromSnakeCase.toUpperSnakeCase`
+     * - `StringTools.fromSpaced.toUpperSnakeCase`
+     * - `StringTools.fromCamelCase.toUpperSnakeCase`
+     *
+     * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
+     */
+    toUpperSnakeCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toSnakeCase
+     *
+     * - `StringTools.toSnakeCase`
+     * - `StringTools.fromSlugCase.toSnakeCase`
+     * - `StringTools.fromSnakeCase.toSnakeCase`
+     * - `StringTools.fromSpaced.toSnakeCase`
+     * - `StringTools.fromCamelCase.toSnakeCase`
+     *
+     * Convert a string to snake case (e.g. `this_is_snake_case`)
+     */
+    toSnakeCase(input: CaseInput, toUpper?: boolean): string;
+    /**<!-- DOCS: #### -->
+     * toLowerSpaced
+     *
+     * - `StringTools.toLowerSpaced`
+     * - `StringTools.fromSlugCase.toLowerSpaced`
+     * - `StringTools.fromSnakeCase.toLowerSpaced`
+     * - `StringTools.fromSpaced.toLowerSpaced`
+     * - `StringTools.fromCamelCase.toLowerSpaced`
+     *
+     * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
+     */
+    toLowerSpaced(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toUpperSpaced
+     *
+     * - `StringTools.toUpperSpaced`
+     * - `StringTools.fromSlugCase.toUpperSpaced`
+     * - `StringTools.fromSnakeCase.toUpperSpaced`
+     * - `StringTools.fromSpaced.toUpperSpaced`
+     * - `StringTools.fromCamelCase.toUpperSpaced`
+     *
+     * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
+     */
+    toUpperSpaced(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toCapitalisedSpaced
+     *
+     * - `StringTools.toCapitalisedSpaced`
+     * - `StringTools.fromSlugCase.toCapitalisedSpaced`
+     * - `StringTools.fromSnakeCase.toCapitalisedSpaced`
+     * - `StringTools.fromSpaced.toCapitalisedSpaced`
+     * - `StringTools.fromCamelCase.toCapitalisedSpaced`
+     *
+     * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
+     */
+    toCapitalisedSpaced(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toSpaced
+     *
+     * - `StringTools.toSpaced`
+     * - `StringTools.fromSlugCase.toSpaced`
+     * - `StringTools.fromSnakeCase.toSpaced`
+     * - `StringTools.fromSpaced.toSpaced`
+     * - `StringTools.fromCamelCase.toSpaced`
+     *
+     * Convert a string to spaced case (e.g. `this is spaced case`)
+     */
+    toSpaced(input: CaseInput, toUpper?: boolean): string;
+    /**<!-- DOCS: #### -->
+     * toCharacterSeparated
+     *
+     * - `StringTools.toCharacterSeparated`
+     * - `StringTools.fromSlugCase.toCharacterSeparated`
+     * - `StringTools.fromSnakeCase.toCharacterSeparated`
+     * - `StringTools.fromSpaced.toCharacterSeparated`
+     * - `StringTools.fromCamelCase.toCharacterSeparated`
+     *
+     * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
+     */
+    toCharacterSeparated(input: CaseInput, char: string, toUpper?: boolean): string;
+}
+declare const toLowerCamelCase: (input: CaseInput) => string;
+declare const toUpperCamelCase: (input: CaseInput) => string;
+declare const toCamelCase: (input: CaseInput, capitaliseFirst?: boolean) => string;
+declare const toLowerSlugCase: (input: CaseInput) => string;
+declare const toUpperSlugCase: (input: CaseInput) => string;
+declare const toSlugCase: (input: CaseInput, toUpper?: boolean) => string;
+declare const toLowerSnakeCase: (input: CaseInput) => string;
+declare const toUpperSnakeCase: (input: CaseInput) => string;
+declare const toSnakeCase: (input: CaseInput, toUpper?: boolean) => string;
+declare const toLowerSpaced: (input: CaseInput) => string;
+declare const toUpperSpaced: (input: CaseInput) => string;
+declare const toCapitalisedSpaced: (input: CaseInput) => string;
+declare const toSpaced: (input: CaseInput, toUpper?: boolean) => string;
+declare const toCharacterSeparated: (input: CaseInput, char: string, toUpper?: boolean) => string;
+/**<!-- DOCS: ### -->
+ * fromSlugCase
+ *
+ * Has the following methods:
+ * - `StringTools.fromSlugCase.toLowerCamelCase`
+ * - `StringTools.fromSlugCase.toUpperCamelCase`
+ * - `StringTools.fromSlugCase.toCamelCase`
+ * - `StringTools.fromSlugCase.toLowerSlugCase`
+ * - `StringTools.fromSlugCase.toUpperSlugCase`
+ * - `StringTools.fromSlugCase.toSlugCase`
+ * - `StringTools.fromSlugCase.toLowerSnakeCase`
+ * - `StringTools.fromSlugCase.toUpperSnakeCase`
+ * - `StringTools.fromSlugCase.toSnakeCase`
+ * - `StringTools.fromSlugCase.toLowerSpaced`
+ * - `StringTools.fromSlugCase.toUpperSpaced`
+ * - `StringTools.fromSlugCase.toCapitalisedSpaced`
+ * - `StringTools.fromSlugCase.toSpaced`
+ * - `StringTools.fromSlugCase.toCharacterSeparated`
+ */
+declare const fromSlugCase: StringCaseHandler;
+/**<!-- DOCS: ### -->
+ * fromSnakeCase
+ *
+ * Has the following methods:
+ * - `StringTools.fromSnakeCase.toLowerCamelCase`
+ * - `StringTools.fromSnakeCase.toUpperCamelCase`
+ * - `StringTools.fromSnakeCase.toCamelCase`
+ * - `StringTools.fromSnakeCase.toLowerSlugCase`
+ * - `StringTools.fromSnakeCase.toUpperSlugCase`
+ * - `StringTools.fromSnakeCase.toSlugCase`
+ * - `StringTools.fromSnakeCase.toLowerSnakeCase`
+ * - `StringTools.fromSnakeCase.toUpperSnakeCase`
+ * - `StringTools.fromSnakeCase.toSnakeCase`
+ * - `StringTools.fromSnakeCase.toLowerSpaced`
+ * - `StringTools.fromSnakeCase.toUpperSpaced`
+ * - `StringTools.fromSnakeCase.toCapitalisedSpaced`
+ * - `StringTools.fromSnakeCase.toSpaced`
+ * - `StringTools.fromSnakeCase.toCharacterSeparated`
+ */
+declare const fromSnakeCase: StringCaseHandler;
+/**<!-- DOCS: ### -->
+ * fromSpaced
+ *
+ * Has the following methods:
+ * - `StringTools.fromSpaced.toLowerCamelCase`
+ * - `StringTools.fromSpaced.toUpperCamelCase`
+ * - `StringTools.fromSpaced.toCamelCase`
+ * - `StringTools.fromSpaced.toLowerSlugCase`
+ * - `StringTools.fromSpaced.toUpperSlugCase`
+ * - `StringTools.fromSpaced.toSlugCase`
+ * - `StringTools.fromSpaced.toLowerSnakeCase`
+ * - `StringTools.fromSpaced.toUpperSnakeCase`
+ * - `StringTools.fromSpaced.toSnakeCase`
+ * - `StringTools.fromSpaced.toLowerSpaced`
+ * - `StringTools.fromSpaced.toUpperSpaced`
+ * - `StringTools.fromSpaced.toCapitalisedSpaced`
+ * - `StringTools.fromSpaced.toSpaced`
+ * - `StringTools.fromSpaced.toCharacterSeparated`
+ */
+declare const fromSpaced: StringCaseHandler;
+/**<!-- DOCS: ### -->
+ * fromCamelCase
+ *
+ * Has the following methods:
+ * - `StringTools.fromCamelCase.toLowerCamelCase`
+ * - `StringTools.fromCamelCase.toUpperCamelCase`
+ * - `StringTools.fromCamelCase.toCamelCase`
+ * - `StringTools.fromCamelCase.toLowerSlugCase`
+ * - `StringTools.fromCamelCase.toUpperSlugCase`
+ * - `StringTools.fromCamelCase.toSlugCase`
+ * - `StringTools.fromCamelCase.toLowerSnakeCase`
+ * - `StringTools.fromCamelCase.toUpperSnakeCase`
+ * - `StringTools.fromCamelCase.toSnakeCase`
+ * - `StringTools.fromCamelCase.toLowerSpaced`
+ * - `StringTools.fromCamelCase.toUpperSpaced`
+ * - `StringTools.fromCamelCase.toCapitalisedSpaced`
+ * - `StringTools.fromCamelCase.toSpaced`
+ * - `StringTools.fromCamelCase.toCharacterSeparated`
+ */
+declare const fromCamelCase: StringCaseHandler;
+
+declare const StringTools_capitalise: typeof capitalise;
+declare const StringTools_angloise: typeof angloise;
+declare const StringTools_clean: typeof clean;
+type StringTools_CaseInput = CaseInput;
+type StringTools_StringCaseHandler = StringCaseHandler;
+declare const StringTools_toLowerCamelCase: typeof toLowerCamelCase;
+declare const StringTools_toUpperCamelCase: typeof toUpperCamelCase;
+declare const StringTools_toCamelCase: typeof toCamelCase;
+declare const StringTools_toLowerSlugCase: typeof toLowerSlugCase;
+declare const StringTools_toUpperSlugCase: typeof toUpperSlugCase;
+declare const StringTools_toSlugCase: typeof toSlugCase;
+declare const StringTools_toLowerSnakeCase: typeof toLowerSnakeCase;
+declare const StringTools_toUpperSnakeCase: typeof toUpperSnakeCase;
+declare const StringTools_toSnakeCase: typeof toSnakeCase;
+declare const StringTools_toLowerSpaced: typeof toLowerSpaced;
+declare const StringTools_toUpperSpaced: typeof toUpperSpaced;
+declare const StringTools_toCapitalisedSpaced: typeof toCapitalisedSpaced;
+declare const StringTools_toSpaced: typeof toSpaced;
+declare const StringTools_toCharacterSeparated: typeof toCharacterSeparated;
+declare const StringTools_fromSlugCase: typeof fromSlugCase;
+declare const StringTools_fromSnakeCase: typeof fromSnakeCase;
+declare const StringTools_fromSpaced: typeof fromSpaced;
+declare const StringTools_fromCamelCase: typeof fromCamelCase;
+declare namespace StringTools {
+  export {
+    StringTools_capitalise as capitalise,
+    StringTools_angloise as angloise,
+    StringTools_clean as clean,
+    StringTools_CaseInput as CaseInput,
+    StringTools_StringCaseHandler as StringCaseHandler,
+    StringTools_toLowerCamelCase as toLowerCamelCase,
+    StringTools_toUpperCamelCase as toUpperCamelCase,
+    StringTools_toCamelCase as toCamelCase,
+    StringTools_toLowerSlugCase as toLowerSlugCase,
+    StringTools_toUpperSlugCase as toUpperSlugCase,
+    StringTools_toSlugCase as toSlugCase,
+    StringTools_toLowerSnakeCase as toLowerSnakeCase,
+    StringTools_toUpperSnakeCase as toUpperSnakeCase,
+    StringTools_toSnakeCase as toSnakeCase,
+    StringTools_toLowerSpaced as toLowerSpaced,
+    StringTools_toUpperSpaced as toUpperSpaced,
+    StringTools_toCapitalisedSpaced as toCapitalisedSpaced,
+    StringTools_toSpaced as toSpaced,
+    StringTools_toCharacterSeparated as toCharacterSeparated,
+    StringTools_fromSlugCase as fromSlugCase,
+    StringTools_fromSnakeCase as fromSnakeCase,
+    StringTools_fromSpaced as fromSpaced,
+    StringTools_fromCamelCase as fromCamelCase,
+  };
+}
+
+/**<!-- DOCS: ## -->
+ * MathsTools
+ *
+ * A collection of mathematical functions.
+ *
+ * > Note: The field is 'Mathematics', and so it is 'MathsTools' not ~'MathTools'~
+ */
+/**<!-- DOCS: ### -->
+ * fixFloat
+ *
+ * - `MathsTools.fixFloat`
+ *
+ * Fixes floating point errors that may occur when adding/subtracting/multiplying/dividing real/float numbers
+ *
+ * Can also be used to round numbers to a given precision
+ *
+ * > Note: It's not a great name, but it's what I've always called it, so I'm sticking with it. May create an alias
+ *
+ * ```typescript
+ * 0.1 + 0.2 // 0.30000000000000004
+ * MathsTools.fixFloat(0.1 + 0.2) // 0.3
+ * ```
+ */
+declare const fixFloat: (num: number, precision?: number) => number;
+/**<!-- DOCS: ### -->
+ * addAll
+ *
+ * - `MathsTools.addAll`
+ *
+ * Adds all numbers together. Each argument is a number (use spread operator to pass in an array) similar to Math.min/Math.max
+ *
+ * ```typescript
+ * MathsTools.addAll(1, 2, 3, 4, 5); // 15
+ * ```
+ */
+declare const addAll: (...args: number[]) => number;
+/**<!-- DOCS: ### -->
+ * round
+ */
+/**<!-- DOCS: #### -->
+ * floorTo
+ *
+ * - `MathsTools.floorTo`
+ * - `MathsTools.round.floorTo`
+ *
+ * Floors a number down to the nearest multiple of the given number.
+ *
+ * ```typescript
+ * MathsTools.round.floorTo(10, 102); // 100
+ * MathsTools.round.floorTo(5, 53); // 50
+ * MathsTools.round.floorTo(0.1, 0.25); // 0.2
+ * ```
+ */
+declare const floorTo: (to: number, value: number) => number;
+/**<!-- DOCS: #### -->
+ * roundTo
+ *
+ * - `MathsTools.round.to`
+ * - `MathsTools.roundTo`
+ * - `MathsTools.round.roundTo`
+ *
+ * Floors a number down to the nearest multiple of the given number.
+ *
+ * ```typescript
+ * MathsTools.round.to(10, 102); // 100
+ * MathsTools.round.to(5, 53); // 55
+ * MathsTools.round.to(0.1, 0.25); // 0.3
+ * ```
+ */
+declare const roundTo: (to: number, value: number) => number;
+/**<!-- DOCS: #### -->
+ * ceilTo
+ *
+ * - `MathsTools.ceilTo`
+ * - `MathsTools.round.ceilTo`
+ *
+ * Floors a number down to the nearest multiple of the given number.
+ *
+ * ```typescript
+ * MathsTools.round.ceilTo(10, 102); // 110
+ * MathsTools.round.ceilTo(5, 53); // 55
+ * MathsTools.round.ceilTo(0.1, 0.25); // 0.3
+ * ```
+ */
+declare const ceilTo: (to: number, value: number) => number;
+declare const round: {
+    floorTo: (to: number, value: number) => number;
+    roundTo: (to: number, value: number) => number;
+    ceilTo: (to: number, value: number) => number;
+    to: (to: number, value: number) => number;
+};
+/**<!-- DOCS: ### -->
+ * lerp
+ *
+ * - `MathsTools.lerp`
+ *
+ * Linearly interpolates between two values.
+ *
+ * ```typescript
+ * MathsTools.lerp(0.5, 0, 10); // 5
+ * ```
+ */
+declare const lerp: (progress: number, fromVal: number, toVal: number) => number;
+/**<!-- DOCS: ### -->
+ * lerpArray
+ *
+ * - `MathsTools.lerpArray`
+ *
+ * Linearly interpolates between the values of 2 arrays.
+ *
+ * ```typescript
+ * MathsTools.lerpArray(0.5, [0, 0, 0], [10, 100, 1000]) // [5, 50, 500]
+ * ```
+ */
+declare const lerpArray: (progress: number, fromArr: number[], toArr: number[]) => number[];
+/**<!-- DOCS: ### -->
+ * lerpObj
+ *
+ * - `MathsTools.lerpObj`
+ *
+ * Linearly interpolates between the values of 2 arrays.
+ *
+ * ```typescript
+ * MathsTools.lerpObj(0.5, {'ARS': 0, 'CHE': 0, 'FUL': 0}, {'ARS': 100, 'CHE': 10, 'FUL': 20}) // {'ARS': 50, 'CHE': 5, 'FUL': 10}
+ * ```
+ */
+declare const lerpObj: <T extends object>(progress: number, fromObj: T, toObj: T) => T;
+/**<!-- DOCS: ### -->
+ * clamp
+ *
+ * - `MathsTools.clamp`
+ *
+ * Clamps a value between a min and max.
+ *
+ * ```typescript
+ * MathsTools.clamp(5, 0, 10); // 5
+ * MathsTools.clamp(-5, 0, 10); // 0
+ * ```
+ */
+declare const clamp: (value: number, min: number, max: number) => number;
+
+declare const MathsTools_fixFloat: typeof fixFloat;
+declare const MathsTools_addAll: typeof addAll;
+declare const MathsTools_floorTo: typeof floorTo;
+declare const MathsTools_roundTo: typeof roundTo;
+declare const MathsTools_ceilTo: typeof ceilTo;
+declare const MathsTools_round: typeof round;
+declare const MathsTools_lerp: typeof lerp;
+declare const MathsTools_lerpArray: typeof lerpArray;
+declare const MathsTools_lerpObj: typeof lerpObj;
+declare const MathsTools_clamp: typeof clamp;
+declare namespace MathsTools {
+  export {
+    MathsTools_fixFloat as fixFloat,
+    MathsTools_addAll as addAll,
+    MathsTools_floorTo as floorTo,
+    MathsTools_roundTo as roundTo,
+    MathsTools_ceilTo as ceilTo,
+    MathsTools_round as round,
+    MathsTools_lerp as lerp,
+    MathsTools_lerpArray as lerpArray,
+    MathsTools_lerpObj as lerpObj,
+    MathsTools_clamp as clamp,
   };
 }
 
@@ -2260,31 +2430,6 @@ declare const resolve: <T = any>(item: T) => () => Promise<T>;
  * Returns an async function that rejects with the first argument
  */
 declare const reject: <T = any>(item: T) => () => Promise<T>;
-/**<!-- DOCS: ### -->
- * fixFloat
- *
- * - `fn.fixFloat`
- *
- * Fixes floating point errors that may occur when adding/subtracting/multiplying/dividing real/float numbers
- *
- * ```typescript
- * 0.1 + 0.2 // 0.30000000000000004
- * fixFloat(0.1 + 0.2) // 0.3
- * ```
- */
-declare const fixFloat: (num: number, precision?: number) => number;
-/**<!-- DOCS: ### -->
- * addAll
- *
- * - `fn.addAll`
- *
- * Adds all numbers together. Each argument is a number (use spread operator to pass in an array) similar to Math.min/Math.max
- *
- * ```typescript
- * addAll(1, 2, 3, 4, 5); // 15
- * ```
- */
-declare const addAll: (...args: number[]) => number;
 /**<!-- DOCS: ### -->
  * filters
  */
@@ -2679,119 +2824,12 @@ declare const isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 declare const everys$1: {
     isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 };
-/**<!-- DOCS: ### -->
- * round
- */
-/**<!-- DOCS: #### -->
- * floorTo
- *
- * - `fn.floorTo`
- * - `fn.round.floorTo`
- *
- * Floors a number down to the nearest multiple of the given number.
- *
- * ```typescript
- * fn.round.floorTo(10, 102); // 100
- * fn.round.floorTo(5, 53); // 50
- * fn.round.floorTo(0.1, 0.25); // 0.2
- * ```
- */
-declare const floorTo: (to: number, value: number) => number;
-/**<!-- DOCS: #### -->
- * roundTo
- *
- * - `fn.round.to`
- * - `fn.roundTo`
- * - `fn.round.roundTo`
- *
- * Floors a number down to the nearest multiple of the given number.
- *
- * ```typescript
- * fn.round.to(10, 102); // 100
- * fn.round.to(5, 53); // 55
- * fn.round.to(0.1, 0.25); // 0.3
- * ```
- */
-declare const roundTo: (to: number, value: number) => number;
-/**<!-- DOCS: #### -->
- * ceilTo
- *
- * - `fn.ceilTo`
- * - `fn.round.ceilTo`
- *
- * Floors a number down to the nearest multiple of the given number.
- *
- * ```typescript
- * fn.round.ceilTo(10, 102); // 110
- * fn.round.ceilTo(5, 53); // 55
- * fn.round.ceilTo(0.1, 0.25); // 0.3
- * ```
- */
-declare const ceilTo: (to: number, value: number) => number;
-declare const round: {
-    floorTo: (to: number, value: number) => number;
-    roundTo: (to: number, value: number) => number;
-    ceilTo: (to: number, value: number) => number;
-    to: (to: number, value: number) => number;
-};
-/**<!-- DOCS: ### -->
- * lerp
- *
- * - `fn.lerp`
- *
- * Linearly interpolates between two values.
- *
- * ```typescript
- * fn.lerp(0.5, 0, 10); // 5
- * ```
- */
-declare const lerp: (progress: number, fromVal: number, toVal: number) => number;
-/**<!-- DOCS: ### -->
- * lerpArray
- *
- * - `fn.lerpArray`
- *
- * Linearly interpolates between the values of 2 arrays.
- *
- * ```typescript
- * fn.lerpArray(0.5, [0, 0, 0], [10, 100, 1000]) // [5, 50, 500]
- * ```
- */
-declare const lerpArray: (progress: number, fromArr: number[], toArr: number[]) => number[];
-/**<!-- DOCS: ### -->
- * lerpObj
- *
- * - `fn.lerpObj`
- *
- * Linearly interpolates between the values of 2 arrays.
- *
- * ```typescript
- * fn.lerpObj(0.5, {'ARS': 0, 'CHE': 0, 'FUL': 0}, {'ARS': 100, 'CHE': 10, 'FUL': 20}) // {'ARS': 50, 'CHE': 5, 'FUL': 10}
- * ```
- */
-declare const lerpObj: <T extends object>(progress: number, fromObj: T, toObj: T) => T;
-/**<!-- DOCS: ### -->
- * clamp
- *
- * - `fn.clamp`
- *
- * Clamps a value between a min and max.
- *
- * ```typescript
- * fn.clamp(5, 0, 10); // 5
- * fn.clamp(-5, 0, 10); // 0
- * ```
- */
-declare const clamp: (value: number, min: number, max: number) => number;
-declare const capitalise: (str: string) => string;
 
 declare const fn_noop: typeof noop;
 declare const fn_noact: typeof noact;
 declare const fn_result: typeof result;
 declare const fn_resolve: typeof resolve;
 declare const fn_reject: typeof reject;
-declare const fn_fixFloat: typeof fixFloat;
-declare const fn_addAll: typeof addAll;
 declare const fn_exists: typeof exists;
 declare const fn_isTruthy: typeof isTruthy;
 declare const fn_isFalsy: typeof isFalsy;
@@ -2818,15 +2856,6 @@ declare const fn_combineProp: typeof combineProp;
 declare const fn_mode: typeof mode;
 declare const fn_modeMapped: typeof modeMapped;
 declare const fn_isAllEqual: typeof isAllEqual;
-declare const fn_floorTo: typeof floorTo;
-declare const fn_roundTo: typeof roundTo;
-declare const fn_ceilTo: typeof ceilTo;
-declare const fn_round: typeof round;
-declare const fn_lerp: typeof lerp;
-declare const fn_lerpArray: typeof lerpArray;
-declare const fn_lerpObj: typeof lerpObj;
-declare const fn_clamp: typeof clamp;
-declare const fn_capitalise: typeof capitalise;
 declare namespace fn {
   export {
     fn_noop as noop,
@@ -2834,8 +2863,6 @@ declare namespace fn {
     fn_result as result,
     fn_resolve as resolve,
     fn_reject as reject,
-    fn_fixFloat as fixFloat,
-    fn_addAll as addAll,
     fn_exists as exists,
     fn_isTruthy as isTruthy,
     fn_isFalsy as isFalsy,
@@ -2867,15 +2894,6 @@ declare namespace fn {
     reduces$1 as reduces,
     fn_isAllEqual as isAllEqual,
     everys$1 as everys,
-    fn_floorTo as floorTo,
-    fn_roundTo as roundTo,
-    fn_ceilTo as ceilTo,
-    fn_round as round,
-    fn_lerp as lerp,
-    fn_lerpArray as lerpArray,
-    fn_lerpObj as lerpObj,
-    fn_clamp as clamp,
-    fn_capitalise as capitalise,
   };
 }
 
@@ -2916,4 +2934,4 @@ declare const everys: {
     isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 };
 
-export { ArrayUtils, CENTURY, CaseInput, ColourUtils, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, Numbered, ObjOfType, ObjectUtils, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseUtils, QueueManager, RemapOf, SECOND, StringCaseHandler, StringUtils, TimeUtils, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayTools, CENTURY, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

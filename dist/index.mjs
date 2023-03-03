@@ -104,7 +104,7 @@ var noChalk = {
   bold: noWrap
 };
 
-// src/tools/TimeUtils.ts
+// src/tools/TimeTools.ts
 var units = [
   {
     value: MILLENNIUM,
@@ -174,7 +174,7 @@ var toReadableDuration = (duration, longNames = false, maxUnits = 3) => {
   }
   return results.join(" ");
 };
-var TimeUtils = {
+var TimeTools = {
   toReadableDuration
 };
 
@@ -193,7 +193,7 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
   };
   const logLine = (label, prefix = "", nameColLength = 0, duration = getDuration(label)) => {
     const lineStart = `${dispNames[label] || label}: `.padEnd(nameColLength + 1, " ");
-    const lineEnd = `${TimeUtils.toReadableDuration(duration, false, 4)}`;
+    const lineEnd = `${TimeTools.toReadableDuration(duration, false, 4)}`;
     const line = chalk.bold(prefix + lineStart) + lineEnd;
     console.log(wrapperFn(line));
     return (prefix + lineStart + lineEnd).replace("	", "").length;
@@ -280,14 +280,10 @@ __export(progressBar_exports, {
 // src/tools/fn.ts
 var fn_exports = {};
 __export(fn_exports, {
-  addAll: () => addAll,
   arrayAsc: () => arrayAsc,
   arrayDesc: () => arrayDesc,
   asc: () => asc,
   byProp: () => byProp,
-  capitalise: () => capitalise2,
-  ceilTo: () => ceilTo,
-  clamp: () => clamp,
   combine: () => combine,
   combineProp: () => combineProp,
   dedupe: () => dedupe,
@@ -296,8 +292,6 @@ __export(fn_exports, {
   everys: () => everys,
   exists: () => exists,
   filters: () => filters,
-  fixFloat: () => fixFloat,
-  floorTo: () => floorTo,
   furthestFrom: () => furthestFrom,
   isAllEqual: () => isAllEqual,
   isEmpty: () => isEmpty,
@@ -306,9 +300,6 @@ __export(fn_exports, {
   isNotEmpty: () => isNotEmpty,
   isNotEqual: () => isNotEqual,
   isTruthy: () => isTruthy,
-  lerp: () => lerp,
-  lerpArray: () => lerpArray,
-  lerpObj: () => lerpObj,
   maps: () => maps,
   mode: () => mode,
   modeMapped: () => modeMapped,
@@ -319,8 +310,6 @@ __export(fn_exports, {
   reject: () => reject,
   resolve: () => resolve,
   result: () => result,
-  round: () => round,
-  roundTo: () => roundTo,
   sorts: () => sorts,
   toBool: () => toBool,
   toFixed: () => toFixed,
@@ -329,7 +318,22 @@ __export(fn_exports, {
   toString: () => toString
 });
 
-// src/tools/ArrayUtils.ts
+// src/tools/MathsTools.ts
+var MathsTools_exports = {};
+__export(MathsTools_exports, {
+  addAll: () => addAll,
+  ceilTo: () => ceilTo,
+  clamp: () => clamp,
+  fixFloat: () => fixFloat,
+  floorTo: () => floorTo,
+  lerp: () => lerp,
+  lerpArray: () => lerpArray,
+  lerpObj: () => lerpObj,
+  round: () => round,
+  roundTo: () => roundTo
+});
+
+// src/tools/ArrayTools.ts
 var range = (length = 1, multiplier = 1, offset = 0) => new Array(Math.floor(length)).fill(1).map((v, i) => fixFloat(i * multiplier) + offset);
 var zipFn = (length, arrs) => range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
 var zip = (...arrs) => zipFn(Math.min(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
@@ -382,7 +386,7 @@ var group = (array, mapFn) => {
   const obj = groupObj(array, mapFn);
   return Object.values(obj);
 };
-var ArrayUtils = {
+var ArrayTools = {
   range,
   zip,
   zipMax,
@@ -396,79 +400,32 @@ var ArrayUtils = {
   partition,
   groupObj,
   group,
-  utils: {
+  Tools: {
     isNumString,
     partitionNums
   }
 };
 
-// src/tools/StringUtils.ts
-var capitalise = (input = "") => (input || "").split(/\s/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
-var angloise = (input) => input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-var clean = (input = "") => angloise([input].flat().join(" ")).replace(/\s{1,}/g, " ").replace(/[^A-Za-z0-9 ]/gi, "");
-var caseHandler = (overrideSplitter) => {
-  const getSplit = (input = "") => {
-    if (overrideSplitter)
-      return overrideSplitter(input);
-    const arr = [input].flat();
-    return arr.map((s) => clean(s.replace(/-|_/g, " ")).split(" ")).flat().filter((s) => s.length);
-  };
-  const toCamelCase = (input, capitaliseFirst = false) => {
-    const split = getSplit(input);
-    return split.map((word, index) => index === 0 && !capitaliseFirst ? word.toLowerCase() : capitalise(word)).join("");
-  };
-  const toLowerCamelCase = (input) => toCamelCase(input, false);
-  const toUpperCamelCase = (input) => toCamelCase(input, true);
-  const toCharacterSeparated = (input, char, toUpper = false) => {
-    const split = getSplit(input);
-    return split.map((word, index) => toUpper ? word.toUpperCase() : word.toLowerCase()).join(char);
-  };
-  const toSlugCase = (input, toUpper = false) => toCharacterSeparated(input, "-", toUpper);
-  const toLowerSlugCase = (input) => toSlugCase(input, false);
-  const toUpperSlugCase = (input) => toSlugCase(input, true);
-  const toSnakeCase = (input, toUpper = false) => toCharacterSeparated(input, "_", toUpper);
-  const toLowerSnakeCase = (input) => toSnakeCase(input, false);
-  const toUpperSnakeCase = (input) => toSnakeCase(input, true);
-  const toSpaced = (input, toUpper = false) => toCharacterSeparated(input, " ", toUpper);
-  const toLowerSpaced = (input) => toSpaced(input, false);
-  const toUpperSpaced = (input) => toSpaced(input, true);
-  const toCapitalisedSpaced = (input) => capitalise(toSpaced(input, false));
-  return {
-    toLowerCamelCase,
-    toUpperCamelCase,
-    toCamelCase,
-    toLowerSlugCase,
-    toUpperSlugCase,
-    toSlugCase,
-    toLowerSnakeCase,
-    toUpperSnakeCase,
-    toSnakeCase,
-    toLowerSpaced,
-    toUpperSpaced,
-    toCapitalisedSpaced,
-    toSpaced,
-    toCharacterSeparated
-  };
+// src/tools/MathsTools.ts
+var fixFloat = (num, precision = 6) => Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision);
+var addAll = (...args) => args.reduce((acc, num) => acc + num, 0);
+var floorTo = (to, value) => fixFloat(Math.floor(value / to) * to);
+var roundTo = (to, value) => fixFloat(Math.round(value / to) * to);
+var ceilTo = (to, value) => fixFloat(Math.ceil(value / to) * to);
+var round = {
+  floorTo,
+  roundTo,
+  ceilTo,
+  to: roundTo
 };
-var standardCaseHandler = caseHandler();
-var fromSlugCase = standardCaseHandler;
-var fromSnakeCase = standardCaseHandler;
-var fromSpaced = standardCaseHandler;
-var fromCamelCase = caseHandler(
-  (input) => [input].flat().map((s) => clean(s)).map(
-    (s) => s.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").trim()
-  ).map((s) => s.split(" ")).flat()
-);
-var StringUtils = {
-  capitalise,
-  angloise,
-  clean,
-  ...standardCaseHandler,
-  fromSlugCase,
-  fromSnakeCase,
-  fromSpaced,
-  fromCamelCase
+var lerp = (progress, fromVal, toVal) => fromVal + (toVal - fromVal) * progress;
+var lerpArray = (progress, fromArr, toArr) => zip(fromArr, toArr).map(([fromVal, toVal]) => lerp(progress, fromVal, toVal));
+var lerpObj = (progress, fromObj, toObj) => {
+  const entries2 = Object.entries(fromObj);
+  const lerped = entries2.map(([key, fromVal]) => typeof fromVal === "number" ? [key, lerp(progress, fromVal, toObj[key])] : [key, fromVal]);
+  return Object.fromEntries(lerped);
 };
+var clamp = (value, min, max) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
 
 // src/tools/fn.ts
 var noop = () => {
@@ -477,8 +434,6 @@ var noact = (item) => item;
 var result = (item) => () => item;
 var resolve = (item) => () => Promise.resolve(item);
 var reject = (item) => () => Promise.reject(item);
-var fixFloat = (num, precision = 6) => Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision);
-var addAll = (...args) => args.reduce((acc, num) => acc + num, 0);
 var exists = (item) => item !== void 0 && item !== null;
 var isTruthy = (item) => Boolean(item);
 var isFalsy = (item) => !Boolean(item);
@@ -596,27 +551,6 @@ var reduces = {
 var isAllEqual = (val, i, arr) => val === arr[0];
 var everys = {
   isAllEqual
-};
-var floorTo = (to, value) => fixFloat(Math.floor(value / to) * to);
-var roundTo = (to, value) => fixFloat(Math.round(value / to) * to);
-var ceilTo = (to, value) => fixFloat(Math.ceil(value / to) * to);
-var round = {
-  floorTo,
-  roundTo,
-  ceilTo,
-  to: roundTo
-};
-var lerp = (progress, fromVal, toVal) => fromVal + (toVal - fromVal) * progress;
-var lerpArray = (progress, fromArr, toArr) => zip(fromArr, toArr).map(([fromVal, toVal]) => lerp(progress, fromVal, toVal));
-var lerpObj = (progress, fromObj, toObj) => {
-  const entries2 = Object.entries(fromObj);
-  const lerped = entries2.map(([key, fromVal]) => typeof fromVal === "number" ? [key, lerp(progress, fromVal, toObj[key])] : [key, fromVal]);
-  return Object.fromEntries(lerped);
-};
-var clamp = (value, min, max) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
-var capitalise2 = (str) => {
-  console.warn("fn.capitalise is deprecated, use StringUtils.capitalize instead");
-  return StringUtils.capitalise(str);
 };
 
 // src/tools/progressBar.ts
@@ -774,7 +708,7 @@ var retry = async (maxTries = 10, delay = 0, suppress = true, run = result(void 
 };
 var retryOr = async (orValue, maxTries = 10, delay = 0, suppress = true, run = result(orValue)) => tryOr(orValue, () => retry(maxTries, delay, suppress, run));
 
-// src/tools/PromiseUtils.ts
+// src/tools/PromiseTools.ts
 var getDeferred = () => {
   let resolve2, reject2;
   const promise = new Promise((res, rej) => {
@@ -874,7 +808,7 @@ var allLimitObj = async (limit, input, noThrow = false) => {
     return allLimit(limit, items, noThrow);
   }, input);
 };
-var PromiseUtils = {
+var PromiseTools = {
   getDeferred,
   all,
   allLimit,
@@ -886,22 +820,22 @@ var PromiseUtils = {
   allLimitObj
 };
 
-// src/tools/ObjectUtils.ts
+// src/tools/ObjectTools.ts
 var remodel = (obj, func) => Object.fromEntries(func(Object.entries(obj)) ?? Object.entries(obj));
 var remodelEach = (obj, func) => Object.fromEntries(Object.entries(obj).map((entry, index, entries2) => func(entry, index, entries2) ?? entry));
 var map2 = (obj, func) => remodel(obj, (entries2) => entries2.map(([key, value], index) => func(key, value, index)));
 var mapValues = (obj, func) => remodel(obj, (entries2) => entries2.map(([key, value], index) => [key, func(key, value, index)]));
 var mapKeys = (obj, func) => remodel(obj, (entries2) => entries2.map(([key, value], index) => [func(key, value, index), value]));
 var filter = (obj, func) => remodel(obj, (entries2) => entries2.filter(([key, value], index) => func(key, value, index)));
-var clean2 = (obj) => filter(obj, (key, value) => value !== void 0);
-var ObjectUtils = {
+var clean = (obj) => filter(obj, (key, value) => value !== void 0);
+var ObjectTools = {
   remodel,
   remodelEach,
   map: map2,
   mapValues,
   mapKeys,
   filter,
-  clean: clean2
+  clean
 };
 
 // src/tools/symbols.ts
@@ -1013,9 +947,9 @@ var QueueManager = class {
 };
 var queue = new QueueManager();
 
-// src/tools/ColourUtils.ts
-var ColourUtils_exports = {};
-__export(ColourUtils_exports, {
+// src/tools/ColourTools.ts
+var ColourTools_exports = {};
+__export(ColourTools_exports, {
   fromHSL: () => fromHSL,
   getContrastedColour: () => getContrastedColour,
   getLimitedColour: () => getLimitedColour,
@@ -1375,12 +1309,110 @@ var getLimitedColour = (colour, checkFn, adjustFn) => {
   return colour;
 };
 
+// src/tools/StringTools.ts
+var StringTools_exports = {};
+__export(StringTools_exports, {
+  angloise: () => angloise,
+  capitalise: () => capitalise,
+  clean: () => clean2,
+  fromCamelCase: () => fromCamelCase,
+  fromSlugCase: () => fromSlugCase,
+  fromSnakeCase: () => fromSnakeCase,
+  fromSpaced: () => fromSpaced,
+  toCamelCase: () => toCamelCase,
+  toCapitalisedSpaced: () => toCapitalisedSpaced,
+  toCharacterSeparated: () => toCharacterSeparated,
+  toLowerCamelCase: () => toLowerCamelCase,
+  toLowerSlugCase: () => toLowerSlugCase,
+  toLowerSnakeCase: () => toLowerSnakeCase,
+  toLowerSpaced: () => toLowerSpaced,
+  toSlugCase: () => toSlugCase,
+  toSnakeCase: () => toSnakeCase,
+  toSpaced: () => toSpaced,
+  toUpperCamelCase: () => toUpperCamelCase,
+  toUpperSlugCase: () => toUpperSlugCase,
+  toUpperSnakeCase: () => toUpperSnakeCase,
+  toUpperSpaced: () => toUpperSpaced
+});
+var capitalise = (input = "") => (input || "").split(/\s/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+var angloise = (input) => input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+var clean2 = (input = "") => angloise([input].flat().join(" ")).replace(/\s{1,}/g, " ").replace(/[^A-Za-z0-9 ]/gi, "");
+var caseHandler = (overrideSplitter) => {
+  const getSplit = (input = "") => {
+    if (overrideSplitter)
+      return overrideSplitter(input);
+    const arr = [input].flat();
+    return arr.map((s) => clean2(s.replace(/-|_/g, " ")).split(" ")).flat().filter((s) => s.length);
+  };
+  const toCamelCase2 = (input, capitaliseFirst = false) => {
+    const split = getSplit(input);
+    return split.map((word, index) => index === 0 && !capitaliseFirst ? word.toLowerCase() : capitalise(word)).join("");
+  };
+  const toLowerCamelCase2 = (input) => toCamelCase2(input, false);
+  const toUpperCamelCase2 = (input) => toCamelCase2(input, true);
+  const toCharacterSeparated2 = (input, char, toUpper = false) => {
+    const split = getSplit(input);
+    return split.map((word, index) => toUpper ? word.toUpperCase() : word.toLowerCase()).join(char);
+  };
+  const toSlugCase2 = (input, toUpper = false) => toCharacterSeparated2(input, "-", toUpper);
+  const toLowerSlugCase2 = (input) => toSlugCase2(input, false);
+  const toUpperSlugCase2 = (input) => toSlugCase2(input, true);
+  const toSnakeCase2 = (input, toUpper = false) => toCharacterSeparated2(input, "_", toUpper);
+  const toLowerSnakeCase2 = (input) => toSnakeCase2(input, false);
+  const toUpperSnakeCase2 = (input) => toSnakeCase2(input, true);
+  const toSpaced2 = (input, toUpper = false) => toCharacterSeparated2(input, " ", toUpper);
+  const toLowerSpaced2 = (input) => toSpaced2(input, false);
+  const toUpperSpaced2 = (input) => toSpaced2(input, true);
+  const toCapitalisedSpaced2 = (input) => capitalise(toSpaced2(input, false));
+  return {
+    toLowerCamelCase: toLowerCamelCase2,
+    toUpperCamelCase: toUpperCamelCase2,
+    toCamelCase: toCamelCase2,
+    toLowerSlugCase: toLowerSlugCase2,
+    toUpperSlugCase: toUpperSlugCase2,
+    toSlugCase: toSlugCase2,
+    toLowerSnakeCase: toLowerSnakeCase2,
+    toUpperSnakeCase: toUpperSnakeCase2,
+    toSnakeCase: toSnakeCase2,
+    toLowerSpaced: toLowerSpaced2,
+    toUpperSpaced: toUpperSpaced2,
+    toCapitalisedSpaced: toCapitalisedSpaced2,
+    toSpaced: toSpaced2,
+    toCharacterSeparated: toCharacterSeparated2
+  };
+};
+var standardCaseHandler = caseHandler();
+var {
+  toLowerCamelCase,
+  toUpperCamelCase,
+  toCamelCase,
+  toLowerSlugCase,
+  toUpperSlugCase,
+  toSlugCase,
+  toLowerSnakeCase,
+  toUpperSnakeCase,
+  toSnakeCase,
+  toLowerSpaced,
+  toUpperSpaced,
+  toCapitalisedSpaced,
+  toSpaced,
+  toCharacterSeparated
+} = standardCaseHandler;
+var fromSlugCase = standardCaseHandler;
+var fromSnakeCase = standardCaseHandler;
+var fromSpaced = standardCaseHandler;
+var fromCamelCase = caseHandler(
+  (input) => [input].flat().map((s) => clean2(s)).map(
+    (s) => s.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").trim()
+  ).map((s) => s.split(" ")).flat()
+);
+
 // src/index.ts
 var { filters: filters2, maps: maps2, sorts: sorts2, reduces: reduces2, everys: everys2 } = fn_exports;
 export {
-  ArrayUtils,
+  ArrayTools,
   CENTURY,
-  ColourUtils_exports as ColourUtils,
+  ColourTools_exports as ColourTools,
   DAY,
   DECADE,
   HOUR,
@@ -1388,12 +1420,13 @@ export {
   MILLISECOND,
   MINUTE,
   MONTH,
-  ObjectUtils,
-  PromiseUtils,
+  MathsTools_exports as MathsTools,
+  ObjectTools,
+  PromiseTools,
   QueueManager,
   SECOND,
-  StringUtils,
-  TimeUtils,
+  StringTools_exports as StringTools,
+  TimeTools,
   WEEK,
   YEAR,
   all,
