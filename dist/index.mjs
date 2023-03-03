@@ -1408,6 +1408,7 @@ var fromCamelCase = caseHandler(
 );
 
 // src/index.ts
+var MathTools = MathsTools_exports;
 var { filters: filters2, maps: maps2, sorts: sorts2, reduces: reduces2, everys: everys2 } = fn_exports;
 export {
   ArrayTools,
@@ -1420,6 +1421,7 @@ export {
   MILLISECOND,
   MINUTE,
   MONTH,
+  MathTools,
   MathsTools_exports as MathsTools,
   ObjectTools,
   PromiseTools,

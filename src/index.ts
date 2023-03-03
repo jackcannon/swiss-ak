@@ -16,7 +16,11 @@ import * as waiters from './tools/waiters';
 import * as progressBar from './tools/progressBar';
 import * as ColourTools from './tools/ColourTools';
 export * as StringTools from './tools/StringTools';
-export * as MathsTools from './tools/MathsTools';
+
+import * as MathsTools from './tools/MathsTools';
+export { MathsTools };
+// an alias
+export const MathTools = MathsTools;
 
 export { times, waiters, progressBar, ColourTools };
 

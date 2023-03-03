@@ -29,6 +29,7 @@ __export(src_exports, {
   MILLISECOND: () => MILLISECOND,
   MINUTE: () => MINUTE,
   MONTH: () => MONTH,
+  MathTools: () => MathTools,
   MathsTools: () => MathsTools_exports,
   ObjectTools: () => ObjectTools,
   PromiseTools: () => PromiseTools,
@@ -1503,6 +1504,7 @@ var fromCamelCase = caseHandler(
 );
 
 // src/index.ts
+var MathTools = MathsTools_exports;
 var { filters: filters2, maps: maps2, sorts: sorts2, reduces: reduces2, everys: everys2 } = fn_exports;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
@@ -1516,6 +1518,7 @@ var { filters: filters2, maps: maps2, sorts: sorts2, reduces: reduces2, everys: 
   MILLISECOND,
   MINUTE,
   MONTH,
+  MathTools,
   MathsTools,
   ObjectTools,
   PromiseTools,

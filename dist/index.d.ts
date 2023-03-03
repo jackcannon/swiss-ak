@@ -2897,6 +2897,8 @@ declare namespace fn {
   };
 }
 
+declare const MathTools: typeof MathsTools;
+
 declare const filters: {
     exists: <T = any>(item: T) => boolean;
     isTruthy: <T_1 = any>(item: T_1) => boolean;
@@ -2934,4 +2936,4 @@ declare const everys: {
     isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 };
 
-export { ArrayTools, CENTURY, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayTools, CENTURY, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathTools, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
