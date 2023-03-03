@@ -1,6 +1,6 @@
 //<!-- DOCS: 130 -->
 /**<!-- DOCS: ## -->
- * PromiseUtils
+ * PromiseTools
  *
  * A collection of promise utilities
  */
@@ -14,7 +14,7 @@ export interface DeferredPromise<T> {
  * getDeferred
  *
  * - `getDeferred`
- * - `PromiseUtils.getDeferred`
+ * - `PromiseTools.getDeferred`
  *
  * A deferred promise
  *
@@ -59,7 +59,7 @@ export const getDeferred = <T extends unknown>(): DeferredPromise<T> => {
  * all
  *
  * - `all`
- * - `PromiseUtils.all`
+ * - `PromiseTools.all`
  *
  * An alias for Promise.all
  */
@@ -71,14 +71,14 @@ export const all = async <T extends unknown>(promises: Promise<T>[]): Promise<an
  * allLimit
  *
  * - `allLimit`
- * - `PromiseUtils.allLimit`
+ * - `PromiseTools.allLimit`
  *
  * Like Promise.all, but limits the numbers of concurrently running items.
  *
  * Takes an array of functions (that return Promises), rather than an array of Promises
  *
  * ```typescript
- * import { PromiseUtils, timer, ms, seconds } from 'swiss-ak';
+ * import { PromiseTools, timer, ms, seconds } from 'swiss-ak';
  *
  * const give = async (delay: ms, result: number, label: string) => {
  *   await waitFor(delay);
@@ -88,7 +88,7 @@ export const all = async <T extends unknown>(promises: Promise<T>[]): Promise<an
  *
  * timer.start('allLimit', 'a', 'b', 'c', 'd');
  *
- * const results = PromiseUtils.allLimit<number>(2, [
+ * const results = PromiseTools.allLimit<number>(2, [
  *   give(seconds(5), 1, 'a'),
  *   give(seconds(5), 2, 'b'),
  *   give(seconds(5), 3, 'c'),
@@ -156,16 +156,16 @@ export const allLimit = <T extends unknown>(limit: number, items: ((index: numbe
  * each
  *
  * - `each`
- * - `PromiseUtils.each`
+ * - `PromiseTools.each`
  *
  * Run an async function against each item in an array
  *
  * ```typescript
- * import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+ * import { PromiseTools, ms, seconds, wait } from 'swiss-ak';
  *
  * const arr = [1, 2, 3, 4];
  *
- * await PromiseUtils.each<number>(arr, async (val: number) => {
+ * await PromiseTools.each<number>(arr, async (val: number) => {
  *   await wait(seconds(2));
  *   sendToSomewhere(val);
  * });
@@ -180,18 +180,18 @@ export const each = async <Ti extends unknown>(items: Ti[], func: (item: Ti, ind
  * eachLimit
  *
  * - `eachLimit`
- * - `PromiseUtils.eachLimit`
+ * - `PromiseTools.eachLimit`
  *
  * Run an async function against each item in an array, limiting the number of items that can run concurrently.
  *
- * See PromiseUtils.allLimit for information about limited functions.
+ * See PromiseTools.allLimit for information about limited functions.
  *
  * ```typescript
- * import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+ * import { PromiseTools, ms, seconds, wait } from 'swiss-ak';
  *
  * const arr = [1, 2, 3, 4];
  *
- * await PromiseUtils.eachLimit<number>(2, arr, async (val: number) => {
+ * await PromiseTools.eachLimit<number>(2, arr, async (val: number) => {
  *   await wait(seconds(2));
  *   sendToSomewhere(val);
  * });
@@ -213,16 +213,16 @@ export const eachLimit = async <Ti extends unknown>(
  * map
  *
  * - `map`
- * - `PromiseUtils.map`
+ * - `PromiseTools.map`
  *
  * Run an async map function against each item in an array, mapping the results to a returned array
  *
  * ```typescript
- * import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+ * import { PromiseTools, ms, seconds, wait } from 'swiss-ak';
  *
  * const arr = [1, 2, 3, 4];
  *
- * const mapped = await PromiseUtils.map<number>(arr, async (val: number) => {
+ * const mapped = await PromiseTools.map<number>(arr, async (val: number) => {
  *   await wait(seconds(2));
  *   return val * 2;
  * });
@@ -250,18 +250,18 @@ export const map = async <Ti extends unknown, To extends unknown>(
  * mapLimit
  *
  * - `mapLimit`
- * - `PromiseUtils.mapLimit`
+ * - `PromiseTools.mapLimit`
  *
  * Run an async map function against each item in an array, mapping the results to a returned array, and limiting the number of items that can run concurrently.
  *
- * See PromiseUtils.allLimit for information about limited functions.
+ * See PromiseTools.allLimit for information about limited functions.
  *
  * ```typescript
- * import { PromiseUtils, ms, seconds, wait } from 'swiss-ak';
+ * import { PromiseTools, ms, seconds, wait } from 'swiss-ak';
  *
  * const arr = [1, 2, 3, 4];
  *
- * const mapped = await PromiseUtils.mapLimit<number>(2, arr, async (val: number) => {
+ * const mapped = await PromiseTools.mapLimit<number>(2, arr, async (val: number) => {
  *   await wait(seconds(2));
  *   return val * 2;
  * });
@@ -294,12 +294,12 @@ type UnWrapPromiseObject<T> = { [K in keyof T]: UnWrapPromise<T[K]> };
  * allObj
  *
  * - `allObj`
- * - `PromiseUtils.allObj`
+ * - `PromiseTools.allObj`
  *
  * Like Promise.all, but pass/receive objects rather than arrays
  *
  * ```typescript
- * import { PromiseUtils, timer, ms, seconds } from 'swiss-ak';
+ * import { PromiseTools, timer, ms, seconds } from 'swiss-ak';
  *
  * const give = async (delay: ms, result: number, label: string) => {
  *   await waitFor(delay);
@@ -309,7 +309,7 @@ type UnWrapPromiseObject<T> = { [K in keyof T]: UnWrapPromise<T[K]> };
  *
  * timer.start('allObj', 'a', 'b', 'c');
  *
- * const results = PromiseUtils.allObj<number>({
+ * const results = PromiseTools.allObj<number>({
  *   a: give(seconds(10), 1, 'a'),
  *   b: give(seconds(15), 2, 'b'),
  *   c: give(seconds(20), 3, 'c')
@@ -335,14 +335,14 @@ export const allObj = async <T extends Object>(input: T): Promise<UnWrapPromiseO
  * allLimitObj
  *
  * - `allLimitObj`
- * - `PromiseUtils.allLimitObj`
+ * - `PromiseTools.allLimitObj`
  *
  * A mix of allObj and allLimit.
  *
  * Takes an array of functions (that return Promises), and limits the numbers of concurrently running items.
  *
  * ```typescript
- * import { PromiseUtils, timer, ms, seconds } from 'swiss-ak';
+ * import { PromiseTools, timer, ms, seconds } from 'swiss-ak';
  *
  * const give = async (delay: ms, result: number, label: string) => {
  *   await waitFor(delay);
@@ -352,7 +352,7 @@ export const allObj = async <T extends Object>(input: T): Promise<UnWrapPromiseO
  *
  * timer.start('allLimitObj', 'a', 'b', 'c', 'd');
  *
- * const results = PromiseUtils.allLimitObj<number>(2, {
+ * const results = PromiseTools.allLimitObj<number>(2, {
  *   a: give(seconds(5), 1, 'a'),
  *   b: give(seconds(5), 2, 'b'),
  *   c: give(seconds(5), 3, 'c'),
@@ -378,7 +378,7 @@ export const allLimitObj = async <T extends Object>(limit: number, input: T, noT
   }, input);
 };
 
-export const PromiseUtils = {
+export const PromiseTools = {
   getDeferred,
   all,
   allLimit,

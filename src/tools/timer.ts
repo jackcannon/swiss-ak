@@ -1,7 +1,7 @@
 import { ms } from './times';
 import { KeysOnly, Numbered } from './types';
 import { noChalk, noWrap } from './fakeChalk';
-import { TimeUtils } from './TimeUtils';
+import { TimeTools } from './TimeTools';
 
 //<!-- DOCS: 900 -->
 /**<!-- DOCS: ## -->
@@ -101,7 +101,7 @@ export const getTimer = <TName extends INames>(
 
   const logLine = (label: string, prefix: string = '', nameColLength: number = 0, duration: number = getDuration(label)): number => {
     const lineStart = `${dispNames[label] || label}: `.padEnd(nameColLength + 1, ' ');
-    const lineEnd = `${TimeUtils.toReadableDuration(duration, false, 4)}`;
+    const lineEnd = `${TimeTools.toReadableDuration(duration, false, 4)}`;
 
     const line = chalk.bold(prefix + lineStart) + lineEnd;
     console.log(wrapperFn(line));

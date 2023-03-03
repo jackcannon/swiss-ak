@@ -2,7 +2,7 @@ import { ms, MILLISECOND, SECOND, MINUTE, HOUR, DAY, MONTH, YEAR, CENTURY, MILLE
 
 //<!-- DOCS: 150 -->
 /**<!-- DOCS: ## -->
- * TimeUtils
+ * TimeTools
  *
  * A collection of time-related utility functions.
  */
@@ -68,29 +68,29 @@ const units: DurationUnit[] = [
 /**<!-- DOCS: ### -->
  * toReadableDuration
  *
- * - `TimeUtils.toReadableDuration`
+ * - `TimeTools.toReadableDuration`
  *
  * Converts a duration in milliseconds to a human readable string.
  *
  * ```typescript
- * TimeUtils.toReadableDuration(20); // '20ms'
- * TimeUtils.toReadableDuration(seconds(59)); // '59s'
- * TimeUtils.toReadableDuration(seconds(60)); // '1m'
- * TimeUtils.toReadableDuration(hours(23)); // '23h'
- * TimeUtils.toReadableDuration(hours(24)); // '1d'
- * TimeUtils.toReadableDuration(days(10)); // '10d'
+ * TimeTools.toReadableDuration(20); // '20ms'
+ * TimeTools.toReadableDuration(seconds(59)); // '59s'
+ * TimeTools.toReadableDuration(seconds(60)); // '1m'
+ * TimeTools.toReadableDuration(hours(23)); // '23h'
+ * TimeTools.toReadableDuration(hours(24)); // '1d'
+ * TimeTools.toReadableDuration(days(10)); // '10d'
  *
- * TimeUtils.toReadableDuration(20, true) // '20 milliseconds'
- * TimeUtils.toReadableDuration(seconds(59), true) // '59 seconds'
- * TimeUtils.toReadableDuration(seconds(60), true) // '1 minute'
- * TimeUtils.toReadableDuration(hours(23), true) // '23 hours'
- * TimeUtils.toReadableDuration(hours(24), true) // '1 day'
- * TimeUtils.toReadableDuration(days(10), true) // '10 days'
+ * TimeTools.toReadableDuration(20, true) // '20 milliseconds'
+ * TimeTools.toReadableDuration(seconds(59), true) // '59 seconds'
+ * TimeTools.toReadableDuration(seconds(60), true) // '1 minute'
+ * TimeTools.toReadableDuration(hours(23), true) // '23 hours'
+ * TimeTools.toReadableDuration(hours(24), true) // '1 day'
+ * TimeTools.toReadableDuration(days(10), true) // '10 days'
  *
  * const realisticDuration = days(10) + hours(2) + seconds(31) + 512; // 871231512
- * TimeUtils.toReadableDuration(realisticDuration, true, 4) // '10 days, 2 hours, 31 seconds & 512 milliseconds'
- * TimeUtils.toReadableDuration(realisticDuration, true) // '10 days, 2 hours & 31 seconds'
- * TimeUtils.toReadableDuration(realisticDuration, true, 2) // '10 days & 2 hours'
+ * TimeTools.toReadableDuration(realisticDuration, true, 4) // '10 days, 2 hours, 31 seconds & 512 milliseconds'
+ * TimeTools.toReadableDuration(realisticDuration, true) // '10 days, 2 hours & 31 seconds'
+ * TimeTools.toReadableDuration(realisticDuration, true, 2) // '10 days & 2 hours'
  * ```
  */
 const toReadableDuration = (duration: ms, longNames: boolean = false, maxUnits: number = 3): string => {
@@ -120,6 +120,6 @@ const toReadableDuration = (duration: ms, longNames: boolean = false, maxUnits: 
   return results.join(' ');
 };
 
-export const TimeUtils = {
+export const TimeTools = {
   toReadableDuration
 };

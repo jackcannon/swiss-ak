@@ -1,7 +1,7 @@
 /*<!-- DOCS: ## 10 -->
  * times
  *
- * A collection of utils for calculating simple times.
+ * A collection of Tools for calculating simple times.
  * Each unit (e.g. second) has: a type (`second`), a constant (`SECOND`) and a function for getting multiples (`seconds(x: second) => ms`)
  *
  * | unit        | type         | constant      | function                           |

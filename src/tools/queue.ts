@@ -27,7 +27,7 @@ import { wait } from './waiters';
  * const start = Date.now();
  *
  * // happening async/concurrently
- * PromiseUtils.each(range(5), async (i) => {
+ * PromiseTools.each(range(5), async (i) => {
  *   await wait(seconds(Math.random() * 1));
  *   console.log(Date.now() - start, ' - trigger:', i, );
  *   await queue.add('printer', () => printDocument(i))

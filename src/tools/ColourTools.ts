@@ -1,7 +1,7 @@
 import * as fn from './fn';
 //<!-- DOCS: 140 -->
 /**<!-- DOCS: ## -->
- * ColourUtils
+ * ColourTools
  *
  * A collection of functions for working with colours.
  */
@@ -9,7 +9,7 @@ import * as fn from './fn';
 /**<!-- DOCS: ### -->
  * ColourValues
  *
- * - `ColourUtils.ColourValues`
+ * - `ColourTools.ColourValues`
  *
  * A type with 3 numbers:
  * - red [0-255]
@@ -21,7 +21,7 @@ export type ColourValues = [number, number, number];
 /**<!-- DOCS: ### -->
  * HSLValues
  *
- * - `ColourUtils.HSLValues`
+ * - `ColourTools.HSLValues`
  *
  * A type with 3 numbers:
  * - hue [0-360]
@@ -33,18 +33,18 @@ export type HSLValues = [number, number, number];
 /**<!-- DOCS: ### -->
  * namedColours
  *
- * - `ColourUtils.namedColours`
+ * - `ColourTools.namedColours`
  *
  * A dictionary of different colour names and their RGB values
  *
  * ```typescript
- * ColourUtils.namedColours.blue // [0, 0, 255]
- * ColourUtils.namedColours.red // [255, 0, 0]
- * ColourUtils.namedColours.green // [0, 255, 0]
+ * ColourTools.namedColours.blue // [0, 0, 255]
+ * ColourTools.namedColours.red // [255, 0, 0]
+ * ColourTools.namedColours.green // [0, 255, 0]
  *
- * ColourUtils.namedColours.azure // [240, 255, 255]
- * ColourUtils.namedColours.darkorange // [255, 140, 0]
- * ColourUtils.namedColours.dodgerblue // [30, 144, 255]
+ * ColourTools.namedColours.azure // [240, 255, 255]
+ * ColourTools.namedColours.darkorange // [255, 140, 0]
+ * ColourTools.namedColours.dodgerblue // [30, 144, 255]
  * ```
  */
 export const namedColours = {
@@ -306,7 +306,7 @@ const roundMinMax = (value: number, min: number = 0, max: number = 255) => Math.
 /**<!-- DOCS: ### -->
  * parse
  *
- * - `ColourUtils.parse`
+ * - `ColourTools.parse`
  *
  * Parse a string into a colour object (RGB array)
  * Not extensive. Currently limited to:
@@ -316,9 +316,9 @@ const roundMinMax = (value: number, min: number = 0, max: number = 255) => Math.
  * - named colours (from namedColours dictionary)
  *
  * ```typescript
- * ColourUtils.parse('#FF0000') // [255, 0, 0]
- * ColourUtils.parse('rgb(255, 0, 0)') // [255, 0, 0]
- * ColourUtils.parse('red') // [255, 0, 0]
+ * ColourTools.parse('#FF0000') // [255, 0, 0]
+ * ColourTools.parse('rgb(255, 0, 0)') // [255, 0, 0]
+ * ColourTools.parse('red') // [255, 0, 0]
  * ```
  */
 export const parse = (input: string): ColourValues => {
@@ -352,12 +352,12 @@ export const parse = (input: string): ColourValues => {
 /**<!-- DOCS: ### -->
  * toHex
  *
- * - `ColourUtils.toHex`
+ * - `ColourTools.toHex`
  *
  * Convert a colour object (RGB array) to a hex string
  *
  * ```typescript
- * ColourUtils.toHex([255, 0, 0]) // '#FF0000'
+ * ColourTools.toHex([255, 0, 0]) // '#FF0000'
  * ```
  */
 export const toHex = (colour: ColourValues): string => {
@@ -368,7 +368,7 @@ export const toHex = (colour: ColourValues): string => {
 /**<!-- DOCS: ### -->
  * getLuminance
  *
- * - `ColourUtils.getLuminance`
+ * - `ColourTools.getLuminance`
  *
  * IMPORTANT: This is not the same as the HSL luminance value.
  *
@@ -380,9 +380,9 @@ export const toHex = (colour: ColourValues): string => {
  * Is the Y (Luma) component of the YUV444 color model.
  *
  * ```typescript
- * ColourUtils.getLuminance([255, 0, 0]); // 76.245
- * ColourUtils.getLuminance([0, 255, 0]); // 149.685
- * ColourUtils.getLuminance([0, 0, 255]); // 29.07
+ * ColourTools.getLuminance([255, 0, 0]); // 76.245
+ * ColourTools.getLuminance([0, 255, 0]); // 149.685
+ * ColourTools.getLuminance([0, 0, 255]); // 29.07
  * ```
  */
 export const getLuminance = ([r, g, b]: ColourValues): number => {
@@ -393,14 +393,14 @@ export const getLuminance = ([r, g, b]: ColourValues): number => {
 /**<!-- DOCS: ### -->
  * toYUV
  *
- * - `ColourUtils.toYUV`
+ * - `ColourTools.toYUV`
  *
  * Convert a colour object (RGB array) to a YUV array.
  *
  * See https://en.wikipedia.org/wiki/YUV#Y%E2%80%B2UV444_to_RGB888_conversion
  *
  * ```typescript
- * ColourUtils.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
+ * ColourTools.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
  * ```
  */
 export const toYUV = ([r, g, b]: ColourValues): ColourValues => {
@@ -413,15 +413,15 @@ export const toYUV = ([r, g, b]: ColourValues): ColourValues => {
 /**<!-- DOCS: ### -->
  * toHSL
  *
- * - `ColourUtils.toHSL`
+ * - `ColourTools.toHSL`
  *
  * Convert a RGB array to a HSL array.
  *
  * Adapted from https://www.30secondsofcode.org/js/s/rgb-to-hsl
  *
  * ```typescript
- * ColourUtils.toHSL([255, 0, 0]); // [0, 100, 50]
- * ColourUtils.toHSL([0, 255, 0]); // [120, 100, 50]
+ * ColourTools.toHSL([255, 0, 0]); // [0, 100, 50]
+ * ColourTools.toHSL([0, 255, 0]); // [120, 100, 50]
  * ```
  */
 export const toHSL = (colour: ColourValues, round: boolean = true): HSLValues => {
@@ -463,15 +463,15 @@ export const toHSL = (colour: ColourValues, round: boolean = true): HSLValues =>
 /**<!-- DOCS: ### -->
  * fromHSL
  *
- * - `ColourUtils.fromHSL`
+ * - `ColourTools.fromHSL`
  *
  * Convert a HSL array to a RGB array.
  *
  * Adapted from https://www.30secondsofcode.org/js/s/hsl-to-rgb
  *
  * ```typescript
- * ColourUtils.fromHSL([0, 100, 50]); // [255, 0, 0]
- * ColourUtils.fromHSL([120, 100, 50]); // [0, 255, 0]
+ * ColourTools.fromHSL([0, 100, 50]); // [255, 0, 0]
+ * ColourTools.fromHSL([120, 100, 50]); // [0, 255, 0]
  * ```
  */
 export const fromHSL = (hsl: HSLValues, round: boolean = true): ColourValues => {
@@ -494,14 +494,14 @@ export const fromHSL = (hsl: HSLValues, round: boolean = true): ColourValues => 
 /**<!-- DOCS: ### -->
  * invertColour
  *
- * - `ColourUtils.invertColour`
+ * - `ColourTools.invertColour`
  *
  * Get the opposite colour of a given colour.
  *
  * ```typescript
- * ColourUtils.invertColour([255, 0, 0]); // [0, 255, 255]
- * ColourUtils.invertColour([0, 255, 0]); // [ 255, 0, 255 ]
- * ColourUtils.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
+ * ColourTools.invertColour([255, 0, 0]); // [0, 255, 255]
+ * ColourTools.invertColour([0, 255, 0]); // [ 255, 0, 255 ]
+ * ColourTools.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
  * ```
  */
 export const invertColour = ([r, g, b]: ColourValues): ColourValues => [255 - r, 255 - g, 255 - b];
@@ -512,15 +512,15 @@ const black = [0, 0, 0] as ColourValues;
 /**<!-- DOCS: ### -->
  * getContrastedColour
  *
- * - `ColourUtils.getContrastedColour`
+ * - `ColourTools.getContrastedColour`
  *
  * Get the colour that contrasts the most with a given colour. (White or black)
  *
  * Returned colour can be used as a text colour on top of the provided colour
  *
  * ```typescript
- * ColourUtils.getContrastedColour([255, 0, 0]); // [255, 255, 255]
- * ColourUtils.getContrastedColour([255, 255, 0]); // [0, 0, 0]
+ * ColourTools.getContrastedColour([255, 0, 0]); // [255, 255, 255]
+ * ColourTools.getContrastedColour([255, 255, 0]); // [0, 0, 0]
  * ```
  */
 export const getContrastedColour = (colour: ColourValues): ColourValues => (getLuminance(colour) > 186 ? black : white);
@@ -528,7 +528,7 @@ export const getContrastedColour = (colour: ColourValues): ColourValues => (getL
 /**<!-- DOCS: ### -->
  * getLimitedColour
  *
- * - `ColourUtils.getLimitedColour`
+ * - `ColourTools.getLimitedColour`
  *
  * Adjust a colour if a certain condition is met.
  * Used for lightening/darkening colours that are too light/dark
@@ -536,8 +536,8 @@ export const getContrastedColour = (colour: ColourValues): ColourValues => (getL
  * All values in functions are HSL
  *
  * ```typescript
- * ColourUtils.getLimitedColour([255, 255, 255], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 230, 230, 230 ]
- * ColourUtils.getLimitedColour([128, 128, 128], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 128, 128, 128 ]
+ * ColourTools.getLimitedColour([255, 255, 255], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 230, 230, 230 ]
+ * ColourTools.getLimitedColour([128, 128, 128], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 128, 128, 128 ]
  * ```
  */
 export const getLimitedColour = (colour: ColourValues, checkFn: (hsl: HSLValues) => boolean, adjustFn: (hsl: HSLValues) => HSLValues) => {

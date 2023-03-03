@@ -4,20 +4,20 @@ export * from './tools/waiters';
 export * from './tools/timer';
 export * from './tools/progressBar';
 export * from './tools/errorHandling';
-export * from './tools/PromiseUtils';
-export * from './tools/ArrayUtils';
-export * from './tools/ObjectUtils';
-export * from './tools/TimeUtils';
-export * from './tools/StringUtils';
+export * from './tools/PromiseTools';
+export * from './tools/ArrayTools';
+export * from './tools/ObjectTools';
+export * from './tools/TimeTools';
+export * from './tools/StringTools';
 export * from './tools/symbols';
 export * from './tools/queue';
 
 import * as times from './tools/times';
 import * as waiters from './tools/waiters';
 import * as progressBar from './tools/progressBar';
-import * as ColourUtils from './tools/ColourUtils';
+import * as ColourTools from './tools/ColourTools';
 
-export { times, waiters, progressBar, ColourUtils };
+export { times, waiters, progressBar, ColourTools };
 
 // Higher order functions
 import * as fn from './tools/fn';

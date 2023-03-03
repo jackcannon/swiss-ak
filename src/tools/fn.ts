@@ -1,5 +1,5 @@
-import { range, zip } from './ArrayUtils';
-import { StringUtils } from './StringUtils';
+import { range, zip } from './ArrayTools';
+import { StringTools } from './StringTools';
 
 //<!-- DOCS: 30 -->
 /**<!-- DOCS: ## -->
@@ -79,7 +79,7 @@ export const reject =
   (): Promise<T> =>
     Promise.reject(item);
 
-// TODO move to MathsUtils
+// TODO move to MathsTools
 /**<!-- DOCS: ### -->
  * fixFloat
  *
@@ -94,7 +94,7 @@ export const reject =
  */
 export const fixFloat = (num: number, precision = 6): number => Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision);
 
-// TODO move to MathsUtils
+// TODO move to MathsTools
 /**<!-- DOCS: ### -->
  * addAll
  *
@@ -612,7 +612,7 @@ export const everys = {
   isAllEqual
 };
 
-// TODO move to MathsUtils
+// TODO move to MathsTools
 /**<!-- DOCS: ### -->
  * round
  */
@@ -632,7 +632,7 @@ export const everys = {
  */
 export const floorTo = (to: number, value: number) => fixFloat(Math.floor(value / to) * to);
 
-// TODO move to MathsUtils
+// TODO move to MathsTools
 /**<!-- DOCS: #### -->
  * roundTo
  *
@@ -650,7 +650,7 @@ export const floorTo = (to: number, value: number) => fixFloat(Math.floor(value 
  */
 export const roundTo = (to: number, value: number) => fixFloat(Math.round(value / to) * to);
 
-// TODO move to MathsUtils
+// TODO move to MathsTools
 /**<!-- DOCS: #### -->
  * ceilTo
  *
@@ -667,7 +667,7 @@ export const roundTo = (to: number, value: number) => fixFloat(Math.round(value 
  */
 export const ceilTo = (to: number, value: number) => fixFloat(Math.ceil(value / to) * to);
 
-// TODO move to MathsUtils
+// TODO move to MathsTools
 export const round = {
   floorTo,
   roundTo,
@@ -675,7 +675,7 @@ export const round = {
   to: roundTo
 };
 
-// TODO move to MathsUtils
+// TODO move to MathsTools
 /**<!-- DOCS: ### -->
  * lerp
  *
@@ -689,7 +689,7 @@ export const round = {
  */
 export const lerp = (progress: number, fromVal: number, toVal: number): number => fromVal + (toVal - fromVal) * progress;
 
-// TODO move to MathsUtils
+// TODO move to MathsTools
 /**<!-- DOCS: ### -->
  * lerpArray
  *
@@ -704,7 +704,7 @@ export const lerp = (progress: number, fromVal: number, toVal: number): number =
 export const lerpArray = (progress: number, fromArr: number[], toArr: number[]): number[] =>
   zip(fromArr, toArr).map(([fromVal, toVal]) => lerp(progress, fromVal, toVal));
 
-// TODO move to MathsUtils
+// TODO move to MathsTools
 /**<!-- DOCS: ### -->
  * lerpObj
  *
@@ -722,7 +722,7 @@ export const lerpObj = <T extends object>(progress: number, fromObj: T, toObj: T
   return Object.fromEntries(lerped) as T;
 };
 
-// TODO move non high-level functions elsewhere (e.g. MathsUtils, StringUtils, etc)
+// TODO move non high-level functions elsewhere (e.g. MathsTools, StringTools, etc)
 /**<!-- DOCS: ### -->
  * clamp
  *
@@ -736,9 +736,3 @@ export const lerpObj = <T extends object>(progress: number, fromObj: T, toObj: T
  * ```
  */
 export const clamp = (value: number, min: number, max: number) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
-
-// TODO REMOVE
-export const capitalise = (str: string): string => {
-  console.warn('fn.capitalise is deprecated, use StringUtils.capitalize instead');
-  return StringUtils.capitalise(str);
-};
