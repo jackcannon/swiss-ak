@@ -261,7 +261,10 @@ var toReadableDuration = (duration, longNames = false, maxUnits = 3) => {
     return `${amount}${label}`;
   });
   if (longNames) {
-    return [...results.slice(0, -1), "&&&&", ...results.slice(-1)].join(", ").replace("&&&&,", "&");
+    if (results.length <= 1) {
+      return results.join("");
+    }
+    return [...results.slice(0, -1), "&&&&", ...results.slice(-1)].join(", ").replace("&&&&,", "&").replace(", &", " &");
   }
   return results.join(" ");
 };
@@ -704,7 +707,7 @@ var lerpObj = (progress, fromObj, toObj) => {
   const lerped = entries2.map(([key, fromVal]) => typeof fromVal === "number" ? [key, lerp(progress, fromVal, toObj[key])] : [key, fromVal]);
   return Object.fromEntries(lerped);
 };
-var clamp = (value, a, b) => Math.max(Math.min(a, b), Math.min(value, Math.max(a, b)));
+var clamp = (value, min, max) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
 var capitalise2 = (str) => {
   console.warn("fn.capitalise is deprecated, use StringUtils.capitalize instead");
   return StringUtils.capitalise(str);
@@ -1062,7 +1065,7 @@ var symbols = {
     "*": "\xB0"
   }
 };
-var superscript = (num) => num.toString().split("").map((char) => symbols.SUPERSCRIPT[char] || symbols.SUPERSCRIPT["*"]).join("");
+var superscript = (num) => (num ?? "").toString().split("").map((char) => symbols.SUPERSCRIPT[char] || symbols.SUPERSCRIPT["*"]).join("");
 
 // src/tools/queue.ts
 var QueueManager = class {

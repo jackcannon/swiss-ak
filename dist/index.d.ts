@@ -1,4 +1,13 @@
-/**
+/**<!-- DOCS: ## -->
+ * Helper Types
+ *
+ * Some commonly used types
+ */
+/**<!-- DOCS: ### -->
+ * Partial<T>
+ *
+ * - `Partial`
+ *
  * Makes all properties in T optional.
  *
  * ```typescript
@@ -12,7 +21,11 @@
 declare type Partial$1<T> = {
     [K in keyof T]?: T[K];
 };
-/**
+/**<!-- DOCS: ### -->
+ * KeysOnly<T>
+ *
+ * - `KeysOnly`
+ *
  * Makes all the values equal to the keys of T
  *
  * ```typescript
@@ -26,7 +39,11 @@ declare type Partial$1<T> = {
 declare type KeysOnly<T> = {
     [K in keyof T]: K;
 };
-/**
+/**<!-- DOCS: ### -->
+ * Numbered<T>
+ *
+ * - `Numbered`
+ *
  * Makes all the values numbers
  *
  * ```typescript
@@ -35,26 +52,38 @@ declare type KeysOnly<T> = {
  *   b: boolean
  * };
  * type NumberedTest = Numbered<ITest>; // { a: number, b: number }
+ * ```
  */
 declare type Numbered<T> = {
     [K in keyof T]: number;
 };
-/**
+/**<!-- DOCS: ### -->
  * OfType<T, U>
+ *
+ * - `OfType`
  *
  * Makes all the properties of object T have type U
  */
 declare type OfType<T, U> = {
     [K in keyof T]: U;
 };
-/**
+/**<!-- DOCS: ### -->
  * ObjOfType<T>
+ *
+ * - `ObjOfType`
  *
  * An object with any properties of type T
  */
 declare type ObjOfType<T = string> = {
     [key: string]: T;
 };
+/**<!-- DOCS: ### -->
+ * ObjOfType<T>
+ *
+ * - `ObjOfType`
+ *
+ * An object with any properties of type T
+ */
 declare type RemapOf<O = Object, T = string> = {
     [K in keyof O]: T;
 };
@@ -164,7 +193,12 @@ declare namespace times {
   };
 }
 
-/**
+/**<!-- DOCS: ### -->
+ * wait
+ *
+ * - `wait`
+ * - `waiters.wait`
+ *
  * Standard wait promise (using setTimeout)
  *
  * ```typescript
@@ -176,7 +210,12 @@ declare namespace times {
  * ```
  */
 declare const wait: (time: ms) => Promise<unknown>;
-/**
+/**<!-- DOCS: ### -->
+ * waitUntil
+ *
+ * - `waitUntil`
+ * - `waiters.waitUntil`
+ *
  * Accurate (pinged) wait until given time
  *
  * ```typescript
@@ -188,7 +227,12 @@ declare const wait: (time: ms) => Promise<unknown>;
  * ```
  */
 declare const waitUntil: (time: ms) => Promise<null>;
-/**
+/**<!-- DOCS: ### -->
+ * waitFor
+ *
+ - `waitFor`
+ - `waiters.waitFor`
+ *
  * Accurate (pinged) wait the given ms
  *
  * ```typescript
@@ -200,7 +244,12 @@ declare const waitUntil: (time: ms) => Promise<null>;
  * ```
  */
 declare const waitFor: (time: ms) => Promise<null>;
-/**
+/**<!-- DOCS: ### -->
+ * waitEvery
+ *
+ - `waitEvery`
+ - `waiters.waitEvery`
+ *
  * Accurate (pinged) wait for next 'every X' event
  *
  * ```typescript
@@ -212,7 +261,12 @@ declare const waitFor: (time: ms) => Promise<null>;
  * ```
  */
 declare const waitEvery: (timing: ms, offset?: ms) => Promise<null>;
-/**
+/**<!-- DOCS: ### -->
+ * stopInterval
+ *
+ - `stopInterval`
+ - `waiters.stopInterval`
+ *
  * ```typescript
  * import { interval, stopInterval } from 'swiss-ak';
  *
@@ -226,7 +280,12 @@ declare const waitEvery: (timing: ms, offset?: ms) => Promise<null>;
  * ```
  */
 declare const stopInterval: (intID: number) => number;
-/**
+/**<!-- DOCS: ### -->
+ * interval
+ *
+ - `interval`
+ - `waiters.interval`
+ *
  * Accurate (pinged) interval for every 'every X' event
  *
  * ```typescript
@@ -260,6 +319,11 @@ declare namespace waiters {
   };
 }
 
+/**<!-- DOCS: ## -->
+ * timer
+ *
+ * A debug tool for measuring the duration of code blocks.
+ */
 interface INames {
     [k: string]: string;
 }
@@ -285,7 +349,11 @@ interface ITimer<TName> {
     names: KeysOnly<TName>;
     displayNames: TName;
 }
-/**
+/**<!-- DOCS: ### -->
+ * getTimer
+ *
+ * - `getTimer`
+ *
  * Usage:
  * ```typescript
  * const timer = getTimer('Example', false, chalk.red, chalk, {
@@ -315,12 +383,28 @@ interface ITimer<TName> {
  * ```
  */
 declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean, wrapperFn?: any, chalk?: any, displayNames?: TName) => ITimer<TName> & KeysOnly<TName>;
-/**
+/**<!-- DOCS: ### -->
+ * timer
+ *
+ * - `timer`
+ *
  * Global timer
  */
 declare const timer: ITimer<INames> & KeysOnly<INames>;
 
-/**
+/**<!-- DOCS: ## -->
+ * progressBar
+ *
+ * A progress bar that can be used in the terminal.
+ *
+ * > NOTE: This is eventually be moved to `swiss-node`
+ */
+/**<!-- DOCS: ### -->
+ * printLn
+ *
+ * - `printLn`
+ * - `progressBar.printLn`
+ *
  * Can use instead of console.log
  *
  * Overwrites the previous line if possible (i.e. node);
@@ -362,6 +446,34 @@ interface ProgressBarOptionsFull {
     showCurrent: boolean;
     currentChar: string;
 }
+/**<!-- DOCS: ### -->
+ * Options
+ *
+ * - `ProgressBarOptions`
+ * - `progressBar.ProgressBarOptions`
+ *
+ * All options are optional.
+ *
+ * | Property         | Default                           | Description                                            |
+ * | ---------------- | --------------------------------- | ------------------------------------------------------ |
+ * | prefix           | `''`                              | String to show to left of progress bar                 |
+ * | prefixWidth      | `1`                               | Min width of prefix - `10` => `Example˽˽˽`             |
+ * | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
+ * | wrapperFn        | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
+ * | barWrapFn        | nothing                           | function to wrap the bar                               |
+ * | barProgWrapFn    | nothing                           | function to wrap the 'complete' segment of the bar     |
+ * | barCurrentWrapFn | nothing                           | function to wrap the 'current' segment of the bar      |
+ * | barEmptyWrapFn   | nothing                           | function to wrap the empty/track part of the line      |
+ * | showCount        | `true`                            | Show numerical values of the count - `[11 / 15]`       |
+ * | showPercent      | `false`                           | Show percentage completed - `( 69%)`                   |
+ * | countWidth       | `0`                               | Min width of nums for showCount - `3` => `[˽˽1 / ˽15]` |
+ * | progChar         | `'█'`                             | Character to use for progress section of bar           |
+ * | emptyChar        | `' '`                             | Character to use for empty (rail) section of bar       |
+ * | startChar        | `'▕'`                             | Character to start the progress bar with               |
+ * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
+ * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
+ * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+ */
 declare type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
 interface ProgressBar {
     next: () => string;
@@ -372,7 +484,12 @@ interface ProgressBar {
     finish: () => string;
     readonly max: number;
 }
-/**
+/**<!-- DOCS: ### -->
+ * getProgressBar
+ *
+ * - `getProgressBar`
+ * - `progressBar.getProgressBar`
+ *
  * Usage:
  * ```typescript
  * import chalk from 'chalk'
@@ -418,8 +535,15 @@ declare namespace progressBar {
   };
 }
 
-/**
+/**<!-- DOCS: ## -->
+ * Error Handling
+ *
+ * Functions for handling errors.
+ */
+/**<!-- DOCS: ### -->
  * tryOr
+ *
+ * - `tryOr`
  *
  * Try to execute a function and return its result if it succeeds, or return the default value if it fails.
  *
@@ -428,8 +552,10 @@ declare namespace progressBar {
  * ```
  */
 declare const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: (...args: A) => Promise<T>, ...args: A) => Promise<T>;
-/**
+/**<!-- DOCS: ### -->
  * retry
+ *
+ * - `retry`
  *
  * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
  *
@@ -438,8 +564,10 @@ declare const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: 
  * ```
  */
 declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
-/**
+/**<!-- DOCS: ### -->
  * retryOr
+ *
+ * - `retryOr`
  *
  * Combination of retry and tryOr.
  *
@@ -451,12 +579,22 @@ declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress
  */
 declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, suppress?: boolean, run?: () => T) => Promise<T>;
 
+/**<!-- DOCS: ## -->
+ * PromiseUtils
+ *
+ * A collection of promise utilities
+ */
 interface DeferredPromise<T> {
     resolve: (value: T) => Promise<T>;
     reject: (value: T) => Promise<T>;
     promise: Promise<T>;
 }
-/**
+/**<!-- DOCS: ### -->
+ * getDeferred
+ *
+ * - `getDeferred`
+ * - `PromiseUtils.getDeferred`
+ *
  * A deferred promise
  *
  * ```typescript
@@ -478,11 +616,21 @@ interface DeferredPromise<T> {
 ```
  */
 declare const getDeferred: <T extends unknown>() => DeferredPromise<T>;
-/**
+/**<!-- DOCS: ### -->
+ * all
+ *
+ * - `all`
+ * - `PromiseUtils.all`
+ *
  * An alias for Promise.all
  */
 declare const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
-/**
+/**<!-- DOCS: ### -->
+ * allLimit
+ *
+ * - `allLimit`
+ * - `PromiseUtils.allLimit`
+ *
  * Like Promise.all, but limits the numbers of concurrently running items.
  *
  * Takes an array of functions (that return Promises), rather than an array of Promises
@@ -519,7 +667,12 @@ declare const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
  * ```
  */
 declare const allLimit: <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow?: boolean) => Promise<T[]>;
-/**
+/**<!-- DOCS: ### -->
+ * each
+ *
+ * - `each`
+ * - `PromiseUtils.each`
+ *
  * Run an async function against each item in an array
  *
  * ```typescript
@@ -535,7 +688,12 @@ declare const allLimit: <T extends unknown>(limit: number, items: ((index: numbe
  * ```
  */
 declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
-/**
+/**<!-- DOCS: ### -->
+ * eachLimit
+ *
+ * - `eachLimit`
+ * - `PromiseUtils.eachLimit`
+ *
  * Run an async function against each item in an array, limiting the number of items that can run concurrently.
  *
  * See PromiseUtils.allLimit for information about limited functions.
@@ -553,7 +711,12 @@ declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: nu
  * ```
  */
 declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
-/**
+/**<!-- DOCS: ### -->
+ * map
+ *
+ * - `map`
+ * - `PromiseUtils.map`
+ *
  * Run an async map function against each item in an array, mapping the results to a returned array
  *
  * ```typescript
@@ -570,7 +733,12 @@ declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: 
  * ```
  */
 declare const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
-/**
+/**<!-- DOCS: ### -->
+ * mapLimit
+ *
+ * - `mapLimit`
+ * - `PromiseUtils.mapLimit`
+ *
  * Run an async map function against each item in an array, mapping the results to a returned array, and limiting the number of items that can run concurrently.
  *
  * See PromiseUtils.allLimit for information about limited functions.
@@ -593,7 +761,12 @@ declare type UnWrapPromise<T> = T extends Promise<infer U> ? U : T;
 declare type UnWrapPromiseObject<T> = {
     [K in keyof T]: UnWrapPromise<T[K]>;
 };
-/**
+/**<!-- DOCS: ### -->
+ * allObj
+ *
+ * - `allObj`
+ * - `PromiseUtils.allObj`
+ *
  * Like Promise.all, but pass/receive objects rather than arrays
  *
  * ```typescript
@@ -626,7 +799,12 @@ declare type UnWrapPromiseObject<T> = {
  * ```
  */
 declare const allObj: <T extends Object>(input: T) => Promise<UnWrapPromiseObject<T>>;
-/**
+/**<!-- DOCS: ### -->
+ * allLimitObj
+ *
+ * - `allLimitObj`
+ * - `PromiseUtils.allLimitObj`
+ *
  * A mix of allObj and allLimit.
  *
  * Takes an array of functions (that return Promises), and limits the numbers of concurrently running items.
@@ -675,24 +853,39 @@ declare const PromiseUtils: {
     allLimitObj: <T_4 extends Object>(limit: number, input: T_4, noThrow?: boolean) => Promise<UnWrapPromiseObject<T_4>>;
 };
 
-/**
+/**<!-- DOCS: ## -->
+ * ArrayUtils
+ *
+ * A collection of useful array functions.
+ */
+/**<!-- DOCS: ### -->
+ * range
+ *
+ * - `range`
+ * - `ArrayUtils.range`
+ *
  * Returns an array of the given length, where each value is equal to it's index
  * e.g. [0, 1, 2, ..., length]
  *
  * ```typescript
- * range(3);  // [0, 1, 2]
- * range(5);  // [0, 1, 2, 3, 4]
- * range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+ * ArrayUtils.range(3);  // [0, 1, 2]
+ * ArrayUtils.range(5);  // [0, 1, 2, 3, 4]
+ * ArrayUtils.range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
  *
- * range(3, 2);  // [0, 2, 4]
- * range(5, 2);  // [0, 2, 4, 6, 8]
- * range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
+ * ArrayUtils.range(3, 2);  // [0, 2, 4]
+ * ArrayUtils.range(5, 2);  // [0, 2, 4, 6, 8]
+ * ArrayUtils.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
  * ```
  */
 declare const range: (length?: number, multiplier?: number, offset?: number) => number[];
 declare type UnwrapArray<T> = T extends Array<infer U> ? U : T;
 declare type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];
-/**
+/**<!-- DOCS: ### -->
+ * zip
+ *
+ * - `zip`
+ * - `ArrayUtils.zip`
+ *
  * Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
  *
  * Limited to the length of the shortest provided array
@@ -700,17 +893,38 @@ declare type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infe
  * Inspired by python's 'zip'
  *
  * ```typescript
- * zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
+ * ArrayUtils.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
  * ```
  */
 declare const zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
+/**<!-- DOCS: ### -->
+ * zipMax
+ *
+ * - `zipMax`
+ * - `ArrayUtils.zipMax`
+ *
+ * Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
+ *
+ * Unlike `zip`, it will match the length of the longest provided array, filling in any missing values with `undefined`
+ *
+ * Inspired by python's 'zip'
+ *
+ * ```typescript
+ * ArrayUtils.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
+ * ```
+ */
 declare const zipMax: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
-/**
+/**<!-- DOCS: ### -->
+ * sortByMapped
+ *
+ * - `sortByMapped`
+ * - `ArrayUtils.sortByMapped`
+ *
  * Sort an array by a mapped form of the values, but returning the initial values
  *
  * ```typescript
- * sortByMapped(['2p', '3p', '1p'], (v) => Number(v.replace('p', ''))); // ['1p', '2p', '3p']
- * sortByMapped(
+ * ArrayUtils.sortByMapped(['2p', '3p', '1p'], (v) => Number(v.replace('p', ''))); // ['1p', '2p', '3p']
+ * ArrayUtils.sortByMapped(
  *   ['2p', '3p', '1p'],
  *   (v) => Number(v.replace('p', '')),
  *   (a, b) => b - a
@@ -718,19 +932,29 @@ declare const zipMax: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
  * ```
  */
 declare const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn?: (a: M, b: M) => number) => T[];
-/**
+/**<!-- DOCS: ### -->
+ * randomise
+ *
+ * - `randomise`
+ * - `ArrayUtils.randomise`
+ *
  * Returns a clone of the provided array with it's items in a random order
  *
  * ```typescript
- * randomise([1, 2, 3, 4, 5, 6]); // [ 5, 3, 4, 1, 2, 6 ]
- * randomise([1, 2, 3, 4, 5, 6]); // [ 5, 1, 3, 2, 4, 6 ]
- * randomise([1, 2, 3, 4, 5, 6]); // [ 6, 1, 4, 5, 2, 3 ]
- * randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
- * randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
+ * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 5, 3, 4, 1, 2, 6 ]
+ * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 5, 1, 3, 2, 4, 6 ]
+ * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 6, 1, 4, 5, 2, 3 ]
+ * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
+ * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
  * ```
  */
 declare const randomise: <T = string>(arr: T[]) => T[];
-/**
+/**<!-- DOCS: ### -->
+ * reverse
+ *
+ * - `reverse`
+ * - `ArrayUtils.reverse`
+ *
  * Returns a new array with the order reversed without affecting original array
  *
  * ```typescript
@@ -741,17 +965,22 @@ declare const randomise: <T = string>(arr: T[]) => T[];
  *
  * const arr2 = [1, 2, 3];
  * arr2            // [1, 2, 3]
- * reverse(arr2);  // [3, 2, 1]
+ * ArrayUtils.reverse(arr2);  // [3, 2, 1]
  * arr2            // [1, 2, 3]
  * ```
  */
 declare const reverse: <T = string>(arr: T[]) => T[];
-/**
+/**<!-- DOCS: ### -->
+ * entries
+ *
+ * - `entries`
+ * - `ArrayUtils.entries`
+ *
  * Returns array of 'tuples' of index/value pairs
  *
  * ```typescript
  * const arr = ['a', 'b', 'c'];
- * entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
+ * ArrayUtils.entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
  *
  * for (let [index, value] of entries(arr)) {
  *  console.log(index); // 0, 1, 2
@@ -760,53 +989,105 @@ declare const reverse: <T = string>(arr: T[]) => T[];
  * ```
  */
 declare const entries: <T = string>(arr: T[]) => [number, T][];
-/**
- * ArrayUtils.repeat
+/**<!-- DOCS: ### -->
+ * repeat
+ *
+ * - `repeat`
+ * - `ArrayUtils.repeat`
  *
  * Returns an array with the given items repeated
  *
  * ```typescript
- * repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
- * repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
+ * ArrayUtils.repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
+ * ArrayUtils.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
  * ```
  */
 declare const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
-/**
- * ArrayUtils.roll
+/**<!-- DOCS: ### -->
+ * roll
+ *
+ * - `roll`
+ * - `ArrayUtils.roll`
  *
  * 'Roll' the array by a given amount so that is has a new first item. Length and contents remain the same, but the order is changed
  *
  * ```typescript
- * roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
- * roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
+ * ArrayUtils.roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
+ * ArrayUtils.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
  * ```
  */
 declare const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
-/**
- * ArrayUtils.sortNumberedText
+/**<!-- DOCS: ### -->
+ * sortNumberedText
+ *
+ * - `sortNumberedText`
+ * - `ArrayUtils.sortNumberedText`
  *
  * Alphabetically sorts a list of strings, but keeps multi-digit numbers in numerical order (rather than alphabetical)
  *
  * ```typescript
  * const names = ['name1', 'name10', 'name2', 'foo20', 'foo10', 'foo9'];
  * names.sort(); // [ 'foo10', 'foo20', 'foo9', 'name1', 'name10', 'name2' ]
- * sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
+ * ArrayUtils.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
  * ```
  */
 declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
-/**
- * To equal size 2d array
+/**<!-- DOCS: ### -->
+ * partition
+ *
+ * - `partition`
+ * - `ArrayUtils.partition`
+ *
+ * Breaks an array into smaller arrays of a given size
+ *
+ * ```typescript
+ * ArrayUtils.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
+ * ```
  */
 declare const partition: <T extends unknown>(array: T[], partitionSize?: number) => T[][];
-/**
- * group items into an object of arrays, based on a given map function.
+/**<!-- DOCS: ### -->
+ * groupObj
+ *
+ * - `groupObj`
+ * - `ArrayUtils.groupObj`
+ *
+ * Group items from an array into an object of arrays, based on a given map function.
+ *
+ * ```typescript
+ * const arr = [
+ *   { group: 1, name: 'a' },
+ *   { group: 2, name: 'b' },
+ *   { group: 1, name: 'c' },
+ * ];
+ * ArrayUtils.groupObj(arr, item => item.id); // {
+ * //   1: [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
+ * //   2: [ { group: 2, name: 'b' } ]
+ * // }
+ * ```
  */
 declare const groupObj: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => {
     [id: string]: T[];
     [id: number]: T[];
 };
-/**
- * group items into an array of arrays, based on a given map function.
+/**<!-- DOCS: ### -->
+ * group
+ *
+ * - `group`
+ * - `ArrayUtils.group`
+ *
+ * Group items from an array into an array of arrays, based on a given map function.
+ *
+ * ```typescript
+ * const arr = [
+ *   { group: 1, name: 'a' },
+ *   { group: 2, name: 'b' },
+ *   { group: 1, name: 'c' },
+ * ];
+ * ArrayUtils.groupObj(arr, item => item.id); // [
+ * //   [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
+ * //   [ { group: 2, name: 'b' } ]
+ * // ]
+ * ```
  */
 declare const group: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
 declare const ArrayUtils: {
@@ -846,21 +1127,183 @@ declare const TimeUtils: {
     toReadableDuration: (duration: ms, longNames?: boolean, maxUnits?: number) => string;
 };
 
+/**<!-- DOCS: ## -->
+ * StringUtils
+ *
+ * A collection of string utilities
+ */
 declare type CaseInput = string | string[];
+/**<!-- DOCS: ### -->
+ * StringCaseHandler
+ */
 interface StringCaseHandler {
+    /**<!-- DOCS: #### -->
+     * toLowerCamelCase
+     *
+     * - `StringUtils.toLowerCamelCase`
+     * - `StringUtils.fromSlugCase.toLowerCamelCase`
+     * - `StringUtils.fromSnakeCase.toLowerCamelCase`
+     * - `StringUtils.fromSpaced.toLowerCamelCase`
+     * - `StringUtils.fromCamelCase.toLowerCamelCase`
+     *
+     * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
+     */
     toLowerCamelCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toUpperCamelCase
+     *
+     * - `StringUtils.toUpperCamelCase`
+     * - `StringUtils.fromSlugCase.toUpperCamelCase`
+     * - `StringUtils.fromSnakeCase.toUpperCamelCase`
+     * - `StringUtils.fromSpaced.toUpperCamelCase`
+     * - `StringUtils.fromCamelCase.toUpperCamelCase`
+     *
+     * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
+     */
     toUpperCamelCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toCamelCase
+     *
+     * - `StringUtils.toCamelCase`
+     * - `StringUtils.fromSlugCase.toCamelCase`
+     * - `StringUtils.fromSnakeCase.toCamelCase`
+     * - `StringUtils.fromSpaced.toCamelCase`
+     * - `StringUtils.fromCamelCase.toCamelCase`
+     *
+     * Convert a string to camel case (e.g. `thisIsCamelCase`)
+     */
     toCamelCase(input: CaseInput, capitaliseFirst?: boolean): string;
+    /**<!-- DOCS: #### -->
+     * toLowerSlugCase
+     *
+     * - `StringUtils.toLowerSlugCase`
+     * - `StringUtils.fromSlugCase.toLowerSlugCase`
+     * - `StringUtils.fromSnakeCase.toLowerSlugCase`
+     * - `StringUtils.fromSpaced.toLowerSlugCase`
+     * - `StringUtils.fromCamelCase.toLowerSlugCase`
+     *
+     * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
+     */
     toLowerSlugCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toUpperSlugCase
+     *
+     * - `StringUtils.toUpperSlugCase`
+     * - `StringUtils.fromSlugCase.toUpperSlugCase`
+     * - `StringUtils.fromSnakeCase.toUpperSlugCase`
+     * - `StringUtils.fromSpaced.toUpperSlugCase`
+     * - `StringUtils.fromCamelCase.toUpperSlugCase`
+     *
+     * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
+     */
     toUpperSlugCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toSlugCase
+     *
+     * - `StringUtils.toSlugCase`
+     * - `StringUtils.fromSlugCase.toSlugCase`
+     * - `StringUtils.fromSnakeCase.toSlugCase`
+     * - `StringUtils.fromSpaced.toSlugCase`
+     * - `StringUtils.fromCamelCase.toSlugCase`
+     *
+     * Convert a string to camel case (e.g. `this-is-slug-case`)
+     */
     toSlugCase(input: CaseInput, toUpper?: boolean): string;
+    /**<!-- DOCS: #### -->
+     * toLowerSnakeCase
+     *
+     * - `StringUtils.toLowerSnakeCase`
+     * - `StringUtils.fromSlugCase.toLowerSnakeCase`
+     * - `StringUtils.fromSnakeCase.toLowerSnakeCase`
+     * - `StringUtils.fromSpaced.toLowerSnakeCase`
+     * - `StringUtils.fromCamelCase.toLowerSnakeCase`
+     *
+     * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
+     */
     toLowerSnakeCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toUpperSnakeCase
+     *
+     * - `StringUtils.toUpperSnakeCase`
+     * - `StringUtils.fromSlugCase.toUpperSnakeCase`
+     * - `StringUtils.fromSnakeCase.toUpperSnakeCase`
+     * - `StringUtils.fromSpaced.toUpperSnakeCase`
+     * - `StringUtils.fromCamelCase.toUpperSnakeCase`
+     *
+     * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
+     */
     toUpperSnakeCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toSnakeCase
+     *
+     * - `StringUtils.toSnakeCase`
+     * - `StringUtils.fromSlugCase.toSnakeCase`
+     * - `StringUtils.fromSnakeCase.toSnakeCase`
+     * - `StringUtils.fromSpaced.toSnakeCase`
+     * - `StringUtils.fromCamelCase.toSnakeCase`
+     *
+     * Convert a string to snake case (e.g. `this_is_snake_case`)
+     */
     toSnakeCase(input: CaseInput, toUpper?: boolean): string;
+    /**<!-- DOCS: #### -->
+     * toLowerSpaced
+     *
+     * - `StringUtils.toLowerSpaced`
+     * - `StringUtils.fromSlugCase.toLowerSpaced`
+     * - `StringUtils.fromSnakeCase.toLowerSpaced`
+     * - `StringUtils.fromSpaced.toLowerSpaced`
+     * - `StringUtils.fromCamelCase.toLowerSpaced`
+     *
+     * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
+     */
     toLowerSpaced(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toUpperSpaced
+     *
+     * - `StringUtils.toUpperSpaced`
+     * - `StringUtils.fromSlugCase.toUpperSpaced`
+     * - `StringUtils.fromSnakeCase.toUpperSpaced`
+     * - `StringUtils.fromSpaced.toUpperSpaced`
+     * - `StringUtils.fromCamelCase.toUpperSpaced`
+     *
+     * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
+     */
     toUpperSpaced(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toCapitalisedSpaced
+     *
+     * - `StringUtils.toCapitalisedSpaced`
+     * - `StringUtils.fromSlugCase.toCapitalisedSpaced`
+     * - `StringUtils.fromSnakeCase.toCapitalisedSpaced`
+     * - `StringUtils.fromSpaced.toCapitalisedSpaced`
+     * - `StringUtils.fromCamelCase.toCapitalisedSpaced`
+     *
+     * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
+     */
     toCapitalisedSpaced(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toSpaced
+     *
+     * - `StringUtils.toSpaced`
+     * - `StringUtils.fromSlugCase.toSpaced`
+     * - `StringUtils.fromSnakeCase.toSpaced`
+     * - `StringUtils.fromSpaced.toSpaced`
+     * - `StringUtils.fromCamelCase.toSpaced`
+     *
+     * Convert a string to spaced case (e.g. `this is spaced case`)
+     */
     toSpaced(input: CaseInput, toUpper?: boolean): string;
+    /**<!-- DOCS: #### -->
+     * toCharacterSeparated
+     *
+     * - `StringUtils.toCharacterSeparated`
+     * - `StringUtils.fromSlugCase.toCharacterSeparated`
+     * - `StringUtils.fromSnakeCase.toCharacterSeparated`
+     * - `StringUtils.fromSpaced.toCharacterSeparated`
+     * - `StringUtils.fromCamelCase.toCharacterSeparated`
+     *
+     * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
+     */
     toCharacterSeparated(input: CaseInput, char: string, toUpper?: boolean): string;
 }
 declare const StringUtils: {
@@ -868,29 +1311,245 @@ declare const StringUtils: {
     fromSnakeCase: StringCaseHandler;
     fromSpaced: StringCaseHandler;
     fromCamelCase: StringCaseHandler;
+    /**<!-- DOCS: #### -->
+     * toLowerCamelCase
+     *
+     * - `StringUtils.toLowerCamelCase`
+     * - `StringUtils.fromSlugCase.toLowerCamelCase`
+     * - `StringUtils.fromSnakeCase.toLowerCamelCase`
+     * - `StringUtils.fromSpaced.toLowerCamelCase`
+     * - `StringUtils.fromCamelCase.toLowerCamelCase`
+     *
+     * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
+     */
     toLowerCamelCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toUpperCamelCase
+     *
+     * - `StringUtils.toUpperCamelCase`
+     * - `StringUtils.fromSlugCase.toUpperCamelCase`
+     * - `StringUtils.fromSnakeCase.toUpperCamelCase`
+     * - `StringUtils.fromSpaced.toUpperCamelCase`
+     * - `StringUtils.fromCamelCase.toUpperCamelCase`
+     *
+     * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
+     */
     toUpperCamelCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toCamelCase
+     *
+     * - `StringUtils.toCamelCase`
+     * - `StringUtils.fromSlugCase.toCamelCase`
+     * - `StringUtils.fromSnakeCase.toCamelCase`
+     * - `StringUtils.fromSpaced.toCamelCase`
+     * - `StringUtils.fromCamelCase.toCamelCase`
+     *
+     * Convert a string to camel case (e.g. `thisIsCamelCase`)
+     */
     toCamelCase(input: CaseInput, capitaliseFirst?: boolean): string;
+    /**<!-- DOCS: #### -->
+     * toLowerSlugCase
+     *
+     * - `StringUtils.toLowerSlugCase`
+     * - `StringUtils.fromSlugCase.toLowerSlugCase`
+     * - `StringUtils.fromSnakeCase.toLowerSlugCase`
+     * - `StringUtils.fromSpaced.toLowerSlugCase`
+     * - `StringUtils.fromCamelCase.toLowerSlugCase`
+     *
+     * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
+     */
     toLowerSlugCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toUpperSlugCase
+     *
+     * - `StringUtils.toUpperSlugCase`
+     * - `StringUtils.fromSlugCase.toUpperSlugCase`
+     * - `StringUtils.fromSnakeCase.toUpperSlugCase`
+     * - `StringUtils.fromSpaced.toUpperSlugCase`
+     * - `StringUtils.fromCamelCase.toUpperSlugCase`
+     *
+     * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
+     */
     toUpperSlugCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toSlugCase
+     *
+     * - `StringUtils.toSlugCase`
+     * - `StringUtils.fromSlugCase.toSlugCase`
+     * - `StringUtils.fromSnakeCase.toSlugCase`
+     * - `StringUtils.fromSpaced.toSlugCase`
+     * - `StringUtils.fromCamelCase.toSlugCase`
+     *
+     * Convert a string to camel case (e.g. `this-is-slug-case`)
+     */
     toSlugCase(input: CaseInput, toUpper?: boolean): string;
+    /**<!-- DOCS: #### -->
+     * toLowerSnakeCase
+     *
+     * - `StringUtils.toLowerSnakeCase`
+     * - `StringUtils.fromSlugCase.toLowerSnakeCase`
+     * - `StringUtils.fromSnakeCase.toLowerSnakeCase`
+     * - `StringUtils.fromSpaced.toLowerSnakeCase`
+     * - `StringUtils.fromCamelCase.toLowerSnakeCase`
+     *
+     * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
+     */
     toLowerSnakeCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toUpperSnakeCase
+     *
+     * - `StringUtils.toUpperSnakeCase`
+     * - `StringUtils.fromSlugCase.toUpperSnakeCase`
+     * - `StringUtils.fromSnakeCase.toUpperSnakeCase`
+     * - `StringUtils.fromSpaced.toUpperSnakeCase`
+     * - `StringUtils.fromCamelCase.toUpperSnakeCase`
+     *
+     * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
+     */
     toUpperSnakeCase(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toSnakeCase
+     *
+     * - `StringUtils.toSnakeCase`
+     * - `StringUtils.fromSlugCase.toSnakeCase`
+     * - `StringUtils.fromSnakeCase.toSnakeCase`
+     * - `StringUtils.fromSpaced.toSnakeCase`
+     * - `StringUtils.fromCamelCase.toSnakeCase`
+     *
+     * Convert a string to snake case (e.g. `this_is_snake_case`)
+     */
     toSnakeCase(input: CaseInput, toUpper?: boolean): string;
+    /**<!-- DOCS: #### -->
+     * toLowerSpaced
+     *
+     * - `StringUtils.toLowerSpaced`
+     * - `StringUtils.fromSlugCase.toLowerSpaced`
+     * - `StringUtils.fromSnakeCase.toLowerSpaced`
+     * - `StringUtils.fromSpaced.toLowerSpaced`
+     * - `StringUtils.fromCamelCase.toLowerSpaced`
+     *
+     * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
+     */
     toLowerSpaced(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toUpperSpaced
+     *
+     * - `StringUtils.toUpperSpaced`
+     * - `StringUtils.fromSlugCase.toUpperSpaced`
+     * - `StringUtils.fromSnakeCase.toUpperSpaced`
+     * - `StringUtils.fromSpaced.toUpperSpaced`
+     * - `StringUtils.fromCamelCase.toUpperSpaced`
+     *
+     * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
+     */
     toUpperSpaced(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toCapitalisedSpaced
+     *
+     * - `StringUtils.toCapitalisedSpaced`
+     * - `StringUtils.fromSlugCase.toCapitalisedSpaced`
+     * - `StringUtils.fromSnakeCase.toCapitalisedSpaced`
+     * - `StringUtils.fromSpaced.toCapitalisedSpaced`
+     * - `StringUtils.fromCamelCase.toCapitalisedSpaced`
+     *
+     * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
+     */
     toCapitalisedSpaced(input: CaseInput): string;
+    /**<!-- DOCS: #### -->
+     * toSpaced
+     *
+     * - `StringUtils.toSpaced`
+     * - `StringUtils.fromSlugCase.toSpaced`
+     * - `StringUtils.fromSnakeCase.toSpaced`
+     * - `StringUtils.fromSpaced.toSpaced`
+     * - `StringUtils.fromCamelCase.toSpaced`
+     *
+     * Convert a string to spaced case (e.g. `this is spaced case`)
+     */
     toSpaced(input: CaseInput, toUpper?: boolean): string;
+    /**<!-- DOCS: #### -->
+     * toCharacterSeparated
+     *
+     * - `StringUtils.toCharacterSeparated`
+     * - `StringUtils.fromSlugCase.toCharacterSeparated`
+     * - `StringUtils.fromSnakeCase.toCharacterSeparated`
+     * - `StringUtils.fromSpaced.toCharacterSeparated`
+     * - `StringUtils.fromCamelCase.toCharacterSeparated`
+     *
+     * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
+     */
     toCharacterSeparated(input: CaseInput, char: string, toUpper?: boolean): string;
     capitalise: (input?: string) => string;
     angloise: (input: string) => string;
     clean: (input?: string) => string;
 };
 
-/**
+/**<!-- DOCS: ## -->
  * symbols
  *
+ * - `symbols`
+ *
  * A series of characters that can be used for display symbols
+ *
+ * | Name                    |                                   | Symbol |
+ * | :---------------------- | :-------------------------------- | :----: |
+ * | TAB                     | `symbols.TAB`                     |  ` `   |
+ * | TICK                    | `symbols.TICK`                    |   ✔    |
+ * | CROSS                   | `symbols.CROSS`                   |   ✖    |
+ * | PLUS                    | `symbols.PLUS`                    |   +    |
+ * | MINUS                   | `symbols.MINUS`                   |   -    |
+ * | TIMES                   | `symbols.TIMES`                   |   ×    |
+ * | DIVIDE                  | `symbols.DIVIDE`                  |   ÷    |
+ * | ELLIPSIS                | `symbols.ELLIPSIS`                |   …    |
+ * | BULLET                  | `symbols.BULLET`                  |   •    |
+ * | EJECT                   | `symbols.EJECT`                   |   ⏏    |
+ * | TILDE                   | `symbols.TILDE`                   |   ~    |
+ * | HOME                    | `symbols.HOME`                    |   ~    |
+ * | CHEV_LFT                | `symbols.CHEV_LFT`                |   ‹    |
+ * | CHEV_RGT                | `symbols.CHEV_RGT`                |   ›    |
+ * | TRI_UPP                 | `symbols.TRI_UPP`                 |   ▲    |
+ * | TRI_DWN                 | `symbols.TRI_DWN`                 |   ▼    |
+ * | TRI_RGT                 | `symbols.TRI_RGT`                 |   ▶    |
+ * | TRI_LFT                 | `symbols.TRI_LFT`                 |   ◀    |
+ * | ARROW_UPP               | `symbols.ARROW_UPP`               |   ↑    |
+ * | ARROW_DWN               | `symbols.ARROW_DWN`               |   ↓    |
+ * | ARROW_RGT               | `symbols.ARROW_RGT`               |   →    |
+ * | ARROW_LFT               | `symbols.ARROW_LFT`               |   ←    |
+ * | ARROW_UPP_RGT           | `symbols.ARROW_UPP_RGT`           |   ↗    |
+ * | ARROW_DWN_RGT           | `symbols.ARROW_DWN_RGT`           |   ↘    |
+ * | ARROW_DWN_LFT           | `symbols.ARROW_DWN_LFT`           |   ↙    |
+ * | ARROW_UPP_LFT           | `symbols.ARROW_UPP_LFT`           |   ↖    |
+ * | ARROW_STILL             | `symbols.ARROW_STILL`             |   •    |
+ * | ARROW_FLIP_H            | `symbols.ARROW_FLIP_H`            |   ↔    |
+ * | ARROW_FLIP_V            | `symbols.ARROW_FLIP_V`            |   ↕    |
+ * | ARROW_ROTATE_UPP        | `symbols.ARROW_ROTATE_UPP`        |   ⤴    |
+ * | ARROW_ROTATE_DWN        | `symbols.ARROW_ROTATE_DWN`        |   ⤵    |
+ * | ARROW_ROTATE_LFT        | `symbols.ARROW_ROTATE_LFT`        |   ⤶    |
+ * | ARROW_ROTATE_RGT        | `symbols.ARROW_ROTATE_RGT`        |   ⤷    |
+ * | ARROW_ROTATE_CLOCK      | `symbols.ARROW_ROTATE_CLOCK`      |   ↻    |
+ * | ARROW_ROTATE_ANTI_CLOCK | `symbols.ARROW_ROTATE_ANTI_CLOCK` |   ↺    |
+ * | FRACTION_1_4            | `symbols.FRACTION_1_4`            |   ¼    |
+ * | FRACTION_1_2            | `symbols.FRACTION_1_2`            |   ½    |
+ * | FRACTION_3_4            | `symbols.FRACTION_3_4`            |   ¾    |
+ * | SUPERSCRIPT             | `symbols.SUPERSCRIPT['1']`        |   ¹    |
+ * |                         | `symbols.SUPERSCRIPT['2']`        |   ²    |
+ * |                         | `symbols.SUPERSCRIPT['3']`        |   ³    |
+ * |                         | `symbols.SUPERSCRIPT['4']`        |   ⁴    |
+ * |                         | `symbols.SUPERSCRIPT['5']`        |   ⁵    |
+ * |                         | `symbols.SUPERSCRIPT['6']`        |   ⁶    |
+ * |                         | `symbols.SUPERSCRIPT['7']`        |   ⁷    |
+ * |                         | `symbols.SUPERSCRIPT['8']`        |   ⁸    |
+ * |                         | `symbols.SUPERSCRIPT['9']`        |   ⁹    |
+ * |                         | `symbols.SUPERSCRIPT['0']`        |   ⁰    |
+ * |                         | `symbols.SUPERSCRIPT['-']`        |   ⁻    |
+ * |                         | `symbols.SUPERSCRIPT['+']`        |   ⁺    |
+ * |                         | `symbols.SUPERSCRIPT['=']`        |   ⁼    |
+ * |                         | `symbols.SUPERSCRIPT['(']`        |   ⁽    |
+ * |                         | `symbols.SUPERSCRIPT[')']`        |   ⁾    |
+ * |                         | `symbols.SUPERSCRIPT['i']`        |   ⁱ    |
+ * |                         | `symbols.SUPERSCRIPT['n']`        |   ⁿ    |
+ * |                         | `symbols.SUPERSCRIPT['o']`        |   °    |
+ * |                         | `symbols.SUPERSCRIPT['*']`        |   °    |
  */
 declare const symbols: {
     TAB: string;
@@ -958,10 +1617,65 @@ declare const symbols: {
         '*': string;
     };
 };
-declare const superscript: (num: any) => any;
+/**<!-- DOCS: ### -->
+ * superscript
+ *
+ * - `superscript`
+ *
+ * Converts a number to superscript
+ *
+ * ```typescript
+ * superscript(219) // '²¹⁹'
+ * superscript(1234567890) // '¹²³⁴⁵⁶⁷⁸⁹⁰'
+ * ```
+ */
+declare const superscript: (num: number) => string;
 
-/**
- * TODO docs
+/**<!-- DOCS: ## -->
+ * queue
+ *
+ * A way of managing queues from different parts of the code.
+ */
+/**<!-- DOCS: ### -->
+ * QueueManager
+ *
+ * - `QueueManager`
+ *
+ * Allows you to queue up functions to be executed in order.
+ *
+ * Importantly, it allows you to add to the queue from another part of the code, without needing to access a promise directly.
+ *
+ * ```typescript
+ * const printDocument = async (id: number) => {
+ *   // do something
+ *   await wait(seconds(5));
+ * }
+ *
+ * const queue = new QueueManager();
+ *
+ * const start = Date.now();
+ *
+ * // happening async/concurrently
+ * PromiseUtils.each(range(5), async (i) => {
+ *   await wait(seconds(Math.random() * 1));
+ *   console.log(Date.now() - start, ' - trigger:', i, );
+ *   await queue.add('printer', () => printDocument(i))
+ *   console.log(Date.now() - start, ' - printed:', i);
+ * })
+ *
+ * // Output:
+ *
+ * // 184 ' - trigger:' 0
+ * // 355 ' - trigger:' 2
+ * // 435 ' - trigger:' 4
+ * // 448 ' - trigger:' 1
+ * // 487 ' - trigger:' 3
+ * // 5190 ' - printed:' 0
+ * // 10195 ' - printed:' 2
+ * // 15200 ' - printed:' 4
+ * // 20205 ' - printed:' 1
+ * // 25208 ' - printed:' 3
+ * ```
  */
 declare class QueueManager {
     promises: Map<string, Promise<any>>;
@@ -969,32 +1683,85 @@ declare class QueueManager {
     defaultPauseTime: number;
     constructor(defaultPauseTime?: number);
     getPromise(id: string): Promise<any>;
-    /**
-     * TODO docs
+    /**<!-- DOCS: #### -->
+     * setDefaultPauseTime
+     *
+     * - `queue.setDefaultPauseTime`
+     * - `new QueueManager().setDefaultPauseTime`
+     *
+     * Sets the default pause time for pauses between queue items.
      */
     setDefaultPauseTime(time: number): void;
-    /**
-     * TODO docs
+    /**<!-- DOCS: #### -->
+     * setPauseTime
+     *
+     * - `queue.setPauseTime`
+     * - `new QueueManager().setPauseTime`
+     *
+     * Sets the pause time for pauses between queue items for the specified queue.
      */
     setPauseTime(id: string, time: number): void;
-    /**
-     * TODO docs
+    /**<!-- DOCS: #### -->
+     * add
+     *
+     * - `queue.add`
+     * - `new QueueManager().add`
+     *
+     * Adds a function to the queue.
      */
     add<T>(id: string, fn: () => Promise<T>): Promise<T>;
-    /**
-     * TODO docs
+    /**<!-- DOCS: #### -->
+     * new
+     *
+     * - `queue.new`
+     * - `new QueueManager().new`
+     *
+     * Creates a new QueueManager instance.
      */
     new(defaultPauseTime?: number): QueueManager;
 }
-/**
- * TODO docs
+/**<!-- DOCS: ### -->
+ * queue
+ *
+ * - `queue`
+ *
+ * An instance of QueueManager
+ *
+ * See QueueManager for more information.
  */
 declare const queue: QueueManager;
 
+/**<!-- DOCS: ## -->
+ * ColourUtils
+ *
+ * A collection of functions for working with colours.
+ */
+/**<!-- DOCS: ### -->
+ * ColourValues
+ *
+ * - `ColourUtils.ColourValues`
+ *
+ * A type with 3 numbers:
+ * - red [0-255]
+ * - green [0-255]
+ * - blue [0-255]
+ */
 declare type ColourValues = [number, number, number];
+/**<!-- DOCS: ### -->
+ * HSLValues
+ *
+ * - `ColourUtils.HSLValues`
+ *
+ * A type with 3 numbers:
+ * - hue [0-360]
+ * - saturation [0-100]
+ * - lightness [0-100]
+ */
 declare type HSLValues = [number, number, number];
-/**
- * ColourUtils.namedColours
+/**<!-- DOCS: ### -->
+ * namedColours
+ *
+ * - `ColourUtils.namedColours`
  *
  * A dictionary of different colour names and their RGB values
  *
@@ -1260,8 +2027,10 @@ declare const namedColours: {
     yellow: number[];
     yellowgreen: number[];
 };
-/**
- * ColourUtils.parse
+/**<!-- DOCS: ### -->
+ * parse
+ *
+ * - `ColourUtils.parse`
  *
  * Parse a string into a colour object (RGB array)
  * Not extensive. Currently limited to:
@@ -1277,8 +2046,10 @@ declare const namedColours: {
  * ```
  */
 declare const parse: (input: string) => ColourValues;
-/**
- * ColourUtils.toHex
+/**<!-- DOCS: ### -->
+ * toHex
+ *
+ * - `ColourUtils.toHex`
  *
  * Convert a colour object (RGB array) to a hex string
  *
@@ -1287,8 +2058,10 @@ declare const parse: (input: string) => ColourValues;
  * ```
  */
 declare const toHex: (colour: ColourValues) => string;
-/**
- * ColourUtils.getLuminance
+/**<!-- DOCS: ### -->
+ * getLuminance
+ *
+ * - `ColourUtils.getLuminance`
  *
  * IMPORTANT: This is not the same as the HSL luminance value.
  *
@@ -1300,40 +2073,100 @@ declare const toHex: (colour: ColourValues) => string;
  * Is the Y (Luma) component of the YUV444 color model.
  *
  * ```typescript
- * getLuminance([255, 0, 0]); // 76.245
- * getLuminance([0, 255, 0]); // 149.685
- * getLuminance([0, 0, 255]); // 29.07
+ * ColourUtils.getLuminance([255, 0, 0]); // 76.245
+ * ColourUtils.getLuminance([0, 255, 0]); // 149.685
+ * ColourUtils.getLuminance([0, 0, 255]); // 29.07
  * ```
  */
 declare const getLuminance: ([r, g, b]: ColourValues) => number;
+/**<!-- DOCS: ### -->
+ * toYUV
+ *
+ * - `ColourUtils.toYUV`
+ *
+ * Convert a colour object (RGB array) to a YUV array.
+ *
+ * See https://en.wikipedia.org/wiki/YUV#Y%E2%80%B2UV444_to_RGB888_conversion
+ *
+ * ```typescript
+ * ColourUtils.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
+ * ```
+ */
 declare const toYUV: ([r, g, b]: ColourValues) => ColourValues;
+/**<!-- DOCS: ### -->
+ * toHSL
+ *
+ * - `ColourUtils.toHSL`
+ *
+ * Convert a RGB array to a HSL array.
+ *
+ * Adapted from https://www.30secondsofcode.org/js/s/rgb-to-hsl
+ *
+ * ```typescript
+ * ColourUtils.toHSL([255, 0, 0]); // [0, 100, 50]
+ * ColourUtils.toHSL([0, 255, 0]); // [120, 100, 50]
+ * ```
+ */
 declare const toHSL: (colour: ColourValues, round?: boolean) => HSLValues;
+/**<!-- DOCS: ### -->
+ * fromHSL
+ *
+ * - `ColourUtils.fromHSL`
+ *
+ * Convert a HSL array to a RGB array.
+ *
+ * Adapted from https://www.30secondsofcode.org/js/s/hsl-to-rgb
+ *
+ * ```typescript
+ * ColourUtils.fromHSL([0, 100, 50]); // [255, 0, 0]
+ * ColourUtils.fromHSL([120, 100, 50]); // [0, 255, 0]
+ * ```
+ */
 declare const fromHSL: (hsl: HSLValues, round?: boolean) => ColourValues;
-/**
- * ColourUtils.invertColour
+/**<!-- DOCS: ### -->
+ * invertColour
+ *
+ * - `ColourUtils.invertColour`
  *
  * Get the opposite colour of a given colour.
  *
  * ```typescript
- * invertColour([255, 0, 0]); // [0, 255, 255]
- * invertColour([0, 255, 0]); // [ 255, 0, 255 ]
- * invertColour([0, 0, 255]); // [ 255, 255, 0 ]
+ * ColourUtils.invertColour([255, 0, 0]); // [0, 255, 255]
+ * ColourUtils.invertColour([0, 255, 0]); // [ 255, 0, 255 ]
+ * ColourUtils.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
  * ```
  */
 declare const invertColour: ([r, g, b]: ColourValues) => ColourValues;
-/**
- * ColourUtils.getContrastedColour
+/**<!-- DOCS: ### -->
+ * getContrastedColour
+ *
+ * - `ColourUtils.getContrastedColour`
  *
  * Get the colour that contrasts the most with a given colour. (White or black)
  *
  * Returned colour can be used as a text colour on top of the provided colour
  *
  * ```typescript
- * getContrastedColour([255, 0, 0]); // [255, 255, 255]
- * getContrastedColour([255, 255, 0]); // [0, 0, 0]
+ * ColourUtils.getContrastedColour([255, 0, 0]); // [255, 255, 255]
+ * ColourUtils.getContrastedColour([255, 255, 0]); // [0, 0, 0]
  * ```
  */
 declare const getContrastedColour: (colour: ColourValues) => ColourValues;
+/**<!-- DOCS: ### -->
+ * getLimitedColour
+ *
+ * - `ColourUtils.getLimitedColour`
+ *
+ * Adjust a colour if a certain condition is met.
+ * Used for lightening/darkening colours that are too light/dark
+ *
+ * All values in functions are HSL
+ *
+ * ```typescript
+ * ColourUtils.getLimitedColour([255, 255, 255], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 230, 230, 230 ]
+ * ColourUtils.getLimitedColour([128, 128, 128], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 128, 128, 128 ]
+ * ```
+ */
 declare const getLimitedColour: (colour: ColourValues, checkFn: (hsl: HSLValues) => boolean, adjustFn: (hsl: HSLValues) => HSLValues) => ColourValues;
 
 type ColourUtils_ColourValues = ColourValues;
@@ -1365,8 +2198,15 @@ declare namespace ColourUtils {
   };
 }
 
-/**
- * fn.noop
+/**<!-- DOCS: ## -->
+ * fn
+ *
+ * A collection of useful higher-order functions.
+ */
+/**<!-- DOCS: ### -->
+ * noop
+ *
+ * - `fn.noop`
  *
  * No operation. Do nothing, return nothing.
  *
@@ -1376,8 +2216,10 @@ declare namespace ColourUtils {
  * ```
  */
 declare const noop: () => void;
-/**
- * fn.noact
+/**<!-- DOCS: ### -->
+ * noact
+ *
+ * - `fn.noact`
  *
  * No action. Returns the first argument it receives.
  *
@@ -1387,8 +2229,10 @@ declare const noop: () => void;
  * ```
  */
 declare const noact: <T = any>(item: T) => T;
-/**
- * fn.result
+/**<!-- DOCS: ### -->
+ * result
+ *
+ * - `fn.result`
  *
  * Returns a function that returns a function that returns the first argument.
  *
@@ -1398,22 +2242,28 @@ declare const noact: <T = any>(item: T) => T;
  * ```
  */
 declare const result: <T = any>(item: T) => () => T;
-/**
- * fn.resolve
+/**<!-- DOCS: ### -->
+ * resolve
+ *
+ * - `fn.resolve`
  *
  * Returns an async function that resolves to the first argument
  *
  * Like fn.result, but wrapped in a Promise
  */
 declare const resolve: <T = any>(item: T) => () => Promise<T>;
-/**
- * fn.reject
+/**<!-- DOCS: ### -->
+ * reject
+ *
+ * - `fn.reject`
  *
  * Returns an async function that rejects with the first argument
  */
 declare const reject: <T = any>(item: T) => () => Promise<T>;
-/**
- * fn.fixFloat
+/**<!-- DOCS: ### -->
+ * fixFloat
+ *
+ * - `fn.fixFloat`
  *
  * Fixes floating point errors that may occur when adding/subtracting/multiplying/dividing real/float numbers
  *
@@ -1423,8 +2273,10 @@ declare const reject: <T = any>(item: T) => () => Promise<T>;
  * ```
  */
 declare const fixFloat: (num: number, precision?: number) => number;
-/**
- * fn.addAll
+/**<!-- DOCS: ### -->
+ * addAll
+ *
+ * - `fn.addAll`
  *
  * Adds all numbers together. Each argument is a number (use spread operator to pass in an array) similar to Math.min/Math.max
  *
@@ -1433,8 +2285,14 @@ declare const fixFloat: (num: number, precision?: number) => number;
  * ```
  */
 declare const addAll: (...args: number[]) => number;
-/**
- * fn.filters.exists / fn.exists
+/**<!-- DOCS: ### -->
+ * filters
+ */
+/**<!-- DOCS: #### -->
+ * exists
+ *
+ * - `fn.exists`
+ * - `fn.filters.exists`
  *
  * Returns true if item isn't null or undefined.
  *
@@ -1443,8 +2301,11 @@ declare const addAll: (...args: number[]) => number;
  * ```
  */
 declare const exists: <T = any>(item: T) => boolean;
-/**
- * fn.filters.isTruthy / fn.isTruthy
+/**<!-- DOCS: #### -->
+ * isTruthy
+ *
+ * - `fn.isTruthy`
+ * - `fn.filters.isTruthy`
  *
  * Returns true if item is truthy.
  *
@@ -1454,8 +2315,11 @@ declare const exists: <T = any>(item: T) => boolean;
  * ```
  */
 declare const isTruthy: <T = any>(item: T) => boolean;
-/**
- * fn.filters.isFalsy / fn.isFalsy
+/**<!-- DOCS: #### -->
+ * isFalsy
+ *
+ * - `fn.isFalsy`
+ * - `fn.filters.isFalsy`
  *
  * Returns true if item is falsy.
  *
@@ -1465,8 +2329,11 @@ declare const isTruthy: <T = any>(item: T) => boolean;
  * ```
  */
 declare const isFalsy: <T = any>(item: T) => boolean;
-/**
- * fn.filters.isEmpty / fn.isEmpty
+/**<!-- DOCS: #### -->
+ * isEmpty
+ *
+ * - `fn.isEmpty`
+ * - `fn.filters.isEmpty`
  *
  * Returns true if item's length is 0
  *
@@ -1476,8 +2343,11 @@ declare const isFalsy: <T = any>(item: T) => boolean;
  * ```
  */
 declare const isEmpty: <T = any>(item: string | T[]) => boolean;
-/**
- * fn.filters.isNotEmpty / fn.isNotEmpty
+/**<!-- DOCS: #### -->
+ * isNotEmpty
+ *
+ * - `fn.isNotEmpty`
+ * - `fn.filters.isNotEmpty`
  *
  * Returns true if item's length is 1 or more
  *
@@ -1487,8 +2357,11 @@ declare const isEmpty: <T = any>(item: string | T[]) => boolean;
  * ```
  */
 declare const isNotEmpty: <T = any>(item: string | T[]) => boolean;
-/**
- * fn.filters.isEqual / fn.isEqual
+/**<!-- DOCS: #### -->
+ * isEqual
+ *
+ * - `fn.isEqual`
+ * - `fn.filters.isEqual`
  *
  * Returns a function that returns true if the item is equal to provided value.
  *
@@ -1497,8 +2370,11 @@ declare const isNotEmpty: <T = any>(item: string | T[]) => boolean;
  * ```
  */
 declare const isEqual: <T = any>(item: T) => (other: T) => boolean;
-/**
- * fn.filters.isNotEqual / fn.isNotEqual
+/**<!-- DOCS: #### -->
+ * isNotEqual
+ *
+ * - `fn.isNotEqual`
+ * - `fn.filters.isNotEqual`
  *
  * Returns a function that returns true if the item is not equal to provided value.
  *
@@ -1507,7 +2383,31 @@ declare const isEqual: <T = any>(item: T) => (other: T) => boolean;
  * ```
  */
 declare const isNotEqual: <T = any>(item: T) => (other: T) => boolean;
+/**<!-- DOCS: #### -->
+ * dedupe
+ *
+ * - `fn.dedupe`
+ * - `fn.filters.dedupe`
+ *
+ * Removes duplicate items from an array.
+ *
+ * ```typescript
+ * [0, 1, 2, 1, 0].filter(fn.dedupe); // [0, 1, 2]
+ * ```
+ */
 declare const dedupe: <T extends unknown>(item: T, index: number, array: T[]) => boolean;
+/**<!-- DOCS: #### -->
+ * dedupeMapped
+ *
+ * - `fn.dedupeMapped`
+ * - `fn.filters.dedupeMapped`
+ *
+ * Removes duplicate items from an array based on a mapped value.
+ *
+ * ```typescript
+ * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
+ * ```
+ */
 declare const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
 declare const filters$1: {
     exists: <T = any>(item: T) => boolean;
@@ -1520,8 +2420,14 @@ declare const filters$1: {
     dedupe: <T_7 extends unknown>(item: T_7, index: number, array: T_7[]) => boolean;
     dedupeMapped: <T_8 extends unknown, U extends unknown>(mapFn: (value: T_8, index: number, array: T_8[]) => U) => (item: T_8, index: number, array: T_8[]) => boolean;
 };
-/**
- * fn.maps.toString / fn.toString
+/**<!-- DOCS: ### -->
+ * maps
+ */
+/**<!-- DOCS: #### -->
+ * toString
+ *
+ * - `fn.toString`
+ * - `fn.maps.toString`
  *
  * Maps the item to a string.
  *
@@ -1530,8 +2436,11 @@ declare const filters$1: {
  * ```
  */
 declare const toString: <T = any>(item: T) => string;
-/**
- * fn.maps.toNumber / fn.toNumber
+/**<!-- DOCS: #### -->
+ * toNumber
+ *
+ * - `fn.toNumber`
+ * - `fn.maps.toNumber`
  *
  * Maps the item to a number.
  *
@@ -1540,8 +2449,11 @@ declare const toString: <T = any>(item: T) => string;
  * ```
  */
 declare const toNumber: <T = any>(item: T) => number;
-/**
- * fn.maps.toBool / fn.toBool
+/**<!-- DOCS: #### -->
+ * toBool
+ *
+ * - `fn.toBool`
+ * - `fn.maps.toBool`
  *
  * Maps the item to a boolean.
  *
@@ -1551,8 +2463,11 @@ declare const toNumber: <T = any>(item: T) => number;
  * ```
  */
 declare const toBool: <T = any>(item: T) => boolean;
-/**
- * fn.maps.toProp / fn.toProp
+/**<!-- DOCS: #### -->
+ * toProp
+ *
+ * - `fn.toProp`
+ * - `fn.maps.toProp`
  *
  * Maps the item to a given property of the item
  *
@@ -1561,6 +2476,18 @@ declare const toBool: <T = any>(item: T) => boolean;
  * ```
  */
 declare const toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
+/**<!-- DOCS: #### -->
+ * toFixed
+ *
+ * - `fn.toFixed`
+ * - `fn.maps.toFixed`
+ *
+ * Map the items (numbers) of an array to a fixed precision.
+ *
+ * ```typescript
+ * [1.234, 5.678, 9.012].map(fn.toFixed(2)); // [1.23, 5.68, 9.01]
+ * ```
+ */
 declare const toFixed: (precision: number) => (num: number) => number;
 declare const maps$1: {
     toString: <T = any>(item: T) => string;
@@ -1569,8 +2496,14 @@ declare const maps$1: {
     toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
     toFixed: (precision: number) => (num: number) => number;
 };
-/**
- * fn.sorts.asc / fn.asc
+/**<!-- DOCS: ### -->
+ * sorts
+ */
+/**<!-- DOCS: #### -->
+ * asc
+ *
+ * - `fn.asc`
+ * - `fn.sorts.asc`
  *
  * Sort ascending.
  *
@@ -1579,8 +2512,11 @@ declare const maps$1: {
  * ```
  */
 declare const asc: (a: any, b: any) => number;
-/**
- * fn.sorts.desc / fn.desc
+/**<!-- DOCS: #### -->
+ * desc
+ *
+ * - `fn.desc`
+ * - `fn.sorts.desc`
  *
  * Sort descending.
  *
@@ -1590,8 +2526,11 @@ declare const asc: (a: any, b: any) => number;
  */
 declare const desc: (a: any, b: any) => number;
 declare type SortFn<T = number> = (a: T, b: T) => number;
-/**
- * fn.sorts.byProp / fn.byProp
+/**<!-- DOCS: #### -->
+ * byProp
+ *
+ * - `fn.byProp`
+ * - `fn.sorts.byProp`
  *
  * Sort by a given property.
  *
@@ -1601,8 +2540,11 @@ declare type SortFn<T = number> = (a: T, b: T) => number;
  * ```
  */
 declare const byProp: <T = number, O = Object>(propName: string, sortFn?: SortFn<T>) => SortFn<O>;
-/**
- * fn.sorts.nearestTo / fn.nearestTo
+/**<!-- DOCS: #### -->
+ * nearestTo
+ *
+ * - `fn.nearestTo`
+ * - `fn.sorts.nearestTo`
  *
  * Sort by the nearest value to the given value.
  *
@@ -1612,8 +2554,11 @@ declare const byProp: <T = number, O = Object>(propName: string, sortFn?: SortFn
  * ```
  */
 declare const nearestTo: <T = number>(target: T) => (a: any, b: any) => number;
-/**
- * fn.sorts.furthestFrom / fn.furthestFrom
+/**<!-- DOCS: #### -->
+ * furthestFrom
+ *
+ * - `fn.furthestFrom`
+ * - `fn.sorts.furthestFrom`
  *
  * Sort by the furthest value to the given value.
  *
@@ -1623,14 +2568,20 @@ declare const nearestTo: <T = number>(target: T) => (a: any, b: any) => number;
  * ```
  */
 declare const furthestFrom: <T = number>(target: T) => (a: any, b: any) => number;
-/**
- * fn.sorts.arrayAsc / fn.arrayAsc
+/**<!-- DOCS: #### -->
+ * arrayAsc
+ *
+ * - `fn.arrayAsc`
+ * - `fn.sorts.arrayAsc`
  *
  * Sort an array of arrays in ascending order
  */
 declare const arrayAsc: (a: any[], b: any[]) => number;
-/**
- * fn.sorts.arrayDesc/ fn.arrayDesc
+/**<!-- DOCS: #### -->
+ * arrayDesc
+ *
+ * - `fn.arrayDesc`
+ * - `fn.sorts.arrayDesc`
  *
  * Sort an array of arrays in descending order
  */
@@ -1644,8 +2595,14 @@ declare const sorts$1: {
     arrayAsc: (a: any[], b: any[]) => number;
     arrayDesc: (a: any[], b: any[]) => number;
 };
-/**
- * fn.reduces.combine / fn.combine
+/**<!-- DOCS: ### -->
+ * reduces
+ */
+/**<!-- DOCS: #### -->
+ * combine
+ *
+ * - `fn.combine`
+ * - `fn.reduces.combine`
  *
  * Adds or concats the items
  *
@@ -1655,8 +2612,11 @@ declare const sorts$1: {
  * ```
  */
 declare const combine: (a: any, b: any) => any;
-/**
- * fn.reduces.combineProp / fn.combineProp
+/**<!-- DOCS: #### -->
+ * combineProp
+ *
+ * - `fn.combineProp`
+ * - `fn.reduces.combineProp`
  *
  * Adds or concats the given property of the items
  *
@@ -1667,16 +2627,30 @@ declare const combine: (a: any, b: any) => any;
  * ```
  */
 declare const combineProp: (propName: string) => (a: any, b: any) => any;
-/**
- * fn.reduces.mode / fn.mode
+/**<!-- DOCS: #### -->
+ * mode
+ *
+ * - `fn.mode`
+ * - `fn.reduces.mode`
  *
  * Returns the most common value in an array.
+ *
+ * ```typescript
+ * [1, 2, 3, 2, 1, 1].reduce(fn.mode); // 1
+ * ```
  */
 declare const mode: <T extends unknown>(prev: T, curr: T, index: number, arr: T[]) => T;
-/**
- * fn.reduces.modeMapped / fn.modeMapped
+/**<!-- DOCS: #### -->
+ * modeMapped
+ *
+ * - `fn.modeMapped`
+ * - `fn.reduces.modeMapped`
  *
  * Returns the most common value in an array, based on a given map function.
+ *
+ * ```typescript
+ * [2, 4, 6, 8, 9, 12].reduce(fn.modeMapped((v) => v % 3)); // 6 (maps to [ 2, 1, 0, 2, 0, 0 ])
+ * ```
  */
 declare const modeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
 declare const reduces$1: {
@@ -1685,8 +2659,14 @@ declare const reduces$1: {
     mode: <T extends unknown>(prev: T, curr: T, index: number, arr: T[]) => T;
     modeMapped: <T_1 extends unknown, U extends unknown>(mapFn: (value: T_1, index: number, array: T_1[]) => U) => (prev: T_1, curr: T_1, index: number, arr: T_1[]) => T_1;
 };
-/**
- * fn.everys.isAllEqual / fn.isAllEqual
+/**<!-- DOCS: ### -->
+ * everys
+ */
+/**<!-- DOCS: #### -->
+ * isAllEqual
+ *
+ * - `fn.isAllEqual`
+ * - `fn.everys.isAllEqual`
  *
  * Returns if all the items are equal to one another.
  *
@@ -1699,8 +2679,14 @@ declare const isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 declare const everys$1: {
     isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 };
-/**
- * fn.round.floorTo / fn.floorTo
+/**<!-- DOCS: ### -->
+ * round
+ */
+/**<!-- DOCS: #### -->
+ * floorTo
+ *
+ * - `fn.floorTo`
+ * - `fn.round.floorTo`
  *
  * Floors a number down to the nearest multiple of the given number.
  *
@@ -1711,8 +2697,12 @@ declare const everys$1: {
  * ```
  */
 declare const floorTo: (to: number, value: number) => number;
-/**
- * fn.round.to / fn.round.roundTo / fn.roundTo
+/**<!-- DOCS: #### -->
+ * roundTo
+ *
+ * - `fn.round.to`
+ * - `fn.roundTo`
+ * - `fn.round.roundTo`
  *
  * Floors a number down to the nearest multiple of the given number.
  *
@@ -1723,8 +2713,11 @@ declare const floorTo: (to: number, value: number) => number;
  * ```
  */
 declare const roundTo: (to: number, value: number) => number;
-/**
- * fn.round.ceilTo / fn.ceilTo
+/**<!-- DOCS: #### -->
+ * ceilTo
+ *
+ * - `fn.ceilTo`
+ * - `fn.round.ceilTo`
  *
  * Floors a number down to the nearest multiple of the given number.
  *
@@ -1741,10 +2734,55 @@ declare const round: {
     ceilTo: (to: number, value: number) => number;
     to: (to: number, value: number) => number;
 };
+/**<!-- DOCS: ### -->
+ * lerp
+ *
+ * - `fn.lerp`
+ *
+ * Linearly interpolates between two values.
+ *
+ * ```typescript
+ * fn.lerp(0.5, 0, 10); // 5
+ * ```
+ */
 declare const lerp: (progress: number, fromVal: number, toVal: number) => number;
+/**<!-- DOCS: ### -->
+ * lerpArray
+ *
+ * - `fn.lerpArray`
+ *
+ * Linearly interpolates between the values of 2 arrays.
+ *
+ * ```typescript
+ * fn.lerpArray(0.5, [0, 0, 0], [10, 100, 1000]) // [5, 50, 500]
+ * ```
+ */
 declare const lerpArray: (progress: number, fromArr: number[], toArr: number[]) => number[];
+/**<!-- DOCS: ### -->
+ * lerpObj
+ *
+ * - `fn.lerpObj`
+ *
+ * Linearly interpolates between the values of 2 arrays.
+ *
+ * ```typescript
+ * fn.lerpObj(0.5, {'ARS': 0, 'CHE': 0, 'FUL': 0}, {'ARS': 100, 'CHE': 10, 'FUL': 20}) // {'ARS': 50, 'CHE': 5, 'FUL': 10}
+ * ```
+ */
 declare const lerpObj: <T extends object>(progress: number, fromObj: T, toObj: T) => T;
-declare const clamp: (value: number, a: number, b: number) => number;
+/**<!-- DOCS: ### -->
+ * clamp
+ *
+ * - `fn.clamp`
+ *
+ * Clamps a value between a min and max.
+ *
+ * ```typescript
+ * fn.clamp(5, 0, 10); // 5
+ * fn.clamp(-5, 0, 10); // 0
+ * ```
+ */
+declare const clamp: (value: number, min: number, max: number) => number;
 declare const capitalise: (str: string) => string;
 
 declare const fn_noop: typeof noop;

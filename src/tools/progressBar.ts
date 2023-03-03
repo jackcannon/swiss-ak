@@ -1,6 +1,20 @@
 import * as fn from './fn';
 
-/**
+//<!-- DOCS: 600 -->
+/**<!-- DOCS: ## -->
+ * progressBar
+ *
+ * A progress bar that can be used in the terminal.
+ *
+ * > NOTE: This is eventually be moved to `swiss-node`
+ */
+
+/**<!-- DOCS: ### -->
+ * printLn
+ *
+ * - `printLn`
+ * - `progressBar.printLn`
+ *
  * Can use instead of console.log
  *
  * Overwrites the previous line if possible (i.e. node);
@@ -95,6 +109,34 @@ interface ProgressBarOptionsFull {
   showCurrent: boolean;
   currentChar: string;
 }
+/**<!-- DOCS: ### -->
+ * Options
+ *
+ * - `ProgressBarOptions`
+ * - `progressBar.ProgressBarOptions`
+ *
+ * All options are optional.
+ *
+ * | Property         | Default                           | Description                                            |
+ * | ---------------- | --------------------------------- | ------------------------------------------------------ |
+ * | prefix           | `''`                              | String to show to left of progress bar                 |
+ * | prefixWidth      | `1`                               | Min width of prefix - `10` => `Example˽˽˽`             |
+ * | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
+ * | wrapperFn        | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
+ * | barWrapFn        | nothing                           | function to wrap the bar                               |
+ * | barProgWrapFn    | nothing                           | function to wrap the 'complete' segment of the bar     |
+ * | barCurrentWrapFn | nothing                           | function to wrap the 'current' segment of the bar      |
+ * | barEmptyWrapFn   | nothing                           | function to wrap the empty/track part of the line      |
+ * | showCount        | `true`                            | Show numerical values of the count - `[11 / 15]`       |
+ * | showPercent      | `false`                           | Show percentage completed - `( 69%)`                   |
+ * | countWidth       | `0`                               | Min width of nums for showCount - `3` => `[˽˽1 / ˽15]` |
+ * | progChar         | `'█'`                             | Character to use for progress section of bar           |
+ * | emptyChar        | `' '`                             | Character to use for empty (rail) section of bar       |
+ * | startChar        | `'▕'`                             | Character to start the progress bar with               |
+ * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
+ * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
+ * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+ */
 export type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
 const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull => ({
   prefix: '',
@@ -127,7 +169,12 @@ export interface ProgressBar {
   readonly max: number;
 }
 
-/**
+/**<!-- DOCS: ### -->
+ * getProgressBar
+ *
+ * - `getProgressBar`
+ * - `progressBar.getProgressBar`
+ *
  * Usage:
  * ```typescript
  * import chalk from 'chalk'
@@ -167,6 +214,13 @@ export const getProgressBar = (max: number, options: ProgressBarOptions = {}): P
   const maxNum = typeof max === 'number' ? max : 1;
   const isMaxKnown = typeof max === 'number';
 
+  /**<!-- DOCS: #### -->
+   * update
+   *
+   * - `getProgressBar().update`
+   *
+   * Trigger the progress bar to update/rerender
+   */
   const update = () => {
     const suffix = getSuffix(current, maxNum, isMaxKnown, opts);
     const fullPrefix = prefix.padEnd(prefixWidth);
@@ -181,27 +235,62 @@ export const getProgressBar = (max: number, options: ProgressBarOptions = {}): P
     return output;
   };
 
+  /**<!-- DOCS: #### -->
+   * next
+   *
+   * - `getProgressBar().next`
+   *
+   * Set the progress bar to the next value
+   */
   const next = (): string => {
     if (finished) return '';
     current++;
     return update();
   };
 
+  /**<!-- DOCS: #### -->
+   * set
+   *
+   * - `getProgressBar().set`
+   *
+   * Set the progress bar to a specific value
+   */
   const set = (newCurrent: number): string => {
     if (finished) return '';
     current = newCurrent;
     return update();
   };
 
+  /**<!-- DOCS: #### -->
+   * reset
+   *
+   * - `getProgressBar().reset`
+   *
+   * Set the progress bar to 0
+   */
   const reset = (): string => {
     return set(0);
   };
 
+  /**<!-- DOCS: #### -->
+   * start
+   *
+   * - `getProgressBar().start`
+   *
+   * Start displaying the progress bar
+   */
   const start = (): string => {
     printLn(); // blank/new line
     return update();
   };
 
+  /**<!-- DOCS: #### -->
+   * finish
+   *
+   * - `getProgressBar().finish`
+   *
+   * Stop displaying the progress bar
+   */
   const finish = (): string => {
     finished = true;
     const output = update();

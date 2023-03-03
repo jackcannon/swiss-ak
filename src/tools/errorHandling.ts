@@ -4,8 +4,17 @@ import * as fn from './fn';
 import { ms } from './times';
 import { wait } from './waiters';
 
-/**
+//<!-- DOCS: 500 -->
+/**<!-- DOCS: ## -->
+ * Error Handling
+ *
+ * Functions for handling errors.
+ */
+
+/**<!-- DOCS: ### -->
  * tryOr
+ *
+ * - `tryOr`
  *
  * Try to execute a function and return its result if it succeeds, or return the default value if it fails.
  *
@@ -21,8 +30,10 @@ export const tryOr = async <T extends unknown, A extends unknown[]>(orValue: T, 
   }
 };
 
-/**
+/**<!-- DOCS: ### -->
  * retry
+ *
+ * - `retry`
  *
  * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
  *
@@ -52,8 +63,10 @@ export const retry = async <T extends unknown>(
   return await loop(0);
 };
 
-/**
+/**<!-- DOCS: ### -->
  * retryOr
+ *
+ * - `retryOr`
  *
  * Combination of retry and tryOr.
  *

@@ -1,8 +1,17 @@
 import { range, zip } from './ArrayUtils';
 import { StringUtils } from './StringUtils';
 
-/**
- * fn.noop
+//<!-- DOCS: 30 -->
+/**<!-- DOCS: ## -->
+ * fn
+ *
+ * A collection of useful higher-order functions.
+ */
+
+/**<!-- DOCS: ### -->
+ * noop
+ *
+ * - `fn.noop`
  *
  * No operation. Do nothing, return nothing.
  *
@@ -13,8 +22,10 @@ import { StringUtils } from './StringUtils';
  */
 export const noop = () => {};
 
-/**
- * fn.noact
+/**<!-- DOCS: ### -->
+ * noact
+ *
+ * - `fn.noact`
  *
  * No action. Returns the first argument it receives.
  *
@@ -25,8 +36,10 @@ export const noop = () => {};
  */
 export const noact = <T = any>(item: T): T => item;
 
-/**
- * fn.result
+/**<!-- DOCS: ### -->
+ * result
+ *
+ * - `fn.result`
  *
  * Returns a function that returns a function that returns the first argument.
  *
@@ -40,8 +53,10 @@ export const result =
   (): T =>
     item;
 
-/**
- * fn.resolve
+/**<!-- DOCS: ### -->
+ * resolve
+ *
+ * - `fn.resolve`
  *
  * Returns an async function that resolves to the first argument
  *
@@ -52,8 +67,10 @@ export const resolve =
   (): Promise<T> =>
     Promise.resolve(item);
 
-/**
- * fn.reject
+/**<!-- DOCS: ### -->
+ * reject
+ *
+ * - `fn.reject`
  *
  * Returns an async function that rejects with the first argument
  */
@@ -62,8 +79,11 @@ export const reject =
   (): Promise<T> =>
     Promise.reject(item);
 
-/**
- * fn.fixFloat
+// TODO move to MathsUtils
+/**<!-- DOCS: ### -->
+ * fixFloat
+ *
+ * - `fn.fixFloat`
  *
  * Fixes floating point errors that may occur when adding/subtracting/multiplying/dividing real/float numbers
  *
@@ -74,8 +94,11 @@ export const reject =
  */
 export const fixFloat = (num: number, precision = 6): number => Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision);
 
-/**
- * fn.addAll
+// TODO move to MathsUtils
+/**<!-- DOCS: ### -->
+ * addAll
+ *
+ * - `fn.addAll`
  *
  * Adds all numbers together. Each argument is a number (use spread operator to pass in an array) similar to Math.min/Math.max
  *
@@ -85,8 +108,14 @@ export const fixFloat = (num: number, precision = 6): number => Math.round(num *
  */
 export const addAll = (...args: number[]): number => args.reduce((acc, num) => acc + num, 0);
 
-/**
- * fn.filters.exists / fn.exists
+/**<!-- DOCS: ### -->
+ * filters
+ */
+/**<!-- DOCS: #### -->
+ * exists
+ *
+ * - `fn.exists`
+ * - `fn.filters.exists`
  *
  * Returns true if item isn't null or undefined.
  *
@@ -96,8 +125,11 @@ export const addAll = (...args: number[]): number => args.reduce((acc, num) => a
  */
 export const exists = <T = any>(item: T): boolean => item !== undefined && item !== null;
 
-/**
- * fn.filters.isTruthy / fn.isTruthy
+/**<!-- DOCS: #### -->
+ * isTruthy
+ *
+ * - `fn.isTruthy`
+ * - `fn.filters.isTruthy`
  *
  * Returns true if item is truthy.
  *
@@ -108,8 +140,11 @@ export const exists = <T = any>(item: T): boolean => item !== undefined && item 
  */
 export const isTruthy = <T = any>(item: T): boolean => Boolean(item);
 
-/**
- * fn.filters.isFalsy / fn.isFalsy
+/**<!-- DOCS: #### -->
+ * isFalsy
+ *
+ * - `fn.isFalsy`
+ * - `fn.filters.isFalsy`
  *
  * Returns true if item is falsy.
  *
@@ -120,8 +155,11 @@ export const isTruthy = <T = any>(item: T): boolean => Boolean(item);
  */
 export const isFalsy = <T = any>(item: T): boolean => !Boolean(item);
 
-/**
- * fn.filters.isEmpty / fn.isEmpty
+/**<!-- DOCS: #### -->
+ * isEmpty
+ *
+ * - `fn.isEmpty`
+ * - `fn.filters.isEmpty`
  *
  * Returns true if item's length is 0
  *
@@ -132,8 +170,11 @@ export const isFalsy = <T = any>(item: T): boolean => !Boolean(item);
  */
 export const isEmpty = <T = any>(item: T[] | string): boolean => Boolean(!item || !item.length);
 
-/**
- * fn.filters.isNotEmpty / fn.isNotEmpty
+/**<!-- DOCS: #### -->
+ * isNotEmpty
+ *
+ * - `fn.isNotEmpty`
+ * - `fn.filters.isNotEmpty`
  *
  * Returns true if item's length is 1 or more
  *
@@ -144,8 +185,11 @@ export const isEmpty = <T = any>(item: T[] | string): boolean => Boolean(!item |
  */
 export const isNotEmpty = <T = any>(item: T[] | string): boolean => Boolean(item && item.length);
 
-/**
- * fn.filters.isEqual / fn.isEqual
+/**<!-- DOCS: #### -->
+ * isEqual
+ *
+ * - `fn.isEqual`
+ * - `fn.filters.isEqual`
  *
  * Returns a function that returns true if the item is equal to provided value.
  *
@@ -158,8 +202,11 @@ export const isEqual =
   (other: T) =>
     Boolean(item === other);
 
-/**
- * fn.filters.isNotEqual / fn.isNotEqual
+/**<!-- DOCS: #### -->
+ * isNotEqual
+ *
+ * - `fn.isNotEqual`
+ * - `fn.filters.isNotEqual`
  *
  * Returns a function that returns true if the item is not equal to provided value.
  *
@@ -172,10 +219,32 @@ export const isNotEqual =
   (other: T) =>
     Boolean(item !== other);
 
-// TODO docs
+/**<!-- DOCS: #### -->
+ * dedupe
+ *
+ * - `fn.dedupe`
+ * - `fn.filters.dedupe`
+ *
+ * Removes duplicate items from an array.
+ *
+ * ```typescript
+ * [0, 1, 2, 1, 0].filter(fn.dedupe); // [0, 1, 2]
+ * ```
+ */
 export const dedupe = <T extends unknown>(item: T, index: number, array: T[]): boolean => array.indexOf(item) === index;
 
-// TODO docs
+/**<!-- DOCS: #### -->
+ * dedupeMapped
+ *
+ * - `fn.dedupeMapped`
+ * - `fn.filters.dedupeMapped`
+ *
+ * Removes duplicate items from an array based on a mapped value.
+ *
+ * ```typescript
+ * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
+ * ```
+ */
 export const dedupeMapped = <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => {
   let mapped: U[];
   return (item: T, index: number, array: T[]): boolean => {
@@ -196,8 +265,14 @@ export const filters = {
   dedupeMapped
 };
 
-/**
- * fn.maps.toString / fn.toString
+/**<!-- DOCS: ### -->
+ * maps
+ */
+/**<!-- DOCS: #### -->
+ * toString
+ *
+ * - `fn.toString`
+ * - `fn.maps.toString`
  *
  * Maps the item to a string.
  *
@@ -207,8 +282,11 @@ export const filters = {
  */
 export const toString = <T = any>(item: T): string => item + '';
 
-/**
- * fn.maps.toNumber / fn.toNumber
+/**<!-- DOCS: #### -->
+ * toNumber
+ *
+ * - `fn.toNumber`
+ * - `fn.maps.toNumber`
  *
  * Maps the item to a number.
  *
@@ -218,8 +296,11 @@ export const toString = <T = any>(item: T): string => item + '';
  */
 export const toNumber = <T = any>(item: T): number => Number(item);
 
-/**
- * fn.maps.toBool / fn.toBool
+/**<!-- DOCS: #### -->
+ * toBool
+ *
+ * - `fn.toBool`
+ * - `fn.maps.toBool`
  *
  * Maps the item to a boolean.
  *
@@ -230,8 +311,11 @@ export const toNumber = <T = any>(item: T): number => Number(item);
  */
 export const toBool = <T = any>(item: T): boolean => (item as any) !== 'false' && Boolean(item);
 
-/**
- * fn.maps.toProp / fn.toProp
+/**<!-- DOCS: #### -->
+ * toProp
+ *
+ * - `fn.toProp`
+ * - `fn.maps.toProp`
  *
  * Maps the item to a given property of the item
  *
@@ -244,23 +328,18 @@ export const toProp =
   (item: O): P =>
     item && item[prop];
 
-// This is a bad idea, as it provides no benefits, but makes code harder to read.
-// const multimap = <TIn = any, TOut = any>(
-//   ...mapFns: ((val: any, index: number, arr: any[]) => any)[]
-// ): ((val: TIn, index: number, arr: TIn[]) => TOut) => {
-//   let mapped;
-//   return (val, index, arr) => {
-//     if (!mapped) {
-//       mapped = arr;
-//       for (let mapFn of mapFns) {
-//         mapped = mapped.map(mapFn);
-//       }
-//     }
-//     return mapped[index];
-//   };
-// };
-
-// todo docs
+/**<!-- DOCS: #### -->
+ * toFixed
+ *
+ * - `fn.toFixed`
+ * - `fn.maps.toFixed`
+ *
+ * Map the items (numbers) of an array to a fixed precision.
+ *
+ * ```typescript
+ * [1.234, 5.678, 9.012].map(fn.toFixed(2)); // [1.23, 5.68, 9.01]
+ * ```
+ */
 export const toFixed =
   (precision: number) =>
   (num: number): number =>
@@ -274,8 +353,14 @@ export const maps = {
   toFixed
 };
 
-/**
- * fn.sorts.asc / fn.asc
+/**<!-- DOCS: ### -->
+ * sorts
+ */
+/**<!-- DOCS: #### -->
+ * asc
+ *
+ * - `fn.asc`
+ * - `fn.sorts.asc`
  *
  * Sort ascending.
  *
@@ -289,8 +374,11 @@ export const asc = (a: any, b: any): number => {
   return 0;
 };
 
-/**
- * fn.sorts.desc / fn.desc
+/**<!-- DOCS: #### -->
+ * desc
+ *
+ * - `fn.desc`
+ * - `fn.sorts.desc`
  *
  * Sort descending.
  *
@@ -306,8 +394,11 @@ export const desc = (a: any, b: any): number => {
 
 type SortFn<T = number> = (a: T, b: T) => number;
 
-/**
- * fn.sorts.byProp / fn.byProp
+/**<!-- DOCS: #### -->
+ * byProp
+ *
+ * - `fn.byProp`
+ * - `fn.sorts.byProp`
  *
  * Sort by a given property.
  *
@@ -320,8 +411,11 @@ export const byProp = <T = number, O = Object>(propName: string, sortFn: SortFn<
   return (a: O, b: O) => sortFn(a[propName] as T, b[propName] as T);
 };
 
-/**
- * fn.sorts.nearestTo / fn.nearestTo
+/**<!-- DOCS: #### -->
+ * nearestTo
+ *
+ * - `fn.nearestTo`
+ * - `fn.sorts.nearestTo`
  *
  * Sort by the nearest value to the given value.
  *
@@ -335,8 +429,11 @@ export const nearestTo =
   (a: any, b: any) =>
     Math.abs(Number(target) - Number(a)) - Math.abs(Number(target) - Number(b));
 
-/**
- * fn.sorts.furthestFrom / fn.furthestFrom
+/**<!-- DOCS: #### -->
+ * furthestFrom
+ *
+ * - `fn.furthestFrom`
+ * - `fn.sorts.furthestFrom`
  *
  * Sort by the furthest value to the given value.
  *
@@ -350,8 +447,11 @@ export const furthestFrom =
   (a: any, b: any) =>
     Math.abs(Number(target) - Number(b)) - Math.abs(Number(target) - Number(a));
 
-/**
- * fn.sorts.arrayAsc / fn.arrayAsc
+/**<!-- DOCS: #### -->
+ * arrayAsc
+ *
+ * - `fn.arrayAsc`
+ * - `fn.sorts.arrayAsc`
  *
  * Sort an array of arrays in ascending order
  */
@@ -363,8 +463,11 @@ export const arrayAsc = (a: any[], b: any[]) => {
   return 0;
 };
 
-/**
- * fn.sorts.arrayDesc/ fn.arrayDesc
+/**<!-- DOCS: #### -->
+ * arrayDesc
+ *
+ * - `fn.arrayDesc`
+ * - `fn.sorts.arrayDesc`
  *
  * Sort an array of arrays in descending order
  */
@@ -386,8 +489,14 @@ export const sorts = {
   arrayDesc
 };
 
-/**
- * fn.reduces.combine / fn.combine
+/**<!-- DOCS: ### -->
+ * reduces
+ */
+/**<!-- DOCS: #### -->
+ * combine
+ *
+ * - `fn.combine`
+ * - `fn.reduces.combine`
  *
  * Adds or concats the items
  *
@@ -398,8 +507,11 @@ export const sorts = {
  */
 export const combine = (a: any, b: any): any => a + b;
 
-/**
- * fn.reduces.combineProp / fn.combineProp
+/**<!-- DOCS: #### -->
+ * combineProp
+ *
+ * - `fn.combineProp`
+ * - `fn.reduces.combineProp`
  *
  * Adds or concats the given property of the items
  *
@@ -414,11 +526,17 @@ export const combineProp =
   (a: any, b: any): any =>
     a[propName] + b[propName];
 
-// TODO docs
-/**
- * fn.reduces.mode / fn.mode
+/**<!-- DOCS: #### -->
+ * mode
+ *
+ * - `fn.mode`
+ * - `fn.reduces.mode`
  *
  * Returns the most common value in an array.
+ *
+ * ```typescript
+ * [1, 2, 3, 2, 1, 1].reduce(fn.mode); // 1
+ * ```
  */
 export const mode = <T extends unknown>(prev: T, curr: T, index: number, arr: T[]): T => {
   if (index > 1) {
@@ -433,11 +551,17 @@ export const mode = <T extends unknown>(prev: T, curr: T, index: number, arr: T[
   return unique[counts.indexOf(max)];
 };
 
-// TODO docs
-/**
- * fn.reduces.modeMapped / fn.modeMapped
+/**<!-- DOCS: #### -->
+ * modeMapped
+ *
+ * - `fn.modeMapped`
+ * - `fn.reduces.modeMapped`
  *
  * Returns the most common value in an array, based on a given map function.
+ *
+ * ```typescript
+ * [2, 4, 6, 8, 9, 12].reduce(fn.modeMapped((v) => v % 3)); // 6 (maps to [ 2, 1, 0, 2, 0, 0 ])
+ * ```
  */
 export const modeMapped = <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => {
   let result: T;
@@ -466,8 +590,14 @@ export const reduces = {
   modeMapped
 };
 
-/**
- * fn.everys.isAllEqual / fn.isAllEqual
+/**<!-- DOCS: ### -->
+ * everys
+ */
+/**<!-- DOCS: #### -->
+ * isAllEqual
+ *
+ * - `fn.isAllEqual`
+ * - `fn.everys.isAllEqual`
  *
  * Returns if all the items are equal to one another.
  *
@@ -482,18 +612,15 @@ export const everys = {
   isAllEqual
 };
 
-// Another bad idea. Don't use it.
-// const mappedTo = (...hoFns) => {
-//   const checkFn = hoFns.pop();
-//   let mapped;
-//   return (val, index, arr) => {
-//     if (!mapped) mapped = arr.map(multimap(...hoFns));
-//     return checkFn(mapped[index], index, mapped);
-//   };
-// };
-
-/**
- * fn.round.floorTo / fn.floorTo
+// TODO move to MathsUtils
+/**<!-- DOCS: ### -->
+ * round
+ */
+/**<!-- DOCS: #### -->
+ * floorTo
+ *
+ * - `fn.floorTo`
+ * - `fn.round.floorTo`
  *
  * Floors a number down to the nearest multiple of the given number.
  *
@@ -505,8 +632,13 @@ export const everys = {
  */
 export const floorTo = (to: number, value: number) => fixFloat(Math.floor(value / to) * to);
 
-/**
- * fn.round.to / fn.round.roundTo / fn.roundTo
+// TODO move to MathsUtils
+/**<!-- DOCS: #### -->
+ * roundTo
+ *
+ * - `fn.round.to`
+ * - `fn.roundTo`
+ * - `fn.round.roundTo`
  *
  * Floors a number down to the nearest multiple of the given number.
  *
@@ -518,8 +650,12 @@ export const floorTo = (to: number, value: number) => fixFloat(Math.floor(value 
  */
 export const roundTo = (to: number, value: number) => fixFloat(Math.round(value / to) * to);
 
-/**
- * fn.round.ceilTo / fn.ceilTo
+// TODO move to MathsUtils
+/**<!-- DOCS: #### -->
+ * ceilTo
+ *
+ * - `fn.ceilTo`
+ * - `fn.round.ceilTo`
  *
  * Floors a number down to the nearest multiple of the given number.
  *
@@ -531,6 +667,7 @@ export const roundTo = (to: number, value: number) => fixFloat(Math.round(value 
  */
 export const ceilTo = (to: number, value: number) => fixFloat(Math.ceil(value / to) * to);
 
+// TODO move to MathsUtils
 export const round = {
   floorTo,
   roundTo,
@@ -538,24 +675,69 @@ export const round = {
   to: roundTo
 };
 
-// TODO docs
-
+// TODO move to MathsUtils
+/**<!-- DOCS: ### -->
+ * lerp
+ *
+ * - `fn.lerp`
+ *
+ * Linearly interpolates between two values.
+ *
+ * ```typescript
+ * fn.lerp(0.5, 0, 10); // 5
+ * ```
+ */
 export const lerp = (progress: number, fromVal: number, toVal: number): number => fromVal + (toVal - fromVal) * progress;
 
+// TODO move to MathsUtils
+/**<!-- DOCS: ### -->
+ * lerpArray
+ *
+ * - `fn.lerpArray`
+ *
+ * Linearly interpolates between the values of 2 arrays.
+ *
+ * ```typescript
+ * fn.lerpArray(0.5, [0, 0, 0], [10, 100, 1000]) // [5, 50, 500]
+ * ```
+ */
 export const lerpArray = (progress: number, fromArr: number[], toArr: number[]): number[] =>
   zip(fromArr, toArr).map(([fromVal, toVal]) => lerp(progress, fromVal, toVal));
 
+// TODO move to MathsUtils
+/**<!-- DOCS: ### -->
+ * lerpObj
+ *
+ * - `fn.lerpObj`
+ *
+ * Linearly interpolates between the values of 2 arrays.
+ *
+ * ```typescript
+ * fn.lerpObj(0.5, {'ARS': 0, 'CHE': 0, 'FUL': 0}, {'ARS': 100, 'CHE': 10, 'FUL': 20}) // {'ARS': 50, 'CHE': 5, 'FUL': 10}
+ * ```
+ */
 export const lerpObj = <T extends object>(progress: number, fromObj: T, toObj: T): T => {
   const entries = Object.entries(fromObj);
   const lerped = entries.map(([key, fromVal]) => (typeof fromVal === 'number' ? [key, lerp(progress, fromVal, toObj[key])] : [key, fromVal]));
   return Object.fromEntries(lerped) as T;
 };
 
-// TODO docs
 // TODO move non high-level functions elsewhere (e.g. MathsUtils, StringUtils, etc)
-export const clamp = (value: number, a: number, b: number) => Math.max(Math.min(a, b), Math.min(value, Math.max(a, b)));
+/**<!-- DOCS: ### -->
+ * clamp
+ *
+ * - `fn.clamp`
+ *
+ * Clamps a value between a min and max.
+ *
+ * ```typescript
+ * fn.clamp(5, 0, 10); // 5
+ * fn.clamp(-5, 0, 10); // 0
+ * ```
+ */
+export const clamp = (value: number, min: number, max: number) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
 
-// TODO docs
+// TODO REMOVE
 export const capitalise = (str: string): string => {
   console.warn('fn.capitalise is deprecated, use StringUtils.capitalize instead');
   return StringUtils.capitalise(str);

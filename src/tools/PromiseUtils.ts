@@ -1,9 +1,21 @@
+//<!-- DOCS: 130 -->
+/**<!-- DOCS: ## -->
+ * PromiseUtils
+ *
+ * A collection of promise utilities
+ */
+
 export interface DeferredPromise<T> {
   resolve: (value: T) => Promise<T>;
   reject: (value: T) => Promise<T>;
   promise: Promise<T>;
 }
-/**
+/**<!-- DOCS: ### -->
+ * getDeferred
+ *
+ * - `getDeferred`
+ * - `PromiseUtils.getDeferred`
+ *
  * A deferred promise
  *
  * ```typescript
@@ -43,14 +55,24 @@ export const getDeferred = <T extends unknown>(): DeferredPromise<T> => {
   };
 };
 
-/**
+/**<!-- DOCS: ### -->
+ * all
+ *
+ * - `all`
+ * - `PromiseUtils.all`
+ *
  * An alias for Promise.all
  */
 export const all = async <T extends unknown>(promises: Promise<T>[]): Promise<any> => {
   await Promise.all(promises);
 };
 
-/**
+/**<!-- DOCS: ### -->
+ * allLimit
+ *
+ * - `allLimit`
+ * - `PromiseUtils.allLimit`
+ *
  * Like Promise.all, but limits the numbers of concurrently running items.
  *
  * Takes an array of functions (that return Promises), rather than an array of Promises
@@ -130,7 +152,12 @@ export const allLimit = <T extends unknown>(limit: number, items: ((index: numbe
   return deferred.promise;
 };
 
-/**
+/**<!-- DOCS: ### -->
+ * each
+ *
+ * - `each`
+ * - `PromiseUtils.each`
+ *
  * Run an async function against each item in an array
  *
  * ```typescript
@@ -149,7 +176,12 @@ export const each = async <Ti extends unknown>(items: Ti[], func: (item: Ti, ind
   await Promise.all(items.map((item: Ti, index: number, array: Ti[]) => func(item, index, array)));
 };
 
-/**
+/**<!-- DOCS: ### -->
+ * eachLimit
+ *
+ * - `eachLimit`
+ * - `PromiseUtils.eachLimit`
+ *
  * Run an async function against each item in an array, limiting the number of items that can run concurrently.
  *
  * See PromiseUtils.allLimit for information about limited functions.
@@ -177,7 +209,12 @@ export const eachLimit = async <Ti extends unknown>(
   );
 };
 
-/**
+/**<!-- DOCS: ### -->
+ * map
+ *
+ * - `map`
+ * - `PromiseUtils.map`
+ *
  * Run an async map function against each item in an array, mapping the results to a returned array
  *
  * ```typescript
@@ -209,7 +246,12 @@ export const map = async <Ti extends unknown, To extends unknown>(
   return result;
 };
 
-/**
+/**<!-- DOCS: ### -->
+ * mapLimit
+ *
+ * - `mapLimit`
+ * - `PromiseUtils.mapLimit`
+ *
  * Run an async map function against each item in an array, mapping the results to a returned array, and limiting the number of items that can run concurrently.
  *
  * See PromiseUtils.allLimit for information about limited functions.
@@ -248,7 +290,12 @@ const objectify = async <T extends Object>(func: Function, input: T): Promise<Un
 
 type UnWrapPromise<T> = T extends Promise<infer U> ? U : T;
 type UnWrapPromiseObject<T> = { [K in keyof T]: UnWrapPromise<T[K]> };
-/**
+/**<!-- DOCS: ### -->
+ * allObj
+ *
+ * - `allObj`
+ * - `PromiseUtils.allObj`
+ *
  * Like Promise.all, but pass/receive objects rather than arrays
  *
  * ```typescript
@@ -284,7 +331,12 @@ export const allObj = async <T extends Object>(input: T): Promise<UnWrapPromiseO
   return objectify((arr) => Promise.all(arr), input);
 };
 
-/**
+/**<!-- DOCS: ### -->
+ * allLimitObj
+ *
+ * - `allLimitObj`
+ * - `PromiseUtils.allLimitObj`
+ *
  * A mix of allObj and allLimit.
  *
  * Takes an array of functions (that return Promises), and limits the numbers of concurrently running items.

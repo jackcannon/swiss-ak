@@ -1,5 +1,12 @@
 import { ms, MILLISECOND, SECOND, MINUTE, HOUR, DAY, MONTH, YEAR, CENTURY, MILLENNIUM } from './times';
 
+//<!-- DOCS: 150 -->
+/**<!-- DOCS: ## -->
+ * TimeUtils
+ *
+ * A collection of time-related utility functions.
+ */
+
 interface DurationUnitLabel {
   singular: string;
   plural: string;
@@ -58,7 +65,34 @@ const units: DurationUnit[] = [
   }
 ];
 
-// TODO docs
+/**<!-- DOCS: ### -->
+ * toReadableDuration
+ *
+ * - `TimeUtils.toReadableDuration`
+ *
+ * Converts a duration in milliseconds to a human readable string.
+ *
+ * ```typescript
+ * TimeUtils.toReadableDuration(20); // '20ms'
+ * TimeUtils.toReadableDuration(seconds(59)); // '59s'
+ * TimeUtils.toReadableDuration(seconds(60)); // '1m'
+ * TimeUtils.toReadableDuration(hours(23)); // '23h'
+ * TimeUtils.toReadableDuration(hours(24)); // '1d'
+ * TimeUtils.toReadableDuration(days(10)); // '10d'
+ *
+ * TimeUtils.toReadableDuration(20, true) // '20 milliseconds'
+ * TimeUtils.toReadableDuration(seconds(59), true) // '59 seconds'
+ * TimeUtils.toReadableDuration(seconds(60), true) // '1 minute'
+ * TimeUtils.toReadableDuration(hours(23), true) // '23 hours'
+ * TimeUtils.toReadableDuration(hours(24), true) // '1 day'
+ * TimeUtils.toReadableDuration(days(10), true) // '10 days'
+ *
+ * const realisticDuration = days(10) + hours(2) + seconds(31) + 512; // 871231512
+ * TimeUtils.toReadableDuration(realisticDuration, true, 4) // '10 days, 2 hours, 31 seconds & 512 milliseconds'
+ * TimeUtils.toReadableDuration(realisticDuration, true) // '10 days, 2 hours & 31 seconds'
+ * TimeUtils.toReadableDuration(realisticDuration, true, 2) // '10 days & 2 hours'
+ * ```
+ */
 const toReadableDuration = (duration: ms, longNames: boolean = false, maxUnits: number = 3): string => {
   if (duration === 0) return '';
 
@@ -77,8 +111,12 @@ const toReadableDuration = (duration: ms, longNames: boolean = false, maxUnits: 
   });
 
   if (longNames) {
-    return [...results.slice(0, -1), '&&&&', ...results.slice(-1)].join(', ').replace('&&&&,', '&');
+    if (results.length <= 1) {
+      return results.join('');
+    }
+    return [...results.slice(0, -1), '&&&&', ...results.slice(-1)].join(', ').replace('&&&&,', '&').replace(', &', ' &');
   }
+
   return results.join(' ');
 };
 

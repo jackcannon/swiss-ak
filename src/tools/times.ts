@@ -1,3 +1,24 @@
+/*<!-- DOCS: ## 10 -->
+ * times
+ *
+ * A collection of utils for calculating simple times.
+ * Each unit (e.g. second) has: a type (`second`), a constant (`SECOND`) and a function for getting multiples (`seconds(x: second) => ms`)
+ *
+ * | unit        | type         | constant      | function                           |
+ * | ----------- | ------------ | ------------- | ---------------------------------- |
+ * | millisecond | `ms`         | `MILLISECOND` | `milliseconds(x: ms) => ms`        |
+ * | second      | `second`     | `SECOND`      | `seconds(x: second) => ms`         |
+ * | minute      | `minute`     | `MINUTE`      | `minutes(x: minute) => ms`         |
+ * | hour        | `hour`       | `HOUR`        | `hours(x: hour) => ms`             |
+ * | day         | `day`        | `DAY`         | `days(x: day) => ms`               |
+ * | week        | `week`       | `WEEK`        | `weeks(x: week) => ms`             |
+ * | month       | `month`      | `MONTH`       | `months(x: month) => ms`           |
+ * | year        | `year`       | `YEAR`        | `years(x: year) => ms`             |
+ * | decade      | `decade`     | `DECADE`      | `decades(x: decade) => ms`         |
+ * | century     | `century`    | `CENTURY`     | `centuries(x: century) => ms`      |
+ * | millennium  | `millennium` | `MILLENNIUM`  | `millenniums(x: millennium) => ms` |
+ */
+
 export type ms = number;
 export type second = number;
 export type minute = number;

@@ -1,10 +1,39 @@
 import * as fn from './fn';
+//<!-- DOCS: 140 -->
+/**<!-- DOCS: ## -->
+ * ColourUtils
+ *
+ * A collection of functions for working with colours.
+ */
 
+/**<!-- DOCS: ### -->
+ * ColourValues
+ *
+ * - `ColourUtils.ColourValues`
+ *
+ * A type with 3 numbers:
+ * - red [0-255]
+ * - green [0-255]
+ * - blue [0-255]
+ */
 export type ColourValues = [number, number, number];
+
+/**<!-- DOCS: ### -->
+ * HSLValues
+ *
+ * - `ColourUtils.HSLValues`
+ *
+ * A type with 3 numbers:
+ * - hue [0-360]
+ * - saturation [0-100]
+ * - lightness [0-100]
+ */
 export type HSLValues = [number, number, number];
 
-/**
- * ColourUtils.namedColours
+/**<!-- DOCS: ### -->
+ * namedColours
+ *
+ * - `ColourUtils.namedColours`
  *
  * A dictionary of different colour names and their RGB values
  *
@@ -274,8 +303,10 @@ export const namedColours = {
 const limitValue = (val: number) => Math.max(0, Math.min(255, val));
 const roundMinMax = (value: number, min: number = 0, max: number = 255) => Math.min(max, Math.max(min, Math.round(value)));
 
-/**
- * ColourUtils.parse
+/**<!-- DOCS: ### -->
+ * parse
+ *
+ * - `ColourUtils.parse`
  *
  * Parse a string into a colour object (RGB array)
  * Not extensive. Currently limited to:
@@ -318,8 +349,10 @@ export const parse = (input: string): ColourValues => {
   return [0, 0, 0];
 };
 
-/**
- * ColourUtils.toHex
+/**<!-- DOCS: ### -->
+ * toHex
+ *
+ * - `ColourUtils.toHex`
  *
  * Convert a colour object (RGB array) to a hex string
  *
@@ -332,8 +365,10 @@ export const toHex = (colour: ColourValues): string => {
   return `#${hexs.join('')}`;
 };
 
-/**
- * ColourUtils.getLuminance
+/**<!-- DOCS: ### -->
+ * getLuminance
+ *
+ * - `ColourUtils.getLuminance`
  *
  * IMPORTANT: This is not the same as the HSL luminance value.
  *
@@ -345,9 +380,9 @@ export const toHex = (colour: ColourValues): string => {
  * Is the Y (Luma) component of the YUV444 color model.
  *
  * ```typescript
- * getLuminance([255, 0, 0]); // 76.245
- * getLuminance([0, 255, 0]); // 149.685
- * getLuminance([0, 0, 255]); // 29.07
+ * ColourUtils.getLuminance([255, 0, 0]); // 76.245
+ * ColourUtils.getLuminance([0, 255, 0]); // 149.685
+ * ColourUtils.getLuminance([0, 0, 255]); // 29.07
  * ```
  */
 export const getLuminance = ([r, g, b]: ColourValues): number => {
@@ -355,8 +390,19 @@ export const getLuminance = ([r, g, b]: ColourValues): number => {
   return y;
 };
 
-//TODO docs
-// YUV - https://en.wikipedia.org/wiki/YUV#Y%E2%80%B2UV444_to_RGB888_conversion
+/**<!-- DOCS: ### -->
+ * toYUV
+ *
+ * - `ColourUtils.toYUV`
+ *
+ * Convert a colour object (RGB array) to a YUV array.
+ *
+ * See https://en.wikipedia.org/wiki/YUV#Y%E2%80%B2UV444_to_RGB888_conversion
+ *
+ * ```typescript
+ * ColourUtils.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
+ * ```
+ */
 export const toYUV = ([r, g, b]: ColourValues): ColourValues => {
   const y = fn.fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
   const u = fn.fixFloat(-0.14713 * (r ?? 0) - 0.28886 * (g ?? 0) + 0.436 * (b ?? 0));
@@ -364,8 +410,20 @@ export const toYUV = ([r, g, b]: ColourValues): ColourValues => {
   return [y, u, v];
 };
 
-// TODO docs
-// https://www.30secondsofcode.org/js/s/rgb-to-hsl
+/**<!-- DOCS: ### -->
+ * toHSL
+ *
+ * - `ColourUtils.toHSL`
+ *
+ * Convert a RGB array to a HSL array.
+ *
+ * Adapted from https://www.30secondsofcode.org/js/s/rgb-to-hsl
+ *
+ * ```typescript
+ * ColourUtils.toHSL([255, 0, 0]); // [0, 100, 50]
+ * ColourUtils.toHSL([0, 255, 0]); // [120, 100, 50]
+ * ```
+ */
 export const toHSL = (colour: ColourValues, round: boolean = true): HSLValues => {
   const r = colour[0] / 255;
   const g = colour[1] / 255;
@@ -402,8 +460,20 @@ export const toHSL = (colour: ColourValues, round: boolean = true): HSLValues =>
   return result;
 };
 
-// TODO docs
-// https://www.30secondsofcode.org/js/s/hsl-to-rgb
+/**<!-- DOCS: ### -->
+ * fromHSL
+ *
+ * - `ColourUtils.fromHSL`
+ *
+ * Convert a HSL array to a RGB array.
+ *
+ * Adapted from https://www.30secondsofcode.org/js/s/hsl-to-rgb
+ *
+ * ```typescript
+ * ColourUtils.fromHSL([0, 100, 50]); // [255, 0, 0]
+ * ColourUtils.fromHSL([120, 100, 50]); // [0, 255, 0]
+ * ```
+ */
 export const fromHSL = (hsl: HSLValues, round: boolean = true): ColourValues => {
   const h = hsl[0];
   const s = hsl[1] / 100;
@@ -421,15 +491,17 @@ export const fromHSL = (hsl: HSLValues, round: boolean = true): ColourValues => 
   return result;
 };
 
-/**
- * ColourUtils.invertColour
+/**<!-- DOCS: ### -->
+ * invertColour
+ *
+ * - `ColourUtils.invertColour`
  *
  * Get the opposite colour of a given colour.
  *
  * ```typescript
- * invertColour([255, 0, 0]); // [0, 255, 255]
- * invertColour([0, 255, 0]); // [ 255, 0, 255 ]
- * invertColour([0, 0, 255]); // [ 255, 255, 0 ]
+ * ColourUtils.invertColour([255, 0, 0]); // [0, 255, 255]
+ * ColourUtils.invertColour([0, 255, 0]); // [ 255, 0, 255 ]
+ * ColourUtils.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
  * ```
  */
 export const invertColour = ([r, g, b]: ColourValues): ColourValues => [255 - r, 255 - g, 255 - b];
@@ -437,24 +509,37 @@ export const invertColour = ([r, g, b]: ColourValues): ColourValues => [255 - r,
 const white = [255, 255, 255] as ColourValues;
 const black = [0, 0, 0] as ColourValues;
 
-/**
- * ColourUtils.getContrastedColour
+/**<!-- DOCS: ### -->
+ * getContrastedColour
+ *
+ * - `ColourUtils.getContrastedColour`
  *
  * Get the colour that contrasts the most with a given colour. (White or black)
  *
  * Returned colour can be used as a text colour on top of the provided colour
  *
  * ```typescript
- * getContrastedColour([255, 0, 0]); // [255, 255, 255]
- * getContrastedColour([255, 255, 0]); // [0, 0, 0]
+ * ColourUtils.getContrastedColour([255, 0, 0]); // [255, 255, 255]
+ * ColourUtils.getContrastedColour([255, 255, 0]); // [0, 0, 0]
  * ```
  */
 export const getContrastedColour = (colour: ColourValues): ColourValues => (getLuminance(colour) > 186 ? black : white);
 
-// TODO docs
-// adjust a colour if a certain condition is met
-// used for lightneing/darkening colours that are too light/dark
-// all func values are HSL
+/**<!-- DOCS: ### -->
+ * getLimitedColour
+ *
+ * - `ColourUtils.getLimitedColour`
+ *
+ * Adjust a colour if a certain condition is met.
+ * Used for lightening/darkening colours that are too light/dark
+ *
+ * All values in functions are HSL
+ *
+ * ```typescript
+ * ColourUtils.getLimitedColour([255, 255, 255], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 230, 230, 230 ]
+ * ColourUtils.getLimitedColour([128, 128, 128], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 128, 128, 128 ]
+ * ```
+ */
 export const getLimitedColour = (colour: ColourValues, checkFn: (hsl: HSLValues) => boolean, adjustFn: (hsl: HSLValues) => HSLValues) => {
   const hsl = toHSL(colour);
   if (checkFn(hsl)) {

@@ -1,6 +1,29 @@
 import { ms } from './times';
 
-/**
+//<!-- DOCS: 20 -->
+
+/*<!-- DOCS: ## -->
+ * waiters
+ *
+ * Async functions that return promises at or after a given time.
+ *
+ * 'Accurate/pinged' waiters ping at intermediary points to resolve at a more accurate time.
+ *
+ * | Name      | Description                                          | Example                                         |
+ * | --------- | ---------------------------------------------------- | ----------------------------------------------- |
+ * | wait      | Standard wait promise (using setTimeout)             | `minutes(2)` = in 2 minutes                     |
+ * | waitFor   | Accurate (pinged) wait the given ms                  | `minutes(2)` = in 2 minutes                     |
+ * | waitUntil | Accurate (pinged) wait until given time              | `Date.now() + minutes(2)` = in 2 minutes        |
+ * | waitEvery | Accurate (pinged) wait for next 'every X' event      | `hours(1)` = next full hour (e.g. 17:00, 22:00) |
+ * | interval  | Accurate (pinged) interval for every 'every X' event | `hours(1)` = every hour, on the hour            |
+ */
+
+/**<!-- DOCS: ### -->
+ * wait
+ *
+ * - `wait`
+ * - `waiters.wait`
+ *
  * Standard wait promise (using setTimeout)
  *
  * ```typescript
@@ -18,7 +41,12 @@ const PING_RATIO = 0.75;
 const ROUND_AMOUNT = 1.5;
 const getPingDuration = (time: ms, now: ms = Date.now()): ms => Math.ceil(((time - now) * PING_RATIO) / ROUND_AMOUNT) * ROUND_AMOUNT;
 
-/**
+/**<!-- DOCS: ### -->
+ * waitUntil
+ *
+ * - `waitUntil`
+ * - `waiters.waitUntil`
+ *
  * Accurate (pinged) wait until given time
  *
  * ```typescript
@@ -36,7 +64,12 @@ export const waitUntil = async (time: ms): Promise<null> => {
   return null;
 };
 
-/**
+/**<!-- DOCS: ### -->
+ * waitFor
+ *
+ - `waitFor`
+ - `waiters.waitFor`
+ *
  * Accurate (pinged) wait the given ms
  *
  * ```typescript
@@ -56,7 +89,12 @@ const getNextEvery = (timing: ms, offset: ms = 0): ms => {
   return result <= 10 ? timing : result;
 };
 
-/**
+/**<!-- DOCS: ### -->
+ * waitEvery
+ *
+ - `waitEvery`
+ - `waiters.waitEvery`
+ *
  * Accurate (pinged) wait for next 'every X' event
  *
  * ```typescript
@@ -70,7 +108,12 @@ const getNextEvery = (timing: ms, offset: ms = 0): ms => {
 export const waitEvery = (timing: ms, offset?: ms): Promise<null> => waitFor(getNextEvery(timing, offset));
 
 const stopped: number[] = [];
-/**
+/**<!-- DOCS: ### -->
+ * stopInterval
+ *
+ - `stopInterval`
+ - `waiters.stopInterval`
+ *
  * ```typescript
  * import { interval, stopInterval } from 'swiss-ak';
  *
@@ -85,7 +128,12 @@ const stopped: number[] = [];
  */
 export const stopInterval = (intID: number) => stopped.push(intID);
 
-/**
+/**<!-- DOCS: ### -->
+ * interval
+ *
+ - `interval`
+ - `waiters.interval`
+ *
  * Accurate (pinged) interval for every 'every X' event
  *
  * ```typescript

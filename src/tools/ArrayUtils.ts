@@ -1,17 +1,29 @@
 import { sorts, fixFloat } from './fn';
 
-/**
+//<!-- DOCS: 100 -->
+/**<!-- DOCS: ## -->
+ * ArrayUtils
+ *
+ * A collection of useful array functions.
+ */
+
+/**<!-- DOCS: ### -->
+ * range
+ *
+ * - `range`
+ * - `ArrayUtils.range`
+ *
  * Returns an array of the given length, where each value is equal to it's index
  * e.g. [0, 1, 2, ..., length]
  *
  * ```typescript
- * range(3);  // [0, 1, 2]
- * range(5);  // [0, 1, 2, 3, 4]
- * range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+ * ArrayUtils.range(3);  // [0, 1, 2]
+ * ArrayUtils.range(5);  // [0, 1, 2, 3, 4]
+ * ArrayUtils.range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
  *
- * range(3, 2);  // [0, 2, 4]
- * range(5, 2);  // [0, 2, 4, 6, 8]
- * range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
+ * ArrayUtils.range(3, 2);  // [0, 2, 4]
+ * ArrayUtils.range(5, 2);  // [0, 2, 4, 6, 8]
+ * ArrayUtils.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
  * ```
  */
 export const range = (length: number = 1, multiplier: number = 1, offset: number = 0): number[] =>
@@ -23,7 +35,12 @@ type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] 
 const zipFn = <T extends [...any[]]>(length: number, arrs: T): UnwrapArrays<T>[] =>
   range(length).map((i) => arrs.map((arr) => (arr || [])[i])) as UnwrapArrays<T>[];
 
-/**
+/**<!-- DOCS: ### -->
+ * zip
+ *
+ * - `zip`
+ * - `ArrayUtils.zip`
+ *
  * Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
  *
  * Limited to the length of the shortest provided array
@@ -31,22 +48,42 @@ const zipFn = <T extends [...any[]]>(length: number, arrs: T): UnwrapArrays<T>[]
  * Inspired by python's 'zip'
  *
  * ```typescript
- * zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
+ * ArrayUtils.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
  * ```
  */
 export const zip = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] =>
   zipFn(Math.min(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
 
-// TODO docs
+/**<!-- DOCS: ### -->
+ * zipMax
+ *
+ * - `zipMax`
+ * - `ArrayUtils.zipMax`
+ *
+ * Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
+ *
+ * Unlike `zip`, it will match the length of the longest provided array, filling in any missing values with `undefined`
+ *
+ * Inspired by python's 'zip'
+ *
+ * ```typescript
+ * ArrayUtils.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
+ * ```
+ */
 export const zipMax = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] =>
   zipFn(Math.max(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
 
-/**
+/**<!-- DOCS: ### -->
+ * sortByMapped
+ *
+ * - `sortByMapped`
+ * - `ArrayUtils.sortByMapped`
+ *
  * Sort an array by a mapped form of the values, but returning the initial values
  *
  * ```typescript
- * sortByMapped(['2p', '3p', '1p'], (v) => Number(v.replace('p', ''))); // ['1p', '2p', '3p']
- * sortByMapped(
+ * ArrayUtils.sortByMapped(['2p', '3p', '1p'], (v) => Number(v.replace('p', ''))); // ['1p', '2p', '3p']
+ * ArrayUtils.sortByMapped(
  *   ['2p', '3p', '1p'],
  *   (v) => Number(v.replace('p', '')),
  *   (a, b) => b - a
@@ -62,20 +99,30 @@ export const sortByMapped = <T = string, M = number>(
     .sort((a, b) => sortFn(a[1] as M, b[1] as M))
     .map(([v]) => v);
 
-/**
+/**<!-- DOCS: ### -->
+ * randomise
+ *
+ * - `randomise`
+ * - `ArrayUtils.randomise`
+ *
  * Returns a clone of the provided array with it's items in a random order
  *
  * ```typescript
- * randomise([1, 2, 3, 4, 5, 6]); // [ 5, 3, 4, 1, 2, 6 ]
- * randomise([1, 2, 3, 4, 5, 6]); // [ 5, 1, 3, 2, 4, 6 ]
- * randomise([1, 2, 3, 4, 5, 6]); // [ 6, 1, 4, 5, 2, 3 ]
- * randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
- * randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
+ * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 5, 3, 4, 1, 2, 6 ]
+ * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 5, 1, 3, 2, 4, 6 ]
+ * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 6, 1, 4, 5, 2, 3 ]
+ * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
+ * ArrayUtils.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
  * ```
  */
 export const randomise = <T = string>(arr: T[]): T[] => sortByMapped(arr, () => Math.random());
 
-/**
+/**<!-- DOCS: ### -->
+ * reverse
+ *
+ * - `reverse`
+ * - `ArrayUtils.reverse`
+ *
  * Returns a new array with the order reversed without affecting original array
  *
  * ```typescript
@@ -86,18 +133,23 @@ export const randomise = <T = string>(arr: T[]): T[] => sortByMapped(arr, () => 
  *
  * const arr2 = [1, 2, 3];
  * arr2            // [1, 2, 3]
- * reverse(arr2);  // [3, 2, 1]
+ * ArrayUtils.reverse(arr2);  // [3, 2, 1]
  * arr2            // [1, 2, 3]
  * ```
  */
 export const reverse = <T = string>(arr: T[]): T[] => [...arr].reverse();
 
-/**
+/**<!-- DOCS: ### -->
+ * entries
+ *
+ * - `entries`
+ * - `ArrayUtils.entries`
+ *
  * Returns array of 'tuples' of index/value pairs
  *
  * ```typescript
  * const arr = ['a', 'b', 'c'];
- * entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
+ * ArrayUtils.entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
  *
  * for (let [index, value] of entries(arr)) {
  *  console.log(index); // 0, 1, 2
@@ -107,14 +159,17 @@ export const reverse = <T = string>(arr: T[]): T[] => [...arr].reverse();
  */
 export const entries = <T = string>(arr: T[]): [number, T][] => zip(range(arr.length), arr) as any;
 
-/**
- * ArrayUtils.repeat
+/**<!-- DOCS: ### -->
+ * repeat
+ *
+ * - `repeat`
+ * - `ArrayUtils.repeat`
  *
  * Returns an array with the given items repeated
  *
  * ```typescript
- * repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
- * repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
+ * ArrayUtils.repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
+ * ArrayUtils.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
  * ```
  */
 export const repeat = <T = string>(maxLength: number, ...items: T[]): T[] => {
@@ -122,14 +177,17 @@ export const repeat = <T = string>(maxLength: number, ...items: T[]): T[] => {
   return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
 };
 
-/**
- * ArrayUtils.roll
+/**<!-- DOCS: ### -->
+ * roll
+ *
+ * - `roll`
+ * - `ArrayUtils.roll`
  *
  * 'Roll' the array by a given amount so that is has a new first item. Length and contents remain the same, but the order is changed
  *
  * ```typescript
- * roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
- * roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
+ * ArrayUtils.roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
+ * ArrayUtils.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
  * ```
  */
 export const roll = <T extends unknown>(distance: number, arr: T[]): T[] => [
@@ -141,15 +199,18 @@ const isNumString = (text: string) => Boolean(text.match(/^[0-9]+$/));
 const partitionNums = (ignoreCase: boolean) => (name: string) =>
   (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => (isNumString(s) ? Number(s) : s));
 
-/**
- * ArrayUtils.sortNumberedText
+/**<!-- DOCS: ### -->
+ * sortNumberedText
+ *
+ * - `sortNumberedText`
+ * - `ArrayUtils.sortNumberedText`
  *
  * Alphabetically sorts a list of strings, but keeps multi-digit numbers in numerical order (rather than alphabetical)
  *
  * ```typescript
  * const names = ['name1', 'name10', 'name2', 'foo20', 'foo10', 'foo9'];
  * names.sort(); // [ 'foo10', 'foo20', 'foo9', 'name1', 'name10', 'name2' ]
- * sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
+ * ArrayUtils.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
  * ```
  */
 export const sortNumberedText = (texts: string[], ignoreCase: boolean = true): string[] => {
@@ -162,9 +223,17 @@ export const sortNumberedText = (texts: string[], ignoreCase: boolean = true): s
   });
 };
 
-// TODO docs
-/**
- * To equal size 2d array
+/**<!-- DOCS: ### -->
+ * partition
+ *
+ * - `partition`
+ * - `ArrayUtils.partition`
+ *
+ * Breaks an array into smaller arrays of a given size
+ *
+ * ```typescript
+ * ArrayUtils.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
+ * ```
  */
 export const partition = <T extends unknown>(array: T[], partitionSize: number = Math.ceil(array.length / 2)): T[][] => {
   const numParts = Math.ceil(array.length / partitionSize);
@@ -175,9 +244,25 @@ export const partition = <T extends unknown>(array: T[], partitionSize: number =
   return result;
 };
 
-// TODO docs
-/**
- * group items into an object of arrays, based on a given map function.
+/**<!-- DOCS: ### -->
+ * groupObj
+ *
+ * - `groupObj`
+ * - `ArrayUtils.groupObj`
+ *
+ * Group items from an array into an object of arrays, based on a given map function.
+ *
+ * ```typescript
+ * const arr = [
+ *   { group: 1, name: 'a' },
+ *   { group: 2, name: 'b' },
+ *   { group: 1, name: 'c' },
+ * ];
+ * ArrayUtils.groupObj(arr, item => item.id); // {
+ * //   1: [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
+ * //   2: [ { group: 2, name: 'b' } ]
+ * // }
+ * ```
  */
 export const groupObj = <T extends unknown>(
   array: T[],
@@ -197,9 +282,25 @@ export const groupObj = <T extends unknown>(
   return result;
 };
 
-// TODO docs
-/**
- * group items into an array of arrays, based on a given map function.
+/**<!-- DOCS: ### -->
+ * group
+ *
+ * - `group`
+ * - `ArrayUtils.group`
+ *
+ * Group items from an array into an array of arrays, based on a given map function.
+ *
+ * ```typescript
+ * const arr = [
+ *   { group: 1, name: 'a' },
+ *   { group: 2, name: 'b' },
+ *   { group: 1, name: 'c' },
+ * ];
+ * ArrayUtils.groupObj(arr, item => item.id); // [
+ * //   [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
+ * //   [ { group: 2, name: 'b' } ]
+ * // ]
+ * ```
  */
 export const group = <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): T[][] => {
   const obj = groupObj(array, mapFn);

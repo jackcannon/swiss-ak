@@ -3,6 +3,13 @@ import { KeysOnly, Numbered } from './types';
 import { noChalk, noWrap } from './fakeChalk';
 import { TimeUtils } from './TimeUtils';
 
+//<!-- DOCS: 900 -->
+/**<!-- DOCS: ## -->
+ * timer
+ *
+ * A debug tool for measuring the duration of code blocks.
+ */
+
 interface INames {
   [k: string]: string;
 }
@@ -38,7 +45,11 @@ export interface ITimer<TName> {
   displayNames: TName;
 }
 
-/**
+/**<!-- DOCS: ### -->
+ * getTimer
+ *
+ * - `getTimer`
+ *
  * Usage:
  * ```typescript
  * const timer = getTimer('Example', false, chalk.red, chalk, {
@@ -184,7 +195,11 @@ export const getTimer = <TName extends INames>(
   };
 };
 
-/**
+/**<!-- DOCS: ### -->
+ * timer
+ *
+ * - `timer`
+ *
  * Global timer
  */
 export const timer = getTimer();

@@ -1,58 +1,234 @@
-// TODO docs for this whole file
+//<!-- DOCS: 120 -->
+/**<!-- DOCS: ## -->
+ * StringUtils
+ *
+ * A collection of string utilities
+ */
 
-// TODO docs
+/**<!-- DOCS: ### -->
+ * capitalise
+ *
+ * - `StringUtils.capitalise`
+ *
+ * Capitalises the first letter of each word in a string
+ *
+ * ```typescript
+ * StringUtils.capitalise('hello world'); // 'Hello World'
+ * ```
+ */
 const capitalise = (input: string = '') =>
   (input || '')
     .split(/\s/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
 
-// TODO docs
+/**<!-- DOCS: ### -->
+ * angloise
+ *
+ * - `StringUtils.angloise`
+ *
+ * Remove accents from a string
+ *
+ * ```typescript
+ * StringUtils.angloise('éèêë'); // 'eeee'
+ * ```
+ */
 const angloise = (input: string): string => input.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-// TODO docs
+/**<!-- DOCS: ### -->
+ * clean
+ *
+ * - `StringUtils.clean`
+ *
+ * Remove accents and non alphanumerics from a string
+ *
+ * ```typescript
+ * StringUtils.clean('éèêë_--ab0'); // 'eeeeab0'
+ * ```
+ */
 const clean = (input: string = ''): string =>
   angloise([input].flat().join(' '))
     .replace(/\s{1,}/g, ' ')
     .replace(/[^A-Za-z0-9 ]/gi, '');
 
-// TODO docs
 export type CaseInput = string | string[];
 type SplittingFn = (input: CaseInput) => string[];
 
-// TODO docs
+/**<!-- DOCS: ### -->
+ * StringCaseHandler
+ */
 export interface StringCaseHandler {
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toLowerCamelCase
+   *
+   * - `StringUtils.toLowerCamelCase`
+   * - `StringUtils.fromSlugCase.toLowerCamelCase`
+   * - `StringUtils.fromSnakeCase.toLowerCamelCase`
+   * - `StringUtils.fromSpaced.toLowerCamelCase`
+   * - `StringUtils.fromCamelCase.toLowerCamelCase`
+   *
+   * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
+   */
   toLowerCamelCase(input: CaseInput): string;
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toUpperCamelCase
+   *
+   * - `StringUtils.toUpperCamelCase`
+   * - `StringUtils.fromSlugCase.toUpperCamelCase`
+   * - `StringUtils.fromSnakeCase.toUpperCamelCase`
+   * - `StringUtils.fromSpaced.toUpperCamelCase`
+   * - `StringUtils.fromCamelCase.toUpperCamelCase`
+   *
+   * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
+   */
   toUpperCamelCase(input: CaseInput): string;
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toCamelCase
+   *
+   * - `StringUtils.toCamelCase`
+   * - `StringUtils.fromSlugCase.toCamelCase`
+   * - `StringUtils.fromSnakeCase.toCamelCase`
+   * - `StringUtils.fromSpaced.toCamelCase`
+   * - `StringUtils.fromCamelCase.toCamelCase`
+   *
+   * Convert a string to camel case (e.g. `thisIsCamelCase`)
+   */
   toCamelCase(input: CaseInput, capitaliseFirst?: boolean): string;
 
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toLowerSlugCase
+   *
+   * - `StringUtils.toLowerSlugCase`
+   * - `StringUtils.fromSlugCase.toLowerSlugCase`
+   * - `StringUtils.fromSnakeCase.toLowerSlugCase`
+   * - `StringUtils.fromSpaced.toLowerSlugCase`
+   * - `StringUtils.fromCamelCase.toLowerSlugCase`
+   *
+   * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
+   */
   toLowerSlugCase(input: CaseInput): string;
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toUpperSlugCase
+   *
+   * - `StringUtils.toUpperSlugCase`
+   * - `StringUtils.fromSlugCase.toUpperSlugCase`
+   * - `StringUtils.fromSnakeCase.toUpperSlugCase`
+   * - `StringUtils.fromSpaced.toUpperSlugCase`
+   * - `StringUtils.fromCamelCase.toUpperSlugCase`
+   *
+   * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
+   */
   toUpperSlugCase(input: CaseInput): string;
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toSlugCase
+   *
+   * - `StringUtils.toSlugCase`
+   * - `StringUtils.fromSlugCase.toSlugCase`
+   * - `StringUtils.fromSnakeCase.toSlugCase`
+   * - `StringUtils.fromSpaced.toSlugCase`
+   * - `StringUtils.fromCamelCase.toSlugCase`
+   *
+   * Convert a string to camel case (e.g. `this-is-slug-case`)
+   */
   toSlugCase(input: CaseInput, toUpper?: boolean): string;
 
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toLowerSnakeCase
+   *
+   * - `StringUtils.toLowerSnakeCase`
+   * - `StringUtils.fromSlugCase.toLowerSnakeCase`
+   * - `StringUtils.fromSnakeCase.toLowerSnakeCase`
+   * - `StringUtils.fromSpaced.toLowerSnakeCase`
+   * - `StringUtils.fromCamelCase.toLowerSnakeCase`
+   *
+   * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
+   */
   toLowerSnakeCase(input: CaseInput): string;
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toUpperSnakeCase
+   *
+   * - `StringUtils.toUpperSnakeCase`
+   * - `StringUtils.fromSlugCase.toUpperSnakeCase`
+   * - `StringUtils.fromSnakeCase.toUpperSnakeCase`
+   * - `StringUtils.fromSpaced.toUpperSnakeCase`
+   * - `StringUtils.fromCamelCase.toUpperSnakeCase`
+   *
+   * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
+   */
   toUpperSnakeCase(input: CaseInput): string;
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toSnakeCase
+   *
+   * - `StringUtils.toSnakeCase`
+   * - `StringUtils.fromSlugCase.toSnakeCase`
+   * - `StringUtils.fromSnakeCase.toSnakeCase`
+   * - `StringUtils.fromSpaced.toSnakeCase`
+   * - `StringUtils.fromCamelCase.toSnakeCase`
+   *
+   * Convert a string to snake case (e.g. `this_is_snake_case`)
+   */
   toSnakeCase(input: CaseInput, toUpper?: boolean): string;
 
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toLowerSpaced
+   *
+   * - `StringUtils.toLowerSpaced`
+   * - `StringUtils.fromSlugCase.toLowerSpaced`
+   * - `StringUtils.fromSnakeCase.toLowerSpaced`
+   * - `StringUtils.fromSpaced.toLowerSpaced`
+   * - `StringUtils.fromCamelCase.toLowerSpaced`
+   *
+   * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
+   */
   toLowerSpaced(input: CaseInput): string;
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toUpperSpaced
+   *
+   * - `StringUtils.toUpperSpaced`
+   * - `StringUtils.fromSlugCase.toUpperSpaced`
+   * - `StringUtils.fromSnakeCase.toUpperSpaced`
+   * - `StringUtils.fromSpaced.toUpperSpaced`
+   * - `StringUtils.fromCamelCase.toUpperSpaced`
+   *
+   * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
+   */
   toUpperSpaced(input: CaseInput): string;
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toCapitalisedSpaced
+   *
+   * - `StringUtils.toCapitalisedSpaced`
+   * - `StringUtils.fromSlugCase.toCapitalisedSpaced`
+   * - `StringUtils.fromSnakeCase.toCapitalisedSpaced`
+   * - `StringUtils.fromSpaced.toCapitalisedSpaced`
+   * - `StringUtils.fromCamelCase.toCapitalisedSpaced`
+   *
+   * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
+   */
   toCapitalisedSpaced(input: CaseInput): string;
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toSpaced
+   *
+   * - `StringUtils.toSpaced`
+   * - `StringUtils.fromSlugCase.toSpaced`
+   * - `StringUtils.fromSnakeCase.toSpaced`
+   * - `StringUtils.fromSpaced.toSpaced`
+   * - `StringUtils.fromCamelCase.toSpaced`
+   *
+   * Convert a string to spaced case (e.g. `this is spaced case`)
+   */
   toSpaced(input: CaseInput, toUpper?: boolean): string;
 
-  // TODO docs
+  /**<!-- DOCS: #### -->
+   * toCharacterSeparated
+   *
+   * - `StringUtils.toCharacterSeparated`
+   * - `StringUtils.fromSlugCase.toCharacterSeparated`
+   * - `StringUtils.fromSnakeCase.toCharacterSeparated`
+   * - `StringUtils.fromSpaced.toCharacterSeparated`
+   * - `StringUtils.fromCamelCase.toCharacterSeparated`
+   *
+   * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
+   */
   toCharacterSeparated(input: CaseInput, char: string, toUpper?: boolean): string;
 }
 const caseHandler = (overrideSplitter?: SplittingFn): StringCaseHandler => {
@@ -114,16 +290,88 @@ const caseHandler = (overrideSplitter?: SplittingFn): StringCaseHandler => {
 
 const standardCaseHandler = caseHandler();
 
-// TODO docs
+/**<!-- DOCS: ### -->
+ * fromSlugCase
+ *
+ * Has the following methods:
+ * - `StringUtils.fromSlugCase.toLowerCamelCase`
+ * - `StringUtils.fromSlugCase.toUpperCamelCase`
+ * - `StringUtils.fromSlugCase.toCamelCase`
+ * - `StringUtils.fromSlugCase.toLowerSlugCase`
+ * - `StringUtils.fromSlugCase.toUpperSlugCase`
+ * - `StringUtils.fromSlugCase.toSlugCase`
+ * - `StringUtils.fromSlugCase.toLowerSnakeCase`
+ * - `StringUtils.fromSlugCase.toUpperSnakeCase`
+ * - `StringUtils.fromSlugCase.toSnakeCase`
+ * - `StringUtils.fromSlugCase.toLowerSpaced`
+ * - `StringUtils.fromSlugCase.toUpperSpaced`
+ * - `StringUtils.fromSlugCase.toCapitalisedSpaced`
+ * - `StringUtils.fromSlugCase.toSpaced`
+ * - `StringUtils.fromSlugCase.toCharacterSeparated`
+ */
 const fromSlugCase = standardCaseHandler;
 
-// TODO docs
+/**<!-- DOCS: ### -->
+ * fromSnakeCase
+ *
+ * Has the following methods:
+ * - `StringUtils.fromSnakeCase.toLowerCamelCase`
+ * - `StringUtils.fromSnakeCase.toUpperCamelCase`
+ * - `StringUtils.fromSnakeCase.toCamelCase`
+ * - `StringUtils.fromSnakeCase.toLowerSlugCase`
+ * - `StringUtils.fromSnakeCase.toUpperSlugCase`
+ * - `StringUtils.fromSnakeCase.toSlugCase`
+ * - `StringUtils.fromSnakeCase.toLowerSnakeCase`
+ * - `StringUtils.fromSnakeCase.toUpperSnakeCase`
+ * - `StringUtils.fromSnakeCase.toSnakeCase`
+ * - `StringUtils.fromSnakeCase.toLowerSpaced`
+ * - `StringUtils.fromSnakeCase.toUpperSpaced`
+ * - `StringUtils.fromSnakeCase.toCapitalisedSpaced`
+ * - `StringUtils.fromSnakeCase.toSpaced`
+ * - `StringUtils.fromSnakeCase.toCharacterSeparated`
+ */
 const fromSnakeCase = standardCaseHandler;
 
-// TODO docs
+/**<!-- DOCS: ### -->
+ * fromSpaced
+ *
+ * Has the following methods:
+ * - `StringUtils.fromSpaced.toLowerCamelCase`
+ * - `StringUtils.fromSpaced.toUpperCamelCase`
+ * - `StringUtils.fromSpaced.toCamelCase`
+ * - `StringUtils.fromSpaced.toLowerSlugCase`
+ * - `StringUtils.fromSpaced.toUpperSlugCase`
+ * - `StringUtils.fromSpaced.toSlugCase`
+ * - `StringUtils.fromSpaced.toLowerSnakeCase`
+ * - `StringUtils.fromSpaced.toUpperSnakeCase`
+ * - `StringUtils.fromSpaced.toSnakeCase`
+ * - `StringUtils.fromSpaced.toLowerSpaced`
+ * - `StringUtils.fromSpaced.toUpperSpaced`
+ * - `StringUtils.fromSpaced.toCapitalisedSpaced`
+ * - `StringUtils.fromSpaced.toSpaced`
+ * - `StringUtils.fromSpaced.toCharacterSeparated`
+ */
 const fromSpaced = standardCaseHandler;
 
-// TODO docs
+/**<!-- DOCS: ### -->
+ * fromCamelCase
+ *
+ * Has the following methods:
+ * - `StringUtils.fromCamelCase.toLowerCamelCase`
+ * - `StringUtils.fromCamelCase.toUpperCamelCase`
+ * - `StringUtils.fromCamelCase.toCamelCase`
+ * - `StringUtils.fromCamelCase.toLowerSlugCase`
+ * - `StringUtils.fromCamelCase.toUpperSlugCase`
+ * - `StringUtils.fromCamelCase.toSlugCase`
+ * - `StringUtils.fromCamelCase.toLowerSnakeCase`
+ * - `StringUtils.fromCamelCase.toUpperSnakeCase`
+ * - `StringUtils.fromCamelCase.toSnakeCase`
+ * - `StringUtils.fromCamelCase.toLowerSpaced`
+ * - `StringUtils.fromCamelCase.toUpperSpaced`
+ * - `StringUtils.fromCamelCase.toCapitalisedSpaced`
+ * - `StringUtils.fromCamelCase.toSpaced`
+ * - `StringUtils.fromCamelCase.toCharacterSeparated`
+ */
 const fromCamelCase = caseHandler((input: CaseInput) =>
   [input]
     .flat()

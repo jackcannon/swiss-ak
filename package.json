@@ -25,9 +25,14 @@
     "typescript": "^4.7.4"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "build": "yarn build:code && yarn docs",
+    "build:code": "tsup src/index.ts --format cjs,esm --dts --clean",
     "watch": "yarn build -- --watch src",
+    "docs": "swiss-docs -i src -o README.md -r=swiss-ak-swiss-army-knife",
     "test": "jest --no-cache",
     "prepublishOnly": "yarn test && yarn build"
+  },
+  "dependencies": {
+    "swiss-docs": "0.2.0"
   }
 }
