@@ -2114,7 +2114,12 @@ A series of characters that can be used for display symbols
 ### superscript
 - `superscript`
 
-Converts a number to superscript
+Converts a string or number to superscript (where possible)
+
+Known superscript characters:
+`¹²³⁴⁵⁶⁷⁸⁹⁰⁻⁺⁼⁽⁾ⁱⁿ°`
+
+Characters without a superscript equivalent will be replaced with a `°`
 
 ```typescript
 superscript(219) // '²¹⁹'

@@ -922,7 +922,7 @@ var symbols = {
     "*": "\xB0"
   }
 };
-var superscript = (num) => (num ?? "").toString().split("").map((char) => symbols.SUPERSCRIPT[char] || symbols.SUPERSCRIPT["*"]).join("");
+var superscript = (num) => (num ?? "").toString().split("").map((char) => char === " " ? " " : symbols.SUPERSCRIPT[char] || symbols.SUPERSCRIPT["*"]).join("");
 
 // src/tools/queue.ts
 var QueueManager = class {

@@ -1265,14 +1265,19 @@ declare const symbols: {
  *
  * - `superscript`
  *
- * Converts a number to superscript
+ * Converts a string or number to superscript (where possible)
+ *
+ * Known superscript characters:
+ * `¹²³⁴⁵⁶⁷⁸⁹⁰⁻⁺⁼⁽⁾ⁱⁿ°`
+ *
+ * Characters without a superscript equivalent will be replaced with a `°`
  *
  * ```typescript
  * superscript(219) // '²¹⁹'
  * superscript(1234567890) // '¹²³⁴⁵⁶⁷⁸⁹⁰'
  * ```
  */
-declare const superscript: (num: number) => string;
+declare const superscript: (num: number | string) => string;
 
 /**<!-- DOCS: ## -->
  * queue

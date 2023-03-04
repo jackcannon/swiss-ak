@@ -154,16 +154,21 @@ export const symbols = {
  *
  * - `superscript`
  *
- * Converts a number to superscript
+ * Converts a string or number to superscript (where possible)
+ *
+ * Known superscript characters:
+ * `¹²³⁴⁵⁶⁷⁸⁹⁰⁻⁺⁼⁽⁾ⁱⁿ°`
+ *
+ * Characters without a superscript equivalent will be replaced with a `°`
  *
  * ```typescript
  * superscript(219) // '²¹⁹'
  * superscript(1234567890) // '¹²³⁴⁵⁶⁷⁸⁹⁰'
  * ```
  */
-export const superscript = (num: number) =>
+export const superscript = (num: number | string) =>
   (num ?? '')
     .toString()
     .split('')
-    .map((char) => symbols.SUPERSCRIPT[char] || symbols.SUPERSCRIPT['*'])
+    .map((char) => (char === ' ' ? ' ' : symbols.SUPERSCRIPT[char] || symbols.SUPERSCRIPT['*']))
     .join('');
