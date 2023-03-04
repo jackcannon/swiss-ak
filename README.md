@@ -106,6 +106,7 @@ A collection of useful little things that I like to reuse across projects
       - [lerpArray](#lerparray)
       - [lerpObj](#lerpobj)
       - [clamp](#clamp)
+      - [getOridinal](#getoridinal)
     - [PromiseTools](#promisetools)
       - [getDeferred](#getdeferred)
       - [all](#all)
@@ -1384,6 +1385,30 @@ Clamps a value between a min and max.
 ```typescript
 MathsTools.clamp(5, 0, 10); // 5
 MathsTools.clamp(-5, 0, 10); // 0
+```
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+### getOridinal
+- `MathsTools.getOridinal`
+
+Gets the ordinal suffix for a number.
+
+```typescript
+MathsTools.getOridinal(1); // 'st'
+MathsTools.getOridinal(2); // 'nd'
+MathsTools.getOridinal(3); // 'rd'
+MathsTools.getOridinal(4); // 'th'
+
+MathsTools.getOridinal(11); // 'th'
+MathsTools.getOridinal(12); // 'th'
+MathsTools.getOridinal(13); // 'th'
+MathsTools.getOridinal(14); // 'th'
+
+MathsTools.getOridinal(21); // 'st'
+MathsTools.getOridinal(22); // 'nd'
+MathsTools.getOridinal(23); // 'rd'
+MathsTools.getOridinal(24); // 'th'
 ```
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>

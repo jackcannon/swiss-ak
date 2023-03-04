@@ -156,3 +156,45 @@ export const lerpObj = <T extends object>(progress: number, fromObj: T, toObj: T
  * ```
  */
 export const clamp = (value: number, min: number, max: number) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
+
+/**<!-- DOCS: ### -->
+ * getOridinal
+ *
+ * - `MathsTools.getOridinal`
+ *
+ * Gets the ordinal suffix for a number.
+ *
+ * ```typescript
+ * MathsTools.getOridinal(1); // 'st'
+ * MathsTools.getOridinal(2); // 'nd'
+ * MathsTools.getOridinal(3); // 'rd'
+ * MathsTools.getOridinal(4); // 'th'
+ *
+ * MathsTools.getOridinal(11); // 'th'
+ * MathsTools.getOridinal(12); // 'th'
+ * MathsTools.getOridinal(13); // 'th'
+ * MathsTools.getOridinal(14); // 'th'
+ *
+ * MathsTools.getOridinal(21); // 'st'
+ * MathsTools.getOridinal(22); // 'nd'
+ * MathsTools.getOridinal(23); // 'rd'
+ * MathsTools.getOridinal(24); // 'th'
+ * ```
+ */
+export const getOrdinal = (num: number = 0) => {
+  const lastDigit = num % 10;
+
+  if ([11, 12, 13].includes(num)) {
+    return 'th';
+  }
+  if (lastDigit === 1) {
+    return 'st';
+  }
+  if (lastDigit === 2) {
+    return 'nd';
+  }
+  if (lastDigit === 3) {
+    return 'rd';
+  }
+  return 'th';
+};

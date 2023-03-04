@@ -2342,6 +2342,31 @@ declare const lerpObj: <T extends object>(progress: number, fromObj: T, toObj: T
  * ```
  */
 declare const clamp: (value: number, min: number, max: number) => number;
+/**<!-- DOCS: ### -->
+ * getOridinal
+ *
+ * - `MathsTools.getOridinal`
+ *
+ * Gets the ordinal suffix for a number.
+ *
+ * ```typescript
+ * MathsTools.getOridinal(1); // 'st'
+ * MathsTools.getOridinal(2); // 'nd'
+ * MathsTools.getOridinal(3); // 'rd'
+ * MathsTools.getOridinal(4); // 'th'
+ *
+ * MathsTools.getOridinal(11); // 'th'
+ * MathsTools.getOridinal(12); // 'th'
+ * MathsTools.getOridinal(13); // 'th'
+ * MathsTools.getOridinal(14); // 'th'
+ *
+ * MathsTools.getOridinal(21); // 'st'
+ * MathsTools.getOridinal(22); // 'nd'
+ * MathsTools.getOridinal(23); // 'rd'
+ * MathsTools.getOridinal(24); // 'th'
+ * ```
+ */
+declare const getOrdinal: (num?: number) => "th" | "st" | "nd" | "rd";
 
 declare const MathsTools_fixFloat: typeof fixFloat;
 declare const MathsTools_addAll: typeof addAll;
@@ -2353,6 +2378,7 @@ declare const MathsTools_lerp: typeof lerp;
 declare const MathsTools_lerpArray: typeof lerpArray;
 declare const MathsTools_lerpObj: typeof lerpObj;
 declare const MathsTools_clamp: typeof clamp;
+declare const MathsTools_getOrdinal: typeof getOrdinal;
 declare namespace MathsTools {
   export {
     MathsTools_fixFloat as fixFloat,
@@ -2365,6 +2391,7 @@ declare namespace MathsTools {
     MathsTools_lerpArray as lerpArray,
     MathsTools_lerpObj as lerpObj,
     MathsTools_clamp as clamp,
+    MathsTools_getOrdinal as getOrdinal,
   };
 }
 

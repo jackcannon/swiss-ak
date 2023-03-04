@@ -422,6 +422,7 @@ __export(MathsTools_exports, {
   clamp: () => clamp,
   fixFloat: () => fixFloat,
   floorTo: () => floorTo,
+  getOrdinal: () => getOrdinal,
   lerp: () => lerp,
   lerpArray: () => lerpArray,
   lerpObj: () => lerpObj,
@@ -522,6 +523,22 @@ var lerpObj = (progress, fromObj, toObj) => {
   return Object.fromEntries(lerped);
 };
 var clamp = (value, min, max) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
+var getOrdinal = (num = 0) => {
+  const lastDigit = num % 10;
+  if ([11, 12, 13].includes(num)) {
+    return "th";
+  }
+  if (lastDigit === 1) {
+    return "st";
+  }
+  if (lastDigit === 2) {
+    return "nd";
+  }
+  if (lastDigit === 3) {
+    return "rd";
+  }
+  return "th";
+};
 
 // src/tools/fn.ts
 var noop = () => {
