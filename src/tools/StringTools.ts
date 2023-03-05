@@ -405,3 +405,44 @@ export const fromCamelCase = caseHandler((input: CaseInput) =>
     .map((s) => s.split(' '))
     .flat()
 );
+
+// clx
+const processClxArray = (arr: any): string[] =>
+  arr
+    .filter(Boolean)
+    .map((item) => {
+      if (typeof item === 'string') return item;
+
+      if (item instanceof Array) {
+        return processClxArray(item);
+      }
+
+      if (typeof item === 'object') {
+        return Object.keys(item)
+          .filter((key) => item[key])
+          .join(' ');
+      }
+    })
+    .flat();
+
+export type ClxType = string | boolean | { [key: string]: boolean } | ClxType[];
+/**<!-- DOCS: ### -->
+ * clx
+ *
+ * - `clx`
+ * - `StringTools.clx`
+ *
+ * Composes a className from a list of strings, conditional objects and arrays.
+ *
+ * Accepts the different ways of supplying classes in AngularJS (ng-class) and returns a single string (so suitable for React).
+ *
+ * ```typescript
+ * clx('hello') // 'hello'
+ * clx('foo', 'bar') // 'foo bar'
+ * clx('foo', conditionA && 'bar') // 'foo'
+ * clx('abc', conditionB && 'def') // 'abc def'
+ * clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
+ * ```
+ */
+
+export const clx = (...args: ClxType[]) => processClxArray(args).join(' ');

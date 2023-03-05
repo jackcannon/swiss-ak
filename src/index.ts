@@ -17,6 +17,8 @@ import * as progressBar from './tools/progressBar';
 import * as ColourTools from './tools/ColourTools';
 export * as StringTools from './tools/StringTools';
 
+export { clx, ClxType } from './tools/StringTools';
+
 import * as MathsTools from './tools/MathsTools';
 export { MathsTools };
 // an alias

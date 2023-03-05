@@ -95,6 +95,7 @@ A collection of useful little things that I like to reuse across projects
       - [fromSnakeCase](#fromsnakecase)
       - [fromSpaced](#fromspaced)
       - [fromCamelCase](#fromcamelcase)
+      - [clx](#clx)
     - [MathsTools](#mathstools)
       - [fixFloat](#fixfloat)
       - [addAll](#addall)
@@ -1262,6 +1263,24 @@ Has the following methods:
 - `StringTools.fromCamelCase.toCapitalisedSpaced`
 - `StringTools.fromCamelCase.toSpaced`
 - `StringTools.fromCamelCase.toCharacterSeparated`
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+### clx
+- `clx`
+- `StringTools.clx`
+
+Composes a className from a list of strings, conditional objects and arrays.
+
+Accepts the different ways of supplying classes in AngularJS (ng-class) and returns a single string (so suitable for React).
+
+```typescript
+clx('hello') // 'hello'
+clx('foo', 'bar') // 'foo bar'
+clx('foo', conditionA && 'bar') // 'foo'
+clx('abc', conditionB && 'def') // 'abc def'
+clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
+```
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 

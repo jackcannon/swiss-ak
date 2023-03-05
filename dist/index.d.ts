@@ -2155,6 +2155,28 @@ declare const fromSpaced: StringCaseHandler;
  * - `StringTools.fromCamelCase.toCharacterSeparated`
  */
 declare const fromCamelCase: StringCaseHandler;
+declare type ClxType = string | boolean | {
+    [key: string]: boolean;
+} | ClxType[];
+/**<!-- DOCS: ### -->
+ * clx
+ *
+ * - `clx`
+ * - `StringTools.clx`
+ *
+ * Composes a className from a list of strings, conditional objects and arrays.
+ *
+ * Accepts the different ways of supplying classes in AngularJS (ng-class) and returns a single string (so suitable for React).
+ *
+ * ```typescript
+ * clx('hello') // 'hello'
+ * clx('foo', 'bar') // 'foo bar'
+ * clx('foo', conditionA && 'bar') // 'foo'
+ * clx('abc', conditionB && 'def') // 'abc def'
+ * clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
+ * ```
+ */
+declare const clx: (...args: ClxType[]) => string;
 
 declare const StringTools_capitalise: typeof capitalise;
 declare const StringTools_angloise: typeof angloise;
@@ -2179,6 +2201,8 @@ declare const StringTools_fromSlugCase: typeof fromSlugCase;
 declare const StringTools_fromSnakeCase: typeof fromSnakeCase;
 declare const StringTools_fromSpaced: typeof fromSpaced;
 declare const StringTools_fromCamelCase: typeof fromCamelCase;
+type StringTools_ClxType = ClxType;
+declare const StringTools_clx: typeof clx;
 declare namespace StringTools {
   export {
     StringTools_capitalise as capitalise,
@@ -2204,6 +2228,8 @@ declare namespace StringTools {
     StringTools_fromSnakeCase as fromSnakeCase,
     StringTools_fromSpaced as fromSpaced,
     StringTools_fromCamelCase as fromCamelCase,
+    StringTools_ClxType as ClxType,
+    StringTools_clx as clx,
   };
 }
 
@@ -2968,4 +2994,4 @@ declare const everys: {
     isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
 };
 
-export { ArrayTools, CENTURY, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathTools, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayTools, CENTURY, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathTools, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, clx, day, days, decade, decades, each, eachLimit, entries, everys, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

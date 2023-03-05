@@ -1332,6 +1332,7 @@ __export(StringTools_exports, {
   angloise: () => angloise,
   capitalise: () => capitalise,
   clean: () => clean2,
+  clx: () => clx,
   fromCamelCase: () => fromCamelCase,
   fromSlugCase: () => fromSlugCase,
   fromSnakeCase: () => fromSnakeCase,
@@ -1423,6 +1424,17 @@ var fromCamelCase = caseHandler(
     (s) => s.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").trim()
   ).map((s) => s.split(" ")).flat()
 );
+var processClxArray = (arr) => arr.filter(Boolean).map((item) => {
+  if (typeof item === "string")
+    return item;
+  if (item instanceof Array) {
+    return processClxArray(item);
+  }
+  if (typeof item === "object") {
+    return Object.keys(item).filter((key) => item[key]).join(" ");
+  }
+}).flat();
+var clx = (...args) => processClxArray(args).join(" ");
 
 // src/index.ts
 var MathTools = MathsTools_exports;
@@ -1453,6 +1465,7 @@ export {
   allLimitObj,
   allObj,
   centuries,
+  clx,
   days,
   decades,
   each,
