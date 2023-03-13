@@ -1107,7 +1107,7 @@ declare const ArrayTools: {
         [id: number]: T_9[];
     };
     group: <T_10 extends unknown>(array: T_10[], mapFn: (item: T_10, index: number, arr: T_10[]) => string | number) => T_10[][];
-    Tools: {
+    utils: {
         isNumString: (text: string) => boolean;
         partitionNums: (ignoreCase: boolean) => (name: string) => (string | number)[];
     };

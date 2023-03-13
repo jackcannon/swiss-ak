@@ -322,7 +322,7 @@ export const ArrayTools = {
   partition,
   groupObj,
   group,
-  Tools: {
+  utils: {
     isNumString,
     partitionNums
   }
