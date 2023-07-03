@@ -1,11 +1,6 @@
 import { ms, MILLISECOND, SECOND, MINUTE, HOUR, DAY, MONTH, YEAR, CENTURY, MILLENNIUM } from './times';
 
 //<!-- DOCS: 160 -->
-/**<!-- DOCS: ## -->
- * TimeTools
- *
- * A collection of time-related utility functions.
- */
 
 interface DurationUnitLabel {
   singular: string;
@@ -65,61 +60,64 @@ const units: DurationUnit[] = [
   }
 ];
 
-/**<!-- DOCS: ### -->
- * toReadableDuration
+/**<!-- DOCS: ## -->
+ * TimeTools
  *
- * - `TimeTools.toReadableDuration`
- *
- * Converts a duration in milliseconds to a human readable string.
- *
- * ```typescript
- * TimeTools.toReadableDuration(20); // '20ms'
- * TimeTools.toReadableDuration(seconds(59)); // '59s'
- * TimeTools.toReadableDuration(seconds(60)); // '1m'
- * TimeTools.toReadableDuration(hours(23)); // '23h'
- * TimeTools.toReadableDuration(hours(24)); // '1d'
- * TimeTools.toReadableDuration(days(10)); // '10d'
- *
- * TimeTools.toReadableDuration(20, true) // '20 milliseconds'
- * TimeTools.toReadableDuration(seconds(59), true) // '59 seconds'
- * TimeTools.toReadableDuration(seconds(60), true) // '1 minute'
- * TimeTools.toReadableDuration(hours(23), true) // '23 hours'
- * TimeTools.toReadableDuration(hours(24), true) // '1 day'
- * TimeTools.toReadableDuration(days(10), true) // '10 days'
- *
- * const realisticDuration = days(10) + hours(2) + seconds(31) + 512; // 871231512
- * TimeTools.toReadableDuration(realisticDuration, true, 4) // '10 days, 2 hours, 31 seconds & 512 milliseconds'
- * TimeTools.toReadableDuration(realisticDuration, true) // '10 days, 2 hours & 31 seconds'
- * TimeTools.toReadableDuration(realisticDuration, true, 2) // '10 days & 2 hours'
- * ```
+ * A collection of time-related utility functions.
  */
-const toReadableDuration = (duration: ms, longNames: boolean = false, maxUnits: number = 3): string => {
-  if (duration === 0) return '';
+export namespace TimeTools {
+  /**<!-- DOCS: ### -->
+   * toReadableDuration
+   *
+   * - `TimeTools.toReadableDuration`
+   *
+   * Converts a duration in milliseconds to a human readable string.
+   *
+   * ```typescript
+   * TimeTools.toReadableDuration(20); // '20ms'
+   * TimeTools.toReadableDuration(seconds(59)); // '59s'
+   * TimeTools.toReadableDuration(seconds(60)); // '1m'
+   * TimeTools.toReadableDuration(hours(23)); // '23h'
+   * TimeTools.toReadableDuration(hours(24)); // '1d'
+   * TimeTools.toReadableDuration(days(10)); // '10d'
+   *
+   * TimeTools.toReadableDuration(20, true) // '20 milliseconds'
+   * TimeTools.toReadableDuration(seconds(59), true) // '59 seconds'
+   * TimeTools.toReadableDuration(seconds(60), true) // '1 minute'
+   * TimeTools.toReadableDuration(hours(23), true) // '23 hours'
+   * TimeTools.toReadableDuration(hours(24), true) // '1 day'
+   * TimeTools.toReadableDuration(days(10), true) // '10 days'
+   *
+   * const realisticDuration = days(10) + hours(2) + seconds(31) + 512; // 871231512
+   * TimeTools.toReadableDuration(realisticDuration, true, 4) // '10 days, 2 hours, 31 seconds & 512 milliseconds'
+   * TimeTools.toReadableDuration(realisticDuration, true) // '10 days, 2 hours & 31 seconds'
+   * TimeTools.toReadableDuration(realisticDuration, true, 2) // '10 days & 2 hours'
+   * ```
+   */
+  export const toReadableDuration = (duration: ms, longNames: boolean = false, maxUnits: number = 3): string => {
+    if (duration === 0) return '';
 
-  const allUnitValues = units
-    .map((unit, index) => {
-      const previousUnitValue = units[index - 1]?.value ?? Infinity;
-      const amount = Math.floor((Math.abs(duration) % previousUnitValue) / unit.value);
-      return { amount, unit };
-    })
-    .filter(({ amount }) => amount > 0);
+    const allUnitValues = units
+      .map((unit, index) => {
+        const previousUnitValue = units[index - 1]?.value ?? Infinity;
+        const amount = Math.floor((Math.abs(duration) % previousUnitValue) / unit.value);
+        return { amount, unit };
+      })
+      .filter(({ amount }) => amount > 0);
 
-  const results: string[] = allUnitValues.slice(0, maxUnits).map(({ amount, unit }) => {
-    const labelObj = longNames ? unit.long : unit.short;
-    const label = amount > 1 ? labelObj.plural : labelObj.singular;
-    return `${amount}${label}`;
-  });
+    const results: string[] = allUnitValues.slice(0, maxUnits).map(({ amount, unit }) => {
+      const labelObj = longNames ? unit.long : unit.short;
+      const label = amount > 1 ? labelObj.plural : labelObj.singular;
+      return `${amount}${label}`;
+    });
 
-  if (longNames) {
-    if (results.length <= 1) {
-      return results.join('');
+    if (longNames) {
+      if (results.length <= 1) {
+        return results.join('');
+      }
+      return [...results.slice(0, -1), '&&&&', ...results.slice(-1)].join(', ').replace('&&&&,', '&').replace(', &', ' &');
     }
-    return [...results.slice(0, -1), '&&&&', ...results.slice(-1)].join(', ').replace('&&&&,', '&').replace(', &', ' &');
-  }
 
-  return results.join(' ');
-};
-
-export const TimeTools = {
-  toReadableDuration
-};
+    return results.join(' ');
+  };
+}

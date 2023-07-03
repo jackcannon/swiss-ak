@@ -1,235 +1,117 @@
-import {
-  MILLISECOND,
-  SECOND,
-  MINUTE,
-  HOUR,
-  DAY,
-  WEEK,
-  MONTH,
-  YEAR,
-  DECADE,
-  CENTURY,
-  MILLENNIUM,
-  milliseconds,
-  seconds,
-  minutes,
-  hours,
-  days,
-  weeks,
-  months,
-  years,
-  decades,
-  centuries,
-  millenniums
-} from '../src/tools/times';
+import * as swissak from '../';
 
-describe('MILLISECOND', () => {
-  it('should be correct milliseconds', () => {
-    expect(MILLISECOND).toBe(1);
+const testConstant = (name: string, value: number, expected: number) => {
+  describe(name, () => {
+    it(`${name} - should be correct milliseconds`, () => {
+      expect(value).toBe(expected);
+    });
   });
-});
-describe('SECOND', () => {
-  it('should be correct milliseconds', () => {
-    expect(SECOND).toBe(1000);
+};
+
+const testMultipliers = (name: string, func: Function, baseValue: number, multipliers: number[] = [0, 2, 5, 10, -1, -100]) => {
+  describe(name, () => {
+    it(`${name} - should default input to 1`, () => {
+      expect(func()).toBe(func(1));
+    });
+
+    multipliers.forEach((multiplier) => {
+      it(`${name} - should handle ${multiplier}x`, () => {
+        expect(func(multiplier)).toBe(multiplier * baseValue);
+      });
+    });
   });
-});
-describe('MINUTE', () => {
-  it('should be correct milliseconds', () => {
-    expect(MINUTE).toBe(60_000);
+};
+
+describe('times constants', () => {
+  describe('milliseconds', () => {
+    testConstant('MILLISECOND', swissak.MILLISECOND, 1);
+    testConstant('times.MILLISECOND', swissak.times.MILLISECOND, 1);
   });
-});
-describe('HOUR', () => {
-  it('should be correct milliseconds', () => {
-    expect(HOUR).toBe(3_600_000);
+  describe('seconds', () => {
+    testConstant('SECOND', swissak.SECOND, 1000);
+    testConstant('times.SECOND', swissak.times.SECOND, 1000);
   });
-});
-describe('DAY', () => {
-  it('should be correct milliseconds', () => {
-    expect(DAY).toBe(86_400_000);
+  describe('minutes', () => {
+    testConstant('MINUTE', swissak.MINUTE, 60_000);
+    testConstant('times.MINUTE', swissak.times.MINUTE, 60_000);
   });
-});
-describe('WEEK', () => {
-  it('should be correct milliseconds', () => {
-    expect(WEEK).toBe(604_800_000);
+  describe('hours', () => {
+    testConstant('HOUR', swissak.HOUR, 3_600_000);
+    testConstant('times.HOUR', swissak.times.HOUR, 3_600_000);
   });
-});
-describe('MONTH', () => {
-  it('should be correct milliseconds', () => {
-    expect(MONTH).toBe(2_592_000_000);
+  describe('days', () => {
+    testConstant('DAY', swissak.DAY, 86_400_000);
+    testConstant('times.DAY', swissak.times.DAY, 86_400_000);
   });
-});
-describe('YEAR', () => {
-  it('should be correct milliseconds', () => {
-    expect(YEAR).toBe(31_557_600_000);
+  describe('weeks', () => {
+    testConstant('WEEK', swissak.WEEK, 604_800_000);
+    testConstant('times.WEEK', swissak.times.WEEK, 604_800_000);
   });
-});
-describe('DECADE', () => {
-  it('should be correct milliseconds', () => {
-    expect(DECADE).toBe(315_576_000_000);
+  describe('months', () => {
+    testConstant('MONTH', swissak.MONTH, 2_592_000_000);
+    testConstant('times.MONTH', swissak.times.MONTH, 2_592_000_000);
   });
-});
-describe('CENTURY', () => {
-  it('should be correct milliseconds', () => {
-    expect(CENTURY).toBe(3_155_760_000_000);
+  describe('years', () => {
+    testConstant('YEAR', swissak.YEAR, 31_557_600_000);
+    testConstant('times.YEAR', swissak.times.YEAR, 31_557_600_000);
   });
-});
-describe('MILLENNIUM', () => {
-  it('should be correct milliseconds', () => {
-    expect(MILLENNIUM).toBe(31_557_600_000_000);
+  describe('decades', () => {
+    testConstant('DECADE', swissak.DECADE, 315_576_000_000);
+    testConstant('times.DECADE', swissak.times.DECADE, 315_576_000_000);
+  });
+  describe('centuries', () => {
+    testConstant('CENTURY', swissak.CENTURY, 3_155_760_000_000);
+    testConstant('times.CENTURY', swissak.times.CENTURY, 3_155_760_000_000);
+  });
+  describe('millenniums', () => {
+    testConstant('MILLENNIUM', swissak.MILLENNIUM, 31_557_600_000_000);
+    testConstant('times.MILLENNIUM', swissak.times.MILLENNIUM, 31_557_600_000_000);
   });
 });
 
-describe('milliseconds', () => {
-  it('should default input to 1', () => {
-    expect(milliseconds()).toBe(milliseconds(1));
+describe('times functions', () => {
+  describe('milliseconds', () => {
+    testMultipliers('milliseconds', swissak.milliseconds, swissak.MILLISECOND);
+    testMultipliers('times.milliseconds', swissak.times.milliseconds, swissak.MILLISECOND);
   });
-  it('should handle 2x', () => {
-    expect(milliseconds(2)).toBe(2 * MILLISECOND);
+  describe('seconds', () => {
+    testMultipliers('seconds', swissak.seconds, swissak.SECOND);
+    testMultipliers('times.seconds', swissak.times.seconds, swissak.SECOND);
   });
-  it('should handle 5x', () => {
-    expect(milliseconds(5)).toBe(5 * MILLISECOND);
+  describe('minutes', () => {
+    testMultipliers('minutes', swissak.minutes, swissak.MINUTE);
+    testMultipliers('times.minutes', swissak.times.minutes, swissak.MINUTE);
   });
-  it('should handle 10x', () => {
-    expect(milliseconds(10)).toBe(10 * MILLISECOND);
+  describe('hours', () => {
+    testMultipliers('hours', swissak.hours, swissak.HOUR);
+    testMultipliers('times.hours', swissak.times.hours, swissak.HOUR);
   });
-});
-describe('seconds', () => {
-  it('should default input to 1', () => {
-    expect(seconds()).toBe(seconds(1));
+  describe('days', () => {
+    testMultipliers('days', swissak.days, swissak.DAY);
+    testMultipliers('times.days', swissak.times.days, swissak.DAY);
   });
-  it('should handle 2x', () => {
-    expect(seconds(2)).toBe(2 * SECOND);
+  describe('weeks', () => {
+    testMultipliers('weeks', swissak.weeks, swissak.WEEK);
+    testMultipliers('times.weeks', swissak.times.weeks, swissak.WEEK);
   });
-  it('should handle 5x', () => {
-    expect(seconds(5)).toBe(5 * SECOND);
+  describe('months', () => {
+    testMultipliers('months', swissak.months, swissak.MONTH);
+    testMultipliers('times.months', swissak.times.months, swissak.MONTH);
   });
-  it('should handle 10x', () => {
-    expect(seconds(10)).toBe(10 * SECOND);
+  describe('years', () => {
+    testMultipliers('years', swissak.years, swissak.YEAR);
+    testMultipliers('times.years', swissak.times.years, swissak.YEAR);
   });
-});
-describe('minutes', () => {
-  it('should default input to 1', () => {
-    expect(minutes()).toBe(minutes(1));
+  describe('decades', () => {
+    testMultipliers('decades', swissak.decades, swissak.DECADE);
+    testMultipliers('times.decades', swissak.times.decades, swissak.DECADE);
   });
-  it('should handle 2x', () => {
-    expect(minutes(2)).toBe(2 * MINUTE);
+  describe('centuries', () => {
+    testMultipliers('centuries', swissak.centuries, swissak.CENTURY);
+    testMultipliers('times.centuries', swissak.times.centuries, swissak.CENTURY);
   });
-  it('should handle 5x', () => {
-    expect(minutes(5)).toBe(5 * MINUTE);
-  });
-  it('should handle 10x', () => {
-    expect(minutes(10)).toBe(10 * MINUTE);
-  });
-});
-describe('hours', () => {
-  it('should default input to 1', () => {
-    expect(hours()).toBe(hours(1));
-  });
-  it('should handle 2x', () => {
-    expect(hours(2)).toBe(2 * HOUR);
-  });
-  it('should handle 5x', () => {
-    expect(hours(5)).toBe(5 * HOUR);
-  });
-  it('should handle 10x', () => {
-    expect(hours(10)).toBe(10 * HOUR);
-  });
-});
-describe('days', () => {
-  it('should default input to 1', () => {
-    expect(days()).toBe(days(1));
-  });
-  it('should handle 2x', () => {
-    expect(days(2)).toBe(2 * DAY);
-  });
-  it('should handle 5x', () => {
-    expect(days(5)).toBe(5 * DAY);
-  });
-  it('should handle 10x', () => {
-    expect(days(10)).toBe(10 * DAY);
-  });
-});
-describe('weeks', () => {
-  it('should default input to 1', () => {
-    expect(weeks()).toBe(weeks(1));
-  });
-  it('should handle 2x', () => {
-    expect(weeks(2)).toBe(2 * WEEK);
-  });
-  it('should handle 5x', () => {
-    expect(weeks(5)).toBe(5 * WEEK);
-  });
-  it('should handle 10x', () => {
-    expect(weeks(10)).toBe(10 * WEEK);
-  });
-});
-describe('months', () => {
-  it('should default input to 1', () => {
-    expect(months()).toBe(months(1));
-  });
-  it('should handle 2x', () => {
-    expect(months(2)).toBe(2 * MONTH);
-  });
-  it('should handle 5x', () => {
-    expect(months(5)).toBe(5 * MONTH);
-  });
-  it('should handle 10x', () => {
-    expect(months(10)).toBe(10 * MONTH);
-  });
-});
-describe('years', () => {
-  it('should default input to 1', () => {
-    expect(years()).toBe(years(1));
-  });
-  it('should handle 2x', () => {
-    expect(years(2)).toBe(2 * YEAR);
-  });
-  it('should handle 5x', () => {
-    expect(years(5)).toBe(5 * YEAR);
-  });
-  it('should handle 10x', () => {
-    expect(years(10)).toBe(10 * YEAR);
-  });
-});
-describe('decades', () => {
-  it('should default input to 1', () => {
-    expect(decades()).toBe(decades(1));
-  });
-  it('should handle 2x', () => {
-    expect(decades(2)).toBe(2 * DECADE);
-  });
-  it('should handle 5x', () => {
-    expect(decades(5)).toBe(5 * DECADE);
-  });
-  it('should handle 10x', () => {
-    expect(decades(10)).toBe(10 * DECADE);
-  });
-});
-describe('centuries', () => {
-  it('should default input to 1', () => {
-    expect(centuries()).toBe(centuries(1));
-  });
-  it('should handle 2x', () => {
-    expect(centuries(2)).toBe(2 * CENTURY);
-  });
-  it('should handle 5x', () => {
-    expect(centuries(5)).toBe(5 * CENTURY);
-  });
-  it('should handle 10x', () => {
-    expect(centuries(10)).toBe(10 * CENTURY);
-  });
-});
-describe('millenniums', () => {
-  it('should default input to 1', () => {
-    expect(millenniums()).toBe(millenniums(1));
-  });
-  it('should handle 2x', () => {
-    expect(millenniums(2)).toBe(2 * MILLENNIUM);
-  });
-  it('should handle 5x', () => {
-    expect(millenniums(5)).toBe(5 * MILLENNIUM);
-  });
-  it('should handle 10x', () => {
-    expect(millenniums(10)).toBe(10 * MILLENNIUM);
+  describe('millenniums', () => {
+    testMultipliers('millenniums', swissak.millenniums, swissak.MILLENNIUM);
+    testMultipliers('times.millenniums', swissak.times.millenniums, swissak.MILLENNIUM);
   });
 });

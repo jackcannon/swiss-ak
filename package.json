@@ -30,7 +30,8 @@
     "build:code": "tsup src/index.ts --format cjs,esm --dts --clean",
     "watch": "yarn build -- --watch src",
     "docs": "swiss-docs -i src -o README.md",
-    "test": "jest --no-cache",
-    "prepublishOnly": "yarn test && yarn build"
+    "test": "yarn build && yarn test:raw",
+    "test:raw": "jest --no-cache",
+    "prepublishOnly": "yarn test"
   }
 }

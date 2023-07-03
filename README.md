@@ -64,6 +64,9 @@ A collection of useful little things that I like to reuse across projects
       - [partition](#partition)
       - [groupObj](#groupobj)
       - [group](#group)
+      - [utils](#utils)
+        - [isNumString](#isnumstring)
+        - [partitionNums](#partitionnums)
     - [ObjectTools](#objecttools)
       - [remodel](#remodel)
       - [remodelEach](#remodeleach)
@@ -107,7 +110,7 @@ A collection of useful little things that I like to reuse across projects
       - [lerpArray](#lerparray)
       - [lerpObj](#lerpobj)
       - [clamp](#clamp)
-      - [getOridinal](#getoridinal)
+      - [getOrdinal](#getordinal)
     - [PromiseTools](#promisetools)
       - [getDeferred](#getdeferred)
       - [all](#all)
@@ -118,6 +121,7 @@ A collection of useful little things that I like to reuse across projects
       - [mapLimit](#maplimit)
       - [allObj](#allobj)
       - [allLimitObj](#alllimitobj)
+      - [DeferredPromise](#deferredpromise)
     - [ColourTools](#colourtools)
       - [ColourValues](#colourvalues)
       - [HSLValues](#hslvalues)
@@ -133,7 +137,7 @@ A collection of useful little things that I like to reuse across projects
       - [getLimitedColour](#getlimitedcolour)
     - [TimeTools](#timetools)
       - [toReadableDuration](#toreadableduration)
-    - [Error Handling](#error-handling)
+    - [ErrorTools](#errortools)
       - [tryOr](#tryor)
       - [retry](#retry)
       - [retryOr](#retryor)
@@ -240,7 +244,7 @@ console.log(new Date().toTimeString()); // 12:40:10
 
 ### waitFor
 - `waitFor`
- - `waiters.waitFor`
+- `waiters.waitFor`
 
 Accurate (pinged) wait the given ms
 
@@ -256,7 +260,7 @@ console.log(new Date().toTimeString()); // 12:35:10
 
 ### waitEvery
 - `waitEvery`
- - `waiters.waitEvery`
+- `waiters.waitEvery`
 
 Accurate (pinged) wait for next 'every X' event
 
@@ -272,7 +276,7 @@ console.log(new Date().toTimeString()); // 14:00:00
 
 ### stopInterval
 - `stopInterval`
- - `waiters.stopInterval`
+- `waiters.stopInterval`
 
 ```typescript
 import { interval, stopInterval } from 'swiss-ak';
@@ -290,7 +294,7 @@ interval((intID, count) => {
 
 ### interval
 - `interval`
- - `waiters.interval`
+- `waiters.interval`
 
 Accurate (pinged) interval for every 'every X' event
 
@@ -366,10 +370,16 @@ Returns an async function that rejects with the first argument
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### filters
+- `fn.filters`
+
+Collection of functions that can be used with Array.filter
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### exists
 - `fn.exists`
 - `fn.filters.exists`
+- `filters.exists`
 
 Returns true if item isn't null or undefined.
 
@@ -382,6 +392,7 @@ Returns true if item isn't null or undefined.
 #### isTruthy
 - `fn.isTruthy`
 - `fn.filters.isTruthy`
+- `filters.isTruthy`
 
 Returns true if item is truthy.
 
@@ -395,6 +406,7 @@ Returns true if item is truthy.
 #### isFalsy
 - `fn.isFalsy`
 - `fn.filters.isFalsy`
+- `filters.isFalsy`
 
 Returns true if item is falsy.
 
@@ -408,6 +420,7 @@ Returns true if item is falsy.
 #### isEmpty
 - `fn.isEmpty`
 - `fn.filters.isEmpty`
+- `filters.isEmpty`
 
 Returns true if item's length is 0
 
@@ -421,6 +434,7 @@ Returns true if item's length is 0
 #### isNotEmpty
 - `fn.isNotEmpty`
 - `fn.filters.isNotEmpty`
+- `filters.isNotEmpty`
 
 Returns true if item's length is 1 or more
 
@@ -434,6 +448,7 @@ Returns true if item's length is 1 or more
 #### isEqual
 - `fn.isEqual`
 - `fn.filters.isEqual`
+- `filters.isEqual`
 
 Returns a function that returns true if the item is equal to provided value.
 
@@ -446,6 +461,7 @@ Returns a function that returns true if the item is equal to provided value.
 #### isNotEqual
 - `fn.isNotEqual`
 - `fn.filters.isNotEqual`
+- `filters.isNotEqual`
 
 Returns a function that returns true if the item is not equal to provided value.
 
@@ -458,6 +474,7 @@ Returns a function that returns true if the item is not equal to provided value.
 #### dedupe
 - `fn.dedupe`
 - `fn.filters.dedupe`
+- `filters.dedupe`
 
 Removes duplicate items from an array.
 
@@ -470,6 +487,7 @@ Removes duplicate items from an array.
 #### dedupeMapped
 - `fn.dedupeMapped`
 - `fn.filters.dedupeMapped`
+- `filters.dedupeMapped`
 
 Removes duplicate items from an array based on a mapped value.
 
@@ -480,10 +498,16 @@ Removes duplicate items from an array based on a mapped value.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### maps
+- `fn.maps`
+
+Collection of functions that can be used with Array.map
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toString
 - `fn.toString`
 - `fn.maps.toString`
+- `maps.toString`
 
 Maps the item to a string.
 
@@ -496,6 +520,7 @@ Maps the item to a string.
 #### toNumber
 - `fn.toNumber`
 - `fn.maps.toNumber`
+- `maps.toNumber`
 
 Maps the item to a number.
 
@@ -508,6 +533,7 @@ Maps the item to a number.
 #### toBool
 - `fn.toBool`
 - `fn.maps.toBool`
+- `maps.toBool`
 
 Maps the item to a boolean.
 
@@ -521,6 +547,7 @@ Maps the item to a boolean.
 #### toProp
 - `fn.toProp`
 - `fn.maps.toProp`
+- `maps.toProp`
 
 Maps the item to a given property of the item
 
@@ -533,6 +560,7 @@ Maps the item to a given property of the item
 #### toFixed
 - `fn.toFixed`
 - `fn.maps.toFixed`
+- `maps.toFixed`
 
 Map the items (numbers) of an array to a fixed precision.
 
@@ -543,10 +571,16 @@ Map the items (numbers) of an array to a fixed precision.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### sorts
+- `fn.sorts`
+
+Collection of functions that can be used with Array.sort
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### asc
 - `fn.asc`
 - `fn.sorts.asc`
+- `sorts.asc`
 
 Sort ascending.
 
@@ -559,6 +593,7 @@ Sort ascending.
 #### desc
 - `fn.desc`
 - `fn.sorts.desc`
+- `sorts.desc`
 
 Sort descending.
 
@@ -571,6 +606,7 @@ Sort descending.
 #### byProp
 - `fn.byProp`
 - `fn.sorts.byProp`
+- `sorts.byProp`
 
 Sort by a given property.
 
@@ -584,6 +620,7 @@ people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4
 #### nearestTo
 - `fn.nearestTo`
 - `fn.sorts.nearestTo`
+- `sorts.nearestTo`
 
 Sort by the nearest value to the given value.
 
@@ -597,6 +634,7 @@ people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
 #### furthestFrom
 - `fn.furthestFrom`
 - `fn.sorts.furthestFrom`
+- `sorts.furthestFrom`
 
 Sort by the furthest value to the given value.
 
@@ -610,6 +648,7 @@ people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
 #### arrayAsc
 - `fn.arrayAsc`
 - `fn.sorts.arrayAsc`
+- `sorts.arrayAsc`
 
 Sort an array of arrays in ascending order
 
@@ -618,16 +657,23 @@ Sort an array of arrays in ascending order
 #### arrayDesc
 - `fn.arrayDesc`
 - `fn.sorts.arrayDesc`
+- `sorts.arrayDesc`
 
 Sort an array of arrays in descending order
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### reduces
+- `fn.reduces`
+
+Collection of functions that can be used with Array.reduce
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### combine
 - `fn.combine`
 - `fn.reduces.combine`
+- `reduces.combine`
 
 Adds or concats the items
 
@@ -641,6 +687,7 @@ Adds or concats the items
 #### combineProp
 - `fn.combineProp`
 - `fn.reduces.combineProp`
+- `reduces.combineProp`
 
 Adds or concats the given property of the items
 
@@ -655,6 +702,7 @@ people.reduce(fn.combineProp('name')); // 'abc'
 #### mode
 - `fn.mode`
 - `fn.reduces.mode`
+- `reduces.mode`
 
 Returns the most common value in an array.
 
@@ -667,6 +715,7 @@ Returns the most common value in an array.
 #### modeMapped
 - `fn.modeMapped`
 - `fn.reduces.modeMapped`
+- `reduces.modeMapped`
 
 Returns the most common value in an array, based on a given map function.
 
@@ -677,10 +726,16 @@ Returns the most common value in an array, based on a given map function.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### everys
+- `fn.everys`
+
+Collection of functions that can be used with Array.every
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### isAllEqual
 - `fn.isAllEqual`
 - `fn.everys.isAllEqual`
+- `everys.isAllEqual`
 
 Returns if all the items are equal to one another.
 
@@ -907,6 +962,27 @@ ArrayTools.groupObj(arr, item => item.id); // [
 //   [ { group: 2, name: 'b' } ]
 // ]
 ```
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+### utils
+- `ArrayTools.utils`
+
+Small helper functions that may help, but aren't important enough to be in ArrayTools directly
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### isNumString
+- `ArrayTools.utils.isNumString`
+
+Returns true if the given string is a number
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### partitionNums
+- `ArrayTools.utils.partitionNums`
+
+Splits a string into an array of strings and numbers
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1292,13 +1368,15 @@ A collection of mathematical functions.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### fixFloat
+- `ff`
+- `MathsTools.ff`
 - `MathsTools.fixFloat`
 
 Fixes floating point errors that may occur when adding/subtracting/multiplying/dividing real/float numbers
 
 Can also be used to round numbers to a given precision
 
-> Note: It's not a great name, but it's what I've always called it, so I'm sticking with it. May create an alias
+> Note: 'fixFloat' is not a great name, but it's what I've always called it, so I'm sticking with it. 'ff' is a shorthand alias.
 
 ```typescript
 0.1 + 0.2 // 0.30000000000000004
@@ -1408,26 +1486,26 @@ MathsTools.clamp(-5, 0, 10); // 0
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
-### getOridinal
-- `MathsTools.getOridinal`
+### getOrdinal
+- `MathsTools.getOrdinal`
 
 Gets the ordinal suffix for a number.
 
 ```typescript
-MathsTools.getOridinal(1); // 'st'
-MathsTools.getOridinal(2); // 'nd'
-MathsTools.getOridinal(3); // 'rd'
-MathsTools.getOridinal(4); // 'th'
+MathsTools.getOrdinal(1); // 'st'
+MathsTools.getOrdinal(2); // 'nd'
+MathsTools.getOrdinal(3); // 'rd'
+MathsTools.getOrdinal(4); // 'th'
 
-MathsTools.getOridinal(11); // 'th'
-MathsTools.getOridinal(12); // 'th'
-MathsTools.getOridinal(13); // 'th'
-MathsTools.getOridinal(14); // 'th'
+MathsTools.getOrdinal(11); // 'th'
+MathsTools.getOrdinal(12); // 'th'
+MathsTools.getOrdinal(13); // 'th'
+MathsTools.getOrdinal(14); // 'th'
 
-MathsTools.getOridinal(21); // 'st'
-MathsTools.getOridinal(22); // 'nd'
-MathsTools.getOridinal(23); // 'rd'
-MathsTools.getOridinal(24); // 'th'
+MathsTools.getOrdinal(21); // 'st'
+MathsTools.getOrdinal(22); // 'nd'
+MathsTools.getOrdinal(23); // 'rd'
+MathsTools.getOrdinal(24); // 'th'
 ```
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
@@ -1676,6 +1754,14 @@ timer.log();
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
+### DeferredPromise
+- `DeferredPromise`
+- `PromiseTools.DeferredPromise`
+
+A deferred promise
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
 ## ColourTools
 A collection of functions for working with colours.
 
@@ -1705,6 +1791,259 @@ A type with 3 numbers:
 - `ColourTools.namedColours`
 
 A dictionary of different colour names and their RGB values
+
+| Name                 | RGB           | Hex     |
+| -------------------- | ------------- | ------- |
+| aliceblue            | 240, 248, 255 | #f0f8ff |
+| antiquewhite         | 250, 235, 215 | #faebd7 |
+| aqua                 | 0, 255, 255   | #00ffff |
+| aquamarine           | 127, 255, 212 | #7fffd4 |
+| azure                | 240, 255, 255 | #f0ffff |
+| beige                | 245, 245, 220 | #f5f5dc |
+| bisque               | 255, 228, 196 | #ffe4c4 |
+| black                | 0, 0, 0       | #000000 |
+| blanchedalmond       | 255, 235, 205 | #ffebcd |
+| blue                 | 0, 0, 255     | #0000ff |
+| blueviolet           | 138, 43, 226  | #8a2be2 |
+| brown                | 165, 42, 42   | #a52a2a |
+| burlywood            | 222, 184, 135 | #deb887 |
+| cadetblue            | 95, 158, 160  | #5f9ea0 |
+| chartreuse           | 127, 255, 0   | #7fff00 |
+| chocolate            | 210, 105, 30  | #d2691e |
+| coral                | 255, 127, 80  | #ff7f50 |
+| cornflowerblue       | 100, 149, 237 | #6495ed |
+| cornsilk             | 255, 248, 220 | #fff8dc |
+| crimson              | 220, 20, 60   | #dc143c |
+| cyan                 | 0, 255, 255   | #00ffff |
+| darkblue             | 0, 0, 139     | #00008b |
+| darkcyan             | 0, 139, 139   | #008b8b |
+| darkgoldenrod        | 184, 134, 11  | #b8860b |
+| darkgray             | 169, 169, 169 | #a9a9a9 |
+| darkgreen            | 0, 100, 0     | #006400 |
+| darkgrey             | 169, 169, 169 | #a9a9a9 |
+| darkkhaki            | 189, 183, 107 | #bdb76b |
+| darkmagenta          | 139, 0, 139   | #8b008b |
+| darkolivegreen       | 85, 107, 47   | #556b2f |
+| darkorange           | 255, 140, 0   | #ff8c00 |
+| darkorchid           | 153, 50, 204  | #9932cc |
+| darkred              | 139, 0, 0     | #8b0000 |
+| darksalmon           | 233, 150, 122 | #e9967a |
+| darkseagreen         | 143, 188, 143 | #8fbc8f |
+| darkslateblue        | 72, 61, 139   | #483d8b |
+| darkslategray        | 47, 79, 79    | #2f4f4f |
+| darkslategrey        | 47, 79, 79    | #2f4f4f |
+| darkturquoise        | 0, 206, 209   | #00ced1 |
+| darkviolet           | 148, 0, 211   | #9400d3 |
+| deeppink             | 255, 20, 147  | #ff1493 |
+| deepskyblue          | 0, 191, 255   | #00bfff |
+| dimgray              | 105, 105, 105 | #696969 |
+| dimgrey              | 105, 105, 105 | #696969 |
+| dodgerblue           | 30, 144, 255  | #1e90ff |
+| firebrick            | 178, 34, 34   | #b22222 |
+| floralwhite          | 255, 250, 240 | #fffaf0 |
+| forestgreen          | 34, 139, 34   | #228b22 |
+| fractal              | 128, 128, 128 | #808080 |
+| fuchsia              | 255, 0, 255   | #ff00ff |
+| gainsboro            | 220, 220, 220 | #dcdcdc |
+| ghostwhite           | 248, 248, 255 | #f8f8ff |
+| gold                 | 255, 215, 0   | #ffd700 |
+| goldenrod            | 218, 165, 32  | #daa520 |
+| gray0                | 0, 0, 0       | #000000 |
+| gray1                | 3, 3, 3       | #030303 |
+| gray2                | 5, 5, 5       | #050505 |
+| gray3                | 8, 8, 8       | #080808 |
+| gray4                | 10, 10, 10    | #0a0a0a |
+| gray5                | 13, 13, 13    | #0d0d0d |
+| gray6                | 15, 15, 15    | #0f0f0f |
+| gray7                | 18, 18, 18    | #121212 |
+| gray8                | 20, 20, 20    | #141414 |
+| gray9                | 23, 23, 23    | #171717 |
+| gray10               | 26, 26, 26    | #1a1a1a |
+| gray11               | 28, 28, 28    | #1c1c1c |
+| gray12               | 31, 31, 31    | #1f1f1f |
+| gray13               | 33, 33, 33    | #212121 |
+| gray14               | 36, 36, 36    | #242424 |
+| gray15               | 38, 38, 38    | #262626 |
+| gray16               | 41, 41, 41    | #292929 |
+| gray17               | 43, 43, 43    | #2b2b2b |
+| gray18               | 46, 46, 46    | #2e2e2e |
+| gray19               | 48, 48, 48    | #303030 |
+| gray20               | 51, 51, 51    | #333333 |
+| gray21               | 54, 54, 54    | #363636 |
+| gray22               | 56, 56, 56    | #383838 |
+| gray23               | 59, 59, 59    | #3b3b3b |
+| gray24               | 61, 61, 61    | #3d3d3d |
+| gray25               | 64, 64, 64    | #404040 |
+| gray26               | 66, 66, 66    | #424242 |
+| gray27               | 69, 69, 69    | #454545 |
+| gray28               | 71, 71, 71    | #474747 |
+| gray29               | 74, 74, 74    | #4a4a4a |
+| gray30               | 77, 77, 77    | #4d4d4d |
+| gray31               | 79, 79, 79    | #4f4f4f |
+| gray32               | 82, 82, 82    | #525252 |
+| gray33               | 84, 84, 84    | #545454 |
+| gray34               | 87, 87, 87    | #575757 |
+| gray35               | 89, 89, 89    | #595959 |
+| gray36               | 92, 92, 92    | #5c5c5c |
+| gray37               | 94, 94, 94    | #5e5e5e |
+| gray38               | 97, 97, 97    | #616161 |
+| gray39               | 99, 99, 99    | #636363 |
+| gray40               | 102, 102, 102 | #666666 |
+| gray41               | 105, 105, 105 | #696969 |
+| gray42               | 107, 107, 107 | #6b6b6b |
+| gray43               | 110, 110, 110 | #6e6e6e |
+| gray44               | 112, 112, 112 | #707070 |
+| gray45               | 115, 115, 115 | #737373 |
+| gray46               | 117, 117, 117 | #757575 |
+| gray47               | 120, 120, 120 | #787878 |
+| gray48               | 122, 122, 122 | #7a7a7a |
+| gray49               | 125, 125, 125 | #7d7d7d |
+| gray50               | 127, 127, 127 | #7f7f7f |
+| gray51               | 130, 130, 130 | #828282 |
+| gray52               | 133, 133, 133 | #858585 |
+| gray53               | 135, 135, 135 | #878787 |
+| gray54               | 138, 138, 138 | #8a8a8a |
+| gray55               | 140, 140, 140 | #8c8c8c |
+| gray56               | 143, 143, 143 | #8f8f8f |
+| gray57               | 145, 145, 145 | #919191 |
+| gray58               | 148, 148, 148 | #949494 |
+| gray59               | 150, 150, 150 | #969696 |
+| gray60               | 153, 153, 153 | #999999 |
+| gray61               | 156, 156, 156 | #9c9c9c |
+| gray62               | 158, 158, 158 | #9e9e9e |
+| gray63               | 161, 161, 161 | #a1a1a1 |
+| gray64               | 163, 163, 163 | #a3a3a3 |
+| gray65               | 166, 166, 166 | #a6a6a6 |
+| gray66               | 168, 168, 168 | #a8a8a8 |
+| gray67               | 171, 171, 171 | #ababab |
+| gray68               | 173, 173, 173 | #adadad |
+| gray69               | 176, 176, 176 | #b0b0b0 |
+| gray70               | 179, 179, 179 | #b3b3b3 |
+| gray71               | 181, 181, 181 | #b5b5b5 |
+| gray72               | 184, 184, 184 | #b8b8b8 |
+| gray73               | 186, 186, 186 | #bababa |
+| gray74               | 189, 189, 189 | #bdbdbd |
+| gray75               | 191, 191, 191 | #bfbfbf |
+| gray76               | 194, 194, 194 | #c2c2c2 |
+| gray77               | 196, 196, 196 | #c4c4c4 |
+| gray78               | 199, 199, 199 | #c7c7c7 |
+| gray79               | 201, 201, 201 | #c9c9c9 |
+| gray80               | 204, 204, 204 | #cccccc |
+| gray81               | 207, 207, 207 | #cfcfcf |
+| gray82               | 209, 209, 209 | #d1d1d1 |
+| gray83               | 212, 212, 212 | #d4d4d4 |
+| gray84               | 214, 214, 214 | #d6d6d6 |
+| gray85               | 217, 217, 217 | #d9d9d9 |
+| gray86               | 219, 219, 219 | #dbdbdb |
+| gray87               | 222, 222, 222 | #dedede |
+| gray88               | 224, 224, 224 | #e0e0e0 |
+| gray89               | 227, 227, 227 | #e3e3e3 |
+| gray90               | 229, 229, 229 | #e5e5e5 |
+| gray91               | 232, 232, 232 | #e8e8e8 |
+| gray92               | 235, 235, 235 | #ebebeb |
+| gray93               | 237, 237, 237 | #ededed |
+| gray94               | 240, 240, 240 | #f0f0f0 |
+| gray95               | 242, 242, 242 | #f2f2f2 |
+| gray96               | 245, 245, 245 | #f5f5f5 |
+| gray97               | 247, 247, 247 | #f7f7f7 |
+| gray98               | 250, 250, 250 | #fafafa |
+| gray99               | 252, 252, 252 | #fcfcfc |
+| gray100              | 255, 255, 255 | #ffffff |
+| gray                 | 126, 126, 126 | #7e7e7e |
+| green                | 0, 128, 0     | #008000 |
+| greenyellow          | 173, 255, 47  | #adff2f |
+| grey                 | 128, 128, 128 | #808080 |
+| honeydew             | 240, 255, 240 | #f0fff0 |
+| hotpink              | 255, 105, 180 | #ff69b4 |
+| indianred            | 205, 92, 92   | #cd5c5c |
+| indigo               | 75, 0, 130    | #4b0082 |
+| ivory                | 255, 255, 240 | #fffff0 |
+| khaki                | 240, 230, 140 | #f0e68c |
+| lavender             | 230, 230, 250 | #e6e6fa |
+| lavenderblush        | 255, 240, 245 | #fff0f5 |
+| lawngreen            | 124, 252, 0   | #7cfc00 |
+| lemonchiffon         | 255, 250, 205 | #fffacd |
+| lightblue            | 173, 216, 230 | #add8e6 |
+| lightcoral           | 240, 128, 128 | #f08080 |
+| lightcyan            | 224, 255, 255 | #e0ffff |
+| lightgoldenrodyellow | 250, 250, 210 | #fafad2 |
+| lightgray            | 211, 211, 211 | #d3d3d3 |
+| lightgreen           | 144, 238, 144 | #90ee90 |
+| lightgrey            | 211, 211, 211 | #d3d3d3 |
+| lightpink            | 255, 182, 193 | #ffb6c1 |
+| lightsalmon          | 255, 160, 122 | #ffa07a |
+| lightseagreen        | 32, 178, 170  | #20b2aa |
+| lightskyblue         | 135, 206, 250 | #87cefa |
+| lightslategray       | 119, 136, 153 | #778899 |
+| lightslategrey       | 119, 136, 153 | #778899 |
+| lightsteelblue       | 176, 196, 222 | #b0c4de |
+| lightyellow          | 255, 255, 224 | #ffffe0 |
+| lime                 | 0, 255, 0     | #00ff00 |
+| limegreen            | 50, 205, 50   | #32cd32 |
+| linen                | 250, 240, 230 | #faf0e6 |
+| magenta              | 255, 0, 255   | #ff00ff |
+| maroon               | 128, 0, 0     | #800000 |
+| mediumaquamarine     | 102, 205, 170 | #66cdaa |
+| mediumblue           | 0, 0, 205     | #0000cd |
+| mediumorchid         | 186, 85, 211  | #ba55d3 |
+| mediumpurple         | 147, 112, 219 | #9370db |
+| mediumseagreen       | 60, 179, 113  | #3cb371 |
+| mediumslateblue      | 123, 104, 238 | #7b68ee |
+| mediumspringgreen    | 0, 250, 154   | #00fa9a |
+| mediumturquoise      | 72, 209, 204  | #48d1cc |
+| mediumvioletred      | 199, 21, 133  | #c71585 |
+| midnightblue         | 25, 25, 112   | #191970 |
+| mintcream            | 245, 255, 250 | #f5fffa |
+| mistyrose            | 255, 228, 225 | #ffe4e1 |
+| moccasin             | 255, 228, 181 | #ffe4b5 |
+| navajowhite          | 255, 222, 173 | #ffdead |
+| navy                 | 0, 0, 128     | #000080 |
+| none                 | 0, 0, 0       | #000000 |
+| oldlace              | 253, 245, 230 | #fdf5e6 |
+| olive                | 128, 128, 0   | #808000 |
+| olivedrab            | 107, 142, 35  | #6b8e23 |
+| orange               | 255, 165, 0   | #ffa500 |
+| orangered            | 255, 69, 0    | #ff4500 |
+| orchid               | 218, 112, 214 | #da70d6 |
+| palegoldenrod        | 238, 232, 170 | #eee8aa |
+| palegreen            | 152, 251, 152 | #98fb98 |
+| paleturquoise        | 175, 238, 238 | #afeeee |
+| palevioletred        | 219, 112, 147 | #db7093 |
+| papayawhip           | 255, 239, 213 | #ffefd5 |
+| peachpuff            | 255, 218, 185 | #ffdab9 |
+| peru                 | 205, 133, 63  | #cd853f |
+| pink                 | 255, 192, 203 | #ffc0cb |
+| plum                 | 221, 160, 221 | #dda0dd |
+| powderblue           | 176, 224, 230 | #b0e0e6 |
+| purple               | 128, 0, 128   | #800080 |
+| red                  | 255, 0, 0     | #ff0000 |
+| rosybrown            | 188, 143, 143 | #bc8f8f |
+| royalblue            | 65, 105, 225  | #4169e1 |
+| saddlebrown          | 139, 69, 19   | #8b4513 |
+| salmon               | 250, 128, 114 | #fa8072 |
+| sandybrown           | 244, 164, 96  | #f4a460 |
+| seagreen             | 46, 139, 87   | #2e8b57 |
+| seashell             | 255, 245, 238 | #fff5ee |
+| sienna               | 160, 82, 45   | #a0522d |
+| silver               | 192, 192, 192 | #c0c0c0 |
+| skyblue              | 135, 206, 235 | #87ceeb |
+| slateblue            | 106, 90, 205  | #6a5acd |
+| slategray            | 112, 128, 144 | #708090 |
+| slategrey            | 112, 128, 144 | #708090 |
+| snow                 | 255, 250, 250 | #fffafa |
+| springgreen          | 0, 255, 127   | #00ff7f |
+| steelblue            | 70, 130, 180  | #4682b4 |
+| tan                  | 210, 180, 140 | #d2b48c |
+| teal                 | 0, 128, 128   | #008080 |
+| thistle              | 216, 191, 216 | #d8bfd8 |
+| tomato               | 255, 99, 71   | #ff6347 |
+| turquoise            | 64, 224, 208  | #40e0d0 |
+| violet               | 238, 130, 238 | #ee82ee |
+| wheat                | 245, 222, 179 | #f5deb3 |
+| white                | 255, 255, 255 | #ffffff |
+| whitesmoke           | 245, 245, 245 | #f5f5f5 |
+| yellow               | 255, 255, 0   | #ffff00 |
+| yellowgreen          | 154, 205, 50  | #9acd32 |
 
 ```typescript
 ColourTools.namedColours.blue // [0, 0, 255]
@@ -1883,13 +2222,14 @@ TimeTools.toReadableDuration(realisticDuration, true, 2) // '10 days & 2 hours'
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
-## Error Handling
+## ErrorTools
 Functions for handling errors.
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### tryOr
 - `tryOr`
+- `ErrorTools.tryOr`
 
 Try to execute a function and return its result if it succeeds, or return the default value if it fails.
 
@@ -1901,6 +2241,7 @@ const result = tryOr('default', () => getSomething());
 
 ### retry
 - `retry`
+- `ErrorTools.retry`
 
 Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
 
@@ -1912,6 +2253,7 @@ const result = tryOr(5, seconds(1),, true, () => getSomething());
 
 ### retryOr
 - `retryOr`
+- `ErrorTools.retryOr`
 
 Combination of retry and tryOr.
 
