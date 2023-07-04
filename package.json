@@ -20,7 +20,7 @@
   "devDependencies": {
     "@types/jest": "^28.1.6",
     "jest": "^28.1.3",
-    "swiss-docs": "0.3.0",
+    "swiss-docs": "^0.4.3",
     "ts-jest": "^28.0.7",
     "tsup": "^6.2.1",
     "typescript": "^4.7.4"
@@ -29,7 +29,7 @@
     "build": "yarn build:code && yarn docs",
     "build:code": "tsup src/index.ts --format cjs,esm --dts --clean",
     "watch": "yarn build -- --watch src",
-    "docs": "swiss-docs -i src -o README.md",
+    "docs": "swiss-docs -i src -o README.md -a dist/index.d.ts",
     "test": "yarn build && yarn test:raw",
     "test:raw": "jest --no-cache",
     "prepublishOnly": "yarn test"

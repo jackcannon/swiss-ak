@@ -1,11 +1,11 @@
 //<!-- DOCS: 140 -->
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: PromiseTools ## -->
  * PromiseTools
  *
  * A collection of promise utilities
  */
 export namespace PromiseTools {
-  /**<!-- DOCS: 141 ### -->
+  /**<!-- DOCS: PromiseTools.DeferredPromise 141 ### -->
    * DeferredPromise
    *
    * - `DeferredPromise`
@@ -18,7 +18,7 @@ export namespace PromiseTools {
     reject: (value: T) => Promise<T>;
     promise: Promise<T>;
   }
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: PromiseTools.getDeferred ### -->
  * getDeferred
  *
  * - `getDeferred`
@@ -63,7 +63,7 @@ export namespace PromiseTools {
     };
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: PromiseTools.all ### -->
    * all
    *
    * - `all`
@@ -75,7 +75,7 @@ export namespace PromiseTools {
     await Promise.all(promises);
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: PromiseTools.allLimit ### -->
    * allLimit
    *
    * - `allLimit`
@@ -160,7 +160,7 @@ export namespace PromiseTools {
     return deferred.promise;
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: PromiseTools.each ### -->
    * each
    *
    * - `each`
@@ -184,7 +184,7 @@ export namespace PromiseTools {
     await Promise.all(items.map((item: Ti, index: number, array: Ti[]) => func(item, index, array)));
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: PromiseTools.eachLimit ### -->
    * eachLimit
    *
    * - `eachLimit`
@@ -217,7 +217,7 @@ export namespace PromiseTools {
     );
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: PromiseTools.map ### -->
    * map
    *
    * - `map`
@@ -254,7 +254,7 @@ export namespace PromiseTools {
     return result;
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: PromiseTools.mapLimit ### -->
    * mapLimit
    *
    * - `mapLimit`
@@ -298,7 +298,7 @@ export namespace PromiseTools {
 
   type UnWrapPromise<T> = T extends Promise<infer U> ? U : T;
   type UnWrapPromiseObject<T> = { [K in keyof T]: UnWrapPromise<T[K]> };
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: PromiseTools.allObj ### -->
    * allObj
    *
    * - `allObj`
@@ -339,7 +339,7 @@ export namespace PromiseTools {
     return objectify((arr) => Promise.all(arr), input);
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: PromiseTools.allLimitObj ### -->
    * allLimitObj
    *
    * - `allLimitObj`
@@ -387,23 +387,23 @@ export namespace PromiseTools {
   };
 }
 
-/** ALIAS - DeferredPromise */
+/** <!-- DOCS-ALIAS: PromiseTools.DeferredPromise  --> */
 export type DeferredPromise<T> = PromiseTools.DeferredPromise<T>;
-/** ALIAS - getDeferred */
+/** <!-- DOCS-ALIAS: PromiseTools.getDeferred  --> */
 export const getDeferred = PromiseTools.getDeferred;
-/** ALIAS - all */
+/** <!-- DOCS-ALIAS: PromiseTools.all  --> */
 export const all = PromiseTools.all;
-/** ALIAS - allLimit */
+/** <!-- DOCS-ALIAS: PromiseTools.allLimit  --> */
 export const allLimit = PromiseTools.allLimit;
-/** ALIAS - each */
+/** <!-- DOCS-ALIAS: PromiseTools.each  --> */
 export const each = PromiseTools.each;
-/** ALIAS - eachLimit */
+/** <!-- DOCS-ALIAS: PromiseTools.eachLimit  --> */
 export const eachLimit = PromiseTools.eachLimit;
-/** ALIAS - map */
+/** <!-- DOCS-ALIAS: PromiseTools.map  --> */
 export const map = PromiseTools.map;
-/** ALIAS - mapLimit */
+/** <!-- DOCS-ALIAS: PromiseTools.mapLimit  --> */
 export const mapLimit = PromiseTools.mapLimit;
-/** ALIAS - allObj */
+/** <!-- DOCS-ALIAS: PromiseTools.allObj  --> */
 export const allObj = PromiseTools.allObj;
-/** ALIAS - allLimitObj */
+/** <!-- DOCS-ALIAS: PromiseTools.allLimitObj  --> */
 export const allLimitObj = PromiseTools.allLimitObj;

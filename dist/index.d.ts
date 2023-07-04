@@ -1,9 +1,9 @@
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: types ## -->
  * Helper Types
  *
  * Some commonly used types
  */
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: types.Partial ### -->
  * Partial<T>
  *
  * - `Partial`
@@ -21,7 +21,7 @@
 declare type Partial$1<T> = {
     [K in keyof T]?: T[K];
 };
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: types.KeysOnly ### -->
  * KeysOnly<T>
  *
  * - `KeysOnly`
@@ -39,7 +39,7 @@ declare type Partial$1<T> = {
 declare type KeysOnly<T> = {
     [K in keyof T]: K;
 };
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: types.Numbered ### -->
  * Numbered<T>
  *
  * - `Numbered`
@@ -57,7 +57,7 @@ declare type KeysOnly<T> = {
 declare type Numbered<T> = {
     [K in keyof T]: number;
 };
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: types.OfType ### -->
  * OfType<T, U>
  *
  * - `OfType`
@@ -67,7 +67,7 @@ declare type Numbered<T> = {
 declare type OfType<T, U> = {
     [K in keyof T]: U;
 };
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: types.ObjOfType ### -->
  * ObjOfType<T>
  *
  * - `ObjOfType`
@@ -77,18 +77,18 @@ declare type OfType<T, U> = {
 declare type ObjOfType<T = string> = {
     [key: string]: T;
 };
-/**<!-- DOCS: ### -->
- * ObjOfType<T>
+/**<!-- DOCS: types.RemapOf ### -->
+ * RemapOf<O, T>
  *
- * - `ObjOfType`
+ * - `RemapOf`
  *
- * An object with any properties of type T
+ * Remap a given interface (O) with all properties of type T
  */
 declare type RemapOf<O = Object, T = string> = {
     [K in keyof O]: T;
 };
 
-/**<!-- DOCS: ## 10 -->
+/**<!-- DOCS: times ## 10 -->
  * times
  *
  * A collection of Tools for calculating simple times.
@@ -109,7 +109,7 @@ declare type RemapOf<O = Object, T = string> = {
  * | millennium  | `millennium` | `MILLENNIUM`  | `millenniums(x: millennium) => ms` |
  */
 declare namespace times {
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.ms ### -1 -->
      * ms
      *
      * - `ms`
@@ -118,7 +118,7 @@ declare namespace times {
      * Type for number values in millisecond units
      */
     type ms = number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.second ### -1 -->
      * second
      *
      * - `second`
@@ -127,7 +127,7 @@ declare namespace times {
      * Type for number values in second units
      */
     type second = number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.minute ### -1 -->
      * minute
      *
      * - `minute`
@@ -136,7 +136,7 @@ declare namespace times {
      * Type for number values in minute units
      */
     type minute = number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.hour ### -1 -->
      * hour
      *
      * - `hour`
@@ -145,7 +145,7 @@ declare namespace times {
      * Type for number values in hour units
      */
     type hour = number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.day ### -1 -->
      * day
      *
      * - `day`
@@ -154,7 +154,7 @@ declare namespace times {
      * Type for number values in day units
      */
     type day = number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.week ### -1 -->
      * week
      *
      * - `week`
@@ -163,7 +163,7 @@ declare namespace times {
      * Type for number values in week units
      */
     type week = number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.month ### -1 -->
      * month
      *
      * - `month`
@@ -172,7 +172,7 @@ declare namespace times {
      * Type for number values in month units
      */
     type month = number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.year ### -1 -->
      * year
      *
      * - `year`
@@ -181,7 +181,7 @@ declare namespace times {
      * Type for number values in year units
      */
     type year = number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.decade ### -1 -->
      * decade
      *
      * - `decade`
@@ -190,7 +190,7 @@ declare namespace times {
      * Type for number values in decade units
      */
     type decade = number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.century ### -1 -->
      * century
      *
      * - `century`
@@ -199,7 +199,7 @@ declare namespace times {
      * Type for number values in century units
      */
     type century = number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.millennium ### -1 -->
      * millennium
      *
      * - `millennium`
@@ -208,7 +208,7 @@ declare namespace times {
      * Type for number values in millennium units
      */
     type millennium = number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.MILLISECOND ### -1 -->
      * MILLISECOND
      *
      * - `MILLISECOND`
@@ -219,7 +219,7 @@ declare namespace times {
      * Equal to `1` (1 millisecond)
      */
     const MILLISECOND = 1;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.SECOND ### -1 -->
      * SECOND
      *
      * - `SECOND`
@@ -230,7 +230,7 @@ declare namespace times {
      * Equal to `1000` (1,000 milliseconds)
      */
     const SECOND: number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.MINUTE ### -1 -->
      * MINUTE
      *
      * - `MINUTE`
@@ -241,7 +241,7 @@ declare namespace times {
      * Equal to `60_000` (60 seconds)
      */
     const MINUTE: number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.HOUR ### -1 -->
      * HOUR
      *
      * - `HOUR`
@@ -252,7 +252,7 @@ declare namespace times {
      * Equal to `3_600_000` (60 minutes)
      */
     const HOUR: number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.DAY ### -1 -->
      * DAY
      *
      * - `DAY`
@@ -263,7 +263,7 @@ declare namespace times {
      * Equal to `86_400_000` (24 hours)
      */
     const DAY: number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.WEEK ### -1 -->
      * WEEK
      *
      * - `WEEK`
@@ -274,7 +274,7 @@ declare namespace times {
      * Equal to `604_800_000` (7 days)
      */
     const WEEK: number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.MONTH ### -1 -->
      * MONTH
      *
      * - `MONTH`
@@ -285,7 +285,7 @@ declare namespace times {
      * Equal to `2_592_000_000` (30 days)
      */
     const MONTH: number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.YEAR ### -1 -->
      * YEAR
      *
      * - `YEAR`
@@ -296,7 +296,7 @@ declare namespace times {
      * Equal to `31_557_600_000` (365.25 days)
      */
     const YEAR: number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.DECADE ### -1 -->
      * DECADE
      *
      * - `DECADE`
@@ -307,7 +307,7 @@ declare namespace times {
      * Equal to `315_576_000_000` (10 years / 3,652.5 days)
      */
     const DECADE: number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.CENTURY ### -1 -->
      * CENTURY
      *
      * - `CENTURY`
@@ -318,7 +318,7 @@ declare namespace times {
      * Equal to `3_155_760_000_000` (100 years / 36,525 days)
      */
     const CENTURY: number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.MILLENNIUM ### -1 -->
      * MILLENNIUM
      *
      * - `MILLENNIUM`
@@ -329,7 +329,7 @@ declare namespace times {
      * Equal to `31_557_600_000_000` (1000 years / 365,250 days)
      */
     const MILLENNIUM: number;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.milliseconds ### -1 -->
      * milliseconds
      *
      * - `milliseconds`
@@ -345,7 +345,7 @@ declare namespace times {
      * ```
      */
     const milliseconds: (x?: ms) => ms;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.seconds ### -1 -->
      * seconds
      *
      * - `seconds`
@@ -361,7 +361,7 @@ declare namespace times {
      * ```
      */
     const seconds: (x?: second) => ms;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.minutes ### -1 -->
      * minutes
      *
      * - `minutes`
@@ -377,7 +377,7 @@ declare namespace times {
      * ```
      */
     const minutes: (x?: minute) => ms;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.hours ### -1 -->
      * hours
      *
      * - `hours`
@@ -393,7 +393,7 @@ declare namespace times {
      * ```
      */
     const hours: (x?: hour) => ms;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.days ### -1 -->
      * days
      *
      * - `days`
@@ -409,7 +409,7 @@ declare namespace times {
      * ```
      */
     const days: (x?: day) => ms;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.weeks ### -1 -->
      * weeks
      *
      * - `weeks`
@@ -425,7 +425,7 @@ declare namespace times {
      * ```
      */
     const weeks: (x?: week) => ms;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.months ### -1 -->
      * months
      *
      * - `months`
@@ -441,7 +441,7 @@ declare namespace times {
      * ```
      */
     const months: (x?: month) => ms;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.years ### -1 -->
      * years
      *
      * - `years`
@@ -457,7 +457,7 @@ declare namespace times {
      * ```
      */
     const years: (x?: year) => ms;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.decades ### -1 -->
      * decades
      *
      * - `decades`
@@ -473,7 +473,7 @@ declare namespace times {
      * ```
      */
     const decades: (x?: decade) => ms;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.centuries ### -1 -->
      * centuries
      *
      * - `centuries`
@@ -489,7 +489,7 @@ declare namespace times {
      * ```
      */
     const centuries: (x?: century) => ms;
-    /**<!-- DOCS: ### -1 -->
+    /**<!-- DOCS: times.millenniums ### -1 -->
      * millenniums
      *
      * - `millenniums`
@@ -506,74 +506,404 @@ declare namespace times {
      */
     const millenniums: (x?: millennium) => ms;
 }
-/** ALIAS - ms */
+/**<!-- DOCS-ALIAS: times.ms -->
+ * ms
+ * 
+ * - `ms`
+ * - `times.ms`
+ * 
+ * Type for number values in millisecond units
+ */
 declare type ms = number;
-/** ALIAS - second */
+/**<!-- DOCS-ALIAS: times.second -->
+ * second
+ * 
+ * - `second`
+ * - `times.second`
+ * 
+ * Type for number values in second units
+ */
 declare type second = number;
-/** ALIAS - minute */
+/**<!-- DOCS-ALIAS: times.minute -->
+ * minute
+ * 
+ * - `minute`
+ * - `times.minute`
+ * 
+ * Type for number values in minute units
+ */
 declare type minute = number;
-/** ALIAS - hour */
+/**<!-- DOCS-ALIAS: times.hour -->
+ * hour
+ * 
+ * - `hour`
+ * - `times.hour`
+ * 
+ * Type for number values in hour units
+ */
 declare type hour = number;
-/** ALIAS - day */
+/**<!-- DOCS-ALIAS: times.day -->
+ * day
+ * 
+ * - `day`
+ * - `times.day`
+ * 
+ * Type for number values in day units
+ */
 declare type day = number;
-/** ALIAS - week */
+/**<!-- DOCS-ALIAS: times.week -->
+ * week
+ * 
+ * - `week`
+ * - `times.week`
+ * 
+ * Type for number values in week units
+ */
 declare type week = number;
-/** ALIAS - month */
+/**<!-- DOCS-ALIAS: times.month -->
+ * month
+ * 
+ * - `month`
+ * - `times.month`
+ * 
+ * Type for number values in month units
+ */
 declare type month = number;
-/** ALIAS - year */
+/**<!-- DOCS-ALIAS: times.year -->
+ * year
+ * 
+ * - `year`
+ * - `times.year`
+ * 
+ * Type for number values in year units
+ */
 declare type year = number;
-/** ALIAS - decade */
+/**<!-- DOCS-ALIAS: times.decade -->
+ * decade
+ * 
+ * - `decade`
+ * - `times.decade`
+ * 
+ * Type for number values in decade units
+ */
 declare type decade = number;
-/** ALIAS - century */
+/**<!-- DOCS-ALIAS: times.century -->
+ * century
+ * 
+ * - `century`
+ * - `times.century`
+ * 
+ * Type for number values in century units
+ */
 declare type century = number;
-/** ALIAS - millennium */
+/**<!-- DOCS-ALIAS: times.millennium -->
+ * millennium
+ * 
+ * - `millennium`
+ * - `times.millennium`
+ * 
+ * Type for number values in millennium units
+ */
 declare type millennium = number;
-/** ALIAS - MILLISECOND */
+/**<!-- DOCS-ALIAS: times.MILLISECOND -->
+ * MILLISECOND
+ * 
+ * - `MILLISECOND`
+ * - `times.MILLISECOND`
+ * 
+ * Constant in ms (millisecond) units
+ * 
+ * Equal to `1` (1 millisecond)
+ */
 declare const MILLISECOND = 1;
-/** ALIAS - SECOND */
+/**<!-- DOCS-ALIAS: times.SECOND -->
+ * SECOND
+ * 
+ * - `SECOND`
+ * - `times.SECOND`
+ * 
+ * Constant in ms (millisecond) units
+ * 
+ * Equal to `1000` (1,000 milliseconds)
+ */
 declare const SECOND: number;
-/** ALIAS - MINUTE */
+/**<!-- DOCS-ALIAS: times.MINUTE -->
+ * MINUTE
+ * 
+ * - `MINUTE`
+ * - `times.MINUTE`
+ * 
+ * Constant in ms (millisecond) units
+ * 
+ * Equal to `60_000` (60 seconds)
+ */
 declare const MINUTE: number;
-/** ALIAS - HOUR */
+/**<!-- DOCS-ALIAS: times.HOUR -->
+ * HOUR
+ * 
+ * - `HOUR`
+ * - `times.HOUR`
+ * 
+ * Constant in ms (millisecond) units
+ * 
+ * Equal to `3_600_000` (60 minutes)
+ */
 declare const HOUR: number;
-/** ALIAS - DAY */
+/**<!-- DOCS-ALIAS: times.DAY -->
+ * DAY
+ * 
+ * - `DAY`
+ * - `times.DAY`
+ * 
+ * Constant in ms (millisecond) units
+ * 
+ * Equal to `86_400_000` (24 hours)
+ */
 declare const DAY: number;
-/** ALIAS - WEEK */
+/**<!-- DOCS-ALIAS: times.WEEK -->
+ * WEEK
+ * 
+ * - `WEEK`
+ * - `times.WEEK`
+ * 
+ * Constant in ms (millisecond) units
+ * 
+ * Equal to `604_800_000` (7 days)
+ */
 declare const WEEK: number;
-/** ALIAS - MONTH */
+/**<!-- DOCS-ALIAS: times.MONTH -->
+ * MONTH
+ * 
+ * - `MONTH`
+ * - `times.MONTH`
+ * 
+ * Constant in ms (millisecond) units
+ * 
+ * Equal to `2_592_000_000` (30 days)
+ */
 declare const MONTH: number;
-/** ALIAS - YEAR */
+/**<!-- DOCS-ALIAS: times.YEAR -->
+ * YEAR
+ * 
+ * - `YEAR`
+ * - `times.YEAR`
+ * 
+ * Constant in ms (millisecond) units
+ * 
+ * Equal to `31_557_600_000` (365.25 days)
+ */
 declare const YEAR: number;
-/** ALIAS - DECADE */
+/**<!-- DOCS-ALIAS: times.DECADE -->
+ * DECADE
+ * 
+ * - `DECADE`
+ * - `times.DECADE`
+ * 
+ * Constant in ms (millisecond) units
+ * 
+ * Equal to `315_576_000_000` (10 years / 3,652.5 days)
+ */
 declare const DECADE: number;
-/** ALIAS - CENTURY */
+/**<!-- DOCS-ALIAS: times.CENTURY -->
+ * CENTURY
+ * 
+ * - `CENTURY`
+ * - `times.CENTURY`
+ * 
+ * Constant in ms (millisecond) units
+ * 
+ * Equal to `3_155_760_000_000` (100 years / 36,525 days)
+ */
 declare const CENTURY: number;
-/** ALIAS - MILLENNIUM */
+/**<!-- DOCS-ALIAS: times.MILLENNIUM -->
+ * MILLENNIUM
+ * 
+ * - `MILLENNIUM`
+ * - `times.MILLENNIUM`
+ * 
+ * Constant in ms (millisecond) units
+ * 
+ * Equal to `31_557_600_000_000` (1000 years / 365,250 days)
+ */
 declare const MILLENNIUM: number;
-/** ALIAS - milliseconds */
+/**<!-- DOCS-ALIAS: times.milliseconds -->
+ * milliseconds
+ * 
+ * - `milliseconds`
+ * - `times.milliseconds`
+ * 
+ * Function that returns the number of milliseconds equal to a multiple of milliseconds
+ * 
+ * ```typescript
+ * milliseconds(); // 1 (1 milliseconds)
+ * milliseconds(1); // 1 (1 milliseconds)
+ * milliseconds(2); // 2 (2 milliseconds)
+ * milliseconds(5); // 5 (5 milliseconds)
+ * ```
+ */
 declare const milliseconds: (x?: ms) => ms;
-/** ALIAS - seconds */
+/**<!-- DOCS-ALIAS: times.seconds -->
+ * seconds
+ * 
+ * - `seconds`
+ * - `times.seconds`
+ * 
+ * Function that returns the number of milliseconds equal to a multiple of seconds
+ * 
+ * ```typescript
+ * seconds(); // 1_000 (1 second)
+ * seconds(1); // 1_000 (1 second)
+ * seconds(2); // 2_000 (2 seconds)
+ * seconds(5); // 5_000 (5 seconds)
+ * ```
+ */
 declare const seconds: (x?: second) => ms;
-/** ALIAS - minutes */
+/**<!-- DOCS-ALIAS: times.minutes -->
+ * minutes
+ * 
+ * - `minutes`
+ * - `times.minutes`
+ * 
+ * Function that returns the number of milliseconds equal to a multiple of minutes
+ * 
+ * ```typescript
+ * minutes(); // 60_000 (60 seconds)
+ * minutes(1); // 60_000 (60 seconds)
+ * minutes(2); // 120_000 (120 seconds)
+ * minutes(5); // 300_000 (300 seconds)
+ * ```
+ */
 declare const minutes: (x?: minute) => ms;
-/** ALIAS - hours */
+/**<!-- DOCS-ALIAS: times.hours -->
+ * hours
+ * 
+ * - `hours`
+ * - `times.hours`
+ * 
+ * Function that returns the number of milliseconds equal to a multiple of hours
+ * 
+ * ```typescript
+ * hours(); // 3_600_000 (1 hour / 60 minutes)
+ * hours(1); // 3_600_000 (1 hour / 60 minutes)
+ * hours(2); // 7_200_000 (2 hours / 120 minutes)
+ * hours(5); // 18_000_000 (5 hours / 300 minutes)
+ * ```
+ */
 declare const hours: (x?: hour) => ms;
-/** ALIAS - days */
+/**<!-- DOCS-ALIAS: times.days -->
+ * days
+ * 
+ * - `days`
+ * - `times.days`
+ * 
+ * Function that returns the number of milliseconds equal to a multiple of days
+ * 
+ * ```typescript
+ * days(); // 86_400_000 (1 day / 24 hours)
+ * days(1); // 86_400_000 (1 day / 24 hours)
+ * days(2); // 172_800_000 (2 days / 48 hours)
+ * days(5); // 432_000_000 (5 days / 120 hours)
+ * ```
+ */
 declare const days: (x?: day) => ms;
-/** ALIAS - weeks */
+/**<!-- DOCS-ALIAS: times.weeks -->
+ * weeks
+ * 
+ * - `weeks`
+ * - `times.weeks`
+ * 
+ * Function that returns the number of milliseconds equal to a multiple of weeks
+ * 
+ * ```typescript
+ * weeks(); // 604_800_000 (7 days / 168 hours)
+ * weeks(1); // 604_800_000 (7 days / 168 hours)
+ * weeks(2); // 1_209_600_000 (14 days / 336 hours)
+ * weeks(5); // 3_024_000_000 (35 days / 840 hours)
+ * ```
+ */
 declare const weeks: (x?: week) => ms;
-/** ALIAS - months */
+/**<!-- DOCS-ALIAS: times.months -->
+ * months
+ * 
+ * - `months`
+ * - `times.months`
+ * 
+ * Function that returns the number of milliseconds equal to a multiple of months
+ * 
+ * ```typescript
+ * months(); // 2_592_000_000 (30 days)
+ * months(1); // 2_592_000_000 (30 days)
+ * months(2); // 5_184_000_000 (60 days)
+ * months(5); // 12_960_000_000 (150 days)
+ * ```
+ */
 declare const months: (x?: month) => ms;
-/** ALIAS - years */
+/**<!-- DOCS-ALIAS: times.years -->
+ * years
+ * 
+ * - `years`
+ * - `times.years`
+ * 
+ * Function that returns the number of milliseconds equal to a multiple of years
+ * 
+ * ```typescript
+ * years(); // 31_557_600_000 (1 year / 365.25 days)
+ * years(1); // 31_557_600_000 (1 year / 365.25 days)
+ * years(2); // 63_115_200_000 (2 years / 730.5 days)
+ * years(5); // 157_788_000_000 (5 years / 1,826.25 days)
+ * ```
+ */
 declare const years: (x?: year) => ms;
-/** ALIAS - decades */
+/**<!-- DOCS-ALIAS: times.decades -->
+ * decades
+ * 
+ * - `decades`
+ * - `times.decades`
+ * 
+ * Function that returns the number of milliseconds equal to a multiple of decades
+ * 
+ * ```typescript
+ * decades(); // 315_576_000_000 (10 years / 3,652.5 days)
+ * decades(1); // 315_576_000_000 (10 years / 3,652.5 days)
+ * decades(2); // 631_152_000_000 (20 years / 7,305 days)
+ * decades(5); // 1_577_880_000_000 (50 years / 18,262.5 days)
+ * ```
+ */
 declare const decades: (x?: decade) => ms;
-/** ALIAS - centuries */
+/**<!-- DOCS-ALIAS: times.centuries -->
+ * centuries
+ * 
+ * - `centuries`
+ * - `times.centuries`
+ * 
+ * Function that returns the number of milliseconds equal to a multiple of centuries
+ * 
+ * ```typescript
+ * centuries(); // 3_155_760_000_000 (100 years / 36,525 days)
+ * centuries(1); // 3_155_760_000_000 (100 years / 36,525 days)
+ * centuries(2); // 6_311_520_000_000 (200 years / 73,050 days)
+ * centuries(5); // 15_778_800_000_000 (500 years / 182,625 days)
+ * ```
+ */
 declare const centuries: (x?: century) => ms;
-/** ALIAS - millenniums */
+/**<!-- DOCS-ALIAS: times.millenniums -->
+ * millenniums
+ * 
+ * - `millenniums`
+ * - `times.millenniums`
+ * 
+ * Function that returns the number of milliseconds equal to a multiple of millenniums
+ * 
+ * ```typescript
+ * millenniums(); // 31_557_600_000_000 (1000 years / 365,250 days)
+ * millenniums(1); // 31_557_600_000_000 (1000 years / 365,250 days)
+ * millenniums(2); // 63_115_200_000_000 (2000 years / 730,500 days)
+ * millenniums(5); // 157_788_000_000_000 (5000 years / 1,826,250 days)
+ * ```
+ */
 declare const millenniums: (x?: millennium) => ms;
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: waiters ## -->
  * waiters
  *
  * Async functions that return promises at or after a given time.
@@ -589,7 +919,7 @@ declare const millenniums: (x?: millennium) => ms;
  * | interval  | Accurate (pinged) interval for every 'every X' event | `hours(1)` = every hour, on the hour            |
  */
 declare namespace waiters {
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: waiters.wait ### -->
      * wait
      *
      * - `wait`
@@ -606,7 +936,7 @@ declare namespace waiters {
      * ```
      */
     const wait: (time: ms) => Promise<unknown>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: waiters.waitUntil ### -->
      * waitUntil
      *
      * - `waitUntil`
@@ -623,7 +953,7 @@ declare namespace waiters {
      * ```
      */
     const waitUntil: (time: ms) => Promise<null>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: waiters.waitFor ### -->
      * waitFor
      *
      * - `waitFor`
@@ -640,7 +970,7 @@ declare namespace waiters {
      * ```
      */
     const waitFor: (time: ms) => Promise<null>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: waiters.waitEvery ### -->
      * waitEvery
      *
      * - `waitEvery`
@@ -657,7 +987,7 @@ declare namespace waiters {
      * ```
      */
     const waitEvery: (timing: ms, offset?: ms) => Promise<null>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: waiters.stopInterval ### -->
      * stopInterval
      *
      * - `stopInterval`
@@ -676,7 +1006,7 @@ declare namespace waiters {
      * ```
      */
     const stopInterval: (intID: number) => number;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: waiters.interval ### -->
      * interval
      *
      * - `interval`
@@ -698,26 +1028,122 @@ declare namespace waiters {
      */
     const interval: (action: (intID?: number, count?: number) => any, timing: ms) => number;
 }
-/** ALIAS - wait */
+/**<!-- DOCS-ALIAS: waiters.wait -->
+ * wait
+ * 
+ * - `wait`
+ * - `waiters.wait`
+ * 
+ * Standard wait promise (using setTimeout)
+ * 
+ * ```typescript
+ * import { wait } from 'swiss-ak';
+ * 
+ * console.log(new Date().toTimeString()); // 12:30:10
+ * await wait(minutes(2));
+ * console.log(new Date().toTimeString()); // 12:32:10
+ * ```
+ */
 declare const wait: (time: ms) => Promise<unknown>;
-/** ALIAS - waitUntil */
+/**<!-- DOCS-ALIAS: waiters.waitUntil -->
+ * waitUntil
+ * 
+ * - `waitUntil`
+ * - `waiters.waitUntil`
+ * 
+ * Accurate (pinged) wait until given time
+ * 
+ * ```typescript
+ * import { waitUntil } from 'swiss-ak';
+ * 
+ * console.log(new Date().toTimeString()); // 12:30:10
+ * await waitUntil(Date.now() + minutes(10));
+ * console.log(new Date().toTimeString()); // 12:40:10
+ * ```
+ */
 declare const waitUntil: (time: ms) => Promise<null>;
-/** ALIAS - waitFor */
+/**<!-- DOCS-ALIAS: waiters.waitFor -->
+ * waitFor
+ * 
+ * - `waitFor`
+ * - `waiters.waitFor`
+ * 
+ * Accurate (pinged) wait the given ms
+ * 
+ * ```typescript
+ * import { waitFor } from 'swiss-ak';
+ * 
+ * console.log(new Date().toTimeString()); // 12:30:10
+ * await waitFor(minutes(5));
+ * console.log(new Date().toTimeString()); // 12:35:10
+ * ```
+ */
 declare const waitFor: (time: ms) => Promise<null>;
-/** ALIAS - waitEvery */
+/**<!-- DOCS-ALIAS: waiters.waitEvery -->
+ * waitEvery
+ * 
+ * - `waitEvery`
+ * - `waiters.waitEvery`
+ * 
+ * Accurate (pinged) wait for next 'every X' event
+ * 
+ * ```typescript
+ * import { waitEvery } from 'swiss-ak';
+ * 
+ * console.log(new Date().toTimeString()); // 12:30:10
+ * await waitEvery(hours(2));
+ * console.log(new Date().toTimeString()); // 14:00:00
+ * ```
+ */
 declare const waitEvery: (timing: ms, offset?: ms) => Promise<null>;
-/** ALIAS - stopInterval */
+/**<!-- DOCS-ALIAS: waiters.stopInterval -->
+ * stopInterval
+ * 
+ * - `stopInterval`
+ * - `waiters.stopInterval`
+ * 
+ * ```typescript
+ * import { interval, stopInterval } from 'swiss-ak';
+ * 
+ * console.log(new Date().toTimeString()); // 12:30:10
+ * interval((intID, count) => {
+ *   console.log(new Date().toTimeString()); // 13:00:00, 14:00:00, 15:00:00
+ *   if (count === 3) {
+ *     stopInterval(intID);
+ *   }
+ * }, hours(1));
+ * ```
+ */
 declare const stopInterval: (intID: number) => number;
-/** ALIAS - interval */
+/**<!-- DOCS-ALIAS: waiters.interval -->
+ * interval
+ * 
+ * - `interval`
+ * - `waiters.interval`
+ * 
+ * Accurate (pinged) interval for every 'every X' event
+ * 
+ * ```typescript
+ * import { interval, stopInterval } from 'swiss-ak';
+ * 
+ * console.log(new Date().toTimeString()); // 12:30:10
+ * interval((intID, count) => {
+ *   console.log(new Date().toTimeString()); // 13:00:00, 14:00:00, 15:00:00
+ *   if (count === 3) {
+ *     stopInterval(intID);
+ *   }
+ * }, hours(1));
+ * ```
+ */
 declare const interval: (action: (intID?: number, count?: number) => any, timing: ms) => number;
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: fn ## -->
  * fn
  *
  * A collection of useful higher-order functions.
  */
 declare namespace fn {
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: fn.noop ### -->
      * noop
      *
      * - `fn.noop`
@@ -730,7 +1156,7 @@ declare namespace fn {
      * ```
      */
     export const noop: () => void;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: fn.noact ### -->
      * noact
      *
      * - `fn.noact`
@@ -743,7 +1169,7 @@ declare namespace fn {
      * ```
      */
     export const noact: <T = any>(item: T) => T;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: fn.result ### -->
      * result
      *
      * - `fn.result`
@@ -756,7 +1182,7 @@ declare namespace fn {
      * ```
      */
     export const result: <T = any>(item: T) => () => T;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: fn.resolve ### -->
      * resolve
      *
      * - `fn.resolve`
@@ -766,7 +1192,7 @@ declare namespace fn {
      * Like fn.result, but wrapped in a Promise
      */
     export const resolve: <T = any>(item: T) => () => Promise<T>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: fn.reject ### -->
      * reject
      *
      * - `fn.reject`
@@ -774,14 +1200,14 @@ declare namespace fn {
      * Returns an async function that rejects with the first argument
      */
     export const reject: <T = any>(item: T) => () => Promise<T>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: fn.filters ### -->
      * filters
      *
      * - `fn.filters`
      *
      * Collection of functions that can be used with Array.filter
      */
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.exists #### -->
      * exists
      *
      * - `fn.exists`
@@ -795,7 +1221,7 @@ declare namespace fn {
      * ```
      */
     export const exists: <T = any>(item: T) => boolean;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.isTruthy #### -->
      * isTruthy
      *
      * - `fn.isTruthy`
@@ -810,7 +1236,7 @@ declare namespace fn {
      * ```
      */
     export const isTruthy: <T = any>(item: T) => boolean;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.isFalsy #### -->
      * isFalsy
      *
      * - `fn.isFalsy`
@@ -825,7 +1251,7 @@ declare namespace fn {
      * ```
      */
     export const isFalsy: <T = any>(item: T) => boolean;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.isEmpty #### -->
      * isEmpty
      *
      * - `fn.isEmpty`
@@ -840,7 +1266,7 @@ declare namespace fn {
      * ```
      */
     export const isEmpty: <T = any>(item: string | T[]) => boolean;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.isNotEmpty #### -->
      * isNotEmpty
      *
      * - `fn.isNotEmpty`
@@ -855,7 +1281,7 @@ declare namespace fn {
      * ```
      */
     export const isNotEmpty: <T = any>(item: string | T[]) => boolean;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.isEqual #### -->
      * isEqual
      *
      * - `fn.isEqual`
@@ -869,7 +1295,7 @@ declare namespace fn {
      * ```
      */
     export const isEqual: <T = any>(item: T) => (other: T) => boolean;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.isNotEqual #### -->
      * isNotEqual
      *
      * - `fn.isNotEqual`
@@ -883,7 +1309,7 @@ declare namespace fn {
      * ```
      */
     export const isNotEqual: <T = any>(item: T) => (other: T) => boolean;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.dedupe #### -->
      * dedupe
      *
      * - `fn.dedupe`
@@ -897,7 +1323,7 @@ declare namespace fn {
      * ```
      */
     export const dedupe: <T extends unknown>(item: T, index: number, array: T[]) => boolean;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.dedupeMapped #### -->
      * dedupeMapped
      *
      * - `fn.dedupeMapped`
@@ -911,14 +1337,14 @@ declare namespace fn {
      * ```
      */
     export const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: fn.maps ### -->
      * maps
      *
      * - `fn.maps`
      *
      * Collection of functions that can be used with Array.map
      */
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.toString #### -->
      * toString
      *
      * - `fn.toString`
@@ -932,7 +1358,7 @@ declare namespace fn {
      * ```
      */
     export const toString: <T = any>(item: T) => string;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.toNumber #### -->
      * toNumber
      *
      * - `fn.toNumber`
@@ -946,7 +1372,7 @@ declare namespace fn {
      * ```
      */
     export const toNumber: <T = any>(item: T) => number;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.toBool #### -->
      * toBool
      *
      * - `fn.toBool`
@@ -961,7 +1387,7 @@ declare namespace fn {
      * ```
      */
     export const toBool: <T = any>(item: T) => boolean;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.toProp #### -->
      * toProp
      *
      * - `fn.toProp`
@@ -975,7 +1401,7 @@ declare namespace fn {
      * ```
      */
     export const toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.toFixed #### -->
      * toFixed
      *
      * - `fn.toFixed`
@@ -989,14 +1415,14 @@ declare namespace fn {
      * ```
      */
     export const toFixed: (precision: number) => (num: number) => number;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: fn.sorts ### -->
      * sorts
      *
      * - `fn.sorts`
      *
      * Collection of functions that can be used with Array.sort
      */
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.asc #### -->
      * asc
      *
      * - `fn.asc`
@@ -1010,7 +1436,7 @@ declare namespace fn {
      * ```
      */
     export const asc: (a: any, b: any) => number;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.desc #### -->
      * desc
      *
      * - `fn.desc`
@@ -1025,7 +1451,7 @@ declare namespace fn {
      */
     export const desc: (a: any, b: any) => number;
     type SortFn<T = number> = (a: T, b: T) => number;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.byProp #### -->
      * byProp
      *
      * - `fn.byProp`
@@ -1040,7 +1466,7 @@ declare namespace fn {
      * ```
      */
     export const byProp: <T = number, O = Object>(propName: string, sortFn?: SortFn<T>) => SortFn<O>;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.nearestTo #### -->
      * nearestTo
      *
      * - `fn.nearestTo`
@@ -1055,7 +1481,7 @@ declare namespace fn {
      * ```
      */
     export const nearestTo: <T = number>(target: T) => (a: any, b: any) => number;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.furthestFrom #### -->
      * furthestFrom
      *
      * - `fn.furthestFrom`
@@ -1070,7 +1496,7 @@ declare namespace fn {
      * ```
      */
     export const furthestFrom: <T = number>(target: T) => (a: any, b: any) => number;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.arrayAsc #### -->
      * arrayAsc
      *
      * - `fn.arrayAsc`
@@ -1080,7 +1506,7 @@ declare namespace fn {
      * Sort an array of arrays in ascending order
      */
     export const arrayAsc: (a: any[], b: any[]) => number;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.arrayDesc #### -->
      * arrayDesc
      *
      * - `fn.arrayDesc`
@@ -1090,14 +1516,14 @@ declare namespace fn {
      * Sort an array of arrays in descending order
      */
     export const arrayDesc: (a: any[], b: any[]) => number;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: fn.reduces ### -->
      * reduces
      *
      * - `fn.reduces`
      *
      * Collection of functions that can be used with Array.reduce
      */
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.combine #### -->
      * combine
      *
      * - `fn.combine`
@@ -1112,7 +1538,7 @@ declare namespace fn {
      * ```
      */
     export const combine: (a: any, b: any) => any;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.combineProp #### -->
      * combineProp
      *
      * - `fn.combineProp`
@@ -1128,7 +1554,7 @@ declare namespace fn {
      * ```
      */
     export const combineProp: (propName: string) => (a: any, b: any) => any;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.mode #### -->
      * mode
      *
      * - `fn.mode`
@@ -1142,7 +1568,7 @@ declare namespace fn {
      * ```
      */
     export const mode: <T extends unknown>(prev: T, curr: T, index: number, arr: T[]) => T;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.modeMapped #### -->
      * modeMapped
      *
      * - `fn.modeMapped`
@@ -1156,14 +1582,14 @@ declare namespace fn {
      * ```
      */
     export const modeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: fn.everys ### -->
      * everys
      *
      * - `fn.everys`
      *
      * Collection of functions that can be used with Array.every
      */
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: fn.isAllEqual #### -->
      * isAllEqual
      *
      * - `fn.isAllEqual`
@@ -1178,87 +1604,461 @@ declare namespace fn {
      * ```
      */
     export const isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
-    /** ALIAS - filters */
+    /**<!-- DOCS-ALIAS: fn.filters -->
+     * filters
+     * 
+     * - `fn.filters`
+     * 
+     * Collection of functions that can be used with Array.filter
+     */
     export namespace filters {
-        /** ALIAS - filters.exists */
+        /**<!-- DOCS-ALIAS: fn.exists -->
+         * exists
+         * 
+         * - `fn.exists`
+         * - `fn.filters.exists`
+         * - `filters.exists`
+         * 
+         * Returns true if item isn't null or undefined.
+         * 
+         * ```typescript
+         * [null, 1, undefined, 2].filter(fn.exists); // [1, 2]
+         * ```
+         */
         const exists: <T = any>(item: T) => boolean;
-        /** ALIAS - filters.isTruthy */
+        /**<!-- DOCS-ALIAS: fn.isTruthy -->
+         * isTruthy
+         * 
+         * - `fn.isTruthy`
+         * - `fn.filters.isTruthy`
+         * - `filters.isTruthy`
+         * 
+         * Returns true if item is truthy.
+         * 
+         * ```typescript
+         * [0, 1, 2].filter(fn.isTruthy); // [1, 2]
+         * ['', 'a', 'b'].filter(fn.isTruthy); // ['a', 'b']
+         * ```
+         */
         const isTruthy: <T = any>(item: T) => boolean;
-        /** ALIAS - filters.isFalsy */
+        /**<!-- DOCS-ALIAS: fn.isFalsy -->
+         * isFalsy
+         * 
+         * - `fn.isFalsy`
+         * - `fn.filters.isFalsy`
+         * - `filters.isFalsy`
+         * 
+         * Returns true if item is falsy.
+         * 
+         * ```typescript
+         * [0, 1, 2].filter(fn.isFalsy); // [0]
+         * ['', 'a', 'b'].filter(fn.isFalsy); // ['']
+         * ```
+         */
         const isFalsy: <T = any>(item: T) => boolean;
-        /** ALIAS - filters.isEmpty */
+        /**<!-- DOCS-ALIAS: fn.isEmpty -->
+         * isEmpty
+         * 
+         * - `fn.isEmpty`
+         * - `fn.filters.isEmpty`
+         * - `filters.isEmpty`
+         * 
+         * Returns true if item's length is 0
+         * 
+         * ```typescript
+         * ['', 'a', 'b'].filter(fn.isEmpty); // ['']
+         * [[], [1], [2]].filter(fn.isEmpty); // [[]]
+         * ```
+         */
         const isEmpty: <T = any>(item: string | T[]) => boolean;
-        /** ALIAS - filters.isNotEmpty */
+        /**<!-- DOCS-ALIAS: fn.isNotEmpty -->
+         * isNotEmpty
+         * 
+         * - `fn.isNotEmpty`
+         * - `fn.filters.isNotEmpty`
+         * - `filters.isNotEmpty`
+         * 
+         * Returns true if item's length is 1 or more
+         * 
+         * ```typescript
+         * ['', 'a', 'b'].filter(fn.isNotEmpty); // ['a', 'b']
+         * [[], [1], [2]].filter(fn.isNotEmpty); // [[1], [2]]
+         * ```
+         */
         const isNotEmpty: <T = any>(item: string | T[]) => boolean;
-        /** ALIAS - filters.isEqual */
+        /**<!-- DOCS-ALIAS: fn.isEqual -->
+         * isEqual
+         * 
+         * - `fn.isEqual`
+         * - `fn.filters.isEqual`
+         * - `filters.isEqual`
+         * 
+         * Returns a function that returns true if the item is equal to provided value.
+         * 
+         * ```typescript
+         * [0, 1, 2].filter(fn.isEqual(1)); // [1]
+         * ```
+         */
         const isEqual: <T = any>(item: T) => (other: T) => boolean;
-        /** ALIAS - filters.isNotEqual */
+        /**<!-- DOCS-ALIAS: fn.isNotEqual -->
+         * isNotEqual
+         * 
+         * - `fn.isNotEqual`
+         * - `fn.filters.isNotEqual`
+         * - `filters.isNotEqual`
+         * 
+         * Returns a function that returns true if the item is not equal to provided value.
+         * 
+         * ```typescript
+         * [0, 1, 2].filter(fn.isNotEqual(1)); // [0, 2]
+         * ```
+         */
         const isNotEqual: <T = any>(item: T) => (other: T) => boolean;
-        /** ALIAS - filters.dedupe */
+        /**<!-- DOCS-ALIAS: fn.dedupe -->
+         * dedupe
+         * 
+         * - `fn.dedupe`
+         * - `fn.filters.dedupe`
+         * - `filters.dedupe`
+         * 
+         * Removes duplicate items from an array.
+         * 
+         * ```typescript
+         * [0, 1, 2, 1, 0].filter(fn.dedupe); // [0, 1, 2]
+         * ```
+         */
         const dedupe: <T extends unknown>(item: T, index: number, array: T[]) => boolean;
-        /** ALIAS - filters.dedupeMapped */
+        /**<!-- DOCS-ALIAS: fn.dedupeMapped -->
+         * dedupeMapped
+         * 
+         * - `fn.dedupeMapped`
+         * - `fn.filters.dedupeMapped`
+         * - `filters.dedupeMapped`
+         * 
+         * Removes duplicate items from an array based on a mapped value.
+         * 
+         * ```typescript
+         * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
+         * ```
+         */
         const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
     }
-    /** ALIAS - maps */
+    /**<!-- DOCS-ALIAS: fn.maps -->
+     * maps
+     * 
+     * - `fn.maps`
+     * 
+     * Collection of functions that can be used with Array.map
+     */
     export namespace maps {
-        /** ALIAS - maps.toString */
+        /**<!-- DOCS-ALIAS: fn.toString -->
+         * toString
+         * 
+         * - `fn.toString`
+         * - `fn.maps.toString`
+         * - `maps.toString`
+         * 
+         * Maps the item to a string.
+         * 
+         * ```typescript
+         * [0, 1, 2].map(fn.toString); // ['0', '1', '2']
+         * ```
+         */
         const toString: <T = any>(item: T) => string;
-        /** ALIAS - maps.toNumber */
+        /**<!-- DOCS-ALIAS: fn.toNumber -->
+         * toNumber
+         * 
+         * - `fn.toNumber`
+         * - `fn.maps.toNumber`
+         * - `maps.toNumber`
+         * 
+         * Maps the item to a number.
+         * 
+         * ```typescript
+         * ['0', '1', '2'].map(fn.toNumber); // [0, 1, 2]
+         * ```
+         */
         const toNumber: <T = any>(item: T) => number;
-        /** ALIAS - maps.toBool */
+        /**<!-- DOCS-ALIAS: fn.toBool -->
+         * toBool
+         * 
+         * - `fn.toBool`
+         * - `fn.maps.toBool`
+         * - `maps.toBool`
+         * 
+         * Maps the item to a boolean.
+         * 
+         * ```typescript
+         * [0, 1, 2].map(fn.toBool); // [false, true, true]
+         * ['true', 'false', '', 'text'].map(fn.toBool); // [true, false, false, true]
+         * ```
+         */
         const toBool: <T = any>(item: T) => boolean;
-        /** ALIAS - maps.toProp */
+        /**<!-- DOCS-ALIAS: fn.toProp -->
+         * toProp
+         * 
+         * - `fn.toProp`
+         * - `fn.maps.toProp`
+         * - `maps.toProp`
+         * 
+         * Maps the item to a given property of the item
+         * 
+         * ```typescript
+         * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
+         * ```
+         */
         const toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
-        /** ALIAS - maps.toFixed */
+        /**<!-- DOCS-ALIAS: fn.toFixed -->
+         * toFixed
+         * 
+         * - `fn.toFixed`
+         * - `fn.maps.toFixed`
+         * - `maps.toFixed`
+         * 
+         * Map the items (numbers) of an array to a fixed precision.
+         * 
+         * ```typescript
+         * [1.234, 5.678, 9.012].map(fn.toFixed(2)); // [1.23, 5.68, 9.01]
+         * ```
+         */
         const toFixed: (precision: number) => (num: number) => number;
     }
-    /** ALIAS - sorts */
+    /**<!-- DOCS-ALIAS: fn.sorts -->
+     * sorts
+     * 
+     * - `fn.sorts`
+     * 
+     * Collection of functions that can be used with Array.sort
+     */
     export namespace sorts {
-        /** ALIAS - sorts.asc */
+        /**<!-- DOCS-ALIAS: fn.asc -->
+         * asc
+         * 
+         * - `fn.asc`
+         * - `fn.sorts.asc`
+         * - `sorts.asc`
+         * 
+         * Sort ascending.
+         * 
+         * ```typescript
+         * [2, 4, 3, 1].sort(fn.asc); // [1, 2, 3, 4]
+         * ```
+         */
         const asc: (a: any, b: any) => number;
-        /** ALIAS - sorts.desc */
+        /**<!-- DOCS-ALIAS: fn.desc -->
+         * desc
+         * 
+         * - `fn.desc`
+         * - `fn.sorts.desc`
+         * - `sorts.desc`
+         * 
+         * Sort descending.
+         * 
+         * ```typescript
+         * [2, 4, 3, 1].sort(fn.asc); // [4, 3, 2, 1]
+         * ```
+         */
         const desc: (a: any, b: any) => number;
-        /** ALIAS - sorts.byProp */
+        /**<!-- DOCS-ALIAS: fn.byProp -->
+         * byProp
+         * 
+         * - `fn.byProp`
+         * - `fn.sorts.byProp`
+         * - `sorts.byProp`
+         * 
+         * Sort by a given property.
+         * 
+         * ```typescript
+         * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
+         * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
+         * ```
+         */
         const byProp: <T = number, O = Object>(propName: string, sortFn?: SortFn<T>) => SortFn<O>;
-        /** ALIAS - sorts.nearestTo */
+        /**<!-- DOCS-ALIAS: fn.nearestTo -->
+         * nearestTo
+         * 
+         * - `fn.nearestTo`
+         * - `fn.sorts.nearestTo`
+         * - `sorts.nearestTo`
+         * 
+         * Sort by the nearest value to the given value.
+         * 
+         * ```typescript
+         * const people = [2, 4, 3, 1];
+         * people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
+         * ```
+         */
         const nearestTo: <T = number>(target: T) => (a: any, b: any) => number;
-        /** ALIAS - sorts.furthestFrom */
+        /**<!-- DOCS-ALIAS: fn.furthestFrom -->
+         * furthestFrom
+         * 
+         * - `fn.furthestFrom`
+         * - `fn.sorts.furthestFrom`
+         * - `sorts.furthestFrom`
+         * 
+         * Sort by the furthest value to the given value.
+         * 
+         * ```typescript
+         * const people = [2, 4, 3, 1];
+         * people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
+         * ```
+         */
         const furthestFrom: <T = number>(target: T) => (a: any, b: any) => number;
-        /** ALIAS - sorts.arrayAsc */
+        /**<!-- DOCS-ALIAS: fn.arrayAsc -->
+         * arrayAsc
+         * 
+         * - `fn.arrayAsc`
+         * - `fn.sorts.arrayAsc`
+         * - `sorts.arrayAsc`
+         * 
+         * Sort an array of arrays in ascending order
+         */
         const arrayAsc: (a: any[], b: any[]) => number;
-        /** ALIAS - sorts.arrayDesc */
+        /**<!-- DOCS-ALIAS: fn.arrayDesc -->
+         * arrayDesc
+         * 
+         * - `fn.arrayDesc`
+         * - `fn.sorts.arrayDesc`
+         * - `sorts.arrayDesc`
+         * 
+         * Sort an array of arrays in descending order
+         */
         const arrayDesc: (a: any[], b: any[]) => number;
     }
-    /** ALIAS - reduces */
+    /**<!-- DOCS-ALIAS: fn.reduces -->
+     * reduces
+     * 
+     * - `fn.reduces`
+     * 
+     * Collection of functions that can be used with Array.reduce
+     */
     export namespace reduces {
-        /** ALIAS - reduces.combine */
+        /**<!-- DOCS-ALIAS: fn.combine -->
+         * combine
+         * 
+         * - `fn.combine`
+         * - `fn.reduces.combine`
+         * - `reduces.combine`
+         * 
+         * Adds or concats the items
+         * 
+         * ```typescript
+         * [1, 2, 3].reduce(fn.combine); // 6
+         * ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
+         * ```
+         */
         const combine: (a: any, b: any) => any;
-        /** ALIAS - reduces.combineProp */
+        /**<!-- DOCS-ALIAS: fn.combineProp -->
+         * combineProp
+         * 
+         * - `fn.combineProp`
+         * - `fn.reduces.combineProp`
+         * - `reduces.combineProp`
+         * 
+         * Adds or concats the given property of the items
+         * 
+         * ```typescript
+         * const people = [{name: 'a', age: 1}, {name: 'b', age: 2}, {name: 'c', age: 3}];
+         * people.reduce(fn.combineProp('age')); // 6
+         * people.reduce(fn.combineProp('name')); // 'abc'
+         * ```
+         */
         const combineProp: (propName: string) => (a: any, b: any) => any;
-        /** ALIAS - reduces.mode */
+        /**<!-- DOCS-ALIAS: fn.mode -->
+         * mode
+         * 
+         * - `fn.mode`
+         * - `fn.reduces.mode`
+         * - `reduces.mode`
+         * 
+         * Returns the most common value in an array.
+         * 
+         * ```typescript
+         * [1, 2, 3, 2, 1, 1].reduce(fn.mode); // 1
+         * ```
+         */
         const mode: <T extends unknown>(prev: T, curr: T, index: number, arr: T[]) => T;
-        /** ALIAS - reduces.modeMapped */
+        /**<!-- DOCS-ALIAS: fn.modeMapped -->
+         * modeMapped
+         * 
+         * - `fn.modeMapped`
+         * - `fn.reduces.modeMapped`
+         * - `reduces.modeMapped`
+         * 
+         * Returns the most common value in an array, based on a given map function.
+         * 
+         * ```typescript
+         * [2, 4, 6, 8, 9, 12].reduce(fn.modeMapped((v) => v % 3)); // 6 (maps to [ 2, 1, 0, 2, 0, 0 ])
+         * ```
+         */
         const modeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
     }
-    /** ALIAS - everys */
+    /**<!-- DOCS-ALIAS: fn.everys -->
+     * everys
+     * 
+     * - `fn.everys`
+     * 
+     * Collection of functions that can be used with Array.every
+     */
     export namespace everys {
-        /** ALIAS - everys.isAllEqual */
+        /**<!-- DOCS-ALIAS: fn.isAllEqual -->
+         * isAllEqual
+         * 
+         * - `fn.isAllEqual`
+         * - `fn.everys.isAllEqual`
+         * - `everys.isAllEqual`
+         * 
+         * Returns if all the items are equal to one another.
+         * 
+         * ```typescript
+         * [1, 1, 1].every(fn.isAllEqual); // true
+         * [1, 2, 1].every(fn.isAllEqual); // false
+         * ```
+         */
         const isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
     }
     export {};
 }
-/** ALIAS - filters */
+/**<!-- DOCS-ALIAS: fn -->
+ * fn
+ * 
+ * A collection of useful higher-order functions.
+ */
 declare const filters: typeof fn.filters;
-/** ALIAS - maps */
+/**<!-- DOCS-ALIAS: fn.maps -->
+ * maps
+ * 
+ * - `fn.maps`
+ * 
+ * Collection of functions that can be used with Array.map
+ */
 declare const maps: typeof fn.maps;
-/** ALIAS - sorts */
+/**<!-- DOCS-ALIAS: fn.sorts -->
+ * sorts
+ * 
+ * - `fn.sorts`
+ * 
+ * Collection of functions that can be used with Array.sort
+ */
 declare const sorts: typeof fn.sorts;
-/** ALIAS - reduces */
+/**<!-- DOCS-ALIAS: fn.reduces -->
+ * reduces
+ * 
+ * - `fn.reduces`
+ * 
+ * Collection of functions that can be used with Array.reduce
+ */
 declare const reduces: typeof fn.reduces;
-/** ALIAS - everys */
+/**<!-- DOCS-ALIAS: fn.everys -->
+ * everys
+ * 
+ * - `fn.everys`
+ * 
+ * Collection of functions that can be used with Array.every
+ */
 declare const everys: typeof fn.everys;
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: timer ## -->
  * timer
  *
  * A debug tool for measuring the duration of code blocks.
@@ -1288,7 +2088,7 @@ interface ITimer<TName> {
     names: KeysOnly<TName>;
     displayNames: TName;
 }
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: timer.getTimer ### -->
  * getTimer
  *
  * - `getTimer`
@@ -1322,7 +2122,7 @@ interface ITimer<TName> {
  * ```
  */
 declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean, wrapperFn?: any, chalk?: any, displayNames?: TName) => ITimer<TName> & KeysOnly<TName>;
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: timer.timer ### -->
  * timer
  *
  * - `timer`
@@ -1332,22 +2132,64 @@ declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean,
 declare const timer: ITimer<INames> & KeysOnly<INames>;
 
 interface ProgressBar {
-    /** ALIAS - ProgressBar.next */
+    /**<!-- DOCS-ALIAS: progressBar.next -->
+     * next
+     * 
+     * - `getProgressBar().next`
+     * 
+     * Set the progress bar to the next value
+     */
     next: () => string;
-    /** ALIAS - ProgressBar.set */
+    /**<!-- DOCS-ALIAS: progressBar.set -->
+     * set
+     * 
+     * - `getProgressBar().set`
+     * 
+     * Set the progress bar to a specific value
+     */
     set: (newCurrent: number) => string;
-    /** ALIAS - ProgressBar.reset */
+    /**<!-- DOCS-ALIAS: progressBar.reset -->
+     * reset
+     * 
+     * - `getProgressBar().reset`
+     * 
+     * Set the progress bar to 0
+     */
     reset: () => string;
-    /** ALIAS - ProgressBar.update */
+    /**<!-- DOCS-ALIAS: progressBar.update -->
+     * update
+     * 
+     * - `getProgressBar().update`
+     * 
+     * Trigger the progress bar to update/rerender
+     */
     update: () => string;
-    /** ALIAS - ProgressBar.start */
+    /**<!-- DOCS-ALIAS: progressBar.start -->
+     * start
+     * 
+     * - `getProgressBar().start`
+     * 
+     * Start displaying the progress bar
+     */
     start: () => string;
-    /** ALIAS - ProgressBar.finish */
+    /**<!-- DOCS-ALIAS: progressBar.finish -->
+     * finish
+     * 
+     * - `getProgressBar().finish`
+     * 
+     * Stop displaying the progress bar
+     */
     finish: () => string;
-    /** ALIAS - ProgressBar.max */
+    /**<!-- DOCS-ALIAS: progressBar.max -->
+     * max
+     * 
+     * - `getProgressBar().max`
+     * 
+     * Readonly number value of the max value (provided to getProgressBar as first argument)
+     */
     readonly max: number;
 }
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: progressBar ## -->
  * progressBar
  *
  * A progress bar that can be used in the terminal.
@@ -1355,7 +2197,7 @@ interface ProgressBar {
  * > NOTE: This is eventually be moved to `swiss-node`
  */
 declare namespace progressBar {
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: progressBar.printLn ### -->
      * printLn
      *
      * - `printLn`
@@ -1402,7 +2244,7 @@ declare namespace progressBar {
         showCurrent: boolean;
         currentChar: string;
     }
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: progressBar.ProgressBarOptions ### -->
      * Options
      *
      * - `ProgressBarOptions`
@@ -1431,7 +2273,7 @@ declare namespace progressBar {
      * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
      */
     export type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: progressBar.getProgressBar ### -->
      * getProgressBar
      *
      * - `getProgressBar`
@@ -1470,20 +2312,110 @@ declare namespace progressBar {
     export const getProgressBar: (max: number, options?: ProgressBarOptions) => ProgressBar;
     export {};
 }
-/** ALIAS - ProgressBarOptions */
+/**<!-- DOCS-ALIAS: progressBar.ProgressBarOptions -->
+ * Options
+ * 
+ * - `ProgressBarOptions`
+ * - `progressBar.ProgressBarOptions`
+ * 
+ * All options are optional.
+ * 
+ * | Property         | Default                           | Description                                            |
+ * | ---------------- | --------------------------------- | ------------------------------------------------------ |
+ * | prefix           | `''`                              | String to show to left of progress bar                 |
+ * | prefixWidth      | `1`                               | Min width of prefix - `10` => `Example˽˽˽`             |
+ * | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
+ * | wrapperFn        | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
+ * | barWrapFn        | nothing                           | function to wrap the bar                               |
+ * | barProgWrapFn    | nothing                           | function to wrap the 'complete' segment of the bar     |
+ * | barCurrentWrapFn | nothing                           | function to wrap the 'current' segment of the bar      |
+ * | barEmptyWrapFn   | nothing                           | function to wrap the empty/track part of the line      |
+ * | showCount        | `true`                            | Show numerical values of the count - `[11 / 15]`       |
+ * | showPercent      | `false`                           | Show percentage completed - `( 69%)`                   |
+ * | countWidth       | `0`                               | Min width of nums for showCount - `3` => `[˽˽1 / ˽15]` |
+ * | progChar         | `'█'`                             | Character to use for progress section of bar           |
+ * | emptyChar        | `' '`                             | Character to use for empty (rail) section of bar       |
+ * | startChar        | `'▕'`                             | Character to start the progress bar with               |
+ * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
+ * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
+ * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+ */
 declare type ProgressBarOptions = progressBar.ProgressBarOptions;
-/** ALIAS - printLn */
+/**<!-- DOCS-ALIAS: progressBar.printLn -->
+ * printLn
+ * 
+ * - `printLn`
+ * - `progressBar.printLn`
+ * 
+ * Can use instead of console.log
+ * 
+ * Overwrites the previous line if possible (i.e. node);
+ * 
+ * Usage
+ * ```javascript
+ * import { printLn } from 'swiss-ak';
+ * 
+ * printLn('A');
+ * printLn('B'); // Replaces the 'A' line
+ * printLn('C'); // Replaces the 'B' line
+ * printLn(); // Jumps a line
+ * printLn('D'); // Replaces the empty line
+ * ```
+ * 
+ * Output
+ * ```
+ * C
+ * D
+ * ```
+ */
 declare const printLn: (...text: any[]) => void;
-/** ALIAS - getProgressBar */
+/**<!-- DOCS-ALIAS: progressBar.getProgressBar -->
+ * getProgressBar
+ * 
+ * - `getProgressBar`
+ * - `progressBar.getProgressBar`
+ * 
+ * Usage:
+ * ```typescript
+ * import chalk from 'chalk'
+ * import {getProgressBar} from 'swiss-ak';
+ * 
+ * console.log('-'.repeat(20) + ' < 20 Chars');
+ * 
+ * const progress = getProgressBar(5, {
+ *   prefix: 'ABC',
+ *   maxWidth: 20,
+ *   chalk,
+ *   wrapperFn: chalk.green
+ * });
+ * for (let i = 1; i <= 5; i++) {
+ *   progress.set(i);
+ * }
+ * progress.finish();
+ * ```
+ * 
+ * Output:
+ * ```
+ * -------------------- < 20 Chars
+ * ABC ▕      ▏ [0 / 5]
+ * ABC ▕█     ▏ [1 / 5]
+ * ABC ▕██    ▏ [2 / 5]
+ * ABC ▕████  ▏ [3 / 5]
+ * ABC ▕█████ ▏ [4 / 5]
+ * ABC ▕██████▏ [5 / 5]
+ * ```
+ */
 declare const getProgressBar: (max: number, options?: ProgressBarOptions) => ProgressBar;
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: ArrayTools ## -->
  * ArrayTools
+ *
+ * - `ArrayTools`
  *
  * A collection of useful array functions.
  */
 declare namespace ArrayTools {
-    /**<!-- DOCS: 101 ### -->
+    /**<!-- DOCS: ArrayTools.utils 101 ### -->
      * utils
      *
      * - `ArrayTools.utils`
@@ -1491,7 +2423,7 @@ declare namespace ArrayTools {
      * Small helper functions that may help, but aren't important enough to be in ArrayTools directly
      */
     export namespace utils {
-        /**<!-- DOCS: 101 #### -->
+        /**<!-- DOCS: ArrayTools.utils.isNumString 101 #### -->
          * isNumString
          *
          * - `ArrayTools.utils.isNumString`
@@ -1499,7 +2431,7 @@ declare namespace ArrayTools {
          * Returns true if the given string is a number
          */
         const isNumString: (text: string) => boolean;
-        /**<!-- DOCS: 101 #### -->
+        /**<!-- DOCS: ArrayTools.utils.partitionNums 101 #### -->
          * partitionNums
          *
          * - `ArrayTools.utils.partitionNums`
@@ -1508,7 +2440,7 @@ declare namespace ArrayTools {
          */
         const partitionNums: (ignoreCase: boolean) => (name: string) => (string | number)[];
     }
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.range ### -->
      * range
      *
      * - `range`
@@ -1530,7 +2462,7 @@ declare namespace ArrayTools {
     export const range: (length?: number, multiplier?: number, offset?: number) => number[];
     type UnwrapArray<T> = T extends Array<infer U> ? U : T;
     type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.zip ### -->
      * zip
      *
      * - `zip`
@@ -1547,7 +2479,7 @@ declare namespace ArrayTools {
      * ```
      */
     export const zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.zipMax ### -->
      * zipMax
      *
      * - `zipMax`
@@ -1564,7 +2496,7 @@ declare namespace ArrayTools {
      * ```
      */
     export const zipMax: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.sortByMapped ### -->
      * sortByMapped
      *
      * - `sortByMapped`
@@ -1582,7 +2514,7 @@ declare namespace ArrayTools {
      * ```
      */
     export const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn?: (a: M, b: M) => number) => T[];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.randomise ### -->
      * randomise
      *
      * - `randomise`
@@ -1599,7 +2531,7 @@ declare namespace ArrayTools {
      * ```
      */
     export const randomise: <T = string>(arr: T[]) => T[];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.reverse ### -->
      * reverse
      *
      * - `reverse`
@@ -1620,7 +2552,7 @@ declare namespace ArrayTools {
      * ```
      */
     export const reverse: <T = string>(arr: T[]) => T[];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.entries ### -->
      * entries
      *
      * - `entries`
@@ -1639,7 +2571,7 @@ declare namespace ArrayTools {
      * ```
      */
     export const entries: <T = string>(arr: T[]) => [number, T][];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.repeat ### -->
      * repeat
      *
      * - `repeat`
@@ -1653,7 +2585,7 @@ declare namespace ArrayTools {
      * ```
      */
     export const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.roll ### -->
      * roll
      *
      * - `roll`
@@ -1667,7 +2599,7 @@ declare namespace ArrayTools {
      * ```
      */
     export const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.sortNumberedText ### -->
      * sortNumberedText
      *
      * - `sortNumberedText`
@@ -1682,7 +2614,7 @@ declare namespace ArrayTools {
      * ```
      */
     export const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.partition ### -->
      * partition
      *
      * - `partition`
@@ -1695,7 +2627,7 @@ declare namespace ArrayTools {
      * ```
      */
     export const partition: <T extends unknown>(array: T[], partitionSize?: number) => T[][];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.groupObj ### -->
      * groupObj
      *
      * - `groupObj`
@@ -1719,7 +2651,7 @@ declare namespace ArrayTools {
         [id: string]: T[];
         [id: number]: T[];
     };
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ArrayTools.group ### -->
      * group
      *
      * - `group`
@@ -1742,43 +2674,244 @@ declare namespace ArrayTools {
     export const group: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
     export {};
 }
-/** ALIAS - range */
+/**<!-- DOCS-ALIAS: ArrayTools.range -->
+ * range
+ * 
+ * - `range`
+ * - `ArrayTools.range`
+ * 
+ * Returns an array of the given length, where each value is equal to it's index
+ * e.g. [0, 1, 2, ..., length]
+ * 
+ * ```typescript
+ * ArrayTools.range(3);  // [0, 1, 2]
+ * ArrayTools.range(5);  // [0, 1, 2, 3, 4]
+ * ArrayTools.range(10); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+ * 
+ * ArrayTools.range(3, 2);  // [0, 2, 4]
+ * ArrayTools.range(5, 2);  // [0, 2, 4, 6, 8]
+ * ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
+ * ```
+ */
 declare const range: (length?: number, multiplier?: number, offset?: number) => number[];
-/** ALIAS - zip */
+/**<!-- DOCS-ALIAS: ArrayTools.zip -->
+ * zip
+ * 
+ * - `zip`
+ * - `ArrayTools.zip`
+ * 
+ * Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
+ * 
+ * Limited to the length of the shortest provided array
+ * 
+ * Inspired by python's 'zip'
+ * 
+ * ```typescript
+ * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
+ * ```
+ */
 declare const zip: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...any] : []] : []] : []] : []] : []] : []] : []] : []] : []] : []] : [])[];
-/** ALIAS - zipMax */
+/**<!-- DOCS-ALIAS: ArrayTools.zipMax -->
+ * zipMax
+ * 
+ * - `zipMax`
+ * - `ArrayTools.zipMax`
+ * 
+ * Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
+ * 
+ * Unlike `zip`, it will match the length of the longest provided array, filling in any missing values with `undefined`
+ * 
+ * Inspired by python's 'zip'
+ * 
+ * ```typescript
+ * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
+ * ```
+ */
 declare const zipMax: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...any] : []] : []] : []] : []] : []] : []] : []] : []] : []] : []] : [])[];
-/** ALIAS - sortByMapped */
+/**<!-- DOCS-ALIAS: ArrayTools.sortByMapped -->
+ * sortByMapped
+ * 
+ * - `sortByMapped`
+ * - `ArrayTools.sortByMapped`
+ * 
+ * Sort an array by a mapped form of the values, but returning the initial values
+ * 
+ * ```typescript
+ * ArrayTools.sortByMapped(['2p', '3p', '1p'], (v) => Number(v.replace('p', ''))); // ['1p', '2p', '3p']
+ * ArrayTools.sortByMapped(
+ *   ['2p', '3p', '1p'],
+ *   (v) => Number(v.replace('p', '')),
+ *   (a, b) => b - a
+ * ); // ['3p', '2p', '1p']
+ * ```
+ */
 declare const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn?: (a: M, b: M) => number) => T[];
-/** ALIAS - randomise */
+/**<!-- DOCS-ALIAS: ArrayTools.randomise -->
+ * randomise
+ * 
+ * - `randomise`
+ * - `ArrayTools.randomise`
+ * 
+ * Returns a clone of the provided array with it's items in a random order
+ * 
+ * ```typescript
+ * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 5, 3, 4, 1, 2, 6 ]
+ * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 5, 1, 3, 2, 4, 6 ]
+ * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 6, 1, 4, 5, 2, 3 ]
+ * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
+ * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
+ * ```
+ */
 declare const randomise: <T = string>(arr: T[]) => T[];
-/** ALIAS - reverse */
+/**<!-- DOCS-ALIAS: ArrayTools.reverse -->
+ * reverse
+ * 
+ * - `reverse`
+ * - `ArrayTools.reverse`
+ * 
+ * Returns a new array with the order reversed without affecting original array
+ * 
+ * ```typescript
+ * const arr1 = [1, 2, 3];
+ * arr1            // [1, 2, 3]
+ * arr1.reverse(); // [3, 2, 1]
+ * arr1            // [3, 2, 1]
+ * 
+ * const arr2 = [1, 2, 3];
+ * arr2            // [1, 2, 3]
+ * ArrayTools.reverse(arr2);  // [3, 2, 1]
+ * arr2            // [1, 2, 3]
+ * ```
+ */
 declare const reverse: <T = string>(arr: T[]) => T[];
-/** ALIAS - entries */
+/**<!-- DOCS-ALIAS: ArrayTools.entries -->
+ * entries
+ * 
+ * - `entries`
+ * - `ArrayTools.entries`
+ * 
+ * Returns array of 'tuples' of index/value pairs
+ * 
+ * ```typescript
+ * const arr = ['a', 'b', 'c'];
+ * ArrayTools.entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
+ * 
+ * for (let [index, value] of entries(arr)) {
+ *  console.log(index); // 0, 1, 2
+ *  console.log(value); // 'a', 'b', 'c'
+ * }
+ * ```
+ */
 declare const entries: <T = string>(arr: T[]) => [number, T][];
-/** ALIAS - repeat */
+/**<!-- DOCS-ALIAS: ArrayTools.repeat -->
+ * repeat
+ * 
+ * - `repeat`
+ * - `ArrayTools.repeat`
+ * 
+ * Returns an array with the given items repeated
+ * 
+ * ```typescript
+ * ArrayTools.repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
+ * ArrayTools.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
+ * ```
+ */
 declare const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
-/** ALIAS - roll */
+/**<!-- DOCS-ALIAS: ArrayTools.roll -->
+ * roll
+ * 
+ * - `roll`
+ * - `ArrayTools.roll`
+ * 
+ * 'Roll' the array by a given amount so that is has a new first item. Length and contents remain the same, but the order is changed
+ * 
+ * ```typescript
+ * ArrayTools.roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
+ * ArrayTools.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
+ * ```
+ */
 declare const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
-/** ALIAS - sortNumberedText */
+/**<!-- DOCS-ALIAS: ArrayTools.sortNumberedText -->
+ * sortNumberedText
+ * 
+ * - `sortNumberedText`
+ * - `ArrayTools.sortNumberedText`
+ * 
+ * Alphabetically sorts a list of strings, but keeps multi-digit numbers in numerical order (rather than alphabetical)
+ * 
+ * ```typescript
+ * const names = ['name1', 'name10', 'name2', 'foo20', 'foo10', 'foo9'];
+ * names.sort(); // [ 'foo10', 'foo20', 'foo9', 'name1', 'name10', 'name2' ]
+ * ArrayTools.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
+ * ```
+ */
 declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
-/** ALIAS - partition */
+/**<!-- DOCS-ALIAS: ArrayTools.partition -->
+ * partition
+ * 
+ * - `partition`
+ * - `ArrayTools.partition`
+ * 
+ * Breaks an array into smaller arrays of a given size
+ * 
+ * ```typescript
+ * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
+ * ```
+ */
 declare const partition: <T extends unknown>(array: T[], partitionSize?: number) => T[][];
-/** ALIAS - groupObj */
+/**<!-- DOCS-ALIAS: ArrayTools.groupObj -->
+ * groupObj
+ * 
+ * - `groupObj`
+ * - `ArrayTools.groupObj`
+ * 
+ * Group items from an array into an object of arrays, based on a given map function.
+ * 
+ * ```typescript
+ * const arr = [
+ *   { group: 1, name: 'a' },
+ *   { group: 2, name: 'b' },
+ *   { group: 1, name: 'c' },
+ * ];
+ * ArrayTools.groupObj(arr, item => item.id); // {
+ * //   1: [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
+ * //   2: [ { group: 2, name: 'b' } ]
+ * // }
+ * ```
+ */
 declare const groupObj: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => {
     [id: string]: T[];
     [id: number]: T[];
 };
-/** ALIAS - group */
+/**<!-- DOCS-ALIAS: ArrayTools.group -->
+ * group
+ * 
+ * - `group`
+ * - `ArrayTools.group`
+ * 
+ * Group items from an array into an array of arrays, based on a given map function.
+ * 
+ * ```typescript
+ * const arr = [
+ *   { group: 1, name: 'a' },
+ *   { group: 2, name: 'b' },
+ *   { group: 1, name: 'c' },
+ * ];
+ * ArrayTools.groupObj(arr, item => item.id); // [
+ * //   [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
+ * //   [ { group: 2, name: 'b' } ]
+ * // ]
+ * ```
+ */
 declare const group: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: ObjectTools ## -->
  * ObjectTools
  *
  * A collection of functions for working with objects
  */
 declare namespace ObjectTools {
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ObjectTools.remodel ### -->
      * remodel
      *
      * - `ObjectTools.remodel`
@@ -1791,7 +2924,7 @@ declare namespace ObjectTools {
      * ```
      */
     const remodel: <T extends Object = Object, V extends unknown = any, W extends unknown = any, O extends unknown = OfType<T, W>>(obj: T, func: (entries: [string, V][]) => [string, W][]) => O;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ObjectTools.remodelEach ### -->
      * remodelEach
      *
      * - `ObjectTools.remodelEach`
@@ -1806,7 +2939,7 @@ declare namespace ObjectTools {
      * ```
      */
     const remodelEach: <T extends Object = Object, V extends unknown = any, W extends unknown = any, O extends unknown = OfType<T, W>>(obj: T, func: (entry: [string, V], index: number, entries: [string, V][]) => [string, W]) => O;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ObjectTools.map ### -->
      * map
      *
      * - `ObjectTools.map`
@@ -1818,7 +2951,7 @@ declare namespace ObjectTools {
      * ```
      */
     const map: <T extends Object, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V, index: number) => [string, W]) => OfType<T, W>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ObjectTools.mapValues ### -->
      * mapValues
      *
      * - `ObjectTools.mapValues`
@@ -1830,7 +2963,7 @@ declare namespace ObjectTools {
      * ```
      */
     const mapValues: <T extends Object, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V, index: number) => W) => OfType<T, W>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ObjectTools.mapKeys ### -->
      * mapKeys
      *
      * - `ObjectTools.mapKeys`
@@ -1842,7 +2975,7 @@ declare namespace ObjectTools {
      * ```
      */
     const mapKeys: <T extends Object, V extends unknown>(obj: T, func: (key: string, value: V, index: number) => string) => T;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ObjectTools.filter ### -->
      * filter
      *
      * - `ObjectTools.filter`
@@ -1854,7 +2987,7 @@ declare namespace ObjectTools {
      * ```
      */
     const filter: <T extends Object, V extends unknown, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean) => O;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ObjectTools.clean ### -->
      * clean
      *
      * - `ObjectTools.clean`
@@ -1868,13 +3001,16 @@ declare namespace ObjectTools {
     const clean: <T extends Object, O extends Partial<T>>(obj: T) => O;
 }
 
-/**<!-- DOCS: ## -->
+declare type ClxType = string | boolean | {
+    [key: string]: boolean;
+} | ClxType[];
+/**<!-- DOCS: StringTools ## -->
  * StringTools
  *
  * A collection of string utilities
  */
 declare namespace StringTools {
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: StringTools.capitalise ### -->
      * capitalise
      *
      * - `StringTools.capitalise`
@@ -1886,7 +3022,7 @@ declare namespace StringTools {
      * ```
      */
     const capitalise: (input?: string) => string;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: StringTools.angloise ### -->
      * angloise
      *
      * - `StringTools.angloise`
@@ -1898,7 +3034,7 @@ declare namespace StringTools {
      * ```
      */
     const angloise: (input: string) => string;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: StringTools.clean ### -->
      * clean
      *
      * - `StringTools.clean`
@@ -1911,11 +3047,11 @@ declare namespace StringTools {
      */
     const clean: (input?: string) => string;
     type CaseInput = string | string[];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: StringTools.StringCaseHandler ### -->
      * StringCaseHandler
      */
     interface StringCaseHandler {
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toLowerCamelCase #### -->
          * toLowerCamelCase
          *
          * - `StringTools.toLowerCamelCase`
@@ -1927,7 +3063,7 @@ declare namespace StringTools {
          * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
          */
         toLowerCamelCase(input: CaseInput): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toUpperCamelCase #### -->
          * toUpperCamelCase
          *
          * - `StringTools.toUpperCamelCase`
@@ -1939,7 +3075,7 @@ declare namespace StringTools {
          * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
          */
         toUpperCamelCase(input: CaseInput): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toCamelCase #### -->
          * toCamelCase
          *
          * - `StringTools.toCamelCase`
@@ -1951,7 +3087,7 @@ declare namespace StringTools {
          * Convert a string to camel case (e.g. `thisIsCamelCase`)
          */
         toCamelCase(input: CaseInput, capitaliseFirst?: boolean): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toLowerSlugCase #### -->
          * toLowerSlugCase
          *
          * - `StringTools.toLowerSlugCase`
@@ -1963,7 +3099,7 @@ declare namespace StringTools {
          * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
          */
         toLowerSlugCase(input: CaseInput): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toUpperSlugCase #### -->
          * toUpperSlugCase
          *
          * - `StringTools.toUpperSlugCase`
@@ -1975,7 +3111,7 @@ declare namespace StringTools {
          * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
          */
         toUpperSlugCase(input: CaseInput): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toSlugCase #### -->
          * toSlugCase
          *
          * - `StringTools.toSlugCase`
@@ -1987,7 +3123,7 @@ declare namespace StringTools {
          * Convert a string to camel case (e.g. `this-is-slug-case`)
          */
         toSlugCase(input: CaseInput, toUpper?: boolean): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toLowerSnakeCase #### -->
          * toLowerSnakeCase
          *
          * - `StringTools.toLowerSnakeCase`
@@ -1999,7 +3135,7 @@ declare namespace StringTools {
          * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
          */
         toLowerSnakeCase(input: CaseInput): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toUpperSnakeCase #### -->
          * toUpperSnakeCase
          *
          * - `StringTools.toUpperSnakeCase`
@@ -2011,7 +3147,7 @@ declare namespace StringTools {
          * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
          */
         toUpperSnakeCase(input: CaseInput): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toSnakeCase #### -->
          * toSnakeCase
          *
          * - `StringTools.toSnakeCase`
@@ -2023,7 +3159,7 @@ declare namespace StringTools {
          * Convert a string to snake case (e.g. `this_is_snake_case`)
          */
         toSnakeCase(input: CaseInput, toUpper?: boolean): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toLowerSpaced #### -->
          * toLowerSpaced
          *
          * - `StringTools.toLowerSpaced`
@@ -2035,7 +3171,7 @@ declare namespace StringTools {
          * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
          */
         toLowerSpaced(input: CaseInput): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toUpperSpaced #### -->
          * toUpperSpaced
          *
          * - `StringTools.toUpperSpaced`
@@ -2047,7 +3183,7 @@ declare namespace StringTools {
          * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
          */
         toUpperSpaced(input: CaseInput): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toCapitalisedSpaced #### -->
          * toCapitalisedSpaced
          *
          * - `StringTools.toCapitalisedSpaced`
@@ -2059,7 +3195,7 @@ declare namespace StringTools {
          * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
          */
         toCapitalisedSpaced(input: CaseInput): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toSpaced #### -->
          * toSpaced
          *
          * - `StringTools.toSpaced`
@@ -2071,7 +3207,7 @@ declare namespace StringTools {
          * Convert a string to spaced case (e.g. `this is spaced case`)
          */
         toSpaced(input: CaseInput, toUpper?: boolean): string;
-        /**<!-- DOCS: #### -->
+        /**<!-- DOCS: StringTools.toCharacterSeparated #### -->
          * toCharacterSeparated
          *
          * - `StringTools.toCharacterSeparated`
@@ -2085,35 +3221,175 @@ declare namespace StringTools {
         toCharacterSeparated(input: CaseInput, char: string, toUpper?: boolean): string;
     }
     const 
-    /** ALIAS - toLowerCamelCase */
+    /**<!-- DOCS-ALIAS: StringTools.toLowerCamelCase -->
+     * toLowerCamelCase
+     * 
+     * - `StringTools.toLowerCamelCase`
+     * - `StringTools.fromSlugCase.toLowerCamelCase`
+     * - `StringTools.fromSnakeCase.toLowerCamelCase`
+     * - `StringTools.fromSpaced.toLowerCamelCase`
+     * - `StringTools.fromCamelCase.toLowerCamelCase`
+     * 
+     * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
+     */
     toLowerCamelCase: (input: CaseInput) => string, 
-    /** ALIAS - toUpperCamelCase */
+    /**<!-- DOCS-ALIAS: StringTools.toUpperCamelCase -->
+     * toUpperCamelCase
+     * 
+     * - `StringTools.toUpperCamelCase`
+     * - `StringTools.fromSlugCase.toUpperCamelCase`
+     * - `StringTools.fromSnakeCase.toUpperCamelCase`
+     * - `StringTools.fromSpaced.toUpperCamelCase`
+     * - `StringTools.fromCamelCase.toUpperCamelCase`
+     * 
+     * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
+     */
     toUpperCamelCase: (input: CaseInput) => string, 
-    /** ALIAS - toCamelCase */
+    /**<!-- DOCS-ALIAS: StringTools.toCamelCase -->
+     * toCamelCase
+     * 
+     * - `StringTools.toCamelCase`
+     * - `StringTools.fromSlugCase.toCamelCase`
+     * - `StringTools.fromSnakeCase.toCamelCase`
+     * - `StringTools.fromSpaced.toCamelCase`
+     * - `StringTools.fromCamelCase.toCamelCase`
+     * 
+     * Convert a string to camel case (e.g. `thisIsCamelCase`)
+     */
     toCamelCase: (input: CaseInput, capitaliseFirst?: boolean) => string, 
-    /** ALIAS - toLowerSlugCase */
+    /**<!-- DOCS-ALIAS: StringTools.toLowerSlugCase -->
+     * toLowerSlugCase
+     * 
+     * - `StringTools.toLowerSlugCase`
+     * - `StringTools.fromSlugCase.toLowerSlugCase`
+     * - `StringTools.fromSnakeCase.toLowerSlugCase`
+     * - `StringTools.fromSpaced.toLowerSlugCase`
+     * - `StringTools.fromCamelCase.toLowerSlugCase`
+     * 
+     * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
+     */
     toLowerSlugCase: (input: CaseInput) => string, 
-    /** ALIAS - toUpperSlugCase */
+    /**<!-- DOCS-ALIAS: StringTools.toUpperSlugCase -->
+     * toUpperSlugCase
+     * 
+     * - `StringTools.toUpperSlugCase`
+     * - `StringTools.fromSlugCase.toUpperSlugCase`
+     * - `StringTools.fromSnakeCase.toUpperSlugCase`
+     * - `StringTools.fromSpaced.toUpperSlugCase`
+     * - `StringTools.fromCamelCase.toUpperSlugCase`
+     * 
+     * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
+     */
     toUpperSlugCase: (input: CaseInput) => string, 
-    /** ALIAS - toSlugCase */
+    /**<!-- DOCS-ALIAS: StringTools.toSlugCase -->
+     * toSlugCase
+     * 
+     * - `StringTools.toSlugCase`
+     * - `StringTools.fromSlugCase.toSlugCase`
+     * - `StringTools.fromSnakeCase.toSlugCase`
+     * - `StringTools.fromSpaced.toSlugCase`
+     * - `StringTools.fromCamelCase.toSlugCase`
+     * 
+     * Convert a string to camel case (e.g. `this-is-slug-case`)
+     */
     toSlugCase: (input: CaseInput, toUpper?: boolean) => string, 
-    /** ALIAS - toLowerSnakeCase */
+    /**<!-- DOCS-ALIAS: StringTools.toLowerSnakeCase -->
+     * toLowerSnakeCase
+     * 
+     * - `StringTools.toLowerSnakeCase`
+     * - `StringTools.fromSlugCase.toLowerSnakeCase`
+     * - `StringTools.fromSnakeCase.toLowerSnakeCase`
+     * - `StringTools.fromSpaced.toLowerSnakeCase`
+     * - `StringTools.fromCamelCase.toLowerSnakeCase`
+     * 
+     * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
+     */
     toLowerSnakeCase: (input: CaseInput) => string, 
-    /** ALIAS - toUpperSnakeCase */
+    /**<!-- DOCS-ALIAS: StringTools.toUpperSnakeCase -->
+     * toUpperSnakeCase
+     * 
+     * - `StringTools.toUpperSnakeCase`
+     * - `StringTools.fromSlugCase.toUpperSnakeCase`
+     * - `StringTools.fromSnakeCase.toUpperSnakeCase`
+     * - `StringTools.fromSpaced.toUpperSnakeCase`
+     * - `StringTools.fromCamelCase.toUpperSnakeCase`
+     * 
+     * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
+     */
     toUpperSnakeCase: (input: CaseInput) => string, 
-    /** ALIAS - toSnakeCase */
+    /**<!-- DOCS-ALIAS: StringTools.toSnakeCase -->
+     * toSnakeCase
+     * 
+     * - `StringTools.toSnakeCase`
+     * - `StringTools.fromSlugCase.toSnakeCase`
+     * - `StringTools.fromSnakeCase.toSnakeCase`
+     * - `StringTools.fromSpaced.toSnakeCase`
+     * - `StringTools.fromCamelCase.toSnakeCase`
+     * 
+     * Convert a string to snake case (e.g. `this_is_snake_case`)
+     */
     toSnakeCase: (input: CaseInput, toUpper?: boolean) => string, 
-    /** ALIAS - toLowerSpaced */
+    /**<!-- DOCS-ALIAS: StringTools.toLowerSpaced -->
+     * toLowerSpaced
+     * 
+     * - `StringTools.toLowerSpaced`
+     * - `StringTools.fromSlugCase.toLowerSpaced`
+     * - `StringTools.fromSnakeCase.toLowerSpaced`
+     * - `StringTools.fromSpaced.toLowerSpaced`
+     * - `StringTools.fromCamelCase.toLowerSpaced`
+     * 
+     * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
+     */
     toLowerSpaced: (input: CaseInput) => string, 
-    /** ALIAS - toUpperSpaced */
+    /**<!-- DOCS-ALIAS: StringTools.toUpperSpaced -->
+     * toUpperSpaced
+     * 
+     * - `StringTools.toUpperSpaced`
+     * - `StringTools.fromSlugCase.toUpperSpaced`
+     * - `StringTools.fromSnakeCase.toUpperSpaced`
+     * - `StringTools.fromSpaced.toUpperSpaced`
+     * - `StringTools.fromCamelCase.toUpperSpaced`
+     * 
+     * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
+     */
     toUpperSpaced: (input: CaseInput) => string, 
-    /** ALIAS - toCapitalisedSpaced */
+    /**<!-- DOCS-ALIAS: StringTools.toCapitalisedSpaced -->
+     * toCapitalisedSpaced
+     * 
+     * - `StringTools.toCapitalisedSpaced`
+     * - `StringTools.fromSlugCase.toCapitalisedSpaced`
+     * - `StringTools.fromSnakeCase.toCapitalisedSpaced`
+     * - `StringTools.fromSpaced.toCapitalisedSpaced`
+     * - `StringTools.fromCamelCase.toCapitalisedSpaced`
+     * 
+     * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
+     */
     toCapitalisedSpaced: (input: CaseInput) => string, 
-    /** ALIAS - toSpaced */
+    /**<!-- DOCS-ALIAS: StringTools.toSpaced -->
+     * toSpaced
+     * 
+     * - `StringTools.toSpaced`
+     * - `StringTools.fromSlugCase.toSpaced`
+     * - `StringTools.fromSnakeCase.toSpaced`
+     * - `StringTools.fromSpaced.toSpaced`
+     * - `StringTools.fromCamelCase.toSpaced`
+     * 
+     * Convert a string to spaced case (e.g. `this is spaced case`)
+     */
     toSpaced: (input: CaseInput, toUpper?: boolean) => string, 
-    /** ALIAS - toCharacterSeparated */
+    /**<!-- DOCS-ALIAS: StringTools.toCharacterSeparated -->
+     * toCharacterSeparated
+     * 
+     * - `StringTools.toCharacterSeparated`
+     * - `StringTools.fromSlugCase.toCharacterSeparated`
+     * - `StringTools.fromSnakeCase.toCharacterSeparated`
+     * - `StringTools.fromSpaced.toCharacterSeparated`
+     * - `StringTools.fromCamelCase.toCharacterSeparated`
+     * 
+     * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
+     */
     toCharacterSeparated: (input: CaseInput, char: string, toUpper?: boolean) => string;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: StringTools.fromSlugCase ### -->
      * fromSlugCase
      *
      * Has the following methods:
@@ -2133,7 +3409,7 @@ declare namespace StringTools {
      * - `StringTools.fromSlugCase.toCharacterSeparated`
      */
     const fromSlugCase: StringCaseHandler;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: StringTools.fromSnakeCase ### -->
      * fromSnakeCase
      *
      * Has the following methods:
@@ -2153,7 +3429,7 @@ declare namespace StringTools {
      * - `StringTools.fromSnakeCase.toCharacterSeparated`
      */
     const fromSnakeCase: StringCaseHandler;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: StringTools.fromSpaced ### -->
      * fromSpaced
      *
      * Has the following methods:
@@ -2173,7 +3449,7 @@ declare namespace StringTools {
      * - `StringTools.fromSpaced.toCharacterSeparated`
      */
     const fromSpaced: StringCaseHandler;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: StringTools.fromCamelCase ### -->
      * fromCamelCase
      *
      * Has the following methods:
@@ -2193,10 +3469,7 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toCharacterSeparated`
      */
     const fromCamelCase: StringCaseHandler;
-    type ClxType = string | boolean | {
-        [key: string]: boolean;
-    } | ClxType[];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: StringTools.clx ### -->
      * clx
      *
      * - `clx`
@@ -2216,16 +3489,33 @@ declare namespace StringTools {
      */
     const clx: (...args: ClxType[]) => string;
 }
-/** ALIAS - clx */
+/**<!-- DOCS-ALIAS: StringTools.clx -->
+ * clx
+ * 
+ * - `clx`
+ * - `StringTools.clx`
+ * 
+ * Composes a className from a list of strings, conditional objects and arrays.
+ * 
+ * Accepts the different ways of supplying classes in AngularJS (ng-class) and returns a single string (so suitable for React).
+ * 
+ * ```typescript
+ * clx('hello') // 'hello'
+ * clx('foo', 'bar') // 'foo bar'
+ * clx('foo', conditionA && 'bar') // 'foo'
+ * clx('abc', conditionB && 'def') // 'abc def'
+ * clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
+ * ```
+ */
 declare const clx: (...args: ClxType[]) => string;
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: PromiseTools ## -->
  * PromiseTools
  *
  * A collection of promise utilities
  */
 declare namespace PromiseTools {
-    /**<!-- DOCS: 141 ### -->
+    /**<!-- DOCS: PromiseTools.DeferredPromise 141 ### -->
      * DeferredPromise
      *
      * - `DeferredPromise`
@@ -2238,7 +3528,7 @@ declare namespace PromiseTools {
         reject: (value: T) => Promise<T>;
         promise: Promise<T>;
     }
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: PromiseTools.getDeferred ### -->
    * getDeferred
    *
    * - `getDeferred`
@@ -2265,7 +3555,7 @@ declare namespace PromiseTools {
   ```
    */
     export const getDeferred: <T extends unknown>() => DeferredPromise<T>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: PromiseTools.all ### -->
      * all
      *
      * - `all`
@@ -2274,7 +3564,7 @@ declare namespace PromiseTools {
      * An alias for Promise.all
      */
     export const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: PromiseTools.allLimit ### -->
      * allLimit
      *
      * - `allLimit`
@@ -2316,7 +3606,7 @@ declare namespace PromiseTools {
      * ```
      */
     export const allLimit: <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow?: boolean) => Promise<T[]>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: PromiseTools.each ### -->
      * each
      *
      * - `each`
@@ -2337,7 +3627,7 @@ declare namespace PromiseTools {
      * ```
      */
     export const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: PromiseTools.eachLimit ### -->
      * eachLimit
      *
      * - `eachLimit`
@@ -2360,7 +3650,7 @@ declare namespace PromiseTools {
      * ```
      */
     export const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: PromiseTools.map ### -->
      * map
      *
      * - `map`
@@ -2382,7 +3672,7 @@ declare namespace PromiseTools {
      * ```
      */
     export const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: PromiseTools.mapLimit ### -->
      * mapLimit
      *
      * - `mapLimit`
@@ -2410,7 +3700,7 @@ declare namespace PromiseTools {
     type UnWrapPromiseObject<T> = {
         [K in keyof T]: UnWrapPromise<T[K]>;
     };
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: PromiseTools.allObj ### -->
      * allObj
      *
      * - `allObj`
@@ -2448,7 +3738,7 @@ declare namespace PromiseTools {
      * ```
      */
     export const allObj: <T extends Object>(input: T) => Promise<UnWrapPromiseObject<T>>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: PromiseTools.allLimitObj ### -->
      * allLimitObj
      *
      * - `allLimitObj`
@@ -2492,34 +3782,271 @@ declare namespace PromiseTools {
     export const allLimitObj: <T extends Object>(limit: number, input: T, noThrow?: boolean) => Promise<UnWrapPromiseObject<T>>;
     export {};
 }
-/** ALIAS - DeferredPromise */
+/**<!-- DOCS-ALIAS: PromiseTools.DeferredPromise -->
+ * DeferredPromise
+ * 
+ * - `DeferredPromise`
+ * - `PromiseTools.DeferredPromise`
+ * 
+ * A deferred promise
+ */
 declare type DeferredPromise<T> = PromiseTools.DeferredPromise<T>;
-/** ALIAS - getDeferred */
+/**<!-- DOCS-ALIAS: PromiseTools.getDeferred -->
+ * getDeferred
+ * 
+ * - `getDeferred`
+ * - `PromiseTools.getDeferred`
+ * 
+ * A deferred promise
+ * 
+ * ```typescript
+ * import { getDeferred } from 'swiss-ak';
+ * 
+ * const run = () => {
+ *   const deferred = getDeferred<number>();
+ * 
+ *   doSomethingWithACallback('a', 'b', (err: Error, result: number) => {
+ *     // callback (just an example - don't actually do this this way)
+ *     if (err) return deferred.reject(err);
+ *     deferred.resolve(result);
+ *   });
+ * 
+ *   return deferred.promise;
+ * };
+ * 
+ * const luckyNumber: number = await run();
+ * ```
+ */
 declare const getDeferred: <T extends unknown>() => PromiseTools.DeferredPromise<T>;
-/** ALIAS - all */
+/**<!-- DOCS-ALIAS: PromiseTools.all -->
+ * all
+ * 
+ * - `all`
+ * - `PromiseTools.all`
+ * 
+ * An alias for Promise.all
+ */
 declare const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
-/** ALIAS - allLimit */
+/**<!-- DOCS-ALIAS: PromiseTools.allLimit -->
+ * allLimit
+ * 
+ * - `allLimit`
+ * - `PromiseTools.allLimit`
+ * 
+ * Like Promise.all, but limits the numbers of concurrently running items.
+ * 
+ * Takes an array of functions (that return Promises), rather than an array of Promises
+ * 
+ * ```typescript
+ * import { PromiseTools, timer, ms, seconds } from 'swiss-ak';
+ * 
+ * const give = async (delay: ms, result: number, label: string) => {
+ *   await waitFor(delay);
+ *   timer.end(label);
+ *   return result;
+ * };
+ * 
+ * timer.start('allLimit', 'a', 'b', 'c', 'd');
+ * 
+ * const results = PromiseTools.allLimit<number>(2, [
+ *   give(seconds(5), 1, 'a'),
+ *   give(seconds(5), 2, 'b'),
+ *   give(seconds(5), 3, 'c'),
+ *   give(seconds(5), 4, 'd')
+ * ]);
+ * 
+ * timer.end('allLimit');
+ * 
+ * console.log(results); // [ 1, 2, 3, 4 ]
+ * 
+ * timer.log();
+ * // Times:
+ * // 	allLimit: 10s
+ * // 	a: 5s
+ * // 	b: 5s
+ * // 	c: 10s
+ * // 	d: 10s
+ * ```
+ */
 declare const allLimit: <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow?: boolean) => Promise<T[]>;
-/** ALIAS - each */
+/**<!-- DOCS-ALIAS: PromiseTools.each -->
+ * each
+ * 
+ * - `each`
+ * - `PromiseTools.each`
+ * 
+ * Run an async function against each item in an array
+ * 
+ * ```typescript
+ * import { PromiseTools, ms, seconds, wait } from 'swiss-ak';
+ * 
+ * const arr = [1, 2, 3, 4];
+ * 
+ * await PromiseTools.each<number>(arr, async (val: number) => {
+ *   await wait(seconds(2));
+ *   sendToSomewhere(val);
+ * });
+ * console.log(''); // after 2 seconds
+ * ```
+ */
 declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
-/** ALIAS - eachLimit */
+/**<!-- DOCS-ALIAS: PromiseTools.eachLimit -->
+ * eachLimit
+ * 
+ * - `eachLimit`
+ * - `PromiseTools.eachLimit`
+ * 
+ * Run an async function against each item in an array, limiting the number of items that can run concurrently.
+ * 
+ * See PromiseTools.allLimit for information about limited functions.
+ * 
+ * ```typescript
+ * import { PromiseTools, ms, seconds, wait } from 'swiss-ak';
+ * 
+ * const arr = [1, 2, 3, 4];
+ * 
+ * await PromiseTools.eachLimit<number>(2, arr, async (val: number) => {
+ *   await wait(seconds(2));
+ *   sendToSomewhere(val);
+ * });
+ * console.log(''); // after 4 seconds
+ * ```
+ */
 declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
-/** ALIAS - map */
+/**<!-- DOCS-ALIAS: PromiseTools.map -->
+ * map
+ * 
+ * - `map`
+ * - `PromiseTools.map`
+ * 
+ * Run an async map function against each item in an array, mapping the results to a returned array
+ * 
+ * ```typescript
+ * import { PromiseTools, ms, seconds, wait } from 'swiss-ak';
+ * 
+ * const arr = [1, 2, 3, 4];
+ * 
+ * const mapped = await PromiseTools.map<number>(arr, async (val: number) => {
+ *   await wait(seconds(2));
+ *   return val * 2;
+ * });
+ * 
+ * console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
+ * ```
+ */
 declare const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
-/** ALIAS - mapLimit */
+/**<!-- DOCS-ALIAS: PromiseTools.mapLimit -->
+ * mapLimit
+ * 
+ * - `mapLimit`
+ * - `PromiseTools.mapLimit`
+ * 
+ * Run an async map function against each item in an array, mapping the results to a returned array, and limiting the number of items that can run concurrently.
+ * 
+ * See PromiseTools.allLimit for information about limited functions.
+ * 
+ * ```typescript
+ * import { PromiseTools, ms, seconds, wait } from 'swiss-ak';
+ * 
+ * const arr = [1, 2, 3, 4];
+ * 
+ * const mapped = await PromiseTools.mapLimit<number>(2, arr, async (val: number) => {
+ *   await wait(seconds(2));
+ *   return val * 2;
+ * });
+ * 
+ * console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
+ * ```
+ */
 declare const mapLimit: <Ti extends unknown, To extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
-/** ALIAS - allObj */
+/**<!-- DOCS-ALIAS: PromiseTools.allObj -->
+ * allObj
+ * 
+ * - `allObj`
+ * - `PromiseTools.allObj`
+ * 
+ * Like Promise.all, but pass/receive objects rather than arrays
+ * 
+ * ```typescript
+ * import { PromiseTools, timer, ms, seconds } from 'swiss-ak';
+ * 
+ * const give = async (delay: ms, result: number, label: string) => {
+ *   await waitFor(delay);
+ *   timer.end(label);
+ *   return result;
+ * };
+ * 
+ * timer.start('allObj', 'a', 'b', 'c');
+ * 
+ * const results = PromiseTools.allObj<number>({
+ *   a: give(seconds(10), 1, 'a'),
+ *   b: give(seconds(15), 2, 'b'),
+ *   c: give(seconds(20), 3, 'c')
+ * });
+ * 
+ * timer.end('allObj');
+ * 
+ * console.log(results); // { a: 1, b: 2, c: 3 }
+ * 
+ * timer.log();
+ * // Times:
+ * // 	allObj: 20s
+ * // 	a: 10s
+ * // 	b: 15s
+ * // 	c: 20s
+ * ```
+ */
 declare const allObj: <T extends Object>(input: T) => Promise<{ [K in keyof T]: T[K] extends infer T_1 ? T_1 extends T[K] ? T_1 extends Promise<unknown> ? unknown : T_1 : never : never; }>;
-/** ALIAS - allLimitObj */
+/**<!-- DOCS-ALIAS: PromiseTools.allLimitObj -->
+ * allLimitObj
+ * 
+ * - `allLimitObj`
+ * - `PromiseTools.allLimitObj`
+ * 
+ * A mix of allObj and allLimit.
+ * 
+ * Takes an array of functions (that return Promises), and limits the numbers of concurrently running items.
+ * 
+ * ```typescript
+ * import { PromiseTools, timer, ms, seconds } from 'swiss-ak';
+ * 
+ * const give = async (delay: ms, result: number, label: string) => {
+ *   await waitFor(delay);
+ *   timer.end(label);
+ *   return result;
+ * };
+ * 
+ * timer.start('allLimitObj', 'a', 'b', 'c', 'd');
+ * 
+ * const results = PromiseTools.allLimitObj<number>(2, {
+ *   a: give(seconds(5), 1, 'a'),
+ *   b: give(seconds(5), 2, 'b'),
+ *   c: give(seconds(5), 3, 'c'),
+ *   d: give(seconds(5), 4, 'd')
+ * });
+ * 
+ * timer.end('allLimitObj');
+ * 
+ * console.log(results); // { a: 1, b: 2, c: 3, d: 4 }
+ * 
+ * timer.log();
+ * // Times:
+ * // 	allLimitObj: 10s
+ * // 	a: 5s
+ * // 	b: 5s
+ * // 	c: 10s
+ * // 	d: 10s
+ * ```
+ */
 declare const allLimitObj: <T extends Object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K in keyof T]: T[K] extends infer T_1 ? T_1 extends T[K] ? T_1 extends Promise<unknown> ? unknown : T_1 : never : never; }>;
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: ErrorTools ## -->
  * ErrorTools
  *
  * Functions for handling errors.
  */
 declare namespace ErrorTools {
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ErrorTools.tryOr ### -->
      * tryOr
      *
      * - `tryOr`
@@ -2532,7 +4059,7 @@ declare namespace ErrorTools {
      * ```
      */
     const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: (...args: A) => Promise<T>, ...args: A) => Promise<T>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ErrorTools.retry ### -->
      * retry
      *
      * - `retry`
@@ -2545,7 +4072,7 @@ declare namespace ErrorTools {
      * ```
      */
     const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ErrorTools.retryOr ### -->
      * retryOr
      *
      * - `retryOr`
@@ -2561,14 +4088,49 @@ declare namespace ErrorTools {
      */
     const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, suppress?: boolean, run?: () => T) => Promise<T>;
 }
-/** ALIAS - tryOr */
+/**<!-- DOCS-ALIAS: ErrorTools.tryOr -->
+ * tryOr
+ * 
+ * - `tryOr`
+ * - `ErrorTools.tryOr`
+ * 
+ * Try to execute a function and return its result if it succeeds, or return the default value if it fails.
+ * 
+ * ```typescript
+ * const result = tryOr('default', () => getSomething());
+ * ```
+ */
 declare const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: (...args: A) => Promise<T>, ...args: A) => Promise<T>;
-/** ALIAS - retry */
+/**<!-- DOCS-ALIAS: ErrorTools.retry -->
+ * retry
+ * 
+ * - `retry`
+ * - `ErrorTools.retry`
+ * 
+ * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
+ * 
+ * ```typescript
+ * const result = tryOr(5, seconds(1),, true, () => getSomething());
+ * ```
+ */
 declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
-/** ALIAS - retryOr */
+/**<!-- DOCS-ALIAS: ErrorTools.retryOr -->
+ * retryOr
+ * 
+ * - `retryOr`
+ * - `ErrorTools.retryOr`
+ * 
+ * Combination of retry and tryOr.
+ * 
+ * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
+ * 
+ * ```typescript
+ * const result = retryOr('default', 5, seconds(1), true, () => getSomething());
+ * ```
+ */
 declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, suppress?: boolean, run?: () => T) => Promise<T>;
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: MathsTools ## -->
  * MathsTools
  *
  * A collection of mathematical functions.
@@ -2576,7 +4138,7 @@ declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?
  * > Note: The field is 'Mathematics', and so it is 'MathsTools' not ~'MathTools'~
  */
 declare namespace MathsTools {
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: MathsTools.fixFloat ### -->
      * fixFloat
      *
      * - `ff`
@@ -2595,9 +4157,26 @@ declare namespace MathsTools {
      * ```
      */
     const fixFloat: (num: number, precision?: number) => number;
-    /** ALIAS - fixFloat */
+    /**<!-- DOCS-ALIAS: MathsTools.fixFloat -->
+     * fixFloat
+     * 
+     * - `ff`
+     * - `MathsTools.ff`
+     * - `MathsTools.fixFloat`
+     * 
+     * Fixes floating point errors that may occur when adding/subtracting/multiplying/dividing real/float numbers
+     * 
+     * Can also be used to round numbers to a given precision
+     * 
+     * > Note: 'fixFloat' is not a great name, but it's what I've always called it, so I'm sticking with it. 'ff' is a shorthand alias.
+     * 
+     * ```typescript
+     * 0.1 + 0.2 // 0.30000000000000004
+     * MathsTools.fixFloat(0.1 + 0.2) // 0.3
+     * ```
+     */
     const ff: (num: number, precision?: number) => number;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: MathsTools.addAll ### -->
      * addAll
      *
      * - `MathsTools.addAll`
@@ -2609,10 +4188,10 @@ declare namespace MathsTools {
      * ```
      */
     const addAll: (...args: number[]) => number;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: MathsTools.round ### -->
      * round
      */
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: MathsTools.floorTo #### -->
      * floorTo
      *
      * - `MathsTools.floorTo`
@@ -2627,7 +4206,7 @@ declare namespace MathsTools {
      * ```
      */
     const floorTo: (to: number, value: number) => number;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: MathsTools.roundTo #### -->
      * roundTo
      *
      * - `MathsTools.round.to`
@@ -2643,7 +4222,7 @@ declare namespace MathsTools {
      * ```
      */
     const roundTo: (to: number, value: number) => number;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: MathsTools.ceilTo #### -->
      * ceilTo
      *
      * - `MathsTools.ceilTo`
@@ -2666,16 +4245,70 @@ declare namespace MathsTools {
      * A collection of rounding functions.
      */
     namespace round {
-        /** ALIAS - floorTo */
+        /**<!-- DOCS-ALIAS: MathsTools.floorTo -->
+         * floorTo
+         * 
+         * - `MathsTools.floorTo`
+         * - `MathsTools.round.floorTo`
+         * 
+         * Floors a number down to the nearest multiple of the given number.
+         * 
+         * ```typescript
+         * MathsTools.round.floorTo(10, 102); // 100
+         * MathsTools.round.floorTo(5, 53); // 50
+         * MathsTools.round.floorTo(0.1, 0.25); // 0.2
+         * ```
+         */
         const floorTo: (to: number, value: number) => number;
-        /** ALIAS - roundTo */
+        /**<!-- DOCS-ALIAS: MathsTools.roundTo -->
+         * roundTo
+         * 
+         * - `MathsTools.round.to`
+         * - `MathsTools.roundTo`
+         * - `MathsTools.round.roundTo`
+         * 
+         * Floors a number down to the nearest multiple of the given number.
+         * 
+         * ```typescript
+         * MathsTools.round.to(10, 102); // 100
+         * MathsTools.round.to(5, 53); // 55
+         * MathsTools.round.to(0.1, 0.25); // 0.3
+         * ```
+         */
         const roundTo: (to: number, value: number) => number;
-        /** ALIAS - ceilTo */
+        /**<!-- DOCS-ALIAS: MathsTools.ceilTo -->
+         * ceilTo
+         * 
+         * - `MathsTools.ceilTo`
+         * - `MathsTools.round.ceilTo`
+         * 
+         * Floors a number down to the nearest multiple of the given number.
+         * 
+         * ```typescript
+         * MathsTools.round.ceilTo(10, 102); // 110
+         * MathsTools.round.ceilTo(5, 53); // 55
+         * MathsTools.round.ceilTo(0.1, 0.25); // 0.3
+         * ```
+         */
         const ceilTo: (to: number, value: number) => number;
-        /** ALIAS - roundTo */
+        /**<!-- DOCS-ALIAS: MathsTools.roundTo -->
+         * roundTo
+         * 
+         * - `MathsTools.round.to`
+         * - `MathsTools.roundTo`
+         * - `MathsTools.round.roundTo`
+         * 
+         * Floors a number down to the nearest multiple of the given number.
+         * 
+         * ```typescript
+         * MathsTools.round.to(10, 102); // 100
+         * MathsTools.round.to(5, 53); // 55
+         * MathsTools.round.to(0.1, 0.25); // 0.3
+         * ```
+         */
         const to: (to: number, value: number) => number;
     }
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: MathsTools.lerp ### -->
      * lerp
      *
      * - `MathsTools.lerp`
@@ -2687,7 +4320,7 @@ declare namespace MathsTools {
      * ```
      */
     const lerp: (progress: number, fromVal: number, toVal: number) => number;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: MathsTools.lerpArray ### -->
      * lerpArray
      *
      * - `MathsTools.lerpArray`
@@ -2699,7 +4332,7 @@ declare namespace MathsTools {
      * ```
      */
     const lerpArray: (progress: number, fromArr: number[], toArr: number[]) => number[];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: MathsTools.lerpObj ### -->
      * lerpObj
      *
      * - `MathsTools.lerpObj`
@@ -2711,7 +4344,7 @@ declare namespace MathsTools {
      * ```
      */
     const lerpObj: <T extends object>(progress: number, fromObj: T, toObj: T) => T;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: MathsTools.clamp ### -->
      * clamp
      *
      * - `MathsTools.clamp`
@@ -2724,7 +4357,7 @@ declare namespace MathsTools {
      * ```
      */
     const clamp: (value: number, min: number, max: number) => number;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: MathsTools.getOrdinal ### -->
      * getOrdinal
      *
      * - `MathsTools.getOrdinal`
@@ -2750,16 +4383,33 @@ declare namespace MathsTools {
      */
     const getOrdinal: (num?: number) => "th" | "st" | "nd" | "rd";
 }
-/** ALIAS - fixFloat */
+/**<!-- DOCS-ALIAS: MathsTools.fixFloat -->
+ * fixFloat
+ * 
+ * - `ff`
+ * - `MathsTools.ff`
+ * - `MathsTools.fixFloat`
+ * 
+ * Fixes floating point errors that may occur when adding/subtracting/multiplying/dividing real/float numbers
+ * 
+ * Can also be used to round numbers to a given precision
+ * 
+ * > Note: 'fixFloat' is not a great name, but it's what I've always called it, so I'm sticking with it. 'ff' is a shorthand alias.
+ * 
+ * ```typescript
+ * 0.1 + 0.2 // 0.30000000000000004
+ * MathsTools.fixFloat(0.1 + 0.2) // 0.3
+ * ```
+ */
 declare const ff: (num: number, precision?: number) => number;
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: ColourTools ## -->
  * ColourTools
  *
  * A collection of functions for working with colours.
  */
 declare namespace ColourTools {
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ColourTools.ColourValues ### -->
      * ColourValues
      *
      * - `ColourTools.ColourValues`
@@ -2770,7 +4420,7 @@ declare namespace ColourTools {
      * - blue [0-255]
      */
     type ColourValues = [number, number, number];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ColourTools.HSLValues ### -->
      * HSLValues
      *
      * - `ColourTools.HSLValues`
@@ -2781,7 +4431,7 @@ declare namespace ColourTools {
      * - lightness [0-100]
      */
     type HSLValues = [number, number, number];
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ColourTools.namedColours ### -->
      * namedColours
      *
      * - `ColourTools.namedColours`
@@ -3303,7 +4953,7 @@ declare namespace ColourTools {
         yellow: number[];
         yellowgreen: number[];
     };
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ColourTools.parse ### -->
      * parse
      *
      * - `ColourTools.parse`
@@ -3322,7 +4972,7 @@ declare namespace ColourTools {
      * ```
      */
     const parse: (input: string) => ColourValues;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ColourTools.toHex ### -->
      * toHex
      *
      * - `ColourTools.toHex`
@@ -3334,7 +4984,7 @@ declare namespace ColourTools {
      * ```
      */
     const toHex: (colour: ColourValues) => string;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ColourTools.getLuminance ### -->
      * getLuminance
      *
      * - `ColourTools.getLuminance`
@@ -3355,7 +5005,7 @@ declare namespace ColourTools {
      * ```
      */
     const getLuminance: ([r, g, b]: ColourValues) => number;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ColourTools.toYUV ### -->
      * toYUV
      *
      * - `ColourTools.toYUV`
@@ -3369,7 +5019,7 @@ declare namespace ColourTools {
      * ```
      */
     const toYUV: ([r, g, b]: ColourValues) => ColourValues;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ColourTools.toHSL ### -->
      * toHSL
      *
      * - `ColourTools.toHSL`
@@ -3384,7 +5034,7 @@ declare namespace ColourTools {
      * ```
      */
     const toHSL: (colour: ColourValues, round?: boolean) => HSLValues;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ColourTools.fromHSL ### -->
      * fromHSL
      *
      * - `ColourTools.fromHSL`
@@ -3399,7 +5049,7 @@ declare namespace ColourTools {
      * ```
      */
     const fromHSL: (hsl: HSLValues, round?: boolean) => ColourValues;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ColourTools.invertColour ### -->
      * invertColour
      *
      * - `ColourTools.invertColour`
@@ -3413,7 +5063,7 @@ declare namespace ColourTools {
      * ```
      */
     const invertColour: ([r, g, b]: ColourValues) => ColourValues;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ColourTools.getContrastedColour ### -->
      * getContrastedColour
      *
      * - `ColourTools.getContrastedColour`
@@ -3428,7 +5078,7 @@ declare namespace ColourTools {
      * ```
      */
     const getContrastedColour: (colour: ColourValues) => ColourValues;
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: ColourTools.getLimitedColour ### -->
      * getLimitedColour
      *
      * - `ColourTools.getLimitedColour`
@@ -3446,13 +5096,13 @@ declare namespace ColourTools {
     const getLimitedColour: (colour: ColourValues, checkFn: (hsl: HSLValues) => boolean, adjustFn: (hsl: HSLValues) => HSLValues) => ColourValues;
 }
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: TimeTools ## -->
  * TimeTools
  *
  * A collection of time-related utility functions.
  */
 declare namespace TimeTools {
-    /**<!-- DOCS: ### -->
+    /**<!-- DOCS: TimeTools.toReadableDuration ### -->
      * toReadableDuration
      *
      * - `TimeTools.toReadableDuration`
@@ -3483,7 +5133,7 @@ declare namespace TimeTools {
     const toReadableDuration: (duration: ms, longNames?: boolean, maxUnits?: number) => string;
 }
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: symbols ## -->
  * symbols
  *
  * - `symbols`
@@ -3616,7 +5266,7 @@ declare const symbols: {
         '*': string;
     };
 };
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: superscript ### -->
  * superscript
  *
  * - `superscript`
@@ -3635,12 +5285,12 @@ declare const symbols: {
  */
 declare const superscript: (num: number | string) => string;
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: queue ## -->
  * queue
  *
  * A way of managing queues from different parts of the code.
  */
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: queue.QueueManager ### -->
  * QueueManager
  *
  * - `QueueManager`
@@ -3687,7 +5337,7 @@ declare class QueueManager {
     defaultPauseTime: number;
     constructor(defaultPauseTime?: number);
     getPromise(id: string): Promise<any>;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: queue.setDefaultPauseTime #### -->
      * setDefaultPauseTime
      *
      * - `queue.setDefaultPauseTime`
@@ -3696,7 +5346,7 @@ declare class QueueManager {
      * Sets the default pause time for pauses between queue items.
      */
     setDefaultPauseTime(time: number): void;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: queue.setPauseTime #### -->
      * setPauseTime
      *
      * - `queue.setPauseTime`
@@ -3705,7 +5355,7 @@ declare class QueueManager {
      * Sets the pause time for pauses between queue items for the specified queue.
      */
     setPauseTime(id: string, time: number): void;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: queue.add #### -->
      * add
      *
      * - `queue.add`
@@ -3714,7 +5364,7 @@ declare class QueueManager {
      * Adds a function to the queue.
      */
     add<T>(id: string, fn: () => Promise<T>): Promise<T>;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: queue.new #### -->
      * new
      *
      * - `queue.new`
@@ -3724,7 +5374,7 @@ declare class QueueManager {
      */
     new(defaultPauseTime?: number): QueueManager;
 }
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: queue.queue ### -->
  * queue
  *
  * - `queue`
@@ -3735,4 +5385,4 @@ declare class QueueManager {
  */
 declare const queue: QueueManager;
 
-export { ArrayTools, CENTURY, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, clx, day, days, decade, decades, each, eachLimit, entries, everys, ff, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayTools, CENTURY, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, clx, day, days, decade, decades, each, eachLimit, entries, everys, ff, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

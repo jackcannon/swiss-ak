@@ -151,6 +151,7 @@ A collection of useful little things that I like to reuse across projects
         - [reset](#reset)
         - [start](#start)
         - [finish](#finish)
+        - [max](#max)
     - [symbols](#symbols)
       - [superscript](#superscript)
     - [queue](#queue)
@@ -169,7 +170,7 @@ A collection of useful little things that I like to reuse across projects
       - [Numbered<T>](#numberedt)
       - [OfType<T, U>](#oftypet-u)
       - [ObjOfType<T>](#objoftypet)
-      - [ObjOfType<T>](#objoftypet)
+      - [RemapOf<O, T>](#remapofo-t)
 
 <!-- DOCS: TOC END -->
 
@@ -747,6 +748,8 @@ Returns if all the items are equal to one another.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ## ArrayTools
+- `ArrayTools`
+
 A collection of useful array functions.
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
@@ -2405,6 +2408,13 @@ Stop displaying the progress bar
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
+#### max
+- `getProgressBar().max`
+
+Readonly number value of the max value (provided to getProgressBar as first argument)
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
 ## symbols
 - `symbols`
 
@@ -2685,10 +2695,10 @@ An object with any properties of type T
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
-### ObjOfType<T>
-- `ObjOfType`
+### RemapOf<O, T>
+- `RemapOf`
 
-An object with any properties of type T
+Remap a given interface (O) with all properties of type T
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 

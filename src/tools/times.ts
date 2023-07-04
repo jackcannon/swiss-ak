@@ -1,4 +1,4 @@
-/**<!-- DOCS: ## 10 -->
+/**<!-- DOCS: times ## 10 -->
  * times
  *
  * A collection of Tools for calculating simple times.
@@ -19,7 +19,7 @@
  * | millennium  | `millennium` | `MILLENNIUM`  | `millenniums(x: millennium) => ms` |
  */
 export namespace times {
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.ms ### -1 -->
    * ms
    *
    * - `ms`
@@ -29,7 +29,7 @@ export namespace times {
    */
   export type ms = number;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.second ### -1 -->
    * second
    *
    * - `second`
@@ -39,7 +39,7 @@ export namespace times {
    */
   export type second = number;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.minute ### -1 -->
    * minute
    *
    * - `minute`
@@ -49,7 +49,7 @@ export namespace times {
    */
   export type minute = number;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.hour ### -1 -->
    * hour
    *
    * - `hour`
@@ -59,7 +59,7 @@ export namespace times {
    */
   export type hour = number;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.day ### -1 -->
    * day
    *
    * - `day`
@@ -69,7 +69,7 @@ export namespace times {
    */
   export type day = number;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.week ### -1 -->
    * week
    *
    * - `week`
@@ -79,7 +79,7 @@ export namespace times {
    */
   export type week = number;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.month ### -1 -->
    * month
    *
    * - `month`
@@ -89,7 +89,7 @@ export namespace times {
    */
   export type month = number;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.year ### -1 -->
    * year
    *
    * - `year`
@@ -99,7 +99,7 @@ export namespace times {
    */
   export type year = number;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.decade ### -1 -->
    * decade
    *
    * - `decade`
@@ -109,7 +109,7 @@ export namespace times {
    */
   export type decade = number;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.century ### -1 -->
    * century
    *
    * - `century`
@@ -119,7 +119,7 @@ export namespace times {
    */
   export type century = number;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.millennium ### -1 -->
    * millennium
    *
    * - `millennium`
@@ -129,7 +129,7 @@ export namespace times {
    */
   export type millennium = number;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.MILLISECOND ### -1 -->
    * MILLISECOND
    *
    * - `MILLISECOND`
@@ -141,7 +141,7 @@ export namespace times {
    */
   export const MILLISECOND = 1;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.SECOND ### -1 -->
    * SECOND
    *
    * - `SECOND`
@@ -153,7 +153,7 @@ export namespace times {
    */
   export const SECOND = 1000 * MILLISECOND;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.MINUTE ### -1 -->
    * MINUTE
    *
    * - `MINUTE`
@@ -165,7 +165,7 @@ export namespace times {
    */
   export const MINUTE = 60 * SECOND;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.HOUR ### -1 -->
    * HOUR
    *
    * - `HOUR`
@@ -177,7 +177,7 @@ export namespace times {
    */
   export const HOUR = 60 * MINUTE;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.DAY ### -1 -->
    * DAY
    *
    * - `DAY`
@@ -189,7 +189,7 @@ export namespace times {
    */
   export const DAY = 24 * HOUR;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.WEEK ### -1 -->
    * WEEK
    *
    * - `WEEK`
@@ -201,7 +201,7 @@ export namespace times {
    */
   export const WEEK = 7 * DAY;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.MONTH ### -1 -->
    * MONTH
    *
    * - `MONTH`
@@ -213,7 +213,7 @@ export namespace times {
    */
   export const MONTH = 30 * DAY;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.YEAR ### -1 -->
    * YEAR
    *
    * - `YEAR`
@@ -225,7 +225,7 @@ export namespace times {
    */
   export const YEAR = 365.25 * DAY;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.DECADE ### -1 -->
    * DECADE
    *
    * - `DECADE`
@@ -237,7 +237,7 @@ export namespace times {
    */
   export const DECADE = 10 * YEAR;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.CENTURY ### -1 -->
    * CENTURY
    *
    * - `CENTURY`
@@ -249,7 +249,7 @@ export namespace times {
    */
   export const CENTURY = 100 * YEAR;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.MILLENNIUM ### -1 -->
    * MILLENNIUM
    *
    * - `MILLENNIUM`
@@ -261,7 +261,7 @@ export namespace times {
    */
   export const MILLENNIUM = 1000 * YEAR;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.milliseconds ### -1 -->
    * milliseconds
    *
    * - `milliseconds`
@@ -278,7 +278,7 @@ export namespace times {
    */
   export const milliseconds = (x: ms = 1): ms => x;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.seconds ### -1 -->
    * seconds
    *
    * - `seconds`
@@ -295,7 +295,7 @@ export namespace times {
    */
   export const seconds = (x: second = 1): ms => x * SECOND;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.minutes ### -1 -->
    * minutes
    *
    * - `minutes`
@@ -312,7 +312,7 @@ export namespace times {
    */
   export const minutes = (x: minute = 1): ms => x * MINUTE;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.hours ### -1 -->
    * hours
    *
    * - `hours`
@@ -329,7 +329,7 @@ export namespace times {
    */
   export const hours = (x: hour = 1): ms => x * HOUR;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.days ### -1 -->
    * days
    *
    * - `days`
@@ -346,7 +346,7 @@ export namespace times {
    */
   export const days = (x: day = 1): ms => x * DAY;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.weeks ### -1 -->
    * weeks
    *
    * - `weeks`
@@ -363,7 +363,7 @@ export namespace times {
    */
   export const weeks = (x: week = 1): ms => x * WEEK;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.months ### -1 -->
    * months
    *
    * - `months`
@@ -380,7 +380,7 @@ export namespace times {
    */
   export const months = (x: month = 1): ms => x * MONTH;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.years ### -1 -->
    * years
    *
    * - `years`
@@ -397,7 +397,7 @@ export namespace times {
    */
   export const years = (x: year = 1): ms => x * YEAR;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.decades ### -1 -->
    * decades
    *
    * - `decades`
@@ -414,7 +414,7 @@ export namespace times {
    */
   export const decades = (x: decade = 1): ms => x * DECADE;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.centuries ### -1 -->
    * centuries
    *
    * - `centuries`
@@ -431,7 +431,7 @@ export namespace times {
    */
   export const centuries = (x: century = 1): ms => x * CENTURY;
 
-  /**<!-- DOCS: ### -1 -->
+  /**<!-- DOCS: times.millenniums ### -1 -->
    * millenniums
    *
    * - `millenniums`
@@ -449,69 +449,69 @@ export namespace times {
   export const millenniums = (x: millennium = 1): ms => x * MILLENNIUM;
 }
 
-/** ALIAS - ms */
+/** <!-- DOCS-ALIAS: times.ms  --> */
 export type ms = number;
-/** ALIAS - second */
+/** <!-- DOCS-ALIAS: times.second  --> */
 export type second = number;
-/** ALIAS - minute */
+/** <!-- DOCS-ALIAS: times.minute  --> */
 export type minute = number;
-/** ALIAS - hour */
+/** <!-- DOCS-ALIAS: times.hour  --> */
 export type hour = number;
-/** ALIAS - day */
+/** <!-- DOCS-ALIAS: times.day  --> */
 export type day = number;
-/** ALIAS - week */
+/** <!-- DOCS-ALIAS: times.week --> */
 export type week = number;
-/** ALIAS - month */
+/** <!-- DOCS-ALIAS: times.month  --> */
 export type month = number;
-/** ALIAS - year */
+/** <!-- DOCS-ALIAS: times.year  --> */
 export type year = number;
-/** ALIAS - decade */
+/** <!-- DOCS-ALIAS: times.decade  --> */
 export type decade = number;
-/** ALIAS - century */
+/** <!-- DOCS-ALIAS: times.century  --> */
 export type century = number;
-/** ALIAS - millennium */
+/** <!-- DOCS-ALIAS: times.millennium  --> */
 export type millennium = number;
-/** ALIAS - MILLISECOND */
+/** <!-- DOCS-ALIAS: times.MILLISECOND  --> */
 export const MILLISECOND = times.MILLISECOND;
-/** ALIAS - SECOND */
+/** <!-- DOCS-ALIAS: times.SECOND  --> */
 export const SECOND = times.SECOND;
-/** ALIAS - MINUTE */
+/** <!-- DOCS-ALIAS: times.MINUTE  --> */
 export const MINUTE = times.MINUTE;
-/** ALIAS - HOUR */
+/** <!-- DOCS-ALIAS: times.HOUR  --> */
 export const HOUR = times.HOUR;
-/** ALIAS - DAY */
+/** <!-- DOCS-ALIAS: times.DAY  --> */
 export const DAY = times.DAY;
-/** ALIAS - WEEK */
+/** <!-- DOCS-ALIAS: times.WEEK  --> */
 export const WEEK = times.WEEK;
-/** ALIAS - MONTH */
+/** <!-- DOCS-ALIAS: times.MONTH  --> */
 export const MONTH = times.MONTH;
-/** ALIAS - YEAR */
+/** <!-- DOCS-ALIAS: times.YEAR  --> */
 export const YEAR = times.YEAR;
-/** ALIAS - DECADE */
+/** <!-- DOCS-ALIAS: times.DECADE  --> */
 export const DECADE = times.DECADE;
-/** ALIAS - CENTURY */
+/** <!-- DOCS-ALIAS: times.CENTURY  --> */
 export const CENTURY = times.CENTURY;
-/** ALIAS - MILLENNIUM */
+/** <!-- DOCS-ALIAS: times.MILLENNIUM  --> */
 export const MILLENNIUM = times.MILLENNIUM;
-/** ALIAS - milliseconds */
+/** <!-- DOCS-ALIAS: times.milliseconds  --> */
 export const milliseconds = times.milliseconds;
-/** ALIAS - seconds */
+/** <!-- DOCS-ALIAS: times.seconds  --> */
 export const seconds = times.seconds;
-/** ALIAS - minutes */
+/** <!-- DOCS-ALIAS: times.minutes  --> */
 export const minutes = times.minutes;
-/** ALIAS - hours */
+/** <!-- DOCS-ALIAS: times.hours  --> */
 export const hours = times.hours;
-/** ALIAS - days */
+/** <!-- DOCS-ALIAS: times.days  --> */
 export const days = times.days;
-/** ALIAS - weeks */
+/** <!-- DOCS-ALIAS: times.weeks  --> */
 export const weeks = times.weeks;
-/** ALIAS - months */
+/** <!-- DOCS-ALIAS: times.months  --> */
 export const months = times.months;
-/** ALIAS - years */
+/** <!-- DOCS-ALIAS: times.years  --> */
 export const years = times.years;
-/** ALIAS - decades */
+/** <!-- DOCS-ALIAS: times.decades  --> */
 export const decades = times.decades;
-/** ALIAS - centuries */
+/** <!-- DOCS-ALIAS: times.centuries  --> */
 export const centuries = times.centuries;
-/** ALIAS - millenniums */
+/** <!-- DOCS-ALIAS: times.millenniums  --> */
 export const millenniums = times.millenniums;

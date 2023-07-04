@@ -2,7 +2,7 @@ import { ms } from './times';
 
 //<!-- DOCS: 20 -->
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: waiters ## -->
  * waiters
  *
  * Async functions that return promises at or after a given time.
@@ -18,7 +18,7 @@ import { ms } from './times';
  * | interval  | Accurate (pinged) interval for every 'every X' event | `hours(1)` = every hour, on the hour            |
  */
 export namespace waiters {
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: waiters.wait ### -->
    * wait
    *
    * - `wait`
@@ -41,7 +41,7 @@ export namespace waiters {
   const ROUND_AMOUNT = 1.5;
   const getPingDuration = (time: ms, now: ms = Date.now()): ms => Math.ceil(((time - now) * PING_RATIO) / ROUND_AMOUNT) * ROUND_AMOUNT;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: waiters.waitUntil ### -->
    * waitUntil
    *
    * - `waitUntil`
@@ -64,7 +64,7 @@ export namespace waiters {
     return null;
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: waiters.waitFor ### -->
    * waitFor
    *
    * - `waitFor`
@@ -89,7 +89,7 @@ export namespace waiters {
     return result <= 10 ? timing : result;
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: waiters.waitEvery ### -->
    * waitEvery
    *
    * - `waitEvery`
@@ -108,7 +108,7 @@ export namespace waiters {
   export const waitEvery = (timing: ms, offset?: ms): Promise<null> => waitFor(getNextEvery(timing, offset));
 
   const stopped: number[] = [];
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: waiters.stopInterval ### -->
    * stopInterval
    *
    * - `stopInterval`
@@ -128,7 +128,7 @@ export namespace waiters {
    */
   export const stopInterval = (intID: number) => stopped.push(intID);
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: waiters.interval ### -->
    * interval
    *
    * - `interval`
@@ -164,15 +164,15 @@ export namespace waiters {
   };
 }
 
-/** ALIAS - wait */
+/** <!-- DOCS-ALIAS: waiters.wait  --> */
 export const wait = waiters.wait;
-/** ALIAS - waitUntil */
+/** <!-- DOCS-ALIAS: waiters.waitUntil  --> */
 export const waitUntil = waiters.waitUntil;
-/** ALIAS - waitFor */
+/** <!-- DOCS-ALIAS: waiters.waitFor  --> */
 export const waitFor = waiters.waitFor;
-/** ALIAS - waitEvery */
+/** <!-- DOCS-ALIAS: waiters.waitEvery  --> */
 export const waitEvery = waiters.waitEvery;
-/** ALIAS - stopInterval */
+/** <!-- DOCS-ALIAS: waiters.stopInterval  --> */
 export const stopInterval = waiters.stopInterval;
-/** ALIAS - interval */
+/** <!-- DOCS-ALIAS: waiters.interval  --> */
 export const interval = waiters.interval;

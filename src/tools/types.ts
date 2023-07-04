@@ -1,11 +1,11 @@
 //<!-- DOCS: 1000 -->
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: types ## -->
  * Helper Types
  *
  * Some commonly used types
  */
 
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: types.Partial ### -->
  * Partial<T>
  *
  * - `Partial`
@@ -24,7 +24,7 @@ export type Partial<T> = {
   [K in keyof T]?: T[K];
 };
 
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: types.KeysOnly ### -->
  * KeysOnly<T>
  *
  * - `KeysOnly`
@@ -43,7 +43,7 @@ export type KeysOnly<T> = {
   [K in keyof T]: K;
 };
 
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: types.Numbered ### -->
  * Numbered<T>
  *
  * - `Numbered`
@@ -62,7 +62,7 @@ export type Numbered<T> = {
   [K in keyof T]: number;
 };
 
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: types.OfType ### -->
  * OfType<T, U>
  *
  * - `OfType`
@@ -73,7 +73,7 @@ export type OfType<T, U> = {
   [K in keyof T]: U;
 };
 
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: types.ObjOfType ### -->
  * ObjOfType<T>
  *
  * - `ObjOfType`
@@ -84,12 +84,12 @@ export type ObjOfType<T = string> = {
   [key: string]: T;
 };
 
-/**<!-- DOCS: ### -->
- * ObjOfType<T>
+/**<!-- DOCS: types.RemapOf ### -->
+ * RemapOf<O, T>
  *
- * - `ObjOfType`
+ * - `RemapOf`
  *
- * An object with any properties of type T
+ * Remap a given interface (O) with all properties of type T
  */
 export type RemapOf<O = Object, T = string> = {
   [K in keyof O]: T;

@@ -1,11 +1,14 @@
 //<!-- DOCS: 120 -->
-/**<!-- DOCS: ## -->
+
+export type ClxType = string | boolean | { [key: string]: boolean } | ClxType[];
+
+/**<!-- DOCS: StringTools ## -->
  * StringTools
  *
  * A collection of string utilities
  */
 export namespace StringTools {
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: StringTools.capitalise ### -->
    * capitalise
    *
    * - `StringTools.capitalise`
@@ -22,7 +25,7 @@ export namespace StringTools {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: StringTools.angloise ### -->
    * angloise
    *
    * - `StringTools.angloise`
@@ -35,7 +38,7 @@ export namespace StringTools {
    */
   export const angloise = (input: string): string => input.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: StringTools.clean ### -->
    * clean
    *
    * - `StringTools.clean`
@@ -54,11 +57,11 @@ export namespace StringTools {
   export type CaseInput = string | string[];
   type SplittingFn = (input: CaseInput) => string[];
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: StringTools.StringCaseHandler ### -->
    * StringCaseHandler
    */
   export interface StringCaseHandler {
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toLowerCamelCase #### -->
      * toLowerCamelCase
      *
      * - `StringTools.toLowerCamelCase`
@@ -70,7 +73,7 @@ export namespace StringTools {
      * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
      */
     toLowerCamelCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toUpperCamelCase #### -->
      * toUpperCamelCase
      *
      * - `StringTools.toUpperCamelCase`
@@ -82,7 +85,7 @@ export namespace StringTools {
      * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
      */
     toUpperCamelCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toCamelCase #### -->
      * toCamelCase
      *
      * - `StringTools.toCamelCase`
@@ -95,7 +98,7 @@ export namespace StringTools {
      */
     toCamelCase(input: CaseInput, capitaliseFirst?: boolean): string;
 
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toLowerSlugCase #### -->
      * toLowerSlugCase
      *
      * - `StringTools.toLowerSlugCase`
@@ -107,7 +110,7 @@ export namespace StringTools {
      * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
      */
     toLowerSlugCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toUpperSlugCase #### -->
      * toUpperSlugCase
      *
      * - `StringTools.toUpperSlugCase`
@@ -119,7 +122,7 @@ export namespace StringTools {
      * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
      */
     toUpperSlugCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toSlugCase #### -->
      * toSlugCase
      *
      * - `StringTools.toSlugCase`
@@ -132,7 +135,7 @@ export namespace StringTools {
      */
     toSlugCase(input: CaseInput, toUpper?: boolean): string;
 
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toLowerSnakeCase #### -->
      * toLowerSnakeCase
      *
      * - `StringTools.toLowerSnakeCase`
@@ -144,7 +147,7 @@ export namespace StringTools {
      * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
      */
     toLowerSnakeCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toUpperSnakeCase #### -->
      * toUpperSnakeCase
      *
      * - `StringTools.toUpperSnakeCase`
@@ -156,7 +159,7 @@ export namespace StringTools {
      * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
      */
     toUpperSnakeCase(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toSnakeCase #### -->
      * toSnakeCase
      *
      * - `StringTools.toSnakeCase`
@@ -169,7 +172,7 @@ export namespace StringTools {
      */
     toSnakeCase(input: CaseInput, toUpper?: boolean): string;
 
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toLowerSpaced #### -->
      * toLowerSpaced
      *
      * - `StringTools.toLowerSpaced`
@@ -181,7 +184,7 @@ export namespace StringTools {
      * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
      */
     toLowerSpaced(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toUpperSpaced #### -->
      * toUpperSpaced
      *
      * - `StringTools.toUpperSpaced`
@@ -193,7 +196,7 @@ export namespace StringTools {
      * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
      */
     toUpperSpaced(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toCapitalisedSpaced #### -->
      * toCapitalisedSpaced
      *
      * - `StringTools.toCapitalisedSpaced`
@@ -205,7 +208,7 @@ export namespace StringTools {
      * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
      */
     toCapitalisedSpaced(input: CaseInput): string;
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toSpaced #### -->
      * toSpaced
      *
      * - `StringTools.toSpaced`
@@ -218,7 +221,7 @@ export namespace StringTools {
      */
     toSpaced(input: CaseInput, toUpper?: boolean): string;
 
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: StringTools.toCharacterSeparated #### -->
      * toCharacterSeparated
      *
      * - `StringTools.toCharacterSeparated`
@@ -290,41 +293,41 @@ export namespace StringTools {
 
   const standardCaseHandler = caseHandler();
   export const {
-    /** ALIAS - toLowerCamelCase */
+    /** <!-- DOCS-ALIAS: StringTools.toLowerCamelCase  --> */
     toLowerCamelCase,
-    /** ALIAS - toUpperCamelCase */
+    /** <!-- DOCS-ALIAS: StringTools.toUpperCamelCase  --> */
     toUpperCamelCase,
-    /** ALIAS - toCamelCase */
+    /** <!-- DOCS-ALIAS: StringTools.toCamelCase  --> */
     toCamelCase,
 
-    /** ALIAS - toLowerSlugCase */
+    /** <!-- DOCS-ALIAS: StringTools.toLowerSlugCase  --> */
     toLowerSlugCase,
-    /** ALIAS - toUpperSlugCase */
+    /** <!-- DOCS-ALIAS: StringTools.toUpperSlugCase  --> */
     toUpperSlugCase,
-    /** ALIAS - toSlugCase */
+    /** <!-- DOCS-ALIAS: StringTools.toSlugCase  --> */
     toSlugCase,
 
-    /** ALIAS - toLowerSnakeCase */
+    /** <!-- DOCS-ALIAS: StringTools.toLowerSnakeCase  --> */
     toLowerSnakeCase,
-    /** ALIAS - toUpperSnakeCase */
+    /** <!-- DOCS-ALIAS: StringTools.toUpperSnakeCase  --> */
     toUpperSnakeCase,
-    /** ALIAS - toSnakeCase */
+    /** <!-- DOCS-ALIAS: StringTools.toSnakeCase  --> */
     toSnakeCase,
 
-    /** ALIAS - toLowerSpaced */
+    /** <!-- DOCS-ALIAS: StringTools.toLowerSpaced  --> */
     toLowerSpaced,
-    /** ALIAS - toUpperSpaced */
+    /** <!-- DOCS-ALIAS: StringTools.toUpperSpaced  --> */
     toUpperSpaced,
-    /** ALIAS - toCapitalisedSpaced */
+    /** <!-- DOCS-ALIAS: StringTools.toCapitalisedSpaced  --> */
     toCapitalisedSpaced,
-    /** ALIAS - toSpaced */
+    /** <!-- DOCS-ALIAS: StringTools.toSpaced  --> */
     toSpaced,
 
-    /** ALIAS - toCharacterSeparated */
+    /** <!-- DOCS-ALIAS: StringTools.toCharacterSeparated  --> */
     toCharacterSeparated
   } = standardCaseHandler;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: StringTools.fromSlugCase ### -->
    * fromSlugCase
    *
    * Has the following methods:
@@ -345,7 +348,7 @@ export namespace StringTools {
    */
   export const fromSlugCase = standardCaseHandler;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: StringTools.fromSnakeCase ### -->
    * fromSnakeCase
    *
    * Has the following methods:
@@ -366,7 +369,7 @@ export namespace StringTools {
    */
   export const fromSnakeCase = standardCaseHandler;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: StringTools.fromSpaced ### -->
    * fromSpaced
    *
    * Has the following methods:
@@ -387,7 +390,7 @@ export namespace StringTools {
    */
   export const fromSpaced = standardCaseHandler;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: StringTools.fromCamelCase ### -->
    * fromCamelCase
    *
    * Has the following methods:
@@ -439,9 +442,7 @@ export namespace StringTools {
       })
       .flat();
 
-  export type ClxType = string | boolean | { [key: string]: boolean } | ClxType[];
-
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: StringTools.clx ### -->
    * clx
    *
    * - `clx`
@@ -462,5 +463,5 @@ export namespace StringTools {
   export const clx = (...args: ClxType[]) => processClxArray(args).join(' ');
 }
 
-/** ALIAS - clx */
+/** <!-- DOCS-ALIAS: StringTools.clx  --> */
 export const clx = StringTools.clx;

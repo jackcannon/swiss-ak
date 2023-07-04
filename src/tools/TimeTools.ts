@@ -60,13 +60,13 @@ const units: DurationUnit[] = [
   }
 ];
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: TimeTools ## -->
  * TimeTools
  *
  * A collection of time-related utility functions.
  */
 export namespace TimeTools {
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: TimeTools.toReadableDuration ### -->
    * toReadableDuration
    *
    * - `TimeTools.toReadableDuration`

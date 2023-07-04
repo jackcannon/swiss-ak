@@ -1,13 +1,13 @@
 import { wait } from './waiters';
 
 //<!-- DOCS: 800 -->
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: queue ## -->
  * queue
  *
  * A way of managing queues from different parts of the code.
  */
 
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: queue.QueueManager ### -->
  * QueueManager
  *
  * - `QueueManager`
@@ -67,7 +67,7 @@ export class QueueManager {
     return promise;
   }
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: queue.setDefaultPauseTime #### -->
    * setDefaultPauseTime
    *
    * - `queue.setDefaultPauseTime`
@@ -79,7 +79,7 @@ export class QueueManager {
     this.defaultPauseTime = time;
   }
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: queue.setPauseTime #### -->
    * setPauseTime
    *
    * - `queue.setPauseTime`
@@ -91,7 +91,7 @@ export class QueueManager {
     this.pauseTimes.set(id, time);
   }
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: queue.add #### -->
    * add
    *
    * - `queue.add`
@@ -112,7 +112,7 @@ export class QueueManager {
     return promise;
   }
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: queue.new #### -->
    * new
    *
    * - `queue.new`
@@ -125,7 +125,7 @@ export class QueueManager {
   }
 }
 
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: queue.queue ### -->
  * queue
  *
  * - `queue`

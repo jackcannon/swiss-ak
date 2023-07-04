@@ -1,13 +1,13 @@
 import { MathsTools } from './MathsTools';
 
 //<!-- DOCS: 30 -->
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: fn ## -->
  * fn
  *
  * A collection of useful higher-order functions.
  */
 export namespace fn {
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: fn.noop ### -->
    * noop
    *
    * - `fn.noop`
@@ -21,7 +21,7 @@ export namespace fn {
    */
   export const noop = () => {};
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: fn.noact ### -->
    * noact
    *
    * - `fn.noact`
@@ -35,7 +35,7 @@ export namespace fn {
    */
   export const noact = <T = any>(item: T): T => item;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: fn.result ### -->
    * result
    *
    * - `fn.result`
@@ -52,7 +52,7 @@ export namespace fn {
     (): T =>
       item;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: fn.resolve ### -->
    * resolve
    *
    * - `fn.resolve`
@@ -66,7 +66,7 @@ export namespace fn {
     (): Promise<T> =>
       Promise.resolve(item);
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: fn.reject ### -->
    * reject
    *
    * - `fn.reject`
@@ -78,14 +78,14 @@ export namespace fn {
     (): Promise<T> =>
       Promise.reject(item);
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: fn.filters ### -->
    * filters
    *
    * - `fn.filters`
    *
    * Collection of functions that can be used with Array.filter
    */
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.exists #### -->
    * exists
    *
    * - `fn.exists`
@@ -100,7 +100,7 @@ export namespace fn {
    */
   export const exists = <T = any>(item: T): boolean => item !== undefined && item !== null;
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.isTruthy #### -->
    * isTruthy
    *
    * - `fn.isTruthy`
@@ -116,7 +116,7 @@ export namespace fn {
    */
   export const isTruthy = <T = any>(item: T): boolean => Boolean(item);
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.isFalsy #### -->
    * isFalsy
    *
    * - `fn.isFalsy`
@@ -132,7 +132,7 @@ export namespace fn {
    */
   export const isFalsy = <T = any>(item: T): boolean => !Boolean(item);
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.isEmpty #### -->
    * isEmpty
    *
    * - `fn.isEmpty`
@@ -148,7 +148,7 @@ export namespace fn {
    */
   export const isEmpty = <T = any>(item: T[] | string): boolean => Boolean(!item || !item.length);
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.isNotEmpty #### -->
    * isNotEmpty
    *
    * - `fn.isNotEmpty`
@@ -164,7 +164,7 @@ export namespace fn {
    */
   export const isNotEmpty = <T = any>(item: T[] | string): boolean => Boolean(item && item.length);
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.isEqual #### -->
    * isEqual
    *
    * - `fn.isEqual`
@@ -182,7 +182,7 @@ export namespace fn {
     (other: T) =>
       Boolean(item === other);
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.isNotEqual #### -->
    * isNotEqual
    *
    * - `fn.isNotEqual`
@@ -200,7 +200,7 @@ export namespace fn {
     (other: T) =>
       Boolean(item !== other);
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.dedupe #### -->
    * dedupe
    *
    * - `fn.dedupe`
@@ -215,7 +215,7 @@ export namespace fn {
    */
   export const dedupe = <T extends unknown>(item: T, index: number, array: T[]): boolean => array.indexOf(item) === index;
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.dedupeMapped #### -->
    * dedupeMapped
    *
    * - `fn.dedupeMapped`
@@ -236,14 +236,14 @@ export namespace fn {
     };
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: fn.maps ### -->
    * maps
    *
    * - `fn.maps`
    *
    * Collection of functions that can be used with Array.map
    */
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.toString #### -->
    * toString
    *
    * - `fn.toString`
@@ -258,7 +258,7 @@ export namespace fn {
    */
   export const toString = <T = any>(item: T): string => item + '';
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.toNumber #### -->
    * toNumber
    *
    * - `fn.toNumber`
@@ -273,7 +273,7 @@ export namespace fn {
    */
   export const toNumber = <T = any>(item: T): number => Number(item);
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.toBool #### -->
    * toBool
    *
    * - `fn.toBool`
@@ -289,7 +289,7 @@ export namespace fn {
    */
   export const toBool = <T = any>(item: T): boolean => (item as any) !== 'false' && Boolean(item);
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.toProp #### -->
    * toProp
    *
    * - `fn.toProp`
@@ -307,7 +307,7 @@ export namespace fn {
     (item: O): P =>
       item && item[prop];
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.toFixed #### -->
    * toFixed
    *
    * - `fn.toFixed`
@@ -325,14 +325,14 @@ export namespace fn {
     (num: number): number =>
       MathsTools.fixFloat(num, precision);
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: fn.sorts ### -->
    * sorts
    *
    * - `fn.sorts`
    *
    * Collection of functions that can be used with Array.sort
    */
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.asc #### -->
    * asc
    *
    * - `fn.asc`
@@ -351,7 +351,7 @@ export namespace fn {
     return 0;
   };
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.desc #### -->
    * desc
    *
    * - `fn.desc`
@@ -372,7 +372,7 @@ export namespace fn {
 
   type SortFn<T = number> = (a: T, b: T) => number;
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.byProp #### -->
    * byProp
    *
    * - `fn.byProp`
@@ -390,7 +390,7 @@ export namespace fn {
     return (a: O, b: O) => sortFn(a[propName] as T, b[propName] as T);
   };
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.nearestTo #### -->
    * nearestTo
    *
    * - `fn.nearestTo`
@@ -409,7 +409,7 @@ export namespace fn {
     (a: any, b: any) =>
       Math.abs(Number(target) - Number(a)) - Math.abs(Number(target) - Number(b));
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.furthestFrom #### -->
    * furthestFrom
    *
    * - `fn.furthestFrom`
@@ -428,7 +428,7 @@ export namespace fn {
     (a: any, b: any) =>
       Math.abs(Number(target) - Number(b)) - Math.abs(Number(target) - Number(a));
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.arrayAsc #### -->
    * arrayAsc
    *
    * - `fn.arrayAsc`
@@ -445,7 +445,7 @@ export namespace fn {
     return 0;
   };
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.arrayDesc #### -->
    * arrayDesc
    *
    * - `fn.arrayDesc`
@@ -462,7 +462,7 @@ export namespace fn {
     return 0;
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: fn.reduces ### -->
    * reduces
    *
    * - `fn.reduces`
@@ -470,7 +470,7 @@ export namespace fn {
    * Collection of functions that can be used with Array.reduce
    */
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.combine #### -->
    * combine
    *
    * - `fn.combine`
@@ -486,7 +486,7 @@ export namespace fn {
    */
   export const combine = (a: any, b: any): any => a + b;
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.combineProp #### -->
    * combineProp
    *
    * - `fn.combineProp`
@@ -506,7 +506,7 @@ export namespace fn {
     (a: any, b: any): any =>
       a[propName] + b[propName];
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.mode #### -->
    * mode
    *
    * - `fn.mode`
@@ -532,7 +532,7 @@ export namespace fn {
     return unique[counts.indexOf(max)];
   };
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.modeMapped #### -->
    * modeMapped
    *
    * - `fn.modeMapped`
@@ -565,7 +565,7 @@ export namespace fn {
     };
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: fn.everys ### -->
    * everys
    *
    * - `fn.everys`
@@ -573,7 +573,7 @@ export namespace fn {
    * Collection of functions that can be used with Array.every
    */
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: fn.isAllEqual #### -->
    * isAllEqual
    *
    * - `fn.isAllEqual`
@@ -589,86 +589,86 @@ export namespace fn {
    */
   export const isAllEqual = <T = any>(val: T, i, arr: T[]): boolean => val === arr[0];
 
-  /** ALIAS - filters */
+  /** <!-- DOCS-ALIAS: fn.filters  --> */
   export namespace filters {
-    /** ALIAS - filters.exists */
+    /** <!-- DOCS-ALIAS: fn.exists  --> */
     export const exists = fn.exists;
-    /** ALIAS - filters.isTruthy */
+    /** <!-- DOCS-ALIAS: fn.isTruthy  --> */
     export const isTruthy = fn.isTruthy;
-    /** ALIAS - filters.isFalsy */
+    /** <!-- DOCS-ALIAS: fn.isFalsy  --> */
     export const isFalsy = fn.isFalsy;
-    /** ALIAS - filters.isEmpty */
+    /** <!-- DOCS-ALIAS: fn.isEmpty  --> */
     export const isEmpty = fn.isEmpty;
-    /** ALIAS - filters.isNotEmpty */
+    /** <!-- DOCS-ALIAS: fn.isNotEmpty  --> */
     export const isNotEmpty = fn.isNotEmpty;
-    /** ALIAS - filters.isEqual */
+    /** <!-- DOCS-ALIAS: fn.isEqual  --> */
     export const isEqual = fn.isEqual;
-    /** ALIAS - filters.isNotEqual */
+    /** <!-- DOCS-ALIAS: fn.isNotEqual  --> */
     export const isNotEqual = fn.isNotEqual;
-    /** ALIAS - filters.dedupe */
+    /** <!-- DOCS-ALIAS: fn.dedupe  --> */
     export const dedupe = fn.dedupe;
-    /** ALIAS - filters.dedupeMapped */
+    /** <!-- DOCS-ALIAS: fn.dedupeMapped  --> */
     export const dedupeMapped = fn.dedupeMapped;
   }
 
-  /** ALIAS - maps */
+  /** <!-- DOCS-ALIAS: fn.maps  --> */
   export namespace maps {
-    /** ALIAS - maps.toString */
+    /** <!-- DOCS-ALIAS: fn.toString  --> */
     export const toString = fn.toString;
-    /** ALIAS - maps.toNumber */
+    /** <!-- DOCS-ALIAS: fn.toNumber  --> */
     export const toNumber = fn.toNumber;
-    /** ALIAS - maps.toBool */
+    /** <!-- DOCS-ALIAS: fn.toBool  --> */
     export const toBool = fn.toBool;
-    /** ALIAS - maps.toProp */
+    /** <!-- DOCS-ALIAS: fn.toProp  --> */
     export const toProp = fn.toProp;
-    /** ALIAS - maps.toFixed */
+    /** <!-- DOCS-ALIAS: fn.toFixed  --> */
     export const toFixed = fn.toFixed;
   }
 
-  /** ALIAS - sorts */
+  /** <!-- DOCS-ALIAS: fn.sorts  --> */
   export namespace sorts {
-    /** ALIAS - sorts.asc */
+    /** <!-- DOCS-ALIAS: fn.asc  --> */
     export const asc = fn.asc;
-    /** ALIAS - sorts.desc */
+    /** <!-- DOCS-ALIAS: fn.desc  --> */
     export const desc = fn.desc;
-    /** ALIAS - sorts.byProp */
+    /** <!-- DOCS-ALIAS: fn.byProp  --> */
     export const byProp = fn.byProp;
-    /** ALIAS - sorts.nearestTo */
+    /** <!-- DOCS-ALIAS: fn.nearestTo  --> */
     export const nearestTo = fn.nearestTo;
-    /** ALIAS - sorts.furthestFrom */
+    /** <!-- DOCS-ALIAS: fn.furthestFrom  --> */
     export const furthestFrom = fn.furthestFrom;
-    /** ALIAS - sorts.arrayAsc */
+    /** <!-- DOCS-ALIAS: fn.arrayAsc  --> */
     export const arrayAsc = fn.arrayAsc;
-    /** ALIAS - sorts.arrayDesc */
+    /** <!-- DOCS-ALIAS: fn.arrayDesc  --> */
     export const arrayDesc = fn.arrayDesc;
   }
 
-  /** ALIAS - reduces */
+  /** <!-- DOCS-ALIAS: fn.reduces  --> */
   export namespace reduces {
-    /** ALIAS - reduces.combine */
+    /** <!-- DOCS-ALIAS: fn.combine  --> */
     export const combine = fn.combine;
-    /** ALIAS - reduces.combineProp */
+    /** <!-- DOCS-ALIAS: fn.combineProp  --> */
     export const combineProp = fn.combineProp;
-    /** ALIAS - reduces.mode */
+    /** <!-- DOCS-ALIAS: fn.mode  --> */
     export const mode = fn.mode;
-    /** ALIAS - reduces.modeMapped */
+    /** <!-- DOCS-ALIAS: fn.modeMapped  --> */
     export const modeMapped = fn.modeMapped;
   }
 
-  /** ALIAS - everys */
+  /** <!-- DOCS-ALIAS: fn.everys  --> */
   export namespace everys {
-    /** ALIAS - everys.isAllEqual */
+    /** <!-- DOCS-ALIAS: fn.isAllEqual  --> */
     export const isAllEqual = fn.isAllEqual;
   }
 }
 
-/** ALIAS - filters */
+/** <!-- DOCS-ALIAS: fn  --> */
 export const filters = fn.filters;
-/** ALIAS - maps */
+/** <!-- DOCS-ALIAS: fn.maps  --> */
 export const maps = fn.maps;
-/** ALIAS - sorts */
+/** <!-- DOCS-ALIAS: fn.sorts  --> */
 export const sorts = fn.sorts;
-/** ALIAS - reduces */
+/** <!-- DOCS-ALIAS: fn.reduces  --> */
 export const reduces = fn.reduces;
-/** ALIAS - everys */
+/** <!-- DOCS-ALIAS: fn.everys  --> */
 export const everys = fn.everys;

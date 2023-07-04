@@ -4,7 +4,7 @@ import { noChalk, noWrap } from './fakeChalk';
 import { TimeTools } from './TimeTools';
 
 //<!-- DOCS: 900 -->
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: timer ## -->
  * timer
  *
  * A debug tool for measuring the duration of code blocks.
@@ -45,7 +45,7 @@ export interface ITimer<TName> {
   displayNames: TName;
 }
 
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: timer.getTimer ### -->
  * getTimer
  *
  * - `getTimer`
@@ -195,7 +195,7 @@ export const getTimer = <TName extends INames>(
   };
 };
 
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: timer.timer ### -->
  * timer
  *
  * - `timer`

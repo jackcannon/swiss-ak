@@ -1,13 +1,13 @@
 import { MathsTools } from './MathsTools';
 
 //<!-- DOCS: 150 -->
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: ColourTools ## -->
  * ColourTools
  *
  * A collection of functions for working with colours.
  */
 export namespace ColourTools {
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ColourTools.ColourValues ### -->
    * ColourValues
    *
    * - `ColourTools.ColourValues`
@@ -19,7 +19,7 @@ export namespace ColourTools {
    */
   export type ColourValues = [number, number, number];
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ColourTools.HSLValues ### -->
    * HSLValues
    *
    * - `ColourTools.HSLValues`
@@ -31,7 +31,7 @@ export namespace ColourTools {
    */
   export type HSLValues = [number, number, number];
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ColourTools.namedColours ### -->
    * namedColours
    *
    * - `ColourTools.namedColours`
@@ -557,7 +557,7 @@ export namespace ColourTools {
   const limitValue = (val: number) => Math.max(0, Math.min(255, val));
   const roundMinMax = (value: number, min: number = 0, max: number = 255) => Math.min(max, Math.max(min, Math.round(value)));
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ColourTools.parse ### -->
    * parse
    *
    * - `ColourTools.parse`
@@ -603,7 +603,7 @@ export namespace ColourTools {
     return [0, 0, 0];
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ColourTools.toHex ### -->
    * toHex
    *
    * - `ColourTools.toHex`
@@ -619,7 +619,7 @@ export namespace ColourTools {
     return `#${hexs.join('')}`;
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ColourTools.getLuminance ### -->
    * getLuminance
    *
    * - `ColourTools.getLuminance`
@@ -644,7 +644,7 @@ export namespace ColourTools {
     return y;
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ColourTools.toYUV ### -->
    * toYUV
    *
    * - `ColourTools.toYUV`
@@ -664,7 +664,7 @@ export namespace ColourTools {
     return [y, u, v];
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ColourTools.toHSL ### -->
    * toHSL
    *
    * - `ColourTools.toHSL`
@@ -714,7 +714,7 @@ export namespace ColourTools {
     return result;
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ColourTools.fromHSL ### -->
    * fromHSL
    *
    * - `ColourTools.fromHSL`
@@ -745,7 +745,7 @@ export namespace ColourTools {
     return result;
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ColourTools.invertColour ### -->
    * invertColour
    *
    * - `ColourTools.invertColour`
@@ -763,7 +763,7 @@ export namespace ColourTools {
   const white = [255, 255, 255] as ColourValues;
   const black = [0, 0, 0] as ColourValues;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ColourTools.getContrastedColour ### -->
    * getContrastedColour
    *
    * - `ColourTools.getContrastedColour`
@@ -779,7 +779,7 @@ export namespace ColourTools {
    */
   export const getContrastedColour = (colour: ColourValues): ColourValues => (getLuminance(colour) > 186 ? black : white);
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ColourTools.getLimitedColour ### -->
    * getLimitedColour
    *
    * - `ColourTools.getLimitedColour`

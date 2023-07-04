@@ -1,6 +1,6 @@
 //<!-- DOCS: 700 -->
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: symbols ## -->
  * symbols
  *
  * - `symbols`
@@ -149,7 +149,7 @@ export const symbols = {
   }
 };
 
-/**<!-- DOCS: ### -->
+/**<!-- DOCS: superscript ### -->
  * superscript
  *
  * - `superscript`

@@ -1,7 +1,7 @@
 import { ArrayTools } from './ArrayTools';
 
 //<!-- DOCS: 130 -->
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: MathsTools ## -->
  * MathsTools
  *
  * A collection of mathematical functions.
@@ -9,7 +9,7 @@ import { ArrayTools } from './ArrayTools';
  * > Note: The field is 'Mathematics', and so it is 'MathsTools' not ~'MathTools'~
  */
 export namespace MathsTools {
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: MathsTools.fixFloat ### -->
    * fixFloat
    *
    * - `ff`
@@ -29,10 +29,10 @@ export namespace MathsTools {
    */
   export const fixFloat = (num: number, precision = 6): number => Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision);
 
-  /** ALIAS - fixFloat */
+  /** <!-- DOCS-ALIAS: MathsTools.fixFloat  --> */
   export const ff = fixFloat;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: MathsTools.addAll ### -->
    * addAll
    *
    * - `MathsTools.addAll`
@@ -45,10 +45,10 @@ export namespace MathsTools {
    */
   export const addAll = (...args: number[]): number => args.reduce((acc, num) => acc + num, 0);
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: MathsTools.round ### -->
    * round
    */
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: MathsTools.floorTo #### -->
    * floorTo
    *
    * - `MathsTools.floorTo`
@@ -64,7 +64,7 @@ export namespace MathsTools {
    */
   export const floorTo = (to: number, value: number) => fixFloat(Math.floor(value / to) * to);
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: MathsTools.roundTo #### -->
    * roundTo
    *
    * - `MathsTools.round.to`
@@ -81,7 +81,7 @@ export namespace MathsTools {
    */
   export const roundTo = (to: number, value: number) => fixFloat(Math.round(value / to) * to);
 
-  /**<!-- DOCS: #### -->
+  /**<!-- DOCS: MathsTools.ceilTo #### -->
    * ceilTo
    *
    * - `MathsTools.ceilTo`
@@ -105,17 +105,17 @@ export namespace MathsTools {
    * A collection of rounding functions.
    */
   export namespace round {
-    /** ALIAS - floorTo */
+    /** <!-- DOCS-ALIAS: MathsTools.floorTo  --> */
     export const floorTo = MathsTools.floorTo;
-    /** ALIAS - roundTo */
+    /** <!-- DOCS-ALIAS: MathsTools.roundTo  --> */
     export const roundTo = MathsTools.roundTo;
-    /** ALIAS - ceilTo */
+    /** <!-- DOCS-ALIAS: MathsTools.ceilTo  --> */
     export const ceilTo = MathsTools.ceilTo;
-    /** ALIAS - roundTo */
+    /** <!-- DOCS-ALIAS: MathsTools.roundTo  --> */
     export const to = MathsTools.roundTo;
   }
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: MathsTools.lerp ### -->
    * lerp
    *
    * - `MathsTools.lerp`
@@ -128,7 +128,7 @@ export namespace MathsTools {
    */
   export const lerp = (progress: number, fromVal: number, toVal: number): number => fromVal + (toVal - fromVal) * progress;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: MathsTools.lerpArray ### -->
    * lerpArray
    *
    * - `MathsTools.lerpArray`
@@ -142,7 +142,7 @@ export namespace MathsTools {
   export const lerpArray = (progress: number, fromArr: number[], toArr: number[]): number[] =>
     ArrayTools.zip(fromArr, toArr).map(([fromVal, toVal]) => lerp(progress, fromVal, toVal));
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: MathsTools.lerpObj ### -->
    * lerpObj
    *
    * - `MathsTools.lerpObj`
@@ -159,7 +159,7 @@ export namespace MathsTools {
     return Object.fromEntries(lerped) as T;
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: MathsTools.clamp ### -->
    * clamp
    *
    * - `MathsTools.clamp`
@@ -173,7 +173,7 @@ export namespace MathsTools {
    */
   export const clamp = (value: number, min: number, max: number) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: MathsTools.getOrdinal ### -->
    * getOrdinal
    *
    * - `MathsTools.getOrdinal`
@@ -216,5 +216,5 @@ export namespace MathsTools {
   };
 }
 
-/** ALIAS - fixFloat */
+/** <!-- DOCS-ALIAS: MathsTools.fixFloat  --> */
 export const ff = MathsTools.fixFloat;

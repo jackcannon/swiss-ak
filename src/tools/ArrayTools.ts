@@ -2,13 +2,15 @@ import { fn } from './fn';
 import { MathsTools } from './MathsTools';
 
 //<!-- DOCS: 100 -->
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: ArrayTools ## -->
  * ArrayTools
+ *
+ * - `ArrayTools`
  *
  * A collection of useful array functions.
  */
 export namespace ArrayTools {
-  /**<!-- DOCS: 101 ### -->
+  /**<!-- DOCS: ArrayTools.utils 101 ### -->
    * utils
    *
    * - `ArrayTools.utils`
@@ -16,7 +18,7 @@ export namespace ArrayTools {
    * Small helper functions that may help, but aren't important enough to be in ArrayTools directly
    */
   export namespace utils {
-    /**<!-- DOCS: 101 #### -->
+    /**<!-- DOCS: ArrayTools.utils.isNumString 101 #### -->
      * isNumString
      *
      * - `ArrayTools.utils.isNumString`
@@ -25,7 +27,7 @@ export namespace ArrayTools {
      */
     export const isNumString = (text: string) => Boolean(text.match(/^[0-9-.]+$/));
 
-    /**<!-- DOCS: 101 #### -->
+    /**<!-- DOCS: ArrayTools.utils.partitionNums 101 #### -->
      * partitionNums
      *
      * - `ArrayTools.utils.partitionNums`
@@ -36,7 +38,7 @@ export namespace ArrayTools {
       (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => (isNumString(s) ? Number(s) : s));
   }
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.range ### -->
    * range
    *
    * - `range`
@@ -64,7 +66,7 @@ export namespace ArrayTools {
   const zipFn = <T extends [...any[]]>(length: number, arrs: T): UnwrapArrays<T>[] =>
     range(length).map((i) => arrs.map((arr) => (arr || [])[i])) as UnwrapArrays<T>[];
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.zip ### -->
    * zip
    *
    * - `zip`
@@ -83,7 +85,7 @@ export namespace ArrayTools {
   export const zip = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] =>
     zipFn(Math.min(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.zipMax ### -->
    * zipMax
    *
    * - `zipMax`
@@ -102,7 +104,7 @@ export namespace ArrayTools {
   export const zipMax = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] =>
     zipFn(Math.max(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.sortByMapped ### -->
    * sortByMapped
    *
    * - `sortByMapped`
@@ -128,7 +130,7 @@ export namespace ArrayTools {
       .sort((a, b) => sortFn(a[1] as M, b[1] as M))
       .map(([v]) => v);
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.randomise ### -->
    * randomise
    *
    * - `randomise`
@@ -146,7 +148,7 @@ export namespace ArrayTools {
    */
   export const randomise = <T = string>(arr: T[]): T[] => sortByMapped(arr, () => Math.random());
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.reverse ### -->
    * reverse
    *
    * - `reverse`
@@ -168,7 +170,7 @@ export namespace ArrayTools {
    */
   export const reverse = <T = string>(arr: T[]): T[] => [...arr].reverse();
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.entries ### -->
    * entries
    *
    * - `entries`
@@ -188,7 +190,7 @@ export namespace ArrayTools {
    */
   export const entries = <T = string>(arr: T[]): [number, T][] => zip(range(arr.length), arr) as any;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.repeat ### -->
    * repeat
    *
    * - `repeat`
@@ -206,7 +208,7 @@ export namespace ArrayTools {
     return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.roll ### -->
    * roll
    *
    * - `roll`
@@ -224,7 +226,7 @@ export namespace ArrayTools {
     ...arr.slice(0, distance % arr.length)
   ];
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.sortNumberedText ### -->
    * sortNumberedText
    *
    * - `sortNumberedText`
@@ -248,7 +250,7 @@ export namespace ArrayTools {
     });
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.partition ### -->
    * partition
    *
    * - `partition`
@@ -269,7 +271,7 @@ export namespace ArrayTools {
     return result;
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.groupObj ### -->
    * groupObj
    *
    * - `groupObj`
@@ -307,7 +309,7 @@ export namespace ArrayTools {
     return result;
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ArrayTools.group ### -->
    * group
    *
    * - `group`
@@ -333,29 +335,29 @@ export namespace ArrayTools {
   };
 }
 
-/** ALIAS - range */
+/** <!-- DOCS-ALIAS: ArrayTools.range  --> */
 export const range = ArrayTools.range;
-/** ALIAS - zip */
+/** <!-- DOCS-ALIAS: ArrayTools.zip  --> */
 export const zip = ArrayTools.zip;
-/** ALIAS - zipMax */
+/** <!-- DOCS-ALIAS: ArrayTools.zipMax  --> */
 export const zipMax = ArrayTools.zipMax;
-/** ALIAS - sortByMapped */
+/** <!-- DOCS-ALIAS: ArrayTools.sortByMapped  --> */
 export const sortByMapped = ArrayTools.sortByMapped;
-/** ALIAS - randomise */
+/** <!-- DOCS-ALIAS: ArrayTools.randomise  --> */
 export const randomise = ArrayTools.randomise;
-/** ALIAS - reverse */
+/** <!-- DOCS-ALIAS: ArrayTools.reverse  --> */
 export const reverse = ArrayTools.reverse;
-/** ALIAS - entries */
+/** <!-- DOCS-ALIAS: ArrayTools.entries  --> */
 export const entries = ArrayTools.entries;
-/** ALIAS - repeat */
+/** <!-- DOCS-ALIAS: ArrayTools.repeat  --> */
 export const repeat = ArrayTools.repeat;
-/** ALIAS - roll */
+/** <!-- DOCS-ALIAS: ArrayTools.roll  --> */
 export const roll = ArrayTools.roll;
-/** ALIAS - sortNumberedText */
+/** <!-- DOCS-ALIAS: ArrayTools.sortNumberedText  --> */
 export const sortNumberedText = ArrayTools.sortNumberedText;
-/** ALIAS - partition */
+/** <!-- DOCS-ALIAS: ArrayTools.partition  --> */
 export const partition = ArrayTools.partition;
-/** ALIAS - groupObj */
+/** <!-- DOCS-ALIAS: ArrayTools.groupObj  --> */
 export const groupObj = ArrayTools.groupObj;
-/** ALIAS - group */
+/** <!-- DOCS-ALIAS: ArrayTools.group  --> */
 export const group = ArrayTools.group;

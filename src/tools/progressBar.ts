@@ -3,23 +3,23 @@ import { fn } from './fn';
 //<!-- DOCS: 600 -->
 
 export interface ProgressBar {
-  /** ALIAS - ProgressBar.next */
+  /** <!-- DOCS-ALIAS: progressBar.next  --> */
   next: () => string;
-  /** ALIAS - ProgressBar.set */
+  /** <!-- DOCS-ALIAS: progressBar.set  --> */
   set: (newCurrent: number) => string;
-  /** ALIAS - ProgressBar.reset */
+  /** <!-- DOCS-ALIAS: progressBar.reset  --> */
   reset: () => string;
-  /** ALIAS - ProgressBar.update */
+  /** <!-- DOCS-ALIAS: progressBar.update  --> */
   update: () => string;
-  /** ALIAS - ProgressBar.start */
+  /** <!-- DOCS-ALIAS: progressBar.start  --> */
   start: () => string;
-  /** ALIAS - ProgressBar.finish */
+  /** <!-- DOCS-ALIAS: progressBar.finish  --> */
   finish: () => string;
-  /** ALIAS - ProgressBar.max */
+  /** <!-- DOCS-ALIAS: progressBar.max  --> */
   readonly max: number;
 }
 
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: progressBar ## -->
  * progressBar
  *
  * A progress bar that can be used in the terminal.
@@ -27,7 +27,7 @@ export interface ProgressBar {
  * > NOTE: This is eventually be moved to `swiss-node`
  */
 export namespace progressBar {
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: progressBar.printLn ### -->
    * printLn
    *
    * - `printLn`
@@ -127,7 +127,7 @@ export namespace progressBar {
     showCurrent: boolean;
     currentChar: string;
   }
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: progressBar.ProgressBarOptions ### -->
    * Options
    *
    * - `ProgressBarOptions`
@@ -177,7 +177,7 @@ export namespace progressBar {
     ...opts
   });
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: progressBar.getProgressBar ### -->
    * getProgressBar
    *
    * - `getProgressBar`
@@ -222,7 +222,7 @@ export namespace progressBar {
     const maxNum = typeof max === 'number' ? max : 1;
     const isMaxKnown = typeof max === 'number';
 
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: progressBar.update #### -->
      * update
      *
      * - `getProgressBar().update`
@@ -243,7 +243,7 @@ export namespace progressBar {
       return output;
     };
 
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: progressBar.next #### -->
      * next
      *
      * - `getProgressBar().next`
@@ -256,7 +256,7 @@ export namespace progressBar {
       return update();
     };
 
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: progressBar.set #### -->
      * set
      *
      * - `getProgressBar().set`
@@ -269,7 +269,7 @@ export namespace progressBar {
       return update();
     };
 
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: progressBar.reset #### -->
      * reset
      *
      * - `getProgressBar().reset`
@@ -280,7 +280,7 @@ export namespace progressBar {
       return set(0);
     };
 
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: progressBar.start #### -->
      * start
      *
      * - `getProgressBar().start`
@@ -292,7 +292,7 @@ export namespace progressBar {
       return update();
     };
 
-    /**<!-- DOCS: #### -->
+    /**<!-- DOCS: progressBar.finish #### -->
      * finish
      *
      * - `getProgressBar().finish`
@@ -313,14 +313,22 @@ export namespace progressBar {
       update,
       start,
       finish,
+
+      /**<!-- DOCS: progressBar.max #### -->
+       * max
+       *
+       * - `getProgressBar().max`
+       *
+       * Readonly number value of the max value (provided to getProgressBar as first argument)
+       */
       max
     };
   };
 }
 
-/** ALIAS - ProgressBarOptions */
+/** <!-- DOCS-ALIAS: progressBar.ProgressBarOptions  --> */
 export type ProgressBarOptions = progressBar.ProgressBarOptions;
-/** ALIAS - printLn */
+/** <!-- DOCS-ALIAS: progressBar.printLn  --> */
 export const printLn = progressBar.printLn;
-/** ALIAS - getProgressBar */
+/** <!-- DOCS-ALIAS: progressBar.getProgressBar  --> */
 export const getProgressBar = progressBar.getProgressBar;

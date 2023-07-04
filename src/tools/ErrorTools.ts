@@ -5,13 +5,13 @@ import { ms } from './times';
 import { wait } from './waiters';
 
 //<!-- DOCS: 500 -->
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: ErrorTools ## -->
  * ErrorTools
  *
  * Functions for handling errors.
  */
 export namespace ErrorTools {
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ErrorTools.tryOr ### -->
    * tryOr
    *
    * - `tryOr`
@@ -31,7 +31,7 @@ export namespace ErrorTools {
     }
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ErrorTools.retry ### -->
    * retry
    *
    * - `retry`
@@ -65,7 +65,7 @@ export namespace ErrorTools {
     return await loop(0);
   };
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ErrorTools.retryOr ### -->
    * retryOr
    *
    * - `retryOr`
@@ -88,9 +88,9 @@ export namespace ErrorTools {
   ): Promise<T> => tryOr(orValue, () => retry(maxTries, delay, suppress, run));
 }
 
-/** ALIAS - tryOr */
+/** <!-- DOCS-ALIAS: ErrorTools.tryOr  --> */
 export const tryOr = ErrorTools.tryOr;
-/** ALIAS - retry */
+/** <!-- DOCS-ALIAS: ErrorTools.retry  --> */
 export const retry = ErrorTools.retry;
-/** ALIAS - retryOr */
+/** <!-- DOCS-ALIAS: ErrorTools.retryOr  --> */
 export const retryOr = ErrorTools.retryOr;

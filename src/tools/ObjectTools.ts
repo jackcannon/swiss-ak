@@ -1,13 +1,13 @@
 import { OfType } from './types';
 
 //<!-- DOCS: 110 -->
-/**<!-- DOCS: ## -->
+/**<!-- DOCS: ObjectTools ## -->
  * ObjectTools
  *
  * A collection of functions for working with objects
  */
 export namespace ObjectTools {
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ObjectTools.remodel ### -->
    * remodel
    *
    * - `ObjectTools.remodel`
@@ -24,7 +24,7 @@ export namespace ObjectTools {
     func: (entries: [string, V][]) => [string, W][]
   ): O => Object.fromEntries(func(Object.entries(obj)) ?? Object.entries(obj)) as O;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ObjectTools.remodelEach ### -->
    * remodelEach
    *
    * - `ObjectTools.remodelEach`
@@ -43,7 +43,7 @@ export namespace ObjectTools {
     func: (entry: [string, V], index: number, entries: [string, V][]) => [string, W]
   ): O => Object.fromEntries(Object.entries(obj).map((entry, index, entries) => func(entry, index, entries) ?? entry)) as O;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ObjectTools.map ### -->
    * map
    *
    * - `ObjectTools.map`
@@ -59,7 +59,7 @@ export namespace ObjectTools {
     func: (key: string, value: V, index: number) => [string, W]
   ): OfType<T, W> => remodel(obj, (entries) => entries.map(([key, value], index) => func(key, value, index))) as OfType<T, W>;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ObjectTools.mapValues ### -->
    * mapValues
    *
    * - `ObjectTools.mapValues`
@@ -75,7 +75,7 @@ export namespace ObjectTools {
     func: (key: string, value: V, index: number) => W
   ): OfType<T, W> => remodel(obj, (entries) => entries.map(([key, value], index) => [key, func(key, value, index)])) as OfType<T, W>;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ObjectTools.mapKeys ### -->
    * mapKeys
    *
    * - `ObjectTools.mapKeys`
@@ -89,7 +89,7 @@ export namespace ObjectTools {
   export const mapKeys = <T extends Object, V extends any>(obj: T, func: (key: string, value: V, index: number) => string): T =>
     remodel(obj, (entries) => entries.map(([key, value], index) => [func(key, value, index), value])) as T;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ObjectTools.filter ### -->
    * filter
    *
    * - `ObjectTools.filter`
@@ -103,7 +103,7 @@ export namespace ObjectTools {
   export const filter = <T extends Object, V extends any, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean): O =>
     remodel(obj, (entries) => entries.filter(([key, value], index) => func(key, value, index))) as O;
 
-  /**<!-- DOCS: ### -->
+  /**<!-- DOCS: ObjectTools.clean ### -->
    * clean
    *
    * - `ObjectTools.clean`
