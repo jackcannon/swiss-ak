@@ -40,7 +40,7 @@ export namespace ErrorTools {
    * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
    *
    * ```typescript
-   * const result = tryOr(5, seconds(1),, true, () => getSomething());
+   * const result = tryOr(5, seconds(1), true, () => getSomething());
    * ```
    */
   export const retry = async <T extends unknown>(
