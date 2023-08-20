@@ -7,6 +7,8 @@ import { MathsTools } from './MathsTools';
  * A collection of useful higher-order functions.
  */
 export namespace fn {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: fn.noop ### -->
    * noop
    *
@@ -591,6 +593,8 @@ export namespace fn {
 
   /** <!-- DOCS-ALIAS: fn.filters  --> */
   export namespace filters {
+    // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
     /** <!-- DOCS-ALIAS: fn.exists  --> */
     export const exists = fn.exists;
     /** <!-- DOCS-ALIAS: fn.isTruthy  --> */
@@ -609,10 +613,12 @@ export namespace fn {
     export const dedupe = fn.dedupe;
     /** <!-- DOCS-ALIAS: fn.dedupeMapped  --> */
     export const dedupeMapped = fn.dedupeMapped;
-  }
+  } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
   /** <!-- DOCS-ALIAS: fn.maps  --> */
   export namespace maps {
+    // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
     /** <!-- DOCS-ALIAS: fn.toString  --> */
     export const toString = fn.toString;
     /** <!-- DOCS-ALIAS: fn.toNumber  --> */
@@ -623,10 +629,12 @@ export namespace fn {
     export const toProp = fn.toProp;
     /** <!-- DOCS-ALIAS: fn.toFixed  --> */
     export const toFixed = fn.toFixed;
-  }
+  } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
   /** <!-- DOCS-ALIAS: fn.sorts  --> */
   export namespace sorts {
+    // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
     /** <!-- DOCS-ALIAS: fn.asc  --> */
     export const asc = fn.asc;
     /** <!-- DOCS-ALIAS: fn.desc  --> */
@@ -641,10 +649,12 @@ export namespace fn {
     export const arrayAsc = fn.arrayAsc;
     /** <!-- DOCS-ALIAS: fn.arrayDesc  --> */
     export const arrayDesc = fn.arrayDesc;
-  }
+  } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
   /** <!-- DOCS-ALIAS: fn.reduces  --> */
   export namespace reduces {
+    // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
     /** <!-- DOCS-ALIAS: fn.combine  --> */
     export const combine = fn.combine;
     /** <!-- DOCS-ALIAS: fn.combineProp  --> */
@@ -653,14 +663,16 @@ export namespace fn {
     export const mode = fn.mode;
     /** <!-- DOCS-ALIAS: fn.modeMapped  --> */
     export const modeMapped = fn.modeMapped;
-  }
+  } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
   /** <!-- DOCS-ALIAS: fn.everys  --> */
   export namespace everys {
+    // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
     /** <!-- DOCS-ALIAS: fn.isAllEqual  --> */
     export const isAllEqual = fn.isAllEqual;
-  }
-}
+  } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: fn  --> */
 export const filters = fn.filters;

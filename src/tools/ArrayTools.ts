@@ -10,6 +10,8 @@ import { MathsTools } from './MathsTools';
  * A collection of useful array functions.
  */
 export namespace ArrayTools {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: ArrayTools.utils 101 ### -->
    * utils
    *
@@ -18,6 +20,8 @@ export namespace ArrayTools {
    * Small helper functions that may help, but aren't important enough to be in ArrayTools directly
    */
   export namespace utils {
+    // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
     /**<!-- DOCS: ArrayTools.utils.isNumString 101 #### -->
      * isNumString
      *
@@ -36,7 +40,7 @@ export namespace ArrayTools {
      */
     export const partitionNums = (ignoreCase: boolean) => (name: string) =>
       (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => (isNumString(s) ? Number(s) : s));
-  }
+  } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
   /**<!-- DOCS: ArrayTools.range ### -->
    * range
@@ -333,7 +337,7 @@ export namespace ArrayTools {
     const obj = groupObj(array, mapFn);
     return Object.values(obj);
   };
-}
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: ArrayTools.range  --> */
 export const range = ArrayTools.range;

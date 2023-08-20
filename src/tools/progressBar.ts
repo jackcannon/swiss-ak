@@ -27,6 +27,8 @@ export interface ProgressBar {
  * > NOTE: This is eventually be moved to `swiss-node`
  */
 export namespace progressBar {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: progressBar.printLn ### -->
    * printLn
    *
@@ -324,7 +326,7 @@ export namespace progressBar {
       max
     };
   };
-}
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: progressBar.ProgressBarOptions  --> */
 export type ProgressBarOptions = progressBar.ProgressBarOptions;

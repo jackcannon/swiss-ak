@@ -58,13 +58,13 @@ export interface ITimer<TName> {
  *   ENDING: 'Action 2'
  * });
  * timer.start(timer.TOTAL, timer.INTRO);
-
+ *
  * await wait(seconds(4)); // do something async
-
+ *
  * timer.switch(timer.INTRO, timer.ENDING); // same as calling end(timer.INTRO) and start(timer.ENDING)
-
+ *
  * await wait(seconds(6)); // do something async
-
+ *
  * timer.end(timer.TOTAL, timer.ENDING);
  * timer.log();
  * ```

@@ -2101,13 +2101,13 @@ interface ITimer<TName> {
  *   ENDING: 'Action 2'
  * });
  * timer.start(timer.TOTAL, timer.INTRO);
-
+ *
  * await wait(seconds(4)); // do something async
-
+ *
  * timer.switch(timer.INTRO, timer.ENDING); // same as calling end(timer.INTRO) and start(timer.ENDING)
-
+ *
  * await wait(seconds(6)); // do something async
-
+ *
  * timer.end(timer.TOTAL, timer.ENDING);
  * timer.log();
  * ```
@@ -5004,7 +5004,7 @@ declare namespace ColourTools {
      * ColourTools.getLuminance([0, 0, 255]); // 29.07
      * ```
      */
-    const getLuminance: ([r, g, b]: ColourValues) => number;
+    const getLuminance: (rgb: ColourValues) => number;
     /**<!-- DOCS: ColourTools.toYUV ### -->
      * toYUV
      *
@@ -5018,7 +5018,7 @@ declare namespace ColourTools {
      * ColourTools.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
      * ```
      */
-    const toYUV: ([r, g, b]: ColourValues) => ColourValues;
+    const toYUV: (rgb: ColourValues) => ColourValues;
     /**<!-- DOCS: ColourTools.toHSL ### -->
      * toHSL
      *
@@ -5062,7 +5062,7 @@ declare namespace ColourTools {
      * ColourTools.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
      * ```
      */
-    const invertColour: ([r, g, b]: ColourValues) => ColourValues;
+    const invertColour: (rgb: ColourValues) => ColourValues;
     /**<!-- DOCS: ColourTools.getContrastedColour ### -->
      * getContrastedColour
      *

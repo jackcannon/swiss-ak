@@ -66,6 +66,8 @@ const units: DurationUnit[] = [
  * A collection of time-related utility functions.
  */
 export namespace TimeTools {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: TimeTools.toReadableDuration ### -->
    * toReadableDuration
    *
@@ -120,4 +122,4 @@ export namespace TimeTools {
 
     return results.join(' ');
   };
-}
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE

@@ -1289,11 +1289,12 @@ var ColourTools;
     const hexs = colour.map((val) => (val ?? 0).toString(16).padStart(2, "0"));
     return `#${hexs.join("")}`;
   };
-  ColourTools2.getLuminance = ([r, g, b]) => {
-    const [y, u, v] = ColourTools2.toYUV([r, g, b]);
+  ColourTools2.getLuminance = (rgb) => {
+    const [y, u, v] = ColourTools2.toYUV(rgb);
     return y;
   };
-  ColourTools2.toYUV = ([r, g, b]) => {
+  ColourTools2.toYUV = (rgb) => {
+    const [r, g, b] = rgb;
     const y = MathsTools.fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
     const u = MathsTools.fixFloat(-0.14713 * (r ?? 0) - 0.28886 * (g ?? 0) + 0.436 * (b ?? 0));
     const v = MathsTools.fixFloat(0.615 * (r ?? 0) - 0.51499 * (g ?? 0) - 0.10001 * (b ?? 0));
@@ -1340,7 +1341,10 @@ var ColourTools;
     }
     return result;
   };
-  ColourTools2.invertColour = ([r, g, b]) => [255 - r, 255 - g, 255 - b];
+  ColourTools2.invertColour = (rgb) => {
+    const [r, g, b] = rgb;
+    return [255 - r, 255 - g, 255 - b];
+  };
   const white = [255, 255, 255];
   const black = [0, 0, 0];
   ColourTools2.getContrastedColour = (colour) => ColourTools2.getLuminance(colour) > 186 ? black : white;

@@ -9,6 +9,8 @@ import { ArrayTools } from './ArrayTools';
  * > Note: The field is 'Mathematics', and so it is 'MathsTools' not ~'MathTools'~
  */
 export namespace MathsTools {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: MathsTools.fixFloat ### -->
    * fixFloat
    *
@@ -105,6 +107,8 @@ export namespace MathsTools {
    * A collection of rounding functions.
    */
   export namespace round {
+    // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
     /** <!-- DOCS-ALIAS: MathsTools.floorTo  --> */
     export const floorTo = MathsTools.floorTo;
     /** <!-- DOCS-ALIAS: MathsTools.roundTo  --> */
@@ -113,7 +117,7 @@ export namespace MathsTools {
     export const ceilTo = MathsTools.ceilTo;
     /** <!-- DOCS-ALIAS: MathsTools.roundTo  --> */
     export const to = MathsTools.roundTo;
-  }
+  } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
   /**<!-- DOCS: MathsTools.lerp ### -->
    * lerp
@@ -214,7 +218,7 @@ export namespace MathsTools {
     }
     return 'th';
   };
-}
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: MathsTools.fixFloat  --> */
 export const ff = MathsTools.fixFloat;

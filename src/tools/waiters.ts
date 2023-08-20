@@ -18,6 +18,8 @@ import { ms } from './times';
  * | interval  | Accurate (pinged) interval for every 'every X' event | `hours(1)` = every hour, on the hour            |
  */
 export namespace waiters {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: waiters.wait ### -->
    * wait
    *
@@ -162,7 +164,7 @@ export namespace waiters {
     run();
     return intID;
   };
-}
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: waiters.wait  --> */
 export const wait = waiters.wait;

@@ -8,6 +8,8 @@ export type ClxType = string | boolean | { [key: string]: boolean } | ClxType[];
  * A collection of string utilities
  */
 export namespace StringTools {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: StringTools.capitalise ### -->
    * capitalise
    *
@@ -461,7 +463,7 @@ export namespace StringTools {
    * ```
    */
   export const clx = (...args: ClxType[]) => processClxArray(args).join(' ');
-}
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: StringTools.clx  --> */
 export const clx = StringTools.clx;

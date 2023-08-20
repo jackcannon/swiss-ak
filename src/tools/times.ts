@@ -19,6 +19,8 @@
  * | millennium  | `millennium` | `MILLENNIUM`  | `millenniums(x: millennium) => ms` |
  */
 export namespace times {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: times.ms ### -1 -->
    * ms
    *
@@ -447,7 +449,7 @@ export namespace times {
    * ```
    */
   export const millenniums = (x: millennium = 1): ms => x * MILLENNIUM;
-}
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: times.ms  --> */
 export type ms = number;

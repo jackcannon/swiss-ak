@@ -7,6 +7,8 @@ import { MathsTools } from './MathsTools';
  * A collection of functions for working with colours.
  */
 export namespace ColourTools {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: ColourTools.ColourValues ### -->
    * ColourValues
    *
@@ -639,8 +641,8 @@ export namespace ColourTools {
    * ColourTools.getLuminance([0, 0, 255]); // 29.07
    * ```
    */
-  export const getLuminance = ([r, g, b]: ColourValues): number => {
-    const [y, u, v] = toYUV([r, g, b]);
+  export const getLuminance = (rgb: ColourValues): number => {
+    const [y, u, v] = toYUV(rgb);
     return y;
   };
 
@@ -657,7 +659,8 @@ export namespace ColourTools {
    * ColourTools.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
    * ```
    */
-  export const toYUV = ([r, g, b]: ColourValues): ColourValues => {
+  export const toYUV = (rgb: ColourValues): ColourValues => {
+    const [r, g, b] = rgb;
     const y = MathsTools.fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
     const u = MathsTools.fixFloat(-0.14713 * (r ?? 0) - 0.28886 * (g ?? 0) + 0.436 * (b ?? 0));
     const v = MathsTools.fixFloat(0.615 * (r ?? 0) - 0.51499 * (g ?? 0) - 0.10001 * (b ?? 0));
@@ -758,7 +761,10 @@ export namespace ColourTools {
    * ColourTools.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
    * ```
    */
-  export const invertColour = ([r, g, b]: ColourValues): ColourValues => [255 - r, 255 - g, 255 - b];
+  export const invertColour = (rgb: ColourValues): ColourValues => {
+    const [r, g, b] = rgb;
+    return [255 - r, 255 - g, 255 - b];
+  };
 
   const white = [255, 255, 255] as ColourValues;
   const black = [0, 0, 0] as ColourValues;
@@ -803,4 +809,4 @@ export namespace ColourTools {
     }
     return colour;
   };
-}
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE

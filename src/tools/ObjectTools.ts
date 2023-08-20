@@ -7,6 +7,8 @@ import { OfType } from './types';
  * A collection of functions for working with objects
  */
 export namespace ObjectTools {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: ObjectTools.remodel ### -->
    * remodel
    *
@@ -115,4 +117,4 @@ export namespace ObjectTools {
    * ```
    */
   export const clean = <T extends Object, O extends Partial<T>>(obj: T): O => filter(obj, (key, value) => value !== undefined) as O;
-}
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE

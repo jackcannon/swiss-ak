@@ -5,6 +5,8 @@
  * A collection of promise utilities
  */
 export namespace PromiseTools {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: PromiseTools.DeferredPromise 141 ### -->
    * DeferredPromise
    *
@@ -385,7 +387,7 @@ export namespace PromiseTools {
       return allLimit(limit, items, noThrow);
     }, input);
   };
-}
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: PromiseTools.DeferredPromise  --> */
 export type DeferredPromise<T> = PromiseTools.DeferredPromise<T>;

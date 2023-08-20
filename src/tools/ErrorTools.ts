@@ -11,6 +11,8 @@ import { wait } from './waiters';
  * Functions for handling errors.
  */
 export namespace ErrorTools {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: ErrorTools.tryOr ### -->
    * tryOr
    *
@@ -86,7 +88,7 @@ export namespace ErrorTools {
     suppress: boolean = true,
     run: () => T = fn.result(orValue)
   ): Promise<T> => tryOr(orValue, () => retry(maxTries, delay, suppress, run));
-}
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: ErrorTools.tryOr  --> */
 export const tryOr = ErrorTools.tryOr;
