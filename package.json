@@ -29,7 +29,7 @@
     "build": "yarn build:code && yarn docs",
     "build:code": "tsup src/index.ts --format cjs,esm --dts --clean",
     "watch": "yarn build -- --watch src",
-    "docs": "swiss-docs -i src -o README.md -a dist/index.d.ts",
+    "docs": "swiss-docs --src src --output README.md --alias dist/index.d.ts",
     "test": "yarn build && yarn test:raw",
     "test:raw": "jest --no-cache",
     "prepublishOnly": "yarn test"

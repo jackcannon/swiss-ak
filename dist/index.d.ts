@@ -4068,7 +4068,7 @@ declare namespace ErrorTools {
      * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
      *
      * ```typescript
-     * const result = tryOr(5, seconds(1),, true, () => getSomething());
+     * const result = tryOr(5, seconds(1), true, () => getSomething());
      * ```
      */
     const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
@@ -4110,7 +4110,7 @@ declare const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: 
  * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
  * 
  * ```typescript
- * const result = tryOr(5, seconds(1),, true, () => getSomething());
+ * const result = tryOr(5, seconds(1), true, () => getSomething());
  * ```
  */
 declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;

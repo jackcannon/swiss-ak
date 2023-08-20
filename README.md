@@ -2249,7 +2249,7 @@ const result = tryOr('default', () => getSomething());
 Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
 
 ```typescript
-const result = tryOr(5, seconds(1),, true, () => getSomething());
+const result = tryOr(5, seconds(1), true, () => getSomething());
 ```
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
