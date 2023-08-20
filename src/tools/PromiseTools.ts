@@ -19,31 +19,31 @@ export namespace PromiseTools {
     promise: Promise<T>;
   }
   /**<!-- DOCS: PromiseTools.getDeferred ### -->
- * getDeferred
- *
- * - `getDeferred`
- * - `PromiseTools.getDeferred`
- *
- * A deferred promise
- *
- * ```typescript
- * import { getDeferred } from 'swiss-ak';
- *
- * const run = () => {
- *   const deferred = getDeferred<number>();
- *
- *   doSomethingWithACallback('a', 'b', (err: Error, result: number) => {
- *     // callback (just an example - don't actually do this this way)
- *     if (err) return deferred.reject(err);
- *     deferred.resolve(result);
- *   });
- *
- *   return deferred.promise;
- * };
- *
- * const luckyNumber: number = await run();
-```
- */
+   * getDeferred
+   *
+   * - `getDeferred`
+   * - `PromiseTools.getDeferred`
+   *
+   * A deferred promise
+   *
+   * ```typescript
+   * import { getDeferred } from 'swiss-ak';
+   *
+   * const run = () => {
+   *   const deferred = getDeferred<number>();
+   *
+   *   doSomethingWithACallback('a', 'b', (err: Error, result: number) => {
+   *     // callback (just an example - don't actually do this this way)
+   *     if (err) return deferred.reject(err);
+   *     deferred.resolve(result);
+   *   });
+   *
+   *   return deferred.promise;
+   * };
+   *
+   * const luckyNumber: number = await run();
+   * ```
+   */
   export const getDeferred = <T extends unknown>(): DeferredPromise<T> => {
     let resolve, reject;
     const promise = new Promise<T>((res, rej) => {
