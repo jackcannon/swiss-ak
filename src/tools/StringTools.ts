@@ -56,6 +56,23 @@ export namespace StringTools {
       .replace(/\s{1,}/g, ' ')
       .replace(/[^A-Za-z0-9 ]/gi, '');
 
+  /**<!-- DOCS: StringTools.repeat ### -->
+   * repeat
+   *
+   * - `StringTools.repeat`
+   *
+   * Repeat the given string n times
+   *
+   * ```typescript
+   * StringTools.repeat(5, '-') // '-----'
+   * StringTools.repeat(1, '-') // '-'
+   * StringTools.repeat(0, '-') // ''
+   * StringTools.repeat(-1, '-') // ''
+   * ```
+   */
+  export const repeat = (maxLength: number, repeated: string) =>
+    (repeated && typeof repeated === 'string' ? repeated : '').repeat(Math.max(0, maxLength));
+
   export type CaseInput = string | string[];
   type SplittingFn = (input: CaseInput) => string[];
 

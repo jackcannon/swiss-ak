@@ -42,6 +42,22 @@ export namespace ArrayTools {
       (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => (isNumString(s) ? Number(s) : s));
   } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
+  /**<!-- DOCS: ArrayTools.create ### -->
+   * create
+   *
+   * - `create`
+   * - `ArrayTools.create`
+   * - `filled`
+   * - `ArrayTools.filled`
+   *
+   * Create an array of the given length, where each value is the given value
+   */
+  export const create = <T extends unknown = number>(length: number = 1, value: T = 1 as T): T[] =>
+    new Array(Math.floor(Math.max(0, length))).fill(value);
+
+  /** <!-- DOCS-ALIAS: ArrayTools.create  --> */
+  export const filled = create;
+
   /**<!-- DOCS: ArrayTools.range ### -->
    * range
    *
@@ -62,7 +78,7 @@ export namespace ArrayTools {
    * ```
    */
   export const range = (length: number = 1, multiplier: number = 1, offset: number = 0): number[] =>
-    new Array(Math.floor(length)).fill(1).map((v, i) => MathsTools.fixFloat(i * multiplier) + offset);
+    create(length, 1).map((v, i) => MathsTools.fixFloat(i * multiplier) + offset);
 
   type UnwrapArray<T> = T extends Array<infer U> ? U : T;
   type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];
@@ -208,7 +224,7 @@ export namespace ArrayTools {
    * ```
    */
   export const repeat = <T = string>(maxLength: number, ...items: T[]): T[] => {
-    const simple = new Array(maxLength).fill(items[0]);
+    const simple = create(maxLength, items[0]);
     return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
   };
 
@@ -339,6 +355,10 @@ export namespace ArrayTools {
   };
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
+/** <!-- DOCS-ALIAS: ArrayTools.create  --> */
+export const create = ArrayTools.create;
+/** <!-- DOCS-ALIAS: ArrayTools.create  --> */
+export const filled = ArrayTools.create;
 /** <!-- DOCS-ALIAS: ArrayTools.range  --> */
 export const range = ArrayTools.range;
 /** <!-- DOCS-ALIAS: ArrayTools.zip  --> */

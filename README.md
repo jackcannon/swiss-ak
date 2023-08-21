@@ -51,6 +51,7 @@ A collection of useful little things that I like to reuse across projects
       - [everys](#everys)
         - [isAllEqual](#isallequal)
     - [ArrayTools](#arraytools)
+      - [create](#create)
       - [range](#range)
       - [zip](#zip)
       - [zipMax](#zipmax)
@@ -79,6 +80,7 @@ A collection of useful little things that I like to reuse across projects
       - [capitalise](#capitalise)
       - [angloise](#angloise)
       - [clean](#clean)
+      - [repeat](#repeat)
       - [StringCaseHandler](#stringcasehandler)
         - [toLowerCamelCase](#tolowercamelcase)
         - [toUpperCamelCase](#touppercamelcase)
@@ -754,6 +756,16 @@ A collection of useful array functions.
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
+### create
+- `create`
+- `ArrayTools.create`
+- `filled`
+- `ArrayTools.filled`
+
+Create an array of the given length, where each value is the given value
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
 ### range
 - `range`
 - `ArrayTools.range`
@@ -1109,6 +1121,20 @@ Remove accents and non alphanumerics from a string
 
 ```typescript
 StringTools.clean('éèêë_--ab0'); // 'eeeeab0'
+```
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+### repeat
+- `StringTools.repeat`
+
+Repeat the given string n times
+
+```typescript
+StringTools.repeat(5, '-') // '-----'
+StringTools.repeat(1, '-') // '-'
+StringTools.repeat(0, '-') // ''
+StringTools.repeat(-1, '-') // ''
 ```
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>

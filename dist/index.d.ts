@@ -2440,6 +2440,28 @@ declare namespace ArrayTools {
          */
         const partitionNums: (ignoreCase: boolean) => (name: string) => (string | number)[];
     }
+    /**<!-- DOCS: ArrayTools.create ### -->
+     * create
+     *
+     * - `create`
+     * - `ArrayTools.create`
+     * - `filled`
+     * - `ArrayTools.filled`
+     *
+     * Create an array of the given length, where each value is the given value
+     */
+    export const create: <T extends unknown = number>(length?: number, value?: T) => T[];
+    /**<!-- DOCS-ALIAS: ArrayTools.create -->
+     * create
+     * 
+     * - `create`
+     * - `ArrayTools.create`
+     * - `filled`
+     * - `ArrayTools.filled`
+     * 
+     * Create an array of the given length, where each value is the given value
+     */
+    export const filled: <T extends unknown = number>(length?: number, value?: T) => T[];
     /**<!-- DOCS: ArrayTools.range ### -->
      * range
      *
@@ -2674,6 +2696,28 @@ declare namespace ArrayTools {
     export const group: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
     export {};
 }
+/**<!-- DOCS-ALIAS: ArrayTools.create -->
+ * create
+ * 
+ * - `create`
+ * - `ArrayTools.create`
+ * - `filled`
+ * - `ArrayTools.filled`
+ * 
+ * Create an array of the given length, where each value is the given value
+ */
+declare const create: <T extends unknown = number>(length?: number, value?: T) => T[];
+/**<!-- DOCS-ALIAS: ArrayTools.create -->
+ * create
+ * 
+ * - `create`
+ * - `ArrayTools.create`
+ * - `filled`
+ * - `ArrayTools.filled`
+ * 
+ * Create an array of the given length, where each value is the given value
+ */
+declare const filled: <T extends unknown = number>(length?: number, value?: T) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.range -->
  * range
  * 
@@ -3046,6 +3090,21 @@ declare namespace StringTools {
      * ```
      */
     const clean: (input?: string) => string;
+    /**<!-- DOCS: StringTools.repeat ### -->
+     * repeat
+     *
+     * - `StringTools.repeat`
+     *
+     * Repeat the given string n times
+     *
+     * ```typescript
+     * StringTools.repeat(5, '-') // '-----'
+     * StringTools.repeat(1, '-') // '-'
+     * StringTools.repeat(0, '-') // ''
+     * StringTools.repeat(-1, '-') // ''
+     * ```
+     */
+    const repeat: (maxLength: number, repeated: string) => string;
     type CaseInput = string | string[];
     /**<!-- DOCS: StringTools.StringCaseHandler ### -->
      * StringCaseHandler
@@ -5385,4 +5444,4 @@ declare class QueueManager {
  */
 declare const queue: QueueManager;
 
-export { ArrayTools, CENTURY, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, clx, day, days, decade, decades, each, eachLimit, entries, everys, ff, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayTools, CENTURY, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

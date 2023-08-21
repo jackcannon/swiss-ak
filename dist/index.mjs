@@ -99,7 +99,9 @@ var ArrayTools;
     utils2.isNumString = (text) => Boolean(text.match(/^[0-9-.]+$/));
     utils2.partitionNums = (ignoreCase) => (name) => (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => utils2.isNumString(s) ? Number(s) : s);
   })(utils = ArrayTools2.utils || (ArrayTools2.utils = {}));
-  ArrayTools2.range = (length = 1, multiplier = 1, offset = 0) => new Array(Math.floor(length)).fill(1).map((v, i) => MathsTools.fixFloat(i * multiplier) + offset);
+  ArrayTools2.create = (length = 1, value = 1) => new Array(Math.floor(Math.max(0, length))).fill(value);
+  ArrayTools2.filled = ArrayTools2.create;
+  ArrayTools2.range = (length = 1, multiplier = 1, offset = 0) => ArrayTools2.create(length, 1).map((v, i) => MathsTools.fixFloat(i * multiplier) + offset);
   const zipFn = (length, arrs) => ArrayTools2.range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
   ArrayTools2.zip = (...arrs) => zipFn(Math.min(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
   ArrayTools2.zipMax = (...arrs) => zipFn(Math.max(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
@@ -108,7 +110,7 @@ var ArrayTools;
   ArrayTools2.reverse = (arr) => [...arr].reverse();
   ArrayTools2.entries = (arr) => ArrayTools2.zip(ArrayTools2.range(arr.length), arr);
   ArrayTools2.repeat = (maxLength, ...items) => {
-    const simple = new Array(maxLength).fill(items[0]);
+    const simple = ArrayTools2.create(maxLength, items[0]);
     return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
   };
   ArrayTools2.roll = (distance, arr) => [
@@ -150,6 +152,8 @@ var ArrayTools;
     return Object.values(obj);
   };
 })(ArrayTools || (ArrayTools = {}));
+var create = ArrayTools.create;
+var filled = ArrayTools.create;
 var range = ArrayTools.range;
 var zip = ArrayTools.zip;
 var zipMax = ArrayTools.zipMax;
@@ -669,6 +673,7 @@ var StringTools;
   StringTools2.capitalise = (input = "") => (input || "").split(/\s/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
   StringTools2.angloise = (input) => input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   StringTools2.clean = (input = "") => StringTools2.angloise([input].flat().join(" ")).replace(/\s{1,}/g, " ").replace(/[^A-Za-z0-9 ]/gi, "");
+  StringTools2.repeat = (maxLength, repeated) => (repeated && typeof repeated === "string" ? repeated : "").repeat(Math.max(0, maxLength));
   const caseHandler = (overrideSplitter) => {
     const getSplit = (input = "") => {
       if (overrideSplitter)
@@ -1390,6 +1395,7 @@ export {
   allObj,
   centuries,
   clx,
+  create,
   days,
   decades,
   each,
@@ -1397,6 +1403,7 @@ export {
   entries,
   everys,
   ff,
+  filled,
   filters,
   fn,
   getDeferred,
