@@ -77,6 +77,12 @@ export interface ITimer<TName> {
  * 	⎯⎯⎯⎯⎯⎯⎯
  * 	TOTAL:    10s
  * ```
+ * @param {string} [name]
+ * @param {boolean} [verbose=false]
+ * @param {any} [wrapperFn=noWrap]
+ * @param {any} [chalk=noChalk]
+ * @param {TName} [displayNames]
+ * @returns {any}
  */
 export const getTimer = <TName extends INames>(
   name?: string,

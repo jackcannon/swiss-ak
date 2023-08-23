@@ -55,6 +55,8 @@ export namespace progressBar {
    * C
    * D
    * ```
+   * @param {...any} [text]
+   * @returns {void}
    */
   export const printLn = (...text: any[]) => {
     if (process?.stdout?.clearLine && process?.stdout?.cursorTo) {
@@ -214,6 +216,9 @@ export namespace progressBar {
    * ABC ▕█████ ▏ [4 / 5]
    * ABC ▕██████▏ [5 / 5]
    * ```
+   * @param {number} max
+   * @param {ProgressBarOptions} [options={}]
+   * @returns {ProgressBar}
    */
   export const getProgressBar = (max: number, options: ProgressBarOptions = {}): ProgressBar => {
     const opts = getFullOptions(options);

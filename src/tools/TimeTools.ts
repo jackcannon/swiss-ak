@@ -95,6 +95,10 @@ export namespace TimeTools {
    * TimeTools.toReadableDuration(realisticDuration, true) // '10 days, 2 hours & 31 seconds'
    * TimeTools.toReadableDuration(realisticDuration, true, 2) // '10 days & 2 hours'
    * ```
+   * @param {ms} duration
+   * @param {boolean} [longNames=false]
+   * @param {number} [maxUnits=3]
+   * @returns {string}
    */
   export const toReadableDuration = (duration: ms, longNames: boolean = false, maxUnits: number = 3): string => {
     if (duration === 0) return '';

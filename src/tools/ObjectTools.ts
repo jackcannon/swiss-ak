@@ -20,6 +20,9 @@ export namespace ObjectTools {
    * const input = {'foo': 2, 'bar': 1, 'baz': 4}
    * ObjectTools.remodel(input, (entries) => entries.filter(([k, v]) => v % 2 === 0)) // { foo: 2, baz: 4 }
    * ```
+   * @param {T} obj
+   * @param {(entries: [string, V][]) => [string, W][]} func
+   * @returns {O}
    */
   export const remodel = <T extends Object = Object, V extends any = any, W extends any = any, O extends any = OfType<T, W>>(
     obj: T,
@@ -39,6 +42,9 @@ export namespace ObjectTools {
    * const input = {'foo': 2, 'bar': 1, 'baz': 4}
    * ObjectTools.remodelEach(input, ([k, v]) => [k, v * 2]) // { foo: 4, bar: 2, baz: 8 }
    * ```
+   * @param {T} obj
+   * @param {(entry: [string, V], index: number, entries: [string, V][]) => [string, W]} func
+   * @returns {O}
    */
   export const remodelEach = <T extends Object = Object, V extends any = any, W extends any = any, O extends any = OfType<T, W>>(
     obj: T,
@@ -55,6 +61,9 @@ export namespace ObjectTools {
    * ```typescript
    * ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => [key, key + value]); // {a: 'a1', b: 'b2', c: 'c3'}
    * ```
+   * @param {T} obj
+   * @param {(key: string, value: V, index: number) => [string, W]} func
+   * @returns {any}
    */
   export const map = <T extends Object, V extends any, W extends any>(
     obj: T,
@@ -71,6 +80,9 @@ export namespace ObjectTools {
    * ```typescript
    * ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: 'a', b: 'bb', c: 'ccc'}
    * ```
+   * @param {T} obj
+   * @param {(key: string, value: V, index: number) => W} func
+   * @returns {any}
    */
   export const mapValues = <T extends Object, V extends any, W extends any>(
     obj: T,
@@ -87,6 +99,9 @@ export namespace ObjectTools {
    * ```typescript
    * ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: 1, bb: 2, ccc: 3}
    * ```
+   * @param {T} obj
+   * @param {(key: string, value: V, index: number) => string} func
+   * @returns {T}
    */
   export const mapKeys = <T extends Object, V extends any>(obj: T, func: (key: string, value: V, index: number) => string): T =>
     remodel(obj, (entries) => entries.map(([key, value], index) => [func(key, value, index), value])) as T;
@@ -101,6 +116,9 @@ export namespace ObjectTools {
    * ```typescript
    * ObjectTools.filter({a: 1, b: 2, c: 3}, (k, v) => v % 2 === 0) // { b: 2 }
    * ```
+   * @param {T} obj
+   * @param {(key: string, value: V, index: number) => boolean} func
+   * @returns {O}
    */
   export const filter = <T extends Object, V extends any, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean): O =>
     remodel(obj, (entries) => entries.filter(([key, value], index) => func(key, value, index))) as O;
@@ -115,6 +133,8 @@ export namespace ObjectTools {
    * ```typescript
    * ObjectTools.clean({a: 1, b: undefined, c: 3}) // { a: 1, c: 3 }
    * ```
+   * @param {T} obj
+   * @returns {O}
    */
   export const clean = <T extends Object, O extends Partial<T>>(obj: T): O => filter(obj, (key, value) => value !== undefined) as O;
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE

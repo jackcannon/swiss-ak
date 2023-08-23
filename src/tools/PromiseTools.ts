@@ -45,6 +45,7 @@ export namespace PromiseTools {
    *
    * const luckyNumber: number = await run();
    * ```
+   * @returns {DeferredPromise<T>}
    */
   export const getDeferred = <T extends unknown>(): DeferredPromise<T> => {
     let resolve, reject;
@@ -72,6 +73,8 @@ export namespace PromiseTools {
    * - `PromiseTools.all`
    *
    * An alias for Promise.all
+   * @param {Promise<T>[]} promises
+   * @returns {Promise<any>}
    */
   export const all = async <T extends unknown>(promises: Promise<T>[]): Promise<any> => {
     await Promise.all(promises);
@@ -117,6 +120,10 @@ export namespace PromiseTools {
    * // 	c: 10s
    * // 	d: 10s
    * ```
+   * @param {number} limit
+   * @param {((index: number) => Promise<T>)[]} items
+   * @param {boolean} [noThrow=false]
+   * @returns {Promise<T[]>}
    */
   export const allLimit = <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow: boolean = false): Promise<T[]> => {
     let runningCount: number = 0;
@@ -181,6 +188,9 @@ export namespace PromiseTools {
    * });
    * console.log(''); // after 2 seconds
    * ```
+   * @param {Ti[]} items
+   * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
+   * @returns {Promise<any>}
    */
   export const each = async <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any> => {
     await Promise.all(items.map((item: Ti, index: number, array: Ti[]) => func(item, index, array)));
@@ -207,6 +217,10 @@ export namespace PromiseTools {
    * });
    * console.log(''); // after 4 seconds
    * ```
+   * @param {number} limit
+   * @param {Ti[]} items
+   * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
+   * @returns {Promise<any>}
    */
   export const eachLimit = async <Ti extends unknown>(
     limit: number,
@@ -239,6 +253,9 @@ export namespace PromiseTools {
    *
    * console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
    * ```
+   * @param {Ti[]} items
+   * @param {(item: Ti, index: number, array: Ti[]) => Promise<To>} func
+   * @returns {Promise<To[]>}
    */
   export const map = async <Ti extends unknown, To extends unknown>(
     items: Ti[],
@@ -278,6 +295,10 @@ export namespace PromiseTools {
    *
    * console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
    * ```
+   * @param {number} limit
+   * @param {Ti[]} items
+   * @param {(item: Ti, index: number, array: Ti[]) => Promise<To>} func
+   * @returns {Promise<To[]>}
    */
   export const mapLimit = async <Ti extends unknown, To extends unknown>(
     limit: number,
@@ -336,6 +357,8 @@ export namespace PromiseTools {
    * // 	b: 15s
    * // 	c: 20s
    * ```
+   * @param {T} input
+   * @returns {Promise<UnWrapPromiseObject<T>>}
    */
   export const allObj = async <T extends Object>(input: T): Promise<UnWrapPromiseObject<T>> => {
     return objectify((arr) => Promise.all(arr), input);
@@ -381,6 +404,10 @@ export namespace PromiseTools {
    * // 	c: 10s
    * // 	d: 10s
    * ```
+   * @param {number} limit
+   * @param {T} input
+   * @param {boolean} [noThrow=false]
+   * @returns {Promise<UnWrapPromiseObject<T>>}
    */
   export const allLimitObj = async <T extends Object>(limit: number, input: T, noThrow: boolean = false): Promise<UnWrapPromiseObject<T>> => {
     return objectify((items: ((index: number) => Promise<T>)[]) => {

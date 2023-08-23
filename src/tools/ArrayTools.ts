@@ -28,6 +28,8 @@ export namespace ArrayTools {
      * - `ArrayTools.utils.isNumString`
      *
      * Returns true if the given string is a number
+     * @param {string} text
+     * @returns {boolean}
      */
     export const isNumString = (text: string) => Boolean(text.match(/^[0-9-.]+$/));
 
@@ -37,6 +39,8 @@ export namespace ArrayTools {
      * - `ArrayTools.utils.partitionNums`
      *
      * Splits a string into an array of strings and numbers
+     * @param {boolean} ignoreCase
+     * @returns {(name: string) => (string | number)[]}
      */
     export const partitionNums = (ignoreCase: boolean) => (name: string) =>
       (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => (isNumString(s) ? Number(s) : s));
@@ -51,6 +55,9 @@ export namespace ArrayTools {
    * - `ArrayTools.filled`
    *
    * Create an array of the given length, where each value is the given value
+   * @param {number} [length=1]
+   * @param {T} [value=1 as T]
+   * @returns {T[]}
    */
   export const create = <T extends unknown = number>(length: number = 1, value: T = 1 as T): T[] =>
     new Array(Math.floor(Math.max(0, length))).fill(value);
@@ -76,6 +83,10 @@ export namespace ArrayTools {
    * ArrayTools.range(5, 2);  // [0, 2, 4, 6, 8]
    * ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
    * ```
+   * @param {number} [length=1]
+   * @param {number} [multiplier=1]
+   * @param {number} [offset=0]
+   * @returns {number[]}
    */
   export const range = (length: number = 1, multiplier: number = 1, offset: number = 0): number[] =>
     create(length, 1).map((v, i) => MathsTools.fixFloat(i * multiplier) + offset);
@@ -101,6 +112,8 @@ export namespace ArrayTools {
    * ```typescript
    * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
    * ```
+   * @param {...T} [arrs]
+   * @returns {UnwrapArrays<T>[]}
    */
   export const zip = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] =>
     zipFn(Math.min(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
@@ -120,6 +133,8 @@ export namespace ArrayTools {
    * ```typescript
    * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
    * ```
+   * @param {...T} [arrs]
+   * @returns {UnwrapArrays<T>[]}
    */
   export const zipMax = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] =>
     zipFn(Math.max(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
@@ -140,6 +155,10 @@ export namespace ArrayTools {
    *   (a, b) => b - a
    * ); // ['3p', '2p', '1p']
    * ```
+   * @param {T[]} arr
+   * @param {(value: T, index: number, array: T[]) => M} mapFn
+   * @param {(a: M, b: M) => number} [sortFn=fn.asc]
+   * @returns {T[]}
    */
   export const sortByMapped = <T = string, M = number>(
     arr: T[],
@@ -165,6 +184,8 @@ export namespace ArrayTools {
    * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
    * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
    * ```
+   * @param {T[]} arr
+   * @returns {T[]}
    */
   export const randomise = <T = string>(arr: T[]): T[] => sortByMapped(arr, () => Math.random());
 
@@ -187,6 +208,8 @@ export namespace ArrayTools {
    * ArrayTools.reverse(arr2);  // [3, 2, 1]
    * arr2            // [1, 2, 3]
    * ```
+   * @param {T[]} arr
+   * @returns {T[]}
    */
   export const reverse = <T = string>(arr: T[]): T[] => [...arr].reverse();
 
@@ -207,6 +230,8 @@ export namespace ArrayTools {
    *  console.log(value); // 'a', 'b', 'c'
    * }
    * ```
+   * @param {T[]} arr
+   * @returns {[number, T][]}
    */
   export const entries = <T = string>(arr: T[]): [number, T][] => zip(range(arr.length), arr) as any;
 
@@ -222,6 +247,9 @@ export namespace ArrayTools {
    * ArrayTools.repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
    * ArrayTools.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
    * ```
+   * @param {number} maxLength
+   * @param {...T} [items]
+   * @returns {T[]}
    */
   export const repeat = <T = string>(maxLength: number, ...items: T[]): T[] => {
     const simple = create(maxLength, items[0]);
@@ -240,6 +268,9 @@ export namespace ArrayTools {
    * ArrayTools.roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
    * ArrayTools.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
    * ```
+   * @param {number} distance
+   * @param {T[]} arr
+   * @returns {T[]}
    */
   export const roll = <T extends unknown>(distance: number, arr: T[]): T[] => [
     ...arr.slice(distance % arr.length),
@@ -259,6 +290,9 @@ export namespace ArrayTools {
    * names.sort(); // [ 'foo10', 'foo20', 'foo9', 'name1', 'name10', 'name2' ]
    * ArrayTools.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
    * ```
+   * @param {string[]} texts
+   * @param {boolean} [ignoreCase=true]
+   * @returns {string[]}
    */
   export const sortNumberedText = (texts: string[], ignoreCase: boolean = true): string[] => {
     return sortByMapped(texts, utils.partitionNums(ignoreCase), (a, b) => {
@@ -281,6 +315,9 @@ export namespace ArrayTools {
    * ```typescript
    * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
    * ```
+   * @param {T[]} array
+   * @param {number} [partitionSize=Math.ceil(array.length / 2)]
+   * @returns {T[][]}
    */
   export const partition = <T extends unknown>(array: T[], partitionSize: number = Math.ceil(array.length / 2)): T[][] => {
     const numParts = Math.ceil(array.length / partitionSize);
@@ -310,6 +347,9 @@ export namespace ArrayTools {
    * //   2: [ { group: 2, name: 'b' } ]
    * // }
    * ```
+   * @param {T[]} array
+   * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
+   * @returns {{ [id: string]: T[]; [id: number]: T[]; }}
    */
   export const groupObj = <T extends unknown>(
     array: T[],
@@ -348,6 +388,9 @@ export namespace ArrayTools {
    * //   [ { group: 2, name: 'b' } ]
    * // ]
    * ```
+   * @param {T[]} array
+   * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
+   * @returns {T[][]}
    */
   export const group = <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): T[][] => {
     const obj = groupObj(array, mapFn);

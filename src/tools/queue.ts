@@ -74,6 +74,8 @@ export class QueueManager {
    * - `new QueueManager().setDefaultPauseTime`
    *
    * Sets the default pause time for pauses between queue items.
+   * @param {number} time
+   * @returns {void}
    */
   setDefaultPauseTime(time: number) {
     this.defaultPauseTime = time;
@@ -86,6 +88,9 @@ export class QueueManager {
    * - `new QueueManager().setPauseTime`
    *
    * Sets the pause time for pauses between queue items for the specified queue.
+   * @param {string} id
+   * @param {number} time
+   * @returns {void}
    */
   setPauseTime(id: string, time: number) {
     this.pauseTimes.set(id, time);
@@ -98,6 +103,9 @@ export class QueueManager {
    * - `new QueueManager().add`
    *
    * Adds a function to the queue.
+   * @param {string} id
+   * @param {() => Promise<T>} fn
+   * @returns {Promise<T>}
    */
   add<T>(id: string, fn: () => Promise<T>): Promise<T> {
     const promise = this.getPromise(id).then(async () => {
@@ -119,6 +127,8 @@ export class QueueManager {
    * - `new QueueManager().new`
    *
    * Creates a new QueueManager instance.
+   * @param {number} [defaultPauseTime]
+   * @returns {QueueManager}
    */
   new(defaultPauseTime?: number) {
     return new QueueManager(defaultPauseTime);

@@ -165,6 +165,8 @@ export const symbols = {
  * superscript(219) // '²¹⁹'
  * superscript(1234567890) // '¹²³⁴⁵⁶⁷⁸⁹⁰'
  * ```
+ * @param {number | string} num
+ * @returns {string}
  */
 export const superscript = (num: number | string) =>
   (num ?? '')

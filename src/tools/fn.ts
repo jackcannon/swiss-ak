@@ -20,6 +20,7 @@ export namespace fn {
    * const run = condition ? doSomething : fn.noop;
    * run();
    * ```
+   * @returns {void}
    */
   export const noop = () => {};
 
@@ -34,6 +35,8 @@ export namespace fn {
    * const items = stuff
    *   .map(condition ? mapSomething : fn.noact)
    * ```
+   * @param {T} item
+   * @returns {T}
    */
   export const noact = <T = any>(item: T): T => item;
 
@@ -48,6 +51,8 @@ export namespace fn {
    * const items = stuff
    *   .filter(condition ? mapSomething : fn.result(true))
    * ```
+   * @param {T} item
+   * @returns {() => T}
    */
   export const result =
     <T = any>(item: T) =>
@@ -62,6 +67,8 @@ export namespace fn {
    * Returns an async function that resolves to the first argument
    *
    * Like fn.result, but wrapped in a Promise
+   * @param {T} item
+   * @returns {() => Promise<T>}
    */
   export const resolve =
     <T = any>(item: T) =>
@@ -74,6 +81,8 @@ export namespace fn {
    * - `fn.reject`
    *
    * Returns an async function that rejects with the first argument
+   * @param {T} item
+   * @returns {() => Promise<T>}
    */
   export const reject =
     <T = any>(item: T) =>
@@ -99,6 +108,8 @@ export namespace fn {
    * ```typescript
    * [null, 1, undefined, 2].filter(fn.exists); // [1, 2]
    * ```
+   * @param {T} item
+   * @returns {boolean}
    */
   export const exists = <T = any>(item: T): boolean => item !== undefined && item !== null;
 
@@ -115,6 +126,8 @@ export namespace fn {
    * [0, 1, 2].filter(fn.isTruthy); // [1, 2]
    * ['', 'a', 'b'].filter(fn.isTruthy); // ['a', 'b']
    * ```
+   * @param {T} item
+   * @returns {boolean}
    */
   export const isTruthy = <T = any>(item: T): boolean => Boolean(item);
 
@@ -131,6 +144,8 @@ export namespace fn {
    * [0, 1, 2].filter(fn.isFalsy); // [0]
    * ['', 'a', 'b'].filter(fn.isFalsy); // ['']
    * ```
+   * @param {T} item
+   * @returns {boolean}
    */
   export const isFalsy = <T = any>(item: T): boolean => !Boolean(item);
 
@@ -147,6 +162,8 @@ export namespace fn {
    * ['', 'a', 'b'].filter(fn.isEmpty); // ['']
    * [[], [1], [2]].filter(fn.isEmpty); // [[]]
    * ```
+   * @param {T[] | string} item
+   * @returns {boolean}
    */
   export const isEmpty = <T = any>(item: T[] | string): boolean => Boolean(!item || !item.length);
 
@@ -163,6 +180,8 @@ export namespace fn {
    * ['', 'a', 'b'].filter(fn.isNotEmpty); // ['a', 'b']
    * [[], [1], [2]].filter(fn.isNotEmpty); // [[1], [2]]
    * ```
+   * @param {T[] | string} item
+   * @returns {boolean}
    */
   export const isNotEmpty = <T = any>(item: T[] | string): boolean => Boolean(item && item.length);
 
@@ -178,6 +197,8 @@ export namespace fn {
    * ```typescript
    * [0, 1, 2].filter(fn.isEqual(1)); // [1]
    * ```
+   * @param {T} item
+   * @returns {(other: T) => boolean}
    */
   export const isEqual =
     <T = any>(item: T) =>
@@ -196,6 +217,8 @@ export namespace fn {
    * ```typescript
    * [0, 1, 2].filter(fn.isNotEqual(1)); // [0, 2]
    * ```
+   * @param {T} item
+   * @returns {(other: T) => boolean}
    */
   export const isNotEqual =
     <T = any>(item: T) =>
@@ -214,6 +237,10 @@ export namespace fn {
    * ```typescript
    * [0, 1, 2, 1, 0].filter(fn.dedupe); // [0, 1, 2]
    * ```
+   * @param {T} item
+   * @param {number} index
+   * @param {T[]} array
+   * @returns {boolean}
    */
   export const dedupe = <T extends unknown>(item: T, index: number, array: T[]): boolean => array.indexOf(item) === index;
 
@@ -229,6 +256,8 @@ export namespace fn {
    * ```typescript
    * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
    * ```
+   * @param {(value: T, index: number, array: T[]) => U} mapFn
+   * @returns {(item: T, index: number, array: T[]) => boolean}
    */
   export const dedupeMapped = <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => {
     let mapped: U[];
@@ -257,6 +286,8 @@ export namespace fn {
    * ```typescript
    * [0, 1, 2].map(fn.toString); // ['0', '1', '2']
    * ```
+   * @param {T} item
+   * @returns {string}
    */
   export const toString = <T = any>(item: T): string => item + '';
 
@@ -272,6 +303,8 @@ export namespace fn {
    * ```typescript
    * ['0', '1', '2'].map(fn.toNumber); // [0, 1, 2]
    * ```
+   * @param {T} item
+   * @returns {number}
    */
   export const toNumber = <T = any>(item: T): number => Number(item);
 
@@ -288,6 +321,8 @@ export namespace fn {
    * [0, 1, 2].map(fn.toBool); // [false, true, true]
    * ['true', 'false', '', 'text'].map(fn.toBool); // [true, false, false, true]
    * ```
+   * @param {T} item
+   * @returns {boolean}
    */
   export const toBool = <T = any>(item: T): boolean => (item as any) !== 'false' && Boolean(item);
 
@@ -303,6 +338,8 @@ export namespace fn {
    * ```typescript
    * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
    * ```
+   * @param {string} prop
+   * @returns {(item: O) => P}
    */
   export const toProp =
     <P = string, O = Object>(prop: string) =>
@@ -321,6 +358,8 @@ export namespace fn {
    * ```typescript
    * [1.234, 5.678, 9.012].map(fn.toFixed(2)); // [1.23, 5.68, 9.01]
    * ```
+   * @param {number} precision
+   * @returns {(num: number) => number}
    */
   export const toFixed =
     (precision: number) =>
@@ -346,6 +385,9 @@ export namespace fn {
    * ```typescript
    * [2, 4, 3, 1].sort(fn.asc); // [1, 2, 3, 4]
    * ```
+   * @param {any} a
+   * @param {any} b
+   * @returns {number}
    */
   export const asc = (a: any, b: any): number => {
     if (a < b) return -1;
@@ -365,6 +407,9 @@ export namespace fn {
    * ```typescript
    * [2, 4, 3, 1].sort(fn.asc); // [4, 3, 2, 1]
    * ```
+   * @param {any} a
+   * @param {any} b
+   * @returns {number}
    */
   export const desc = (a: any, b: any): number => {
     if (a < b) return 1;
@@ -387,6 +432,9 @@ export namespace fn {
    * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
    * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
    * ```
+   * @param {string} propName
+   * @param {SortFn<T>} [sortFn=asc]
+   * @returns {SortFn<O>}
    */
   export const byProp = <T = number, O = Object>(propName: string, sortFn: SortFn<T> = asc): SortFn<O> => {
     return (a: O, b: O) => sortFn(a[propName] as T, b[propName] as T);
@@ -405,6 +453,8 @@ export namespace fn {
    * const people = [2, 4, 3, 1];
    * people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
    * ```
+   * @param {T} target
+   * @returns {(a: any, b: any) => number}
    */
   export const nearestTo =
     <T = number>(target: T) =>
@@ -424,6 +474,8 @@ export namespace fn {
    * const people = [2, 4, 3, 1];
    * people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
    * ```
+   * @param {T} target
+   * @returns {(a: any, b: any) => number}
    */
   export const furthestFrom =
     <T = number>(target: T) =>
@@ -438,6 +490,9 @@ export namespace fn {
    * - `sorts.arrayAsc`
    *
    * Sort an array of arrays in ascending order
+   * @param {any[]} a
+   * @param {any[]} b
+   * @returns {any}
    */
   export const arrayAsc = (a: any[], b: any[]) => {
     for (let i in a) {
@@ -455,6 +510,9 @@ export namespace fn {
    * - `sorts.arrayDesc`
    *
    * Sort an array of arrays in descending order
+   * @param {any[]} a
+   * @param {any[]} b
+   * @returns {any}
    */
   export const arrayDesc = (a: any[], b: any[]) => {
     for (let i in a) {
@@ -485,6 +543,9 @@ export namespace fn {
    * [1, 2, 3].reduce(fn.combine); // 6
    * ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
    * ```
+   * @param {any} a
+   * @param {any} b
+   * @returns {any}
    */
   export const combine = (a: any, b: any): any => a + b;
 
@@ -502,6 +563,8 @@ export namespace fn {
    * people.reduce(fn.combineProp('age')); // 6
    * people.reduce(fn.combineProp('name')); // 'abc'
    * ```
+   * @param {string} propName
+   * @returns {(a: any, b: any) => any}
    */
   export const combineProp =
     (propName: string) =>
@@ -520,6 +583,11 @@ export namespace fn {
    * ```typescript
    * [1, 2, 3, 2, 1, 1].reduce(fn.mode); // 1
    * ```
+   * @param {T} prev
+   * @param {T} curr
+   * @param {number} index
+   * @param {T[]} arr
+   * @returns {T}
    */
   export const mode = <T extends unknown>(prev: T, curr: T, index: number, arr: T[]): T => {
     if (index > 1) {
@@ -546,6 +614,8 @@ export namespace fn {
    * ```typescript
    * [2, 4, 6, 8, 9, 12].reduce(fn.modeMapped((v) => v % 3)); // 6 (maps to [ 2, 1, 0, 2, 0, 0 ])
    * ```
+   * @param {(value: T, index: number, array: T[]) => U} mapFn
+   * @returns {(prev: T, curr: T, index: number, arr: T[]) => T}
    */
   export const modeMapped = <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => {
     let result: T;
@@ -588,6 +658,9 @@ export namespace fn {
    * [1, 1, 1].every(fn.isAllEqual); // true
    * [1, 2, 1].every(fn.isAllEqual); // false
    * ```
+   * @param {T} val
+   * @param {T[]} arr
+   * @returns {boolean}
    */
   export const isAllEqual = <T = any>(val: T, i, arr: T[]): boolean => val === arr[0];
 

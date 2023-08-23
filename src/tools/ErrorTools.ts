@@ -24,6 +24,10 @@ export namespace ErrorTools {
    * ```typescript
    * const result = tryOr('default', () => getSomething());
    * ```
+   * @param {T} orValue
+   * @param {(...args: A) => Promise<T>} func
+   * @param {...A} [args]
+   * @returns {Promise<T>}
    */
   export const tryOr = async <T extends unknown, A extends unknown[]>(orValue: T, func: (...args: A) => Promise<T>, ...args: A): Promise<T> => {
     try {
@@ -44,6 +48,11 @@ export namespace ErrorTools {
    * ```typescript
    * const result = tryOr(5, seconds(1), true, () => getSomething());
    * ```
+   * @param {number} [maxTries=10]
+   * @param {ms} [delay=0]
+   * @param {boolean} [suppress=true]
+   * @param {(attemptNumber) => T} [run=fn.result(undefined as T)]
+   * @returns {Promise<T>}
    */
   export const retry = async <T extends unknown>(
     maxTries: number = 10,
@@ -80,6 +89,12 @@ export namespace ErrorTools {
    * ```typescript
    * const result = retryOr('default', 5, seconds(1), true, () => getSomething());
    * ```
+   * @param {T} orValue
+   * @param {number} [maxTries=10]
+   * @param {ms} [delay=0]
+   * @param {boolean} [suppress=true]
+   * @param {() => T} [run=fn.result(orValue)]
+   * @returns {Promise<T>}
    */
   export const retryOr = async <T extends unknown>(
     orValue: T,

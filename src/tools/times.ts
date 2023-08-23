@@ -277,6 +277,8 @@ export namespace times {
    * milliseconds(2); // 2 (2 milliseconds)
    * milliseconds(5); // 5 (5 milliseconds)
    * ```
+   * @param {ms} [x=1]
+   * @returns {number}
    */
   export const milliseconds = (x: ms = 1): ms => x;
 
@@ -294,6 +296,8 @@ export namespace times {
    * seconds(2); // 2_000 (2 seconds)
    * seconds(5); // 5_000 (5 seconds)
    * ```
+   * @param {second} [x=1]
+   * @returns {number}
    */
   export const seconds = (x: second = 1): ms => x * SECOND;
 
@@ -311,6 +315,8 @@ export namespace times {
    * minutes(2); // 120_000 (120 seconds)
    * minutes(5); // 300_000 (300 seconds)
    * ```
+   * @param {minute} [x=1]
+   * @returns {number}
    */
   export const minutes = (x: minute = 1): ms => x * MINUTE;
 
@@ -328,6 +334,8 @@ export namespace times {
    * hours(2); // 7_200_000 (2 hours / 120 minutes)
    * hours(5); // 18_000_000 (5 hours / 300 minutes)
    * ```
+   * @param {hour} [x=1]
+   * @returns {number}
    */
   export const hours = (x: hour = 1): ms => x * HOUR;
 
@@ -345,6 +353,8 @@ export namespace times {
    * days(2); // 172_800_000 (2 days / 48 hours)
    * days(5); // 432_000_000 (5 days / 120 hours)
    * ```
+   * @param {day} [x=1]
+   * @returns {number}
    */
   export const days = (x: day = 1): ms => x * DAY;
 
@@ -362,6 +372,8 @@ export namespace times {
    * weeks(2); // 1_209_600_000 (14 days / 336 hours)
    * weeks(5); // 3_024_000_000 (35 days / 840 hours)
    * ```
+   * @param {week} [x=1]
+   * @returns {number}
    */
   export const weeks = (x: week = 1): ms => x * WEEK;
 
@@ -379,6 +391,8 @@ export namespace times {
    * months(2); // 5_184_000_000 (60 days)
    * months(5); // 12_960_000_000 (150 days)
    * ```
+   * @param {month} [x=1]
+   * @returns {number}
    */
   export const months = (x: month = 1): ms => x * MONTH;
 
@@ -396,6 +410,8 @@ export namespace times {
    * years(2); // 63_115_200_000 (2 years / 730.5 days)
    * years(5); // 157_788_000_000 (5 years / 1,826.25 days)
    * ```
+   * @param {year} [x=1]
+   * @returns {number}
    */
   export const years = (x: year = 1): ms => x * YEAR;
 
@@ -413,6 +429,8 @@ export namespace times {
    * decades(2); // 631_152_000_000 (20 years / 7,305 days)
    * decades(5); // 1_577_880_000_000 (50 years / 18,262.5 days)
    * ```
+   * @param {decade} [x=1]
+   * @returns {number}
    */
   export const decades = (x: decade = 1): ms => x * DECADE;
 
@@ -430,6 +448,8 @@ export namespace times {
    * centuries(2); // 6_311_520_000_000 (200 years / 73,050 days)
    * centuries(5); // 15_778_800_000_000 (500 years / 182,625 days)
    * ```
+   * @param {century} [x=1]
+   * @returns {number}
    */
   export const centuries = (x: century = 1): ms => x * CENTURY;
 
@@ -447,6 +467,8 @@ export namespace times {
    * millenniums(2); // 63_115_200_000_000 (2000 years / 730,500 days)
    * millenniums(5); // 157_788_000_000_000 (5000 years / 1,826,250 days)
    * ```
+   * @param {millennium} [x=1]
+   * @returns {number}
    */
   export const millenniums = (x: millennium = 1): ms => x * MILLENNIUM;
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE

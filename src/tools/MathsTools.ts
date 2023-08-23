@@ -28,6 +28,8 @@ export namespace MathsTools {
    * 0.1 + 0.2 // 0.30000000000000004
    * MathsTools.fixFloat(0.1 + 0.2) // 0.3
    * ```
+   * @param {number} num
+   * @returns {number}
    */
   export const fixFloat = (num: number, precision = 6): number => Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision);
 
@@ -44,6 +46,8 @@ export namespace MathsTools {
    * ```typescript
    * MathsTools.addAll(1, 2, 3, 4, 5); // 15
    * ```
+   * @param {...number} [args]
+   * @returns {number}
    */
   export const addAll = (...args: number[]): number => args.reduce((acc, num) => acc + num, 0);
 
@@ -63,6 +67,9 @@ export namespace MathsTools {
    * MathsTools.round.floorTo(5, 53); // 50
    * MathsTools.round.floorTo(0.1, 0.25); // 0.2
    * ```
+   * @param {number} to
+   * @param {number} value
+   * @returns {number}
    */
   export const floorTo = (to: number, value: number) => fixFloat(Math.floor(value / to) * to);
 
@@ -80,6 +87,9 @@ export namespace MathsTools {
    * MathsTools.round.to(5, 53); // 55
    * MathsTools.round.to(0.1, 0.25); // 0.3
    * ```
+   * @param {number} to
+   * @param {number} value
+   * @returns {number}
    */
   export const roundTo = (to: number, value: number) => fixFloat(Math.round(value / to) * to);
 
@@ -96,6 +106,9 @@ export namespace MathsTools {
    * MathsTools.round.ceilTo(5, 53); // 55
    * MathsTools.round.ceilTo(0.1, 0.25); // 0.3
    * ```
+   * @param {number} to
+   * @param {number} value
+   * @returns {number}
    */
   export const ceilTo = (to: number, value: number) => fixFloat(Math.ceil(value / to) * to);
 
@@ -129,6 +142,10 @@ export namespace MathsTools {
    * ```typescript
    * MathsTools.lerp(0.5, 0, 10); // 5
    * ```
+   * @param {number} progress
+   * @param {number} fromVal
+   * @param {number} toVal
+   * @returns {number}
    */
   export const lerp = (progress: number, fromVal: number, toVal: number): number => fromVal + (toVal - fromVal) * progress;
 
@@ -142,6 +159,10 @@ export namespace MathsTools {
    * ```typescript
    * MathsTools.lerpArray(0.5, [0, 0, 0], [10, 100, 1000]) // [5, 50, 500]
    * ```
+   * @param {number} progress
+   * @param {number[]} fromArr
+   * @param {number[]} toArr
+   * @returns {number[]}
    */
   export const lerpArray = (progress: number, fromArr: number[], toArr: number[]): number[] =>
     ArrayTools.zip(fromArr, toArr).map(([fromVal, toVal]) => lerp(progress, fromVal, toVal));
@@ -156,6 +177,10 @@ export namespace MathsTools {
    * ```typescript
    * MathsTools.lerpObj(0.5, {'ARS': 0, 'CHE': 0, 'FUL': 0}, {'ARS': 100, 'CHE': 10, 'FUL': 20}) // {'ARS': 50, 'CHE': 5, 'FUL': 10}
    * ```
+   * @param {number} progress
+   * @param {T} fromObj
+   * @param {T} toObj
+   * @returns {T}
    */
   export const lerpObj = <T extends object>(progress: number, fromObj: T, toObj: T): T => {
     const entries = Object.entries(fromObj);
@@ -174,6 +199,10 @@ export namespace MathsTools {
    * MathsTools.clamp(5, 0, 10); // 5
    * MathsTools.clamp(-5, 0, 10); // 0
    * ```
+   * @param {number} value
+   * @param {number} min
+   * @param {number} max
+   * @returns {number}
    */
   export const clamp = (value: number, min: number, max: number) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
 
@@ -200,6 +229,8 @@ export namespace MathsTools {
    * MathsTools.getOrdinal(23); // 'rd'
    * MathsTools.getOrdinal(24); // 'th'
    * ```
+   * @param {number} [num=0]
+   * @returns {"th" | "st" | "nd" | "rd"}
    */
   export const getOrdinal = (num: number = 0) => {
     const lastDigit = num % 10;

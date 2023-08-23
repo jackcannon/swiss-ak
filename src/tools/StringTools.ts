@@ -20,6 +20,8 @@ export namespace StringTools {
    * ```typescript
    * StringTools.capitalise('hello world'); // 'Hello World'
    * ```
+   * @param {string} [input='']
+   * @returns {string}
    */
   export const capitalise = (input: string = '') =>
     (input || '')
@@ -37,6 +39,8 @@ export namespace StringTools {
    * ```typescript
    * StringTools.angloise('éèêë'); // 'eeee'
    * ```
+   * @param {string} input
+   * @returns {string}
    */
   export const angloise = (input: string): string => input.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
@@ -50,6 +54,8 @@ export namespace StringTools {
    * ```typescript
    * StringTools.clean('éèêë_--ab0'); // 'eeeeab0'
    * ```
+   * @param {string} [input='']
+   * @returns {string}
    */
   export const clean = (input: string = ''): string =>
     angloise([input].flat().join(' '))
@@ -69,6 +75,9 @@ export namespace StringTools {
    * StringTools.repeat(0, '-') // ''
    * StringTools.repeat(-1, '-') // ''
    * ```
+   * @param {number} maxLength
+   * @param {string} repeated
+   * @returns {string}
    */
   export const repeat = (maxLength: number, repeated: string) =>
     (repeated && typeof repeated === 'string' ? repeated : '').repeat(Math.max(0, maxLength));
@@ -478,6 +487,8 @@ export namespace StringTools {
    * clx('abc', conditionB && 'def') // 'abc def'
    * clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
    * ```
+   * @param {...ClxType} [args]
+   * @returns {string}
    */
   export const clx = (...args: ClxType[]) => processClxArray(args).join(' ');
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE

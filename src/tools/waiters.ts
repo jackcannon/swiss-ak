@@ -35,6 +35,8 @@ export namespace waiters {
    * await wait(minutes(2));
    * console.log(new Date().toTimeString()); // 12:32:10
    * ```
+   * @param {ms} time
+   * @returns {Promise<unknown>}
    */
   export const wait = (time: ms) => new Promise((resolve) => setTimeout(resolve, time));
 
@@ -58,6 +60,8 @@ export namespace waiters {
    * await waitUntil(Date.now() + minutes(10));
    * console.log(new Date().toTimeString()); // 12:40:10
    * ```
+   * @param {ms} time
+   * @returns {Promise<null>}
    */
   export const waitUntil = async (time: ms): Promise<null> => {
     while (Date.now() < time) {
@@ -81,6 +85,8 @@ export namespace waiters {
    * await waitFor(minutes(5));
    * console.log(new Date().toTimeString()); // 12:35:10
    * ```
+   * @param {ms} time
+   * @returns {Promise<null>}
    */
   export const waitFor = async (time: ms): Promise<null> => waitUntil(Date.now() + time);
 
@@ -106,6 +112,9 @@ export namespace waiters {
    * await waitEvery(hours(2));
    * console.log(new Date().toTimeString()); // 14:00:00
    * ```
+   * @param {ms} timing
+   * @param {ms} [offset]
+   * @returns {Promise<null>}
    */
   export const waitEvery = (timing: ms, offset?: ms): Promise<null> => waitFor(getNextEvery(timing, offset));
 
@@ -127,6 +136,8 @@ export namespace waiters {
    *   }
    * }, hours(1));
    * ```
+   * @param {number} intID
+   * @returns {number}
    */
   export const stopInterval = (intID: number) => stopped.push(intID);
 
@@ -149,6 +160,9 @@ export namespace waiters {
    *   }
    * }, hours(1));
    * ```
+   * @param {(intID?: number, count?: number) => any} action
+   * @param {ms} timing
+   * @returns {number}
    */
   export const interval = (action: (intID?: number, count?: number) => any, timing: ms): number => {
     const intID: number = Math.floor(Math.random() * Math.pow(10, 10));
