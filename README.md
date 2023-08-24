@@ -232,9 +232,9 @@ console.log(new Date().toTimeString()); // 12:32:10
 |:---:|:---------------|:---------|:-----|
 | *0* | `time`         | **Yes**  | `ms` |
 
-|             |                    |
-|-------------|--------------------|
-| **Returns** | `Promise<unknown>` |
+| Return Type        |
+|--------------------|
+| `Promise<unknown>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -256,9 +256,9 @@ console.log(new Date().toTimeString()); // 12:40:10
 |:---:|:---------------|:---------|:-----|
 | *0* | `time`         | **Yes**  | `ms` |
 
-|             |                 |
-|-------------|-----------------|
-| **Returns** | `Promise<null>` |
+| Return Type     |
+|-----------------|
+| `Promise<null>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -280,9 +280,9 @@ console.log(new Date().toTimeString()); // 12:35:10
 |:---:|:---------------|:---------|:-----|
 | *0* | `time`         | **Yes**  | `ms` |
 
-|             |                 |
-|-------------|-----------------|
-| **Returns** | `Promise<null>` |
+| Return Type     |
+|-----------------|
+| `Promise<null>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -305,9 +305,9 @@ console.log(new Date().toTimeString()); // 14:00:00
 | *0* | `timing`       | **Yes**  | `ms` |
 | *1* | `offset`       | *No*     | `ms` |
 
-|             |                 |
-|-------------|-----------------|
-| **Returns** | `Promise<null>` |
+| Return Type     |
+|-----------------|
+| `Promise<null>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -331,9 +331,9 @@ interval((intID, count) => {
 |:---:|:---------------|:---------|:---------|
 | *0* | `intID`        | **Yes**  | `number` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -360,9 +360,9 @@ interval((intID, count) => {
 | *0* | `action`       | **Yes**  | `(intID?: number, count?: number) => any` |
 | *1* | `timing`       | **Yes**  | `ms`                                      |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -381,9 +381,9 @@ const run = condition ? doSomething : fn.noop;
 run();
 ```
 
-|             |        |
-|-------------|--------|
-| **Returns** | `void` |
+| Return Type |
+|-------------|
+| `void`      |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -401,9 +401,9 @@ const items = stuff
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | **Yes**  | `T`  |
 
-|             |     |
-|-------------|-----|
-| **Returns** | `T` |
+| Return Type |
+|-------------|
+| `T`         |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -421,9 +421,9 @@ const items = stuff
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | **Yes**  | `T`  |
 
-|             |           |
-|-------------|-----------|
-| **Returns** | `() => T` |
+| Return Type |
+|-------------|
+| `() => T`   |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -438,9 +438,9 @@ Like fn.result, but wrapped in a Promise
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | **Yes**  | `T`  |
 
-|             |                    |
-|-------------|--------------------|
-| **Returns** | `() => Promise<T>` |
+| Return Type        |
+|--------------------|
+| `() => Promise<T>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -453,9 +453,9 @@ Returns an async function that rejects with the first argument
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | **Yes**  | `T`  |
 
-|             |                    |
-|-------------|--------------------|
-| **Returns** | `() => Promise<T>` |
+| Return Type        |
+|--------------------|
+| `() => Promise<T>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -481,9 +481,9 @@ Returns true if item isn't null or undefined.
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | **Yes**  | `T`  |
 
-|             |           |
-|-------------|-----------|
-| **Returns** | `boolean` |
+| Return Type |
+|-------------|
+| `boolean`   |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -503,9 +503,9 @@ Returns true if item is truthy.
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | **Yes**  | `T`  |
 
-|             |           |
-|-------------|-----------|
-| **Returns** | `boolean` |
+| Return Type |
+|-------------|
+| `boolean`   |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -525,9 +525,9 @@ Returns true if item is falsy.
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | **Yes**  | `T`  |
 
-|             |           |
-|-------------|-----------|
-| **Returns** | `boolean` |
+| Return Type |
+|-------------|
+| `boolean`   |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -547,9 +547,9 @@ Returns true if item's length is 0
 |:---:|:---------------|:---------|:----------------|
 | *0* | `item`         | **Yes**  | `T[] \| string` |
 
-|             |           |
-|-------------|-----------|
-| **Returns** | `boolean` |
+| Return Type |
+|-------------|
+| `boolean`   |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -569,9 +569,9 @@ Returns true if item's length is 1 or more
 |:---:|:---------------|:---------|:----------------|
 | *0* | `item`         | **Yes**  | `T[] \| string` |
 
-|             |           |
-|-------------|-----------|
-| **Returns** | `boolean` |
+| Return Type |
+|-------------|
+| `boolean`   |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -590,9 +590,9 @@ Returns a function that returns true if the item is equal to provided value.
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | **Yes**  | `T`  |
 
-|             |                         |
-|-------------|-------------------------|
-| **Returns** | `(other: T) => boolean` |
+| Return Type             |
+|-------------------------|
+| `(other: T) => boolean` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -611,9 +611,9 @@ Returns a function that returns true if the item is not equal to provided value.
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | **Yes**  | `T`  |
 
-|             |                         |
-|-------------|-------------------------|
-| **Returns** | `(other: T) => boolean` |
+| Return Type             |
+|-------------------------|
+| `(other: T) => boolean` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -634,9 +634,9 @@ Removes duplicate items from an array.
 | *1* | `index`        | **Yes**  | `number` |
 | *2* | `array`        | **Yes**  | `T[]`    |
 
-|             |           |
-|-------------|-----------|
-| **Returns** | `boolean` |
+| Return Type |
+|-------------|
+| `boolean`   |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -655,9 +655,9 @@ Removes duplicate items from an array based on a mapped value.
 |:---:|:---------------|:---------|:---------------------------------------------|
 | *0* | `mapFn`        | **Yes**  | `(value: T, index: number, array: T[]) => U` |
 
-|             |                                                   |
-|-------------|---------------------------------------------------|
-| **Returns** | `(item: T, index: number, array: T[]) => boolean` |
+| Return Type                                       |
+|---------------------------------------------------|
+| `(item: T, index: number, array: T[]) => boolean` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -683,9 +683,9 @@ Maps the item to a string.
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | **Yes**  | `T`  |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -704,9 +704,9 @@ Maps the item to a number.
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | **Yes**  | `T`  |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -726,9 +726,9 @@ Maps the item to a boolean.
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | **Yes**  | `T`  |
 
-|             |           |
-|-------------|-----------|
-| **Returns** | `boolean` |
+| Return Type |
+|-------------|
+| `boolean`   |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -747,9 +747,9 @@ Maps the item to a given property of the item
 |:---:|:---------------|:---------|:---------|
 | *0* | `prop`         | **Yes**  | `string` |
 
-|             |                  |
-|-------------|------------------|
-| **Returns** | `(item: O) => P` |
+| Return Type      |
+|------------------|
+| `(item: O) => P` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -768,9 +768,9 @@ Map the items (numbers) of an array to a fixed precision.
 |:---:|:---------------|:---------|:---------|
 | *0* | `precision`    | **Yes**  | `number` |
 
-|             |                           |
-|-------------|---------------------------|
-| **Returns** | `(num: number) => number` |
+| Return Type               |
+|---------------------------|
+| `(num: number) => number` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -797,9 +797,9 @@ Sort ascending.
 | *0* | `a`            | **Yes**  | `any` |
 | *1* | `b`            | **Yes**  | `any` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -819,9 +819,9 @@ Sort descending.
 | *0* | `a`            | **Yes**  | `any` |
 | *1* | `b`            | **Yes**  | `any` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -842,9 +842,9 @@ people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4
 | *0* | `propName`     | **Yes**  | `string`    |         |
 | *1* | `sortFn`       | *No*     | `SortFn<T>` | `asc`   |
 
-|             |             |
-|-------------|-------------|
-| **Returns** | `SortFn<O>` |
+| Return Type |
+|-------------|
+| `SortFn<O>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -864,9 +864,9 @@ people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
 |:---:|:---------------|:---------|:-----|
 | *0* | `target`       | **Yes**  | `T`  |
 
-|             |                              |
-|-------------|------------------------------|
-| **Returns** | `(a: any, b: any) => number` |
+| Return Type                  |
+|------------------------------|
+| `(a: any, b: any) => number` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -886,9 +886,9 @@ people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
 |:---:|:---------------|:---------|:-----|
 | *0* | `target`       | **Yes**  | `T`  |
 
-|             |                              |
-|-------------|------------------------------|
-| **Returns** | `(a: any, b: any) => number` |
+| Return Type                  |
+|------------------------------|
+| `(a: any, b: any) => number` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -904,9 +904,9 @@ Sort an array of arrays in ascending order
 | *0* | `a`            | **Yes**  | `any[]` |
 | *1* | `b`            | **Yes**  | `any[]` |
 
-|             |       |
-|-------------|-------|
-| **Returns** | `any` |
+| Return Type |
+|-------------|
+| `any`       |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -922,9 +922,9 @@ Sort an array of arrays in descending order
 | *0* | `a`            | **Yes**  | `any[]` |
 | *1* | `b`            | **Yes**  | `any[]` |
 
-|             |       |
-|-------------|-------|
-| **Returns** | `any` |
+| Return Type |
+|-------------|
+| `any`       |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -952,9 +952,9 @@ Adds or concats the items
 | *0* | `a`            | **Yes**  | `any` |
 | *1* | `b`            | **Yes**  | `any` |
 
-|             |       |
-|-------------|-------|
-| **Returns** | `any` |
+| Return Type |
+|-------------|
+| `any`       |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -975,9 +975,9 @@ people.reduce(fn.combineProp('name')); // 'abc'
 |:---:|:---------------|:---------|:---------|
 | *0* | `propName`     | **Yes**  | `string` |
 
-|             |                           |
-|-------------|---------------------------|
-| **Returns** | `(a: any, b: any) => any` |
+| Return Type               |
+|---------------------------|
+| `(a: any, b: any) => any` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -999,9 +999,9 @@ Returns the most common value in an array.
 | *2* | `index`        | **Yes**  | `number` |
 | *3* | `arr`          | **Yes**  | `T[]`    |
 
-|             |     |
-|-------------|-----|
-| **Returns** | `T` |
+| Return Type |
+|-------------|
+| `T`         |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1020,9 +1020,9 @@ Returns the most common value in an array, based on a given map function.
 |:---:|:---------------|:---------|:---------------------------------------------|
 | *0* | `mapFn`        | **Yes**  | `(value: T, index: number, array: T[]) => U` |
 
-|             |                                                    |
-|-------------|----------------------------------------------------|
-| **Returns** | `(prev: T, curr: T, index: number, arr: T[]) => T` |
+| Return Type                                        |
+|----------------------------------------------------|
+| `(prev: T, curr: T, index: number, arr: T[]) => T` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1050,9 +1050,9 @@ Returns if all the items are equal to one another.
 | *0* | `val`          | **Yes**  | `T`   |
 | *1* | `arr`          | **Yes**  | `T[]` |
 
-|             |           |
-|-------------|-----------|
-| **Returns** | `boolean` |
+| Return Type |
+|-------------|
+| `boolean`   |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1076,9 +1076,9 @@ Create an array of the given length, where each value is the given value
 | *0* | `length`       | *No*     | `number` | `1`      |
 | *1* | `value`        | *No*     | `T`      | `1 as T` |
 
-|             |       |
-|-------------|-------|
-| **Returns** | `T[]` |
+| Return Type |
+|-------------|
+| `T[]`       |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1105,9 +1105,9 @@ ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
 | *1* | `multiplier`   | *No*     | `number` | `1`     |
 | *2* | `offset`       | *No*     | `number` | `0`     |
 
-|             |            |
-|-------------|------------|
-| **Returns** | `number[]` |
+| Return Type |
+|-------------|
+| `number[]`  |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1129,9 +1129,9 @@ ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c']
 |:----:|:---------------|:---------|:------|
 | *0…* | `arrs`         | *No*     | `T[]` |
 
-|             |                     |
-|-------------|---------------------|
-| **Returns** | `UnwrapArrays<T>[]` |
+| Return Type         |
+|---------------------|
+| `UnwrapArrays<T>[]` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1153,9 +1153,9 @@ ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 
 |:----:|:---------------|:---------|:------|
 | *0…* | `arrs`         | *No*     | `T[]` |
 
-|             |                     |
-|-------------|---------------------|
-| **Returns** | `UnwrapArrays<T>[]` |
+| Return Type         |
+|---------------------|
+| `UnwrapArrays<T>[]` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1180,9 +1180,9 @@ ArrayTools.sortByMapped(
 | *1* | `mapFn`        | **Yes**  | `(value: T, index: number, array: T[]) => M` |          |
 | *2* | `sortFn`       | *No*     | `(a: M, b: M) => number`                     | `fn.asc` |
 
-|             |       |
-|-------------|-------|
-| **Returns** | `T[]` |
+| Return Type |
+|-------------|
+| `T[]`       |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1204,9 +1204,9 @@ ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
 |:---:|:---------------|:---------|:------|
 | *0* | `arr`          | **Yes**  | `T[]` |
 
-|             |       |
-|-------------|-------|
-| **Returns** | `T[]` |
+| Return Type |
+|-------------|
+| `T[]`       |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1232,9 +1232,9 @@ arr2            // [1, 2, 3]
 |:---:|:---------------|:---------|:------|
 | *0* | `arr`          | **Yes**  | `T[]` |
 
-|             |       |
-|-------------|-------|
-| **Returns** | `T[]` |
+| Return Type |
+|-------------|
+| `T[]`       |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1258,9 +1258,9 @@ for (let [index, value] of entries(arr)) {
 |:---:|:---------------|:---------|:------|
 | *0* | `arr`          | **Yes**  | `T[]` |
 
-|             |                 |
-|-------------|-----------------|
-| **Returns** | `[number, T][]` |
+| Return Type     |
+|-----------------|
+| `[number, T][]` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1280,9 +1280,9 @@ ArrayTools.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
 | *0*  | `maxLength`    | **Yes**  | `number` |
 | *1…* | `items`        | *No*     | `T[]`    |
 
-|             |       |
-|-------------|-------|
-| **Returns** | `T[]` |
+| Return Type |
+|-------------|
+| `T[]`       |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1302,9 +1302,9 @@ ArrayTools.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
 | *0* | `distance`     | **Yes**  | `number` |
 | *1* | `arr`          | **Yes**  | `T[]`    |
 
-|             |       |
-|-------------|-------|
-| **Returns** | `T[]` |
+| Return Type |
+|-------------|
+| `T[]`       |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1325,9 +1325,9 @@ ArrayTools.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'nam
 | *0* | `texts`        | **Yes**  | `string[]` |         |
 | *1* | `ignoreCase`   | *No*     | `boolean`  | `true`  |
 
-|             |            |
-|-------------|------------|
-| **Returns** | `string[]` |
+| Return Type |
+|-------------|
+| `string[]`  |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1346,9 +1346,9 @@ ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4,
 | *0* | `array`         | **Yes**  | `T[]`    |                               |
 | *1* | `partitionSize` | *No*     | `number` | `Math.ceil(array.length / 2)` |
 
-|             |         |
-|-------------|---------|
-| **Returns** | `T[][]` |
+| Return Type |
+|-------------|
+| `T[][]`     |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1375,9 +1375,9 @@ ArrayTools.groupObj(arr, item => item.id); // {
 | *0* | `array`        | **Yes**  | `T[]`                                                    |
 | *1* | `mapFn`        | **Yes**  | `(item: T, index: number, arr: T[]) => string \| number` |
 
-|             |                                             |
-|-------------|---------------------------------------------|
-| **Returns** | `{ [id: string]: T[]; [id: number]: T[]; }` |
+| Return Type                                 |
+|---------------------------------------------|
+| `{ [id: string]: T[]; [id: number]: T[]; }` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1404,9 +1404,9 @@ ArrayTools.groupObj(arr, item => item.id); // [
 | *0* | `array`        | **Yes**  | `T[]`                                                    |
 | *1* | `mapFn`        | **Yes**  | `(item: T, index: number, arr: T[]) => string \| number` |
 
-|             |         |
-|-------------|---------|
-| **Returns** | `T[][]` |
+| Return Type |
+|-------------|
+| `T[][]`     |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1426,9 +1426,9 @@ Returns true if the given string is a number
 |:---:|:---------------|:---------|:---------|
 | *0* | `text`         | **Yes**  | `string` |
 
-|             |           |
-|-------------|-----------|
-| **Returns** | `boolean` |
+| Return Type |
+|-------------|
+| `boolean`   |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1441,9 +1441,9 @@ Splits a string into an array of strings and numbers
 |:---:|:---------------|:---------|:----------|
 | *0* | `ignoreCase`   | **Yes**  | `boolean` |
 
-|             |                                          |
-|-------------|------------------------------------------|
-| **Returns** | `(name: string) => (string \| number)[]` |
+| Return Type                              |
+|------------------------------------------|
+| `(name: string) => (string \| number)[]` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1467,9 +1467,9 @@ ObjectTools.remodel(input, (entries) => entries.filter(([k, v]) => v % 2 === 0))
 | *0* | `obj`          | **Yes**  | `T`                                         |
 | *1* | `func`         | **Yes**  | `(entries: [string, V][]) => [string, W][]` |
 
-|             |     |
-|-------------|-----|
-| **Returns** | `O` |
+| Return Type |
+|-------------|
+| `O`         |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1490,9 +1490,9 @@ ObjectTools.remodelEach(input, ([k, v]) => [k, v * 2]) // { foo: 4, bar: 2, baz:
 | *0* | `obj`          | **Yes**  | `T`                                                                          |
 | *1* | `func`         | **Yes**  | `(entry: [string, V], index: number, entries: [string, V][]) => [string, W]` |
 
-|             |     |
-|-------------|-----|
-| **Returns** | `O` |
+| Return Type |
+|-------------|
+| `O`         |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1510,9 +1510,9 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => [key, key + value]); // {a: 
 | *0* | `obj`          | **Yes**  | `T`                                                     |
 | *1* | `func`         | **Yes**  | `(key: string, value: V, index: number) => [string, W]` |
 
-|             |       |
-|-------------|-------|
-| **Returns** | `any` |
+| Return Type |
+|-------------|
+| `any`       |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1530,9 +1530,9 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: '
 | *0* | `obj`          | **Yes**  | `T`                                           |
 | *1* | `func`         | **Yes**  | `(key: string, value: V, index: number) => W` |
 
-|             |       |
-|-------------|-------|
-| **Returns** | `any` |
+| Return Type |
+|-------------|
+| `any`       |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1550,9 +1550,9 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: 1
 | *0* | `obj`          | **Yes**  | `T`                                                |
 | *1* | `func`         | **Yes**  | `(key: string, value: V, index: number) => string` |
 
-|             |     |
-|-------------|-----|
-| **Returns** | `T` |
+| Return Type |
+|-------------|
+| `T`         |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1570,9 +1570,9 @@ ObjectTools.filter({a: 1, b: 2, c: 3}, (k, v) => v % 2 === 0) // { b: 2 }
 | *0* | `obj`          | **Yes**  | `T`                                                 |
 | *1* | `func`         | **Yes**  | `(key: string, value: V, index: number) => boolean` |
 
-|             |     |
-|-------------|-----|
-| **Returns** | `O` |
+| Return Type |
+|-------------|
+| `O`         |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1589,9 +1589,9 @@ ObjectTools.clean({a: 1, b: undefined, c: 3}) // { a: 1, c: 3 }
 |:---:|:---------------|:---------|:-----|
 | *0* | `obj`          | **Yes**  | `T`  |
 
-|             |     |
-|-------------|-----|
-| **Returns** | `O` |
+| Return Type |
+|-------------|
+| `O`         |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1608,9 +1608,9 @@ ObjectTools.invert({ a: 'foo', b: 'bar' }); // { foo: 'a', bar: 'b'}
 |:---:|:---------------|:---------|:-----|
 | *0* | `obj`          | **Yes**  | `Ti` |
 
-|             |      |
-|-------------|------|
-| **Returns** | `To` |
+| Return Type |
+|-------------|
+| `To`        |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1632,9 +1632,9 @@ StringTools.capitalise('hello world'); // 'Hello World'
 |:---:|:---------------|:---------|:---------|:--------|
 | *0* | `input`        | *No*     | `string` | `''`    |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1651,9 +1651,9 @@ StringTools.angloise('éèêë'); // 'eeee'
 |:---:|:---------------|:---------|:---------|
 | *0* | `input`        | **Yes**  | `string` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1670,9 +1670,9 @@ StringTools.clean('éèêë_--ab0'); // 'eeeeab0'
 |:---:|:---------------|:---------|:---------|:--------|
 | *0* | `input`        | *No*     | `string` | `''`    |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1693,9 +1693,9 @@ StringTools.repeat(-1, '-') // ''
 | *0* | `maxLength`    | **Yes**  | `number` |
 | *1* | `repeated`     | **Yes**  | `string` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1715,9 +1715,9 @@ Convert a string to camel case (e.g. `thisIsCamelCase`)
 | *0* | `input`           | **Yes**  | `string \| string[]` |         |
 | *1* | `capitaliseFirst` | *No*     | `boolean`            | `false` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1734,9 +1734,9 @@ Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
 |:---:|:---------------|:---------|:---------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1753,9 +1753,9 @@ Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
 |:---:|:---------------|:---------|:---------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1774,9 +1774,9 @@ Convert a string to text where words are separated by a given character (e.g. `t
 | *1* | `char`         | **Yes**  | `string`             |         |
 | *2* | `toUpper`      | *No*     | `boolean`            | `false` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1794,9 +1794,9 @@ Convert a string to camel case (e.g. `this-is-slug-case`)
 | *0* | `input`        | **Yes**  | `string \| string[]` |         |
 | *1* | `toUpper`      | *No*     | `boolean`            | `false` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1813,9 +1813,9 @@ Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
 |:---:|:---------------|:---------|:---------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1832,9 +1832,9 @@ Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
 |:---:|:---------------|:---------|:---------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1852,9 +1852,9 @@ Convert a string to snake case (e.g. `this_is_snake_case`)
 | *0* | `input`        | **Yes**  | `string \| string[]` |         |
 | *1* | `toUpper`      | *No*     | `boolean`            | `false` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1871,9 +1871,9 @@ Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
 |:---:|:---------------|:---------|:---------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1890,9 +1890,9 @@ Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
 |:---:|:---------------|:---------|:---------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1910,9 +1910,9 @@ Convert a string to spaced case (e.g. `this is spaced case`)
 | *0* | `input`        | **Yes**  | `string \| string[]` |         |
 | *1* | `toUpper`      | *No*     | `boolean`            | `false` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1929,9 +1929,9 @@ Convert a string to lower spaced case (e.g. `this is lower spaced case`)
 |:---:|:---------------|:---------|:---------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1948,9 +1948,9 @@ Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
 |:---:|:---------------|:---------|:---------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1967,9 +1967,9 @@ Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Ca
 |:---:|:---------------|:---------|:---------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2069,9 +2069,9 @@ clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
 |:----:|:---------------|:---------|:------------|
 | *0…* | `args`         | *No*     | `ClxType[]` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2102,9 +2102,9 @@ MathsTools.fixFloat(0.1 + 0.2) // 0.3
 |:---:|:---------------|:---------|:---------|
 | *0* | `num`          | **Yes**  | `number` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2121,9 +2121,9 @@ MathsTools.addAll(1, 2, 3, 4, 5); // 15
 |:----:|:---------------|:---------|:-----------|
 | *0…* | `args`         | *No*     | `number[]` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2146,9 +2146,9 @@ MathsTools.round.floorTo(0.1, 0.25); // 0.2
 | *0* | `to`           | **Yes**  | `number` |
 | *1* | `value`        | **Yes**  | `number` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2170,9 +2170,9 @@ MathsTools.round.to(0.1, 0.25); // 0.3
 | *0* | `to`           | **Yes**  | `number` |
 | *1* | `value`        | **Yes**  | `number` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2193,9 +2193,9 @@ MathsTools.round.ceilTo(0.1, 0.25); // 0.3
 | *0* | `to`           | **Yes**  | `number` |
 | *1* | `value`        | **Yes**  | `number` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2214,9 +2214,9 @@ MathsTools.lerp(0.5, 0, 10); // 5
 | *1* | `fromVal`      | **Yes**  | `number` |
 | *2* | `toVal`        | **Yes**  | `number` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2235,9 +2235,9 @@ MathsTools.lerpArray(0.5, [0, 0, 0], [10, 100, 1000]) // [5, 50, 500]
 | *1* | `fromArr`      | **Yes**  | `number[]` |
 | *2* | `toArr`        | **Yes**  | `number[]` |
 
-|             |            |
-|-------------|------------|
-| **Returns** | `number[]` |
+| Return Type |
+|-------------|
+| `number[]`  |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2256,9 +2256,9 @@ MathsTools.lerpObj(0.5, {'ARS': 0, 'CHE': 0, 'FUL': 0}, {'ARS': 100, 'CHE': 10, 
 | *1* | `fromObj`      | **Yes**  | `T`      |
 | *2* | `toObj`        | **Yes**  | `T`      |
 
-|             |     |
-|-------------|-----|
-| **Returns** | `T` |
+| Return Type |
+|-------------|
+| `T`         |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2278,9 +2278,9 @@ MathsTools.clamp(-5, 0, 10); // 0
 | *1* | `min`          | **Yes**  | `number` |
 | *2* | `max`          | **Yes**  | `number` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2310,9 +2310,9 @@ MathsTools.getOrdinal(24); // 'th'
 |:---:|:---------------|:---------|:---------|:--------|
 | *0* | `num`          | *No*     | `number` | `0`     |
 
-|             |                                |
-|-------------|--------------------------------|
-| **Returns** | `"th" \| "st" \| "nd" \| "rd"` |
+| Return Type                    |
+|--------------------------------|
+| `"th" \| "st" \| "nd" \| "rd"` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2345,9 +2345,9 @@ const run = () => {
 const luckyNumber: number = await run();
 ```
 
-|             |                      |
-|-------------|----------------------|
-| **Returns** | `DeferredPromise<T>` |
+| Return Type          |
+|----------------------|
+| `DeferredPromise<T>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2361,9 +2361,9 @@ An alias for Promise.all
 |:---:|:---------------|:---------|:---------------|
 | *0* | `promises`     | **Yes**  | `Promise<T>[]` |
 
-|             |                |
-|-------------|----------------|
-| **Returns** | `Promise<any>` |
+| Return Type    |
+|----------------|
+| `Promise<any>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2412,9 +2412,9 @@ timer.log();
 | *1* | `items`        | **Yes**  | `((index: number) => Promise<T>)[]` |         |
 | *2* | `noThrow`      | *No*     | `boolean`                           | `false` |
 
-|             |                |
-|-------------|----------------|
-| **Returns** | `Promise<T[]>` |
+| Return Type    |
+|----------------|
+| `Promise<T[]>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2441,9 +2441,9 @@ console.log(''); // after 2 seconds
 | *0* | `items`        | **Yes**  | `Ti[]`                                                   |
 | *1* | `func`         | **Yes**  | `(item: Ti, index: number, array: Ti[]) => Promise<any>` |
 
-|             |                |
-|-------------|----------------|
-| **Returns** | `Promise<any>` |
+| Return Type    |
+|----------------|
+| `Promise<any>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2473,9 +2473,9 @@ console.log(''); // after 4 seconds
 | *1* | `items`        | **Yes**  | `Ti[]`                                                   |
 | *2* | `func`         | **Yes**  | `(item: Ti, index: number, array: Ti[]) => Promise<any>` |
 
-|             |                |
-|-------------|----------------|
-| **Returns** | `Promise<any>` |
+| Return Type    |
+|----------------|
+| `Promise<any>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2503,9 +2503,9 @@ console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
 | *0* | `items`        | **Yes**  | `Ti[]`                                                  |
 | *1* | `func`         | **Yes**  | `(item: Ti, index: number, array: Ti[]) => Promise<To>` |
 
-|             |                 |
-|-------------|-----------------|
-| **Returns** | `Promise<To[]>` |
+| Return Type     |
+|-----------------|
+| `Promise<To[]>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2536,9 +2536,9 @@ console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
 | *1* | `items`        | **Yes**  | `Ti[]`                                                  |
 | *2* | `func`         | **Yes**  | `(item: Ti, index: number, array: Ti[]) => Promise<To>` |
 
-|             |                 |
-|-------------|-----------------|
-| **Returns** | `Promise<To[]>` |
+| Return Type     |
+|-----------------|
+| `Promise<To[]>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2581,9 +2581,9 @@ timer.log();
 |:---:|:---------------|:---------|:-----|
 | *0* | `input`        | **Yes**  | `T`  |
 
-|             |                                   |
-|-------------|-----------------------------------|
-| **Returns** | `Promise<UnWrapPromiseObject<T>>` |
+| Return Type                       |
+|-----------------------------------|
+| `Promise<UnWrapPromiseObject<T>>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2632,9 +2632,9 @@ timer.log();
 | *1* | `input`        | **Yes**  | `T`       |         |
 | *2* | `noThrow`      | *No*     | `boolean` | `false` |
 
-|             |                                   |
-|-------------|-----------------------------------|
-| **Returns** | `Promise<UnWrapPromiseObject<T>>` |
+| Return Type                       |
+|-----------------------------------|
+| `Promise<UnWrapPromiseObject<T>>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2961,9 +2961,9 @@ ColourTools.parse('red') // [255, 0, 0]
 |:---:|:---------------|:---------|:---------|
 | *0* | `input`        | **Yes**  | `string` |
 
-|             |                |
-|-------------|----------------|
-| **Returns** | `ColourValues` |
+| Return Type    |
+|----------------|
+| `ColourValues` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2980,9 +2980,9 @@ ColourTools.toHex([255, 0, 0]) // '#FF0000'
 |:---:|:---------------|:---------|:---------------|
 | *0* | `colour`       | **Yes**  | `ColourValues` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3008,9 +3008,9 @@ ColourTools.getLuminance([0, 0, 255]); // 29.07
 |:---:|:---------------|:---------|:---------------|
 | *0* | `rgb`          | **Yes**  | `ColourValues` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `number` |
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3029,9 +3029,9 @@ ColourTools.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
 |:---:|:---------------|:---------|:---------------|
 | *0* | `rgb`          | **Yes**  | `ColourValues` |
 
-|             |                |
-|-------------|----------------|
-| **Returns** | `ColourValues` |
+| Return Type    |
+|----------------|
+| `ColourValues` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3052,9 +3052,9 @@ ColourTools.toHSL([0, 255, 0]); // [120, 100, 50]
 | *0* | `colour`       | **Yes**  | `ColourValues` |         |
 | *1* | `round`        | *No*     | `boolean`      | `true`  |
 
-|             |             |
-|-------------|-------------|
-| **Returns** | `HSLValues` |
+| Return Type |
+|-------------|
+| `HSLValues` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3075,9 +3075,9 @@ ColourTools.fromHSL([120, 100, 50]); // [0, 255, 0]
 | *0* | `hsl`          | **Yes**  | `HSLValues` |         |
 | *1* | `round`        | *No*     | `boolean`   | `true`  |
 
-|             |                |
-|-------------|----------------|
-| **Returns** | `ColourValues` |
+| Return Type    |
+|----------------|
+| `ColourValues` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3096,9 +3096,9 @@ ColourTools.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
 |:---:|:---------------|:---------|:---------------|
 | *0* | `rgb`          | **Yes**  | `ColourValues` |
 
-|             |                |
-|-------------|----------------|
-| **Returns** | `ColourValues` |
+| Return Type    |
+|----------------|
+| `ColourValues` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3118,9 +3118,9 @@ ColourTools.getContrastedColour([255, 255, 0]); // [0, 0, 0]
 |:---:|:---------------|:---------|:---------------|
 | *0* | `colour`       | **Yes**  | `ColourValues` |
 
-|             |                |
-|-------------|----------------|
-| **Returns** | `ColourValues` |
+| Return Type    |
+|----------------|
+| `ColourValues` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3143,9 +3143,9 @@ ColourTools.getLimitedColour([128, 128, 128], ([h,s,l]) => l > 90, ([h,s,l]) => 
 | *1* | `checkFn`      | **Yes**  | `(hsl: HSLValues) => boolean`   |
 | *2* | `adjustFn`     | **Yes**  | `(hsl: HSLValues) => HSLValues` |
 
-|             |                |
-|-------------|----------------|
-| **Returns** | `ColourValues` |
+| Return Type    |
+|----------------|
+| `ColourValues` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3186,9 +3186,9 @@ TimeTools.toReadableDuration(realisticDuration, true, 2) // '10 days & 2 hours'
 | *1* | `longNames`    | *No*     | `boolean` | `false` |
 | *2* | `maxUnits`     | *No*     | `number`  | `3`     |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3213,9 +3213,9 @@ const result = tryOr('default', () => getSomething());
 | *1*  | `func`         | **Yes**  | `(...args: A) => Promise<T>` |
 | *2…* | `args`         | *No*     | `A[]`                        |
 
-|             |              |
-|-------------|--------------|
-| **Returns** | `Promise<T>` |
+| Return Type  |
+|--------------|
+| `Promise<T>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3236,9 +3236,9 @@ const result = tryOr(5, seconds(1), true, () => getSomething());
 | *2* | `suppress`     | *No*     | `boolean`              | `true`                      |
 | *3* | `run`          | *No*     | `(attemptNumber) => T` | `fn.result(undefined as T)` |
 
-|             |              |
-|-------------|--------------|
-| **Returns** | `Promise<T>` |
+| Return Type  |
+|--------------|
+| `Promise<T>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3262,9 +3262,9 @@ const result = retryOr('default', 5, seconds(1), true, () => getSomething());
 | *3* | `suppress`     | *No*     | `boolean` | `true`               |
 | *4* | `run`          | *No*     | `() => T` | `fn.result(orValue)` |
 
-|             |              |
-|-------------|--------------|
-| **Returns** | `Promise<T>` |
+| Return Type  |
+|--------------|
+| `Promise<T>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3304,9 +3304,9 @@ D
 |:----:|:---------------|:---------|:--------|
 | *0…* | `text`         | *No*     | `any[]` |
 
-|             |        |
-|-------------|--------|
-| **Returns** | `void` |
+| Return Type |
+|-------------|
+| `void`      |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3377,9 +3377,9 @@ ABC ▕██████▏ [5 / 5]
 | *0* | `max`          | **Yes**  | `number`             |         |
 | *1* | `options`      | *No*     | `ProgressBarOptions` | `{}`    |
 
-|             |               |
-|-------------|---------------|
-| **Returns** | `ProgressBar` |
+| Return Type   |
+|---------------|
+| `ProgressBar` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3518,9 +3518,9 @@ superscript(1234567890) // '¹²³⁴⁵⁶⁷⁸⁹⁰'
 |:---:|:---------------|:---------|:-------------------|
 | *0* | `num`          | **Yes**  | `number \| string` |
 
-|             |          |
-|-------------|----------|
-| **Returns** | `string` |
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3580,9 +3580,9 @@ Sets the default pause time for pauses between queue items.
 |:---:|:---------------|:---------|:---------|
 | *0* | `time`         | **Yes**  | `number` |
 
-|             |        |
-|-------------|--------|
-| **Returns** | `void` |
+| Return Type |
+|-------------|
+| `void`      |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3597,9 +3597,9 @@ Sets the pause time for pauses between queue items for the specified queue.
 | *0* | `id`           | **Yes**  | `string` |
 | *1* | `time`         | **Yes**  | `number` |
 
-|             |        |
-|-------------|--------|
-| **Returns** | `void` |
+| Return Type |
+|-------------|
+| `void`      |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3614,9 +3614,9 @@ Adds a function to the queue.
 | *0* | `id`           | **Yes**  | `string`           |
 | *1* | `fn`           | **Yes**  | `() => Promise<T>` |
 
-|             |              |
-|-------------|--------------|
-| **Returns** | `Promise<T>` |
+| Return Type  |
+|--------------|
+| `Promise<T>` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3630,9 +3630,9 @@ Creates a new QueueManager instance.
 |:---:|:-------------------|:---------|:---------|
 | *0* | `defaultPauseTime` | *No*     | `number` |
 
-|             |                |
-|-------------|----------------|
-| **Returns** | `QueueManager` |
+| Return Type    |
+|----------------|
+| `QueueManager` |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3689,9 +3689,9 @@ Example Times:
 | *3* | `chalk`        | *No*     | `any`     | `noChalk` |
 | *4* | `displayNames` | *No*     | `TName`   |           |
 
-|             |       |
-|-------------|-------|
-| **Returns** | `any` |
+| Return Type |
+|-------------|
+| `any`       |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
