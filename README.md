@@ -3372,10 +3372,10 @@ ABC ▕█████ ▏ [4 / 5]
 ABC ▕██████▏ [5 / 5]
 ```
 
-|  #  | Parameter Name | Required | Type                             |
-|:---:|:---------------|:---------|:---------------------------------|
-| *0* | `max`          | **Yes**  | `number`                         |
-| *1* | `]`            | **Yes**  | `ProgressBarOptions} [options={` |
+|  #  | Parameter Name | Required | Type                 | Default |
+|:---:|:---------------|:---------|:---------------------|:--------|
+| *0* | `max`          | **Yes**  | `number`             |         |
+| *1* | `options`      | *No*     | `ProgressBarOptions` | `{}`    |
 
 | Return Type   |
 |---------------|
