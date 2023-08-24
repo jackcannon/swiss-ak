@@ -1,6 +1,20 @@
 import * as swissak from '../';
 
 describe('ArrayTools', () => {
+  describe('create', () => {
+    it(`exists as 'create'`, () => {
+      expect(swissak.create).toBeDefined();
+    });
+    it(`exists as 'ArrayTools.create'`, () => {
+      expect(swissak.ArrayTools.create).toBeDefined();
+    });
+    it(`exists as 'filled'`, () => {
+      expect(swissak.filled).toBeDefined();
+    });
+    it(`exists as 'ArrayTools.filled'`, () => {
+      expect(swissak.ArrayTools.filled).toBeDefined();
+    });
+  });
   describe('range', () => {
     it(`exists as 'range'`, () => {
       expect(swissak.range).toBeDefined();

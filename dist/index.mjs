@@ -665,6 +665,11 @@ var ObjectTools;
   ObjectTools2.mapKeys = (obj, func) => ObjectTools2.remodel(obj, (entries2) => entries2.map(([key, value], index) => [func(key, value, index), value]));
   ObjectTools2.filter = (obj, func) => ObjectTools2.remodel(obj, (entries2) => entries2.filter(([key, value], index) => func(key, value, index)));
   ObjectTools2.clean = (obj) => ObjectTools2.filter(obj, (key, value) => value !== void 0);
+  ObjectTools2.invert = (obj) => ObjectTools2.remodelEach(obj, ([key, value]) => {
+    var _a;
+    const newKey = ((_a = value == null ? void 0 : value.toString) == null ? void 0 : _a.call(value)) ?? value + "";
+    return [newKey, key];
+  });
 })(ObjectTools || (ObjectTools = {}));
 
 // src/tools/StringTools.ts

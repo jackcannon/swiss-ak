@@ -16,6 +16,11 @@ describe('StringTools', () => {
       expect(swissak.StringTools.clean).toBeDefined();
     });
   });
+  describe('repeat', () => {
+    it(`exists as 'StringTools.repeat'`, () => {
+      expect(swissak.StringTools.repeat).toBeDefined();
+    });
+  });
   describe('toLowerCamelCase', () => {
     it(`exists as 'StringTools.toLowerCamelCase'`, () => {
       expect(swissak.StringTools.toLowerCamelCase).toBeDefined();

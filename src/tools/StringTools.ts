@@ -1,3 +1,5 @@
+import { ObjectTools } from './ObjectTools';
+
 //<!-- DOCS: 120 -->
 
 export type ClxType = string | boolean | { [key: string]: boolean } | ClxType[];
@@ -82,37 +84,52 @@ export namespace StringTools {
   export const repeat = (maxLength: number, repeated: string) =>
     (repeated && typeof repeated === 'string' ? repeated : '').repeat(Math.max(0, maxLength));
 
-  export type CaseInput = string | string[];
-  type SplittingFn = (input: CaseInput) => string[];
+  type SplittingFn = (input: string | string[]) => string[];
 
   /**<!-- DOCS: StringTools.StringCaseHandler ### -->
    * StringCaseHandler
    */
   export interface StringCaseHandler {
-    /**<!-- DOCS: StringTools.toLowerCamelCase #### -->
-     * toLowerCamelCase
-     *
-     * - `StringTools.toLowerCamelCase`
-     * - `StringTools.fromSlugCase.toLowerCamelCase`
-     * - `StringTools.fromSnakeCase.toLowerCamelCase`
-     * - `StringTools.fromSpaced.toLowerCamelCase`
-     * - `StringTools.fromCamelCase.toLowerCamelCase`
-     *
-     * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
-     */
-    toLowerCamelCase(input: CaseInput): string;
-    /**<!-- DOCS: StringTools.toUpperCamelCase #### -->
-     * toUpperCamelCase
-     *
-     * - `StringTools.toUpperCamelCase`
-     * - `StringTools.fromSlugCase.toUpperCamelCase`
-     * - `StringTools.fromSnakeCase.toUpperCamelCase`
-     * - `StringTools.fromSpaced.toUpperCamelCase`
-     * - `StringTools.fromCamelCase.toUpperCamelCase`
-     *
-     * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
-     */
-    toUpperCamelCase(input: CaseInput): string;
+    /** <!-- DOCS-ALIAS: StringTools.toLowerCamelCase --> */
+    toLowerCamelCase(input: string | string[]): string;
+    /** <!-- DOCS-ALIAS: StringTools.toUpperCamelCase --> */
+    toUpperCamelCase(input: string | string[]): string;
+    /** <!-- DOCS-ALIAS: StringTools.toCamelCase --> */
+    toCamelCase(input: string | string[], capitaliseFirst?: boolean): string;
+    /** <!-- DOCS-ALIAS: StringTools.toLowerSlugCase --> */
+    toLowerSlugCase(input: string | string[]): string;
+    /** <!-- DOCS-ALIAS: StringTools.toUpperSlugCase --> */
+    toUpperSlugCase(input: string | string[]): string;
+    /** <!-- DOCS-ALIAS: StringTools.toSlugCase --> */
+    toSlugCase(input: string | string[], toUpper?: boolean): string;
+    /** <!-- DOCS-ALIAS: StringTools.toLowerSnakeCase --> */
+    toLowerSnakeCase(input: string | string[]): string;
+    /** <!-- DOCS-ALIAS: StringTools.toUpperSnakeCase --> */
+    toUpperSnakeCase(input: string | string[]): string;
+    /** <!-- DOCS-ALIAS: StringTools.toSnakeCase --> */
+    toSnakeCase(input: string | string[], toUpper?: boolean): string;
+    /** <!-- DOCS-ALIAS: StringTools.toLowerSpaced --> */
+    toLowerSpaced(input: string | string[]): string;
+    /** <!-- DOCS-ALIAS: StringTools.toUpperSpaced --> */
+    toUpperSpaced(input: string | string[]): string;
+    /** <!-- DOCS-ALIAS: StringTools.toCapitalisedSpaced --> */
+    toCapitalisedSpaced(input: string | string[]): string;
+    /** <!-- DOCS-ALIAS: StringTools.toSpaced --> */
+    toSpaced(input: string | string[], toUpper?: boolean): string;
+    /** <!-- DOCS-ALIAS: StringTools.toCharacterSeparated --> */
+    toCharacterSeparated(input: string | string[], char: string, toUpper?: boolean): string;
+  }
+  // SWISS-DOCS-JSDOC-REMOVE-NEXT-LINE
+  const caseHandler = (overrideSplitter?: SplittingFn): StringCaseHandler => {
+    const getSplit: SplittingFn = (input: string | string[] = ''): string[] => {
+      if (overrideSplitter) return overrideSplitter(input);
+      const arr = [input].flat();
+      return arr
+        .map((s) => clean(s.replace(/-|_/g, ' ')).split(' '))
+        .flat()
+        .filter((s) => s.length);
+    };
+
     /**<!-- DOCS: StringTools.toCamelCase #### -->
      * toCamelCase
      *
@@ -123,131 +140,43 @@ export namespace StringTools {
      * - `StringTools.fromCamelCase.toCamelCase`
      *
      * Convert a string to camel case (e.g. `thisIsCamelCase`)
+     * @param {string | string[]} input
+     * @param {boolean} [capitaliseFirst=false]
+     * @returns {string}
      */
-    toCamelCase(input: CaseInput, capitaliseFirst?: boolean): string;
+    const toCamelCase = (input: string | string[], capitaliseFirst: boolean = false): string => {
+      const split = getSplit(input);
+      return split.map((word, index) => (index === 0 && !capitaliseFirst ? word.toLowerCase() : capitalise(word))).join('');
+    };
+    /**<!-- DOCS: StringTools.toLowerCamelCase #### -->
+     * toLowerCamelCase
+     *
+     * - `StringTools.toLowerCamelCase`
+     * - `StringTools.fromSlugCase.toLowerCamelCase`
+     * - `StringTools.fromSnakeCase.toLowerCamelCase`
+     * - `StringTools.fromSpaced.toLowerCamelCase`
+     * - `StringTools.fromCamelCase.toLowerCamelCase`
+     *
+     * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
+     * @param {string | string[]} input
+     * @returns {string}
+     */
+    const toLowerCamelCase = (input: string | string[]): string => toCamelCase(input, false);
 
-    /**<!-- DOCS: StringTools.toLowerSlugCase #### -->
-     * toLowerSlugCase
+    /**<!-- DOCS: StringTools.toUpperCamelCase #### -->
+     * toUpperCamelCase
      *
-     * - `StringTools.toLowerSlugCase`
-     * - `StringTools.fromSlugCase.toLowerSlugCase`
-     * - `StringTools.fromSnakeCase.toLowerSlugCase`
-     * - `StringTools.fromSpaced.toLowerSlugCase`
-     * - `StringTools.fromCamelCase.toLowerSlugCase`
+     * - `StringTools.toUpperCamelCase`
+     * - `StringTools.fromSlugCase.toUpperCamelCase`
+     * - `StringTools.fromSnakeCase.toUpperCamelCase`
+     * - `StringTools.fromSpaced.toUpperCamelCase`
+     * - `StringTools.fromCamelCase.toUpperCamelCase`
      *
-     * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
+     * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
+     * @param {string | string[]} input
+     * @returns {string}
      */
-    toLowerSlugCase(input: CaseInput): string;
-    /**<!-- DOCS: StringTools.toUpperSlugCase #### -->
-     * toUpperSlugCase
-     *
-     * - `StringTools.toUpperSlugCase`
-     * - `StringTools.fromSlugCase.toUpperSlugCase`
-     * - `StringTools.fromSnakeCase.toUpperSlugCase`
-     * - `StringTools.fromSpaced.toUpperSlugCase`
-     * - `StringTools.fromCamelCase.toUpperSlugCase`
-     *
-     * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
-     */
-    toUpperSlugCase(input: CaseInput): string;
-    /**<!-- DOCS: StringTools.toSlugCase #### -->
-     * toSlugCase
-     *
-     * - `StringTools.toSlugCase`
-     * - `StringTools.fromSlugCase.toSlugCase`
-     * - `StringTools.fromSnakeCase.toSlugCase`
-     * - `StringTools.fromSpaced.toSlugCase`
-     * - `StringTools.fromCamelCase.toSlugCase`
-     *
-     * Convert a string to camel case (e.g. `this-is-slug-case`)
-     */
-    toSlugCase(input: CaseInput, toUpper?: boolean): string;
-
-    /**<!-- DOCS: StringTools.toLowerSnakeCase #### -->
-     * toLowerSnakeCase
-     *
-     * - `StringTools.toLowerSnakeCase`
-     * - `StringTools.fromSlugCase.toLowerSnakeCase`
-     * - `StringTools.fromSnakeCase.toLowerSnakeCase`
-     * - `StringTools.fromSpaced.toLowerSnakeCase`
-     * - `StringTools.fromCamelCase.toLowerSnakeCase`
-     *
-     * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
-     */
-    toLowerSnakeCase(input: CaseInput): string;
-    /**<!-- DOCS: StringTools.toUpperSnakeCase #### -->
-     * toUpperSnakeCase
-     *
-     * - `StringTools.toUpperSnakeCase`
-     * - `StringTools.fromSlugCase.toUpperSnakeCase`
-     * - `StringTools.fromSnakeCase.toUpperSnakeCase`
-     * - `StringTools.fromSpaced.toUpperSnakeCase`
-     * - `StringTools.fromCamelCase.toUpperSnakeCase`
-     *
-     * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
-     */
-    toUpperSnakeCase(input: CaseInput): string;
-    /**<!-- DOCS: StringTools.toSnakeCase #### -->
-     * toSnakeCase
-     *
-     * - `StringTools.toSnakeCase`
-     * - `StringTools.fromSlugCase.toSnakeCase`
-     * - `StringTools.fromSnakeCase.toSnakeCase`
-     * - `StringTools.fromSpaced.toSnakeCase`
-     * - `StringTools.fromCamelCase.toSnakeCase`
-     *
-     * Convert a string to snake case (e.g. `this_is_snake_case`)
-     */
-    toSnakeCase(input: CaseInput, toUpper?: boolean): string;
-
-    /**<!-- DOCS: StringTools.toLowerSpaced #### -->
-     * toLowerSpaced
-     *
-     * - `StringTools.toLowerSpaced`
-     * - `StringTools.fromSlugCase.toLowerSpaced`
-     * - `StringTools.fromSnakeCase.toLowerSpaced`
-     * - `StringTools.fromSpaced.toLowerSpaced`
-     * - `StringTools.fromCamelCase.toLowerSpaced`
-     *
-     * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
-     */
-    toLowerSpaced(input: CaseInput): string;
-    /**<!-- DOCS: StringTools.toUpperSpaced #### -->
-     * toUpperSpaced
-     *
-     * - `StringTools.toUpperSpaced`
-     * - `StringTools.fromSlugCase.toUpperSpaced`
-     * - `StringTools.fromSnakeCase.toUpperSpaced`
-     * - `StringTools.fromSpaced.toUpperSpaced`
-     * - `StringTools.fromCamelCase.toUpperSpaced`
-     *
-     * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
-     */
-    toUpperSpaced(input: CaseInput): string;
-    /**<!-- DOCS: StringTools.toCapitalisedSpaced #### -->
-     * toCapitalisedSpaced
-     *
-     * - `StringTools.toCapitalisedSpaced`
-     * - `StringTools.fromSlugCase.toCapitalisedSpaced`
-     * - `StringTools.fromSnakeCase.toCapitalisedSpaced`
-     * - `StringTools.fromSpaced.toCapitalisedSpaced`
-     * - `StringTools.fromCamelCase.toCapitalisedSpaced`
-     *
-     * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
-     */
-    toCapitalisedSpaced(input: CaseInput): string;
-    /**<!-- DOCS: StringTools.toSpaced #### -->
-     * toSpaced
-     *
-     * - `StringTools.toSpaced`
-     * - `StringTools.fromSlugCase.toSpaced`
-     * - `StringTools.fromSnakeCase.toSpaced`
-     * - `StringTools.fromSpaced.toSpaced`
-     * - `StringTools.fromCamelCase.toSpaced`
-     *
-     * Convert a string to spaced case (e.g. `this is spaced case`)
-     */
-    toSpaced(input: CaseInput, toUpper?: boolean): string;
+    const toUpperCamelCase = (input: string | string[]): string => toCamelCase(input, true);
 
     /**<!-- DOCS: StringTools.toCharacterSeparated #### -->
      * toCharacterSeparated
@@ -259,43 +188,168 @@ export namespace StringTools {
      * - `StringTools.fromCamelCase.toCharacterSeparated`
      *
      * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
+     * @param {string | string[]} input
+     * @param {string} char
+     * @param {boolean} [toUpper=false]
+     * @returns {string}
      */
-    toCharacterSeparated(input: CaseInput, char: string, toUpper?: boolean): string;
-  }
-  const caseHandler = (overrideSplitter?: SplittingFn): StringCaseHandler => {
-    const getSplit: SplittingFn = (input: CaseInput = ''): string[] => {
-      if (overrideSplitter) return overrideSplitter(input);
-      const arr = [input].flat();
-      return arr
-        .map((s) => clean(s.replace(/-|_/g, ' ')).split(' '))
-        .flat()
-        .filter((s) => s.length);
-    };
-
-    const toCamelCase = (input: CaseInput, capitaliseFirst: boolean = false): string => {
-      const split = getSplit(input);
-      return split.map((word, index) => (index === 0 && !capitaliseFirst ? word.toLowerCase() : capitalise(word))).join('');
-    };
-    const toLowerCamelCase = (input: CaseInput): string => toCamelCase(input, false);
-    const toUpperCamelCase = (input: CaseInput): string => toCamelCase(input, true);
-
-    const toCharacterSeparated = (input: CaseInput, char: string, toUpper: boolean = false) => {
+    const toCharacterSeparated = (input: string | string[], char: string, toUpper: boolean = false) => {
       const split = getSplit(input);
       return split.map((word, index) => (toUpper ? word.toUpperCase() : word.toLowerCase())).join(char);
     };
 
-    const toSlugCase = (input: CaseInput, toUpper: boolean = false): string => toCharacterSeparated(input, '-', toUpper);
-    const toLowerSlugCase = (input: CaseInput): string => toSlugCase(input, false);
-    const toUpperSlugCase = (input: CaseInput): string => toSlugCase(input, true);
+    /**<!-- DOCS: StringTools.toSlugCase #### -->
+     * toSlugCase
+     *
+     * - `StringTools.toSlugCase`
+     * - `StringTools.fromSlugCase.toSlugCase`
+     * - `StringTools.fromSnakeCase.toSlugCase`
+     * - `StringTools.fromSpaced.toSlugCase`
+     * - `StringTools.fromCamelCase.toSlugCase`
+     *
+     * Convert a string to camel case (e.g. `this-is-slug-case`)
+     * @param {string | string[]} input
+     * @param {boolean} [toUpper=false]
+     * @returns {string}
+     */
+    const toSlugCase = (input: string | string[], toUpper: boolean = false): string => toCharacterSeparated(input, '-', toUpper);
 
-    const toSnakeCase = (input: CaseInput, toUpper: boolean = false): string => toCharacterSeparated(input, '_', toUpper);
-    const toLowerSnakeCase = (input: CaseInput): string => toSnakeCase(input, false);
-    const toUpperSnakeCase = (input: CaseInput): string => toSnakeCase(input, true);
+    /**<!-- DOCS: StringTools.toLowerSlugCase #### -->
+     * toLowerSlugCase
+     *
+     * - `StringTools.toLowerSlugCase`
+     * - `StringTools.fromSlugCase.toLowerSlugCase`
+     * - `StringTools.fromSnakeCase.toLowerSlugCase`
+     * - `StringTools.fromSpaced.toLowerSlugCase`
+     * - `StringTools.fromCamelCase.toLowerSlugCase`
+     *
+     * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
+     * @param {string | string[]} input
+     * @returns {string}
+     */
+    const toLowerSlugCase = (input: string | string[]): string => toSlugCase(input, false);
 
-    const toSpaced = (input: CaseInput, toUpper: boolean = false): string => toCharacterSeparated(input, ' ', toUpper);
-    const toLowerSpaced = (input: CaseInput): string => toSpaced(input, false);
-    const toUpperSpaced = (input: CaseInput): string => toSpaced(input, true);
-    const toCapitalisedSpaced = (input: CaseInput): string => capitalise(toSpaced(input, false));
+    /**<!-- DOCS: StringTools.toUpperSlugCase #### -->
+     * toUpperSlugCase
+     *
+     * - `StringTools.toUpperSlugCase`
+     * - `StringTools.fromSlugCase.toUpperSlugCase`
+     * - `StringTools.fromSnakeCase.toUpperSlugCase`
+     * - `StringTools.fromSpaced.toUpperSlugCase`
+     * - `StringTools.fromCamelCase.toUpperSlugCase`
+     *
+     * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
+     * @param {string | string[]} input
+     * @returns {string}
+     */
+    const toUpperSlugCase = (input: string | string[]): string => toSlugCase(input, true);
+
+    /**<!-- DOCS: StringTools.toSnakeCase #### -->
+     * toSnakeCase
+     *
+     * - `StringTools.toSnakeCase`
+     * - `StringTools.fromSlugCase.toSnakeCase`
+     * - `StringTools.fromSnakeCase.toSnakeCase`
+     * - `StringTools.fromSpaced.toSnakeCase`
+     * - `StringTools.fromCamelCase.toSnakeCase`
+     *
+     * Convert a string to snake case (e.g. `this_is_snake_case`)
+     * @param {string | string[]} input
+     * @param {boolean} [toUpper=false]
+     * @returns {string}
+     */
+    const toSnakeCase = (input: string | string[], toUpper: boolean = false): string => toCharacterSeparated(input, '_', toUpper);
+
+    /**<!-- DOCS: StringTools.toLowerSnakeCase #### -->
+     * toLowerSnakeCase
+     *
+     * - `StringTools.toLowerSnakeCase`
+     * - `StringTools.fromSlugCase.toLowerSnakeCase`
+     * - `StringTools.fromSnakeCase.toLowerSnakeCase`
+     * - `StringTools.fromSpaced.toLowerSnakeCase`
+     * - `StringTools.fromCamelCase.toLowerSnakeCase`
+     *
+     * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
+     * @param {string | string[]} input
+     * @returns {string}
+     */
+    const toLowerSnakeCase = (input: string | string[]): string => toSnakeCase(input, false);
+
+    /**<!-- DOCS: StringTools.toUpperSnakeCase #### -->
+     * toUpperSnakeCase
+     *
+     * - `StringTools.toUpperSnakeCase`
+     * - `StringTools.fromSlugCase.toUpperSnakeCase`
+     * - `StringTools.fromSnakeCase.toUpperSnakeCase`
+     * - `StringTools.fromSpaced.toUpperSnakeCase`
+     * - `StringTools.fromCamelCase.toUpperSnakeCase`
+     *
+     * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
+     * @param {string | string[]} input
+     * @returns {string}
+     */
+    const toUpperSnakeCase = (input: string | string[]): string => toSnakeCase(input, true);
+
+    /**<!-- DOCS: StringTools.toSpaced #### -->
+     * toSpaced
+     *
+     * - `StringTools.toSpaced`
+     * - `StringTools.fromSlugCase.toSpaced`
+     * - `StringTools.fromSnakeCase.toSpaced`
+     * - `StringTools.fromSpaced.toSpaced`
+     * - `StringTools.fromCamelCase.toSpaced`
+     *
+     * Convert a string to spaced case (e.g. `this is spaced case`)
+     * @param {string | string[]} input
+     * @param {boolean} [toUpper=false]
+     * @returns {string}
+     */
+    const toSpaced = (input: string | string[], toUpper: boolean = false): string => toCharacterSeparated(input, ' ', toUpper);
+
+    /**<!-- DOCS: StringTools.toLowerSpaced #### -->
+     * toLowerSpaced
+     *
+     * - `StringTools.toLowerSpaced`
+     * - `StringTools.fromSlugCase.toLowerSpaced`
+     * - `StringTools.fromSnakeCase.toLowerSpaced`
+     * - `StringTools.fromSpaced.toLowerSpaced`
+     * - `StringTools.fromCamelCase.toLowerSpaced`
+     *
+     * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
+     * @param {string | string[]} input
+     * @returns {string}
+     */
+    const toLowerSpaced = (input: string | string[]): string => toSpaced(input, false);
+
+    /**<!-- DOCS: StringTools.toUpperSpaced #### -->
+     * toUpperSpaced
+     *
+     * - `StringTools.toUpperSpaced`
+     * - `StringTools.fromSlugCase.toUpperSpaced`
+     * - `StringTools.fromSnakeCase.toUpperSpaced`
+     * - `StringTools.fromSpaced.toUpperSpaced`
+     * - `StringTools.fromCamelCase.toUpperSpaced`
+     *
+     * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
+     * @param {string | string[]} input
+     * @returns {string}
+     */
+    const toUpperSpaced = (input: string | string[]): string => toSpaced(input, true);
+
+    /**<!-- DOCS: StringTools.toCapitalisedSpaced #### -->
+     * toCapitalisedSpaced
+     *
+     * - `StringTools.toCapitalisedSpaced`
+     * - `StringTools.fromSlugCase.toCapitalisedSpaced`
+     * - `StringTools.fromSnakeCase.toCapitalisedSpaced`
+     * - `StringTools.fromSpaced.toCapitalisedSpaced`
+     * - `StringTools.fromCamelCase.toCapitalisedSpaced`
+     *
+     * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
+     * @param {string | string[]} input
+     * @returns {string}
+     */
+    const toCapitalisedSpaced = (input: string | string[]): string => capitalise(toSpaced(input, false));
 
     return {
       toLowerCamelCase,
@@ -317,6 +371,7 @@ export namespace StringTools {
 
       toCharacterSeparated
     };
+    // SWISS-DOCS-JSDOC-REMOVE-NEXT-LINE
   };
 
   const standardCaseHandler = caseHandler();
@@ -437,7 +492,7 @@ export namespace StringTools {
    * - `StringTools.fromCamelCase.toSpaced`
    * - `StringTools.fromCamelCase.toCharacterSeparated`
    */
-  export const fromCamelCase = caseHandler((input: CaseInput) =>
+  export const fromCamelCase = caseHandler((input: string | string[]) =>
     [input]
       .flat()
       .map((s) => clean(s))

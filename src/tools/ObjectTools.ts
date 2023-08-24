@@ -1,4 +1,4 @@
-import { OfType } from './types';
+import { ObjOfType, OfType } from './types';
 
 //<!-- DOCS: 110 -->
 /**<!-- DOCS: ObjectTools ## -->
@@ -137,4 +137,23 @@ export namespace ObjectTools {
    * @returns {O}
    */
   export const clean = <T extends Object, O extends Partial<T>>(obj: T): O => filter(obj, (key, value) => value !== undefined) as O;
+
+  /**<!-- DOCS: ObjectTools.invert ### -->
+   * invert
+   *
+   * - `ObjectTools.invert`
+   *
+   * Inverts the keys and values of an object
+   *
+   * ```typescript
+   * ObjectTools.invert({ a: 'foo', b: 'bar' }); // { foo: 'a', bar: 'b'}
+   * ```
+   * @param {Ti} obj
+   * @returns {To}
+   */
+  export const invert = <Ti extends Object, To extends ObjOfType<string>>(obj: Ti): To =>
+    remodelEach(obj, ([key, value]) => {
+      const newKey = value?.toString?.() ?? value + '';
+      return [newKey, key];
+    });
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE

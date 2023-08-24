@@ -76,26 +76,27 @@ A collection of useful little things that I like to reuse across projects
       - [mapKeys](#mapkeys)
       - [filter](#filter)
       - [clean](#clean)
+      - [invert](#invert)
     - [StringTools](#stringtools)
       - [capitalise](#capitalise)
       - [angloise](#angloise)
       - [clean](#clean)
       - [repeat](#repeat)
       - [StringCaseHandler](#stringcasehandler)
+        - [toCamelCase](#tocamelcase)
         - [toLowerCamelCase](#tolowercamelcase)
         - [toUpperCamelCase](#touppercamelcase)
-        - [toCamelCase](#tocamelcase)
+        - [toCharacterSeparated](#tocharacterseparated)
+        - [toSlugCase](#toslugcase)
         - [toLowerSlugCase](#tolowerslugcase)
         - [toUpperSlugCase](#toupperslugcase)
-        - [toSlugCase](#toslugcase)
+        - [toSnakeCase](#tosnakecase)
         - [toLowerSnakeCase](#tolowersnakecase)
         - [toUpperSnakeCase](#touppersnakecase)
-        - [toSnakeCase](#tosnakecase)
+        - [toSpaced](#tospaced)
         - [toLowerSpaced](#tolowerspaced)
         - [toUpperSpaced](#toupperspaced)
         - [toCapitalisedSpaced](#tocapitalisedspaced)
-        - [toSpaced](#tospaced)
-        - [toCharacterSeparated](#tocharacterseparated)
       - [fromSlugCase](#fromslugcase)
       - [fromSnakeCase](#fromsnakecase)
       - [fromSpaced](#fromspaced)
@@ -1594,6 +1595,25 @@ ObjectTools.clean({a: 1, b: undefined, c: 3}) // { a: 1, c: 3 }
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
+### invert
+- `ObjectTools.invert`
+
+Inverts the keys and values of an object
+
+```typescript
+ObjectTools.invert({ a: 'foo', b: 'bar' }); // { foo: 'a', bar: 'b'}
+```
+
+|  #  | Parameter Name | Required | Type |
+|:---:|:---------------|:---------|:-----|
+| *0* | `obj`          | **Yes**  | `Ti` |
+
+| Return Type |
+|-------------|
+| `To`        |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
 ## StringTools
 A collection of string utilities
 
@@ -1681,6 +1701,26 @@ StringTools.repeat(-1, '-') // ''
 
 ### StringCaseHandler
 
+#### toCamelCase
+- `StringTools.toCamelCase`
+- `StringTools.fromSlugCase.toCamelCase`
+- `StringTools.fromSnakeCase.toCamelCase`
+- `StringTools.fromSpaced.toCamelCase`
+- `StringTools.fromCamelCase.toCamelCase`
+
+Convert a string to camel case (e.g. `thisIsCamelCase`)
+
+|  #  | Parameter Name    | Required | Type                 | Default |
+|:---:|:------------------|:---------|:---------------------|:--------|
+| *0* | `input`           | **Yes**  | `string \| string[]` |         |
+| *1* | `capitaliseFirst` | *No*     | `boolean`            | `false` |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
 #### toLowerCamelCase
 - `StringTools.toLowerCamelCase`
 - `StringTools.fromSlugCase.toLowerCamelCase`
@@ -1689,6 +1729,14 @@ StringTools.repeat(-1, '-') // ''
 - `StringTools.fromCamelCase.toLowerCamelCase`
 
 Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
+
+|  #  | Parameter Name | Required | Type                 |
+|:---:|:---------------|:---------|:---------------------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |
+
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1701,38 +1749,34 @@ Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
 
 Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+|  #  | Parameter Name | Required | Type                 |
+|:---:|:---------------|:---------|:---------------------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |
 
-#### toCamelCase
-- `StringTools.toCamelCase`
-- `StringTools.fromSlugCase.toCamelCase`
-- `StringTools.fromSnakeCase.toCamelCase`
-- `StringTools.fromSpaced.toCamelCase`
-- `StringTools.fromCamelCase.toCamelCase`
-
-Convert a string to camel case (e.g. `thisIsCamelCase`)
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
-#### toLowerSlugCase
-- `StringTools.toLowerSlugCase`
-- `StringTools.fromSlugCase.toLowerSlugCase`
-- `StringTools.fromSnakeCase.toLowerSlugCase`
-- `StringTools.fromSpaced.toLowerSlugCase`
-- `StringTools.fromCamelCase.toLowerSlugCase`
+#### toCharacterSeparated
+- `StringTools.toCharacterSeparated`
+- `StringTools.fromSlugCase.toCharacterSeparated`
+- `StringTools.fromSnakeCase.toCharacterSeparated`
+- `StringTools.fromSpaced.toCharacterSeparated`
+- `StringTools.fromCamelCase.toCharacterSeparated`
 
-Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
+Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+|  #  | Parameter Name | Required | Type                 | Default |
+|:---:|:---------------|:---------|:---------------------|:--------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |         |
+| *1* | `char`         | **Yes**  | `string`             |         |
+| *2* | `toUpper`      | *No*     | `boolean`            | `false` |
 
-#### toUpperSlugCase
-- `StringTools.toUpperSlugCase`
-- `StringTools.fromSlugCase.toUpperSlugCase`
-- `StringTools.fromSnakeCase.toUpperSlugCase`
-- `StringTools.fromSpaced.toUpperSlugCase`
-- `StringTools.fromCamelCase.toUpperSlugCase`
-
-Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1745,27 +1789,52 @@ Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
 
 Convert a string to camel case (e.g. `this-is-slug-case`)
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+|  #  | Parameter Name | Required | Type                 | Default |
+|:---:|:---------------|:---------|:---------------------|:--------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |         |
+| *1* | `toUpper`      | *No*     | `boolean`            | `false` |
 
-#### toLowerSnakeCase
-- `StringTools.toLowerSnakeCase`
-- `StringTools.fromSlugCase.toLowerSnakeCase`
-- `StringTools.fromSnakeCase.toLowerSnakeCase`
-- `StringTools.fromSpaced.toLowerSnakeCase`
-- `StringTools.fromCamelCase.toLowerSnakeCase`
-
-Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
-#### toUpperSnakeCase
-- `StringTools.toUpperSnakeCase`
-- `StringTools.fromSlugCase.toUpperSnakeCase`
-- `StringTools.fromSnakeCase.toUpperSnakeCase`
-- `StringTools.fromSpaced.toUpperSnakeCase`
-- `StringTools.fromCamelCase.toUpperSnakeCase`
+#### toLowerSlugCase
+- `StringTools.toLowerSlugCase`
+- `StringTools.fromSlugCase.toLowerSlugCase`
+- `StringTools.fromSnakeCase.toLowerSlugCase`
+- `StringTools.fromSpaced.toLowerSlugCase`
+- `StringTools.fromCamelCase.toLowerSlugCase`
 
-Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
+Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
+
+|  #  | Parameter Name | Required | Type                 |
+|:---:|:---------------|:---------|:---------------------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### toUpperSlugCase
+- `StringTools.toUpperSlugCase`
+- `StringTools.fromSlugCase.toUpperSlugCase`
+- `StringTools.fromSnakeCase.toUpperSlugCase`
+- `StringTools.fromSpaced.toUpperSlugCase`
+- `StringTools.fromCamelCase.toUpperSlugCase`
+
+Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
+
+|  #  | Parameter Name | Required | Type                 |
+|:---:|:---------------|:---------|:---------------------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |
+
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1778,38 +1847,52 @@ Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
 
 Convert a string to snake case (e.g. `this_is_snake_case`)
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+|  #  | Parameter Name | Required | Type                 | Default |
+|:---:|:---------------|:---------|:---------------------|:--------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |         |
+| *1* | `toUpper`      | *No*     | `boolean`            | `false` |
 
-#### toLowerSpaced
-- `StringTools.toLowerSpaced`
-- `StringTools.fromSlugCase.toLowerSpaced`
-- `StringTools.fromSnakeCase.toLowerSpaced`
-- `StringTools.fromSpaced.toLowerSpaced`
-- `StringTools.fromCamelCase.toLowerSpaced`
-
-Convert a string to lower spaced case (e.g. `this is lower spaced case`)
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
-#### toUpperSpaced
-- `StringTools.toUpperSpaced`
-- `StringTools.fromSlugCase.toUpperSpaced`
-- `StringTools.fromSnakeCase.toUpperSpaced`
-- `StringTools.fromSpaced.toUpperSpaced`
-- `StringTools.fromCamelCase.toUpperSpaced`
+#### toLowerSnakeCase
+- `StringTools.toLowerSnakeCase`
+- `StringTools.fromSlugCase.toLowerSnakeCase`
+- `StringTools.fromSnakeCase.toLowerSnakeCase`
+- `StringTools.fromSpaced.toLowerSnakeCase`
+- `StringTools.fromCamelCase.toLowerSnakeCase`
 
-Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
+Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
+
+|  #  | Parameter Name | Required | Type                 |
+|:---:|:---------------|:---------|:---------------------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |
+
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
-#### toCapitalisedSpaced
-- `StringTools.toCapitalisedSpaced`
-- `StringTools.fromSlugCase.toCapitalisedSpaced`
-- `StringTools.fromSnakeCase.toCapitalisedSpaced`
-- `StringTools.fromSpaced.toCapitalisedSpaced`
-- `StringTools.fromCamelCase.toCapitalisedSpaced`
+#### toUpperSnakeCase
+- `StringTools.toUpperSnakeCase`
+- `StringTools.fromSlugCase.toUpperSnakeCase`
+- `StringTools.fromSnakeCase.toUpperSnakeCase`
+- `StringTools.fromSpaced.toUpperSnakeCase`
+- `StringTools.fromCamelCase.toUpperSnakeCase`
 
-Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
+Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
+
+|  #  | Parameter Name | Required | Type                 |
+|:---:|:---------------|:---------|:---------------------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |
+
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1822,16 +1905,71 @@ Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Ca
 
 Convert a string to spaced case (e.g. `this is spaced case`)
 
+|  #  | Parameter Name | Required | Type                 | Default |
+|:---:|:---------------|:---------|:---------------------|:--------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |         |
+| *1* | `toUpper`      | *No*     | `boolean`            | `false` |
+
+| Return Type |
+|-------------|
+| `string`    |
+
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
-#### toCharacterSeparated
-- `StringTools.toCharacterSeparated`
-- `StringTools.fromSlugCase.toCharacterSeparated`
-- `StringTools.fromSnakeCase.toCharacterSeparated`
-- `StringTools.fromSpaced.toCharacterSeparated`
-- `StringTools.fromCamelCase.toCharacterSeparated`
+#### toLowerSpaced
+- `StringTools.toLowerSpaced`
+- `StringTools.fromSlugCase.toLowerSpaced`
+- `StringTools.fromSnakeCase.toLowerSpaced`
+- `StringTools.fromSpaced.toLowerSpaced`
+- `StringTools.fromCamelCase.toLowerSpaced`
 
-Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
+Convert a string to lower spaced case (e.g. `this is lower spaced case`)
+
+|  #  | Parameter Name | Required | Type                 |
+|:---:|:---------------|:---------|:---------------------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### toUpperSpaced
+- `StringTools.toUpperSpaced`
+- `StringTools.fromSlugCase.toUpperSpaced`
+- `StringTools.fromSnakeCase.toUpperSpaced`
+- `StringTools.fromSpaced.toUpperSpaced`
+- `StringTools.fromCamelCase.toUpperSpaced`
+
+Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
+
+|  #  | Parameter Name | Required | Type                 |
+|:---:|:---------------|:---------|:---------------------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### toCapitalisedSpaced
+- `StringTools.toCapitalisedSpaced`
+- `StringTools.fromSlugCase.toCapitalisedSpaced`
+- `StringTools.fromSnakeCase.toCapitalisedSpaced`
+- `StringTools.fromSpaced.toCapitalisedSpaced`
+- `StringTools.fromCamelCase.toCapitalisedSpaced`
+
+Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
+
+|  #  | Parameter Name | Required | Type                 |
+|:---:|:---------------|:---------|:---------------------|
+| *0* | `input`        | **Yes**  | `string \| string[]` |
+
+| Return Type |
+|-------------|
+| `string`    |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 

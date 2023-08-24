@@ -762,6 +762,8 @@ declare const MILLENNIUM: number;
  * milliseconds(2); // 2 (2 milliseconds)
  * milliseconds(5); // 5 (5 milliseconds)
  * ```
+ * @param {ms} [x=1]
+ * @returns {number}
  */
 declare const milliseconds: (x?: ms) => ms;
 /**<!-- DOCS-ALIAS: times.seconds -->
@@ -778,6 +780,8 @@ declare const milliseconds: (x?: ms) => ms;
  * seconds(2); // 2_000 (2 seconds)
  * seconds(5); // 5_000 (5 seconds)
  * ```
+ * @param {second} [x=1]
+ * @returns {number}
  */
 declare const seconds: (x?: second) => ms;
 /**<!-- DOCS-ALIAS: times.minutes -->
@@ -794,6 +798,8 @@ declare const seconds: (x?: second) => ms;
  * minutes(2); // 120_000 (120 seconds)
  * minutes(5); // 300_000 (300 seconds)
  * ```
+ * @param {minute} [x=1]
+ * @returns {number}
  */
 declare const minutes: (x?: minute) => ms;
 /**<!-- DOCS-ALIAS: times.hours -->
@@ -810,6 +816,8 @@ declare const minutes: (x?: minute) => ms;
  * hours(2); // 7_200_000 (2 hours / 120 minutes)
  * hours(5); // 18_000_000 (5 hours / 300 minutes)
  * ```
+ * @param {hour} [x=1]
+ * @returns {number}
  */
 declare const hours: (x?: hour) => ms;
 /**<!-- DOCS-ALIAS: times.days -->
@@ -826,6 +834,8 @@ declare const hours: (x?: hour) => ms;
  * days(2); // 172_800_000 (2 days / 48 hours)
  * days(5); // 432_000_000 (5 days / 120 hours)
  * ```
+ * @param {day} [x=1]
+ * @returns {number}
  */
 declare const days: (x?: day) => ms;
 /**<!-- DOCS-ALIAS: times.weeks -->
@@ -842,6 +852,8 @@ declare const days: (x?: day) => ms;
  * weeks(2); // 1_209_600_000 (14 days / 336 hours)
  * weeks(5); // 3_024_000_000 (35 days / 840 hours)
  * ```
+ * @param {week} [x=1]
+ * @returns {number}
  */
 declare const weeks: (x?: week) => ms;
 /**<!-- DOCS-ALIAS: times.months -->
@@ -858,6 +870,8 @@ declare const weeks: (x?: week) => ms;
  * months(2); // 5_184_000_000 (60 days)
  * months(5); // 12_960_000_000 (150 days)
  * ```
+ * @param {month} [x=1]
+ * @returns {number}
  */
 declare const months: (x?: month) => ms;
 /**<!-- DOCS-ALIAS: times.years -->
@@ -874,6 +888,8 @@ declare const months: (x?: month) => ms;
  * years(2); // 63_115_200_000 (2 years / 730.5 days)
  * years(5); // 157_788_000_000 (5 years / 1,826.25 days)
  * ```
+ * @param {year} [x=1]
+ * @returns {number}
  */
 declare const years: (x?: year) => ms;
 /**<!-- DOCS-ALIAS: times.decades -->
@@ -890,6 +906,8 @@ declare const years: (x?: year) => ms;
  * decades(2); // 631_152_000_000 (20 years / 7,305 days)
  * decades(5); // 1_577_880_000_000 (50 years / 18,262.5 days)
  * ```
+ * @param {decade} [x=1]
+ * @returns {number}
  */
 declare const decades: (x?: decade) => ms;
 /**<!-- DOCS-ALIAS: times.centuries -->
@@ -906,6 +924,8 @@ declare const decades: (x?: decade) => ms;
  * centuries(2); // 6_311_520_000_000 (200 years / 73,050 days)
  * centuries(5); // 15_778_800_000_000 (500 years / 182,625 days)
  * ```
+ * @param {century} [x=1]
+ * @returns {number}
  */
 declare const centuries: (x?: century) => ms;
 /**<!-- DOCS-ALIAS: times.millenniums -->
@@ -922,6 +942,8 @@ declare const centuries: (x?: century) => ms;
  * millenniums(2); // 63_115_200_000_000 (2000 years / 730,500 days)
  * millenniums(5); // 157_788_000_000_000 (5000 years / 1,826,250 days)
  * ```
+ * @param {millennium} [x=1]
+ * @returns {number}
  */
 declare const millenniums: (x?: millennium) => ms;
 
@@ -1079,6 +1101,8 @@ declare namespace waiters {
  * await wait(minutes(2));
  * console.log(new Date().toTimeString()); // 12:32:10
  * ```
+ * @param {ms} time
+ * @returns {Promise<unknown>}
  */
 declare const wait: (time: ms) => Promise<unknown>;
 /**<!-- DOCS-ALIAS: waiters.waitUntil -->
@@ -1096,6 +1120,8 @@ declare const wait: (time: ms) => Promise<unknown>;
  * await waitUntil(Date.now() + minutes(10));
  * console.log(new Date().toTimeString()); // 12:40:10
  * ```
+ * @param {ms} time
+ * @returns {Promise<null>}
  */
 declare const waitUntil: (time: ms) => Promise<null>;
 /**<!-- DOCS-ALIAS: waiters.waitFor -->
@@ -1113,6 +1139,8 @@ declare const waitUntil: (time: ms) => Promise<null>;
  * await waitFor(minutes(5));
  * console.log(new Date().toTimeString()); // 12:35:10
  * ```
+ * @param {ms} time
+ * @returns {Promise<null>}
  */
 declare const waitFor: (time: ms) => Promise<null>;
 /**<!-- DOCS-ALIAS: waiters.waitEvery -->
@@ -1130,6 +1158,9 @@ declare const waitFor: (time: ms) => Promise<null>;
  * await waitEvery(hours(2));
  * console.log(new Date().toTimeString()); // 14:00:00
  * ```
+ * @param {ms} timing
+ * @param {ms} [offset]
+ * @returns {Promise<null>}
  */
 declare const waitEvery: (timing: ms, offset?: ms) => Promise<null>;
 /**<!-- DOCS-ALIAS: waiters.stopInterval -->
@@ -1149,6 +1180,8 @@ declare const waitEvery: (timing: ms, offset?: ms) => Promise<null>;
  *   }
  * }, hours(1));
  * ```
+ * @param {number} intID
+ * @returns {number}
  */
 declare const stopInterval: (intID: number) => number;
 /**<!-- DOCS-ALIAS: waiters.interval -->
@@ -1170,6 +1203,9 @@ declare const stopInterval: (intID: number) => number;
  *   }
  * }, hours(1));
  * ```
+ * @param {(intID?: number, count?: number) => any} action
+ * @param {ms} timing
+ * @returns {number}
  */
 declare const interval: (action: (intID?: number, count?: number) => any, timing: ms) => number;
 
@@ -1733,6 +1769,8 @@ declare namespace fn {
          * ```typescript
          * [null, 1, undefined, 2].filter(fn.exists); // [1, 2]
          * ```
+         * @param {T} item
+         * @returns {boolean}
          */
         const exists: <T = any>(item: T) => boolean;
         /**<!-- DOCS-ALIAS: fn.isTruthy -->
@@ -1748,6 +1786,8 @@ declare namespace fn {
          * [0, 1, 2].filter(fn.isTruthy); // [1, 2]
          * ['', 'a', 'b'].filter(fn.isTruthy); // ['a', 'b']
          * ```
+         * @param {T} item
+         * @returns {boolean}
          */
         const isTruthy: <T = any>(item: T) => boolean;
         /**<!-- DOCS-ALIAS: fn.isFalsy -->
@@ -1763,6 +1803,8 @@ declare namespace fn {
          * [0, 1, 2].filter(fn.isFalsy); // [0]
          * ['', 'a', 'b'].filter(fn.isFalsy); // ['']
          * ```
+         * @param {T} item
+         * @returns {boolean}
          */
         const isFalsy: <T = any>(item: T) => boolean;
         /**<!-- DOCS-ALIAS: fn.isEmpty -->
@@ -1778,6 +1820,8 @@ declare namespace fn {
          * ['', 'a', 'b'].filter(fn.isEmpty); // ['']
          * [[], [1], [2]].filter(fn.isEmpty); // [[]]
          * ```
+         * @param {T[] | string} item
+         * @returns {boolean}
          */
         const isEmpty: <T = any>(item: string | T[]) => boolean;
         /**<!-- DOCS-ALIAS: fn.isNotEmpty -->
@@ -1793,6 +1837,8 @@ declare namespace fn {
          * ['', 'a', 'b'].filter(fn.isNotEmpty); // ['a', 'b']
          * [[], [1], [2]].filter(fn.isNotEmpty); // [[1], [2]]
          * ```
+         * @param {T[] | string} item
+         * @returns {boolean}
          */
         const isNotEmpty: <T = any>(item: string | T[]) => boolean;
         /**<!-- DOCS-ALIAS: fn.isEqual -->
@@ -1807,6 +1853,8 @@ declare namespace fn {
          * ```typescript
          * [0, 1, 2].filter(fn.isEqual(1)); // [1]
          * ```
+         * @param {T} item
+         * @returns {(other: T) => boolean}
          */
         const isEqual: <T = any>(item: T) => (other: T) => boolean;
         /**<!-- DOCS-ALIAS: fn.isNotEqual -->
@@ -1821,6 +1869,8 @@ declare namespace fn {
          * ```typescript
          * [0, 1, 2].filter(fn.isNotEqual(1)); // [0, 2]
          * ```
+         * @param {T} item
+         * @returns {(other: T) => boolean}
          */
         const isNotEqual: <T = any>(item: T) => (other: T) => boolean;
         /**<!-- DOCS-ALIAS: fn.dedupe -->
@@ -1835,6 +1885,10 @@ declare namespace fn {
          * ```typescript
          * [0, 1, 2, 1, 0].filter(fn.dedupe); // [0, 1, 2]
          * ```
+         * @param {T} item
+         * @param {number} index
+         * @param {T[]} array
+         * @returns {boolean}
          */
         const dedupe: <T extends unknown>(item: T, index: number, array: T[]) => boolean;
         /**<!-- DOCS-ALIAS: fn.dedupeMapped -->
@@ -1849,6 +1903,8 @@ declare namespace fn {
          * ```typescript
          * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
          * ```
+         * @param {(value: T, index: number, array: T[]) => U} mapFn
+         * @returns {(item: T, index: number, array: T[]) => boolean}
          */
         const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
     }
@@ -1872,6 +1928,8 @@ declare namespace fn {
          * ```typescript
          * [0, 1, 2].map(fn.toString); // ['0', '1', '2']
          * ```
+         * @param {T} item
+         * @returns {string}
          */
         const toString: <T = any>(item: T) => string;
         /**<!-- DOCS-ALIAS: fn.toNumber -->
@@ -1886,6 +1944,8 @@ declare namespace fn {
          * ```typescript
          * ['0', '1', '2'].map(fn.toNumber); // [0, 1, 2]
          * ```
+         * @param {T} item
+         * @returns {number}
          */
         const toNumber: <T = any>(item: T) => number;
         /**<!-- DOCS-ALIAS: fn.toBool -->
@@ -1901,6 +1961,8 @@ declare namespace fn {
          * [0, 1, 2].map(fn.toBool); // [false, true, true]
          * ['true', 'false', '', 'text'].map(fn.toBool); // [true, false, false, true]
          * ```
+         * @param {T} item
+         * @returns {boolean}
          */
         const toBool: <T = any>(item: T) => boolean;
         /**<!-- DOCS-ALIAS: fn.toProp -->
@@ -1915,6 +1977,8 @@ declare namespace fn {
          * ```typescript
          * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
          * ```
+         * @param {string} prop
+         * @returns {(item: O) => P}
          */
         const toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
         /**<!-- DOCS-ALIAS: fn.toFixed -->
@@ -1929,6 +1993,8 @@ declare namespace fn {
          * ```typescript
          * [1.234, 5.678, 9.012].map(fn.toFixed(2)); // [1.23, 5.68, 9.01]
          * ```
+         * @param {number} precision
+         * @returns {(num: number) => number}
          */
         const toFixed: (precision: number) => (num: number) => number;
     }
@@ -1952,6 +2018,9 @@ declare namespace fn {
          * ```typescript
          * [2, 4, 3, 1].sort(fn.asc); // [1, 2, 3, 4]
          * ```
+         * @param {any} a
+         * @param {any} b
+         * @returns {number}
          */
         const asc: (a: any, b: any) => number;
         /**<!-- DOCS-ALIAS: fn.desc -->
@@ -1966,6 +2035,9 @@ declare namespace fn {
          * ```typescript
          * [2, 4, 3, 1].sort(fn.asc); // [4, 3, 2, 1]
          * ```
+         * @param {any} a
+         * @param {any} b
+         * @returns {number}
          */
         const desc: (a: any, b: any) => number;
         /**<!-- DOCS-ALIAS: fn.byProp -->
@@ -1981,6 +2053,9 @@ declare namespace fn {
          * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
          * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
          * ```
+         * @param {string} propName
+         * @param {SortFn<T>} [sortFn=asc]
+         * @returns {SortFn<O>}
          */
         const byProp: <T = number, O = Object>(propName: string, sortFn?: SortFn<T>) => SortFn<O>;
         /**<!-- DOCS-ALIAS: fn.nearestTo -->
@@ -1996,6 +2071,8 @@ declare namespace fn {
          * const people = [2, 4, 3, 1];
          * people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
          * ```
+         * @param {T} target
+         * @returns {(a: any, b: any) => number}
          */
         const nearestTo: <T = number>(target: T) => (a: any, b: any) => number;
         /**<!-- DOCS-ALIAS: fn.furthestFrom -->
@@ -2011,6 +2088,8 @@ declare namespace fn {
          * const people = [2, 4, 3, 1];
          * people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
          * ```
+         * @param {T} target
+         * @returns {(a: any, b: any) => number}
          */
         const furthestFrom: <T = number>(target: T) => (a: any, b: any) => number;
         /**<!-- DOCS-ALIAS: fn.arrayAsc -->
@@ -2021,6 +2100,9 @@ declare namespace fn {
          * - `sorts.arrayAsc`
          * 
          * Sort an array of arrays in ascending order
+         * @param {any[]} a
+         * @param {any[]} b
+         * @returns {any}
          */
         const arrayAsc: (a: any[], b: any[]) => number;
         /**<!-- DOCS-ALIAS: fn.arrayDesc -->
@@ -2031,6 +2113,9 @@ declare namespace fn {
          * - `sorts.arrayDesc`
          * 
          * Sort an array of arrays in descending order
+         * @param {any[]} a
+         * @param {any[]} b
+         * @returns {any}
          */
         const arrayDesc: (a: any[], b: any[]) => number;
     }
@@ -2055,6 +2140,9 @@ declare namespace fn {
          * [1, 2, 3].reduce(fn.combine); // 6
          * ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
          * ```
+         * @param {any} a
+         * @param {any} b
+         * @returns {any}
          */
         const combine: (a: any, b: any) => any;
         /**<!-- DOCS-ALIAS: fn.combineProp -->
@@ -2071,6 +2159,8 @@ declare namespace fn {
          * people.reduce(fn.combineProp('age')); // 6
          * people.reduce(fn.combineProp('name')); // 'abc'
          * ```
+         * @param {string} propName
+         * @returns {(a: any, b: any) => any}
          */
         const combineProp: (propName: string) => (a: any, b: any) => any;
         /**<!-- DOCS-ALIAS: fn.mode -->
@@ -2085,6 +2175,11 @@ declare namespace fn {
          * ```typescript
          * [1, 2, 3, 2, 1, 1].reduce(fn.mode); // 1
          * ```
+         * @param {T} prev
+         * @param {T} curr
+         * @param {number} index
+         * @param {T[]} arr
+         * @returns {T}
          */
         const mode: <T extends unknown>(prev: T, curr: T, index: number, arr: T[]) => T;
         /**<!-- DOCS-ALIAS: fn.modeMapped -->
@@ -2099,6 +2194,8 @@ declare namespace fn {
          * ```typescript
          * [2, 4, 6, 8, 9, 12].reduce(fn.modeMapped((v) => v % 3)); // 6 (maps to [ 2, 1, 0, 2, 0, 0 ])
          * ```
+         * @param {(value: T, index: number, array: T[]) => U} mapFn
+         * @returns {(prev: T, curr: T, index: number, arr: T[]) => T}
          */
         const modeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
     }
@@ -2123,6 +2220,9 @@ declare namespace fn {
          * [1, 1, 1].every(fn.isAllEqual); // true
          * [1, 2, 1].every(fn.isAllEqual); // false
          * ```
+         * @param {T} val
+         * @param {T[]} arr
+         * @returns {boolean}
          */
         const isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
     }
@@ -2487,6 +2587,8 @@ declare type ProgressBarOptions = progressBar.ProgressBarOptions;
  * C
  * D
  * ```
+ * @param {...any} [text]
+ * @returns {void}
  */
 declare const printLn: (...text: any[]) => void;
 /**<!-- DOCS-ALIAS: progressBar.getProgressBar -->
@@ -2524,6 +2626,9 @@ declare const printLn: (...text: any[]) => void;
  * ABC ▕█████ ▏ [4 / 5]
  * ABC ▕██████▏ [5 / 5]
  * ```
+ * @param {number} max
+ * @param {ProgressBarOptions} [options={}]
+ * @returns {ProgressBar}
  */
 declare const getProgressBar: (max: number, options?: ProgressBarOptions) => ProgressBar;
 
@@ -2587,6 +2692,9 @@ declare namespace ArrayTools {
      * - `ArrayTools.filled`
      * 
      * Create an array of the given length, where each value is the given value
+     * @param {number} [length=1]
+     * @param {T} [value=1 as T]
+     * @returns {T[]}
      */
     export const filled: <T extends unknown = number>(length?: number, value?: T) => T[];
     /**<!-- DOCS: ArrayTools.range ### -->
@@ -2868,6 +2976,9 @@ declare namespace ArrayTools {
  * - `ArrayTools.filled`
  * 
  * Create an array of the given length, where each value is the given value
+ * @param {number} [length=1]
+ * @param {T} [value=1 as T]
+ * @returns {T[]}
  */
 declare const create: <T extends unknown = number>(length?: number, value?: T) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.create -->
@@ -2879,6 +2990,9 @@ declare const create: <T extends unknown = number>(length?: number, value?: T) =
  * - `ArrayTools.filled`
  * 
  * Create an array of the given length, where each value is the given value
+ * @param {number} [length=1]
+ * @param {T} [value=1 as T]
+ * @returns {T[]}
  */
 declare const filled: <T extends unknown = number>(length?: number, value?: T) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.range -->
@@ -2899,6 +3013,10 @@ declare const filled: <T extends unknown = number>(length?: number, value?: T) =
  * ArrayTools.range(5, 2);  // [0, 2, 4, 6, 8]
  * ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
  * ```
+ * @param {number} [length=1]
+ * @param {number} [multiplier=1]
+ * @param {number} [offset=0]
+ * @returns {number[]}
  */
 declare const range: (length?: number, multiplier?: number, offset?: number) => number[];
 /**<!-- DOCS-ALIAS: ArrayTools.zip -->
@@ -2916,6 +3034,8 @@ declare const range: (length?: number, multiplier?: number, offset?: number) => 
  * ```typescript
  * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
  * ```
+ * @param {...T} [arrs]
+ * @returns {UnwrapArrays<T>[]}
  */
 declare const zip: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...any] : []] : []] : []] : []] : []] : []] : []] : []] : []] : []] : [])[];
 /**<!-- DOCS-ALIAS: ArrayTools.zipMax -->
@@ -2933,6 +3053,8 @@ declare const zip: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...i
  * ```typescript
  * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
  * ```
+ * @param {...T} [arrs]
+ * @returns {UnwrapArrays<T>[]}
  */
 declare const zipMax: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...any] : []] : []] : []] : []] : []] : []] : []] : []] : []] : []] : [])[];
 /**<!-- DOCS-ALIAS: ArrayTools.sortByMapped -->
@@ -2951,6 +3073,10 @@ declare const zipMax: <T extends any[]>(...arrs: T) => (T extends [infer Head, .
  *   (a, b) => b - a
  * ); // ['3p', '2p', '1p']
  * ```
+ * @param {T[]} arr
+ * @param {(value: T, index: number, array: T[]) => M} mapFn
+ * @param {(a: M, b: M) => number} [sortFn=fn.asc]
+ * @returns {T[]}
  */
 declare const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn?: (a: M, b: M) => number) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.randomise -->
@@ -2968,6 +3094,8 @@ declare const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T,
  * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
  * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
  * ```
+ * @param {T[]} arr
+ * @returns {T[]}
  */
 declare const randomise: <T = string>(arr: T[]) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.reverse -->
@@ -2989,6 +3117,8 @@ declare const randomise: <T = string>(arr: T[]) => T[];
  * ArrayTools.reverse(arr2);  // [3, 2, 1]
  * arr2            // [1, 2, 3]
  * ```
+ * @param {T[]} arr
+ * @returns {T[]}
  */
 declare const reverse: <T = string>(arr: T[]) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.entries -->
@@ -3008,6 +3138,8 @@ declare const reverse: <T = string>(arr: T[]) => T[];
  *  console.log(value); // 'a', 'b', 'c'
  * }
  * ```
+ * @param {T[]} arr
+ * @returns {[number, T][]}
  */
 declare const entries: <T = string>(arr: T[]) => [number, T][];
 /**<!-- DOCS-ALIAS: ArrayTools.repeat -->
@@ -3022,6 +3154,9 @@ declare const entries: <T = string>(arr: T[]) => [number, T][];
  * ArrayTools.repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
  * ArrayTools.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
  * ```
+ * @param {number} maxLength
+ * @param {...T} [items]
+ * @returns {T[]}
  */
 declare const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.roll -->
@@ -3036,6 +3171,9 @@ declare const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
  * ArrayTools.roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
  * ArrayTools.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
  * ```
+ * @param {number} distance
+ * @param {T[]} arr
+ * @returns {T[]}
  */
 declare const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.sortNumberedText -->
@@ -3051,6 +3189,9 @@ declare const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
  * names.sort(); // [ 'foo10', 'foo20', 'foo9', 'name1', 'name10', 'name2' ]
  * ArrayTools.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
  * ```
+ * @param {string[]} texts
+ * @param {boolean} [ignoreCase=true]
+ * @returns {string[]}
  */
 declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
 /**<!-- DOCS-ALIAS: ArrayTools.partition -->
@@ -3064,6 +3205,9 @@ declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => strin
  * ```typescript
  * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
  * ```
+ * @param {T[]} array
+ * @param {number} [partitionSize=Math.ceil(array.length / 2)]
+ * @returns {T[][]}
  */
 declare const partition: <T extends unknown>(array: T[], partitionSize?: number) => T[][];
 /**<!-- DOCS-ALIAS: ArrayTools.groupObj -->
@@ -3085,6 +3229,9 @@ declare const partition: <T extends unknown>(array: T[], partitionSize?: number)
  * //   2: [ { group: 2, name: 'b' } ]
  * // }
  * ```
+ * @param {T[]} array
+ * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
+ * @returns {{ [id: string]: T[]; [id: number]: T[]; }}
  */
 declare const groupObj: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => {
     [id: string]: T[];
@@ -3109,6 +3256,9 @@ declare const groupObj: <T extends unknown>(array: T[], mapFn: (item: T, index: 
  * //   [ { group: 2, name: 'b' } ]
  * // ]
  * ```
+ * @param {T[]} array
+ * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
+ * @returns {T[][]}
  */
 declare const group: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
 
@@ -3226,6 +3376,20 @@ declare namespace ObjectTools {
      * @returns {O}
      */
     const clean: <T extends Object, O extends Partial<T>>(obj: T) => O;
+    /**<!-- DOCS: ObjectTools.invert ### -->
+     * invert
+     *
+     * - `ObjectTools.invert`
+     *
+     * Inverts the keys and values of an object
+     *
+     * ```typescript
+     * ObjectTools.invert({ a: 'foo', b: 'bar' }); // { foo: 'a', bar: 'b'}
+     * ```
+     * @param {Ti} obj
+     * @returns {To}
+     */
+    const invert: <Ti extends Object, To extends ObjOfType<string>>(obj: Ti) => To;
 }
 
 declare type ClxType = string | boolean | {
@@ -3297,179 +3461,212 @@ declare namespace StringTools {
      * @returns {string}
      */
     const repeat: (maxLength: number, repeated: string) => string;
-    type CaseInput = string | string[];
     /**<!-- DOCS: StringTools.StringCaseHandler ### -->
      * StringCaseHandler
      */
     interface StringCaseHandler {
-        /**<!-- DOCS: StringTools.toLowerCamelCase #### -->
+        /**<!-- DOCS-ALIAS: StringTools.toLowerCamelCase -->
          * toLowerCamelCase
-         *
+         * 
          * - `StringTools.toLowerCamelCase`
          * - `StringTools.fromSlugCase.toLowerCamelCase`
          * - `StringTools.fromSnakeCase.toLowerCamelCase`
          * - `StringTools.fromSpaced.toLowerCamelCase`
          * - `StringTools.fromCamelCase.toLowerCamelCase`
-         *
+         * 
          * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
+         * @param {string | string[]} input
+         * @returns {string}
          */
-        toLowerCamelCase(input: CaseInput): string;
-        /**<!-- DOCS: StringTools.toUpperCamelCase #### -->
+        toLowerCamelCase(input: string | string[]): string;
+        /**<!-- DOCS-ALIAS: StringTools.toUpperCamelCase -->
          * toUpperCamelCase
-         *
+         * 
          * - `StringTools.toUpperCamelCase`
          * - `StringTools.fromSlugCase.toUpperCamelCase`
          * - `StringTools.fromSnakeCase.toUpperCamelCase`
          * - `StringTools.fromSpaced.toUpperCamelCase`
          * - `StringTools.fromCamelCase.toUpperCamelCase`
-         *
+         * 
          * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
+         * @param {string | string[]} input
+         * @returns {string}
          */
-        toUpperCamelCase(input: CaseInput): string;
-        /**<!-- DOCS: StringTools.toCamelCase #### -->
+        toUpperCamelCase(input: string | string[]): string;
+        /**<!-- DOCS-ALIAS: StringTools.toCamelCase -->
          * toCamelCase
-         *
+         * 
          * - `StringTools.toCamelCase`
          * - `StringTools.fromSlugCase.toCamelCase`
          * - `StringTools.fromSnakeCase.toCamelCase`
          * - `StringTools.fromSpaced.toCamelCase`
          * - `StringTools.fromCamelCase.toCamelCase`
-         *
+         * 
          * Convert a string to camel case (e.g. `thisIsCamelCase`)
+         * @param {string | string[]} input
+         * @param {boolean} [capitaliseFirst=false]
+         * @returns {string}
          */
-        toCamelCase(input: CaseInput, capitaliseFirst?: boolean): string;
-        /**<!-- DOCS: StringTools.toLowerSlugCase #### -->
+        toCamelCase(input: string | string[], capitaliseFirst?: boolean): string;
+        /**<!-- DOCS-ALIAS: StringTools.toLowerSlugCase -->
          * toLowerSlugCase
-         *
+         * 
          * - `StringTools.toLowerSlugCase`
          * - `StringTools.fromSlugCase.toLowerSlugCase`
          * - `StringTools.fromSnakeCase.toLowerSlugCase`
          * - `StringTools.fromSpaced.toLowerSlugCase`
          * - `StringTools.fromCamelCase.toLowerSlugCase`
-         *
+         * 
          * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
+         * @param {string | string[]} input
+         * @returns {string}
          */
-        toLowerSlugCase(input: CaseInput): string;
-        /**<!-- DOCS: StringTools.toUpperSlugCase #### -->
+        toLowerSlugCase(input: string | string[]): string;
+        /**<!-- DOCS-ALIAS: StringTools.toUpperSlugCase -->
          * toUpperSlugCase
-         *
+         * 
          * - `StringTools.toUpperSlugCase`
          * - `StringTools.fromSlugCase.toUpperSlugCase`
          * - `StringTools.fromSnakeCase.toUpperSlugCase`
          * - `StringTools.fromSpaced.toUpperSlugCase`
          * - `StringTools.fromCamelCase.toUpperSlugCase`
-         *
+         * 
          * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
+         * @param {string | string[]} input
+         * @returns {string}
          */
-        toUpperSlugCase(input: CaseInput): string;
-        /**<!-- DOCS: StringTools.toSlugCase #### -->
+        toUpperSlugCase(input: string | string[]): string;
+        /**<!-- DOCS-ALIAS: StringTools.toSlugCase -->
          * toSlugCase
-         *
+         * 
          * - `StringTools.toSlugCase`
          * - `StringTools.fromSlugCase.toSlugCase`
          * - `StringTools.fromSnakeCase.toSlugCase`
          * - `StringTools.fromSpaced.toSlugCase`
          * - `StringTools.fromCamelCase.toSlugCase`
-         *
+         * 
          * Convert a string to camel case (e.g. `this-is-slug-case`)
+         * @param {string | string[]} input
+         * @param {boolean} [toUpper=false]
+         * @returns {string}
          */
-        toSlugCase(input: CaseInput, toUpper?: boolean): string;
-        /**<!-- DOCS: StringTools.toLowerSnakeCase #### -->
+        toSlugCase(input: string | string[], toUpper?: boolean): string;
+        /**<!-- DOCS-ALIAS: StringTools.toLowerSnakeCase -->
          * toLowerSnakeCase
-         *
+         * 
          * - `StringTools.toLowerSnakeCase`
          * - `StringTools.fromSlugCase.toLowerSnakeCase`
          * - `StringTools.fromSnakeCase.toLowerSnakeCase`
          * - `StringTools.fromSpaced.toLowerSnakeCase`
          * - `StringTools.fromCamelCase.toLowerSnakeCase`
-         *
+         * 
          * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
+         * @param {string | string[]} input
+         * @returns {string}
          */
-        toLowerSnakeCase(input: CaseInput): string;
-        /**<!-- DOCS: StringTools.toUpperSnakeCase #### -->
+        toLowerSnakeCase(input: string | string[]): string;
+        /**<!-- DOCS-ALIAS: StringTools.toUpperSnakeCase -->
          * toUpperSnakeCase
-         *
+         * 
          * - `StringTools.toUpperSnakeCase`
          * - `StringTools.fromSlugCase.toUpperSnakeCase`
          * - `StringTools.fromSnakeCase.toUpperSnakeCase`
          * - `StringTools.fromSpaced.toUpperSnakeCase`
          * - `StringTools.fromCamelCase.toUpperSnakeCase`
-         *
+         * 
          * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
+         * @param {string | string[]} input
+         * @returns {string}
          */
-        toUpperSnakeCase(input: CaseInput): string;
-        /**<!-- DOCS: StringTools.toSnakeCase #### -->
+        toUpperSnakeCase(input: string | string[]): string;
+        /**<!-- DOCS-ALIAS: StringTools.toSnakeCase -->
          * toSnakeCase
-         *
+         * 
          * - `StringTools.toSnakeCase`
          * - `StringTools.fromSlugCase.toSnakeCase`
          * - `StringTools.fromSnakeCase.toSnakeCase`
          * - `StringTools.fromSpaced.toSnakeCase`
          * - `StringTools.fromCamelCase.toSnakeCase`
-         *
+         * 
          * Convert a string to snake case (e.g. `this_is_snake_case`)
+         * @param {string | string[]} input
+         * @param {boolean} [toUpper=false]
+         * @returns {string}
          */
-        toSnakeCase(input: CaseInput, toUpper?: boolean): string;
-        /**<!-- DOCS: StringTools.toLowerSpaced #### -->
+        toSnakeCase(input: string | string[], toUpper?: boolean): string;
+        /**<!-- DOCS-ALIAS: StringTools.toLowerSpaced -->
          * toLowerSpaced
-         *
+         * 
          * - `StringTools.toLowerSpaced`
          * - `StringTools.fromSlugCase.toLowerSpaced`
          * - `StringTools.fromSnakeCase.toLowerSpaced`
          * - `StringTools.fromSpaced.toLowerSpaced`
          * - `StringTools.fromCamelCase.toLowerSpaced`
-         *
+         * 
          * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
+         * @param {string | string[]} input
+         * @returns {string}
          */
-        toLowerSpaced(input: CaseInput): string;
-        /**<!-- DOCS: StringTools.toUpperSpaced #### -->
+        toLowerSpaced(input: string | string[]): string;
+        /**<!-- DOCS-ALIAS: StringTools.toUpperSpaced -->
          * toUpperSpaced
-         *
+         * 
          * - `StringTools.toUpperSpaced`
          * - `StringTools.fromSlugCase.toUpperSpaced`
          * - `StringTools.fromSnakeCase.toUpperSpaced`
          * - `StringTools.fromSpaced.toUpperSpaced`
          * - `StringTools.fromCamelCase.toUpperSpaced`
-         *
+         * 
          * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
+         * @param {string | string[]} input
+         * @returns {string}
          */
-        toUpperSpaced(input: CaseInput): string;
-        /**<!-- DOCS: StringTools.toCapitalisedSpaced #### -->
+        toUpperSpaced(input: string | string[]): string;
+        /**<!-- DOCS-ALIAS: StringTools.toCapitalisedSpaced -->
          * toCapitalisedSpaced
-         *
+         * 
          * - `StringTools.toCapitalisedSpaced`
          * - `StringTools.fromSlugCase.toCapitalisedSpaced`
          * - `StringTools.fromSnakeCase.toCapitalisedSpaced`
          * - `StringTools.fromSpaced.toCapitalisedSpaced`
          * - `StringTools.fromCamelCase.toCapitalisedSpaced`
-         *
+         * 
          * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
+         * @param {string | string[]} input
+         * @returns {string}
          */
-        toCapitalisedSpaced(input: CaseInput): string;
-        /**<!-- DOCS: StringTools.toSpaced #### -->
+        toCapitalisedSpaced(input: string | string[]): string;
+        /**<!-- DOCS-ALIAS: StringTools.toSpaced -->
          * toSpaced
-         *
+         * 
          * - `StringTools.toSpaced`
          * - `StringTools.fromSlugCase.toSpaced`
          * - `StringTools.fromSnakeCase.toSpaced`
          * - `StringTools.fromSpaced.toSpaced`
          * - `StringTools.fromCamelCase.toSpaced`
-         *
+         * 
          * Convert a string to spaced case (e.g. `this is spaced case`)
+         * @param {string | string[]} input
+         * @param {boolean} [toUpper=false]
+         * @returns {string}
          */
-        toSpaced(input: CaseInput, toUpper?: boolean): string;
-        /**<!-- DOCS: StringTools.toCharacterSeparated #### -->
+        toSpaced(input: string | string[], toUpper?: boolean): string;
+        /**<!-- DOCS-ALIAS: StringTools.toCharacterSeparated -->
          * toCharacterSeparated
-         *
+         * 
          * - `StringTools.toCharacterSeparated`
          * - `StringTools.fromSlugCase.toCharacterSeparated`
          * - `StringTools.fromSnakeCase.toCharacterSeparated`
          * - `StringTools.fromSpaced.toCharacterSeparated`
          * - `StringTools.fromCamelCase.toCharacterSeparated`
-         *
+         * 
          * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
+         * @param {string | string[]} input
+         * @param {string} char
+         * @param {boolean} [toUpper=false]
+         * @returns {string}
          */
-        toCharacterSeparated(input: CaseInput, char: string, toUpper?: boolean): string;
+        toCharacterSeparated(input: string | string[], char: string, toUpper?: boolean): string;
     }
     const 
     /**<!-- DOCS-ALIAS: StringTools.toLowerCamelCase -->
@@ -3482,8 +3679,10 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toLowerCamelCase`
      * 
      * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
+     * @param {string | string[]} input
+     * @returns {string}
      */
-    toLowerCamelCase: (input: CaseInput) => string, 
+    toLowerCamelCase: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toUpperCamelCase -->
      * toUpperCamelCase
      * 
@@ -3494,8 +3693,10 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toUpperCamelCase`
      * 
      * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
+     * @param {string | string[]} input
+     * @returns {string}
      */
-    toUpperCamelCase: (input: CaseInput) => string, 
+    toUpperCamelCase: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toCamelCase -->
      * toCamelCase
      * 
@@ -3506,8 +3707,11 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toCamelCase`
      * 
      * Convert a string to camel case (e.g. `thisIsCamelCase`)
+     * @param {string | string[]} input
+     * @param {boolean} [capitaliseFirst=false]
+     * @returns {string}
      */
-    toCamelCase: (input: CaseInput, capitaliseFirst?: boolean) => string, 
+    toCamelCase: (input: string | string[], capitaliseFirst?: boolean) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toLowerSlugCase -->
      * toLowerSlugCase
      * 
@@ -3518,8 +3722,10 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toLowerSlugCase`
      * 
      * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
+     * @param {string | string[]} input
+     * @returns {string}
      */
-    toLowerSlugCase: (input: CaseInput) => string, 
+    toLowerSlugCase: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toUpperSlugCase -->
      * toUpperSlugCase
      * 
@@ -3530,8 +3736,10 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toUpperSlugCase`
      * 
      * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
+     * @param {string | string[]} input
+     * @returns {string}
      */
-    toUpperSlugCase: (input: CaseInput) => string, 
+    toUpperSlugCase: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toSlugCase -->
      * toSlugCase
      * 
@@ -3542,8 +3750,11 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toSlugCase`
      * 
      * Convert a string to camel case (e.g. `this-is-slug-case`)
+     * @param {string | string[]} input
+     * @param {boolean} [toUpper=false]
+     * @returns {string}
      */
-    toSlugCase: (input: CaseInput, toUpper?: boolean) => string, 
+    toSlugCase: (input: string | string[], toUpper?: boolean) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toLowerSnakeCase -->
      * toLowerSnakeCase
      * 
@@ -3554,8 +3765,10 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toLowerSnakeCase`
      * 
      * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
+     * @param {string | string[]} input
+     * @returns {string}
      */
-    toLowerSnakeCase: (input: CaseInput) => string, 
+    toLowerSnakeCase: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toUpperSnakeCase -->
      * toUpperSnakeCase
      * 
@@ -3566,8 +3779,10 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toUpperSnakeCase`
      * 
      * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
+     * @param {string | string[]} input
+     * @returns {string}
      */
-    toUpperSnakeCase: (input: CaseInput) => string, 
+    toUpperSnakeCase: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toSnakeCase -->
      * toSnakeCase
      * 
@@ -3578,8 +3793,11 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toSnakeCase`
      * 
      * Convert a string to snake case (e.g. `this_is_snake_case`)
+     * @param {string | string[]} input
+     * @param {boolean} [toUpper=false]
+     * @returns {string}
      */
-    toSnakeCase: (input: CaseInput, toUpper?: boolean) => string, 
+    toSnakeCase: (input: string | string[], toUpper?: boolean) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toLowerSpaced -->
      * toLowerSpaced
      * 
@@ -3590,8 +3808,10 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toLowerSpaced`
      * 
      * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
+     * @param {string | string[]} input
+     * @returns {string}
      */
-    toLowerSpaced: (input: CaseInput) => string, 
+    toLowerSpaced: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toUpperSpaced -->
      * toUpperSpaced
      * 
@@ -3602,8 +3822,10 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toUpperSpaced`
      * 
      * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
+     * @param {string | string[]} input
+     * @returns {string}
      */
-    toUpperSpaced: (input: CaseInput) => string, 
+    toUpperSpaced: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toCapitalisedSpaced -->
      * toCapitalisedSpaced
      * 
@@ -3614,8 +3836,10 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toCapitalisedSpaced`
      * 
      * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
+     * @param {string | string[]} input
+     * @returns {string}
      */
-    toCapitalisedSpaced: (input: CaseInput) => string, 
+    toCapitalisedSpaced: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toSpaced -->
      * toSpaced
      * 
@@ -3626,8 +3850,11 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toSpaced`
      * 
      * Convert a string to spaced case (e.g. `this is spaced case`)
+     * @param {string | string[]} input
+     * @param {boolean} [toUpper=false]
+     * @returns {string}
      */
-    toSpaced: (input: CaseInput, toUpper?: boolean) => string, 
+    toSpaced: (input: string | string[], toUpper?: boolean) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toCharacterSeparated -->
      * toCharacterSeparated
      * 
@@ -3638,8 +3865,12 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toCharacterSeparated`
      * 
      * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
+     * @param {string | string[]} input
+     * @param {string} char
+     * @param {boolean} [toUpper=false]
+     * @returns {string}
      */
-    toCharacterSeparated: (input: CaseInput, char: string, toUpper?: boolean) => string;
+    toCharacterSeparated: (input: string | string[], char: string, toUpper?: boolean) => string;
     /**<!-- DOCS: StringTools.fromSlugCase ### -->
      * fromSlugCase
      *
@@ -3759,6 +3990,8 @@ declare namespace StringTools {
  * clx('abc', conditionB && 'def') // 'abc def'
  * clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
  * ```
+ * @param {...ClxType} [args]
+ * @returns {string}
  */
 declare const clx: (...args: ClxType[]) => string;
 
@@ -4096,6 +4329,7 @@ declare type DeferredPromise<T> = PromiseTools.DeferredPromise<T>;
  * 
  * const luckyNumber: number = await run();
  * ```
+ * @returns {DeferredPromise<T>}
  */
 declare const getDeferred: <T extends unknown>() => PromiseTools.DeferredPromise<T>;
 /**<!-- DOCS-ALIAS: PromiseTools.all -->
@@ -4105,6 +4339,8 @@ declare const getDeferred: <T extends unknown>() => PromiseTools.DeferredPromise
  * - `PromiseTools.all`
  * 
  * An alias for Promise.all
+ * @param {Promise<T>[]} promises
+ * @returns {Promise<any>}
  */
 declare const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
 /**<!-- DOCS-ALIAS: PromiseTools.allLimit -->
@@ -4147,6 +4383,10 @@ declare const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
  * // 	c: 10s
  * // 	d: 10s
  * ```
+ * @param {number} limit
+ * @param {((index: number) => Promise<T>)[]} items
+ * @param {boolean} [noThrow=false]
+ * @returns {Promise<T[]>}
  */
 declare const allLimit: <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow?: boolean) => Promise<T[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.each -->
@@ -4168,6 +4408,9 @@ declare const allLimit: <T extends unknown>(limit: number, items: ((index: numbe
  * });
  * console.log(''); // after 2 seconds
  * ```
+ * @param {Ti[]} items
+ * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
+ * @returns {Promise<any>}
  */
 declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
 /**<!-- DOCS-ALIAS: PromiseTools.eachLimit -->
@@ -4191,6 +4434,10 @@ declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: nu
  * });
  * console.log(''); // after 4 seconds
  * ```
+ * @param {number} limit
+ * @param {Ti[]} items
+ * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
+ * @returns {Promise<any>}
  */
 declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
 /**<!-- DOCS-ALIAS: PromiseTools.map -->
@@ -4213,6 +4460,9 @@ declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: 
  * 
  * console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
  * ```
+ * @param {Ti[]} items
+ * @param {(item: Ti, index: number, array: Ti[]) => Promise<To>} func
+ * @returns {Promise<To[]>}
  */
 declare const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.mapLimit -->
@@ -4237,6 +4487,10 @@ declare const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (
  * 
  * console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
  * ```
+ * @param {number} limit
+ * @param {Ti[]} items
+ * @param {(item: Ti, index: number, array: Ti[]) => Promise<To>} func
+ * @returns {Promise<To[]>}
  */
 declare const mapLimit: <Ti extends unknown, To extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.allObj -->
@@ -4275,6 +4529,8 @@ declare const mapLimit: <Ti extends unknown, To extends unknown>(limit: number, 
  * // 	b: 15s
  * // 	c: 20s
  * ```
+ * @param {T} input
+ * @returns {Promise<UnWrapPromiseObject<T>>}
  */
 declare const allObj: <T extends Object>(input: T) => Promise<{ [K in keyof T]: T[K] extends infer T_1 ? T_1 extends T[K] ? T_1 extends Promise<unknown> ? unknown : T_1 : never : never; }>;
 /**<!-- DOCS-ALIAS: PromiseTools.allLimitObj -->
@@ -4317,6 +4573,10 @@ declare const allObj: <T extends Object>(input: T) => Promise<{ [K in keyof T]: 
  * // 	c: 10s
  * // 	d: 10s
  * ```
+ * @param {number} limit
+ * @param {T} input
+ * @param {boolean} [noThrow=false]
+ * @returns {Promise<UnWrapPromiseObject<T>>}
  */
 declare const allLimitObj: <T extends Object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K in keyof T]: T[K] extends infer T_1 ? T_1 extends T[K] ? T_1 extends Promise<unknown> ? unknown : T_1 : never : never; }>;
 
@@ -4394,6 +4654,10 @@ declare namespace ErrorTools {
  * ```typescript
  * const result = tryOr('default', () => getSomething());
  * ```
+ * @param {T} orValue
+ * @param {(...args: A) => Promise<T>} func
+ * @param {...A} [args]
+ * @returns {Promise<T>}
  */
 declare const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: (...args: A) => Promise<T>, ...args: A) => Promise<T>;
 /**<!-- DOCS-ALIAS: ErrorTools.retry -->
@@ -4407,6 +4671,11 @@ declare const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: 
  * ```typescript
  * const result = tryOr(5, seconds(1), true, () => getSomething());
  * ```
+ * @param {number} [maxTries=10]
+ * @param {ms} [delay=0]
+ * @param {boolean} [suppress=true]
+ * @param {(attemptNumber) => T} [run=fn.result(undefined as T)]
+ * @returns {Promise<T>}
  */
 declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
 /**<!-- DOCS-ALIAS: ErrorTools.retryOr -->
@@ -4422,6 +4691,12 @@ declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress
  * ```typescript
  * const result = retryOr('default', 5, seconds(1), true, () => getSomething());
  * ```
+ * @param {T} orValue
+ * @param {number} [maxTries=10]
+ * @param {ms} [delay=0]
+ * @param {boolean} [suppress=true]
+ * @param {() => T} [run=fn.result(orValue)]
+ * @returns {Promise<T>}
  */
 declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, suppress?: boolean, run?: () => T) => Promise<T>;
 
@@ -4471,6 +4746,8 @@ declare namespace MathsTools {
      * 0.1 + 0.2 // 0.30000000000000004
      * MathsTools.fixFloat(0.1 + 0.2) // 0.3
      * ```
+     * @param {number} num
+     * @returns {number}
      */
     const ff: (num: number, precision?: number) => number;
     /**<!-- DOCS: MathsTools.addAll ### -->
@@ -4566,6 +4843,9 @@ declare namespace MathsTools {
          * MathsTools.round.floorTo(5, 53); // 50
          * MathsTools.round.floorTo(0.1, 0.25); // 0.2
          * ```
+         * @param {number} to
+         * @param {number} value
+         * @returns {number}
          */
         const floorTo: (to: number, value: number) => number;
         /**<!-- DOCS-ALIAS: MathsTools.roundTo -->
@@ -4582,6 +4862,9 @@ declare namespace MathsTools {
          * MathsTools.round.to(5, 53); // 55
          * MathsTools.round.to(0.1, 0.25); // 0.3
          * ```
+         * @param {number} to
+         * @param {number} value
+         * @returns {number}
          */
         const roundTo: (to: number, value: number) => number;
         /**<!-- DOCS-ALIAS: MathsTools.ceilTo -->
@@ -4597,6 +4880,9 @@ declare namespace MathsTools {
          * MathsTools.round.ceilTo(5, 53); // 55
          * MathsTools.round.ceilTo(0.1, 0.25); // 0.3
          * ```
+         * @param {number} to
+         * @param {number} value
+         * @returns {number}
          */
         const ceilTo: (to: number, value: number) => number;
         /**<!-- DOCS-ALIAS: MathsTools.roundTo -->
@@ -4613,6 +4899,9 @@ declare namespace MathsTools {
          * MathsTools.round.to(5, 53); // 55
          * MathsTools.round.to(0.1, 0.25); // 0.3
          * ```
+         * @param {number} to
+         * @param {number} value
+         * @returns {number}
          */
         const to: (to: number, value: number) => number;
     }
@@ -4726,6 +5015,8 @@ declare namespace MathsTools {
  * 0.1 + 0.2 // 0.30000000000000004
  * MathsTools.fixFloat(0.1 + 0.2) // 0.3
  * ```
+ * @param {number} num
+ * @returns {number}
  */
 declare const ff: (num: number, precision?: number) => number;
 
