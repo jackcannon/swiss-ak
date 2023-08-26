@@ -224,8 +224,11 @@ Async functions that return promises at or after a given time.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### wait
-- `wait`
-- `waiters.wait`
+
+```typescript
+wait(time: ms): Promise<unknown>
+waiters.wait(time: ms): Promise<unknown>
+```
 
 Standard wait promise (using setTimeout)
 
@@ -248,8 +251,11 @@ console.log(new Date().toTimeString()); // 12:32:10
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### waitUntil
-- `waitUntil`
-- `waiters.waitUntil`
+
+```typescript
+waitUntil(time: ms): Promise<null>
+waiters.waitUntil(time: ms): Promise<null>
+```
 
 Accurate (pinged) wait until given time
 
@@ -272,8 +278,11 @@ console.log(new Date().toTimeString()); // 12:40:10
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### waitFor
-- `waitFor`
-- `waiters.waitFor`
+
+```typescript
+waitFor(time: ms): Promise<null>
+waiters.waitFor(time: ms): Promise<null>
+```
 
 Accurate (pinged) wait the given ms
 
@@ -296,8 +305,11 @@ console.log(new Date().toTimeString()); // 12:35:10
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### waitEvery
-- `waitEvery`
-- `waiters.waitEvery`
+
+```typescript
+waitEvery(timing: ms, offset: ms): Promise<null>
+waiters.waitEvery(timing: ms, offset: ms): Promise<null>
+```
 
 Accurate (pinged) wait for next 'every X' event
 
@@ -321,8 +333,11 @@ console.log(new Date().toTimeString()); // 14:00:00
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### stopInterval
-- `stopInterval`
-- `waiters.stopInterval`
+
+```typescript
+stopInterval(intID: number): number
+waiters.stopInterval(intID: number): number
+```
 
 ```typescript
 import { interval, stopInterval } from 'swiss-ak';
@@ -347,8 +362,11 @@ interval((intID, count) => {
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### interval
-- `interval`
-- `waiters.interval`
+
+```typescript
+interval(action: (intID?: number, count?: number) => any, timing: ms): number
+waiters.interval(action: (intID?: number, count?: number) => any, timing: ms): number
+```
 
 Accurate (pinged) interval for every 'every X' event
 
@@ -381,7 +399,10 @@ A collection of useful higher-order functions.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### noop
-- `fn.noop`
+
+```typescript
+fn.noop(undefined): void
+```
 
 No operation. Do nothing, return nothing.
 
@@ -397,7 +418,10 @@ run();
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### noact
-- `fn.noact`
+
+```typescript
+fn.noact(item: T): T
+```
 
 No action. Returns the first argument it receives.
 
@@ -417,7 +441,10 @@ const items = stuff
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### result
-- `fn.result`
+
+```typescript
+fn.result(item: T): () => T
+```
 
 Returns a function that returns a function that returns the first argument.
 
@@ -437,7 +464,10 @@ const items = stuff
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### resolve
-- `fn.resolve`
+
+```typescript
+fn.resolve(item: T): () => Promise<T>
+```
 
 Returns an async function that resolves to the first argument
 
@@ -454,7 +484,10 @@ Like fn.result, but wrapped in a Promise
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### reject
-- `fn.reject`
+
+```typescript
+fn.reject(item: T): () => Promise<T>
+```
 
 Returns an async function that rejects with the first argument
 
@@ -476,9 +509,12 @@ Collection of functions that can be used with Array.filter
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### exists
-- `fn.exists`
-- `fn.filters.exists`
-- `filters.exists`
+
+```typescript
+fn.exists(item: T): boolean
+fn.filters.exists(item: T): boolean
+filters.exists(item: T): boolean
+```
 
 Returns true if item isn't null or undefined.
 
@@ -497,9 +533,12 @@ Returns true if item isn't null or undefined.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### isTruthy
-- `fn.isTruthy`
-- `fn.filters.isTruthy`
-- `filters.isTruthy`
+
+```typescript
+fn.isTruthy(item: T): boolean
+fn.filters.isTruthy(item: T): boolean
+filters.isTruthy(item: T): boolean
+```
 
 Returns true if item is truthy.
 
@@ -519,9 +558,12 @@ Returns true if item is truthy.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### isFalsy
-- `fn.isFalsy`
-- `fn.filters.isFalsy`
-- `filters.isFalsy`
+
+```typescript
+fn.isFalsy(item: T): boolean
+fn.filters.isFalsy(item: T): boolean
+filters.isFalsy(item: T): boolean
+```
 
 Returns true if item is falsy.
 
@@ -541,9 +583,12 @@ Returns true if item is falsy.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### isEmpty
-- `fn.isEmpty`
-- `fn.filters.isEmpty`
-- `filters.isEmpty`
+
+```typescript
+fn.isEmpty(item: T[] | string): boolean
+fn.filters.isEmpty(item: T[] | string): boolean
+filters.isEmpty(item: T[] | string): boolean
+```
 
 Returns true if item's length is 0
 
@@ -563,9 +608,12 @@ Returns true if item's length is 0
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### isNotEmpty
-- `fn.isNotEmpty`
-- `fn.filters.isNotEmpty`
-- `filters.isNotEmpty`
+
+```typescript
+fn.isNotEmpty(item: T[] | string): boolean
+fn.filters.isNotEmpty(item: T[] | string): boolean
+filters.isNotEmpty(item: T[] | string): boolean
+```
 
 Returns true if item's length is 1 or more
 
@@ -585,9 +633,12 @@ Returns true if item's length is 1 or more
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### isEqual
-- `fn.isEqual`
-- `fn.filters.isEqual`
-- `filters.isEqual`
+
+```typescript
+fn.isEqual(item: T): (other: T) => boolean
+fn.filters.isEqual(item: T): (other: T) => boolean
+filters.isEqual(item: T): (other: T) => boolean
+```
 
 Returns a function that returns true if the item is equal to provided value.
 
@@ -606,9 +657,12 @@ Returns a function that returns true if the item is equal to provided value.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### isNotEqual
-- `fn.isNotEqual`
-- `fn.filters.isNotEqual`
-- `filters.isNotEqual`
+
+```typescript
+fn.isNotEqual(item: T): (other: T) => boolean
+fn.filters.isNotEqual(item: T): (other: T) => boolean
+filters.isNotEqual(item: T): (other: T) => boolean
+```
 
 Returns a function that returns true if the item is not equal to provided value.
 
@@ -627,9 +681,12 @@ Returns a function that returns true if the item is not equal to provided value.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### dedupe
-- `fn.dedupe`
-- `fn.filters.dedupe`
-- `filters.dedupe`
+
+```typescript
+fn.dedupe(item: T, index: number, array: T[]): boolean
+fn.filters.dedupe(item: T, index: number, array: T[]): boolean
+filters.dedupe(item: T, index: number, array: T[]): boolean
+```
 
 Removes duplicate items from an array.
 
@@ -650,9 +707,12 @@ Removes duplicate items from an array.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### dedupeMapped
-- `fn.dedupeMapped`
-- `fn.filters.dedupeMapped`
-- `filters.dedupeMapped`
+
+```typescript
+fn.dedupeMapped(mapFn: (value: T, index: number, array: T[]) => U): (item: T, index: number, array: T[]) => boolean
+fn.filters.dedupeMapped(mapFn: (value: T, index: number, array: T[]) => U): (item: T, index: number, array: T[]) => boolean
+filters.dedupeMapped(mapFn: (value: T, index: number, array: T[]) => U): (item: T, index: number, array: T[]) => boolean
+```
 
 Removes duplicate items from an array based on a mapped value.
 
@@ -678,9 +738,12 @@ Collection of functions that can be used with Array.map
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toString
-- `fn.toString`
-- `fn.maps.toString`
-- `maps.toString`
+
+```typescript
+fn.toString(item: T): string
+fn.maps.toString(item: T): string
+maps.toString(item: T): string
+```
 
 Maps the item to a string.
 
@@ -699,9 +762,12 @@ Maps the item to a string.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toNumber
-- `fn.toNumber`
-- `fn.maps.toNumber`
-- `maps.toNumber`
+
+```typescript
+fn.toNumber(item: T): number
+fn.maps.toNumber(item: T): number
+maps.toNumber(item: T): number
+```
 
 Maps the item to a number.
 
@@ -720,9 +786,12 @@ Maps the item to a number.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toBool
-- `fn.toBool`
-- `fn.maps.toBool`
-- `maps.toBool`
+
+```typescript
+fn.toBool(item: T): boolean
+fn.maps.toBool(item: T): boolean
+maps.toBool(item: T): boolean
+```
 
 Maps the item to a boolean.
 
@@ -742,9 +811,12 @@ Maps the item to a boolean.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toProp
-- `fn.toProp`
-- `fn.maps.toProp`
-- `maps.toProp`
+
+```typescript
+fn.toProp(prop: string): (item: O) => P
+fn.maps.toProp(prop: string): (item: O) => P
+maps.toProp(prop: string): (item: O) => P
+```
 
 Maps the item to a given property of the item
 
@@ -763,9 +835,12 @@ Maps the item to a given property of the item
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toFixed
-- `fn.toFixed`
-- `fn.maps.toFixed`
-- `maps.toFixed`
+
+```typescript
+fn.toFixed(precision: number): (num: number) => number
+fn.maps.toFixed(precision: number): (num: number) => number
+maps.toFixed(precision: number): (num: number) => number
+```
 
 Map the items (numbers) of an array to a fixed precision.
 
@@ -791,9 +866,12 @@ Collection of functions that can be used with Array.sort
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### asc
-- `fn.asc`
-- `fn.sorts.asc`
-- `sorts.asc`
+
+```typescript
+fn.asc(a: any, b: any): number
+fn.sorts.asc(a: any, b: any): number
+sorts.asc(a: any, b: any): number
+```
 
 Sort ascending.
 
@@ -813,9 +891,12 @@ Sort ascending.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### desc
-- `fn.desc`
-- `fn.sorts.desc`
-- `sorts.desc`
+
+```typescript
+fn.desc(a: any, b: any): number
+fn.sorts.desc(a: any, b: any): number
+sorts.desc(a: any, b: any): number
+```
 
 Sort descending.
 
@@ -835,9 +916,12 @@ Sort descending.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### byProp
-- `fn.byProp`
-- `fn.sorts.byProp`
-- `sorts.byProp`
+
+```typescript
+fn.byProp(propName: string, sortFn: SortFn<T>): SortFn<O>
+fn.sorts.byProp(propName: string, sortFn: SortFn<T>): SortFn<O>
+sorts.byProp(propName: string, sortFn: SortFn<T>): SortFn<O>
+```
 
 Sort by a given property.
 
@@ -858,9 +942,12 @@ people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### nearestTo
-- `fn.nearestTo`
-- `fn.sorts.nearestTo`
-- `sorts.nearestTo`
+
+```typescript
+fn.nearestTo(target: T): (a: any, b: any) => number
+fn.sorts.nearestTo(target: T): (a: any, b: any) => number
+sorts.nearestTo(target: T): (a: any, b: any) => number
+```
 
 Sort by the nearest value to the given value.
 
@@ -880,9 +967,12 @@ people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### furthestFrom
-- `fn.furthestFrom`
-- `fn.sorts.furthestFrom`
-- `sorts.furthestFrom`
+
+```typescript
+fn.furthestFrom(target: T): (a: any, b: any) => number
+fn.sorts.furthestFrom(target: T): (a: any, b: any) => number
+sorts.furthestFrom(target: T): (a: any, b: any) => number
+```
 
 Sort by the furthest value to the given value.
 
@@ -902,9 +992,12 @@ people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### arrayAsc
-- `fn.arrayAsc`
-- `fn.sorts.arrayAsc`
-- `sorts.arrayAsc`
+
+```typescript
+fn.arrayAsc(a: any[], b: any[]): any
+fn.sorts.arrayAsc(a: any[], b: any[]): any
+sorts.arrayAsc(a: any[], b: any[]): any
+```
 
 Sort an array of arrays in ascending order
 
@@ -920,9 +1013,12 @@ Sort an array of arrays in ascending order
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### arrayDesc
-- `fn.arrayDesc`
-- `fn.sorts.arrayDesc`
-- `sorts.arrayDesc`
+
+```typescript
+fn.arrayDesc(a: any[], b: any[]): any
+fn.sorts.arrayDesc(a: any[], b: any[]): any
+sorts.arrayDesc(a: any[], b: any[]): any
+```
 
 Sort an array of arrays in descending order
 
@@ -945,9 +1041,12 @@ Collection of functions that can be used with Array.reduce
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### combine
-- `fn.combine`
-- `fn.reduces.combine`
-- `reduces.combine`
+
+```typescript
+fn.combine(a: any, b: any): any
+fn.reduces.combine(a: any, b: any): any
+reduces.combine(a: any, b: any): any
+```
 
 Adds or concats the items
 
@@ -968,9 +1067,12 @@ Adds or concats the items
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### combineProp
-- `fn.combineProp`
-- `fn.reduces.combineProp`
-- `reduces.combineProp`
+
+```typescript
+fn.combineProp(propName: string): (a: any, b: any) => any
+fn.reduces.combineProp(propName: string): (a: any, b: any) => any
+reduces.combineProp(propName: string): (a: any, b: any) => any
+```
 
 Adds or concats the given property of the items
 
@@ -991,9 +1093,12 @@ people.reduce(fn.combineProp('name')); // 'abc'
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### mode
-- `fn.mode`
-- `fn.reduces.mode`
-- `reduces.mode`
+
+```typescript
+fn.mode(prev: T, curr: T, index: number, arr: T[]): T
+fn.reduces.mode(prev: T, curr: T, index: number, arr: T[]): T
+reduces.mode(prev: T, curr: T, index: number, arr: T[]): T
+```
 
 Returns the most common value in an array.
 
@@ -1015,9 +1120,12 @@ Returns the most common value in an array.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### modeMapped
-- `fn.modeMapped`
-- `fn.reduces.modeMapped`
-- `reduces.modeMapped`
+
+```typescript
+fn.modeMapped(mapFn: (value: T, index: number, array: T[]) => U): (prev: T, curr: T, index: number, arr: T[]) => T
+fn.reduces.modeMapped(mapFn: (value: T, index: number, array: T[]) => U): (prev: T, curr: T, index: number, arr: T[]) => T
+reduces.modeMapped(mapFn: (value: T, index: number, array: T[]) => U): (prev: T, curr: T, index: number, arr: T[]) => T
+```
 
 Returns the most common value in an array, based on a given map function.
 
@@ -1043,9 +1151,12 @@ Collection of functions that can be used with Array.every
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### isAllEqual
-- `fn.isAllEqual`
-- `fn.everys.isAllEqual`
-- `everys.isAllEqual`
+
+```typescript
+fn.isAllEqual(val: T, arr: T[]): boolean
+fn.everys.isAllEqual(val: T, arr: T[]): boolean
+everys.isAllEqual(val: T, arr: T[]): boolean
+```
 
 Returns if all the items are equal to one another.
 
@@ -1073,10 +1184,13 @@ A collection of useful array functions.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### create
-- `create`
-- `ArrayTools.create`
-- `filled`
-- `ArrayTools.filled`
+
+```typescript
+create(length: number, value: T): T[]
+ArrayTools.create(length: number, value: T): T[]
+filled(length: number, value: T): T[]
+ArrayTools.filled(length: number, value: T): T[]
+```
 
 Create an array of the given length, where each value is the given value
 
@@ -1092,8 +1206,11 @@ Create an array of the given length, where each value is the given value
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### range
-- `range`
-- `ArrayTools.range`
+
+```typescript
+range(length: number, multiplier: number, offset: number): number[]
+ArrayTools.range(length: number, multiplier: number, offset: number): number[]
+```
 
 Returns an array of the given length, where each value is equal to it's index
 e.g. [0, 1, 2, ..., length]
@@ -1121,8 +1238,11 @@ ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### zip
-- `zip`
-- `ArrayTools.zip`
+
+```typescript
+zip(...arrs: T[]): UnwrapArrays<T>[]
+ArrayTools.zip(...arrs: T[]): UnwrapArrays<T>[]
+```
 
 Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
 
@@ -1145,8 +1265,11 @@ ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c']
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### zipMax
-- `zipMax`
-- `ArrayTools.zipMax`
+
+```typescript
+zipMax(...arrs: T[]): UnwrapArrays<T>[]
+ArrayTools.zipMax(...arrs: T[]): UnwrapArrays<T>[]
+```
 
 Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
 
@@ -1169,8 +1292,11 @@ ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### sortByMapped
-- `sortByMapped`
-- `ArrayTools.sortByMapped`
+
+```typescript
+sortByMapped(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn: (a: M, b: M) => number): T[]
+ArrayTools.sortByMapped(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn: (a: M, b: M) => number): T[]
+```
 
 Sort an array by a mapped form of the values, but returning the initial values
 
@@ -1196,8 +1322,11 @@ ArrayTools.sortByMapped(
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### randomise
-- `randomise`
-- `ArrayTools.randomise`
+
+```typescript
+randomise(arr: T[]): T[]
+ArrayTools.randomise(arr: T[]): T[]
+```
 
 Returns a clone of the provided array with it's items in a random order
 
@@ -1220,8 +1349,11 @@ ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### reverse
-- `reverse`
-- `ArrayTools.reverse`
+
+```typescript
+reverse(arr: T[]): T[]
+ArrayTools.reverse(arr: T[]): T[]
+```
 
 Returns a new array with the order reversed without affecting original array
 
@@ -1248,8 +1380,11 @@ arr2            // [1, 2, 3]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### entries
-- `entries`
-- `ArrayTools.entries`
+
+```typescript
+entries(arr: T[]): [number, T][]
+ArrayTools.entries(arr: T[]): [number, T][]
+```
 
 Returns array of 'tuples' of index/value pairs
 
@@ -1274,8 +1409,11 @@ for (let [index, value] of entries(arr)) {
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### repeat
-- `repeat`
-- `ArrayTools.repeat`
+
+```typescript
+repeat(maxLength: number, ...items: T[]): T[]
+ArrayTools.repeat(maxLength: number, ...items: T[]): T[]
+```
 
 Returns an array with the given items repeated
 
@@ -1296,8 +1434,11 @@ ArrayTools.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### roll
-- `roll`
-- `ArrayTools.roll`
+
+```typescript
+roll(distance: number, arr: T[]): T[]
+ArrayTools.roll(distance: number, arr: T[]): T[]
+```
 
 'Roll' the array by a given amount so that is has a new first item. Length and contents remain the same, but the order is changed
 
@@ -1318,8 +1459,11 @@ ArrayTools.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### sortNumberedText
-- `sortNumberedText`
-- `ArrayTools.sortNumberedText`
+
+```typescript
+sortNumberedText(texts: string[], ignoreCase: boolean): string[]
+ArrayTools.sortNumberedText(texts: string[], ignoreCase: boolean): string[]
+```
 
 Alphabetically sorts a list of strings, but keeps multi-digit numbers in numerical order (rather than alphabetical)
 
@@ -1341,8 +1485,11 @@ ArrayTools.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'nam
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### partition
-- `partition`
-- `ArrayTools.partition`
+
+```typescript
+partition(array: T[], partitionSize: number): T[][]
+ArrayTools.partition(array: T[], partitionSize: number): T[][]
+```
 
 Breaks an array into smaller arrays of a given size
 
@@ -1362,8 +1509,11 @@ ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4,
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### groupObj
-- `groupObj`
-- `ArrayTools.groupObj`
+
+```typescript
+groupObj(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): { [id: string]: T[]; [id: number]: T[]; }
+ArrayTools.groupObj(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): { [id: string]: T[]; [id: number]: T[]; }
+```
 
 Group items from an array into an object of arrays, based on a given map function.
 
@@ -1391,8 +1541,11 @@ ArrayTools.groupObj(arr, item => item.id); // {
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### group
-- `group`
-- `ArrayTools.group`
+
+```typescript
+group(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): T[][]
+ArrayTools.group(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): T[][]
+```
 
 Group items from an array into an array of arrays, based on a given map function.
 
@@ -1427,7 +1580,10 @@ Small helper functions that may help, but aren't important enough to be in Array
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### isNumString
-- `ArrayTools.utils.isNumString`
+
+```typescript
+ArrayTools.utils.isNumString(text: string): boolean
+```
 
 Returns true if the given string is a number
 
@@ -1442,7 +1598,10 @@ Returns true if the given string is a number
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### partitionNums
-- `ArrayTools.utils.partitionNums`
+
+```typescript
+ArrayTools.utils.partitionNums(ignoreCase: boolean): (name: string) => (string | number)[]
+```
 
 Splits a string into an array of strings and numbers
 
@@ -1462,7 +1621,10 @@ A collection of functions for working with objects
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### remodel
-- `ObjectTools.remodel`
+
+```typescript
+ObjectTools.remodel(obj: T, func: (entries: [string, V][]) => [string, W][]): O
+```
 
 Apply a function to the entries of an object
 
@@ -1483,7 +1645,10 @@ ObjectTools.remodel(input, (entries) => entries.filter(([k, v]) => v % 2 === 0))
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### remodelEach
-- `ObjectTools.remodelEach`
+
+```typescript
+ObjectTools.remodelEach(obj: T, func: (entry: [string, V], index: number, entries: [string, V][]) => [string, W]): O
+```
 
 Apply a function to each of the entries of an object
 
@@ -1506,7 +1671,10 @@ ObjectTools.remodelEach(input, ([k, v]) => [k, v * 2]) // { foo: 4, bar: 2, baz:
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### map
-- `ObjectTools.map`
+
+```typescript
+ObjectTools.map(obj: T, func: (key: string, value: V, index: number) => [string, W]): any
+```
 
 Maps the keys and values of an object in a similar way to Array.map
 
@@ -1526,7 +1694,10 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => [key, key + value]); // {a: 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### mapValues
-- `ObjectTools.mapValues`
+
+```typescript
+ObjectTools.mapValues(obj: T, func: (key: string, value: V, index: number) => W): any
+```
 
 Maps the values of an object in a similar way to Array.map
 
@@ -1546,7 +1717,10 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: '
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### mapKeys
-- `ObjectTools.mapKeys`
+
+```typescript
+ObjectTools.mapKeys(obj: T, func: (key: string, value: V, index: number) => string): T
+```
 
 Maps the values of an object in a similar way to Array.map
 
@@ -1566,7 +1740,10 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: 1
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### filter
-- `ObjectTools.filter`
+
+```typescript
+ObjectTools.filter(obj: T, func: (key: string, value: V, index: number) => boolean): O
+```
 
 Removes entries from an object based on a predicate function
 
@@ -1586,7 +1763,10 @@ ObjectTools.filter({a: 1, b: 2, c: 3}, (k, v) => v % 2 === 0) // { b: 2 }
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### clean
-- `ObjectTools.clean`
+
+```typescript
+ObjectTools.clean(obj: T): O
+```
 
 Removes properties with undefined values
 
@@ -1605,7 +1785,10 @@ ObjectTools.clean({a: 1, b: undefined, c: 3}) // { a: 1, c: 3 }
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### invert
-- `ObjectTools.invert`
+
+```typescript
+ObjectTools.invert(obj: Ti): To
+```
 
 Inverts the keys and values of an object
 
@@ -1629,7 +1812,10 @@ A collection of string utilities
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### capitalise
-- `StringTools.capitalise`
+
+```typescript
+StringTools.capitalise(input: string): string
+```
 
 Capitalises the first letter of each word in a string
 
@@ -1648,7 +1834,10 @@ StringTools.capitalise('hello world'); // 'Hello World'
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### angloise
-- `StringTools.angloise`
+
+```typescript
+StringTools.angloise(input: string): string
+```
 
 Remove accents from a string
 
@@ -1667,7 +1856,10 @@ StringTools.angloise('éèêë'); // 'eeee'
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### clean
-- `StringTools.clean`
+
+```typescript
+StringTools.clean(input: string): string
+```
 
 Remove accents and non alphanumerics from a string
 
@@ -1686,7 +1878,10 @@ StringTools.clean('éèêë_--ab0'); // 'eeeeab0'
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### repeat
-- `StringTools.repeat`
+
+```typescript
+StringTools.repeat(maxLength: number, repeated: string): string
+```
 
 Repeat the given string n times
 
@@ -1711,11 +1906,14 @@ StringTools.repeat(-1, '-') // ''
 ### StringCaseHandler
 
 #### toCamelCase
-- `StringTools.toCamelCase`
-- `StringTools.fromSlugCase.toCamelCase`
-- `StringTools.fromSnakeCase.toCamelCase`
-- `StringTools.fromSpaced.toCamelCase`
-- `StringTools.fromCamelCase.toCamelCase`
+
+```typescript
+StringTools.toCamelCase(input: string | string[], capitaliseFirst: boolean): string
+StringTools.fromSlugCase.toCamelCase(input: string | string[], capitaliseFirst: boolean): string
+StringTools.fromSnakeCase.toCamelCase(input: string | string[], capitaliseFirst: boolean): string
+StringTools.fromSpaced.toCamelCase(input: string | string[], capitaliseFirst: boolean): string
+StringTools.fromCamelCase.toCamelCase(input: string | string[], capitaliseFirst: boolean): string
+```
 
 Convert a string to camel case (e.g. `thisIsCamelCase`)
 
@@ -1731,11 +1929,14 @@ Convert a string to camel case (e.g. `thisIsCamelCase`)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toLowerCamelCase
-- `StringTools.toLowerCamelCase`
-- `StringTools.fromSlugCase.toLowerCamelCase`
-- `StringTools.fromSnakeCase.toLowerCamelCase`
-- `StringTools.fromSpaced.toLowerCamelCase`
-- `StringTools.fromCamelCase.toLowerCamelCase`
+
+```typescript
+StringTools.toLowerCamelCase(input: string | string[]): string
+StringTools.fromSlugCase.toLowerCamelCase(input: string | string[]): string
+StringTools.fromSnakeCase.toLowerCamelCase(input: string | string[]): string
+StringTools.fromSpaced.toLowerCamelCase(input: string | string[]): string
+StringTools.fromCamelCase.toLowerCamelCase(input: string | string[]): string
+```
 
 Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
 
@@ -1750,11 +1951,14 @@ Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toUpperCamelCase
-- `StringTools.toUpperCamelCase`
-- `StringTools.fromSlugCase.toUpperCamelCase`
-- `StringTools.fromSnakeCase.toUpperCamelCase`
-- `StringTools.fromSpaced.toUpperCamelCase`
-- `StringTools.fromCamelCase.toUpperCamelCase`
+
+```typescript
+StringTools.toUpperCamelCase(input: string | string[]): string
+StringTools.fromSlugCase.toUpperCamelCase(input: string | string[]): string
+StringTools.fromSnakeCase.toUpperCamelCase(input: string | string[]): string
+StringTools.fromSpaced.toUpperCamelCase(input: string | string[]): string
+StringTools.fromCamelCase.toUpperCamelCase(input: string | string[]): string
+```
 
 Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
 
@@ -1769,11 +1973,14 @@ Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toCharacterSeparated
-- `StringTools.toCharacterSeparated`
-- `StringTools.fromSlugCase.toCharacterSeparated`
-- `StringTools.fromSnakeCase.toCharacterSeparated`
-- `StringTools.fromSpaced.toCharacterSeparated`
-- `StringTools.fromCamelCase.toCharacterSeparated`
+
+```typescript
+StringTools.toCharacterSeparated(input: string | string[], char: string, toUpper: boolean): string
+StringTools.fromSlugCase.toCharacterSeparated(input: string | string[], char: string, toUpper: boolean): string
+StringTools.fromSnakeCase.toCharacterSeparated(input: string | string[], char: string, toUpper: boolean): string
+StringTools.fromSpaced.toCharacterSeparated(input: string | string[], char: string, toUpper: boolean): string
+StringTools.fromCamelCase.toCharacterSeparated(input: string | string[], char: string, toUpper: boolean): string
+```
 
 Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
 
@@ -1790,11 +1997,14 @@ Convert a string to text where words are separated by a given character (e.g. `t
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toSlugCase
-- `StringTools.toSlugCase`
-- `StringTools.fromSlugCase.toSlugCase`
-- `StringTools.fromSnakeCase.toSlugCase`
-- `StringTools.fromSpaced.toSlugCase`
-- `StringTools.fromCamelCase.toSlugCase`
+
+```typescript
+StringTools.toSlugCase(input: string | string[], toUpper: boolean): string
+StringTools.fromSlugCase.toSlugCase(input: string | string[], toUpper: boolean): string
+StringTools.fromSnakeCase.toSlugCase(input: string | string[], toUpper: boolean): string
+StringTools.fromSpaced.toSlugCase(input: string | string[], toUpper: boolean): string
+StringTools.fromCamelCase.toSlugCase(input: string | string[], toUpper: boolean): string
+```
 
 Convert a string to camel case (e.g. `this-is-slug-case`)
 
@@ -1810,11 +2020,14 @@ Convert a string to camel case (e.g. `this-is-slug-case`)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toLowerSlugCase
-- `StringTools.toLowerSlugCase`
-- `StringTools.fromSlugCase.toLowerSlugCase`
-- `StringTools.fromSnakeCase.toLowerSlugCase`
-- `StringTools.fromSpaced.toLowerSlugCase`
-- `StringTools.fromCamelCase.toLowerSlugCase`
+
+```typescript
+StringTools.toLowerSlugCase(input: string | string[]): string
+StringTools.fromSlugCase.toLowerSlugCase(input: string | string[]): string
+StringTools.fromSnakeCase.toLowerSlugCase(input: string | string[]): string
+StringTools.fromSpaced.toLowerSlugCase(input: string | string[]): string
+StringTools.fromCamelCase.toLowerSlugCase(input: string | string[]): string
+```
 
 Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
 
@@ -1829,11 +2042,14 @@ Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toUpperSlugCase
-- `StringTools.toUpperSlugCase`
-- `StringTools.fromSlugCase.toUpperSlugCase`
-- `StringTools.fromSnakeCase.toUpperSlugCase`
-- `StringTools.fromSpaced.toUpperSlugCase`
-- `StringTools.fromCamelCase.toUpperSlugCase`
+
+```typescript
+StringTools.toUpperSlugCase(input: string | string[]): string
+StringTools.fromSlugCase.toUpperSlugCase(input: string | string[]): string
+StringTools.fromSnakeCase.toUpperSlugCase(input: string | string[]): string
+StringTools.fromSpaced.toUpperSlugCase(input: string | string[]): string
+StringTools.fromCamelCase.toUpperSlugCase(input: string | string[]): string
+```
 
 Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
 
@@ -1848,11 +2064,14 @@ Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toSnakeCase
-- `StringTools.toSnakeCase`
-- `StringTools.fromSlugCase.toSnakeCase`
-- `StringTools.fromSnakeCase.toSnakeCase`
-- `StringTools.fromSpaced.toSnakeCase`
-- `StringTools.fromCamelCase.toSnakeCase`
+
+```typescript
+StringTools.toSnakeCase(input: string | string[], toUpper: boolean): string
+StringTools.fromSlugCase.toSnakeCase(input: string | string[], toUpper: boolean): string
+StringTools.fromSnakeCase.toSnakeCase(input: string | string[], toUpper: boolean): string
+StringTools.fromSpaced.toSnakeCase(input: string | string[], toUpper: boolean): string
+StringTools.fromCamelCase.toSnakeCase(input: string | string[], toUpper: boolean): string
+```
 
 Convert a string to snake case (e.g. `this_is_snake_case`)
 
@@ -1868,11 +2087,14 @@ Convert a string to snake case (e.g. `this_is_snake_case`)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toLowerSnakeCase
-- `StringTools.toLowerSnakeCase`
-- `StringTools.fromSlugCase.toLowerSnakeCase`
-- `StringTools.fromSnakeCase.toLowerSnakeCase`
-- `StringTools.fromSpaced.toLowerSnakeCase`
-- `StringTools.fromCamelCase.toLowerSnakeCase`
+
+```typescript
+StringTools.toLowerSnakeCase(input: string | string[]): string
+StringTools.fromSlugCase.toLowerSnakeCase(input: string | string[]): string
+StringTools.fromSnakeCase.toLowerSnakeCase(input: string | string[]): string
+StringTools.fromSpaced.toLowerSnakeCase(input: string | string[]): string
+StringTools.fromCamelCase.toLowerSnakeCase(input: string | string[]): string
+```
 
 Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
 
@@ -1887,11 +2109,14 @@ Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toUpperSnakeCase
-- `StringTools.toUpperSnakeCase`
-- `StringTools.fromSlugCase.toUpperSnakeCase`
-- `StringTools.fromSnakeCase.toUpperSnakeCase`
-- `StringTools.fromSpaced.toUpperSnakeCase`
-- `StringTools.fromCamelCase.toUpperSnakeCase`
+
+```typescript
+StringTools.toUpperSnakeCase(input: string | string[]): string
+StringTools.fromSlugCase.toUpperSnakeCase(input: string | string[]): string
+StringTools.fromSnakeCase.toUpperSnakeCase(input: string | string[]): string
+StringTools.fromSpaced.toUpperSnakeCase(input: string | string[]): string
+StringTools.fromCamelCase.toUpperSnakeCase(input: string | string[]): string
+```
 
 Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
 
@@ -1906,11 +2131,14 @@ Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toSpaced
-- `StringTools.toSpaced`
-- `StringTools.fromSlugCase.toSpaced`
-- `StringTools.fromSnakeCase.toSpaced`
-- `StringTools.fromSpaced.toSpaced`
-- `StringTools.fromCamelCase.toSpaced`
+
+```typescript
+StringTools.toSpaced(input: string | string[], toUpper: boolean): string
+StringTools.fromSlugCase.toSpaced(input: string | string[], toUpper: boolean): string
+StringTools.fromSnakeCase.toSpaced(input: string | string[], toUpper: boolean): string
+StringTools.fromSpaced.toSpaced(input: string | string[], toUpper: boolean): string
+StringTools.fromCamelCase.toSpaced(input: string | string[], toUpper: boolean): string
+```
 
 Convert a string to spaced case (e.g. `this is spaced case`)
 
@@ -1926,11 +2154,14 @@ Convert a string to spaced case (e.g. `this is spaced case`)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toLowerSpaced
-- `StringTools.toLowerSpaced`
-- `StringTools.fromSlugCase.toLowerSpaced`
-- `StringTools.fromSnakeCase.toLowerSpaced`
-- `StringTools.fromSpaced.toLowerSpaced`
-- `StringTools.fromCamelCase.toLowerSpaced`
+
+```typescript
+StringTools.toLowerSpaced(input: string | string[]): string
+StringTools.fromSlugCase.toLowerSpaced(input: string | string[]): string
+StringTools.fromSnakeCase.toLowerSpaced(input: string | string[]): string
+StringTools.fromSpaced.toLowerSpaced(input: string | string[]): string
+StringTools.fromCamelCase.toLowerSpaced(input: string | string[]): string
+```
 
 Convert a string to lower spaced case (e.g. `this is lower spaced case`)
 
@@ -1945,11 +2176,14 @@ Convert a string to lower spaced case (e.g. `this is lower spaced case`)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toUpperSpaced
-- `StringTools.toUpperSpaced`
-- `StringTools.fromSlugCase.toUpperSpaced`
-- `StringTools.fromSnakeCase.toUpperSpaced`
-- `StringTools.fromSpaced.toUpperSpaced`
-- `StringTools.fromCamelCase.toUpperSpaced`
+
+```typescript
+StringTools.toUpperSpaced(input: string | string[]): string
+StringTools.fromSlugCase.toUpperSpaced(input: string | string[]): string
+StringTools.fromSnakeCase.toUpperSpaced(input: string | string[]): string
+StringTools.fromSpaced.toUpperSpaced(input: string | string[]): string
+StringTools.fromCamelCase.toUpperSpaced(input: string | string[]): string
+```
 
 Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
 
@@ -1964,11 +2198,14 @@ Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### toCapitalisedSpaced
-- `StringTools.toCapitalisedSpaced`
-- `StringTools.fromSlugCase.toCapitalisedSpaced`
-- `StringTools.fromSnakeCase.toCapitalisedSpaced`
-- `StringTools.fromSpaced.toCapitalisedSpaced`
-- `StringTools.fromCamelCase.toCapitalisedSpaced`
+
+```typescript
+StringTools.toCapitalisedSpaced(input: string | string[]): string
+StringTools.fromSlugCase.toCapitalisedSpaced(input: string | string[]): string
+StringTools.fromSnakeCase.toCapitalisedSpaced(input: string | string[]): string
+StringTools.fromSpaced.toCapitalisedSpaced(input: string | string[]): string
+StringTools.fromCamelCase.toCapitalisedSpaced(input: string | string[]): string
+```
 
 Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
 
@@ -2059,8 +2296,11 @@ Has the following methods:
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### clx
-- `clx`
-- `StringTools.clx`
+
+```typescript
+clx(...args: ClxType[]): string
+StringTools.clx(...args: ClxType[]): string
+```
 
 Composes a className from a list of strings, conditional objects and arrays.
 
@@ -2090,7 +2330,10 @@ Tools for matching corresponding brackets in a string
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### unique
-- `StringTools.matchBrackets.unique`
+
+```typescript
+StringTools.matchBrackets.unique(input: string, replaceSymbols: Partial<BracketReplaceSymbols>): string
+```
 
 Replace brackets with symbols and with a unique ID for each bracket pair of each type
 
@@ -2112,7 +2355,10 @@ uniqued; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tenn
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### depth
-- `StringTools.matchBrackets.depth`
+
+```typescript
+StringTools.matchBrackets.depth(input: string, replaceSymbols: Partial<BracketReplaceSymbols>): string
+```
 
 Replace brackets with symbols and with a numbers for how deep each bracket pair is for that bracket type
 
@@ -2134,7 +2380,10 @@ depthed; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tenn
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### clean
-- `StringTools.matchBrackets.clean`
+
+```typescript
+StringTools.matchBrackets.clean(input: string, replaceSymbols: Partial<BracketReplaceSymbols>): string
+```
 
 Return a string that's been matched with `unique` or `depth` and replace the symbols with the original brackets. Also works with substrings of such strings.
 
@@ -2159,7 +2408,10 @@ cleaned; // '{name: "Jane", info: { age: 31, interests: ["Tennis", "Board Games"
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### grabDepth
-- `StringTools.matchBrackets.grabDepth`
+
+```typescript
+StringTools.matchBrackets.grabDepth(input: string, bracketType: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle', depthID: number, replaceSymbols: Partial<BracketReplaceSymbols>): string[]
+```
 
 Obtain all the bracketed substrings of the given bracket type from a string at a given depth.
 
@@ -2191,7 +2443,10 @@ grabbed; // [ '[1, 2, 3]', '[4, 5, 6]', '[7, 8, 9]' ]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### grabUnique
-- `StringTools.matchBrackets.grabUnique`
+
+```typescript
+StringTools.matchBrackets.grabUnique(input: string, bracketType: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle', uniqueID: number, replaceSymbols: Partial<BracketReplaceSymbols>): string
+```
 
 Obtain all the bracketed substring of the given bracket type from a string with the given unique ID.
 e.g. if uniqueID is 3, it will return the bracketed substring for the 4th instance of the opening bracket (see StringTools.matchBrackets.unique)
@@ -2224,7 +2479,10 @@ grabbed; // '[4, 5, 6]'
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### grab
-- `StringTools.matchBrackets.grab`
+
+```typescript
+StringTools.matchBrackets.grab(input: string, bracketType: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle', replaceSymbols: Partial<BracketReplaceSymbols>): string[]
+```
 
 Grab all the bracketed substrings from a string of the given bracket type.
 
@@ -2254,7 +2512,10 @@ matchBrackets.grab(example, 'square');
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### getReplaceSymbols
-- `StringTools.matchBrackets.getReplaceSymbols`
+
+```typescript
+StringTools.matchBrackets.getReplaceSymbols(replaceSymbols: Partial<BracketReplaceSymbols>): BracketReplaceSymbols
+```
 
 Get a full set of replace symbols
 
@@ -2329,9 +2590,12 @@ A collection of mathematical functions.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### fixFloat
-- `ff`
-- `MathsTools.ff`
-- `MathsTools.fixFloat`
+
+```typescript
+ff(num: number): number
+MathsTools.ff(num: number): number
+MathsTools.fixFloat(num: number): number
+```
 
 Fixes floating point errors that may occur when adding/subtracting/multiplying/dividing real/float numbers
 
@@ -2355,7 +2619,10 @@ MathsTools.fixFloat(0.1 + 0.2) // 0.3
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### addAll
-- `MathsTools.addAll`
+
+```typescript
+MathsTools.addAll(...args: number[]): number
+```
 
 Adds all numbers together. Each argument is a number (use spread operator to pass in an array) similar to Math.min/Math.max
 
@@ -2376,8 +2643,11 @@ MathsTools.addAll(1, 2, 3, 4, 5); // 15
 ### round
 
 #### floorTo
-- `MathsTools.floorTo`
-- `MathsTools.round.floorTo`
+
+```typescript
+MathsTools.floorTo(to: number, value: number): number
+MathsTools.round.floorTo(to: number, value: number): number
+```
 
 Floors a number down to the nearest multiple of the given number.
 
@@ -2399,9 +2669,12 @@ MathsTools.round.floorTo(0.1, 0.25); // 0.2
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### roundTo
-- `MathsTools.round.to`
-- `MathsTools.roundTo`
-- `MathsTools.round.roundTo`
+
+```typescript
+MathsTools.round.to(to: number, value: number): number
+MathsTools.roundTo(to: number, value: number): number
+MathsTools.round.roundTo(to: number, value: number): number
+```
 
 Floors a number down to the nearest multiple of the given number.
 
@@ -2423,8 +2696,11 @@ MathsTools.round.to(0.1, 0.25); // 0.3
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### ceilTo
-- `MathsTools.ceilTo`
-- `MathsTools.round.ceilTo`
+
+```typescript
+MathsTools.ceilTo(to: number, value: number): number
+MathsTools.round.ceilTo(to: number, value: number): number
+```
 
 Floors a number down to the nearest multiple of the given number.
 
@@ -2446,7 +2722,10 @@ MathsTools.round.ceilTo(0.1, 0.25); // 0.3
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### lerp
-- `MathsTools.lerp`
+
+```typescript
+MathsTools.lerp(progress: number, fromVal: number, toVal: number): number
+```
 
 Linearly interpolates between two values.
 
@@ -2467,7 +2746,10 @@ MathsTools.lerp(0.5, 0, 10); // 5
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### lerpArray
-- `MathsTools.lerpArray`
+
+```typescript
+MathsTools.lerpArray(progress: number, fromArr: number[], toArr: number[]): number[]
+```
 
 Linearly interpolates between the values of 2 arrays.
 
@@ -2488,7 +2770,10 @@ MathsTools.lerpArray(0.5, [0, 0, 0], [10, 100, 1000]) // [5, 50, 500]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### lerpObj
-- `MathsTools.lerpObj`
+
+```typescript
+MathsTools.lerpObj(progress: number, fromObj: T, toObj: T): T
+```
 
 Linearly interpolates between the values of 2 arrays.
 
@@ -2509,7 +2794,10 @@ MathsTools.lerpObj(0.5, {'ARS': 0, 'CHE': 0, 'FUL': 0}, {'ARS': 100, 'CHE': 10, 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### clamp
-- `MathsTools.clamp`
+
+```typescript
+MathsTools.clamp(value: number, min: number, max: number): number
+```
 
 Clamps a value between a min and max.
 
@@ -2531,7 +2819,10 @@ MathsTools.clamp(-5, 0, 10); // 0
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### getOrdinal
-- `MathsTools.getOrdinal`
+
+```typescript
+MathsTools.getOrdinal(num: number): "th" | "st" | "nd" | "rd"
+```
 
 Gets the ordinal suffix for a number.
 
@@ -2568,8 +2859,11 @@ A collection of promise utilities
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### getDeferred
-- `getDeferred`
-- `PromiseTools.getDeferred`
+
+```typescript
+getDeferred(undefined): DeferredPromise<T>
+PromiseTools.getDeferred(undefined): DeferredPromise<T>
+```
 
 A deferred promise
 
@@ -2598,8 +2892,11 @@ const luckyNumber: number = await run();
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### all
-- `all`
-- `PromiseTools.all`
+
+```typescript
+all(promises: Promise<T>[]): Promise<any>
+PromiseTools.all(promises: Promise<T>[]): Promise<any>
+```
 
 An alias for Promise.all
 
@@ -2614,8 +2911,11 @@ An alias for Promise.all
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### allLimit
-- `allLimit`
-- `PromiseTools.allLimit`
+
+```typescript
+allLimit(limit: number, items: ((index: number) => Promise<T>)[], noThrow: boolean): Promise<T[]>
+PromiseTools.allLimit(limit: number, items: ((index: number) => Promise<T>)[], noThrow: boolean): Promise<T[]>
+```
 
 Like Promise.all, but limits the numbers of concurrently running items.
 
@@ -2665,8 +2965,11 @@ timer.log();
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### each
-- `each`
-- `PromiseTools.each`
+
+```typescript
+each(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any>
+PromiseTools.each(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any>
+```
 
 Run an async function against each item in an array
 
@@ -2694,8 +2997,11 @@ console.log(''); // after 2 seconds
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### eachLimit
-- `eachLimit`
-- `PromiseTools.eachLimit`
+
+```typescript
+eachLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any>
+PromiseTools.eachLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any>
+```
 
 Run an async function against each item in an array, limiting the number of items that can run concurrently.
 
@@ -2726,8 +3032,11 @@ console.log(''); // after 4 seconds
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### map
-- `map`
-- `PromiseTools.map`
+
+```typescript
+map(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>): Promise<To[]>
+PromiseTools.map(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>): Promise<To[]>
+```
 
 Run an async map function against each item in an array, mapping the results to a returned array
 
@@ -2756,8 +3065,11 @@ console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### mapLimit
-- `mapLimit`
-- `PromiseTools.mapLimit`
+
+```typescript
+mapLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>): Promise<To[]>
+PromiseTools.mapLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>): Promise<To[]>
+```
 
 Run an async map function against each item in an array, mapping the results to a returned array, and limiting the number of items that can run concurrently.
 
@@ -2789,8 +3101,11 @@ console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### allObj
-- `allObj`
-- `PromiseTools.allObj`
+
+```typescript
+allObj(input: T): Promise<UnWrapPromiseObject<T>>
+PromiseTools.allObj(input: T): Promise<UnWrapPromiseObject<T>>
+```
 
 Like Promise.all, but pass/receive objects rather than arrays
 
@@ -2834,8 +3149,11 @@ timer.log();
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### allLimitObj
-- `allLimitObj`
-- `PromiseTools.allLimitObj`
+
+```typescript
+allLimitObj(limit: number, input: T, noThrow: boolean): Promise<UnWrapPromiseObject<T>>
+PromiseTools.allLimitObj(limit: number, input: T, noThrow: boolean): Promise<UnWrapPromiseObject<T>>
+```
 
 A mix of allObj and allLimit.
 
@@ -3188,7 +3506,10 @@ ColourTools.namedColours.dodgerblue // [30, 144, 255]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### parse
-- `ColourTools.parse`
+
+```typescript
+ColourTools.parse(input: string): ColourValues
+```
 
 Parse a string into a colour object (RGB array)
 Not extensive. Currently limited to:
@@ -3214,7 +3535,10 @@ ColourTools.parse('red') // [255, 0, 0]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### toHex
-- `ColourTools.toHex`
+
+```typescript
+ColourTools.toHex(colour: ColourValues): string
+```
 
 Convert a colour object (RGB array) to a hex string
 
@@ -3233,7 +3557,10 @@ ColourTools.toHex([255, 0, 0]) // '#FF0000'
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### getLuminance
-- `ColourTools.getLuminance`
+
+```typescript
+ColourTools.getLuminance(rgb: ColourValues): number
+```
 
 IMPORTANT: This is not the same as the HSL luminance value.
 
@@ -3261,7 +3588,10 @@ ColourTools.getLuminance([0, 0, 255]); // 29.07
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### toYUV
-- `ColourTools.toYUV`
+
+```typescript
+ColourTools.toYUV(rgb: ColourValues): ColourValues
+```
 
 Convert a colour object (RGB array) to a YUV array.
 
@@ -3282,7 +3612,10 @@ ColourTools.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### toHSL
-- `ColourTools.toHSL`
+
+```typescript
+ColourTools.toHSL(colour: ColourValues, round: boolean): HSLValues
+```
 
 Convert a RGB array to a HSL array.
 
@@ -3305,7 +3638,10 @@ ColourTools.toHSL([0, 255, 0]); // [120, 100, 50]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### fromHSL
-- `ColourTools.fromHSL`
+
+```typescript
+ColourTools.fromHSL(hsl: HSLValues, round: boolean): ColourValues
+```
 
 Convert a HSL array to a RGB array.
 
@@ -3328,7 +3664,10 @@ ColourTools.fromHSL([120, 100, 50]); // [0, 255, 0]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### invertColour
-- `ColourTools.invertColour`
+
+```typescript
+ColourTools.invertColour(rgb: ColourValues): ColourValues
+```
 
 Get the opposite colour of a given colour.
 
@@ -3349,7 +3688,10 @@ ColourTools.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### getContrastedColour
-- `ColourTools.getContrastedColour`
+
+```typescript
+ColourTools.getContrastedColour(colour: ColourValues): ColourValues
+```
 
 Get the colour that contrasts the most with a given colour. (White or black)
 
@@ -3371,7 +3713,10 @@ ColourTools.getContrastedColour([255, 255, 0]); // [0, 0, 0]
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### getLimitedColour
-- `ColourTools.getLimitedColour`
+
+```typescript
+ColourTools.getLimitedColour(colour: ColourValues, checkFn: (hsl: HSLValues) => boolean, adjustFn: (hsl: HSLValues) => HSLValues): ColourValues
+```
 
 Adjust a colour if a certain condition is met.
 Used for lightening/darkening colours that are too light/dark
@@ -3401,7 +3746,10 @@ A collection of time-related utility functions.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### toReadableDuration
-- `TimeTools.toReadableDuration`
+
+```typescript
+TimeTools.toReadableDuration(duration: ms, longNames: boolean, maxUnits: number): string
+```
 
 Converts a duration in milliseconds to a human readable string.
 
@@ -3444,8 +3792,11 @@ Functions for handling errors.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### tryOr
-- `tryOr`
-- `ErrorTools.tryOr`
+
+```typescript
+tryOr(orValue: T, func: (...args: A) => Promise<T>, ...args: A[]): Promise<T>
+ErrorTools.tryOr(orValue: T, func: (...args: A) => Promise<T>, ...args: A[]): Promise<T>
+```
 
 Try to execute a function and return its result if it succeeds, or return the default value if it fails.
 
@@ -3466,8 +3817,11 @@ const result = tryOr('default', () => getSomething());
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### retry
-- `retry`
-- `ErrorTools.retry`
+
+```typescript
+retry(maxTries: number, delay: ms, suppress: boolean, run: (attemptNumber) => T): Promise<T>
+ErrorTools.retry(maxTries: number, delay: ms, suppress: boolean, run: (attemptNumber) => T): Promise<T>
+```
 
 Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
 
@@ -3489,8 +3843,11 @@ const result = tryOr(5, seconds(1), true, () => getSomething());
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### retryOr
-- `retryOr`
-- `ErrorTools.retryOr`
+
+```typescript
+retryOr(orValue: T, maxTries: number, delay: ms, suppress: boolean, run: () => T): Promise<T>
+ErrorTools.retryOr(orValue: T, maxTries: number, delay: ms, suppress: boolean, run: () => T): Promise<T>
+```
 
 Combination of retry and tryOr.
 
@@ -3522,8 +3879,11 @@ A progress bar that can be used in the terminal.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### printLn
-- `printLn`
-- `progressBar.printLn`
+
+```typescript
+printLn(...text: any[]): void
+progressBar.printLn(...text: any[]): void
+```
 
 Can use instead of console.log
 
@@ -3585,8 +3945,11 @@ All options are optional.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### getProgressBar
-- `getProgressBar`
-- `progressBar.getProgressBar`
+
+```typescript
+getProgressBar(max: number, options: ProgressBarOptions): ProgressBar
+progressBar.getProgressBar(max: number, options: ProgressBarOptions): ProgressBar
+```
 
 Usage:
 ```typescript
@@ -3746,7 +4109,10 @@ A series of characters that can be used for display symbols
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### superscript
-- `superscript`
+
+```typescript
+superscript(num: number | string): string
+```
 
 Converts a string or number to superscript (where possible)
 
@@ -3817,8 +4183,11 @@ PromiseTools.each(range(5), async (i) => {
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### setDefaultPauseTime
-- `queue.setDefaultPauseTime`
-- `new QueueManager().setDefaultPauseTime`
+
+```typescript
+queue.setDefaultPauseTime(time: number): void
+new QueueManager().setDefaultPauseTime(time: number): void
+```
 
 Sets the default pause time for pauses between queue items.
 
@@ -3833,8 +4202,11 @@ Sets the default pause time for pauses between queue items.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### setPauseTime
-- `queue.setPauseTime`
-- `new QueueManager().setPauseTime`
+
+```typescript
+queue.setPauseTime(id: string, time: number): void
+new QueueManager().setPauseTime(id: string, time: number): void
+```
 
 Sets the pause time for pauses between queue items for the specified queue.
 
@@ -3850,8 +4222,11 @@ Sets the pause time for pauses between queue items for the specified queue.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### add
-- `queue.add`
-- `new QueueManager().add`
+
+```typescript
+queue.add(id: string, fn: () => Promise<T>): Promise<T>
+new QueueManager().add(id: string, fn: () => Promise<T>): Promise<T>
+```
 
 Adds a function to the queue.
 
@@ -3867,8 +4242,11 @@ Adds a function to the queue.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 #### new
-- `queue.new`
-- `new QueueManager().new`
+
+```typescript
+queue.new(defaultPauseTime: number): QueueManager
+new QueueManager().new(defaultPauseTime: number): QueueManager
+```
 
 Creates a new QueueManager instance.
 
@@ -3897,7 +4275,10 @@ A debug tool for measuring the duration of code blocks.
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### getTimer
-- `getTimer`
+
+```typescript
+getTimer(name: string, verbose: boolean, wrapperFn: any, chalk: any, displayNames: TName): any
+```
 
 Usage:
 ```typescript
