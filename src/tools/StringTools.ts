@@ -1,4 +1,5 @@
 import { ObjectTools } from './ObjectTools';
+import { fn } from './fn';
 
 //<!-- DOCS: 120 -->
 
@@ -546,6 +547,389 @@ export namespace StringTools {
    * @returns {string}
    */
   export const clx = (...args: ClxType[]) => processClxArray(args).join(' ');
+
+  /**<!-- DOCS: StringTools.matchBrackets ### -->
+   * matchBrackets
+   *
+   * Tools for matching corresponding brackets in a string
+   */
+  export namespace matchBrackets {
+    // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
+    const defaultReplaceSymbols: BracketReplaceSymbols = {
+      END: '✧',
+      '(': '❪',
+      ')': '❫',
+      '[': '❲',
+      ']': '❳',
+      '{': '❴',
+      '}': '❵',
+      '<': '❰',
+      '>': '❱'
+    };
+
+    const runReplace = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}, outputDepth: boolean = false): string => {
+      const fullSyms = getReplaceSymbols(replaceSymbols);
+
+      interface BracketInfo {
+        depth: number;
+        currentID: number;
+        active: [number, number][];
+      }
+      let infos = {
+        round: {
+          depth: -1,
+          currentID: -1,
+          active: []
+        },
+        square: {
+          depth: -1,
+          currentID: -1,
+          active: []
+        },
+        curly: {
+          depth: -1,
+          currentID: -1,
+          active: []
+        },
+        angle: {
+          depth: -1,
+          currentID: -1,
+          active: []
+        }
+      };
+
+      const updateInfo = (info: BracketInfo, startBr: string, endBr: string, br: string) => {
+        let depth: number;
+        let id: number;
+        if (br === startBr || br === endBr) {
+          if (br === startBr) {
+            // start pair
+            depth = ++info.depth;
+            id = ++info.currentID;
+            info.active.push([depth, id]);
+          } else {
+            // end pair
+            depth = info.depth--;
+
+            const activeIndex = info.active.findIndex(([d, i]) => d === depth);
+            if (activeIndex !== -1) {
+              const found = info.active.splice(activeIndex, 1)?.[0];
+              if (found) id = found[1];
+            }
+          }
+        }
+
+        return outputDepth ? depth : id;
+      };
+
+      return input.replaceAll(/\(|\)|\[|\]|\{|\}|\<|\>/g, (br) => {
+        let id =
+          updateInfo(infos.round, '(', ')', br) ||
+          updateInfo(infos.square, '[', ']', br) ||
+          updateInfo(infos.curly, '{', '}', br) ||
+          updateInfo(infos.angle, '<', '>', br);
+
+        return fullSyms[br] + (id || '0') + fullSyms.END;
+      });
+    };
+
+    /**<!-- DOCS: StringTools.matchBrackets.unique #### -->
+     * unique
+     *
+     * - `StringTools.matchBrackets.unique`
+     *
+     * Replace brackets with symbols and with a unique ID for each bracket pair of each type
+     *
+     * ```typescript
+     * const example = '{name: "Jane", info: { age: 31, interests: ["Tennis", "Board Games"] }}';
+     * const uniqued = matchBrackets.unique(example);
+     * uniqued; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tennis", "Board Games"❳0✧ ❵1✧❵0✧'
+     * ```
+     * @param {string} input
+     * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+     * @returns {string}
+     */
+    export const unique = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => runReplace(input, replaceSymbols, false);
+
+    /**<!-- DOCS: StringTools.matchBrackets.depth #### -->
+     * depth
+     *
+     * - `StringTools.matchBrackets.depth`
+     *
+     * Replace brackets with symbols and with a numbers for how deep each bracket pair is for that bracket type
+     *
+     * ```typescript
+     * const example = '{name: "Jane", info: { age: 31, interests: ["Tennis", "Board Games"] }}';
+     * const depthed = matchBrackets.depth(example);
+     * depthed; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tennis", "Board Games"❳0✧ ❵1✧❵0✧'
+     * ```
+     * @param {string} input
+     * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+     * @returns {string}
+     */
+    export const depth = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => runReplace(input, replaceSymbols, true);
+
+    /**<!-- DOCS: StringTools.matchBrackets.clean #### -->
+     * clean
+     *
+     * - `StringTools.matchBrackets.clean`
+     *
+     * Return a string that's been matched with `unique` or `depth` and replace the symbols with the original brackets. Also works with substrings of such strings.
+     *
+     * ```typescript
+     * const example = '{name: "Jane", info: { age: 31, interests: ["Tennis", "Board Games"] }}';
+     * const uniqued = matchBrackets.unique(example);
+     * uniqued; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tennis", "Board Games"❳0✧ ❵1✧❵0✧'
+     *
+     * const cleaned = matchBrackets.clean(uniqued);
+     * cleaned; // '{name: "Jane", info: { age: 31, interests: ["Tennis", "Board Games"] }}'
+     * ```
+     * @param {string} input
+     * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+     * @returns {string}
+     */
+    export const clean = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => {
+      const fullSyms = getReplaceSymbols(replaceSymbols);
+      const invertedSyms = ObjectTools.invert(fullSyms);
+
+      const { END, ...withoutEND } = fullSyms;
+      const startSyms = Object.values(withoutEND);
+      const regex = new RegExp(`(${startSyms.map((s) => `\\${s}`).join('|')})[0-9]+${fullSyms.END}`, 'g');
+      return input.replaceAll(regex, (m, startSym) => invertedSyms[startSym] || '');
+    };
+
+    const getBracketSymsForMatch = (
+      bracketType: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle',
+      replaceSymbols: Partial<BracketReplaceSymbols>
+    ) => {
+      const fullSyms = getReplaceSymbols(replaceSymbols);
+      const [openSym, closeSym] = {
+        '()': ['(', ')'],
+        '[]': ['[', ']'],
+        '{}': ['{', '}'],
+        '<>': ['<', '>'],
+        round: ['(', ')'],
+        square: ['[', ']'],
+        curly: ['{', '}'],
+        angle: ['<', '>']
+      }[bracketType].map((s) => fullSyms[s] as string);
+      const endSym = fullSyms.END;
+      return [openSym, closeSym, endSym];
+    };
+
+    const runGrabSearch = (
+      fullDirty: string,
+      [openSym, closeSym, endSym]: string[],
+      findID: string,
+      replaceSymbols: Partial<BracketReplaceSymbols>
+    ) => {
+      const regex = new RegExp(`${openSym}${findID}${endSym}(.|\n)*?${closeSym}${findID}${endSym}`, 'g');
+      const foundDirty = Array.from(fullDirty.matchAll(regex) || []).map((match) => match[0]);
+
+      const found = foundDirty.map((str) => clean(str, replaceSymbols));
+      return found;
+    };
+
+    /**<!-- DOCS: StringTools.matchBrackets.grabDepth #### -->
+     * grabDepth
+     *
+     * - `StringTools.matchBrackets.grabDepth`
+     *
+     * Obtain all the bracketed substrings of the given bracket type from a string at a given depth.
+     *
+     * ```typescript
+     * const example = `[
+     *   [
+     *     [1, 2, 3],
+     *     [4, 5, 6]
+     *   ],
+     *   [
+     *     [7, 8, 9]
+     *   ]
+     * ]`;
+     * const grabbed = matchBrackets.grabDepth(example, 'square', 2);
+     * grabbed; // [ '[1, 2, 3]', '[4, 5, 6]', '[7, 8, 9]' ]
+     * ```
+     * @param {string} input
+     * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round']
+     * @param {number} [depthID=0]
+     * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+     * @returns {string[]}
+     */
+    export const grabDepth = (
+      input: string,
+      bracketType: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle' = 'round',
+      depthID: number = 0,
+      replaceSymbols: Partial<BracketReplaceSymbols> = {}
+    ): string[] => {
+      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
+      const fullDirty = depth(input, replaceSymbols);
+      return runGrabSearch(fullDirty, syms, depthID !== undefined ? depthID + '' : '', replaceSymbols);
+    };
+
+    /**<!-- DOCS: StringTools.matchBrackets.grabUnique #### -->
+     * grabUnique
+     *
+     * - `StringTools.matchBrackets.grabUnique`
+     *
+     * Obtain all the bracketed substring of the given bracket type from a string with the given unique ID.
+     * e.g. if uniqueID is 3, it will return the bracketed substring for the 4th instance of the opening bracket (see StringTools.matchBrackets.unique)
+     *
+     * ```typescript
+     * const example = `[
+     *   [
+     *     [1, 2, 3],
+     *     [4, 5, 6]
+     *   ],
+     *   [
+     *     [7, 8, 9]
+     *   ]
+     * ]`;
+     * const grabbed = matchBrackets.grabUnique(example, 'square', 3);
+     * grabbed; // '[4, 5, 6]'
+     * ```
+     * @param {string} input
+     * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round']
+     * @param {number} [uniqueID=0]
+     * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+     * @returns {string}
+     */
+    export const grabUnique = (
+      input: string,
+      bracketType: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle' = 'round',
+      uniqueID: number = 0,
+      replaceSymbols: Partial<BracketReplaceSymbols> = {}
+    ): string => {
+      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
+      const fullDirty = unique(input, replaceSymbols);
+      return runGrabSearch(fullDirty, syms, uniqueID !== undefined ? uniqueID + '' : '', replaceSymbols)?.[0];
+    };
+
+    /**<!-- DOCS: StringTools.matchBrackets.grab #### -->
+     * grab
+     *
+     * - `StringTools.matchBrackets.grab`
+     *
+     * Grab all the bracketed substrings from a string of the given bracket type.
+     *
+     * ```typescript
+     * const example = `[[[1, 2, 3], [4, 5, 6]], [[7, 8, 9]]]`;
+     * matchBrackets.grab(example, 'square');
+     * // [
+     * //   '[[[1, 2, 3], [4, 5, 6]], [[7, 8, 9]]]',
+     * //   '[[1, 2, 3], [4, 5, 6]]',
+     * //   '[1, 2, 3]',
+     * //   '[4, 5, 6]',
+     * //   '[[7, 8, 9]]',
+     * //   '[7, 8, 9]'
+     * // ]
+     * ```
+     * @param {string} input
+     * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round']
+     * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+     * @returns {string[]}
+     */
+    export const grab = (
+      input: string,
+      bracketType: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle' = 'round',
+      replaceSymbols: Partial<BracketReplaceSymbols> = {}
+    ): string[] => {
+      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
+      const fullDirty = unique(input, replaceSymbols);
+
+      const [openSym, closeSym, endSym] = syms;
+      const regex = new RegExp(`(?:${openSym}|${closeSym})([0-9]+)${endSym}`, 'g');
+      const allIDs = Array.from(fullDirty.matchAll(regex) || [])
+        .map((match) => Number(match[1]))
+        .filter(fn.dedupe);
+
+      const found = allIDs.map((uniqueID) => runGrabSearch(fullDirty, syms, uniqueID + '', replaceSymbols)?.[0]);
+
+      return found;
+    };
+
+    /**<!-- DOCS: StringTools.matchBrackets.getReplaceSymbols #### -->
+     * getReplaceSymbols
+     *
+     * - `StringTools.matchBrackets.getReplaceSymbols`
+     *
+     * Get a full set of replace symbols
+     *
+     * ```typescript
+     * matchBrackets.getReplaceSymbols();
+     * // {
+     * //   END: '✧',
+     * //   '(': '❪',
+     * //   ')': '❫',
+     * //   '[': '❲',
+     * //   ']': '❳',
+     * //   '{': '❴',
+     * //   '}': '❵',
+     * //   '<': '❰',
+     * //   '>': '❱'
+     * // }
+     *
+     * matchBrackets.getReplaceSymbols({
+     *   END: '▣',
+     *   '{': 'START_CURLY',
+     *   '}': 'END_CURLY'
+     * })
+     * // {
+     * //   END: '▣',
+     * //   '(': '❪',
+     * //   ')': '❫',
+     * //   '[': '❲',
+     * //   ']': '❳',
+     * //   '{': 'START_CURLY',
+     * //   '}': 'END_CURLY',
+     * //   '<': '❰',
+     * //   '>': '❱'
+     * // }
+     * ```
+     * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+     * @returns {BracketReplaceSymbols}
+     */
+    export const getReplaceSymbols = (replaceSymbols: Partial<BracketReplaceSymbols> = {}): BracketReplaceSymbols => {
+      return {
+        ...defaultReplaceSymbols,
+        ...replaceSymbols
+      };
+    };
+
+    /**<!-- DOCS: StringTools.matchBrackets.BracketReplaceSymbols #### -->
+     * BracketReplaceSymbols
+     *
+     * - `StringTools.matchBrackets.BracketReplaceSymbols`
+     *
+     * Type for controlling the symbols used to replace brackets
+     *
+     * ```typescript
+     * {
+     *   END: string;
+     *   '(': string;
+     *   ')': string;
+     *   '[': string;
+     *   ']': string;
+     *   '{': string;
+     *   '}': string;
+     *   '<': string;
+     *   '>': string;
+     * }
+     * ```
+     */
+    export interface BracketReplaceSymbols {
+      END: string;
+      '(': string;
+      ')': string;
+      '[': string;
+      ']': string;
+      '{': string;
+      '}': string;
+      '<': string;
+      '>': string;
+    }
+  } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: StringTools.clx  --> */

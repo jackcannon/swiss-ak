@@ -759,6 +759,131 @@ var StringTools;
     }
   }).flat();
   StringTools2.clx = (...args) => processClxArray(args).join(" ");
+  let matchBrackets;
+  ((matchBrackets2) => {
+    const defaultReplaceSymbols = {
+      END: "\u2727",
+      "(": "\u276A",
+      ")": "\u276B",
+      "[": "\u2772",
+      "]": "\u2773",
+      "{": "\u2774",
+      "}": "\u2775",
+      "<": "\u2770",
+      ">": "\u2771"
+    };
+    const runReplace = (input, replaceSymbols = {}, outputDepth = false) => {
+      const fullSyms = matchBrackets2.getReplaceSymbols(replaceSymbols);
+      let infos = {
+        round: {
+          depth: -1,
+          currentID: -1,
+          active: []
+        },
+        square: {
+          depth: -1,
+          currentID: -1,
+          active: []
+        },
+        curly: {
+          depth: -1,
+          currentID: -1,
+          active: []
+        },
+        angle: {
+          depth: -1,
+          currentID: -1,
+          active: []
+        }
+      };
+      const updateInfo = (info, startBr, endBr, br) => {
+        var _a;
+        let depth2;
+        let id;
+        if (br === startBr || br === endBr) {
+          if (br === startBr) {
+            depth2 = ++info.depth;
+            id = ++info.currentID;
+            info.active.push([depth2, id]);
+          } else {
+            depth2 = info.depth--;
+            const activeIndex = info.active.findIndex(([d, i]) => d === depth2);
+            if (activeIndex !== -1) {
+              const found = (_a = info.active.splice(activeIndex, 1)) == null ? void 0 : _a[0];
+              if (found)
+                id = found[1];
+            }
+          }
+        }
+        return outputDepth ? depth2 : id;
+      };
+      return input.replaceAll(/\(|\)|\[|\]|\{|\}|\<|\>/g, (br) => {
+        let id = updateInfo(infos.round, "(", ")", br) || updateInfo(infos.square, "[", "]", br) || updateInfo(infos.curly, "{", "}", br) || updateInfo(infos.angle, "<", ">", br);
+        return fullSyms[br] + (id || "0") + fullSyms.END;
+      });
+    };
+    matchBrackets2.unique = (input, replaceSymbols = {}) => runReplace(input, replaceSymbols, false);
+    matchBrackets2.depth = (input, replaceSymbols = {}) => runReplace(input, replaceSymbols, true);
+    matchBrackets2.clean = (input, replaceSymbols = {}) => {
+      const fullSyms = matchBrackets2.getReplaceSymbols(replaceSymbols);
+      const invertedSyms = ObjectTools.invert(fullSyms);
+      const { END, ...withoutEND } = fullSyms;
+      const startSyms = Object.values(withoutEND);
+      const regex = new RegExp(`(${startSyms.map((s) => `\\${s}`).join("|")})[0-9]+${fullSyms.END}`, "g");
+      return input.replaceAll(regex, (m, startSym) => invertedSyms[startSym] || "");
+    };
+    const getBracketSymsForMatch = (bracketType, replaceSymbols) => {
+      const fullSyms = matchBrackets2.getReplaceSymbols(replaceSymbols);
+      const [openSym, closeSym] = {
+        "()": ["(", ")"],
+        "[]": ["[", "]"],
+        "{}": ["{", "}"],
+        "<>": ["<", ">"],
+        round: ["(", ")"],
+        square: ["[", "]"],
+        curly: ["{", "}"],
+        angle: ["<", ">"]
+      }[bracketType].map((s) => fullSyms[s]);
+      const endSym = fullSyms.END;
+      return [openSym, closeSym, endSym];
+    };
+    const runGrabSearch = (fullDirty, [openSym, closeSym, endSym], findID, replaceSymbols) => {
+      const regex = new RegExp(`${openSym}${findID}${endSym}(.|
+)*?${closeSym}${findID}${endSym}`, "g");
+      const foundDirty = Array.from(fullDirty.matchAll(regex) || []).map((match) => match[0]);
+      const found = foundDirty.map((str) => matchBrackets2.clean(str, replaceSymbols));
+      return found;
+    };
+    matchBrackets2.grabDepth = (input, bracketType = "round", depthID = 0, replaceSymbols = {}) => {
+      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
+      const fullDirty = matchBrackets2.depth(input, replaceSymbols);
+      return runGrabSearch(fullDirty, syms, depthID !== void 0 ? depthID + "" : "", replaceSymbols);
+    };
+    matchBrackets2.grabUnique = (input, bracketType = "round", uniqueID = 0, replaceSymbols = {}) => {
+      var _a;
+      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
+      const fullDirty = matchBrackets2.unique(input, replaceSymbols);
+      return (_a = runGrabSearch(fullDirty, syms, uniqueID !== void 0 ? uniqueID + "" : "", replaceSymbols)) == null ? void 0 : _a[0];
+    };
+    matchBrackets2.grab = (input, bracketType = "round", replaceSymbols = {}) => {
+      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
+      const fullDirty = matchBrackets2.unique(input, replaceSymbols);
+      const [openSym, closeSym, endSym] = syms;
+      const regex = new RegExp(`(?:${openSym}|${closeSym})([0-9]+)${endSym}`, "g");
+      const allIDs = Array.from(fullDirty.matchAll(regex) || []).map((match) => Number(match[1])).filter(fn.dedupe);
+      const found = allIDs.map((uniqueID) => {
+        var _a;
+        return (_a = runGrabSearch(fullDirty, syms, uniqueID + "", replaceSymbols)) == null ? void 0 : _a[0];
+      });
+      return found;
+    };
+    matchBrackets2.getReplaceSymbols = (replaceSymbols = {}) => {
+      return {
+        ...defaultReplaceSymbols,
+        ...replaceSymbols
+      };
+    };
+  })(matchBrackets = StringTools2.matchBrackets || (StringTools2.matchBrackets = {}));
 })(StringTools || (StringTools = {}));
 var clx = StringTools.clx;
 

@@ -102,6 +102,15 @@ A collection of useful little things that I like to reuse across projects
       - [fromSpaced](#fromspaced)
       - [fromCamelCase](#fromcamelcase)
       - [clx](#clx)
+      - [matchBrackets](#matchbrackets)
+        - [unique](#unique)
+        - [depth](#depth)
+        - [clean](#clean)
+        - [grabDepth](#grabdepth)
+        - [grabUnique](#grabunique)
+        - [grab](#grab)
+        - [getReplaceSymbols](#getreplacesymbols)
+        - [BracketReplaceSymbols](#bracketreplacesymbols)
     - [MathsTools](#mathstools)
       - [fixFloat](#fixfloat)
       - [addAll](#addall)
@@ -2072,6 +2081,243 @@ clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
 | Return Type |
 |-------------|
 | `string`    |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+### matchBrackets
+Tools for matching corresponding brackets in a string
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### unique
+- `StringTools.matchBrackets.unique`
+
+Replace brackets with symbols and with a unique ID for each bracket pair of each type
+
+```typescript
+const example = '{name: "Jane", info: { age: 31, interests: ["Tennis", "Board Games"] }}';
+const uniqued = matchBrackets.unique(example);
+uniqued; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tennis", "Board Games"❳0✧ ❵1✧❵0✧'
+```
+
+|  #  | Parameter Name   | Required | Type                             | Default |
+|:---:|:-----------------|:---------|:---------------------------------|:--------|
+| *0* | `input`          | **Yes**  | `string`                         |         |
+| *1* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>` | `{}`    |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### depth
+- `StringTools.matchBrackets.depth`
+
+Replace brackets with symbols and with a numbers for how deep each bracket pair is for that bracket type
+
+```typescript
+const example = '{name: "Jane", info: { age: 31, interests: ["Tennis", "Board Games"] }}';
+const depthed = matchBrackets.depth(example);
+depthed; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tennis", "Board Games"❳0✧ ❵1✧❵0✧'
+```
+
+|  #  | Parameter Name   | Required | Type                             | Default |
+|:---:|:-----------------|:---------|:---------------------------------|:--------|
+| *0* | `input`          | **Yes**  | `string`                         |         |
+| *1* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>` | `{}`    |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### clean
+- `StringTools.matchBrackets.clean`
+
+Return a string that's been matched with `unique` or `depth` and replace the symbols with the original brackets. Also works with substrings of such strings.
+
+```typescript
+const example = '{name: "Jane", info: { age: 31, interests: ["Tennis", "Board Games"] }}';
+const uniqued = matchBrackets.unique(example);
+uniqued; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tennis", "Board Games"❳0✧ ❵1✧❵0✧'
+
+const cleaned = matchBrackets.clean(uniqued);
+cleaned; // '{name: "Jane", info: { age: 31, interests: ["Tennis", "Board Games"] }}'
+```
+
+|  #  | Parameter Name   | Required | Type                             | Default |
+|:---:|:-----------------|:---------|:---------------------------------|:--------|
+| *0* | `input`          | **Yes**  | `string`                         |         |
+| *1* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>` | `{}`    |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### grabDepth
+- `StringTools.matchBrackets.grabDepth`
+
+Obtain all the bracketed substrings of the given bracket type from a string at a given depth.
+
+```typescript
+const example = `[
+  [
+    [1, 2, 3],
+    [4, 5, 6]
+  ],
+  [
+    [7, 8, 9]
+  ]
+]`;
+const grabbed = matchBrackets.grabDepth(example, 'square', 2);
+grabbed; // [ '[1, 2, 3]', '[4, 5, 6]', '[7, 8, 9]' ]
+```
+
+|  #  | Parameter Name   | Required | Type                                                                        | Default   |
+|:---:|:-----------------|:---------|:----------------------------------------------------------------------------|:----------|
+| *0* | `input`          | **Yes**  | `string`                                                                    |           |
+| *1* | `bracketType`    | *No*     | `'()' \| '[]' \| '{}' \| '<>' \| 'round' \| 'square' \| 'curly' \| 'angle'` | `'round'` |
+| *2* | `depthID`        | *No*     | `number`                                                                    | `0`       |
+| *3* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>`                                            | `{}`      |
+
+| Return Type |
+|-------------|
+| `string[]`  |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### grabUnique
+- `StringTools.matchBrackets.grabUnique`
+
+Obtain all the bracketed substring of the given bracket type from a string with the given unique ID.
+e.g. if uniqueID is 3, it will return the bracketed substring for the 4th instance of the opening bracket (see StringTools.matchBrackets.unique)
+
+```typescript
+const example = `[
+  [
+    [1, 2, 3],
+    [4, 5, 6]
+  ],
+  [
+    [7, 8, 9]
+  ]
+]`;
+const grabbed = matchBrackets.grabUnique(example, 'square', 3);
+grabbed; // '[4, 5, 6]'
+```
+
+|  #  | Parameter Name   | Required | Type                                                                        | Default   |
+|:---:|:-----------------|:---------|:----------------------------------------------------------------------------|:----------|
+| *0* | `input`          | **Yes**  | `string`                                                                    |           |
+| *1* | `bracketType`    | *No*     | `'()' \| '[]' \| '{}' \| '<>' \| 'round' \| 'square' \| 'curly' \| 'angle'` | `'round'` |
+| *2* | `uniqueID`       | *No*     | `number`                                                                    | `0`       |
+| *3* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>`                                            | `{}`      |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### grab
+- `StringTools.matchBrackets.grab`
+
+Grab all the bracketed substrings from a string of the given bracket type.
+
+```typescript
+const example = `[[[1, 2, 3], [4, 5, 6]], [[7, 8, 9]]]`;
+matchBrackets.grab(example, 'square');
+// [
+//   '[[[1, 2, 3], [4, 5, 6]], [[7, 8, 9]]]',
+//   '[[1, 2, 3], [4, 5, 6]]',
+//   '[1, 2, 3]',
+//   '[4, 5, 6]',
+//   '[[7, 8, 9]]',
+//   '[7, 8, 9]'
+// ]
+```
+
+|  #  | Parameter Name   | Required | Type                                                                        | Default   |
+|:---:|:-----------------|:---------|:----------------------------------------------------------------------------|:----------|
+| *0* | `input`          | **Yes**  | `string`                                                                    |           |
+| *1* | `bracketType`    | *No*     | `'()' \| '[]' \| '{}' \| '<>' \| 'round' \| 'square' \| 'curly' \| 'angle'` | `'round'` |
+| *2* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>`                                            | `{}`      |
+
+| Return Type |
+|-------------|
+| `string[]`  |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### getReplaceSymbols
+- `StringTools.matchBrackets.getReplaceSymbols`
+
+Get a full set of replace symbols
+
+```typescript
+matchBrackets.getReplaceSymbols();
+// {
+//   END: '✧',
+//   '(': '❪',
+//   ')': '❫',
+//   '[': '❲',
+//   ']': '❳',
+//   '{': '❴',
+//   '}': '❵',
+//   '<': '❰',
+//   '>': '❱'
+// }
+
+matchBrackets.getReplaceSymbols({
+  END: '▣',
+  '{': 'START_CURLY',
+  '}': 'END_CURLY'
+})
+// {
+//   END: '▣',
+//   '(': '❪',
+//   ')': '❫',
+//   '[': '❲',
+//   ']': '❳',
+//   '{': 'START_CURLY',
+//   '}': 'END_CURLY',
+//   '<': '❰',
+//   '>': '❱'
+// }
+```
+
+|  #  | Parameter Name   | Required | Type                             | Default |
+|:---:|:-----------------|:---------|:---------------------------------|:--------|
+| *0* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>` | `{}`    |
+
+| Return Type             |
+|-------------------------|
+| `BracketReplaceSymbols` |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+#### BracketReplaceSymbols
+- `StringTools.matchBrackets.BracketReplaceSymbols`
+
+Type for controlling the symbols used to replace brackets
+
+```typescript
+{
+  END: string;
+  '(': string;
+  ')': string;
+  '[': string;
+  ']': string;
+  '{': string;
+  '}': string;
+  '<': string;
+  '>': string;
+}
+```
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
