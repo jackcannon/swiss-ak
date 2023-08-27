@@ -1748,7 +1748,8 @@ A collection of string utilities
     - [angloise](#angloise)
     - [clean](#clean)
     - [repeat](#repeat)
-    - [**StringCaseHandler**](#stringcasehandler)
+    - [clx](#clx)
+    - [**Case Manipulators**](#case-manipulators)
       - [toCamelCase](#tocamelcase)
       - [toLowerCamelCase](#tolowercamelcase)
       - [toUpperCamelCase](#touppercamelcase)
@@ -1763,11 +1764,10 @@ A collection of string utilities
       - [toLowerSpaced](#tolowerspaced)
       - [toUpperSpaced](#toupperspaced)
       - [toCapitalisedSpaced](#tocapitalisedspaced)
-    - [fromSlugCase](#fromslugcase)
-    - [fromSnakeCase](#fromsnakecase)
-    - [fromSpaced](#fromspaced)
-    - [fromCamelCase](#fromcamelcase)
-    - [clx](#clx)
+      - [fromSlugCase](#fromslugcase)
+      - [fromSnakeCase](#fromsnakecase)
+      - [fromSpaced](#fromspaced)
+      - [fromCamelCase](#fromcamelcase)
     - [**matchBrackets**](#matchbrackets)
       - [unique](#unique)
       - [depth](#depth)
@@ -1872,7 +1872,36 @@ StringTools.repeat(-1, '-') // ''
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
-### StringCaseHandler
+### clx
+
+```typescript
+clx(...args: ClxType[]): string
+StringTools.clx(...args: ClxType[]): string
+```
+
+Composes a className from a list of strings, conditional objects and arrays.
+
+Accepts the different ways of supplying classes in AngularJS (ng-class) and returns a single string (so suitable for React).
+
+```typescript
+clx('hello') // 'hello'
+clx('foo', 'bar') // 'foo bar'
+clx('foo', conditionA && 'bar') // 'foo'
+clx('abc', conditionB && 'def') // 'abc def'
+clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
+```
+
+|  #   | Parameter Name | Required | Type        |
+|:----:|:---------------|:---------|:------------|
+| *0…* | `args`         | *No*     | `ClxType[]` |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
+
+### Case Manipulators
 
 #### toCamelCase
 
@@ -2188,7 +2217,7 @@ Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Ca
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
-### fromSlugCase
+#### fromSlugCase
 
 ```typescript
 StringTools.fromSlugCase.toLowerCamelCase;
@@ -2211,7 +2240,7 @@ Has the following methods:
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
-### fromSnakeCase
+#### fromSnakeCase
 
 ```typescript
 StringTools.fromSnakeCase.toLowerCamelCase;
@@ -2234,7 +2263,7 @@ Has the following methods:
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
-### fromSpaced
+#### fromSpaced
 
 ```typescript
 StringTools.fromSpaced.toLowerCamelCase;
@@ -2257,7 +2286,7 @@ Has the following methods:
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
-### fromCamelCase
+#### fromCamelCase
 
 ```typescript
 StringTools.fromCamelCase.toLowerCamelCase;
@@ -2277,35 +2306,6 @@ StringTools.fromCamelCase.toCharacterSeparated;
 ```
 
 Has the following methods:
-
-<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
-
-### clx
-
-```typescript
-clx(...args: ClxType[]): string
-StringTools.clx(...args: ClxType[]): string
-```
-
-Composes a className from a list of strings, conditional objects and arrays.
-
-Accepts the different ways of supplying classes in AngularJS (ng-class) and returns a single string (so suitable for React).
-
-```typescript
-clx('hello') // 'hello'
-clx('foo', 'bar') // 'foo bar'
-clx('foo', conditionA && 'bar') // 'foo'
-clx('abc', conditionB && 'def') // 'abc def'
-clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
-```
-
-|  #   | Parameter Name | Required | Type        |
-|:----:|:---------------|:---------|:------------|
-| *0…* | `args`         | *No*     | `ClxType[]` |
-
-| Return Type |
-|-------------|
-| `string`    |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 

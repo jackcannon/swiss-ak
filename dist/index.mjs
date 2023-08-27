@@ -679,6 +679,7 @@ var StringTools;
   StringTools2.angloise = (input) => input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   StringTools2.clean = (input = "") => StringTools2.angloise([input].flat().join(" ")).replace(/\s{1,}/g, " ").replace(/[^A-Za-z0-9 ]/gi, "");
   StringTools2.repeat = (maxLength, repeated) => (repeated && typeof repeated === "string" ? repeated : "").repeat(Math.max(0, maxLength));
+  StringTools2.clx = (...args) => processClxArray(args).join(" ");
   const caseHandler = (overrideSplitter) => {
     const getSplit = (input = "") => {
       if (overrideSplitter)
@@ -758,7 +759,6 @@ var StringTools;
       return Object.keys(item).filter((key) => item[key]).join(" ");
     }
   }).flat();
-  StringTools2.clx = (...args) => processClxArray(args).join(" ");
   let matchBrackets;
   ((matchBrackets2) => {
     const defaultReplaceSymbols = {

@@ -3486,8 +3486,29 @@ declare namespace StringTools {
      * @returns {string}
      */
     const repeat: (maxLength: number, repeated: string) => string;
-    /**<!-- DOCS: StringTools.StringCaseHandler ### -->
-     * StringCaseHandler
+    /**<!-- DOCS: StringTools.clx ### -->
+     * clx
+     *
+     * - `clx`
+     * - `StringTools.clx`
+     *
+     * Composes a className from a list of strings, conditional objects and arrays.
+     *
+     * Accepts the different ways of supplying classes in AngularJS (ng-class) and returns a single string (so suitable for React).
+     *
+     * ```typescript
+     * clx('hello') // 'hello'
+     * clx('foo', 'bar') // 'foo bar'
+     * clx('foo', conditionA && 'bar') // 'foo'
+     * clx('abc', conditionB && 'def') // 'abc def'
+     * clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
+     * ```
+     * @param {...ClxType} [args]
+     * @returns {string}
+     */
+    const clx: (...args: ClxType[]) => string;
+    /**<!-- DOCS: StringTools.Case_Manipulators ### -->
+     * Case Manipulators
      */
     interface StringCaseHandler {
         /**<!-- DOCS-ALIAS: StringTools.toLowerCamelCase -->
@@ -3896,7 +3917,7 @@ declare namespace StringTools {
      * @returns {string}
      */
     toCharacterSeparated: (input: string | string[], char: string, toUpper?: boolean) => string;
-    /**<!-- DOCS: StringTools.fromSlugCase ### -->
+    /**<!-- DOCS: StringTools.fromSlugCase #### -->
      * fromSlugCase
      *
      * Has the following methods:
@@ -3916,7 +3937,7 @@ declare namespace StringTools {
      * - `StringTools.fromSlugCase.toCharacterSeparated`
      */
     const fromSlugCase: StringCaseHandler;
-    /**<!-- DOCS: StringTools.fromSnakeCase ### -->
+    /**<!-- DOCS: StringTools.fromSnakeCase #### -->
      * fromSnakeCase
      *
      * Has the following methods:
@@ -3936,7 +3957,7 @@ declare namespace StringTools {
      * - `StringTools.fromSnakeCase.toCharacterSeparated`
      */
     const fromSnakeCase: StringCaseHandler;
-    /**<!-- DOCS: StringTools.fromSpaced ### -->
+    /**<!-- DOCS: StringTools.fromSpaced #### -->
      * fromSpaced
      *
      * Has the following methods:
@@ -3956,7 +3977,7 @@ declare namespace StringTools {
      * - `StringTools.fromSpaced.toCharacterSeparated`
      */
     const fromSpaced: StringCaseHandler;
-    /**<!-- DOCS: StringTools.fromCamelCase ### -->
+    /**<!-- DOCS: StringTools.fromCamelCase #### -->
      * fromCamelCase
      *
      * Has the following methods:
@@ -3976,27 +3997,6 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toCharacterSeparated`
      */
     const fromCamelCase: StringCaseHandler;
-    /**<!-- DOCS: StringTools.clx ### -->
-     * clx
-     *
-     * - `clx`
-     * - `StringTools.clx`
-     *
-     * Composes a className from a list of strings, conditional objects and arrays.
-     *
-     * Accepts the different ways of supplying classes in AngularJS (ng-class) and returns a single string (so suitable for React).
-     *
-     * ```typescript
-     * clx('hello') // 'hello'
-     * clx('foo', 'bar') // 'foo bar'
-     * clx('foo', conditionA && 'bar') // 'foo'
-     * clx('abc', conditionB && 'def') // 'abc def'
-     * clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
-     * ```
-     * @param {...ClxType} [args]
-     * @returns {string}
-     */
-    const clx: (...args: ClxType[]) => string;
     /**<!-- DOCS: StringTools.matchBrackets ### -->
      * matchBrackets
      *
