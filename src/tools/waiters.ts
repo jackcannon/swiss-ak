@@ -2,7 +2,7 @@ import { ms } from './times';
 
 //<!-- DOCS: 20 -->
 
-/**<!-- DOCS: waiters ## -->
+/**<!-- DOCS: waiters ##! -->
  * waiters
  *
  * Async functions that return promises at or after a given time.

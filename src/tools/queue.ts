@@ -1,7 +1,7 @@
 import { wait } from './waiters';
 
 //<!-- DOCS: 800 -->
-/**<!-- DOCS: queue ## -->
+/**<!-- DOCS: queue ##! -->
  * queue
  *
  * A way of managing queues from different parts of the code.

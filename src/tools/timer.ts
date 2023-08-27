@@ -4,7 +4,7 @@ import { noChalk, noWrap } from './fakeChalk';
 import { TimeTools } from './TimeTools';
 
 //<!-- DOCS: 900 -->
-/**<!-- DOCS: timer ## -->
+/**<!-- DOCS: timer ##! -->
  * timer
  *
  * A debug tool for measuring the duration of code blocks.

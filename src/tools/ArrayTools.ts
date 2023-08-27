@@ -2,7 +2,7 @@ import { fn } from './fn';
 import { MathsTools } from './MathsTools';
 
 //<!-- DOCS: 100 -->
-/**<!-- DOCS: ArrayTools ## -->
+/**<!-- DOCS: ArrayTools ##! -->
  * ArrayTools
  *
  * - `ArrayTools`

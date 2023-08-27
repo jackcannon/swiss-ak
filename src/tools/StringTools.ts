@@ -5,7 +5,7 @@ import { fn } from './fn';
 
 export type ClxType = string | boolean | { [key: string]: boolean } | ClxType[];
 
-/**<!-- DOCS: StringTools ## -->
+/**<!-- DOCS: StringTools ##! -->
  * StringTools
  *
  * A collection of string utilities

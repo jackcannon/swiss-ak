@@ -1,7 +1,7 @@
 import { ArrayTools } from './ArrayTools';
 
 //<!-- DOCS: 130 -->
-/**<!-- DOCS: MathsTools ## -->
+/**<!-- DOCS: MathsTools ##! -->
  * MathsTools
  *
  * A collection of mathematical functions.

@@ -1,4 +1,4 @@
-/**<!-- DOCS: times ## 10 -->
+/**<!-- DOCS: times ##! 10 -->
  * times
  *
  * A collection of Tools for calculating simple times.

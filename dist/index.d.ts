@@ -1,4 +1,4 @@
-/**<!-- DOCS: types ## -->
+/**<!-- DOCS: types ##! -->
  * Helper Types
  *
  * Some commonly used types
@@ -88,7 +88,7 @@ declare type RemapOf<O = Object, T = string> = {
     [K in keyof O]: T;
 };
 
-/**<!-- DOCS: times ## 10 -->
+/**<!-- DOCS: times ##! 10 -->
  * times
  *
  * A collection of Tools for calculating simple times.
@@ -947,7 +947,7 @@ declare const centuries: (x?: century) => ms;
  */
 declare const millenniums: (x?: millennium) => ms;
 
-/**<!-- DOCS: waiters ## -->
+/**<!-- DOCS: waiters ##! -->
  * waiters
  *
  * Async functions that return promises at or after a given time.
@@ -1209,7 +1209,7 @@ declare const stopInterval: (intID: number) => number;
  */
 declare const interval: (action: (intID?: number, count?: number) => any, timing: ms) => number;
 
-/**<!-- DOCS: fn ## -->
+/**<!-- DOCS: fn ##! -->
  * fn
  *
  * A collection of useful higher-order functions.
@@ -2267,7 +2267,7 @@ declare const reduces: typeof fn.reduces;
  */
 declare const everys: typeof fn.everys;
 
-/**<!-- DOCS: timer ## -->
+/**<!-- DOCS: timer ##! -->
  * timer
  *
  * A debug tool for measuring the duration of code blocks.
@@ -2404,7 +2404,7 @@ interface ProgressBar {
      */
     readonly max: number;
 }
-/**<!-- DOCS: progressBar ## -->
+/**<!-- DOCS: progressBar ##! -->
  * progressBar
  *
  * A progress bar that can be used in the terminal.
@@ -2632,7 +2632,7 @@ declare const printLn: (...text: any[]) => void;
  */
 declare const getProgressBar: (max: number, options?: ProgressBarOptions) => ProgressBar;
 
-/**<!-- DOCS: ArrayTools ## -->
+/**<!-- DOCS: ArrayTools ##! -->
  * ArrayTools
  *
  * - `ArrayTools`
@@ -3262,7 +3262,7 @@ declare const groupObj: <T extends unknown>(array: T[], mapFn: (item: T, index: 
  */
 declare const group: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
 
-/**<!-- DOCS: ObjectTools ## -->
+/**<!-- DOCS: ObjectTools ##! -->
  * ObjectTools
  *
  * A collection of functions for working with objects
@@ -3395,7 +3395,7 @@ declare namespace ObjectTools {
 declare type ClxType = string | boolean | {
     [key: string]: boolean;
 } | ClxType[];
-/**<!-- DOCS: StringTools ## -->
+/**<!-- DOCS: StringTools ##! -->
  * StringTools
  *
  * A collection of string utilities
@@ -4210,7 +4210,7 @@ declare namespace StringTools {
  */
 declare const clx: (...args: ClxType[]) => string;
 
-/**<!-- DOCS: PromiseTools ## -->
+/**<!-- DOCS: PromiseTools ##! -->
  * PromiseTools
  *
  * A collection of promise utilities
@@ -4795,7 +4795,7 @@ declare const allObj: <T extends Object>(input: T) => Promise<{ [K in keyof T]: 
  */
 declare const allLimitObj: <T extends Object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K in keyof T]: T[K] extends infer T_1 ? T_1 extends T[K] ? T_1 extends Promise<unknown> ? unknown : T_1 : never : never; }>;
 
-/**<!-- DOCS: ErrorTools ## -->
+/**<!-- DOCS: ErrorTools ##! -->
  * ErrorTools
  *
  * Functions for handling errors.
@@ -4915,7 +4915,7 @@ declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress
  */
 declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, suppress?: boolean, run?: () => T) => Promise<T>;
 
-/**<!-- DOCS: MathsTools ## -->
+/**<!-- DOCS: MathsTools ##! -->
  * MathsTools
  *
  * A collection of mathematical functions.
@@ -5235,7 +5235,7 @@ declare namespace MathsTools {
  */
 declare const ff: (num: number, precision?: number) => number;
 
-/**<!-- DOCS: ColourTools ## -->
+/**<!-- DOCS: ColourTools ##! -->
  * ColourTools
  *
  * A collection of functions for working with colours.
@@ -5950,7 +5950,7 @@ declare namespace ColourTools {
     const getLimitedColour: (colour: ColourValues, checkFn: (hsl: HSLValues) => boolean, adjustFn: (hsl: HSLValues) => HSLValues) => ColourValues;
 }
 
-/**<!-- DOCS: TimeTools ## -->
+/**<!-- DOCS: TimeTools ##! -->
  * TimeTools
  *
  * A collection of time-related utility functions.
@@ -5991,7 +5991,7 @@ declare namespace TimeTools {
     const toReadableDuration: (duration: ms, longNames?: boolean, maxUnits?: number) => string;
 }
 
-/**<!-- DOCS: symbols ## -->
+/**<!-- DOCS: symbols ##! -->
  * symbols
  *
  * - `symbols`
@@ -6145,7 +6145,7 @@ declare const symbols: {
  */
 declare const superscript: (num: number | string) => string;
 
-/**<!-- DOCS: queue ## -->
+/**<!-- DOCS: queue ##! -->
  * queue
  *
  * A way of managing queues from different parts of the code.

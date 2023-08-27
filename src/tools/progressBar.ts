@@ -19,7 +19,7 @@ export interface ProgressBar {
   readonly max: number;
 }
 
-/**<!-- DOCS: progressBar ## -->
+/**<!-- DOCS: progressBar ##! -->
  * progressBar
  *
  * A progress bar that can be used in the terminal.

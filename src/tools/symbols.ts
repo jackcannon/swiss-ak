@@ -1,6 +1,6 @@
 //<!-- DOCS: 700 -->
 
-/**<!-- DOCS: symbols ## -->
+/**<!-- DOCS: symbols ##! -->
  * symbols
  *
  * - `symbols`

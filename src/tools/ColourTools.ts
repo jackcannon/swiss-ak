@@ -1,7 +1,7 @@
 import { MathsTools } from './MathsTools';
 
 //<!-- DOCS: 150 -->
-/**<!-- DOCS: ColourTools ## -->
+/**<!-- DOCS: ColourTools ##! -->
  * ColourTools
  *
  * A collection of functions for working with colours.

@@ -1,7 +1,7 @@
 import { ObjOfType, OfType } from './types';
 
 //<!-- DOCS: 110 -->
-/**<!-- DOCS: ObjectTools ## -->
+/**<!-- DOCS: ObjectTools ##! -->
  * ObjectTools
  *
  * A collection of functions for working with objects

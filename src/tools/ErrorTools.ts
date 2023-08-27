@@ -5,7 +5,7 @@ import { ms } from './times';
 import { wait } from './waiters';
 
 //<!-- DOCS: 500 -->
-/**<!-- DOCS: ErrorTools ## -->
+/**<!-- DOCS: ErrorTools ##! -->
  * ErrorTools
  *
  * Functions for handling errors.

@@ -4,185 +4,23 @@ A collection of useful little things that I like to reuse across projects
 
 <!-- DOCS: TOC START -->
 
-  - [Table of Contents](#)
-    - [times](#times)
-    - [waiters](#waiters)
-      - [wait](#wait)
-      - [waitUntil](#waituntil)
-      - [waitFor](#waitfor)
-      - [waitEvery](#waitevery)
-      - [stopInterval](#stopinterval)
-      - [interval](#interval)
-    - [fn](#fn)
-      - [noop](#noop)
-      - [noact](#noact)
-      - [result](#result)
-      - [resolve](#resolve)
-      - [reject](#reject)
-      - [filters](#filters)
-        - [exists](#exists)
-        - [isTruthy](#istruthy)
-        - [isFalsy](#isfalsy)
-        - [isEmpty](#isempty)
-        - [isNotEmpty](#isnotempty)
-        - [isEqual](#isequal)
-        - [isNotEqual](#isnotequal)
-        - [dedupe](#dedupe)
-        - [dedupeMapped](#dedupemapped)
-      - [maps](#maps)
-        - [toString](#tostring)
-        - [toNumber](#tonumber)
-        - [toBool](#tobool)
-        - [toProp](#toprop)
-        - [toFixed](#tofixed)
-      - [sorts](#sorts)
-        - [asc](#asc)
-        - [desc](#desc)
-        - [byProp](#byprop)
-        - [nearestTo](#nearestto)
-        - [furthestFrom](#furthestfrom)
-        - [arrayAsc](#arrayasc)
-        - [arrayDesc](#arraydesc)
-      - [reduces](#reduces)
-        - [combine](#combine)
-        - [combineProp](#combineprop)
-        - [mode](#mode)
-        - [modeMapped](#modemapped)
-      - [everys](#everys)
-        - [isAllEqual](#isallequal)
-    - [ArrayTools](#arraytools)
-      - [create](#create)
-      - [range](#range)
-      - [zip](#zip)
-      - [zipMax](#zipmax)
-      - [sortByMapped](#sortbymapped)
-      - [randomise](#randomise)
-      - [reverse](#reverse)
-      - [entries](#entries)
-      - [repeat](#repeat)
-      - [roll](#roll)
-      - [sortNumberedText](#sortnumberedtext)
-      - [partition](#partition)
-      - [groupObj](#groupobj)
-      - [group](#group)
-      - [utils](#utils)
-        - [isNumString](#isnumstring)
-        - [partitionNums](#partitionnums)
-    - [ObjectTools](#objecttools)
-      - [remodel](#remodel)
-      - [remodelEach](#remodeleach)
-      - [map](#map)
-      - [mapValues](#mapvalues)
-      - [mapKeys](#mapkeys)
-      - [filter](#filter)
-      - [clean](#clean)
-      - [invert](#invert)
-    - [StringTools](#stringtools)
-      - [capitalise](#capitalise)
-      - [angloise](#angloise)
-      - [clean](#clean)
-      - [repeat](#repeat)
-      - [StringCaseHandler](#stringcasehandler)
-        - [toCamelCase](#tocamelcase)
-        - [toLowerCamelCase](#tolowercamelcase)
-        - [toUpperCamelCase](#touppercamelcase)
-        - [toCharacterSeparated](#tocharacterseparated)
-        - [toSlugCase](#toslugcase)
-        - [toLowerSlugCase](#tolowerslugcase)
-        - [toUpperSlugCase](#toupperslugcase)
-        - [toSnakeCase](#tosnakecase)
-        - [toLowerSnakeCase](#tolowersnakecase)
-        - [toUpperSnakeCase](#touppersnakecase)
-        - [toSpaced](#tospaced)
-        - [toLowerSpaced](#tolowerspaced)
-        - [toUpperSpaced](#toupperspaced)
-        - [toCapitalisedSpaced](#tocapitalisedspaced)
-      - [fromSlugCase](#fromslugcase)
-      - [fromSnakeCase](#fromsnakecase)
-      - [fromSpaced](#fromspaced)
-      - [fromCamelCase](#fromcamelcase)
-      - [clx](#clx)
-      - [matchBrackets](#matchbrackets)
-        - [unique](#unique)
-        - [depth](#depth)
-        - [clean](#clean)
-        - [grabDepth](#grabdepth)
-        - [grabUnique](#grabunique)
-        - [grab](#grab)
-        - [getReplaceSymbols](#getreplacesymbols)
-        - [BracketReplaceSymbols](#bracketreplacesymbols)
-    - [MathsTools](#mathstools)
-      - [fixFloat](#fixfloat)
-      - [addAll](#addall)
-      - [round](#round)
-        - [floorTo](#floorto)
-        - [roundTo](#roundto)
-        - [ceilTo](#ceilto)
-      - [lerp](#lerp)
-      - [lerpArray](#lerparray)
-      - [lerpObj](#lerpobj)
-      - [clamp](#clamp)
-      - [getOrdinal](#getordinal)
-    - [PromiseTools](#promisetools)
-      - [getDeferred](#getdeferred)
-      - [all](#all)
-      - [allLimit](#alllimit)
-      - [each](#each)
-      - [eachLimit](#eachlimit)
-      - [map](#map)
-      - [mapLimit](#maplimit)
-      - [allObj](#allobj)
-      - [allLimitObj](#alllimitobj)
-      - [DeferredPromise](#deferredpromise)
-    - [ColourTools](#colourtools)
-      - [ColourValues](#colourvalues)
-      - [HSLValues](#hslvalues)
-      - [namedColours](#namedcolours)
-      - [parse](#parse)
-      - [toHex](#tohex)
-      - [getLuminance](#getluminance)
-      - [toYUV](#toyuv)
-      - [toHSL](#tohsl)
-      - [fromHSL](#fromhsl)
-      - [invertColour](#invertcolour)
-      - [getContrastedColour](#getcontrastedcolour)
-      - [getLimitedColour](#getlimitedcolour)
-    - [TimeTools](#timetools)
-      - [toReadableDuration](#toreadableduration)
-    - [ErrorTools](#errortools)
-      - [tryOr](#tryor)
-      - [retry](#retry)
-      - [retryOr](#retryor)
-    - [progressBar](#progressbar)
-      - [printLn](#println)
-      - [Options](#options)
-      - [getProgressBar](#getprogressbar)
-        - [update](#update)
-        - [next](#next)
-        - [set](#set)
-        - [reset](#reset)
-        - [start](#start)
-        - [finish](#finish)
-        - [max](#max)
-    - [symbols](#symbols)
-      - [superscript](#superscript)
-    - [queue](#queue)
-      - [QueueManager](#queuemanager)
-        - [setDefaultPauseTime](#setdefaultpausetime)
-        - [setPauseTime](#setpausetime)
-        - [add](#add)
-        - [new](#new)
-      - [queue](#queue)
-    - [timer](#timer)
-      - [getTimer](#gettimer)
-      - [timer](#timer)
-    - [Helper Types](#helper-types)
-      - [Partial<T>](#partialt)
-      - [KeysOnly<T>](#keysonlyt)
-      - [Numbered<T>](#numberedt)
-      - [OfType<T, U>](#oftypet-u)
-      - [ObjOfType<T>](#objoftypet)
-      - [RemapOf<O, T>](#remapofo-t)
+  - [**Table of Contents**](#)
+    - [**times**](#times)
+    - [**waiters**](#waiters)
+    - [**fn**](#fn)
+    - [**ArrayTools**](#arraytools)
+    - [**ObjectTools**](#objecttools)
+    - [**StringTools**](#stringtools)
+    - [**MathsTools**](#mathstools)
+    - [**PromiseTools**](#promisetools)
+    - [**ColourTools**](#colourtools)
+    - [**TimeTools**](#timetools)
+    - [**ErrorTools**](#errortools)
+    - [**progressBar**](#progressbar)
+    - [**symbols**](#symbols)
+    - [**queue**](#queue)
+    - [**timer**](#timer)
+    - [**Helper Types**](#helper-types)
 
 <!-- DOCS: TOC END -->
 
@@ -221,6 +59,14 @@ Async functions that return promises at or after a given time.
 | waitEvery | Accurate (pinged) wait for next 'every X' event      | `hours(1)` = next full hour (e.g. 17:00, 22:00) |
 | interval  | Accurate (pinged) interval for every 'every X' event | `hours(1)` = every hour, on the hour            |
 
+  - [**waiters**](#waiters)
+    - [wait](#wait)
+    - [waitUntil](#waituntil)
+    - [waitFor](#waitfor)
+    - [waitEvery](#waitevery)
+    - [stopInterval](#stopinterval)
+    - [interval](#interval)
+
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### wait
@@ -248,7 +94,7 @@ console.log(new Date().toTimeString()); // 12:32:10
 |--------------------|
 | `Promise<unknown>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#waiters"> [↑ Back to waiters ↑] </a></p>
 
 ### waitUntil
 
@@ -275,7 +121,7 @@ console.log(new Date().toTimeString()); // 12:40:10
 |-----------------|
 | `Promise<null>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#waiters"> [↑ Back to waiters ↑] </a></p>
 
 ### waitFor
 
@@ -302,7 +148,7 @@ console.log(new Date().toTimeString()); // 12:35:10
 |-----------------|
 | `Promise<null>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#waiters"> [↑ Back to waiters ↑] </a></p>
 
 ### waitEvery
 
@@ -330,7 +176,7 @@ console.log(new Date().toTimeString()); // 14:00:00
 |-----------------|
 | `Promise<null>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#waiters"> [↑ Back to waiters ↑] </a></p>
 
 ### stopInterval
 
@@ -359,7 +205,7 @@ interval((intID, count) => {
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#waiters"> [↑ Back to waiters ↑] </a></p>
 
 ### interval
 
@@ -391,10 +237,48 @@ interval((intID, count) => {
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#waiters"> [↑ Back to waiters ↑] </a></p>
 
 ## fn
 A collection of useful higher-order functions.
+
+  - [**fn**](#fn)
+    - [noop](#noop)
+    - [noact](#noact)
+    - [result](#result)
+    - [resolve](#resolve)
+    - [reject](#reject)
+    - [**filters**](#filters)
+      - [exists](#exists)
+      - [isTruthy](#istruthy)
+      - [isFalsy](#isfalsy)
+      - [isEmpty](#isempty)
+      - [isNotEmpty](#isnotempty)
+      - [isEqual](#isequal)
+      - [isNotEqual](#isnotequal)
+      - [dedupe](#dedupe)
+      - [dedupeMapped](#dedupemapped)
+    - [**maps**](#maps)
+      - [toString](#tostring)
+      - [toNumber](#tonumber)
+      - [toBool](#tobool)
+      - [toProp](#toprop)
+      - [toFixed](#tofixed)
+    - [**sorts**](#sorts)
+      - [asc](#asc)
+      - [desc](#desc)
+      - [byProp](#byprop)
+      - [nearestTo](#nearestto)
+      - [furthestFrom](#furthestfrom)
+      - [arrayAsc](#arrayasc)
+      - [arrayDesc](#arraydesc)
+    - [**reduces**](#reduces)
+      - [combine](#combine)
+      - [combineProp](#combineprop)
+      - [mode](#mode)
+      - [modeMapped](#modemapped)
+    - [**everys**](#everys)
+      - [isAllEqual](#isallequal)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -415,7 +299,7 @@ run();
 |-------------|
 | `void`      |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 ### noact
 
@@ -438,7 +322,7 @@ const items = stuff
 |-------------|
 | `T`         |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 ### result
 
@@ -461,7 +345,7 @@ const items = stuff
 |-------------|
 | `() => T`   |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 ### resolve
 
@@ -481,7 +365,7 @@ Like fn.result, but wrapped in a Promise
 |--------------------|
 | `() => Promise<T>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 ### reject
 
@@ -499,14 +383,17 @@ Returns an async function that rejects with the first argument
 |--------------------|
 | `() => Promise<T>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 ### filters
-- `fn.filters`
+
+```typescript
+fn.filters;
+```
 
 Collection of functions that can be used with Array.filter
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### exists
 
@@ -530,7 +417,7 @@ Returns true if item isn't null or undefined.
 |-------------|
 | `boolean`   |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### isTruthy
 
@@ -555,7 +442,7 @@ Returns true if item is truthy.
 |-------------|
 | `boolean`   |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### isFalsy
 
@@ -580,7 +467,7 @@ Returns true if item is falsy.
 |-------------|
 | `boolean`   |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### isEmpty
 
@@ -605,7 +492,7 @@ Returns true if item's length is 0
 |-------------|
 | `boolean`   |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### isNotEmpty
 
@@ -630,7 +517,7 @@ Returns true if item's length is 1 or more
 |-------------|
 | `boolean`   |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### isEqual
 
@@ -654,7 +541,7 @@ Returns a function that returns true if the item is equal to provided value.
 |-------------------------|
 | `(other: T) => boolean` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### isNotEqual
 
@@ -678,7 +565,7 @@ Returns a function that returns true if the item is not equal to provided value.
 |-------------------------|
 | `(other: T) => boolean` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### dedupe
 
@@ -704,7 +591,7 @@ Removes duplicate items from an array.
 |-------------|
 | `boolean`   |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### dedupeMapped
 
@@ -728,14 +615,17 @@ Removes duplicate items from an array based on a mapped value.
 |---------------------------------------------------|
 | `(item: T, index: number, array: T[]) => boolean` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 ### maps
-- `fn.maps`
+
+```typescript
+fn.maps;
+```
 
 Collection of functions that can be used with Array.map
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### toString
 
@@ -759,7 +649,7 @@ Maps the item to a string.
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### toNumber
 
@@ -783,7 +673,7 @@ Maps the item to a number.
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### toBool
 
@@ -808,7 +698,7 @@ Maps the item to a boolean.
 |-------------|
 | `boolean`   |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### toProp
 
@@ -832,7 +722,7 @@ Maps the item to a given property of the item
 |------------------|
 | `(item: O) => P` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### toFixed
 
@@ -856,14 +746,17 @@ Map the items (numbers) of an array to a fixed precision.
 |---------------------------|
 | `(num: number) => number` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 ### sorts
-- `fn.sorts`
+
+```typescript
+fn.sorts;
+```
 
 Collection of functions that can be used with Array.sort
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### asc
 
@@ -888,7 +781,7 @@ Sort ascending.
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### desc
 
@@ -913,7 +806,7 @@ Sort descending.
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### byProp
 
@@ -939,7 +832,7 @@ people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4
 |-------------|
 | `SortFn<O>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### nearestTo
 
@@ -964,7 +857,7 @@ people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
 |------------------------------|
 | `(a: any, b: any) => number` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### furthestFrom
 
@@ -989,7 +882,7 @@ people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
 |------------------------------|
 | `(a: any, b: any) => number` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### arrayAsc
 
@@ -1010,7 +903,7 @@ Sort an array of arrays in ascending order
 |-------------|
 | `any`       |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### arrayDesc
 
@@ -1031,14 +924,17 @@ Sort an array of arrays in descending order
 |-------------|
 | `any`       |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 ### reduces
-- `fn.reduces`
+
+```typescript
+fn.reduces;
+```
 
 Collection of functions that can be used with Array.reduce
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### combine
 
@@ -1064,7 +960,7 @@ Adds or concats the items
 |-------------|
 | `any`       |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### combineProp
 
@@ -1090,7 +986,7 @@ people.reduce(fn.combineProp('name')); // 'abc'
 |---------------------------|
 | `(a: any, b: any) => any` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### mode
 
@@ -1117,7 +1013,7 @@ Returns the most common value in an array.
 |-------------|
 | `T`         |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### modeMapped
 
@@ -1141,14 +1037,17 @@ Returns the most common value in an array, based on a given map function.
 |----------------------------------------------------|
 | `(prev: T, curr: T, index: number, arr: T[]) => T` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 ### everys
-- `fn.everys`
+
+```typescript
+fn.everys;
+```
 
 Collection of functions that can be used with Array.every
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 #### isAllEqual
 
@@ -1174,12 +1073,34 @@ Returns if all the items are equal to one another.
 |-------------|
 | `boolean`   |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to fn ↑] </a></p>
 
 ## ArrayTools
-- `ArrayTools`
+
+```typescript
+ArrayTools;
+```
 
 A collection of useful array functions.
+
+  - [**ArrayTools**](#arraytools)
+    - [create](#create)
+    - [range](#range)
+    - [zip](#zip)
+    - [zipMax](#zipmax)
+    - [sortByMapped](#sortbymapped)
+    - [randomise](#randomise)
+    - [reverse](#reverse)
+    - [entries](#entries)
+    - [repeat](#repeat)
+    - [roll](#roll)
+    - [sortNumberedText](#sortnumberedtext)
+    - [partition](#partition)
+    - [groupObj](#groupobj)
+    - [group](#group)
+    - [**utils**](#utils)
+      - [isNumString](#isnumstring)
+      - [partitionNums](#partitionnums)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1203,7 +1124,7 @@ Create an array of the given length, where each value is the given value
 |-------------|
 | `T[]`       |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### range
 
@@ -1235,7 +1156,7 @@ ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
 |-------------|
 | `number[]`  |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### zip
 
@@ -1262,7 +1183,7 @@ ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c']
 |---------------------|
 | `UnwrapArrays<T>[]` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### zipMax
 
@@ -1289,7 +1210,7 @@ ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 
 |---------------------|
 | `UnwrapArrays<T>[]` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### sortByMapped
 
@@ -1319,7 +1240,7 @@ ArrayTools.sortByMapped(
 |-------------|
 | `T[]`       |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### randomise
 
@@ -1346,7 +1267,7 @@ ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
 |-------------|
 | `T[]`       |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### reverse
 
@@ -1377,7 +1298,7 @@ arr2            // [1, 2, 3]
 |-------------|
 | `T[]`       |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### entries
 
@@ -1406,7 +1327,7 @@ for (let [index, value] of entries(arr)) {
 |-----------------|
 | `[number, T][]` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### repeat
 
@@ -1431,7 +1352,7 @@ ArrayTools.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
 |-------------|
 | `T[]`       |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### roll
 
@@ -1456,7 +1377,7 @@ ArrayTools.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
 |-------------|
 | `T[]`       |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### sortNumberedText
 
@@ -1482,7 +1403,7 @@ ArrayTools.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'nam
 |-------------|
 | `string[]`  |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### partition
 
@@ -1506,7 +1427,7 @@ ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4,
 |-------------|
 | `T[][]`     |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### groupObj
 
@@ -1538,7 +1459,7 @@ ArrayTools.groupObj(arr, item => item.id); // {
 |---------------------------------------------|
 | `{ [id: string]: T[]; [id: number]: T[]; }` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### group
 
@@ -1570,14 +1491,17 @@ ArrayTools.groupObj(arr, item => item.id); // [
 |-------------|
 | `T[][]`     |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ### utils
-- `ArrayTools.utils`
+
+```typescript
+ArrayTools.utils;
+```
 
 Small helper functions that may help, but aren't important enough to be in ArrayTools directly
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 #### isNumString
 
@@ -1595,7 +1519,7 @@ Returns true if the given string is a number
 |-------------|
 | `boolean`   |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 #### partitionNums
 
@@ -1613,10 +1537,20 @@ Splits a string into an array of strings and numbers
 |------------------------------------------|
 | `(name: string) => (string \| number)[]` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to ArrayTools ↑] </a></p>
 
 ## ObjectTools
 A collection of functions for working with objects
+
+  - [**ObjectTools**](#objecttools)
+    - [remodel](#remodel)
+    - [remodelEach](#remodeleach)
+    - [map](#map)
+    - [mapValues](#mapvalues)
+    - [mapKeys](#mapkeys)
+    - [filter](#filter)
+    - [clean](#clean)
+    - [invert](#invert)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1642,7 +1576,7 @@ ObjectTools.remodel(input, (entries) => entries.filter(([k, v]) => v % 2 === 0))
 |-------------|
 | `O`         |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to ObjectTools ↑] </a></p>
 
 ### remodelEach
 
@@ -1668,7 +1602,7 @@ ObjectTools.remodelEach(input, ([k, v]) => [k, v * 2]) // { foo: 4, bar: 2, baz:
 |-------------|
 | `O`         |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to ObjectTools ↑] </a></p>
 
 ### map
 
@@ -1691,7 +1625,7 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => [key, key + value]); // {a: 
 |-------------|
 | `any`       |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to ObjectTools ↑] </a></p>
 
 ### mapValues
 
@@ -1714,7 +1648,7 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: '
 |-------------|
 | `any`       |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to ObjectTools ↑] </a></p>
 
 ### mapKeys
 
@@ -1737,7 +1671,7 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: 1
 |-------------|
 | `T`         |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to ObjectTools ↑] </a></p>
 
 ### filter
 
@@ -1760,7 +1694,7 @@ ObjectTools.filter({a: 1, b: 2, c: 3}, (k, v) => v % 2 === 0) // { b: 2 }
 |-------------|
 | `O`         |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to ObjectTools ↑] </a></p>
 
 ### clean
 
@@ -1782,7 +1716,7 @@ ObjectTools.clean({a: 1, b: undefined, c: 3}) // { a: 1, c: 3 }
 |-------------|
 | `O`         |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to ObjectTools ↑] </a></p>
 
 ### invert
 
@@ -1804,10 +1738,45 @@ ObjectTools.invert({ a: 'foo', b: 'bar' }); // { foo: 'a', bar: 'b'}
 |-------------|
 | `To`        |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to ObjectTools ↑] </a></p>
 
 ## StringTools
 A collection of string utilities
+
+  - [**StringTools**](#stringtools)
+    - [capitalise](#capitalise)
+    - [angloise](#angloise)
+    - [clean](#clean)
+    - [repeat](#repeat)
+    - [**StringCaseHandler**](#stringcasehandler)
+      - [toCamelCase](#tocamelcase)
+      - [toLowerCamelCase](#tolowercamelcase)
+      - [toUpperCamelCase](#touppercamelcase)
+      - [toCharacterSeparated](#tocharacterseparated)
+      - [toSlugCase](#toslugcase)
+      - [toLowerSlugCase](#tolowerslugcase)
+      - [toUpperSlugCase](#toupperslugcase)
+      - [toSnakeCase](#tosnakecase)
+      - [toLowerSnakeCase](#tolowersnakecase)
+      - [toUpperSnakeCase](#touppersnakecase)
+      - [toSpaced](#tospaced)
+      - [toLowerSpaced](#tolowerspaced)
+      - [toUpperSpaced](#toupperspaced)
+      - [toCapitalisedSpaced](#tocapitalisedspaced)
+    - [fromSlugCase](#fromslugcase)
+    - [fromSnakeCase](#fromsnakecase)
+    - [fromSpaced](#fromspaced)
+    - [fromCamelCase](#fromcamelcase)
+    - [clx](#clx)
+    - [**matchBrackets**](#matchbrackets)
+      - [unique](#unique)
+      - [depth](#depth)
+      - [clean](#clean)
+      - [grabDepth](#grabdepth)
+      - [grabUnique](#grabunique)
+      - [grab](#grab)
+      - [getReplaceSymbols](#getreplacesymbols)
+      - [BracketReplaceSymbols](#bracketreplacesymbols)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1831,7 +1800,7 @@ StringTools.capitalise('hello world'); // 'Hello World'
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 ### angloise
 
@@ -1853,7 +1822,7 @@ StringTools.angloise('éèêë'); // 'eeee'
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 ### clean
 
@@ -1875,7 +1844,7 @@ StringTools.clean('éèêë_--ab0'); // 'eeeeab0'
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 ### repeat
 
@@ -1901,7 +1870,7 @@ StringTools.repeat(-1, '-') // ''
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 ### StringCaseHandler
 
@@ -1926,7 +1895,7 @@ Convert a string to camel case (e.g. `thisIsCamelCase`)
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toLowerCamelCase
 
@@ -1948,7 +1917,7 @@ Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toUpperCamelCase
 
@@ -1970,7 +1939,7 @@ Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toCharacterSeparated
 
@@ -1994,7 +1963,7 @@ Convert a string to text where words are separated by a given character (e.g. `t
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toSlugCase
 
@@ -2017,7 +1986,7 @@ Convert a string to camel case (e.g. `this-is-slug-case`)
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toLowerSlugCase
 
@@ -2039,7 +2008,7 @@ Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toUpperSlugCase
 
@@ -2061,7 +2030,7 @@ Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toSnakeCase
 
@@ -2084,7 +2053,7 @@ Convert a string to snake case (e.g. `this_is_snake_case`)
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toLowerSnakeCase
 
@@ -2106,7 +2075,7 @@ Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toUpperSnakeCase
 
@@ -2128,7 +2097,7 @@ Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toSpaced
 
@@ -2151,7 +2120,7 @@ Convert a string to spaced case (e.g. `this is spaced case`)
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toLowerSpaced
 
@@ -2173,7 +2142,7 @@ Convert a string to lower spaced case (e.g. `this is lower spaced case`)
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toUpperSpaced
 
@@ -2195,7 +2164,7 @@ Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### toCapitalisedSpaced
 
@@ -2217,83 +2186,99 @@ Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Ca
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 ### fromSlugCase
-Has the following methods:
-- `StringTools.fromSlugCase.toLowerCamelCase`
-- `StringTools.fromSlugCase.toUpperCamelCase`
-- `StringTools.fromSlugCase.toCamelCase`
-- `StringTools.fromSlugCase.toLowerSlugCase`
-- `StringTools.fromSlugCase.toUpperSlugCase`
-- `StringTools.fromSlugCase.toSlugCase`
-- `StringTools.fromSlugCase.toLowerSnakeCase`
-- `StringTools.fromSlugCase.toUpperSnakeCase`
-- `StringTools.fromSlugCase.toSnakeCase`
-- `StringTools.fromSlugCase.toLowerSpaced`
-- `StringTools.fromSlugCase.toUpperSpaced`
-- `StringTools.fromSlugCase.toCapitalisedSpaced`
-- `StringTools.fromSlugCase.toSpaced`
-- `StringTools.fromSlugCase.toCharacterSeparated`
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+```typescript
+StringTools.fromSlugCase.toLowerCamelCase;
+StringTools.fromSlugCase.toUpperCamelCase;
+StringTools.fromSlugCase.toCamelCase;
+StringTools.fromSlugCase.toLowerSlugCase;
+StringTools.fromSlugCase.toUpperSlugCase;
+StringTools.fromSlugCase.toSlugCase;
+StringTools.fromSlugCase.toLowerSnakeCase;
+StringTools.fromSlugCase.toUpperSnakeCase;
+StringTools.fromSlugCase.toSnakeCase;
+StringTools.fromSlugCase.toLowerSpaced;
+StringTools.fromSlugCase.toUpperSpaced;
+StringTools.fromSlugCase.toCapitalisedSpaced;
+StringTools.fromSlugCase.toSpaced;
+StringTools.fromSlugCase.toCharacterSeparated;
+```
+
+Has the following methods:
+
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 ### fromSnakeCase
-Has the following methods:
-- `StringTools.fromSnakeCase.toLowerCamelCase`
-- `StringTools.fromSnakeCase.toUpperCamelCase`
-- `StringTools.fromSnakeCase.toCamelCase`
-- `StringTools.fromSnakeCase.toLowerSlugCase`
-- `StringTools.fromSnakeCase.toUpperSlugCase`
-- `StringTools.fromSnakeCase.toSlugCase`
-- `StringTools.fromSnakeCase.toLowerSnakeCase`
-- `StringTools.fromSnakeCase.toUpperSnakeCase`
-- `StringTools.fromSnakeCase.toSnakeCase`
-- `StringTools.fromSnakeCase.toLowerSpaced`
-- `StringTools.fromSnakeCase.toUpperSpaced`
-- `StringTools.fromSnakeCase.toCapitalisedSpaced`
-- `StringTools.fromSnakeCase.toSpaced`
-- `StringTools.fromSnakeCase.toCharacterSeparated`
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+```typescript
+StringTools.fromSnakeCase.toLowerCamelCase;
+StringTools.fromSnakeCase.toUpperCamelCase;
+StringTools.fromSnakeCase.toCamelCase;
+StringTools.fromSnakeCase.toLowerSlugCase;
+StringTools.fromSnakeCase.toUpperSlugCase;
+StringTools.fromSnakeCase.toSlugCase;
+StringTools.fromSnakeCase.toLowerSnakeCase;
+StringTools.fromSnakeCase.toUpperSnakeCase;
+StringTools.fromSnakeCase.toSnakeCase;
+StringTools.fromSnakeCase.toLowerSpaced;
+StringTools.fromSnakeCase.toUpperSpaced;
+StringTools.fromSnakeCase.toCapitalisedSpaced;
+StringTools.fromSnakeCase.toSpaced;
+StringTools.fromSnakeCase.toCharacterSeparated;
+```
+
+Has the following methods:
+
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 ### fromSpaced
-Has the following methods:
-- `StringTools.fromSpaced.toLowerCamelCase`
-- `StringTools.fromSpaced.toUpperCamelCase`
-- `StringTools.fromSpaced.toCamelCase`
-- `StringTools.fromSpaced.toLowerSlugCase`
-- `StringTools.fromSpaced.toUpperSlugCase`
-- `StringTools.fromSpaced.toSlugCase`
-- `StringTools.fromSpaced.toLowerSnakeCase`
-- `StringTools.fromSpaced.toUpperSnakeCase`
-- `StringTools.fromSpaced.toSnakeCase`
-- `StringTools.fromSpaced.toLowerSpaced`
-- `StringTools.fromSpaced.toUpperSpaced`
-- `StringTools.fromSpaced.toCapitalisedSpaced`
-- `StringTools.fromSpaced.toSpaced`
-- `StringTools.fromSpaced.toCharacterSeparated`
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+```typescript
+StringTools.fromSpaced.toLowerCamelCase;
+StringTools.fromSpaced.toUpperCamelCase;
+StringTools.fromSpaced.toCamelCase;
+StringTools.fromSpaced.toLowerSlugCase;
+StringTools.fromSpaced.toUpperSlugCase;
+StringTools.fromSpaced.toSlugCase;
+StringTools.fromSpaced.toLowerSnakeCase;
+StringTools.fromSpaced.toUpperSnakeCase;
+StringTools.fromSpaced.toSnakeCase;
+StringTools.fromSpaced.toLowerSpaced;
+StringTools.fromSpaced.toUpperSpaced;
+StringTools.fromSpaced.toCapitalisedSpaced;
+StringTools.fromSpaced.toSpaced;
+StringTools.fromSpaced.toCharacterSeparated;
+```
+
+Has the following methods:
+
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 ### fromCamelCase
-Has the following methods:
-- `StringTools.fromCamelCase.toLowerCamelCase`
-- `StringTools.fromCamelCase.toUpperCamelCase`
-- `StringTools.fromCamelCase.toCamelCase`
-- `StringTools.fromCamelCase.toLowerSlugCase`
-- `StringTools.fromCamelCase.toUpperSlugCase`
-- `StringTools.fromCamelCase.toSlugCase`
-- `StringTools.fromCamelCase.toLowerSnakeCase`
-- `StringTools.fromCamelCase.toUpperSnakeCase`
-- `StringTools.fromCamelCase.toSnakeCase`
-- `StringTools.fromCamelCase.toLowerSpaced`
-- `StringTools.fromCamelCase.toUpperSpaced`
-- `StringTools.fromCamelCase.toCapitalisedSpaced`
-- `StringTools.fromCamelCase.toSpaced`
-- `StringTools.fromCamelCase.toCharacterSeparated`
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+```typescript
+StringTools.fromCamelCase.toLowerCamelCase;
+StringTools.fromCamelCase.toUpperCamelCase;
+StringTools.fromCamelCase.toCamelCase;
+StringTools.fromCamelCase.toLowerSlugCase;
+StringTools.fromCamelCase.toUpperSlugCase;
+StringTools.fromCamelCase.toSlugCase;
+StringTools.fromCamelCase.toLowerSnakeCase;
+StringTools.fromCamelCase.toUpperSnakeCase;
+StringTools.fromCamelCase.toSnakeCase;
+StringTools.fromCamelCase.toLowerSpaced;
+StringTools.fromCamelCase.toUpperSpaced;
+StringTools.fromCamelCase.toCapitalisedSpaced;
+StringTools.fromCamelCase.toSpaced;
+StringTools.fromCamelCase.toCharacterSeparated;
+```
+
+Has the following methods:
+
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 ### clx
 
@@ -2322,12 +2307,12 @@ clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 ### matchBrackets
 Tools for matching corresponding brackets in a string
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### unique
 
@@ -2352,7 +2337,7 @@ uniqued; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tenn
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### depth
 
@@ -2377,7 +2362,7 @@ depthed; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tenn
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### clean
 
@@ -2405,7 +2390,7 @@ cleaned; // '{name: "Jane", info: { age: 31, interests: ["Tennis", "Board Games"
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### grabDepth
 
@@ -2440,7 +2425,7 @@ grabbed; // [ '[1, 2, 3]', '[4, 5, 6]', '[7, 8, 9]' ]
 |-------------|
 | `string[]`  |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### grabUnique
 
@@ -2476,7 +2461,7 @@ grabbed; // '[4, 5, 6]'
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### grab
 
@@ -2509,7 +2494,7 @@ matchBrackets.grab(example, 'square');
 |-------------|
 | `string[]`  |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### getReplaceSymbols
 
@@ -2559,10 +2544,13 @@ matchBrackets.getReplaceSymbols({
 |-------------------------|
 | `BracketReplaceSymbols` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 #### BracketReplaceSymbols
-- `StringTools.matchBrackets.BracketReplaceSymbols`
+
+```typescript
+StringTools.matchBrackets.BracketReplaceSymbols;
+```
 
 Type for controlling the symbols used to replace brackets
 
@@ -2580,12 +2568,25 @@ Type for controlling the symbols used to replace brackets
 }
 ```
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to StringTools ↑] </a></p>
 
 ## MathsTools
 A collection of mathematical functions.
 
 > Note: The field is 'Mathematics', and so it is 'MathsTools' not ~'MathTools'~
+
+  - [**MathsTools**](#mathstools)
+    - [fixFloat](#fixfloat)
+    - [addAll](#addall)
+    - [**round**](#round)
+      - [floorTo](#floorto)
+      - [roundTo](#roundto)
+      - [ceilTo](#ceilto)
+    - [lerp](#lerp)
+    - [lerpArray](#lerparray)
+    - [lerpObj](#lerpobj)
+    - [clamp](#clamp)
+    - [getOrdinal](#getordinal)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2616,7 +2617,7 @@ MathsTools.fixFloat(0.1 + 0.2) // 0.3
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to MathsTools ↑] </a></p>
 
 ### addAll
 
@@ -2638,7 +2639,7 @@ MathsTools.addAll(1, 2, 3, 4, 5); // 15
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to MathsTools ↑] </a></p>
 
 ### round
 
@@ -2666,7 +2667,7 @@ MathsTools.round.floorTo(0.1, 0.25); // 0.2
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to MathsTools ↑] </a></p>
 
 #### roundTo
 
@@ -2693,7 +2694,7 @@ MathsTools.round.to(0.1, 0.25); // 0.3
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to MathsTools ↑] </a></p>
 
 #### ceilTo
 
@@ -2719,7 +2720,7 @@ MathsTools.round.ceilTo(0.1, 0.25); // 0.3
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to MathsTools ↑] </a></p>
 
 ### lerp
 
@@ -2743,7 +2744,7 @@ MathsTools.lerp(0.5, 0, 10); // 5
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to MathsTools ↑] </a></p>
 
 ### lerpArray
 
@@ -2767,7 +2768,7 @@ MathsTools.lerpArray(0.5, [0, 0, 0], [10, 100, 1000]) // [5, 50, 500]
 |-------------|
 | `number[]`  |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to MathsTools ↑] </a></p>
 
 ### lerpObj
 
@@ -2791,7 +2792,7 @@ MathsTools.lerpObj(0.5, {'ARS': 0, 'CHE': 0, 'FUL': 0}, {'ARS': 100, 'CHE': 10, 
 |-------------|
 | `T`         |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to MathsTools ↑] </a></p>
 
 ### clamp
 
@@ -2816,7 +2817,7 @@ MathsTools.clamp(-5, 0, 10); // 0
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to MathsTools ↑] </a></p>
 
 ### getOrdinal
 
@@ -2851,10 +2852,22 @@ MathsTools.getOrdinal(24); // 'th'
 |--------------------------------|
 | `"th" \| "st" \| "nd" \| "rd"` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to MathsTools ↑] </a></p>
 
 ## PromiseTools
 A collection of promise utilities
+
+  - [**PromiseTools**](#promisetools)
+    - [getDeferred](#getdeferred)
+    - [all](#all)
+    - [allLimit](#alllimit)
+    - [each](#each)
+    - [eachLimit](#eachlimit)
+    - [map](#map)
+    - [mapLimit](#maplimit)
+    - [allObj](#allobj)
+    - [allLimitObj](#alllimitobj)
+    - [DeferredPromise](#deferredpromise)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -2889,7 +2902,7 @@ const luckyNumber: number = await run();
 |----------------------|
 | `DeferredPromise<T>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to PromiseTools ↑] </a></p>
 
 ### all
 
@@ -2908,7 +2921,7 @@ An alias for Promise.all
 |----------------|
 | `Promise<any>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to PromiseTools ↑] </a></p>
 
 ### allLimit
 
@@ -2962,7 +2975,7 @@ timer.log();
 |----------------|
 | `Promise<T[]>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to PromiseTools ↑] </a></p>
 
 ### each
 
@@ -2994,7 +3007,7 @@ console.log(''); // after 2 seconds
 |----------------|
 | `Promise<any>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to PromiseTools ↑] </a></p>
 
 ### eachLimit
 
@@ -3029,7 +3042,7 @@ console.log(''); // after 4 seconds
 |----------------|
 | `Promise<any>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to PromiseTools ↑] </a></p>
 
 ### map
 
@@ -3062,7 +3075,7 @@ console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
 |-----------------|
 | `Promise<To[]>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to PromiseTools ↑] </a></p>
 
 ### mapLimit
 
@@ -3098,7 +3111,7 @@ console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
 |-----------------|
 | `Promise<To[]>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to PromiseTools ↑] </a></p>
 
 ### allObj
 
@@ -3146,7 +3159,7 @@ timer.log();
 |-----------------------------------|
 | `Promise<UnWrapPromiseObject<T>>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to PromiseTools ↑] </a></p>
 
 ### allLimitObj
 
@@ -3200,43 +3213,69 @@ timer.log();
 |-----------------------------------|
 | `Promise<UnWrapPromiseObject<T>>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to PromiseTools ↑] </a></p>
 
 ### DeferredPromise
-- `DeferredPromise`
-- `PromiseTools.DeferredPromise`
+
+```typescript
+DeferredPromise;
+PromiseTools.DeferredPromise;
+```
 
 A deferred promise
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to PromiseTools ↑] </a></p>
 
 ## ColourTools
 A collection of functions for working with colours.
 
+  - [**ColourTools**](#colourtools)
+    - [ColourValues](#colourvalues)
+    - [HSLValues](#hslvalues)
+    - [namedColours](#namedcolours)
+    - [parse](#parse)
+    - [toHex](#tohex)
+    - [getLuminance](#getluminance)
+    - [toYUV](#toyuv)
+    - [toHSL](#tohsl)
+    - [fromHSL](#fromhsl)
+    - [invertColour](#invertcolour)
+    - [getContrastedColour](#getcontrastedcolour)
+    - [getLimitedColour](#getlimitedcolour)
+
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### ColourValues
-- `ColourTools.ColourValues`
+
+```typescript
+ColourTools.ColourValues;
+```
 
 A type with 3 numbers:
 - red [0-255]
 - green [0-255]
 - blue [0-255]
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to ColourTools ↑] </a></p>
 
 ### HSLValues
-- `ColourTools.HSLValues`
+
+```typescript
+ColourTools.HSLValues;
+```
 
 A type with 3 numbers:
 - hue [0-360]
 - saturation [0-100]
 - lightness [0-100]
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to ColourTools ↑] </a></p>
 
 ### namedColours
-- `ColourTools.namedColours`
+
+```typescript
+ColourTools.namedColours;
+```
 
 A dictionary of different colour names and their RGB values
 
@@ -3503,7 +3542,7 @@ ColourTools.namedColours.darkorange // [255, 140, 0]
 ColourTools.namedColours.dodgerblue // [30, 144, 255]
 ```
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to ColourTools ↑] </a></p>
 
 ### parse
 
@@ -3532,7 +3571,7 @@ ColourTools.parse('red') // [255, 0, 0]
 |----------------|
 | `ColourValues` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to ColourTools ↑] </a></p>
 
 ### toHex
 
@@ -3554,7 +3593,7 @@ ColourTools.toHex([255, 0, 0]) // '#FF0000'
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to ColourTools ↑] </a></p>
 
 ### getLuminance
 
@@ -3585,7 +3624,7 @@ ColourTools.getLuminance([0, 0, 255]); // 29.07
 |-------------|
 | `number`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to ColourTools ↑] </a></p>
 
 ### toYUV
 
@@ -3609,7 +3648,7 @@ ColourTools.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
 |----------------|
 | `ColourValues` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to ColourTools ↑] </a></p>
 
 ### toHSL
 
@@ -3635,7 +3674,7 @@ ColourTools.toHSL([0, 255, 0]); // [120, 100, 50]
 |-------------|
 | `HSLValues` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to ColourTools ↑] </a></p>
 
 ### fromHSL
 
@@ -3661,7 +3700,7 @@ ColourTools.fromHSL([120, 100, 50]); // [0, 255, 0]
 |----------------|
 | `ColourValues` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to ColourTools ↑] </a></p>
 
 ### invertColour
 
@@ -3685,7 +3724,7 @@ ColourTools.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
 |----------------|
 | `ColourValues` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to ColourTools ↑] </a></p>
 
 ### getContrastedColour
 
@@ -3710,7 +3749,7 @@ ColourTools.getContrastedColour([255, 255, 0]); // [0, 0, 0]
 |----------------|
 | `ColourValues` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to ColourTools ↑] </a></p>
 
 ### getLimitedColour
 
@@ -3738,10 +3777,13 @@ ColourTools.getLimitedColour([128, 128, 128], ([h,s,l]) => l > 90, ([h,s,l]) => 
 |----------------|
 | `ColourValues` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to ColourTools ↑] </a></p>
 
 ## TimeTools
 A collection of time-related utility functions.
+
+  - [**TimeTools**](#timetools)
+    - [toReadableDuration](#toreadableduration)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3784,10 +3826,15 @@ TimeTools.toReadableDuration(realisticDuration, true, 2) // '10 days & 2 hours'
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#timetools"> [↑ Back to TimeTools ↑] </a></p>
 
 ## ErrorTools
 Functions for handling errors.
+
+  - [**ErrorTools**](#errortools)
+    - [tryOr](#tryor)
+    - [retry](#retry)
+    - [retryOr](#retryor)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3814,7 +3861,7 @@ const result = tryOr('default', () => getSomething());
 |--------------|
 | `Promise<T>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#errortools"> [↑ Back to ErrorTools ↑] </a></p>
 
 ### retry
 
@@ -3840,7 +3887,7 @@ const result = tryOr(5, seconds(1), true, () => getSomething());
 |--------------|
 | `Promise<T>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#errortools"> [↑ Back to ErrorTools ↑] </a></p>
 
 ### retryOr
 
@@ -3869,12 +3916,24 @@ const result = retryOr('default', 5, seconds(1), true, () => getSomething());
 |--------------|
 | `Promise<T>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#errortools"> [↑ Back to ErrorTools ↑] </a></p>
 
 ## progressBar
 A progress bar that can be used in the terminal.
 
 > NOTE: This is eventually be moved to `swiss-node`
+
+  - [**progressBar**](#progressbar)
+    - [printLn](#println)
+    - [Options](#options)
+    - [**getProgressBar**](#getprogressbar)
+      - [update](#update)
+      - [next](#next)
+      - [set](#set)
+      - [reset](#reset)
+      - [start](#start)
+      - [finish](#finish)
+      - [max](#max)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -3914,11 +3973,14 @@ D
 |-------------|
 | `void`      |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to progressBar ↑] </a></p>
 
 ### Options
-- `ProgressBarOptions`
-- `progressBar.ProgressBarOptions`
+
+```typescript
+ProgressBarOptions;
+progressBar.ProgressBarOptions;
+```
 
 All options are optional.
 
@@ -3942,7 +4004,7 @@ All options are optional.
 | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
 | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to progressBar ↑] </a></p>
 
 ### getProgressBar
 
@@ -3990,59 +4052,83 @@ ABC ▕██████▏ [5 / 5]
 |---------------|
 | `ProgressBar` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to progressBar ↑] </a></p>
 
 #### update
-- `getProgressBar().update`
+
+```typescript
+getProgressBar().update;
+```
 
 Trigger the progress bar to update/rerender
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to progressBar ↑] </a></p>
 
 #### next
-- `getProgressBar().next`
+
+```typescript
+getProgressBar().next;
+```
 
 Set the progress bar to the next value
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to progressBar ↑] </a></p>
 
 #### set
-- `getProgressBar().set`
+
+```typescript
+getProgressBar().set;
+```
 
 Set the progress bar to a specific value
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to progressBar ↑] </a></p>
 
 #### reset
-- `getProgressBar().reset`
+
+```typescript
+getProgressBar().reset;
+```
 
 Set the progress bar to 0
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to progressBar ↑] </a></p>
 
 #### start
-- `getProgressBar().start`
+
+```typescript
+getProgressBar().start;
+```
 
 Start displaying the progress bar
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to progressBar ↑] </a></p>
 
 #### finish
-- `getProgressBar().finish`
+
+```typescript
+getProgressBar().finish;
+```
 
 Stop displaying the progress bar
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to progressBar ↑] </a></p>
 
 #### max
-- `getProgressBar().max`
+
+```typescript
+getProgressBar().max;
+```
 
 Readonly number value of the max value (provided to getProgressBar as first argument)
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to progressBar ↑] </a></p>
 
 ## symbols
-- `symbols`
+
+```typescript
+symbols;
+```
 
 A series of characters that can be used for display symbols
 
@@ -4106,6 +4192,9 @@ A series of characters that can be used for display symbols
 |                         | `symbols.SUPERSCRIPT['o']`        |   °    |
 |                         | `symbols.SUPERSCRIPT['*']`        |   °    |
 
+  - [**symbols**](#symbols)
+    - [superscript](#superscript)
+
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### superscript
@@ -4134,15 +4223,26 @@ superscript(1234567890) // '¹²³⁴⁵⁶⁷⁸⁹⁰'
 |-------------|
 | `string`    |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#symbols"> [↑ Back to symbols ↑] </a></p>
 
 ## queue
 A way of managing queues from different parts of the code.
 
+  - [**queue**](#queue)
+    - [**QueueManager**](#queuemanager)
+      - [setDefaultPauseTime](#setdefaultpausetime)
+      - [setPauseTime](#setpausetime)
+      - [add](#add)
+      - [new](#new)
+    - [queue](#queue)
+
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### QueueManager
-- `QueueManager`
+
+```typescript
+QueueManager;
+```
 
 Allows you to queue up functions to be executed in order.
 
@@ -4180,7 +4280,7 @@ PromiseTools.each(range(5), async (i) => {
 // 25208 ' - printed:' 3
 ```
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#queue"> [↑ Back to queue ↑] </a></p>
 
 #### setDefaultPauseTime
 
@@ -4199,7 +4299,7 @@ Sets the default pause time for pauses between queue items.
 |-------------|
 | `void`      |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#queue"> [↑ Back to queue ↑] </a></p>
 
 #### setPauseTime
 
@@ -4219,7 +4319,7 @@ Sets the pause time for pauses between queue items for the specified queue.
 |-------------|
 | `void`      |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#queue"> [↑ Back to queue ↑] </a></p>
 
 #### add
 
@@ -4239,7 +4339,7 @@ Adds a function to the queue.
 |--------------|
 | `Promise<T>` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#queue"> [↑ Back to queue ↑] </a></p>
 
 #### new
 
@@ -4258,19 +4358,26 @@ Creates a new QueueManager instance.
 |----------------|
 | `QueueManager` |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#queue"> [↑ Back to queue ↑] </a></p>
 
 ### queue
-- `queue`
+
+```typescript
+queue;
+```
 
 An instance of QueueManager
 
 See QueueManager for more information.
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#queue"> [↑ Back to queue ↑] </a></p>
 
 ## timer
 A debug tool for measuring the duration of code blocks.
+
+  - [**timer**](#timer)
+    - [getTimer](#gettimer)
+    - [timer](#timer)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -4320,22 +4427,36 @@ Example Times:
 |-------------|
 | `any`       |
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to timer ↑] </a></p>
 
 ### timer
-- `timer`
+
+```typescript
+timer;
+```
 
 Global timer
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to timer ↑] </a></p>
 
 ## Helper Types
 Some commonly used types
 
+  - [**Helper Types**](#helper-types)
+    - [Partial<T>](#partialt)
+    - [KeysOnly<T>](#keysonlyt)
+    - [Numbered<T>](#numberedt)
+    - [OfType<T, U>](#oftypet-u)
+    - [ObjOfType<T>](#objoftypet)
+    - [RemapOf<O, T>](#remapofo-t)
+
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### Partial<T>
-- `Partial`
+
+```typescript
+Partial;
+```
 
 Makes all properties in T optional.
 
@@ -4347,10 +4468,13 @@ interface ITest {
 type PartialTest = Partial<ITest>; // { a?: string, b?: boolean }
 ```
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#helper-types"> [↑ Back to Helper Types ↑] </a></p>
 
 ### KeysOnly<T>
-- `KeysOnly`
+
+```typescript
+KeysOnly;
+```
 
 Makes all the values equal to the keys of T
 
@@ -4362,10 +4486,13 @@ interface ITest {
 type KeysOnlyTest = KeysOnly<ITest>; // { a: 'a', b: 'b' }
 ```
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#helper-types"> [↑ Back to Helper Types ↑] </a></p>
 
 ### Numbered<T>
-- `Numbered`
+
+```typescript
+Numbered;
+```
 
 Makes all the values numbers
 
@@ -4377,28 +4504,37 @@ interface ITest {
 type NumberedTest = Numbered<ITest>; // { a: number, b: number }
 ```
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#helper-types"> [↑ Back to Helper Types ↑] </a></p>
 
 ### OfType<T, U>
-- `OfType`
+
+```typescript
+OfType;
+```
 
 Makes all the properties of object T have type U
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#helper-types"> [↑ Back to Helper Types ↑] </a></p>
 
 ### ObjOfType<T>
-- `ObjOfType`
+
+```typescript
+ObjOfType;
+```
 
 An object with any properties of type T
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#helper-types"> [↑ Back to Helper Types ↑] </a></p>
 
 ### RemapOf<O, T>
-- `RemapOf`
+
+```typescript
+RemapOf;
+```
 
 Remap a given interface (O) with all properties of type T
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#helper-types"> [↑ Back to Helper Types ↑] </a></p>
 
 <!-- DOCS: MAIN END -->
 

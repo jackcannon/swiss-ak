@@ -1,7 +1,7 @@
 import { MathsTools } from './MathsTools';
 
 //<!-- DOCS: 30 -->
-/**<!-- DOCS: fn ## -->
+/**<!-- DOCS: fn ##! -->
  * fn
  *
  * A collection of useful higher-order functions.

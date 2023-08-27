@@ -1,5 +1,5 @@
 //<!-- DOCS: 140 -->
-/**<!-- DOCS: PromiseTools ## -->
+/**<!-- DOCS: PromiseTools ##! -->
  * PromiseTools
  *
  * A collection of promise utilities

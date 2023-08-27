@@ -60,7 +60,7 @@ const units: DurationUnit[] = [
   }
 ];
 
-/**<!-- DOCS: TimeTools ## -->
+/**<!-- DOCS: TimeTools ##! -->
  * TimeTools
  *
  * A collection of time-related utility functions.
