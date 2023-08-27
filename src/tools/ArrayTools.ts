@@ -5,8 +5,6 @@ import { MathsTools } from './MathsTools';
 /**<!-- DOCS: ArrayTools ##! -->
  * ArrayTools
  *
- * - `ArrayTools`
- *
  * A collection of useful array functions.
  */
 export namespace ArrayTools {

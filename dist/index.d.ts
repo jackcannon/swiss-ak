@@ -2660,8 +2660,6 @@ declare const getProgressBar: (max: number, options?: ProgressBarOptions) => Pro
 /**<!-- DOCS: ArrayTools ##! -->
  * ArrayTools
  *
- * - `ArrayTools`
- *
  * A collection of useful array functions.
  */
 declare namespace ArrayTools {

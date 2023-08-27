@@ -1076,11 +1076,6 @@ Returns if all the items are equal to one another.
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
 ## ArrayTools
-
-```typescript
-ArrayTools;
-```
-
 A collection of useful array functions.
 
   - [**ArrayTools**](#arraytools)
