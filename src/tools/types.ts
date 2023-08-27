@@ -1,14 +1,14 @@
 //<!-- DOCS: 1000 -->
 /**<!-- DOCS: types ##! -->
- * Helper Types
+ * Types
  *
- * Some commonly used types
+ * Some commonly used typescript types
  */
 
 /**<!-- DOCS: types.Partial ### -->
  * Partial<T>
  *
- * - `Partial`
+ * - `Partial<T>`
  *
  * Makes all properties in T optional.
  *
@@ -27,7 +27,7 @@ export type Partial<T> = {
 /**<!-- DOCS: types.KeysOnly ### -->
  * KeysOnly<T>
  *
- * - `KeysOnly`
+ * - `KeysOnly<T>`
  *
  * Makes all the values equal to the keys of T
  *
@@ -46,7 +46,7 @@ export type KeysOnly<T> = {
 /**<!-- DOCS: types.Numbered ### -->
  * Numbered<T>
  *
- * - `Numbered`
+ * - `Numbered<T>`
  *
  * Makes all the values numbers
  *
@@ -63,22 +63,37 @@ export type Numbered<T> = {
 };
 
 /**<!-- DOCS: types.OfType ### -->
- * OfType<T, U>
+ * OfType<O, T>
  *
- * - `OfType`
+ * - `OfType<O, T>`
  *
- * Makes all the properties of object T have type U
+ * Makes all the properties of object O have type T
+ *
+ * > **Note:** This is the same as `RemapOf<O, T>`
+ *
+ * ```typescript
+ * interface IExample {
+ *   a: string;
+ *   b: boolean;
+ * }
+ * OfType<IExample, number>; // { a: number; b: number; }
+ * ```
  */
-export type OfType<T, U> = {
-  [K in keyof T]: U;
+export type OfType<O, T> = {
+  [K in keyof O]: T;
 };
 
 /**<!-- DOCS: types.ObjOfType ### -->
  * ObjOfType<T>
  *
- * - `ObjOfType`
+ * - `ObjOfType<T>`
  *
  * An object with any properties of type T
+ *
+ * ```typescript
+ * type Example = [number, number];
+ * ObjOfType<Example>; // { [key: string]: Example; }
+ * ```
  */
 export type ObjOfType<T = string> = {
   [key: string]: T;
@@ -87,9 +102,19 @@ export type ObjOfType<T = string> = {
 /**<!-- DOCS: types.RemapOf ### -->
  * RemapOf<O, T>
  *
- * - `RemapOf`
+ * - `RemapOf<O, T>`
  *
  * Remap a given interface (O) with all properties of type T
+ *
+ * > **Note:** This is the same as `OfType<O, T>`
+ *
+ * ```typescript
+ * interface IExample {
+ *   a: string;
+ *   b: boolean;
+ * }
+ * RemapOf<IExample, number>; // { a: number; b: number; }
+ * ```
  */
 export type RemapOf<O = Object, T = string> = {
   [K in keyof O]: T;
