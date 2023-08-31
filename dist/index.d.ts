@@ -2966,6 +2966,47 @@ declare namespace ArrayTools {
      * @returns {T[][]}
      */
     export const group: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
+    /**<!-- DOCS: ArrayTools.findAndRemove ### @ -->
+     * findAndRemove
+     *
+     * - `ArrayTools.findAndRemove`
+     *
+     * Find the first item in an array that matches a given predicate, and remove it from the array
+     *
+     * > **Note:** This function mutates the provided array
+     * @param {T[]} array the array to mutate
+     * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
+     * @param {...T} [insertItems] items to insert in place of the removed item
+     * @returns {T} the removed item (undefined if not found)
+     */
+    export const findAndRemove: <T extends unknown>(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]) => T;
+    /**<!-- DOCS: ArrayTools.findLastAndRemove ### @ -->
+     * findLastAndRemove
+     *
+     * - `ArrayTools.findLastAndRemove`
+     *
+     * Find the last item in an array that matches a given predicate, and remove it from the array
+     *
+     * > **Note:** This function mutates the provided array
+     * @param {T[]} array the array to mutate
+     * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
+     * @param {...T} [insertItems] items to insert in place of the removed item
+     * @returns {T} the removed item (undefined if not found)
+     */
+    export const findLastAndRemove: <T extends unknown>(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]) => T;
+    /**<!-- DOCS: ArrayTools.filterAndRemove ### @ -->
+     * filterAndRemove
+     *
+     * - `ArrayTools.filterAndRemove`
+     *
+     * Find the items in an array that matches a given predicate, and remove them from the array
+     *
+     * > **Note:** This function mutates the provided array
+     * @param {T[]} array the array to mutate
+     * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
+     * @returns {T[]} the removed items
+     */
+    export const filterAndRemove: <T extends unknown>(array: T[], predicate: (item: T, index: number, arr: T[]) => any) => T[];
     /**<!-- DOCS: ArrayTools.utils ### @ -->
      * utils
      *

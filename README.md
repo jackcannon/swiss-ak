@@ -1093,6 +1093,9 @@ A collection of useful array functions.
     - [partition](#partition)
     - [groupObj](#groupobj)
     - [group](#group)
+    - [findAndRemove](#findandremove)
+    - [findLastAndRemove](#findlastandremove)
+    - [filterAndRemove](#filterandremove)
     - [**utils**](#utils)
       - [isNumString](#isnumstring)
       - [partitionNums](#partitionnums)
@@ -1485,6 +1488,71 @@ ArrayTools.groupObj(arr, item => item.id); // [
 | Return Type |
 |-------------|
 | `T[][]`     |
+
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
+
+### findAndRemove
+
+```typescript
+ArrayTools.findAndRemove(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]): T
+```
+
+Find the first item in an array that matches a given predicate, and remove it from the array
+
+> **Note:** This function mutates the provided array
+
+|  #   | Parameter Name | Required | Type                                        | Description                                                       |
+|:----:|:---------------|:---------|:--------------------------------------------|:------------------------------------------------------------------|
+| *0*  | `array`        | **Yes**  | `T[]`                                       | the array to mutate                                               |
+| *1*  | `predicate`    | **Yes**  | `(item: T, index: number, arr: T[]) => any` | a function that returns true/truthy if the item should be removed |
+| *2…* | `insertItems`  | *No*     | `T[]`                                       | items to insert in place of the removed item                      |
+
+| Return Type |                                       |
+|-------------|---------------------------------------|
+| `T`         | removed item (undefined if not found) |
+
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
+
+### findLastAndRemove
+
+```typescript
+ArrayTools.findLastAndRemove(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]): T
+```
+
+Find the last item in an array that matches a given predicate, and remove it from the array
+
+> **Note:** This function mutates the provided array
+
+|  #   | Parameter Name | Required | Type                                        | Description                                                       |
+|:----:|:---------------|:---------|:--------------------------------------------|:------------------------------------------------------------------|
+| *0*  | `array`        | **Yes**  | `T[]`                                       | the array to mutate                                               |
+| *1*  | `predicate`    | **Yes**  | `(item: T, index: number, arr: T[]) => any` | a function that returns true/truthy if the item should be removed |
+| *2…* | `insertItems`  | *No*     | `T[]`                                       | items to insert in place of the removed item                      |
+
+| Return Type |                                       |
+|-------------|---------------------------------------|
+| `T`         | removed item (undefined if not found) |
+
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
+
+### filterAndRemove
+
+```typescript
+ArrayTools.filterAndRemove(array: T[], predicate: (item: T, index: number, arr: T[]) => any): T[]
+```
+
+Find the items in an array that matches a given predicate, and remove them from the array
+
+> **Note:** This function mutates the provided array
+
+|  #  | Parameter Name | Required | Type                                        | Description                                                       |
+|:---:|:---------------|:---------|:--------------------------------------------|:------------------------------------------------------------------|
+| *0* | `array`        | **Yes**  | `T[]`                                       | the array to mutate                                               |
+| *1* | `predicate`    | **Yes**  | `(item: T, index: number, arr: T[]) => any` | a function that returns true/truthy if the item should be removed |
+
+| Return Type |               |
+|-------------|---------------|
+| `T[]`       | removed items |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 

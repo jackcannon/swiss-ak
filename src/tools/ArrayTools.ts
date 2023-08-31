@@ -361,6 +361,73 @@ export namespace ArrayTools {
     return Object.values(obj);
   };
 
+  /**<!-- DOCS: ArrayTools.findAndRemove ### @ -->
+   * findAndRemove
+   *
+   * - `ArrayTools.findAndRemove`
+   *
+   * Find the first item in an array that matches a given predicate, and remove it from the array
+   *
+   * > **Note:** This function mutates the provided array
+   * @param {T[]} array the array to mutate
+   * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
+   * @param {...T} [insertItems] items to insert in place of the removed item
+   * @returns {T} the removed item (undefined if not found)
+   */
+  export const findAndRemove = <T extends unknown>(
+    array: T[],
+    predicate: (item: T, index: number, arr: T[]) => any,
+    ...insertItems: T[]
+  ): T | undefined => {
+    const index = array.findIndex(predicate);
+    if (index === -1) return undefined;
+    return array.splice(index, 1, ...insertItems)[0];
+  };
+
+  /**<!-- DOCS: ArrayTools.findLastAndRemove ### @ -->
+   * findLastAndRemove
+   *
+   * - `ArrayTools.findLastAndRemove`
+   *
+   * Find the last item in an array that matches a given predicate, and remove it from the array
+   *
+   * > **Note:** This function mutates the provided array
+   * @param {T[]} array the array to mutate
+   * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
+   * @param {...T} [insertItems] items to insert in place of the removed item
+   * @returns {T} the removed item (undefined if not found)
+   */
+  export const findLastAndRemove = <T extends unknown>(
+    array: T[],
+    predicate: (item: T, index: number, arr: T[]) => any,
+    ...insertItems: T[]
+  ): T | undefined => {
+    const reverseIndex = ArrayTools.reverse(array).findIndex(predicate);
+    const index = reverseIndex === -1 ? -1 : array.length - 1 - reverseIndex;
+    if (index === -1) return undefined;
+    return array.splice(index, 1, ...insertItems)[0];
+  };
+
+  /**<!-- DOCS: ArrayTools.filterAndRemove ### @ -->
+   * filterAndRemove
+   *
+   * - `ArrayTools.filterAndRemove`
+   *
+   * Find the items in an array that matches a given predicate, and remove them from the array
+   *
+   * > **Note:** This function mutates the provided array
+   * @param {T[]} array the array to mutate
+   * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
+   * @returns {T[]} the removed items
+   */
+  export const filterAndRemove = <T extends unknown>(array: T[], predicate: (item: T, index: number, arr: T[]) => any): T[] => {
+    const result = array.filter(predicate);
+    result.forEach((item) => {
+      findAndRemove(array, (i) => i === item);
+    });
+    return result;
+  };
+
   /**<!-- DOCS: ArrayTools.utils ### @ -->
    * utils
    *

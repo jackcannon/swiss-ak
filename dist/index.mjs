@@ -146,6 +146,26 @@ var ArrayTools;
     const obj = ArrayTools2.groupObj(array, mapFn);
     return Object.values(obj);
   };
+  ArrayTools2.findAndRemove = (array, predicate, ...insertItems) => {
+    const index = array.findIndex(predicate);
+    if (index === -1)
+      return void 0;
+    return array.splice(index, 1, ...insertItems)[0];
+  };
+  ArrayTools2.findLastAndRemove = (array, predicate, ...insertItems) => {
+    const reverseIndex = ArrayTools2.reverse(array).findIndex(predicate);
+    const index = reverseIndex === -1 ? -1 : array.length - 1 - reverseIndex;
+    if (index === -1)
+      return void 0;
+    return array.splice(index, 1, ...insertItems)[0];
+  };
+  ArrayTools2.filterAndRemove = (array, predicate) => {
+    const result = array.filter(predicate);
+    result.forEach((item) => {
+      ArrayTools2.findAndRemove(array, (i) => i === item);
+    });
+    return result;
+  };
   let utils;
   ((utils2) => {
     utils2.isNumString = (text) => Boolean(text.match(/^[0-9-.]+$/));
