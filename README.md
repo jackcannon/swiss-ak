@@ -1087,7 +1087,7 @@ A collection of useful array functions.
     - [randomise](#randomise)
     - [reverse](#reverse)
     - [entries](#entries)
-    - [repeat](#repeat)
+    - [repeat](#arraytools_repeat)
     - [roll](#roll)
     - [sortNumberedText](#sortnumberedtext)
     - [partition](#partition)
@@ -1324,7 +1324,7 @@ for (let [index, value] of entries(arr)) {
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
-### repeat
+### <span id="arraytools_repeat">repeat</span>
 
 ```typescript
 repeat(maxLength: number, ...items: T[]): T[]
@@ -1540,11 +1540,11 @@ A collection of functions for working with objects
   - [**ObjectTools**](#objecttools)
     - [remodel](#remodel)
     - [remodelEach](#remodeleach)
-    - [map](#map)
+    - [map](#objecttools_map)
     - [mapValues](#mapvalues)
     - [mapKeys](#mapkeys)
     - [filter](#filter)
-    - [clean](#clean)
+    - [clean](#objecttools_clean)
     - [invert](#invert)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
@@ -1599,7 +1599,7 @@ ObjectTools.remodelEach(input, ([k, v]) => [k, v * 2]) // { foo: 4, bar: 2, baz:
 
 <p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to <b>ObjectTools</b> ↑] </a></p>
 
-### map
+### <span id="objecttools_map">map</span>
 
 ```typescript
 ObjectTools.map(obj: T, func: (key: string, value: V, index: number) => [string, W]): any
@@ -1691,7 +1691,7 @@ ObjectTools.filter({a: 1, b: 2, c: 3}, (k, v) => v % 2 === 0) // { b: 2 }
 
 <p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to <b>ObjectTools</b> ↑] </a></p>
 
-### clean
+### <span id="objecttools_clean">clean</span>
 
 ```typescript
 ObjectTools.clean(obj: T): O
@@ -1741,8 +1741,8 @@ A collection of string utilities
   - [**StringTools**](#stringtools)
     - [capitalise](#capitalise)
     - [angloise](#angloise)
-    - [clean](#clean)
-    - [repeat](#repeat)
+    - [clean](#stringtools_clean)
+    - [repeat](#stringtools_repeat)
     - [clx](#clx)
     - [**Case Manipulators**](#case-manipulators)
       - [toCamelCase](#tocamelcase)
@@ -1766,7 +1766,7 @@ A collection of string utilities
     - [**matchBrackets**](#matchbrackets)
       - [unique](#unique)
       - [depth](#depth)
-      - [clean](#clean)
+      - [clean](#stringtools_matchbrackets_clean)
       - [grabDepth](#grabdepth)
       - [grabUnique](#grabunique)
       - [grab](#grab)
@@ -1819,7 +1819,7 @@ StringTools.angloise('éèêë'); // 'eeee'
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
-### clean
+### <span id="stringtools_clean">clean</span>
 
 ```typescript
 StringTools.clean(input: string): string
@@ -1841,7 +1841,7 @@ StringTools.clean('éèêë_--ab0'); // 'eeeeab0'
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
-### repeat
+### <span id="stringtools_repeat">repeat</span>
 
 ```typescript
 StringTools.repeat(maxLength: number, repeated: string): string
@@ -2359,7 +2359,7 @@ depthed; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tenn
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
-#### clean
+#### <span id="stringtools_matchbrackets_clean">clean</span>
 
 ```typescript
 StringTools.matchBrackets.clean(input: string, replaceSymbols: Partial<BracketReplaceSymbols>): string
@@ -2858,7 +2858,7 @@ A collection of promise utilities
     - [allLimit](#alllimit)
     - [each](#each)
     - [eachLimit](#eachlimit)
-    - [map](#map)
+    - [map](#promisetools_map)
     - [mapLimit](#maplimit)
     - [allObj](#allobj)
     - [allLimitObj](#alllimitobj)
@@ -3039,7 +3039,7 @@ console.log(''); // after 4 seconds
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
-### map
+### <span id="promisetools_map">map</span>
 
 ```typescript
 map(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>): Promise<To[]>
@@ -4248,7 +4248,7 @@ superscript(1234567890) // '¹²³⁴⁵⁶⁷⁸⁹⁰'
 
 <p style="text-align: right" align="right"><a href="#symbols"> [↑ Back to <b>symbols</b> ↑] </a></p>
 
-## queue
+## <span id="queue">queue</span>
 A way of managing queues from different parts of the code.
 
   - [**queue**](#queue)
@@ -4257,7 +4257,7 @@ A way of managing queues from different parts of the code.
       - [setPauseTime](#setpausetime)
       - [add](#add)
       - [new](#new)
-    - [queue](#queue)
+    - [queue](#queue_queue)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -4383,7 +4383,7 @@ Creates a new QueueManager instance.
 
 <p style="text-align: right" align="right"><a href="#queue"> [↑ Back to <b>queue</b> ↑] </a></p>
 
-### queue
+### <span id="queue_queue">queue</span>
 
 ```typescript
 queue;
@@ -4395,12 +4395,12 @@ See QueueManager for more information.
 
 <p style="text-align: right" align="right"><a href="#queue"> [↑ Back to <b>queue</b> ↑] </a></p>
 
-## timer
+## <span id="timer">timer</span>
 A debug tool for measuring the duration of code blocks.
 
   - [**timer**](#timer)
     - [getTimer](#gettimer)
-    - [timer](#timer)
+    - [timer](#timer_timer)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -4452,7 +4452,7 @@ Example Times:
 
 <p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
 
-### timer
+### <span id="timer_timer">timer</span>
 
 ```typescript
 timer;
