@@ -11,7 +11,7 @@ import { ArrayTools } from './ArrayTools';
 export namespace MathsTools {
   // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
 
-  /**<!-- DOCS: MathsTools.fixFloat ### -->
+  /**<!-- DOCS: MathsTools.fixFloat ### @ -->
    * fixFloat
    *
    * - `ff`
@@ -36,7 +36,7 @@ export namespace MathsTools {
   /** <!-- DOCS-ALIAS: MathsTools.fixFloat  --> */
   export const ff = fixFloat;
 
-  /**<!-- DOCS: MathsTools.addAll ### -->
+  /**<!-- DOCS: MathsTools.addAll ### @ -->
    * addAll
    *
    * - `MathsTools.addAll`
@@ -54,7 +54,7 @@ export namespace MathsTools {
   /**<!-- DOCS: MathsTools.round ### -->
    * round
    */
-  /**<!-- DOCS: MathsTools.floorTo #### -->
+  /**<!-- DOCS: MathsTools.floorTo #### @ -->
    * floorTo
    *
    * - `MathsTools.floorTo`
@@ -73,7 +73,7 @@ export namespace MathsTools {
    */
   export const floorTo = (to: number, value: number) => fixFloat(Math.floor(value / to) * to);
 
-  /**<!-- DOCS: MathsTools.roundTo #### -->
+  /**<!-- DOCS: MathsTools.roundTo #### @ -->
    * roundTo
    *
    * - `MathsTools.round.to`
@@ -93,7 +93,7 @@ export namespace MathsTools {
    */
   export const roundTo = (to: number, value: number) => fixFloat(Math.round(value / to) * to);
 
-  /**<!-- DOCS: MathsTools.ceilTo #### -->
+  /**<!-- DOCS: MathsTools.ceilTo #### @ -->
    * ceilTo
    *
    * - `MathsTools.ceilTo`
@@ -132,7 +132,7 @@ export namespace MathsTools {
     export const to = MathsTools.roundTo;
   } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
-  /**<!-- DOCS: MathsTools.lerp ### -->
+  /**<!-- DOCS: MathsTools.lerp ### @ -->
    * lerp
    *
    * - `MathsTools.lerp`
@@ -149,7 +149,7 @@ export namespace MathsTools {
    */
   export const lerp = (progress: number, fromVal: number, toVal: number): number => fromVal + (toVal - fromVal) * progress;
 
-  /**<!-- DOCS: MathsTools.lerpArray ### -->
+  /**<!-- DOCS: MathsTools.lerpArray ### @ -->
    * lerpArray
    *
    * - `MathsTools.lerpArray`
@@ -167,7 +167,7 @@ export namespace MathsTools {
   export const lerpArray = (progress: number, fromArr: number[], toArr: number[]): number[] =>
     ArrayTools.zip(fromArr, toArr).map(([fromVal, toVal]) => lerp(progress, fromVal, toVal));
 
-  /**<!-- DOCS: MathsTools.lerpObj ### -->
+  /**<!-- DOCS: MathsTools.lerpObj ### @ -->
    * lerpObj
    *
    * - `MathsTools.lerpObj`
@@ -188,7 +188,7 @@ export namespace MathsTools {
     return Object.fromEntries(lerped) as T;
   };
 
-  /**<!-- DOCS: MathsTools.clamp ### -->
+  /**<!-- DOCS: MathsTools.clamp ### @ -->
    * clamp
    *
    * - `MathsTools.clamp`
@@ -206,7 +206,7 @@ export namespace MathsTools {
    */
   export const clamp = (value: number, min: number, max: number) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
 
-  /**<!-- DOCS: MathsTools.getOrdinal ### -->
+  /**<!-- DOCS: MathsTools.getOrdinal ### @ -->
    * getOrdinal
    *
    * - `MathsTools.getOrdinal`

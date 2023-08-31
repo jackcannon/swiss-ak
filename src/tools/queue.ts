@@ -67,7 +67,7 @@ export class QueueManager {
     return promise;
   }
 
-  /**<!-- DOCS: queue.setDefaultPauseTime #### -->
+  /**<!-- DOCS: queue.setDefaultPauseTime #### @ -->
    * setDefaultPauseTime
    *
    * - `queue.setDefaultPauseTime`
@@ -81,7 +81,7 @@ export class QueueManager {
     this.defaultPauseTime = time;
   }
 
-  /**<!-- DOCS: queue.setPauseTime #### -->
+  /**<!-- DOCS: queue.setPauseTime #### @ -->
    * setPauseTime
    *
    * - `queue.setPauseTime`
@@ -96,7 +96,7 @@ export class QueueManager {
     this.pauseTimes.set(id, time);
   }
 
-  /**<!-- DOCS: queue.add #### -->
+  /**<!-- DOCS: queue.add #### @ -->
    * add
    *
    * - `queue.add`
@@ -120,7 +120,7 @@ export class QueueManager {
     return promise;
   }
 
-  /**<!-- DOCS: queue.new #### -->
+  /**<!-- DOCS: queue.new #### @ -->
    * new
    *
    * - `queue.new`

@@ -20,7 +20,7 @@ import { ms } from './times';
 export namespace waiters {
   // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
 
-  /**<!-- DOCS: waiters.wait ### -->
+  /**<!-- DOCS: waiters.wait ### @ -->
    * wait
    *
    * - `wait`
@@ -45,7 +45,7 @@ export namespace waiters {
   const ROUND_AMOUNT = 1.5;
   const getPingDuration = (time: ms, now: ms = Date.now()): ms => Math.ceil(((time - now) * PING_RATIO) / ROUND_AMOUNT) * ROUND_AMOUNT;
 
-  /**<!-- DOCS: waiters.waitUntil ### -->
+  /**<!-- DOCS: waiters.waitUntil ### @ -->
    * waitUntil
    *
    * - `waitUntil`
@@ -70,7 +70,7 @@ export namespace waiters {
     return null;
   };
 
-  /**<!-- DOCS: waiters.waitFor ### -->
+  /**<!-- DOCS: waiters.waitFor ### @ -->
    * waitFor
    *
    * - `waitFor`
@@ -97,7 +97,7 @@ export namespace waiters {
     return result <= 10 ? timing : result;
   };
 
-  /**<!-- DOCS: waiters.waitEvery ### -->
+  /**<!-- DOCS: waiters.waitEvery ### @ -->
    * waitEvery
    *
    * - `waitEvery`
@@ -119,7 +119,7 @@ export namespace waiters {
   export const waitEvery = (timing: ms, offset?: ms): Promise<null> => waitFor(getNextEvery(timing, offset));
 
   const stopped: number[] = [];
-  /**<!-- DOCS: waiters.stopInterval ### -->
+  /**<!-- DOCS: waiters.stopInterval ### @ -->
    * stopInterval
    *
    * - `stopInterval`
@@ -141,7 +141,7 @@ export namespace waiters {
    */
   export const stopInterval = (intID: number) => stopped.push(intID);
 
-  /**<!-- DOCS: waiters.interval ### -->
+  /**<!-- DOCS: waiters.interval ### @ -->
    * interval
    *
    * - `interval`

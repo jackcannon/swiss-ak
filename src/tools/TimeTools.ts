@@ -68,7 +68,7 @@ const units: DurationUnit[] = [
 export namespace TimeTools {
   // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
 
-  /**<!-- DOCS: TimeTools.toReadableDuration ### -->
+  /**<!-- DOCS: TimeTools.toReadableDuration ### @ -->
    * toReadableDuration
    *
    * - `TimeTools.toReadableDuration`

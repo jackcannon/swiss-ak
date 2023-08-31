@@ -13,7 +13,7 @@ export type ClxType = string | boolean | { [key: string]: boolean } | ClxType[];
 export namespace StringTools {
   // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
 
-  /**<!-- DOCS: StringTools.capitalise ### -->
+  /**<!-- DOCS: StringTools.capitalise ### @ -->
    * capitalise
    *
    * - `StringTools.capitalise`
@@ -32,7 +32,7 @@ export namespace StringTools {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
 
-  /**<!-- DOCS: StringTools.angloise ### -->
+  /**<!-- DOCS: StringTools.angloise ### @ -->
    * angloise
    *
    * - `StringTools.angloise`
@@ -47,7 +47,7 @@ export namespace StringTools {
    */
   export const angloise = (input: string): string => input.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-  /**<!-- DOCS: StringTools.clean ### -->
+  /**<!-- DOCS: StringTools.clean ### @ -->
    * clean
    *
    * - `StringTools.clean`
@@ -65,7 +65,7 @@ export namespace StringTools {
       .replace(/\s{1,}/g, ' ')
       .replace(/[^A-Za-z0-9 ]/gi, '');
 
-  /**<!-- DOCS: StringTools.repeat ### -->
+  /**<!-- DOCS: StringTools.repeat ### @ -->
    * repeat
    *
    * - `StringTools.repeat`
@@ -85,7 +85,7 @@ export namespace StringTools {
   export const repeat = (maxLength: number, repeated: string) =>
     (repeated && typeof repeated === 'string' ? repeated : '').repeat(Math.max(0, maxLength));
 
-  /**<!-- DOCS: StringTools.clx ### -->
+  /**<!-- DOCS: StringTools.clx ### @ -->
    * clx
    *
    * - `clx`
@@ -154,7 +154,7 @@ export namespace StringTools {
         .filter((s) => s.length);
     };
 
-    /**<!-- DOCS: StringTools.toCamelCase #### -->
+    /**<!-- DOCS: StringTools.toCamelCase #### @ -->
      * toCamelCase
      *
      * - `StringTools.toCamelCase`
@@ -172,7 +172,7 @@ export namespace StringTools {
       const split = getSplit(input);
       return split.map((word, index) => (index === 0 && !capitaliseFirst ? word.toLowerCase() : capitalise(word))).join('');
     };
-    /**<!-- DOCS: StringTools.toLowerCamelCase #### -->
+    /**<!-- DOCS: StringTools.toLowerCamelCase #### @ -->
      * toLowerCamelCase
      *
      * - `StringTools.toLowerCamelCase`
@@ -187,7 +187,7 @@ export namespace StringTools {
      */
     const toLowerCamelCase = (input: string | string[]): string => toCamelCase(input, false);
 
-    /**<!-- DOCS: StringTools.toUpperCamelCase #### -->
+    /**<!-- DOCS: StringTools.toUpperCamelCase #### @ -->
      * toUpperCamelCase
      *
      * - `StringTools.toUpperCamelCase`
@@ -202,7 +202,7 @@ export namespace StringTools {
      */
     const toUpperCamelCase = (input: string | string[]): string => toCamelCase(input, true);
 
-    /**<!-- DOCS: StringTools.toCharacterSeparated #### -->
+    /**<!-- DOCS: StringTools.toCharacterSeparated #### @ -->
      * toCharacterSeparated
      *
      * - `StringTools.toCharacterSeparated`
@@ -222,7 +222,7 @@ export namespace StringTools {
       return split.map((word, index) => (toUpper ? word.toUpperCase() : word.toLowerCase())).join(char);
     };
 
-    /**<!-- DOCS: StringTools.toSlugCase #### -->
+    /**<!-- DOCS: StringTools.toSlugCase #### @ -->
      * toSlugCase
      *
      * - `StringTools.toSlugCase`
@@ -238,7 +238,7 @@ export namespace StringTools {
      */
     const toSlugCase = (input: string | string[], toUpper: boolean = false): string => toCharacterSeparated(input, '-', toUpper);
 
-    /**<!-- DOCS: StringTools.toLowerSlugCase #### -->
+    /**<!-- DOCS: StringTools.toLowerSlugCase #### @ -->
      * toLowerSlugCase
      *
      * - `StringTools.toLowerSlugCase`
@@ -253,7 +253,7 @@ export namespace StringTools {
      */
     const toLowerSlugCase = (input: string | string[]): string => toSlugCase(input, false);
 
-    /**<!-- DOCS: StringTools.toUpperSlugCase #### -->
+    /**<!-- DOCS: StringTools.toUpperSlugCase #### @ -->
      * toUpperSlugCase
      *
      * - `StringTools.toUpperSlugCase`
@@ -268,7 +268,7 @@ export namespace StringTools {
      */
     const toUpperSlugCase = (input: string | string[]): string => toSlugCase(input, true);
 
-    /**<!-- DOCS: StringTools.toSnakeCase #### -->
+    /**<!-- DOCS: StringTools.toSnakeCase #### @ -->
      * toSnakeCase
      *
      * - `StringTools.toSnakeCase`
@@ -284,7 +284,7 @@ export namespace StringTools {
      */
     const toSnakeCase = (input: string | string[], toUpper: boolean = false): string => toCharacterSeparated(input, '_', toUpper);
 
-    /**<!-- DOCS: StringTools.toLowerSnakeCase #### -->
+    /**<!-- DOCS: StringTools.toLowerSnakeCase #### @ -->
      * toLowerSnakeCase
      *
      * - `StringTools.toLowerSnakeCase`
@@ -299,7 +299,7 @@ export namespace StringTools {
      */
     const toLowerSnakeCase = (input: string | string[]): string => toSnakeCase(input, false);
 
-    /**<!-- DOCS: StringTools.toUpperSnakeCase #### -->
+    /**<!-- DOCS: StringTools.toUpperSnakeCase #### @ -->
      * toUpperSnakeCase
      *
      * - `StringTools.toUpperSnakeCase`
@@ -314,7 +314,7 @@ export namespace StringTools {
      */
     const toUpperSnakeCase = (input: string | string[]): string => toSnakeCase(input, true);
 
-    /**<!-- DOCS: StringTools.toSpaced #### -->
+    /**<!-- DOCS: StringTools.toSpaced #### @ -->
      * toSpaced
      *
      * - `StringTools.toSpaced`
@@ -330,7 +330,7 @@ export namespace StringTools {
      */
     const toSpaced = (input: string | string[], toUpper: boolean = false): string => toCharacterSeparated(input, ' ', toUpper);
 
-    /**<!-- DOCS: StringTools.toLowerSpaced #### -->
+    /**<!-- DOCS: StringTools.toLowerSpaced #### @ -->
      * toLowerSpaced
      *
      * - `StringTools.toLowerSpaced`
@@ -345,7 +345,7 @@ export namespace StringTools {
      */
     const toLowerSpaced = (input: string | string[]): string => toSpaced(input, false);
 
-    /**<!-- DOCS: StringTools.toUpperSpaced #### -->
+    /**<!-- DOCS: StringTools.toUpperSpaced #### @ -->
      * toUpperSpaced
      *
      * - `StringTools.toUpperSpaced`
@@ -360,7 +360,7 @@ export namespace StringTools {
      */
     const toUpperSpaced = (input: string | string[]): string => toSpaced(input, true);
 
-    /**<!-- DOCS: StringTools.toCapitalisedSpaced #### -->
+    /**<!-- DOCS: StringTools.toCapitalisedSpaced #### @ -->
      * toCapitalisedSpaced
      *
      * - `StringTools.toCapitalisedSpaced`
@@ -635,7 +635,7 @@ export namespace StringTools {
       });
     };
 
-    /**<!-- DOCS: StringTools.matchBrackets.unique #### -->
+    /**<!-- DOCS: StringTools.matchBrackets.unique #### @ -->
      * unique
      *
      * - `StringTools.matchBrackets.unique`
@@ -653,7 +653,7 @@ export namespace StringTools {
      */
     export const unique = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => runReplace(input, replaceSymbols, false);
 
-    /**<!-- DOCS: StringTools.matchBrackets.depth #### -->
+    /**<!-- DOCS: StringTools.matchBrackets.depth #### @ -->
      * depth
      *
      * - `StringTools.matchBrackets.depth`
@@ -671,7 +671,7 @@ export namespace StringTools {
      */
     export const depth = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => runReplace(input, replaceSymbols, true);
 
-    /**<!-- DOCS: StringTools.matchBrackets.clean #### -->
+    /**<!-- DOCS: StringTools.matchBrackets.clean #### @ -->
      * clean
      *
      * - `StringTools.matchBrackets.clean`
@@ -732,7 +732,7 @@ export namespace StringTools {
       return found;
     };
 
-    /**<!-- DOCS: StringTools.matchBrackets.grabDepth #### -->
+    /**<!-- DOCS: StringTools.matchBrackets.grabDepth #### @ -->
      * grabDepth
      *
      * - `StringTools.matchBrackets.grabDepth`
@@ -769,7 +769,7 @@ export namespace StringTools {
       return runGrabSearch(fullDirty, syms, depthID !== undefined ? depthID + '' : '', replaceSymbols);
     };
 
-    /**<!-- DOCS: StringTools.matchBrackets.grabUnique #### -->
+    /**<!-- DOCS: StringTools.matchBrackets.grabUnique #### @ -->
      * grabUnique
      *
      * - `StringTools.matchBrackets.grabUnique`
@@ -807,7 +807,7 @@ export namespace StringTools {
       return runGrabSearch(fullDirty, syms, uniqueID !== undefined ? uniqueID + '' : '', replaceSymbols)?.[0];
     };
 
-    /**<!-- DOCS: StringTools.matchBrackets.grab #### -->
+    /**<!-- DOCS: StringTools.matchBrackets.grab #### @ -->
      * grab
      *
      * - `StringTools.matchBrackets.grab`
@@ -850,7 +850,7 @@ export namespace StringTools {
       return found;
     };
 
-    /**<!-- DOCS: StringTools.matchBrackets.getReplaceSymbols #### -->
+    /**<!-- DOCS: StringTools.matchBrackets.getReplaceSymbols #### @ -->
      * getReplaceSymbols
      *
      * - `StringTools.matchBrackets.getReplaceSymbols`

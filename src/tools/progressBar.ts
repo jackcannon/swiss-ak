@@ -29,7 +29,7 @@ export interface ProgressBar {
 export namespace progressBar {
   // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
 
-  /**<!-- DOCS: progressBar.printLn ### -->
+  /**<!-- DOCS: progressBar.printLn ### @ -->
    * printLn
    *
    * - `printLn`
@@ -181,7 +181,7 @@ export namespace progressBar {
     ...opts
   });
 
-  /**<!-- DOCS: progressBar.getProgressBar ### -->
+  /**<!-- DOCS: progressBar.getProgressBar ### @ -->
    * getProgressBar
    *
    * - `getProgressBar`
@@ -235,8 +235,9 @@ export namespace progressBar {
      * - `getProgressBar().update`
      *
      * Trigger the progress bar to update/rerender
+     * @returns {string} The output string
      */
-    const update = () => {
+    const update = (): string => {
       const suffix = getSuffix(current, maxNum, isMaxKnown, opts);
       const fullPrefix = prefix.padEnd(prefixWidth);
       const output = `${fullPrefix}${getBarString(
@@ -256,6 +257,7 @@ export namespace progressBar {
      * - `getProgressBar().next`
      *
      * Set the progress bar to the next value
+     * @returns {string} The output string
      */
     const next = (): string => {
       if (finished) return '';
@@ -269,6 +271,8 @@ export namespace progressBar {
      * - `getProgressBar().set`
      *
      * Set the progress bar to a specific value
+     * @param {number} newCurrent
+     * @returns {string} The output string
      */
     const set = (newCurrent: number): string => {
       if (finished) return '';
@@ -282,6 +286,7 @@ export namespace progressBar {
      * - `getProgressBar().reset`
      *
      * Set the progress bar to 0
+     * @returns {string} The output string
      */
     const reset = (): string => {
       return set(0);
@@ -293,6 +298,7 @@ export namespace progressBar {
      * - `getProgressBar().start`
      *
      * Start displaying the progress bar
+     * @returns {string} The output string
      */
     const start = (): string => {
       printLn(); // blank/new line
@@ -305,6 +311,7 @@ export namespace progressBar {
      * - `getProgressBar().finish`
      *
      * Stop displaying the progress bar
+     * @returns {string} The output string
      */
     const finish = (): string => {
       finished = true;

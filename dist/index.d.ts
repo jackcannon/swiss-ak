@@ -354,7 +354,7 @@ declare namespace times {
      * Equal to `31_557_600_000_000` (1000 years / 365,250 days)
      */
     const MILLENNIUM: number;
-    /**<!-- DOCS: times.milliseconds ### -1 -->
+    /**<!-- DOCS: times.milliseconds ### -1 @ -->
      * milliseconds
      *
      * - `milliseconds`
@@ -372,7 +372,7 @@ declare namespace times {
      * @returns {number}
      */
     const milliseconds: (x?: ms) => ms;
-    /**<!-- DOCS: times.seconds ### -1 -->
+    /**<!-- DOCS: times.seconds ### -1 @ -->
      * seconds
      *
      * - `seconds`
@@ -390,7 +390,7 @@ declare namespace times {
      * @returns {number}
      */
     const seconds: (x?: second) => ms;
-    /**<!-- DOCS: times.minutes ### -1 -->
+    /**<!-- DOCS: times.minutes ### -1 @ -->
      * minutes
      *
      * - `minutes`
@@ -408,7 +408,7 @@ declare namespace times {
      * @returns {number}
      */
     const minutes: (x?: minute) => ms;
-    /**<!-- DOCS: times.hours ### -1 -->
+    /**<!-- DOCS: times.hours ### -1 @ -->
      * hours
      *
      * - `hours`
@@ -426,7 +426,7 @@ declare namespace times {
      * @returns {number}
      */
     const hours: (x?: hour) => ms;
-    /**<!-- DOCS: times.days ### -1 -->
+    /**<!-- DOCS: times.days ### -1 @ -->
      * days
      *
      * - `days`
@@ -444,7 +444,7 @@ declare namespace times {
      * @returns {number}
      */
     const days: (x?: day) => ms;
-    /**<!-- DOCS: times.weeks ### -1 -->
+    /**<!-- DOCS: times.weeks ### -1 @ -->
      * weeks
      *
      * - `weeks`
@@ -462,7 +462,7 @@ declare namespace times {
      * @returns {number}
      */
     const weeks: (x?: week) => ms;
-    /**<!-- DOCS: times.months ### -1 -->
+    /**<!-- DOCS: times.months ### -1 @ -->
      * months
      *
      * - `months`
@@ -480,7 +480,7 @@ declare namespace times {
      * @returns {number}
      */
     const months: (x?: month) => ms;
-    /**<!-- DOCS: times.years ### -1 -->
+    /**<!-- DOCS: times.years ### -1 @ -->
      * years
      *
      * - `years`
@@ -498,7 +498,7 @@ declare namespace times {
      * @returns {number}
      */
     const years: (x?: year) => ms;
-    /**<!-- DOCS: times.decades ### -1 -->
+    /**<!-- DOCS: times.decades ### -1 @ -->
      * decades
      *
      * - `decades`
@@ -516,7 +516,7 @@ declare namespace times {
      * @returns {number}
      */
     const decades: (x?: decade) => ms;
-    /**<!-- DOCS: times.centuries ### -1 -->
+    /**<!-- DOCS: times.centuries ### -1 @ -->
      * centuries
      *
      * - `centuries`
@@ -534,7 +534,7 @@ declare namespace times {
      * @returns {number}
      */
     const centuries: (x?: century) => ms;
-    /**<!-- DOCS: times.millenniums ### -1 -->
+    /**<!-- DOCS: times.millenniums ### -1 @ -->
      * millenniums
      *
      * - `millenniums`
@@ -988,7 +988,7 @@ declare const millenniums: (x?: millennium) => ms;
  * | interval  | Accurate (pinged) interval for every 'every X' event | `hours(1)` = every hour, on the hour            |
  */
 declare namespace waiters {
-    /**<!-- DOCS: waiters.wait ### -->
+    /**<!-- DOCS: waiters.wait ### @ -->
      * wait
      *
      * - `wait`
@@ -1007,7 +1007,7 @@ declare namespace waiters {
      * @returns {Promise<unknown>}
      */
     const wait: (time: ms) => Promise<unknown>;
-    /**<!-- DOCS: waiters.waitUntil ### -->
+    /**<!-- DOCS: waiters.waitUntil ### @ -->
      * waitUntil
      *
      * - `waitUntil`
@@ -1026,7 +1026,7 @@ declare namespace waiters {
      * @returns {Promise<null>}
      */
     const waitUntil: (time: ms) => Promise<null>;
-    /**<!-- DOCS: waiters.waitFor ### -->
+    /**<!-- DOCS: waiters.waitFor ### @ -->
      * waitFor
      *
      * - `waitFor`
@@ -1045,7 +1045,7 @@ declare namespace waiters {
      * @returns {Promise<null>}
      */
     const waitFor: (time: ms) => Promise<null>;
-    /**<!-- DOCS: waiters.waitEvery ### -->
+    /**<!-- DOCS: waiters.waitEvery ### @ -->
      * waitEvery
      *
      * - `waitEvery`
@@ -1065,7 +1065,7 @@ declare namespace waiters {
      * @returns {Promise<null>}
      */
     const waitEvery: (timing: ms, offset?: ms) => Promise<null>;
-    /**<!-- DOCS: waiters.stopInterval ### -->
+    /**<!-- DOCS: waiters.stopInterval ### @ -->
      * stopInterval
      *
      * - `stopInterval`
@@ -1086,7 +1086,7 @@ declare namespace waiters {
      * @returns {number}
      */
     const stopInterval: (intID: number) => number;
-    /**<!-- DOCS: waiters.interval ### -->
+    /**<!-- DOCS: waiters.interval ### @ -->
      * interval
      *
      * - `interval`
@@ -1240,7 +1240,7 @@ declare const interval: (action: (intID?: number, count?: number) => any, timing
  * A collection of useful higher-order functions.
  */
 declare namespace fn {
-    /**<!-- DOCS: fn.noop ### -->
+    /**<!-- DOCS: fn.noop ### @ -->
      * noop
      *
      * - `fn.noop`
@@ -1254,7 +1254,7 @@ declare namespace fn {
      * @returns {void}
      */
     export const noop: () => void;
-    /**<!-- DOCS: fn.noact ### -->
+    /**<!-- DOCS: fn.noact ### @ -->
      * noact
      *
      * - `fn.noact`
@@ -1269,7 +1269,7 @@ declare namespace fn {
      * @returns {T}
      */
     export const noact: <T = any>(item: T) => T;
-    /**<!-- DOCS: fn.result ### -->
+    /**<!-- DOCS: fn.result ### @ -->
      * result
      *
      * - `fn.result`
@@ -1284,7 +1284,7 @@ declare namespace fn {
      * @returns {() => T}
      */
     export const result: <T = any>(item: T) => () => T;
-    /**<!-- DOCS: fn.resolve ### -->
+    /**<!-- DOCS: fn.resolve ### @ -->
      * resolve
      *
      * - `fn.resolve`
@@ -1296,7 +1296,7 @@ declare namespace fn {
      * @returns {() => Promise<T>}
      */
     export const resolve: <T = any>(item: T) => () => Promise<T>;
-    /**<!-- DOCS: fn.reject ### -->
+    /**<!-- DOCS: fn.reject ### @ -->
      * reject
      *
      * - `fn.reject`
@@ -1313,7 +1313,7 @@ declare namespace fn {
      *
      * Collection of functions that can be used with Array.filter
      */
-    /**<!-- DOCS: fn.exists #### -->
+    /**<!-- DOCS: fn.exists #### @ -->
      * exists
      *
      * - `fn.exists`
@@ -1329,7 +1329,7 @@ declare namespace fn {
      * @returns {boolean}
      */
     export const exists: <T = any>(item: T) => boolean;
-    /**<!-- DOCS: fn.isTruthy #### -->
+    /**<!-- DOCS: fn.isTruthy #### @ -->
      * isTruthy
      *
      * - `fn.isTruthy`
@@ -1346,7 +1346,7 @@ declare namespace fn {
      * @returns {boolean}
      */
     export const isTruthy: <T = any>(item: T) => boolean;
-    /**<!-- DOCS: fn.isFalsy #### -->
+    /**<!-- DOCS: fn.isFalsy #### @ -->
      * isFalsy
      *
      * - `fn.isFalsy`
@@ -1363,7 +1363,7 @@ declare namespace fn {
      * @returns {boolean}
      */
     export const isFalsy: <T = any>(item: T) => boolean;
-    /**<!-- DOCS: fn.isEmpty #### -->
+    /**<!-- DOCS: fn.isEmpty #### @ -->
      * isEmpty
      *
      * - `fn.isEmpty`
@@ -1380,7 +1380,7 @@ declare namespace fn {
      * @returns {boolean}
      */
     export const isEmpty: <T = any>(item: string | T[]) => boolean;
-    /**<!-- DOCS: fn.isNotEmpty #### -->
+    /**<!-- DOCS: fn.isNotEmpty #### @ -->
      * isNotEmpty
      *
      * - `fn.isNotEmpty`
@@ -1397,7 +1397,7 @@ declare namespace fn {
      * @returns {boolean}
      */
     export const isNotEmpty: <T = any>(item: string | T[]) => boolean;
-    /**<!-- DOCS: fn.isEqual #### -->
+    /**<!-- DOCS: fn.isEqual #### @ -->
      * isEqual
      *
      * - `fn.isEqual`
@@ -1413,7 +1413,7 @@ declare namespace fn {
      * @returns {(other: T) => boolean}
      */
     export const isEqual: <T = any>(item: T) => (other: T) => boolean;
-    /**<!-- DOCS: fn.isNotEqual #### -->
+    /**<!-- DOCS: fn.isNotEqual #### @ -->
      * isNotEqual
      *
      * - `fn.isNotEqual`
@@ -1429,7 +1429,7 @@ declare namespace fn {
      * @returns {(other: T) => boolean}
      */
     export const isNotEqual: <T = any>(item: T) => (other: T) => boolean;
-    /**<!-- DOCS: fn.dedupe #### -->
+    /**<!-- DOCS: fn.dedupe #### @ -->
      * dedupe
      *
      * - `fn.dedupe`
@@ -1447,7 +1447,7 @@ declare namespace fn {
      * @returns {boolean}
      */
     export const dedupe: <T extends unknown>(item: T, index: number, array: T[]) => boolean;
-    /**<!-- DOCS: fn.dedupeMapped #### -->
+    /**<!-- DOCS: fn.dedupeMapped #### @ -->
      * dedupeMapped
      *
      * - `fn.dedupeMapped`
@@ -1470,7 +1470,7 @@ declare namespace fn {
      *
      * Collection of functions that can be used with Array.map
      */
-    /**<!-- DOCS: fn.toString #### -->
+    /**<!-- DOCS: fn.toString #### @ -->
      * toString
      *
      * - `fn.toString`
@@ -1486,7 +1486,7 @@ declare namespace fn {
      * @returns {string}
      */
     export const toString: <T = any>(item: T) => string;
-    /**<!-- DOCS: fn.toNumber #### -->
+    /**<!-- DOCS: fn.toNumber #### @ -->
      * toNumber
      *
      * - `fn.toNumber`
@@ -1502,7 +1502,7 @@ declare namespace fn {
      * @returns {number}
      */
     export const toNumber: <T = any>(item: T) => number;
-    /**<!-- DOCS: fn.toBool #### -->
+    /**<!-- DOCS: fn.toBool #### @ -->
      * toBool
      *
      * - `fn.toBool`
@@ -1519,7 +1519,7 @@ declare namespace fn {
      * @returns {boolean}
      */
     export const toBool: <T = any>(item: T) => boolean;
-    /**<!-- DOCS: fn.toProp #### -->
+    /**<!-- DOCS: fn.toProp #### @ -->
      * toProp
      *
      * - `fn.toProp`
@@ -1535,7 +1535,7 @@ declare namespace fn {
      * @returns {(item: O) => P}
      */
     export const toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
-    /**<!-- DOCS: fn.toFixed #### -->
+    /**<!-- DOCS: fn.toFixed #### @ -->
      * toFixed
      *
      * - `fn.toFixed`
@@ -1558,7 +1558,7 @@ declare namespace fn {
      *
      * Collection of functions that can be used with Array.sort
      */
-    /**<!-- DOCS: fn.asc #### -->
+    /**<!-- DOCS: fn.asc #### @ -->
      * asc
      *
      * - `fn.asc`
@@ -1575,7 +1575,7 @@ declare namespace fn {
      * @returns {number}
      */
     export const asc: (a: any, b: any) => number;
-    /**<!-- DOCS: fn.desc #### -->
+    /**<!-- DOCS: fn.desc #### @ -->
      * desc
      *
      * - `fn.desc`
@@ -1593,7 +1593,7 @@ declare namespace fn {
      */
     export const desc: (a: any, b: any) => number;
     type SortFn<T = number> = (a: T, b: T) => number;
-    /**<!-- DOCS: fn.byProp #### -->
+    /**<!-- DOCS: fn.byProp #### @ -->
      * byProp
      *
      * - `fn.byProp`
@@ -1611,7 +1611,7 @@ declare namespace fn {
      * @returns {SortFn<O>}
      */
     export const byProp: <T = number, O = Object>(propName: string, sortFn?: SortFn<T>) => SortFn<O>;
-    /**<!-- DOCS: fn.nearestTo #### -->
+    /**<!-- DOCS: fn.nearestTo #### @ -->
      * nearestTo
      *
      * - `fn.nearestTo`
@@ -1628,7 +1628,7 @@ declare namespace fn {
      * @returns {(a: any, b: any) => number}
      */
     export const nearestTo: <T = number>(target: T) => (a: any, b: any) => number;
-    /**<!-- DOCS: fn.furthestFrom #### -->
+    /**<!-- DOCS: fn.furthestFrom #### @ -->
      * furthestFrom
      *
      * - `fn.furthestFrom`
@@ -1645,7 +1645,7 @@ declare namespace fn {
      * @returns {(a: any, b: any) => number}
      */
     export const furthestFrom: <T = number>(target: T) => (a: any, b: any) => number;
-    /**<!-- DOCS: fn.arrayAsc #### -->
+    /**<!-- DOCS: fn.arrayAsc #### @ -->
      * arrayAsc
      *
      * - `fn.arrayAsc`
@@ -1658,7 +1658,7 @@ declare namespace fn {
      * @returns {any}
      */
     export const arrayAsc: (a: any[], b: any[]) => number;
-    /**<!-- DOCS: fn.arrayDesc #### -->
+    /**<!-- DOCS: fn.arrayDesc #### @ -->
      * arrayDesc
      *
      * - `fn.arrayDesc`
@@ -1678,7 +1678,7 @@ declare namespace fn {
      *
      * Collection of functions that can be used with Array.reduce
      */
-    /**<!-- DOCS: fn.combine #### -->
+    /**<!-- DOCS: fn.combine #### @ -->
      * combine
      *
      * - `fn.combine`
@@ -1696,7 +1696,7 @@ declare namespace fn {
      * @returns {any}
      */
     export const combine: (a: any, b: any) => any;
-    /**<!-- DOCS: fn.combineProp #### -->
+    /**<!-- DOCS: fn.combineProp #### @ -->
      * combineProp
      *
      * - `fn.combineProp`
@@ -1714,7 +1714,7 @@ declare namespace fn {
      * @returns {(a: any, b: any) => any}
      */
     export const combineProp: (propName: string) => (a: any, b: any) => any;
-    /**<!-- DOCS: fn.mode #### -->
+    /**<!-- DOCS: fn.mode #### @ -->
      * mode
      *
      * - `fn.mode`
@@ -1733,7 +1733,7 @@ declare namespace fn {
      * @returns {T}
      */
     export const mode: <T extends unknown>(prev: T, curr: T, index: number, arr: T[]) => T;
-    /**<!-- DOCS: fn.modeMapped #### -->
+    /**<!-- DOCS: fn.modeMapped #### @ -->
      * modeMapped
      *
      * - `fn.modeMapped`
@@ -1756,7 +1756,7 @@ declare namespace fn {
      *
      * Collection of functions that can be used with Array.every
      */
-    /**<!-- DOCS: fn.isAllEqual #### -->
+    /**<!-- DOCS: fn.isAllEqual #### @ -->
      * isAllEqual
      *
      * - `fn.isAllEqual`
@@ -2322,7 +2322,7 @@ interface ITimer<TName> {
     names: KeysOnly<TName>;
     displayNames: TName;
 }
-/**<!-- DOCS: timer.getTimer ### -->
+/**<!-- DOCS: timer.getTimer ### @ -->
  * getTimer
  *
  * - `getTimer`
@@ -2378,6 +2378,7 @@ interface ProgressBar {
      * - `getProgressBar().next`
      * 
      * Set the progress bar to the next value
+     * @returns {string} The output string
      */
     next: () => string;
     /**<!-- DOCS-ALIAS: progressBar.set -->
@@ -2386,6 +2387,8 @@ interface ProgressBar {
      * - `getProgressBar().set`
      * 
      * Set the progress bar to a specific value
+     * @param {number} newCurrent
+     * @returns {string} The output string
      */
     set: (newCurrent: number) => string;
     /**<!-- DOCS-ALIAS: progressBar.reset -->
@@ -2394,6 +2397,7 @@ interface ProgressBar {
      * - `getProgressBar().reset`
      * 
      * Set the progress bar to 0
+     * @returns {string} The output string
      */
     reset: () => string;
     /**<!-- DOCS-ALIAS: progressBar.update -->
@@ -2402,6 +2406,7 @@ interface ProgressBar {
      * - `getProgressBar().update`
      * 
      * Trigger the progress bar to update/rerender
+     * @returns {string} The output string
      */
     update: () => string;
     /**<!-- DOCS-ALIAS: progressBar.start -->
@@ -2410,6 +2415,7 @@ interface ProgressBar {
      * - `getProgressBar().start`
      * 
      * Start displaying the progress bar
+     * @returns {string} The output string
      */
     start: () => string;
     /**<!-- DOCS-ALIAS: progressBar.finish -->
@@ -2418,6 +2424,7 @@ interface ProgressBar {
      * - `getProgressBar().finish`
      * 
      * Stop displaying the progress bar
+     * @returns {string} The output string
      */
     finish: () => string;
     /**<!-- DOCS-ALIAS: progressBar.max -->
@@ -2437,7 +2444,7 @@ interface ProgressBar {
  * > NOTE: This is eventually be moved to `swiss-node`
  */
 declare namespace progressBar {
-    /**<!-- DOCS: progressBar.printLn ### -->
+    /**<!-- DOCS: progressBar.printLn ### @ -->
      * printLn
      *
      * - `printLn`
@@ -2515,7 +2522,7 @@ declare namespace progressBar {
      * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
      */
     export type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
-    /**<!-- DOCS: progressBar.getProgressBar ### -->
+    /**<!-- DOCS: progressBar.getProgressBar ### @ -->
      * getProgressBar
      *
      * - `getProgressBar`
@@ -2663,7 +2670,7 @@ declare const getProgressBar: (max: number, options?: ProgressBarOptions) => Pro
  * A collection of useful array functions.
  */
 declare namespace ArrayTools {
-    /**<!-- DOCS: ArrayTools.utils 101 ### -->
+    /**<!-- DOCS: ArrayTools.utils 101 ### @ -->
      * utils
      *
      * - `ArrayTools.utils`
@@ -2671,7 +2678,7 @@ declare namespace ArrayTools {
      * Small helper functions that may help, but aren't important enough to be in ArrayTools directly
      */
     export namespace utils {
-        /**<!-- DOCS: ArrayTools.utils.isNumString 101 #### -->
+        /**<!-- DOCS: ArrayTools.utils.isNumString 101 #### @ -->
          * isNumString
          *
          * - `ArrayTools.utils.isNumString`
@@ -2681,7 +2688,7 @@ declare namespace ArrayTools {
          * @returns {boolean}
          */
         const isNumString: (text: string) => boolean;
-        /**<!-- DOCS: ArrayTools.utils.partitionNums 101 #### -->
+        /**<!-- DOCS: ArrayTools.utils.partitionNums 101 #### @ -->
          * partitionNums
          *
          * - `ArrayTools.utils.partitionNums`
@@ -2692,7 +2699,7 @@ declare namespace ArrayTools {
          */
         const partitionNums: (ignoreCase: boolean) => (name: string) => (string | number)[];
     }
-    /**<!-- DOCS: ArrayTools.create ### -->
+    /**<!-- DOCS: ArrayTools.create ### @ -->
      * create
      *
      * - `create`
@@ -2720,7 +2727,7 @@ declare namespace ArrayTools {
      * @returns {T[]}
      */
     export const filled: <T extends unknown = number>(length?: number, value?: T) => T[];
-    /**<!-- DOCS: ArrayTools.range ### -->
+    /**<!-- DOCS: ArrayTools.range ### @ -->
      * range
      *
      * - `range`
@@ -2746,7 +2753,7 @@ declare namespace ArrayTools {
     export const range: (length?: number, multiplier?: number, offset?: number) => number[];
     type UnwrapArray<T> = T extends Array<infer U> ? U : T;
     type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];
-    /**<!-- DOCS: ArrayTools.zip ### -->
+    /**<!-- DOCS: ArrayTools.zip ### @ -->
      * zip
      *
      * - `zip`
@@ -2765,7 +2772,7 @@ declare namespace ArrayTools {
      * @returns {UnwrapArrays<T>[]}
      */
     export const zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
-    /**<!-- DOCS: ArrayTools.zipMax ### -->
+    /**<!-- DOCS: ArrayTools.zipMax ### @ -->
      * zipMax
      *
      * - `zipMax`
@@ -2784,7 +2791,7 @@ declare namespace ArrayTools {
      * @returns {UnwrapArrays<T>[]}
      */
     export const zipMax: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
-    /**<!-- DOCS: ArrayTools.sortByMapped ### -->
+    /**<!-- DOCS: ArrayTools.sortByMapped ### @ -->
      * sortByMapped
      *
      * - `sortByMapped`
@@ -2806,7 +2813,7 @@ declare namespace ArrayTools {
      * @returns {T[]}
      */
     export const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn?: (a: M, b: M) => number) => T[];
-    /**<!-- DOCS: ArrayTools.randomise ### -->
+    /**<!-- DOCS: ArrayTools.randomise ### @ -->
      * randomise
      *
      * - `randomise`
@@ -2825,7 +2832,7 @@ declare namespace ArrayTools {
      * @returns {T[]}
      */
     export const randomise: <T = string>(arr: T[]) => T[];
-    /**<!-- DOCS: ArrayTools.reverse ### -->
+    /**<!-- DOCS: ArrayTools.reverse ### @ -->
      * reverse
      *
      * - `reverse`
@@ -2848,7 +2855,7 @@ declare namespace ArrayTools {
      * @returns {T[]}
      */
     export const reverse: <T = string>(arr: T[]) => T[];
-    /**<!-- DOCS: ArrayTools.entries ### -->
+    /**<!-- DOCS: ArrayTools.entries ### @ -->
      * entries
      *
      * - `entries`
@@ -2869,7 +2876,7 @@ declare namespace ArrayTools {
      * @returns {[number, T][]}
      */
     export const entries: <T = string>(arr: T[]) => [number, T][];
-    /**<!-- DOCS: ArrayTools.repeat ### -->
+    /**<!-- DOCS: ArrayTools.repeat ### @ -->
      * repeat
      *
      * - `repeat`
@@ -2886,7 +2893,7 @@ declare namespace ArrayTools {
      * @returns {T[]}
      */
     export const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
-    /**<!-- DOCS: ArrayTools.roll ### -->
+    /**<!-- DOCS: ArrayTools.roll ### @ -->
      * roll
      *
      * - `roll`
@@ -2903,7 +2910,7 @@ declare namespace ArrayTools {
      * @returns {T[]}
      */
     export const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
-    /**<!-- DOCS: ArrayTools.sortNumberedText ### -->
+    /**<!-- DOCS: ArrayTools.sortNumberedText ### @ -->
      * sortNumberedText
      *
      * - `sortNumberedText`
@@ -2921,7 +2928,7 @@ declare namespace ArrayTools {
      * @returns {string[]}
      */
     export const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
-    /**<!-- DOCS: ArrayTools.partition ### -->
+    /**<!-- DOCS: ArrayTools.partition ### @ -->
      * partition
      *
      * - `partition`
@@ -2937,7 +2944,7 @@ declare namespace ArrayTools {
      * @returns {T[][]}
      */
     export const partition: <T extends unknown>(array: T[], partitionSize?: number) => T[][];
-    /**<!-- DOCS: ArrayTools.groupObj ### -->
+    /**<!-- DOCS: ArrayTools.groupObj ### @ -->
      * groupObj
      *
      * - `groupObj`
@@ -2964,7 +2971,7 @@ declare namespace ArrayTools {
         [id: string]: T[];
         [id: number]: T[];
     };
-    /**<!-- DOCS: ArrayTools.group ### -->
+    /**<!-- DOCS: ArrayTools.group ### @ -->
      * group
      *
      * - `group`
@@ -3291,7 +3298,7 @@ declare const group: <T extends unknown>(array: T[], mapFn: (item: T, index: num
  * A collection of functions for working with objects
  */
 declare namespace ObjectTools {
-    /**<!-- DOCS: ObjectTools.remodel ### -->
+    /**<!-- DOCS: ObjectTools.remodel ### @ -->
      * remodel
      *
      * - `ObjectTools.remodel`
@@ -3307,7 +3314,7 @@ declare namespace ObjectTools {
      * @returns {O}
      */
     const remodel: <T extends Object = Object, V extends unknown = any, W extends unknown = any, O extends unknown = OfType<T, W>>(obj: T, func: (entries: [string, V][]) => [string, W][]) => O;
-    /**<!-- DOCS: ObjectTools.remodelEach ### -->
+    /**<!-- DOCS: ObjectTools.remodelEach ### @ -->
      * remodelEach
      *
      * - `ObjectTools.remodelEach`
@@ -3325,7 +3332,7 @@ declare namespace ObjectTools {
      * @returns {O}
      */
     const remodelEach: <T extends Object = Object, V extends unknown = any, W extends unknown = any, O extends unknown = OfType<T, W>>(obj: T, func: (entry: [string, V], index: number, entries: [string, V][]) => [string, W]) => O;
-    /**<!-- DOCS: ObjectTools.map ### -->
+    /**<!-- DOCS: ObjectTools.map ### @ -->
      * map
      *
      * - `ObjectTools.map`
@@ -3340,7 +3347,7 @@ declare namespace ObjectTools {
      * @returns {any}
      */
     const map: <T extends Object, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V, index: number) => [string, W]) => OfType<T, W>;
-    /**<!-- DOCS: ObjectTools.mapValues ### -->
+    /**<!-- DOCS: ObjectTools.mapValues ### @ -->
      * mapValues
      *
      * - `ObjectTools.mapValues`
@@ -3355,7 +3362,7 @@ declare namespace ObjectTools {
      * @returns {any}
      */
     const mapValues: <T extends Object, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V, index: number) => W) => OfType<T, W>;
-    /**<!-- DOCS: ObjectTools.mapKeys ### -->
+    /**<!-- DOCS: ObjectTools.mapKeys ### @ -->
      * mapKeys
      *
      * - `ObjectTools.mapKeys`
@@ -3370,7 +3377,7 @@ declare namespace ObjectTools {
      * @returns {T}
      */
     const mapKeys: <T extends Object, V extends unknown>(obj: T, func: (key: string, value: V, index: number) => string) => T;
-    /**<!-- DOCS: ObjectTools.filter ### -->
+    /**<!-- DOCS: ObjectTools.filter ### @ -->
      * filter
      *
      * - `ObjectTools.filter`
@@ -3385,7 +3392,7 @@ declare namespace ObjectTools {
      * @returns {O}
      */
     const filter: <T extends Object, V extends unknown, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean) => O;
-    /**<!-- DOCS: ObjectTools.clean ### -->
+    /**<!-- DOCS: ObjectTools.clean ### @ -->
      * clean
      *
      * - `ObjectTools.clean`
@@ -3399,7 +3406,7 @@ declare namespace ObjectTools {
      * @returns {O}
      */
     const clean: <T extends Object, O extends Partial<T>>(obj: T) => O;
-    /**<!-- DOCS: ObjectTools.invert ### -->
+    /**<!-- DOCS: ObjectTools.invert ### @ -->
      * invert
      *
      * - `ObjectTools.invert`
@@ -3424,7 +3431,7 @@ declare type ClxType = string | boolean | {
  * A collection of string utilities
  */
 declare namespace StringTools {
-    /**<!-- DOCS: StringTools.capitalise ### -->
+    /**<!-- DOCS: StringTools.capitalise ### @ -->
      * capitalise
      *
      * - `StringTools.capitalise`
@@ -3438,7 +3445,7 @@ declare namespace StringTools {
      * @returns {string}
      */
     const capitalise: (input?: string) => string;
-    /**<!-- DOCS: StringTools.angloise ### -->
+    /**<!-- DOCS: StringTools.angloise ### @ -->
      * angloise
      *
      * - `StringTools.angloise`
@@ -3452,7 +3459,7 @@ declare namespace StringTools {
      * @returns {string}
      */
     const angloise: (input: string) => string;
-    /**<!-- DOCS: StringTools.clean ### -->
+    /**<!-- DOCS: StringTools.clean ### @ -->
      * clean
      *
      * - `StringTools.clean`
@@ -3466,7 +3473,7 @@ declare namespace StringTools {
      * @returns {string}
      */
     const clean: (input?: string) => string;
-    /**<!-- DOCS: StringTools.repeat ### -->
+    /**<!-- DOCS: StringTools.repeat ### @ -->
      * repeat
      *
      * - `StringTools.repeat`
@@ -3484,7 +3491,7 @@ declare namespace StringTools {
      * @returns {string}
      */
     const repeat: (maxLength: number, repeated: string) => string;
-    /**<!-- DOCS: StringTools.clx ### -->
+    /**<!-- DOCS: StringTools.clx ### @ -->
      * clx
      *
      * - `clx`
@@ -4001,7 +4008,7 @@ declare namespace StringTools {
      * Tools for matching corresponding brackets in a string
      */
     namespace matchBrackets {
-        /**<!-- DOCS: StringTools.matchBrackets.unique #### -->
+        /**<!-- DOCS: StringTools.matchBrackets.unique #### @ -->
          * unique
          *
          * - `StringTools.matchBrackets.unique`
@@ -4018,7 +4025,7 @@ declare namespace StringTools {
          * @returns {string}
          */
         const unique: (input: string, replaceSymbols?: Partial<BracketReplaceSymbols>) => string;
-        /**<!-- DOCS: StringTools.matchBrackets.depth #### -->
+        /**<!-- DOCS: StringTools.matchBrackets.depth #### @ -->
          * depth
          *
          * - `StringTools.matchBrackets.depth`
@@ -4035,7 +4042,7 @@ declare namespace StringTools {
          * @returns {string}
          */
         const depth: (input: string, replaceSymbols?: Partial<BracketReplaceSymbols>) => string;
-        /**<!-- DOCS: StringTools.matchBrackets.clean #### -->
+        /**<!-- DOCS: StringTools.matchBrackets.clean #### @ -->
          * clean
          *
          * - `StringTools.matchBrackets.clean`
@@ -4055,7 +4062,7 @@ declare namespace StringTools {
          * @returns {string}
          */
         const clean: (input: string, replaceSymbols?: Partial<BracketReplaceSymbols>) => string;
-        /**<!-- DOCS: StringTools.matchBrackets.grabDepth #### -->
+        /**<!-- DOCS: StringTools.matchBrackets.grabDepth #### @ -->
          * grabDepth
          *
          * - `StringTools.matchBrackets.grabDepth`
@@ -4082,7 +4089,7 @@ declare namespace StringTools {
          * @returns {string[]}
          */
         const grabDepth: (input: string, bracketType?: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle', depthID?: number, replaceSymbols?: Partial<BracketReplaceSymbols>) => string[];
-        /**<!-- DOCS: StringTools.matchBrackets.grabUnique #### -->
+        /**<!-- DOCS: StringTools.matchBrackets.grabUnique #### @ -->
          * grabUnique
          *
          * - `StringTools.matchBrackets.grabUnique`
@@ -4110,7 +4117,7 @@ declare namespace StringTools {
          * @returns {string}
          */
         const grabUnique: (input: string, bracketType?: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle', uniqueID?: number, replaceSymbols?: Partial<BracketReplaceSymbols>) => string;
-        /**<!-- DOCS: StringTools.matchBrackets.grab #### -->
+        /**<!-- DOCS: StringTools.matchBrackets.grab #### @ -->
          * grab
          *
          * - `StringTools.matchBrackets.grab`
@@ -4135,7 +4142,7 @@ declare namespace StringTools {
          * @returns {string[]}
          */
         const grab: (input: string, bracketType?: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle', replaceSymbols?: Partial<BracketReplaceSymbols>) => string[];
-        /**<!-- DOCS: StringTools.matchBrackets.getReplaceSymbols #### -->
+        /**<!-- DOCS: StringTools.matchBrackets.getReplaceSymbols #### @ -->
          * getReplaceSymbols
          *
          * - `StringTools.matchBrackets.getReplaceSymbols`
@@ -4252,7 +4259,7 @@ declare namespace PromiseTools {
         reject: (value: T) => Promise<T>;
         promise: Promise<T>;
     }
-    /**<!-- DOCS: PromiseTools.getDeferred ### -->
+    /**<!-- DOCS: PromiseTools.getDeferred ### @ -->
      * getDeferred
      *
      * - `getDeferred`
@@ -4280,7 +4287,7 @@ declare namespace PromiseTools {
      * @returns {DeferredPromise<T>}
      */
     export const getDeferred: <T extends unknown>() => DeferredPromise<T>;
-    /**<!-- DOCS: PromiseTools.all ### -->
+    /**<!-- DOCS: PromiseTools.all ### @ -->
      * all
      *
      * - `all`
@@ -4291,7 +4298,7 @@ declare namespace PromiseTools {
      * @returns {Promise<any>}
      */
     export const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
-    /**<!-- DOCS: PromiseTools.allLimit ### -->
+    /**<!-- DOCS: PromiseTools.allLimit ### @ -->
      * allLimit
      *
      * - `allLimit`
@@ -4337,7 +4344,7 @@ declare namespace PromiseTools {
      * @returns {Promise<T[]>}
      */
     export const allLimit: <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow?: boolean) => Promise<T[]>;
-    /**<!-- DOCS: PromiseTools.each ### -->
+    /**<!-- DOCS: PromiseTools.each ### @ -->
      * each
      *
      * - `each`
@@ -4361,7 +4368,7 @@ declare namespace PromiseTools {
      * @returns {Promise<any>}
      */
     export const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
-    /**<!-- DOCS: PromiseTools.eachLimit ### -->
+    /**<!-- DOCS: PromiseTools.eachLimit ### @ -->
      * eachLimit
      *
      * - `eachLimit`
@@ -4388,7 +4395,7 @@ declare namespace PromiseTools {
      * @returns {Promise<any>}
      */
     export const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
-    /**<!-- DOCS: PromiseTools.map ### -->
+    /**<!-- DOCS: PromiseTools.map ### @ -->
      * map
      *
      * - `map`
@@ -4413,7 +4420,7 @@ declare namespace PromiseTools {
      * @returns {Promise<To[]>}
      */
     export const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
-    /**<!-- DOCS: PromiseTools.mapLimit ### -->
+    /**<!-- DOCS: PromiseTools.mapLimit ### @ -->
      * mapLimit
      *
      * - `mapLimit`
@@ -4445,7 +4452,7 @@ declare namespace PromiseTools {
     type UnWrapPromiseObject<T> = {
         [K in keyof T]: UnWrapPromise<T[K]>;
     };
-    /**<!-- DOCS: PromiseTools.allObj ### -->
+    /**<!-- DOCS: PromiseTools.allObj ### @ -->
      * allObj
      *
      * - `allObj`
@@ -4485,7 +4492,7 @@ declare namespace PromiseTools {
      * @returns {Promise<UnWrapPromiseObject<T>>}
      */
     export const allObj: <T extends Object>(input: T) => Promise<UnWrapPromiseObject<T>>;
-    /**<!-- DOCS: PromiseTools.allLimitObj ### -->
+    /**<!-- DOCS: PromiseTools.allLimitObj ### @ -->
      * allLimitObj
      *
      * - `allLimitObj`
@@ -4824,7 +4831,7 @@ declare const allLimitObj: <T extends Object>(limit: number, input: T, noThrow?:
  * Functions for handling errors.
  */
 declare namespace ErrorTools {
-    /**<!-- DOCS: ErrorTools.tryOr ### -->
+    /**<!-- DOCS: ErrorTools.tryOr ### @ -->
      * tryOr
      *
      * - `tryOr`
@@ -4841,7 +4848,7 @@ declare namespace ErrorTools {
      * @returns {Promise<T>}
      */
     const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: (...args: A) => Promise<T>, ...args: A) => Promise<T>;
-    /**<!-- DOCS: ErrorTools.retry ### -->
+    /**<!-- DOCS: ErrorTools.retry ### @ -->
      * retry
      *
      * - `retry`
@@ -4859,7 +4866,7 @@ declare namespace ErrorTools {
      * @returns {Promise<T>}
      */
     const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
-    /**<!-- DOCS: ErrorTools.retryOr ### -->
+    /**<!-- DOCS: ErrorTools.retryOr ### @ -->
      * retryOr
      *
      * - `retryOr`
@@ -4946,7 +4953,7 @@ declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?
  * > Note: The field is 'Mathematics', and so it is 'MathsTools' not ~'MathTools'~
  */
 declare namespace MathsTools {
-    /**<!-- DOCS: MathsTools.fixFloat ### -->
+    /**<!-- DOCS: MathsTools.fixFloat ### @ -->
      * fixFloat
      *
      * - `ff`
@@ -4988,7 +4995,7 @@ declare namespace MathsTools {
      * @returns {number}
      */
     const ff: (num: number, precision?: number) => number;
-    /**<!-- DOCS: MathsTools.addAll ### -->
+    /**<!-- DOCS: MathsTools.addAll ### @ -->
      * addAll
      *
      * - `MathsTools.addAll`
@@ -5005,7 +5012,7 @@ declare namespace MathsTools {
     /**<!-- DOCS: MathsTools.round ### -->
      * round
      */
-    /**<!-- DOCS: MathsTools.floorTo #### -->
+    /**<!-- DOCS: MathsTools.floorTo #### @ -->
      * floorTo
      *
      * - `MathsTools.floorTo`
@@ -5023,7 +5030,7 @@ declare namespace MathsTools {
      * @returns {number}
      */
     const floorTo: (to: number, value: number) => number;
-    /**<!-- DOCS: MathsTools.roundTo #### -->
+    /**<!-- DOCS: MathsTools.roundTo #### @ -->
      * roundTo
      *
      * - `MathsTools.round.to`
@@ -5042,7 +5049,7 @@ declare namespace MathsTools {
      * @returns {number}
      */
     const roundTo: (to: number, value: number) => number;
-    /**<!-- DOCS: MathsTools.ceilTo #### -->
+    /**<!-- DOCS: MathsTools.ceilTo #### @ -->
      * ceilTo
      *
      * - `MathsTools.ceilTo`
@@ -5143,7 +5150,7 @@ declare namespace MathsTools {
          */
         const to: (to: number, value: number) => number;
     }
-    /**<!-- DOCS: MathsTools.lerp ### -->
+    /**<!-- DOCS: MathsTools.lerp ### @ -->
      * lerp
      *
      * - `MathsTools.lerp`
@@ -5159,7 +5166,7 @@ declare namespace MathsTools {
      * @returns {number}
      */
     const lerp: (progress: number, fromVal: number, toVal: number) => number;
-    /**<!-- DOCS: MathsTools.lerpArray ### -->
+    /**<!-- DOCS: MathsTools.lerpArray ### @ -->
      * lerpArray
      *
      * - `MathsTools.lerpArray`
@@ -5175,7 +5182,7 @@ declare namespace MathsTools {
      * @returns {number[]}
      */
     const lerpArray: (progress: number, fromArr: number[], toArr: number[]) => number[];
-    /**<!-- DOCS: MathsTools.lerpObj ### -->
+    /**<!-- DOCS: MathsTools.lerpObj ### @ -->
      * lerpObj
      *
      * - `MathsTools.lerpObj`
@@ -5191,7 +5198,7 @@ declare namespace MathsTools {
      * @returns {T}
      */
     const lerpObj: <T extends object>(progress: number, fromObj: T, toObj: T) => T;
-    /**<!-- DOCS: MathsTools.clamp ### -->
+    /**<!-- DOCS: MathsTools.clamp ### @ -->
      * clamp
      *
      * - `MathsTools.clamp`
@@ -5208,7 +5215,7 @@ declare namespace MathsTools {
      * @returns {number}
      */
     const clamp: (value: number, min: number, max: number) => number;
-    /**<!-- DOCS: MathsTools.getOrdinal ### -->
+    /**<!-- DOCS: MathsTools.getOrdinal ### @ -->
      * getOrdinal
      *
      * - `MathsTools.getOrdinal`
@@ -5808,7 +5815,7 @@ declare namespace ColourTools {
         yellow: number[];
         yellowgreen: number[];
     };
-    /**<!-- DOCS: ColourTools.parse ### -->
+    /**<!-- DOCS: ColourTools.parse ### @ -->
      * parse
      *
      * - `ColourTools.parse`
@@ -5829,7 +5836,7 @@ declare namespace ColourTools {
      * @returns {ColourValues}
      */
     const parse: (input: string) => ColourValues;
-    /**<!-- DOCS: ColourTools.toHex ### -->
+    /**<!-- DOCS: ColourTools.toHex ### @ -->
      * toHex
      *
      * - `ColourTools.toHex`
@@ -5843,7 +5850,7 @@ declare namespace ColourTools {
      * @returns {string}
      */
     const toHex: (colour: ColourValues) => string;
-    /**<!-- DOCS: ColourTools.getLuminance ### -->
+    /**<!-- DOCS: ColourTools.getLuminance ### @ -->
      * getLuminance
      *
      * - `ColourTools.getLuminance`
@@ -5866,7 +5873,7 @@ declare namespace ColourTools {
      * @returns {number}
      */
     const getLuminance: (rgb: ColourValues) => number;
-    /**<!-- DOCS: ColourTools.toYUV ### -->
+    /**<!-- DOCS: ColourTools.toYUV ### @ -->
      * toYUV
      *
      * - `ColourTools.toYUV`
@@ -5882,7 +5889,7 @@ declare namespace ColourTools {
      * @returns {ColourValues}
      */
     const toYUV: (rgb: ColourValues) => ColourValues;
-    /**<!-- DOCS: ColourTools.toHSL ### -->
+    /**<!-- DOCS: ColourTools.toHSL ### @ -->
      * toHSL
      *
      * - `ColourTools.toHSL`
@@ -5900,7 +5907,7 @@ declare namespace ColourTools {
      * @returns {HSLValues}
      */
     const toHSL: (colour: ColourValues, round?: boolean) => HSLValues;
-    /**<!-- DOCS: ColourTools.fromHSL ### -->
+    /**<!-- DOCS: ColourTools.fromHSL ### @ -->
      * fromHSL
      *
      * - `ColourTools.fromHSL`
@@ -5918,7 +5925,7 @@ declare namespace ColourTools {
      * @returns {ColourValues}
      */
     const fromHSL: (hsl: HSLValues, round?: boolean) => ColourValues;
-    /**<!-- DOCS: ColourTools.invertColour ### -->
+    /**<!-- DOCS: ColourTools.invertColour ### @ -->
      * invertColour
      *
      * - `ColourTools.invertColour`
@@ -5934,7 +5941,7 @@ declare namespace ColourTools {
      * @returns {ColourValues}
      */
     const invertColour: (rgb: ColourValues) => ColourValues;
-    /**<!-- DOCS: ColourTools.getContrastedColour ### -->
+    /**<!-- DOCS: ColourTools.getContrastedColour ### @ -->
      * getContrastedColour
      *
      * - `ColourTools.getContrastedColour`
@@ -5951,7 +5958,7 @@ declare namespace ColourTools {
      * @returns {ColourValues}
      */
     const getContrastedColour: (colour: ColourValues) => ColourValues;
-    /**<!-- DOCS: ColourTools.getLimitedColour ### -->
+    /**<!-- DOCS: ColourTools.getLimitedColour ### @ -->
      * getLimitedColour
      *
      * - `ColourTools.getLimitedColour`
@@ -5979,7 +5986,7 @@ declare namespace ColourTools {
  * A collection of time-related utility functions.
  */
 declare namespace TimeTools {
-    /**<!-- DOCS: TimeTools.toReadableDuration ### -->
+    /**<!-- DOCS: TimeTools.toReadableDuration ### @ -->
      * toReadableDuration
      *
      * - `TimeTools.toReadableDuration`
@@ -6147,7 +6154,7 @@ declare const symbols: {
         '*': string;
     };
 };
-/**<!-- DOCS: superscript ### -->
+/**<!-- DOCS: superscript ### @ -->
  * superscript
  *
  * - `superscript`
@@ -6220,7 +6227,7 @@ declare class QueueManager {
     defaultPauseTime: number;
     constructor(defaultPauseTime?: number);
     getPromise(id: string): Promise<any>;
-    /**<!-- DOCS: queue.setDefaultPauseTime #### -->
+    /**<!-- DOCS: queue.setDefaultPauseTime #### @ -->
      * setDefaultPauseTime
      *
      * - `queue.setDefaultPauseTime`
@@ -6231,7 +6238,7 @@ declare class QueueManager {
      * @returns {void}
      */
     setDefaultPauseTime(time: number): void;
-    /**<!-- DOCS: queue.setPauseTime #### -->
+    /**<!-- DOCS: queue.setPauseTime #### @ -->
      * setPauseTime
      *
      * - `queue.setPauseTime`
@@ -6243,7 +6250,7 @@ declare class QueueManager {
      * @returns {void}
      */
     setPauseTime(id: string, time: number): void;
-    /**<!-- DOCS: queue.add #### -->
+    /**<!-- DOCS: queue.add #### @ -->
      * add
      *
      * - `queue.add`
@@ -6255,7 +6262,7 @@ declare class QueueManager {
      * @returns {Promise<T>}
      */
     add<T>(id: string, fn: () => Promise<T>): Promise<T>;
-    /**<!-- DOCS: queue.new #### -->
+    /**<!-- DOCS: queue.new #### @ -->
      * new
      *
      * - `queue.new`

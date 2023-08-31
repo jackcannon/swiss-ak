@@ -4052,60 +4052,88 @@ ABC ▕██████▏ [5 / 5]
 #### update
 
 ```typescript
-getProgressBar().update;
+getProgressBar().update(undefined): string
 ```
 
 Trigger the progress bar to update/rerender
+
+| Return Type |               |
+|-------------|---------------|
+| `string`    | output string |
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 
 #### next
 
 ```typescript
-getProgressBar().next;
+getProgressBar().next(undefined): string
 ```
 
 Set the progress bar to the next value
+
+| Return Type |               |
+|-------------|---------------|
+| `string`    | output string |
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 
 #### set
 
 ```typescript
-getProgressBar().set;
+getProgressBar().set(newCurrent: number): string
 ```
 
 Set the progress bar to a specific value
+
+|  #  | Parameter Name | Required | Type     |
+|:---:|:---------------|:---------|:---------|
+| *0* | `newCurrent`   | **Yes**  | `number` |
+
+| Return Type |               |
+|-------------|---------------|
+| `string`    | output string |
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 
 #### reset
 
 ```typescript
-getProgressBar().reset;
+getProgressBar().reset(undefined): string
 ```
 
 Set the progress bar to 0
+
+| Return Type |               |
+|-------------|---------------|
+| `string`    | output string |
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 
 #### start
 
 ```typescript
-getProgressBar().start;
+getProgressBar().start(undefined): string
 ```
 
 Start displaying the progress bar
+
+| Return Type |               |
+|-------------|---------------|
+| `string`    | output string |
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 
 #### finish
 
 ```typescript
-getProgressBar().finish;
+getProgressBar().finish(undefined): string
 ```
 
 Stop displaying the progress bar
+
+| Return Type |               |
+|-------------|---------------|
+| `string`    | output string |
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 

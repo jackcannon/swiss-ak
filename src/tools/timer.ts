@@ -45,7 +45,7 @@ export interface ITimer<TName> {
   displayNames: TName;
 }
 
-/**<!-- DOCS: timer.getTimer ### -->
+/**<!-- DOCS: timer.getTimer ### @ -->
  * getTimer
  *
  * - `getTimer`

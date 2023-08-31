@@ -13,7 +13,7 @@ import { wait } from './waiters';
 export namespace ErrorTools {
   // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
 
-  /**<!-- DOCS: ErrorTools.tryOr ### -->
+  /**<!-- DOCS: ErrorTools.tryOr ### @ -->
    * tryOr
    *
    * - `tryOr`
@@ -37,7 +37,7 @@ export namespace ErrorTools {
     }
   };
 
-  /**<!-- DOCS: ErrorTools.retry ### -->
+  /**<!-- DOCS: ErrorTools.retry ### @ -->
    * retry
    *
    * - `retry`
@@ -76,7 +76,7 @@ export namespace ErrorTools {
     return await loop(0);
   };
 
-  /**<!-- DOCS: ErrorTools.retryOr ### -->
+  /**<!-- DOCS: ErrorTools.retryOr ### @ -->
    * retryOr
    *
    * - `retryOr`

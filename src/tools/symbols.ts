@@ -149,7 +149,7 @@ export const symbols = {
   }
 };
 
-/**<!-- DOCS: superscript ### -->
+/**<!-- DOCS: superscript ### @ -->
  * superscript
  *
  * - `superscript`

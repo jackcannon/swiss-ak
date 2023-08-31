@@ -9,7 +9,7 @@ import { MathsTools } from './MathsTools';
 export namespace fn {
   // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
 
-  /**<!-- DOCS: fn.noop ### -->
+  /**<!-- DOCS: fn.noop ### @ -->
    * noop
    *
    * - `fn.noop`
@@ -24,7 +24,7 @@ export namespace fn {
    */
   export const noop = () => {};
 
-  /**<!-- DOCS: fn.noact ### -->
+  /**<!-- DOCS: fn.noact ### @ -->
    * noact
    *
    * - `fn.noact`
@@ -40,7 +40,7 @@ export namespace fn {
    */
   export const noact = <T = any>(item: T): T => item;
 
-  /**<!-- DOCS: fn.result ### -->
+  /**<!-- DOCS: fn.result ### @ -->
    * result
    *
    * - `fn.result`
@@ -59,7 +59,7 @@ export namespace fn {
     (): T =>
       item;
 
-  /**<!-- DOCS: fn.resolve ### -->
+  /**<!-- DOCS: fn.resolve ### @ -->
    * resolve
    *
    * - `fn.resolve`
@@ -75,7 +75,7 @@ export namespace fn {
     (): Promise<T> =>
       Promise.resolve(item);
 
-  /**<!-- DOCS: fn.reject ### -->
+  /**<!-- DOCS: fn.reject ### @ -->
    * reject
    *
    * - `fn.reject`
@@ -96,7 +96,7 @@ export namespace fn {
    *
    * Collection of functions that can be used with Array.filter
    */
-  /**<!-- DOCS: fn.exists #### -->
+  /**<!-- DOCS: fn.exists #### @ -->
    * exists
    *
    * - `fn.exists`
@@ -113,7 +113,7 @@ export namespace fn {
    */
   export const exists = <T = any>(item: T): boolean => item !== undefined && item !== null;
 
-  /**<!-- DOCS: fn.isTruthy #### -->
+  /**<!-- DOCS: fn.isTruthy #### @ -->
    * isTruthy
    *
    * - `fn.isTruthy`
@@ -131,7 +131,7 @@ export namespace fn {
    */
   export const isTruthy = <T = any>(item: T): boolean => Boolean(item);
 
-  /**<!-- DOCS: fn.isFalsy #### -->
+  /**<!-- DOCS: fn.isFalsy #### @ -->
    * isFalsy
    *
    * - `fn.isFalsy`
@@ -149,7 +149,7 @@ export namespace fn {
    */
   export const isFalsy = <T = any>(item: T): boolean => !Boolean(item);
 
-  /**<!-- DOCS: fn.isEmpty #### -->
+  /**<!-- DOCS: fn.isEmpty #### @ -->
    * isEmpty
    *
    * - `fn.isEmpty`
@@ -167,7 +167,7 @@ export namespace fn {
    */
   export const isEmpty = <T = any>(item: T[] | string): boolean => Boolean(!item || !item.length);
 
-  /**<!-- DOCS: fn.isNotEmpty #### -->
+  /**<!-- DOCS: fn.isNotEmpty #### @ -->
    * isNotEmpty
    *
    * - `fn.isNotEmpty`
@@ -185,7 +185,7 @@ export namespace fn {
    */
   export const isNotEmpty = <T = any>(item: T[] | string): boolean => Boolean(item && item.length);
 
-  /**<!-- DOCS: fn.isEqual #### -->
+  /**<!-- DOCS: fn.isEqual #### @ -->
    * isEqual
    *
    * - `fn.isEqual`
@@ -205,7 +205,7 @@ export namespace fn {
     (other: T) =>
       Boolean(item === other);
 
-  /**<!-- DOCS: fn.isNotEqual #### -->
+  /**<!-- DOCS: fn.isNotEqual #### @ -->
    * isNotEqual
    *
    * - `fn.isNotEqual`
@@ -225,7 +225,7 @@ export namespace fn {
     (other: T) =>
       Boolean(item !== other);
 
-  /**<!-- DOCS: fn.dedupe #### -->
+  /**<!-- DOCS: fn.dedupe #### @ -->
    * dedupe
    *
    * - `fn.dedupe`
@@ -244,7 +244,7 @@ export namespace fn {
    */
   export const dedupe = <T extends unknown>(item: T, index: number, array: T[]): boolean => array.indexOf(item) === index;
 
-  /**<!-- DOCS: fn.dedupeMapped #### -->
+  /**<!-- DOCS: fn.dedupeMapped #### @ -->
    * dedupeMapped
    *
    * - `fn.dedupeMapped`
@@ -274,7 +274,7 @@ export namespace fn {
    *
    * Collection of functions that can be used with Array.map
    */
-  /**<!-- DOCS: fn.toString #### -->
+  /**<!-- DOCS: fn.toString #### @ -->
    * toString
    *
    * - `fn.toString`
@@ -291,7 +291,7 @@ export namespace fn {
    */
   export const toString = <T = any>(item: T): string => item + '';
 
-  /**<!-- DOCS: fn.toNumber #### -->
+  /**<!-- DOCS: fn.toNumber #### @ -->
    * toNumber
    *
    * - `fn.toNumber`
@@ -308,7 +308,7 @@ export namespace fn {
    */
   export const toNumber = <T = any>(item: T): number => Number(item);
 
-  /**<!-- DOCS: fn.toBool #### -->
+  /**<!-- DOCS: fn.toBool #### @ -->
    * toBool
    *
    * - `fn.toBool`
@@ -326,7 +326,7 @@ export namespace fn {
    */
   export const toBool = <T = any>(item: T): boolean => (item as any) !== 'false' && Boolean(item);
 
-  /**<!-- DOCS: fn.toProp #### -->
+  /**<!-- DOCS: fn.toProp #### @ -->
    * toProp
    *
    * - `fn.toProp`
@@ -346,7 +346,7 @@ export namespace fn {
     (item: O): P =>
       item && item[prop];
 
-  /**<!-- DOCS: fn.toFixed #### -->
+  /**<!-- DOCS: fn.toFixed #### @ -->
    * toFixed
    *
    * - `fn.toFixed`
@@ -373,7 +373,7 @@ export namespace fn {
    *
    * Collection of functions that can be used with Array.sort
    */
-  /**<!-- DOCS: fn.asc #### -->
+  /**<!-- DOCS: fn.asc #### @ -->
    * asc
    *
    * - `fn.asc`
@@ -395,7 +395,7 @@ export namespace fn {
     return 0;
   };
 
-  /**<!-- DOCS: fn.desc #### -->
+  /**<!-- DOCS: fn.desc #### @ -->
    * desc
    *
    * - `fn.desc`
@@ -419,7 +419,7 @@ export namespace fn {
 
   type SortFn<T = number> = (a: T, b: T) => number;
 
-  /**<!-- DOCS: fn.byProp #### -->
+  /**<!-- DOCS: fn.byProp #### @ -->
    * byProp
    *
    * - `fn.byProp`
@@ -440,7 +440,7 @@ export namespace fn {
     return (a: O, b: O) => sortFn(a[propName] as T, b[propName] as T);
   };
 
-  /**<!-- DOCS: fn.nearestTo #### -->
+  /**<!-- DOCS: fn.nearestTo #### @ -->
    * nearestTo
    *
    * - `fn.nearestTo`
@@ -461,7 +461,7 @@ export namespace fn {
     (a: any, b: any) =>
       Math.abs(Number(target) - Number(a)) - Math.abs(Number(target) - Number(b));
 
-  /**<!-- DOCS: fn.furthestFrom #### -->
+  /**<!-- DOCS: fn.furthestFrom #### @ -->
    * furthestFrom
    *
    * - `fn.furthestFrom`
@@ -482,7 +482,7 @@ export namespace fn {
     (a: any, b: any) =>
       Math.abs(Number(target) - Number(b)) - Math.abs(Number(target) - Number(a));
 
-  /**<!-- DOCS: fn.arrayAsc #### -->
+  /**<!-- DOCS: fn.arrayAsc #### @ -->
    * arrayAsc
    *
    * - `fn.arrayAsc`
@@ -502,7 +502,7 @@ export namespace fn {
     return 0;
   };
 
-  /**<!-- DOCS: fn.arrayDesc #### -->
+  /**<!-- DOCS: fn.arrayDesc #### @ -->
    * arrayDesc
    *
    * - `fn.arrayDesc`
@@ -530,7 +530,7 @@ export namespace fn {
    * Collection of functions that can be used with Array.reduce
    */
 
-  /**<!-- DOCS: fn.combine #### -->
+  /**<!-- DOCS: fn.combine #### @ -->
    * combine
    *
    * - `fn.combine`
@@ -549,7 +549,7 @@ export namespace fn {
    */
   export const combine = (a: any, b: any): any => a + b;
 
-  /**<!-- DOCS: fn.combineProp #### -->
+  /**<!-- DOCS: fn.combineProp #### @ -->
    * combineProp
    *
    * - `fn.combineProp`
@@ -571,7 +571,7 @@ export namespace fn {
     (a: any, b: any): any =>
       a[propName] + b[propName];
 
-  /**<!-- DOCS: fn.mode #### -->
+  /**<!-- DOCS: fn.mode #### @ -->
    * mode
    *
    * - `fn.mode`
@@ -602,7 +602,7 @@ export namespace fn {
     return unique[counts.indexOf(max)];
   };
 
-  /**<!-- DOCS: fn.modeMapped #### -->
+  /**<!-- DOCS: fn.modeMapped #### @ -->
    * modeMapped
    *
    * - `fn.modeMapped`
@@ -645,7 +645,7 @@ export namespace fn {
    * Collection of functions that can be used with Array.every
    */
 
-  /**<!-- DOCS: fn.isAllEqual #### -->
+  /**<!-- DOCS: fn.isAllEqual #### @ -->
    * isAllEqual
    *
    * - `fn.isAllEqual`

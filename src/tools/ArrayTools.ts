@@ -10,7 +10,7 @@ import { MathsTools } from './MathsTools';
 export namespace ArrayTools {
   // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
 
-  /**<!-- DOCS: ArrayTools.utils 101 ### -->
+  /**<!-- DOCS: ArrayTools.utils 101 ### @ -->
    * utils
    *
    * - `ArrayTools.utils`
@@ -20,7 +20,7 @@ export namespace ArrayTools {
   export namespace utils {
     // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
 
-    /**<!-- DOCS: ArrayTools.utils.isNumString 101 #### -->
+    /**<!-- DOCS: ArrayTools.utils.isNumString 101 #### @ -->
      * isNumString
      *
      * - `ArrayTools.utils.isNumString`
@@ -31,7 +31,7 @@ export namespace ArrayTools {
      */
     export const isNumString = (text: string) => Boolean(text.match(/^[0-9-.]+$/));
 
-    /**<!-- DOCS: ArrayTools.utils.partitionNums 101 #### -->
+    /**<!-- DOCS: ArrayTools.utils.partitionNums 101 #### @ -->
      * partitionNums
      *
      * - `ArrayTools.utils.partitionNums`
@@ -44,7 +44,7 @@ export namespace ArrayTools {
       (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => (isNumString(s) ? Number(s) : s));
   } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
-  /**<!-- DOCS: ArrayTools.create ### -->
+  /**<!-- DOCS: ArrayTools.create ### @ -->
    * create
    *
    * - `create`
@@ -63,7 +63,7 @@ export namespace ArrayTools {
   /** <!-- DOCS-ALIAS: ArrayTools.create  --> */
   export const filled = create;
 
-  /**<!-- DOCS: ArrayTools.range ### -->
+  /**<!-- DOCS: ArrayTools.range ### @ -->
    * range
    *
    * - `range`
@@ -95,7 +95,7 @@ export namespace ArrayTools {
   const zipFn = <T extends [...any[]]>(length: number, arrs: T): UnwrapArrays<T>[] =>
     range(length).map((i) => arrs.map((arr) => (arr || [])[i])) as UnwrapArrays<T>[];
 
-  /**<!-- DOCS: ArrayTools.zip ### -->
+  /**<!-- DOCS: ArrayTools.zip ### @ -->
    * zip
    *
    * - `zip`
@@ -116,7 +116,7 @@ export namespace ArrayTools {
   export const zip = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] =>
     zipFn(Math.min(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
 
-  /**<!-- DOCS: ArrayTools.zipMax ### -->
+  /**<!-- DOCS: ArrayTools.zipMax ### @ -->
    * zipMax
    *
    * - `zipMax`
@@ -137,7 +137,7 @@ export namespace ArrayTools {
   export const zipMax = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] =>
     zipFn(Math.max(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
 
-  /**<!-- DOCS: ArrayTools.sortByMapped ### -->
+  /**<!-- DOCS: ArrayTools.sortByMapped ### @ -->
    * sortByMapped
    *
    * - `sortByMapped`
@@ -167,7 +167,7 @@ export namespace ArrayTools {
       .sort((a, b) => sortFn(a[1] as M, b[1] as M))
       .map(([v]) => v);
 
-  /**<!-- DOCS: ArrayTools.randomise ### -->
+  /**<!-- DOCS: ArrayTools.randomise ### @ -->
    * randomise
    *
    * - `randomise`
@@ -187,7 +187,7 @@ export namespace ArrayTools {
    */
   export const randomise = <T = string>(arr: T[]): T[] => sortByMapped(arr, () => Math.random());
 
-  /**<!-- DOCS: ArrayTools.reverse ### -->
+  /**<!-- DOCS: ArrayTools.reverse ### @ -->
    * reverse
    *
    * - `reverse`
@@ -211,7 +211,7 @@ export namespace ArrayTools {
    */
   export const reverse = <T = string>(arr: T[]): T[] => [...arr].reverse();
 
-  /**<!-- DOCS: ArrayTools.entries ### -->
+  /**<!-- DOCS: ArrayTools.entries ### @ -->
    * entries
    *
    * - `entries`
@@ -233,7 +233,7 @@ export namespace ArrayTools {
    */
   export const entries = <T = string>(arr: T[]): [number, T][] => zip(range(arr.length), arr) as any;
 
-  /**<!-- DOCS: ArrayTools.repeat ### -->
+  /**<!-- DOCS: ArrayTools.repeat ### @ -->
    * repeat
    *
    * - `repeat`
@@ -254,7 +254,7 @@ export namespace ArrayTools {
     return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
   };
 
-  /**<!-- DOCS: ArrayTools.roll ### -->
+  /**<!-- DOCS: ArrayTools.roll ### @ -->
    * roll
    *
    * - `roll`
@@ -275,7 +275,7 @@ export namespace ArrayTools {
     ...arr.slice(0, distance % arr.length)
   ];
 
-  /**<!-- DOCS: ArrayTools.sortNumberedText ### -->
+  /**<!-- DOCS: ArrayTools.sortNumberedText ### @ -->
    * sortNumberedText
    *
    * - `sortNumberedText`
@@ -302,7 +302,7 @@ export namespace ArrayTools {
     });
   };
 
-  /**<!-- DOCS: ArrayTools.partition ### -->
+  /**<!-- DOCS: ArrayTools.partition ### @ -->
    * partition
    *
    * - `partition`
@@ -326,7 +326,7 @@ export namespace ArrayTools {
     return result;
   };
 
-  /**<!-- DOCS: ArrayTools.groupObj ### -->
+  /**<!-- DOCS: ArrayTools.groupObj ### @ -->
    * groupObj
    *
    * - `groupObj`
@@ -367,7 +367,7 @@ export namespace ArrayTools {
     return result;
   };
 
-  /**<!-- DOCS: ArrayTools.group ### -->
+  /**<!-- DOCS: ArrayTools.group ### @ -->
    * group
    *
    * - `group`

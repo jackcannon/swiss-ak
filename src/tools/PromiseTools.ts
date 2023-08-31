@@ -20,7 +20,7 @@ export namespace PromiseTools {
     reject: (value: T) => Promise<T>;
     promise: Promise<T>;
   }
-  /**<!-- DOCS: PromiseTools.getDeferred ### -->
+  /**<!-- DOCS: PromiseTools.getDeferred ### @ -->
    * getDeferred
    *
    * - `getDeferred`
@@ -66,7 +66,7 @@ export namespace PromiseTools {
     };
   };
 
-  /**<!-- DOCS: PromiseTools.all ### -->
+  /**<!-- DOCS: PromiseTools.all ### @ -->
    * all
    *
    * - `all`
@@ -80,7 +80,7 @@ export namespace PromiseTools {
     await Promise.all(promises);
   };
 
-  /**<!-- DOCS: PromiseTools.allLimit ### -->
+  /**<!-- DOCS: PromiseTools.allLimit ### @ -->
    * allLimit
    *
    * - `allLimit`
@@ -169,7 +169,7 @@ export namespace PromiseTools {
     return deferred.promise;
   };
 
-  /**<!-- DOCS: PromiseTools.each ### -->
+  /**<!-- DOCS: PromiseTools.each ### @ -->
    * each
    *
    * - `each`
@@ -196,7 +196,7 @@ export namespace PromiseTools {
     await Promise.all(items.map((item: Ti, index: number, array: Ti[]) => func(item, index, array)));
   };
 
-  /**<!-- DOCS: PromiseTools.eachLimit ### -->
+  /**<!-- DOCS: PromiseTools.eachLimit ### @ -->
    * eachLimit
    *
    * - `eachLimit`
@@ -233,7 +233,7 @@ export namespace PromiseTools {
     );
   };
 
-  /**<!-- DOCS: PromiseTools.map ### -->
+  /**<!-- DOCS: PromiseTools.map ### @ -->
    * map
    *
    * - `map`
@@ -273,7 +273,7 @@ export namespace PromiseTools {
     return result;
   };
 
-  /**<!-- DOCS: PromiseTools.mapLimit ### -->
+  /**<!-- DOCS: PromiseTools.mapLimit ### @ -->
    * mapLimit
    *
    * - `mapLimit`
@@ -321,7 +321,7 @@ export namespace PromiseTools {
 
   type UnWrapPromise<T> = T extends Promise<infer U> ? U : T;
   type UnWrapPromiseObject<T> = { [K in keyof T]: UnWrapPromise<T[K]> };
-  /**<!-- DOCS: PromiseTools.allObj ### -->
+  /**<!-- DOCS: PromiseTools.allObj ### @ -->
    * allObj
    *
    * - `allObj`
@@ -364,7 +364,7 @@ export namespace PromiseTools {
     return objectify((arr) => Promise.all(arr), input);
   };
 
-  /**<!-- DOCS: PromiseTools.allLimitObj ### -->
+  /**<!-- DOCS: PromiseTools.allLimitObj ### @ -->
    * allLimitObj
    *
    * - `allLimitObj`

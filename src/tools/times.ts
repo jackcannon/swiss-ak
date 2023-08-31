@@ -263,7 +263,7 @@ export namespace times {
    */
   export const MILLENNIUM = 1000 * YEAR;
 
-  /**<!-- DOCS: times.milliseconds ### -1 -->
+  /**<!-- DOCS: times.milliseconds ### -1 @ -->
    * milliseconds
    *
    * - `milliseconds`
@@ -282,7 +282,7 @@ export namespace times {
    */
   export const milliseconds = (x: ms = 1): ms => x;
 
-  /**<!-- DOCS: times.seconds ### -1 -->
+  /**<!-- DOCS: times.seconds ### -1 @ -->
    * seconds
    *
    * - `seconds`
@@ -301,7 +301,7 @@ export namespace times {
    */
   export const seconds = (x: second = 1): ms => x * SECOND;
 
-  /**<!-- DOCS: times.minutes ### -1 -->
+  /**<!-- DOCS: times.minutes ### -1 @ -->
    * minutes
    *
    * - `minutes`
@@ -320,7 +320,7 @@ export namespace times {
    */
   export const minutes = (x: minute = 1): ms => x * MINUTE;
 
-  /**<!-- DOCS: times.hours ### -1 -->
+  /**<!-- DOCS: times.hours ### -1 @ -->
    * hours
    *
    * - `hours`
@@ -339,7 +339,7 @@ export namespace times {
    */
   export const hours = (x: hour = 1): ms => x * HOUR;
 
-  /**<!-- DOCS: times.days ### -1 -->
+  /**<!-- DOCS: times.days ### -1 @ -->
    * days
    *
    * - `days`
@@ -358,7 +358,7 @@ export namespace times {
    */
   export const days = (x: day = 1): ms => x * DAY;
 
-  /**<!-- DOCS: times.weeks ### -1 -->
+  /**<!-- DOCS: times.weeks ### -1 @ -->
    * weeks
    *
    * - `weeks`
@@ -377,7 +377,7 @@ export namespace times {
    */
   export const weeks = (x: week = 1): ms => x * WEEK;
 
-  /**<!-- DOCS: times.months ### -1 -->
+  /**<!-- DOCS: times.months ### -1 @ -->
    * months
    *
    * - `months`
@@ -396,7 +396,7 @@ export namespace times {
    */
   export const months = (x: month = 1): ms => x * MONTH;
 
-  /**<!-- DOCS: times.years ### -1 -->
+  /**<!-- DOCS: times.years ### -1 @ -->
    * years
    *
    * - `years`
@@ -415,7 +415,7 @@ export namespace times {
    */
   export const years = (x: year = 1): ms => x * YEAR;
 
-  /**<!-- DOCS: times.decades ### -1 -->
+  /**<!-- DOCS: times.decades ### -1 @ -->
    * decades
    *
    * - `decades`
@@ -434,7 +434,7 @@ export namespace times {
    */
   export const decades = (x: decade = 1): ms => x * DECADE;
 
-  /**<!-- DOCS: times.centuries ### -1 -->
+  /**<!-- DOCS: times.centuries ### -1 @ -->
    * centuries
    *
    * - `centuries`
@@ -453,7 +453,7 @@ export namespace times {
    */
   export const centuries = (x: century = 1): ms => x * CENTURY;
 
-  /**<!-- DOCS: times.millenniums ### -1 -->
+  /**<!-- DOCS: times.millenniums ### -1 @ -->
    * millenniums
    *
    * - `millenniums`
