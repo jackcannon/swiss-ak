@@ -10,40 +10,6 @@ import { MathsTools } from './MathsTools';
 export namespace ArrayTools {
   // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
 
-  /**<!-- DOCS: ArrayTools.utils 101 ### @ -->
-   * utils
-   *
-   * - `ArrayTools.utils`
-   *
-   * Small helper functions that may help, but aren't important enough to be in ArrayTools directly
-   */
-  export namespace utils {
-    // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
-
-    /**<!-- DOCS: ArrayTools.utils.isNumString 101 #### @ -->
-     * isNumString
-     *
-     * - `ArrayTools.utils.isNumString`
-     *
-     * Returns true if the given string is a number
-     * @param {string} text
-     * @returns {boolean}
-     */
-    export const isNumString = (text: string) => Boolean(text.match(/^[0-9-.]+$/));
-
-    /**<!-- DOCS: ArrayTools.utils.partitionNums 101 #### @ -->
-     * partitionNums
-     *
-     * - `ArrayTools.utils.partitionNums`
-     *
-     * Splits a string into an array of strings and numbers
-     * @param {boolean} ignoreCase
-     * @returns {(name: string) => (string | number)[]}
-     */
-    export const partitionNums = (ignoreCase: boolean) => (name: string) =>
-      (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => (isNumString(s) ? Number(s) : s));
-  } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
-
   /**<!-- DOCS: ArrayTools.create ### @ -->
    * create
    *
@@ -394,6 +360,40 @@ export namespace ArrayTools {
     const obj = groupObj(array, mapFn);
     return Object.values(obj);
   };
+
+  /**<!-- DOCS: ArrayTools.utils ### @ -->
+   * utils
+   *
+   * - `ArrayTools.utils`
+   *
+   * Small helper functions that may help, but aren't important enough to be in ArrayTools directly
+   */
+  export namespace utils {
+    // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
+    /**<!-- DOCS: ArrayTools.utils.isNumString #### @ -->
+     * isNumString
+     *
+     * - `ArrayTools.utils.isNumString`
+     *
+     * Returns true if the given string is a number
+     * @param {string} text
+     * @returns {boolean}
+     */
+    export const isNumString = (text: string) => Boolean(text.match(/^[0-9-.]+$/));
+
+    /**<!-- DOCS: ArrayTools.utils.partitionNums #### @ -->
+     * partitionNums
+     *
+     * - `ArrayTools.utils.partitionNums`
+     *
+     * Splits a string into an array of strings and numbers
+     * @param {boolean} ignoreCase
+     * @returns {(name: string) => (string | number)[]}
+     */
+    export const partitionNums = (ignoreCase: boolean) => (name: string) =>
+      (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => (isNumString(s) ? Number(s) : s));
+  } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: ArrayTools.create  --> */

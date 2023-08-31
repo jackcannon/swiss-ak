@@ -2670,35 +2670,6 @@ declare const getProgressBar: (max: number, options?: ProgressBarOptions) => Pro
  * A collection of useful array functions.
  */
 declare namespace ArrayTools {
-    /**<!-- DOCS: ArrayTools.utils 101 ### @ -->
-     * utils
-     *
-     * - `ArrayTools.utils`
-     *
-     * Small helper functions that may help, but aren't important enough to be in ArrayTools directly
-     */
-    export namespace utils {
-        /**<!-- DOCS: ArrayTools.utils.isNumString 101 #### @ -->
-         * isNumString
-         *
-         * - `ArrayTools.utils.isNumString`
-         *
-         * Returns true if the given string is a number
-         * @param {string} text
-         * @returns {boolean}
-         */
-        const isNumString: (text: string) => boolean;
-        /**<!-- DOCS: ArrayTools.utils.partitionNums 101 #### @ -->
-         * partitionNums
-         *
-         * - `ArrayTools.utils.partitionNums`
-         *
-         * Splits a string into an array of strings and numbers
-         * @param {boolean} ignoreCase
-         * @returns {(name: string) => (string | number)[]}
-         */
-        const partitionNums: (ignoreCase: boolean) => (name: string) => (string | number)[];
-    }
     /**<!-- DOCS: ArrayTools.create ### @ -->
      * create
      *
@@ -2995,6 +2966,35 @@ declare namespace ArrayTools {
      * @returns {T[][]}
      */
     export const group: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
+    /**<!-- DOCS: ArrayTools.utils ### @ -->
+     * utils
+     *
+     * - `ArrayTools.utils`
+     *
+     * Small helper functions that may help, but aren't important enough to be in ArrayTools directly
+     */
+    export namespace utils {
+        /**<!-- DOCS: ArrayTools.utils.isNumString #### @ -->
+         * isNumString
+         *
+         * - `ArrayTools.utils.isNumString`
+         *
+         * Returns true if the given string is a number
+         * @param {string} text
+         * @returns {boolean}
+         */
+        const isNumString: (text: string) => boolean;
+        /**<!-- DOCS: ArrayTools.utils.partitionNums #### @ -->
+         * partitionNums
+         *
+         * - `ArrayTools.utils.partitionNums`
+         *
+         * Splits a string into an array of strings and numbers
+         * @param {boolean} ignoreCase
+         * @returns {(name: string) => (string | number)[]}
+         */
+        const partitionNums: (ignoreCase: boolean) => (name: string) => (string | number)[];
+    }
     export {};
 }
 /**<!-- DOCS-ALIAS: ArrayTools.create -->

@@ -94,11 +94,6 @@ var interval = waiters.interval;
 // src/tools/ArrayTools.ts
 var ArrayTools;
 ((ArrayTools2) => {
-  let utils;
-  ((utils2) => {
-    utils2.isNumString = (text) => Boolean(text.match(/^[0-9-.]+$/));
-    utils2.partitionNums = (ignoreCase) => (name) => (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => utils2.isNumString(s) ? Number(s) : s);
-  })(utils = ArrayTools2.utils || (ArrayTools2.utils = {}));
   ArrayTools2.create = (length = 1, value = 1) => new Array(Math.floor(Math.max(0, length))).fill(value);
   ArrayTools2.filled = ArrayTools2.create;
   ArrayTools2.range = (length = 1, multiplier = 1, offset = 0) => ArrayTools2.create(length, 1).map((v, i) => MathsTools.fixFloat(i * multiplier) + offset);
@@ -151,6 +146,11 @@ var ArrayTools;
     const obj = ArrayTools2.groupObj(array, mapFn);
     return Object.values(obj);
   };
+  let utils;
+  ((utils2) => {
+    utils2.isNumString = (text) => Boolean(text.match(/^[0-9-.]+$/));
+    utils2.partitionNums = (ignoreCase) => (name) => (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => utils2.isNumString(s) ? Number(s) : s);
+  })(utils = ArrayTools2.utils || (ArrayTools2.utils = {}));
 })(ArrayTools || (ArrayTools = {}));
 var create = ArrayTools.create;
 var filled = ArrayTools.create;
