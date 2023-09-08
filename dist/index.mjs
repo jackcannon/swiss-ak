@@ -106,6 +106,8 @@ var safe;
       result = min;
     if (max !== void 0 && result > max)
       result = max;
+    if (Math.abs(result) === Infinity)
+      result = fallback;
     return result;
   };
   safe2.str = (input, allowBasicStringify = false, fallback = "") => {
@@ -134,18 +136,11 @@ var safe;
       result = fallback;
     return result;
   };
-  safe2.arr = (input, fallback = []) => {
+  safe2.func = (input, fallback = () => {
+  }) => {
     let result = input;
-    if (result === void 0 || result === null)
+    if (typeof result !== "function" || result === void 0 || result === null)
       result = fallback;
-    if (!Array.isArray(result)) {
-      const frommed = Array.from(result);
-      if (Array.isArray(frommed)) {
-        result = frommed;
-      } else {
-        result = fallback;
-      }
-    }
     return result;
   };
   safe2.obj = (input, fallback = {}) => {
@@ -154,38 +149,45 @@ var safe;
       result = fallback;
     return result;
   };
-  safe2.func = (input, fallback = () => {
-  }) => {
+  safe2.arr = (input, fallback = []) => {
     let result = input;
-    if (typeof result !== "function" || result === void 0 || result === null)
+    if (result === void 0 || result === null)
       result = fallback;
+    if (!Array.isArray(result)) {
+      const frommed = Array.from(result);
+      if (!["string", "number", "boolean", "bigint", "symbol"].includes(typeof result) && Array.isArray(frommed) && frommed.length) {
+        result = frommed;
+      } else {
+        result = fallback;
+      }
+    }
     return result;
   };
   let arrOf;
   ((arrOf2) => {
-    arrOf2.num = (input, isInt = false, min, max, fallback = []) => {
-      const result = safe2.arr(input, fallback);
-      return result.map((item) => safe2.num(item, isInt, min, max));
+    arrOf2.num = (input, isInt = false, min, max, fallback, fallbackArr = []) => {
+      const result = safe2.arr(input, fallbackArr);
+      return result.map((item) => safe2.num(item, isInt, min, max, fallback));
     };
-    arrOf2.str = (input, allowStringify = false, fallback = []) => {
-      const result = safe2.arr(input, fallback);
-      return result.map((item) => safe2.str(item, allowStringify));
+    arrOf2.str = (input, allowStringify = false, fallback, fallbackArr = []) => {
+      const result = safe2.arr(input, fallbackArr);
+      return result.map((item) => safe2.str(item, allowStringify, fallback));
     };
-    arrOf2.bool = (input, fallback = []) => {
-      const result = safe2.arr(input, fallback);
-      return result.map((item) => safe2.bool(item));
+    arrOf2.bool = (input, fallback, fallbackArr = []) => {
+      const result = safe2.arr(input, fallbackArr);
+      return result.map((item) => safe2.bool(item, fallback));
     };
-    arrOf2.arr = (input, fallback = []) => {
-      const result = safe2.arr(input, fallback);
-      return result.map((item) => safe2.arr(item));
+    arrOf2.func = (input, fallback, fallbackArr = []) => {
+      const result = safe2.arr(input, fallbackArr);
+      return result.map((item) => safe2.func(item, fallback));
     };
-    arrOf2.obj = (input, fallback = []) => {
-      const result = safe2.arr(input, fallback);
-      return result.map((item) => safe2.obj(item));
+    arrOf2.obj = (input, fallback, fallbackArr = []) => {
+      const result = safe2.arr(input, fallbackArr);
+      return result.map((item) => safe2.obj(item, fallback));
     };
-    arrOf2.func = (input, fallback = []) => {
-      const result = safe2.arr(input, fallback);
-      return result.map((item) => safe2.func(item));
+    arrOf2.arr = (input, fallback, fallbackArr = []) => {
+      const result = safe2.arr(input, fallbackArr);
+      return result.map((item) => safe2.arr(item, fallback));
     };
   })(arrOf = safe2.arrOf || (safe2.arrOf = {}));
 })(safe || (safe = {}));
@@ -1766,6 +1768,7 @@ export {
   retryOr,
   reverse,
   roll,
+  safe,
   seconds,
   sortByMapped,
   sortNumberedText,

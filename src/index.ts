@@ -14,3 +14,4 @@ export * from './tools/ColourTools';
 export * from './tools/TimeTools';
 export * from './tools/symbols';
 export * from './tools/queue';
+export * from './tools/safe';
