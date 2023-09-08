@@ -197,29 +197,174 @@ var waitEvery = waiters.waitEvery;
 var stopInterval = waiters.stopInterval;
 var interval = waiters.interval;
 
+// src/tools/safe.ts
+var safe;
+((safe2) => {
+  safe2.num = (input, isInt = false, min, max, fallback = 0) => {
+    let result = input;
+    if (typeof result !== "number" || result === void 0 || result === null)
+      result = fallback;
+    if (Number.isNaN(result))
+      result = fallback;
+    if (isInt)
+      result = Math.floor(result);
+    if (min !== void 0 && result < min)
+      result = min;
+    if (max !== void 0 && result > max)
+      result = max;
+    return result;
+  };
+  safe2.str = (input, allowBasicStringify = false, fallback = "") => {
+    var _a;
+    let result = input;
+    if (result === void 0 || result === null)
+      result = fallback;
+    if (typeof result !== "string") {
+      if (allowBasicStringify) {
+        if (["number", "boolean", "bigint"].includes(typeof result)) {
+          result = result + "";
+        } else if (["symbol"].includes(typeof result)) {
+          result = (_a = result.toString) == null ? void 0 : _a.call(result);
+        } else {
+          result = fallback;
+        }
+      } else {
+        result = fallback;
+      }
+    }
+    return result;
+  };
+  safe2.bool = (input, fallback = false) => {
+    let result = input;
+    if (typeof result !== "boolean" || result === void 0 || result === null)
+      result = fallback;
+    return result;
+  };
+  safe2.arr = (input, fallback = []) => {
+    let result = input;
+    if (result === void 0 || result === null)
+      result = fallback;
+    if (!Array.isArray(result)) {
+      const frommed = Array.from(result);
+      if (Array.isArray(frommed)) {
+        result = frommed;
+      } else {
+        result = fallback;
+      }
+    }
+    return result;
+  };
+  safe2.obj = (input, fallback = {}) => {
+    let result = input;
+    if (typeof result !== "object" || result === void 0 || result === null)
+      result = fallback;
+    return result;
+  };
+  safe2.func = (input, fallback = () => {
+  }) => {
+    let result = input;
+    if (typeof result !== "function" || result === void 0 || result === null)
+      result = fallback;
+    return result;
+  };
+  let arrOf;
+  ((arrOf2) => {
+    arrOf2.num = (input, isInt = false, min, max, fallback = []) => {
+      const result = safe2.arr(input, fallback);
+      return result.map((item) => safe2.num(item, isInt, min, max));
+    };
+    arrOf2.str = (input, allowStringify = false, fallback = []) => {
+      const result = safe2.arr(input, fallback);
+      return result.map((item) => safe2.str(item, allowStringify));
+    };
+    arrOf2.bool = (input, fallback = []) => {
+      const result = safe2.arr(input, fallback);
+      return result.map((item) => safe2.bool(item));
+    };
+    arrOf2.arr = (input, fallback = []) => {
+      const result = safe2.arr(input, fallback);
+      return result.map((item) => safe2.arr(item));
+    };
+    arrOf2.obj = (input, fallback = []) => {
+      const result = safe2.arr(input, fallback);
+      return result.map((item) => safe2.obj(item));
+    };
+    arrOf2.func = (input, fallback = []) => {
+      const result = safe2.arr(input, fallback);
+      return result.map((item) => safe2.func(item));
+    };
+  })(arrOf = safe2.arrOf || (safe2.arrOf = {}));
+})(safe || (safe = {}));
+
 // src/tools/ArrayTools.ts
 var ArrayTools;
 ((ArrayTools2) => {
-  ArrayTools2.create = (length = 1, value = 1) => new Array(Math.floor(Math.max(0, length))).fill(value);
-  ArrayTools2.filled = ArrayTools2.create;
-  ArrayTools2.range = (length = 1, multiplier = 1, offset = 0) => ArrayTools2.create(length, 1).map((v, i) => MathsTools.fixFloat(i * multiplier) + offset);
-  const zipFn = (length, arrs) => ArrayTools2.range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
-  ArrayTools2.zip = (...arrs) => zipFn(Math.min(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
-  ArrayTools2.zipMax = (...arrs) => zipFn(Math.max(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
-  ArrayTools2.sortByMapped = (arr, mapFn, sortFn = fn.asc) => ArrayTools2.zip(arr, arr.map(mapFn)).sort((a, b) => sortFn(a[1], b[1])).map(([v]) => v);
-  ArrayTools2.randomise = (arr) => ArrayTools2.sortByMapped(arr, () => Math.random());
-  ArrayTools2.reverse = (arr) => [...arr].reverse();
-  ArrayTools2.entries = (arr) => ArrayTools2.zip(ArrayTools2.range(arr.length), arr);
-  ArrayTools2.repeat = (maxLength, ...items) => {
-    const simple = ArrayTools2.create(maxLength, items[0]);
-    return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
+  ArrayTools2.create = (length = 1, value = 1) => {
+    const args = {
+      length: safe.num(length, true, 0),
+      value
+    };
+    return new Array(args.length).fill(args.value);
   };
-  ArrayTools2.roll = (distance, arr) => [
-    ...arr.slice(distance % arr.length),
-    ...arr.slice(0, distance % arr.length)
-  ];
+  ArrayTools2.filled = ArrayTools2.create;
+  ArrayTools2.range = (length = 1, multiplier = 1, offset = 0) => {
+    const args = {
+      length: safe.num(length, true, 0),
+      multiplier: safe.num(multiplier),
+      offset: safe.num(offset)
+    };
+    return ArrayTools2.create(length, 1).map((v, i) => MathsTools.fixFloat(i * args.multiplier) + args.offset);
+  };
+  const zipFn = (length, arrs) => ArrayTools2.range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
+  ArrayTools2.zip = (...arrs) => {
+    const input = safe.arrOf.arr(arrs);
+    return zipFn(Math.min(...(input.length ? input : [[]]).map((arr) => (arr || []).length)), input);
+  };
+  ArrayTools2.zipMax = (...arrs) => {
+    const input = safe.arr(arrs).map((arr) => safe.arr(arr));
+    return zipFn(Math.max(...(input.length ? input : [[]]).map((arr) => (arr || []).length)), input);
+  };
+  ArrayTools2.sortByMapped = (arr, mapFn, sortFn = fn.asc) => {
+    const args = {
+      arr: safe.arr(arr),
+      mapFn: safe.func(mapFn, fn.noact),
+      sortFn: safe.func(sortFn, fn.asc)
+    };
+    return ArrayTools2.zip(args.arr, args.arr.map(args.mapFn)).sort((a, b) => args.sortFn(a[1], b[1])).map(([v]) => v);
+  };
+  ArrayTools2.randomise = (arr) => {
+    const input = safe.arr(arr);
+    return ArrayTools2.sortByMapped(input, () => Math.random());
+  };
+  ArrayTools2.reverse = (arr) => {
+    const input = safe.arr(arr);
+    return [...input].reverse();
+  };
+  ArrayTools2.entries = (arr) => {
+    const input = safe.arr(arr);
+    return ArrayTools2.zip(ArrayTools2.range(input.length), input);
+  };
+  ArrayTools2.repeat = (maxLength, ...items) => {
+    const args = {
+      maxLength: safe.num(maxLength, true, 0),
+      items: safe.arr(items)
+    };
+    const simple = ArrayTools2.create(args.maxLength, args.items[0]);
+    return args.items.length === 1 ? simple : simple.map((v, i) => args.items[i % args.items.length]);
+  };
+  ArrayTools2.roll = (distance, arr) => {
+    const args = {
+      distance: safe.num(distance, true),
+      arr: safe.arr(arr)
+    };
+    return [...args.arr.slice(args.distance % args.arr.length), ...args.arr.slice(0, args.distance % args.arr.length)];
+  };
   ArrayTools2.sortNumberedText = (texts, ignoreCase = true) => {
-    return ArrayTools2.sortByMapped(texts, utils.partitionNums(ignoreCase), (a, b) => {
+    const args = {
+      texts: safe.arrOf.str(texts),
+      ignoreCase: safe.bool(ignoreCase)
+    };
+    return ArrayTools2.sortByMapped(args.texts, utils.partitionNums(args.ignoreCase), (a, b) => {
       for (let i in a) {
         const result = fn.asc(a[i], b[i]);
         if (result !== 0)
@@ -229,17 +374,25 @@ var ArrayTools;
     });
   };
   ArrayTools2.partition = (array, partitionSize = Math.ceil(array.length / 2)) => {
-    const numParts = Math.ceil(array.length / partitionSize);
+    const args = {
+      array: safe.arr(array),
+      partitionSize: safe.num(partitionSize, true, 1)
+    };
+    const numParts = Math.ceil(args.array.length / args.partitionSize);
     const result = [];
     for (let i = 0; i < numParts; i++) {
-      result.push(array.slice(i * partitionSize, (i + 1) * partitionSize));
+      result.push(args.array.slice(i * args.partitionSize, (i + 1) * args.partitionSize));
     }
     return result;
   };
   ArrayTools2.groupObj = (array, mapFn) => {
+    const args = {
+      array: safe.arr(array),
+      mapFn: safe.func(mapFn, fn.noact)
+    };
     const result = {};
-    array.forEach((item, index) => {
-      const key = mapFn(item, index, array);
+    args.array.forEach((item, index) => {
+      const key = args.mapFn(item, index, args.array);
       if (key === void 0)
         return;
       if (!result[key])
@@ -249,33 +402,64 @@ var ArrayTools;
     return result;
   };
   ArrayTools2.group = (array, mapFn) => {
-    const obj = ArrayTools2.groupObj(array, mapFn);
+    const args = {
+      array: safe.arr(array),
+      mapFn: safe.func(mapFn, fn.noact)
+    };
+    const obj = ArrayTools2.groupObj(args.array, args.mapFn);
     return Object.values(obj);
   };
   ArrayTools2.findAndRemove = (array, predicate, ...insertItems) => {
-    const index = array.findIndex(predicate);
+    const args = {
+      array: safe.arr(array),
+      predicate: safe.func(predicate, () => false),
+      insertItems: safe.arr(insertItems)
+    };
+    const index = args.array.findIndex(args.predicate);
     if (index === -1)
       return void 0;
-    return array.splice(index, 1, ...insertItems)[0];
+    return args.array.splice(index, 1, ...args.insertItems)[0];
   };
   ArrayTools2.findLastAndRemove = (array, predicate, ...insertItems) => {
-    const reverseIndex = ArrayTools2.reverse(array).findIndex(predicate);
-    const index = reverseIndex === -1 ? -1 : array.length - 1 - reverseIndex;
+    const args = {
+      array: safe.arr(array),
+      predicate: safe.func(predicate, () => false),
+      insertItems: safe.arr(insertItems)
+    };
+    const reverseIndex = ArrayTools2.reverse(args.array).findIndex(args.predicate);
+    const index = reverseIndex === -1 ? -1 : args.array.length - 1 - reverseIndex;
     if (index === -1)
       return void 0;
-    return array.splice(index, 1, ...insertItems)[0];
+    return args.array.splice(index, 1, ...args.insertItems)[0];
   };
   ArrayTools2.filterAndRemove = (array, predicate) => {
-    const result = array.filter(predicate);
+    const args = {
+      array: safe.arr(array),
+      predicate: safe.func(predicate, () => false)
+    };
+    const result = args.array.filter(args.predicate);
     result.forEach((item) => {
-      ArrayTools2.findAndRemove(array, (i) => i === item);
+      ArrayTools2.findAndRemove(args.array, (i) => i === item);
     });
     return result;
   };
   let utils;
   ((utils2) => {
-    utils2.isNumString = (text) => Boolean(text.match(/^[0-9-.]+$/));
-    utils2.partitionNums = (ignoreCase) => (name) => (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => utils2.isNumString(s) ? Number(s) : s);
+    utils2.isNumString = (text) => {
+      const input = safe.str(text);
+      return Boolean(input.match(/^[0-9-.]+$/));
+    };
+    utils2.partitionNums = (ignoreCase) => {
+      const ignoreCaseSafe = safe.bool(ignoreCase);
+      return (name) => {
+        const args = {
+          ignoreCase: ignoreCaseSafe,
+          name: safe.str(name, true)
+        };
+        const baseStr = args.ignoreCase ? args.name.toLowerCase() : args.name;
+        return baseStr.split(/([0-9]+)/).map((s) => utils2.isNumString(s) ? Number(s) : s).filter((s) => s !== "");
+      };
+    };
   })(utils = ArrayTools2.utils || (ArrayTools2.utils = {}));
 })(ArrayTools || (ArrayTools = {}));
 var create = ArrayTools.create;

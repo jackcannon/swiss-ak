@@ -1,5 +1,6 @@
 import { fn } from './fn';
 import { MathsTools } from './MathsTools';
+import { safe } from './safe';
 
 //<!-- DOCS: 100 -->
 /**<!-- DOCS: ArrayTools ##! -->
@@ -23,8 +24,14 @@ export namespace ArrayTools {
    * @param {T} [value=1 as T]
    * @returns {T[]}
    */
-  export const create = <T extends unknown = number>(length: number = 1, value: T = 1 as T): T[] =>
-    new Array(Math.floor(Math.max(0, length))).fill(value);
+  export const create = <T extends unknown = number>(length: number = 1, value: T = 1 as T): T[] => {
+    const args = {
+      length: safe.num(length, true, 0),
+      value: value
+    };
+
+    return new Array(args.length).fill(args.value);
+  };
 
   /** <!-- DOCS-ALIAS: ArrayTools.create  --> */
   export const filled = create;
@@ -52,14 +59,20 @@ export namespace ArrayTools {
    * @param {number} [offset=0]
    * @returns {number[]}
    */
-  export const range = (length: number = 1, multiplier: number = 1, offset: number = 0): number[] =>
-    create(length, 1).map((v, i) => MathsTools.fixFloat(i * multiplier) + offset);
+  export const range = (length: number = 1, multiplier: number = 1, offset: number = 0): number[] => {
+    const args = {
+      length: safe.num(length, true, 0),
+      multiplier: safe.num(multiplier),
+      offset: safe.num(offset)
+    };
+    return create(length, 1).map((v, i) => MathsTools.fixFloat(i * args.multiplier) + args.offset);
+  };
 
   type UnwrapArray<T> = T extends Array<infer U> ? U : T;
-  type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];
+  type ZippedArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...ZippedArrays<Tail>] : [];
 
-  const zipFn = <T extends [...any[]]>(length: number, arrs: T): UnwrapArrays<T>[] =>
-    range(length).map((i) => arrs.map((arr) => (arr || [])[i])) as UnwrapArrays<T>[];
+  const zipFn = <T extends [...any[]]>(length: number, arrs: T): ZippedArrays<T>[] =>
+    range(length).map((i) => arrs.map((arr) => (arr || [])[i])) as ZippedArrays<T>[];
 
   /**<!-- DOCS: ArrayTools.zip ### @ -->
    * zip
@@ -77,10 +90,12 @@ export namespace ArrayTools {
    * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
    * ```
    * @param {...T} [arrs]
-   * @returns {UnwrapArrays<T>[]}
+   * @returns {ZippedArrays<T>[]}
    */
-  export const zip = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] =>
-    zipFn(Math.min(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
+  export const zip = <T extends [...any[]]>(...arrs: T): ZippedArrays<T>[] => {
+    const input = safe.arrOf.arr(arrs) as T;
+    return zipFn(Math.min(...(input.length ? input : [[]]).map((arr) => (arr || []).length)), input);
+  };
 
   /**<!-- DOCS: ArrayTools.zipMax ### @ -->
    * zipMax
@@ -98,10 +113,12 @@ export namespace ArrayTools {
    * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
    * ```
    * @param {...T} [arrs]
-   * @returns {UnwrapArrays<T>[]}
+   * @returns {ZippedArrays<T>[]}
    */
-  export const zipMax = <T extends [...any[]]>(...arrs: T): UnwrapArrays<T>[] =>
-    zipFn(Math.max(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
+  export const zipMax = <T extends [...any[]]>(...arrs: T): ZippedArrays<T>[] => {
+    const input = safe.arr(arrs).map((arr) => safe.arr(arr)) as T;
+    return zipFn(Math.max(...(input.length ? input : [[]]).map((arr) => (arr || []).length)), input);
+  };
 
   /**<!-- DOCS: ArrayTools.sortByMapped ### @ -->
    * sortByMapped
@@ -128,10 +145,16 @@ export namespace ArrayTools {
     arr: T[],
     mapFn: (value: T, index: number, array: T[]) => M,
     sortFn: (a: M, b: M) => number = fn.asc
-  ): T[] =>
-    zip(arr, arr.map(mapFn))
-      .sort((a, b) => sortFn(a[1] as M, b[1] as M))
+  ): T[] => {
+    const args = {
+      arr: safe.arr(arr),
+      mapFn: safe.func(mapFn, fn.noact as () => M),
+      sortFn: safe.func(sortFn, fn.asc)
+    };
+    return zip(args.arr, args.arr.map(args.mapFn))
+      .sort((a, b) => args.sortFn(a[1] as M, b[1] as M))
       .map(([v]) => v);
+  };
 
   /**<!-- DOCS: ArrayTools.randomise ### @ -->
    * randomise
@@ -151,7 +174,10 @@ export namespace ArrayTools {
    * @param {T[]} arr
    * @returns {T[]}
    */
-  export const randomise = <T = string>(arr: T[]): T[] => sortByMapped(arr, () => Math.random());
+  export const randomise = <T = string>(arr: T[]): T[] => {
+    const input = safe.arr(arr);
+    return sortByMapped(input, () => Math.random());
+  };
 
   /**<!-- DOCS: ArrayTools.reverse ### @ -->
    * reverse
@@ -175,7 +201,10 @@ export namespace ArrayTools {
    * @param {T[]} arr
    * @returns {T[]}
    */
-  export const reverse = <T = string>(arr: T[]): T[] => [...arr].reverse();
+  export const reverse = <T = string>(arr: T[]): T[] => {
+    const input = safe.arr(arr);
+    return [...input].reverse();
+  };
 
   /**<!-- DOCS: ArrayTools.entries ### @ -->
    * entries
@@ -197,7 +226,10 @@ export namespace ArrayTools {
    * @param {T[]} arr
    * @returns {[number, T][]}
    */
-  export const entries = <T = string>(arr: T[]): [number, T][] => zip(range(arr.length), arr) as any;
+  export const entries = <T = string>(arr: T[]): [number, T][] => {
+    const input = safe.arr(arr);
+    return zip(range(input.length), input) as any;
+  };
 
   /**<!-- DOCS: ArrayTools.repeat ### @ -->
    * repeat
@@ -216,8 +248,12 @@ export namespace ArrayTools {
    * @returns {T[]}
    */
   export const repeat = <T = string>(maxLength: number, ...items: T[]): T[] => {
-    const simple = create(maxLength, items[0]);
-    return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
+    const args = {
+      maxLength: safe.num(maxLength, true, 0),
+      items: safe.arr(items)
+    };
+    const simple = create(args.maxLength, args.items[0]);
+    return args.items.length === 1 ? simple : simple.map((v, i) => args.items[i % args.items.length]);
   };
 
   /**<!-- DOCS: ArrayTools.roll ### @ -->
@@ -236,10 +272,13 @@ export namespace ArrayTools {
    * @param {T[]} arr
    * @returns {T[]}
    */
-  export const roll = <T extends unknown>(distance: number, arr: T[]): T[] => [
-    ...arr.slice(distance % arr.length),
-    ...arr.slice(0, distance % arr.length)
-  ];
+  export const roll = <T extends unknown>(distance: number, arr: T[]): T[] => {
+    const args = {
+      distance: safe.num(distance, true),
+      arr: safe.arr(arr)
+    };
+    return [...args.arr.slice(args.distance % args.arr.length), ...args.arr.slice(0, args.distance % args.arr.length)];
+  };
 
   /**<!-- DOCS: ArrayTools.sortNumberedText ### @ -->
    * sortNumberedText
@@ -259,7 +298,11 @@ export namespace ArrayTools {
    * @returns {string[]}
    */
   export const sortNumberedText = (texts: string[], ignoreCase: boolean = true): string[] => {
-    return sortByMapped(texts, utils.partitionNums(ignoreCase), (a, b) => {
+    const args = {
+      texts: safe.arrOf.str(texts),
+      ignoreCase: safe.bool(ignoreCase)
+    };
+    return sortByMapped(args.texts, utils.partitionNums(args.ignoreCase), (a, b) => {
       for (let i in a) {
         const result = fn.asc(a[i], b[i]);
         if (result !== 0) return result;
@@ -284,10 +327,14 @@ export namespace ArrayTools {
    * @returns {T[][]}
    */
   export const partition = <T extends unknown>(array: T[], partitionSize: number = Math.ceil(array.length / 2)): T[][] => {
-    const numParts = Math.ceil(array.length / partitionSize);
+    const args = {
+      array: safe.arr(array),
+      partitionSize: safe.num(partitionSize, true, 1)
+    };
+    const numParts = Math.ceil(args.array.length / args.partitionSize);
     const result: T[][] = [];
     for (let i = 0; i < numParts; i++) {
-      result.push(array.slice(i * partitionSize, (i + 1) * partitionSize));
+      result.push(args.array.slice(i * args.partitionSize, (i + 1) * args.partitionSize));
     }
     return result;
   };
@@ -306,7 +353,7 @@ export namespace ArrayTools {
    *   { group: 2, name: 'b' },
    *   { group: 1, name: 'c' },
    * ];
-   * ArrayTools.groupObj(arr, item => item.id); // {
+   * ArrayTools.groupObj(arr, item => item.group); // {
    * //   1: [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
    * //   2: [ { group: 2, name: 'b' } ]
    * // }
@@ -319,10 +366,15 @@ export namespace ArrayTools {
     array: T[],
     mapFn: (item: T, index: number, arr: T[]) => string | number
   ): { [id: string | number]: T[] } => {
+    const args = {
+      array: safe.arr(array),
+      mapFn: safe.func(mapFn, fn.noact as () => string | number)
+    };
+
     const result: { [id: string | number]: T[] } = {};
 
-    array.forEach((item, index) => {
-      const key = mapFn(item, index, array);
+    args.array.forEach((item, index) => {
+      const key = args.mapFn(item, index, args.array);
 
       if (key === undefined) return;
 
@@ -347,7 +399,7 @@ export namespace ArrayTools {
    *   { group: 2, name: 'b' },
    *   { group: 1, name: 'c' },
    * ];
-   * ArrayTools.groupObj(arr, item => item.id); // [
+   * ArrayTools.group(arr, item => item.group); // [
    * //   [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
    * //   [ { group: 2, name: 'b' } ]
    * // ]
@@ -357,7 +409,11 @@ export namespace ArrayTools {
    * @returns {T[][]}
    */
   export const group = <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): T[][] => {
-    const obj = groupObj(array, mapFn);
+    const args = {
+      array: safe.arr(array),
+      mapFn: safe.func(mapFn, fn.noact as () => string | number)
+    };
+    const obj = groupObj(args.array, args.mapFn);
     return Object.values(obj);
   };
 
@@ -379,9 +435,14 @@ export namespace ArrayTools {
     predicate: (item: T, index: number, arr: T[]) => any,
     ...insertItems: T[]
   ): T | undefined => {
-    const index = array.findIndex(predicate);
+    const args = {
+      array: safe.arr(array),
+      predicate: safe.func(predicate, () => false),
+      insertItems: safe.arr(insertItems)
+    };
+    const index = args.array.findIndex(args.predicate);
     if (index === -1) return undefined;
-    return array.splice(index, 1, ...insertItems)[0];
+    return args.array.splice(index, 1, ...args.insertItems)[0];
   };
 
   /**<!-- DOCS: ArrayTools.findLastAndRemove ### @ -->
@@ -402,10 +463,15 @@ export namespace ArrayTools {
     predicate: (item: T, index: number, arr: T[]) => any,
     ...insertItems: T[]
   ): T | undefined => {
-    const reverseIndex = ArrayTools.reverse(array).findIndex(predicate);
-    const index = reverseIndex === -1 ? -1 : array.length - 1 - reverseIndex;
+    const args = {
+      array: safe.arr(array),
+      predicate: safe.func(predicate, () => false),
+      insertItems: safe.arr(insertItems)
+    };
+    const reverseIndex = ArrayTools.reverse(args.array).findIndex(args.predicate);
+    const index = reverseIndex === -1 ? -1 : args.array.length - 1 - reverseIndex;
     if (index === -1) return undefined;
-    return array.splice(index, 1, ...insertItems)[0];
+    return args.array.splice(index, 1, ...args.insertItems)[0];
   };
 
   /**<!-- DOCS: ArrayTools.filterAndRemove ### @ -->
@@ -421,9 +487,13 @@ export namespace ArrayTools {
    * @returns {T[]} the removed items
    */
   export const filterAndRemove = <T extends unknown>(array: T[], predicate: (item: T, index: number, arr: T[]) => any): T[] => {
-    const result = array.filter(predicate);
+    const args = {
+      array: safe.arr(array),
+      predicate: safe.func(predicate, () => false)
+    };
+    const result = args.array.filter(args.predicate);
     result.forEach((item) => {
-      findAndRemove(array, (i) => i === item);
+      findAndRemove(args.array, (i) => i === item);
     });
     return result;
   };
@@ -447,7 +517,10 @@ export namespace ArrayTools {
      * @param {string} text
      * @returns {boolean}
      */
-    export const isNumString = (text: string) => Boolean(text.match(/^[0-9-.]+$/));
+    export const isNumString = (text: string) => {
+      const input = safe.str(text);
+      return Boolean(input.match(/^[0-9-.]+$/));
+    };
 
     /**<!-- DOCS: ArrayTools.utils.partitionNums #### @ -->
      * partitionNums
@@ -458,8 +531,20 @@ export namespace ArrayTools {
      * @param {boolean} ignoreCase
      * @returns {(name: string) => (string | number)[]}
      */
-    export const partitionNums = (ignoreCase: boolean) => (name: string) =>
-      (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => (isNumString(s) ? Number(s) : s));
+    export const partitionNums = (ignoreCase: boolean) => {
+      const ignoreCaseSafe = safe.bool(ignoreCase);
+      return (name: string) => {
+        const args = {
+          ignoreCase: ignoreCaseSafe,
+          name: safe.str(name, true)
+        };
+        const baseStr = args.ignoreCase ? args.name.toLowerCase() : args.name;
+        return baseStr
+          .split(/([0-9]+)/)
+          .map((s) => (isNumString(s) ? Number(s) : s))
+          .filter((s) => s !== '');
+      };
+    };
   } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 

@@ -1274,7 +1274,7 @@ declare namespace fn {
      *
      * - `fn.result`
      *
-     * Returns a function that returns a function that returns the first argument.
+     * Returns a function that returns the first argument.
      *
      * ```typescript
      * const items = stuff
@@ -2723,7 +2723,7 @@ declare namespace ArrayTools {
      */
     export const range: (length?: number, multiplier?: number, offset?: number) => number[];
     type UnwrapArray<T> = T extends Array<infer U> ? U : T;
-    type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];
+    type ZippedArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...ZippedArrays<Tail>] : [];
     /**<!-- DOCS: ArrayTools.zip ### @ -->
      * zip
      *
@@ -2740,9 +2740,9 @@ declare namespace ArrayTools {
      * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
      * ```
      * @param {...T} [arrs]
-     * @returns {UnwrapArrays<T>[]}
+     * @returns {ZippedArrays<T>[]}
      */
-    export const zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
+    export const zip: <T extends any[]>(...arrs: T) => ZippedArrays<T>[];
     /**<!-- DOCS: ArrayTools.zipMax ### @ -->
      * zipMax
      *
@@ -2759,9 +2759,9 @@ declare namespace ArrayTools {
      * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
      * ```
      * @param {...T} [arrs]
-     * @returns {UnwrapArrays<T>[]}
+     * @returns {ZippedArrays<T>[]}
      */
-    export const zipMax: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
+    export const zipMax: <T extends any[]>(...arrs: T) => ZippedArrays<T>[];
     /**<!-- DOCS: ArrayTools.sortByMapped ### @ -->
      * sortByMapped
      *
@@ -2929,7 +2929,7 @@ declare namespace ArrayTools {
      *   { group: 2, name: 'b' },
      *   { group: 1, name: 'c' },
      * ];
-     * ArrayTools.groupObj(arr, item => item.id); // {
+     * ArrayTools.groupObj(arr, item => item.group); // {
      * //   1: [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
      * //   2: [ { group: 2, name: 'b' } ]
      * // }
@@ -2956,7 +2956,7 @@ declare namespace ArrayTools {
      *   { group: 2, name: 'b' },
      *   { group: 1, name: 'c' },
      * ];
-     * ArrayTools.groupObj(arr, item => item.id); // [
+     * ArrayTools.group(arr, item => item.group); // [
      * //   [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
      * //   [ { group: 2, name: 'b' } ]
      * // ]
@@ -3106,7 +3106,7 @@ declare const range: (length?: number, multiplier?: number, offset?: number) => 
  * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
  * ```
  * @param {...T} [arrs]
- * @returns {UnwrapArrays<T>[]}
+ * @returns {ZippedArrays<T>[]}
  */
 declare const zip: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...any] : []] : []] : []] : []] : []] : []] : []] : []] : []] : []] : [])[];
 /**<!-- DOCS-ALIAS: ArrayTools.zipMax -->
@@ -3125,7 +3125,7 @@ declare const zip: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...i
  * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
  * ```
  * @param {...T} [arrs]
- * @returns {UnwrapArrays<T>[]}
+ * @returns {ZippedArrays<T>[]}
  */
 declare const zipMax: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...any] : []] : []] : []] : []] : []] : []] : []] : []] : []] : []] : [])[];
 /**<!-- DOCS-ALIAS: ArrayTools.sortByMapped -->
@@ -3295,7 +3295,7 @@ declare const partition: <T extends unknown>(array: T[], partitionSize?: number)
  *   { group: 2, name: 'b' },
  *   { group: 1, name: 'c' },
  * ];
- * ArrayTools.groupObj(arr, item => item.id); // {
+ * ArrayTools.groupObj(arr, item => item.group); // {
  * //   1: [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
  * //   2: [ { group: 2, name: 'b' } ]
  * // }
@@ -3322,7 +3322,7 @@ declare const groupObj: <T extends unknown>(array: T[], mapFn: (item: T, index: 
  *   { group: 2, name: 'b' },
  *   { group: 1, name: 'c' },
  * ];
- * ArrayTools.groupObj(arr, item => item.id); // [
+ * ArrayTools.group(arr, item => item.group); // [
  * //   [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
  * //   [ { group: 2, name: 'b' } ]
  * // ]

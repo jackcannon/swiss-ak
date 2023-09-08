@@ -330,7 +330,7 @@ const items = stuff
 fn.result(item: T): () => T
 ```
 
-Returns a function that returns a function that returns the first argument.
+Returns a function that returns the first argument.
 
 ```typescript
 const items = stuff
@@ -1159,8 +1159,8 @@ ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
 ### zip
 
 ```typescript
-zip(...arrs: T[]): UnwrapArrays<T>[]
-ArrayTools.zip(...arrs: T[]): UnwrapArrays<T>[]
+zip(...arrs: T[]): ZippedArrays<T>[]
+ArrayTools.zip(...arrs: T[]): ZippedArrays<T>[]
 ```
 
 Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
@@ -1179,15 +1179,15 @@ ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c']
 
 | Return Type         |
 |---------------------|
-| `UnwrapArrays<T>[]` |
+| `ZippedArrays<T>[]` |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
 ### zipMax
 
 ```typescript
-zipMax(...arrs: T[]): UnwrapArrays<T>[]
-ArrayTools.zipMax(...arrs: T[]): UnwrapArrays<T>[]
+zipMax(...arrs: T[]): ZippedArrays<T>[]
+ArrayTools.zipMax(...arrs: T[]): ZippedArrays<T>[]
 ```
 
 Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
@@ -1206,7 +1206,7 @@ ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 
 
 | Return Type         |
 |---------------------|
-| `UnwrapArrays<T>[]` |
+| `ZippedArrays<T>[]` |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1442,7 +1442,7 @@ const arr = [
   { group: 2, name: 'b' },
   { group: 1, name: 'c' },
 ];
-ArrayTools.groupObj(arr, item => item.id); // {
+ArrayTools.groupObj(arr, item => item.group); // {
 //   1: [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
 //   2: [ { group: 2, name: 'b' } ]
 // }
@@ -1474,7 +1474,7 @@ const arr = [
   { group: 2, name: 'b' },
   { group: 1, name: 'c' },
 ];
-ArrayTools.groupObj(arr, item => item.id); // [
+ArrayTools.group(arr, item => item.group); // [
 //   [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
 //   [ { group: 2, name: 'b' } ]
 // ]

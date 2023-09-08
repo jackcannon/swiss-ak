@@ -1,4 +1,5 @@
 import * as swissak from '../';
+import { multiTest } from './test-utils';
 
 describe('fn', () => {
   describe('noop', () => {
@@ -27,289 +28,367 @@ describe('fn', () => {
     });
   });
   describe('exists', () => {
-    it(`exists as 'fn.exists'`, () => {
-      expect(swissak.fn.exists).toBeDefined();
-    });
-    it(`exists as 'fn.filters.exists'`, () => {
-      expect(swissak.fn.filters.exists).toBeDefined();
-    });
-    it(`exists as 'filters.exists'`, () => {
-      expect(swissak.filters.exists).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.exists, 'fn.exists'],
+        [swissak.fn.filters.exists, 'fn.filters.exists'],
+        [swissak.filters.exists, 'filters.exists']
+      ],
+      (exists, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(exists).toBeDefined();
+        });
+      }
+    );
   });
   describe('isTruthy', () => {
-    it(`exists as 'fn.isTruthy'`, () => {
-      expect(swissak.fn.isTruthy).toBeDefined();
-    });
-    it(`exists as 'fn.filters.isTruthy'`, () => {
-      expect(swissak.fn.filters.isTruthy).toBeDefined();
-    });
-    it(`exists as 'filters.isTruthy'`, () => {
-      expect(swissak.filters.isTruthy).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.isTruthy, 'fn.isTruthy'],
+        [swissak.fn.filters.isTruthy, 'fn.filters.isTruthy'],
+        [swissak.filters.isTruthy, 'filters.isTruthy']
+      ],
+      (isTruthy, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(isTruthy).toBeDefined();
+        });
+      }
+    );
   });
   describe('isFalsy', () => {
-    it(`exists as 'fn.isFalsy'`, () => {
-      expect(swissak.fn.isFalsy).toBeDefined();
-    });
-    it(`exists as 'fn.filters.isFalsy'`, () => {
-      expect(swissak.fn.filters.isFalsy).toBeDefined();
-    });
-    it(`exists as 'filters.isFalsy'`, () => {
-      expect(swissak.filters.isFalsy).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.isFalsy, 'fn.isFalsy'],
+        [swissak.fn.filters.isFalsy, 'fn.filters.isFalsy'],
+        [swissak.filters.isFalsy, 'filters.isFalsy']
+      ],
+      (isFalsy, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(isFalsy).toBeDefined();
+        });
+      }
+    );
   });
   describe('isEmpty', () => {
-    it(`exists as 'fn.isEmpty'`, () => {
-      expect(swissak.fn.isEmpty).toBeDefined();
-    });
-    it(`exists as 'fn.filters.isEmpty'`, () => {
-      expect(swissak.fn.filters.isEmpty).toBeDefined();
-    });
-    it(`exists as 'filters.isEmpty'`, () => {
-      expect(swissak.filters.isEmpty).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.isEmpty, 'fn.isEmpty'],
+        [swissak.fn.filters.isEmpty, 'fn.filters.isEmpty'],
+        [swissak.filters.isEmpty, 'filters.isEmpty']
+      ],
+      (isEmpty, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(isEmpty).toBeDefined();
+        });
+      }
+    );
   });
   describe('isNotEmpty', () => {
-    it(`exists as 'fn.isNotEmpty'`, () => {
-      expect(swissak.fn.isNotEmpty).toBeDefined();
-    });
-    it(`exists as 'fn.filters.isNotEmpty'`, () => {
-      expect(swissak.fn.filters.isNotEmpty).toBeDefined();
-    });
-    it(`exists as 'filters.isNotEmpty'`, () => {
-      expect(swissak.filters.isNotEmpty).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.isNotEmpty, 'fn.isNotEmpty'],
+        [swissak.fn.filters.isNotEmpty, 'fn.filters.isNotEmpty'],
+        [swissak.filters.isNotEmpty, 'filters.isNotEmpty']
+      ],
+      (isNotEmpty, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(isNotEmpty).toBeDefined();
+        });
+      }
+    );
   });
   describe('isEqual', () => {
-    it(`exists as 'fn.isEqual'`, () => {
-      expect(swissak.fn.isEqual).toBeDefined();
-    });
-    it(`exists as 'fn.filters.isEqual'`, () => {
-      expect(swissak.fn.filters.isEqual).toBeDefined();
-    });
-    it(`exists as 'filters.isEqual'`, () => {
-      expect(swissak.filters.isEqual).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.isEqual, 'fn.isEqual'],
+        [swissak.fn.filters.isEqual, 'fn.filters.isEqual'],
+        [swissak.filters.isEqual, 'filters.isEqual']
+      ],
+      (isEqual, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(isEqual).toBeDefined();
+        });
+      }
+    );
   });
   describe('isNotEqual', () => {
-    it(`exists as 'fn.isNotEqual'`, () => {
-      expect(swissak.fn.isNotEqual).toBeDefined();
-    });
-    it(`exists as 'fn.filters.isNotEqual'`, () => {
-      expect(swissak.fn.filters.isNotEqual).toBeDefined();
-    });
-    it(`exists as 'filters.isNotEqual'`, () => {
-      expect(swissak.filters.isNotEqual).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.isNotEqual, 'fn.isNotEqual'],
+        [swissak.fn.filters.isNotEqual, 'fn.filters.isNotEqual'],
+        [swissak.filters.isNotEqual, 'filters.isNotEqual']
+      ],
+      (isNotEqual, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(isNotEqual).toBeDefined();
+        });
+      }
+    );
   });
   describe('dedupe', () => {
-    it(`exists as 'fn.dedupe'`, () => {
-      expect(swissak.fn.dedupe).toBeDefined();
-    });
-    it(`exists as 'fn.filters.dedupe'`, () => {
-      expect(swissak.fn.filters.dedupe).toBeDefined();
-    });
-    it(`exists as 'filters.dedupe'`, () => {
-      expect(swissak.filters.dedupe).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.dedupe, 'fn.dedupe'],
+        [swissak.fn.filters.dedupe, 'fn.filters.dedupe'],
+        [swissak.filters.dedupe, 'filters.dedupe']
+      ],
+      (dedupe, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(dedupe).toBeDefined();
+        });
+      }
+    );
   });
   describe('dedupeMapped', () => {
-    it(`exists as 'fn.dedupeMapped'`, () => {
-      expect(swissak.fn.dedupeMapped).toBeDefined();
-    });
-    it(`exists as 'fn.filters.dedupeMapped'`, () => {
-      expect(swissak.fn.filters.dedupeMapped).toBeDefined();
-    });
-    it(`exists as 'filters.dedupeMapped'`, () => {
-      expect(swissak.filters.dedupeMapped).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.dedupeMapped, 'fn.dedupeMapped'],
+        [swissak.fn.filters.dedupeMapped, 'fn.filters.dedupeMapped'],
+        [swissak.filters.dedupeMapped, 'filters.dedupeMapped']
+      ],
+      (dedupeMapped, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(dedupeMapped).toBeDefined();
+        });
+      }
+    );
   });
   describe('toString', () => {
-    it(`exists as 'fn.toString'`, () => {
-      expect(swissak.fn.toString).toBeDefined();
-    });
-    it(`exists as 'fn.maps.toString'`, () => {
-      expect(swissak.fn.maps.toString).toBeDefined();
-    });
-    it(`exists as 'maps.toString'`, () => {
-      expect(swissak.maps.toString).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.toString, 'fn.toString'],
+        [swissak.fn.maps.toString, 'fn.maps.toString'],
+        [swissak.maps.toString, 'maps.toString']
+      ],
+      (toString, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(toString).toBeDefined();
+        });
+      }
+    );
   });
   describe('toNumber', () => {
-    it(`exists as 'fn.toNumber'`, () => {
-      expect(swissak.fn.toNumber).toBeDefined();
-    });
-    it(`exists as 'fn.maps.toNumber'`, () => {
-      expect(swissak.fn.maps.toNumber).toBeDefined();
-    });
-    it(`exists as 'maps.toNumber'`, () => {
-      expect(swissak.maps.toNumber).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.toNumber, 'fn.toNumber'],
+        [swissak.fn.maps.toNumber, 'fn.maps.toNumber'],
+        [swissak.maps.toNumber, 'maps.toNumber']
+      ],
+      (toNumber, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(toNumber).toBeDefined();
+        });
+      }
+    );
   });
   describe('toBool', () => {
-    it(`exists as 'fn.toBool'`, () => {
-      expect(swissak.fn.toBool).toBeDefined();
-    });
-    it(`exists as 'fn.maps.toBool'`, () => {
-      expect(swissak.fn.maps.toBool).toBeDefined();
-    });
-    it(`exists as 'maps.toBool'`, () => {
-      expect(swissak.maps.toBool).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.toBool, 'fn.toBool'],
+        [swissak.fn.maps.toBool, 'fn.maps.toBool'],
+        [swissak.maps.toBool, 'maps.toBool']
+      ],
+      (toBool, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(toBool).toBeDefined();
+        });
+      }
+    );
   });
   describe('toProp', () => {
-    it(`exists as 'fn.toProp'`, () => {
-      expect(swissak.fn.toProp).toBeDefined();
-    });
-    it(`exists as 'fn.maps.toProp'`, () => {
-      expect(swissak.fn.maps.toProp).toBeDefined();
-    });
-    it(`exists as 'maps.toProp'`, () => {
-      expect(swissak.maps.toProp).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.toProp, 'fn.toProp'],
+        [swissak.fn.maps.toProp, 'fn.maps.toProp'],
+        [swissak.maps.toProp, 'maps.toProp']
+      ],
+      (toProp, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(toProp).toBeDefined();
+        });
+      }
+    );
   });
   describe('toFixed', () => {
-    it(`exists as 'fn.toFixed'`, () => {
-      expect(swissak.fn.toFixed).toBeDefined();
-    });
-    it(`exists as 'fn.maps.toFixed'`, () => {
-      expect(swissak.fn.maps.toFixed).toBeDefined();
-    });
-    it(`exists as 'maps.toFixed'`, () => {
-      expect(swissak.maps.toFixed).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.toFixed, 'fn.toFixed'],
+        [swissak.fn.maps.toFixed, 'fn.maps.toFixed'],
+        [swissak.maps.toFixed, 'maps.toFixed']
+      ],
+      (toFixed, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(toFixed).toBeDefined();
+        });
+      }
+    );
   });
   describe('asc', () => {
-    it(`exists as 'fn.asc'`, () => {
-      expect(swissak.fn.asc).toBeDefined();
-    });
-    it(`exists as 'fn.sorts.asc'`, () => {
-      expect(swissak.fn.sorts.asc).toBeDefined();
-    });
-    it(`exists as 'sorts.asc'`, () => {
-      expect(swissak.sorts.asc).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.asc, 'fn.asc'],
+        [swissak.fn.sorts.asc, 'fn.sorts.asc'],
+        [swissak.sorts.asc, 'sorts.asc']
+      ],
+      (asc, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(asc).toBeDefined();
+        });
+      }
+    );
   });
   describe('desc', () => {
-    it(`exists as 'fn.desc'`, () => {
-      expect(swissak.fn.desc).toBeDefined();
-    });
-    it(`exists as 'fn.sorts.desc'`, () => {
-      expect(swissak.fn.sorts.desc).toBeDefined();
-    });
-    it(`exists as 'sorts.desc'`, () => {
-      expect(swissak.sorts.desc).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.desc, 'fn.desc'],
+        [swissak.fn.sorts.desc, 'fn.sorts.desc'],
+        [swissak.sorts.desc, 'sorts.desc']
+      ],
+      (desc, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(desc).toBeDefined();
+        });
+      }
+    );
   });
   describe('byProp', () => {
-    it(`exists as 'fn.byProp'`, () => {
-      expect(swissak.fn.byProp).toBeDefined();
-    });
-    it(`exists as 'fn.sorts.byProp'`, () => {
-      expect(swissak.fn.sorts.byProp).toBeDefined();
-    });
-    it(`exists as 'sorts.byProp'`, () => {
-      expect(swissak.sorts.byProp).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.byProp, 'fn.byProp'],
+        [swissak.fn.sorts.byProp, 'fn.sorts.byProp'],
+        [swissak.sorts.byProp, 'sorts.byProp']
+      ],
+      (byProp, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(byProp).toBeDefined();
+        });
+      }
+    );
   });
   describe('nearestTo', () => {
-    it(`exists as 'fn.nearestTo'`, () => {
-      expect(swissak.fn.nearestTo).toBeDefined();
-    });
-    it(`exists as 'fn.sorts.nearestTo'`, () => {
-      expect(swissak.fn.sorts.nearestTo).toBeDefined();
-    });
-    it(`exists as 'sorts.nearestTo'`, () => {
-      expect(swissak.sorts.nearestTo).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.nearestTo, 'fn.nearestTo'],
+        [swissak.fn.sorts.nearestTo, 'fn.sorts.nearestTo'],
+        [swissak.sorts.nearestTo, 'sorts.nearestTo']
+      ],
+      (nearestTo, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(nearestTo).toBeDefined();
+        });
+      }
+    );
   });
   describe('furthestFrom', () => {
-    it(`exists as 'fn.furthestFrom'`, () => {
-      expect(swissak.fn.furthestFrom).toBeDefined();
-    });
-    it(`exists as 'fn.sorts.furthestFrom'`, () => {
-      expect(swissak.fn.sorts.furthestFrom).toBeDefined();
-    });
-    it(`exists as 'sorts.furthestFrom'`, () => {
-      expect(swissak.sorts.furthestFrom).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.furthestFrom, 'fn.furthestFrom'],
+        [swissak.fn.sorts.furthestFrom, 'fn.sorts.furthestFrom'],
+        [swissak.sorts.furthestFrom, 'sorts.furthestFrom']
+      ],
+      (furthestFrom, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(furthestFrom).toBeDefined();
+        });
+      }
+    );
   });
   describe('arrayAsc', () => {
-    it(`exists as 'fn.arrayAsc'`, () => {
-      expect(swissak.fn.arrayAsc).toBeDefined();
-    });
-    it(`exists as 'fn.sorts.arrayAsc'`, () => {
-      expect(swissak.fn.sorts.arrayAsc).toBeDefined();
-    });
-    it(`exists as 'sorts.arrayAsc'`, () => {
-      expect(swissak.sorts.arrayAsc).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.arrayAsc, 'fn.arrayAsc'],
+        [swissak.fn.sorts.arrayAsc, 'fn.sorts.arrayAsc'],
+        [swissak.sorts.arrayAsc, 'sorts.arrayAsc']
+      ],
+      (arrayAsc, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(arrayAsc).toBeDefined();
+        });
+      }
+    );
   });
   describe('arrayDesc', () => {
-    it(`exists as 'fn.arrayDesc'`, () => {
-      expect(swissak.fn.arrayDesc).toBeDefined();
-    });
-    it(`exists as 'fn.sorts.arrayDesc'`, () => {
-      expect(swissak.fn.sorts.arrayDesc).toBeDefined();
-    });
-    it(`exists as 'sorts.arrayDesc'`, () => {
-      expect(swissak.sorts.arrayDesc).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.arrayDesc, 'fn.arrayDesc'],
+        [swissak.fn.sorts.arrayDesc, 'fn.sorts.arrayDesc'],
+        [swissak.sorts.arrayDesc, 'sorts.arrayDesc']
+      ],
+      (arrayDesc, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(arrayDesc).toBeDefined();
+        });
+      }
+    );
   });
   describe('combine', () => {
-    it(`exists as 'fn.combine'`, () => {
-      expect(swissak.fn.combine).toBeDefined();
-    });
-    it(`exists as 'fn.reduces.combine'`, () => {
-      expect(swissak.fn.reduces.combine).toBeDefined();
-    });
-    it(`exists as 'reduces.combine'`, () => {
-      expect(swissak.reduces.combine).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.combine, 'fn.combine'],
+        [swissak.fn.reduces.combine, 'fn.reduces.combine'],
+        [swissak.reduces.combine, 'reduces.combine']
+      ],
+      (combine, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(combine).toBeDefined();
+        });
+      }
+    );
   });
   describe('combineProp', () => {
-    it(`exists as 'fn.combineProp'`, () => {
-      expect(swissak.fn.combineProp).toBeDefined();
-    });
-    it(`exists as 'fn.reduces.combineProp'`, () => {
-      expect(swissak.fn.reduces.combineProp).toBeDefined();
-    });
-    it(`exists as 'reduces.combineProp'`, () => {
-      expect(swissak.reduces.combineProp).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.combineProp, 'fn.combineProp'],
+        [swissak.fn.reduces.combineProp, 'fn.reduces.combineProp'],
+        [swissak.reduces.combineProp, 'reduces.combineProp']
+      ],
+      (combineProp, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(combineProp).toBeDefined();
+        });
+      }
+    );
   });
   describe('mode', () => {
-    it(`exists as 'fn.mode'`, () => {
-      expect(swissak.fn.mode).toBeDefined();
-    });
-    it(`exists as 'fn.reduces.mode'`, () => {
-      expect(swissak.fn.reduces.mode).toBeDefined();
-    });
-    it(`exists as 'reduces.mode'`, () => {
-      expect(swissak.reduces.mode).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.mode, 'fn.mode'],
+        [swissak.fn.reduces.mode, 'fn.reduces.mode'],
+        [swissak.reduces.mode, 'reduces.mode']
+      ],
+      (mode, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(mode).toBeDefined();
+        });
+      }
+    );
   });
   describe('modeMapped', () => {
-    it(`exists as 'fn.modeMapped'`, () => {
-      expect(swissak.fn.modeMapped).toBeDefined();
-    });
-    it(`exists as 'fn.reduces.modeMapped'`, () => {
-      expect(swissak.fn.reduces.modeMapped).toBeDefined();
-    });
-    it(`exists as 'reduces.modeMapped'`, () => {
-      expect(swissak.reduces.modeMapped).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.modeMapped, 'fn.modeMapped'],
+        [swissak.fn.reduces.modeMapped, 'fn.reduces.modeMapped'],
+        [swissak.reduces.modeMapped, 'reduces.modeMapped']
+      ],
+      (modeMapped, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(modeMapped).toBeDefined();
+        });
+      }
+    );
   });
   describe('isAllEqual', () => {
-    it(`exists as 'fn.isAllEqual'`, () => {
-      expect(swissak.fn.isAllEqual).toBeDefined();
-    });
-    it(`exists as 'fn.everys.isAllEqual'`, () => {
-      expect(swissak.fn.everys.isAllEqual).toBeDefined();
-    });
-    it(`exists as 'everys.isAllEqual'`, () => {
-      expect(swissak.everys.isAllEqual).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.fn.isAllEqual, 'fn.isAllEqual'],
+        [swissak.fn.everys.isAllEqual, 'fn.everys.isAllEqual'],
+        [swissak.everys.isAllEqual, 'everys.isAllEqual']
+      ],
+      (isAllEqual, name) => {
+        it(`exists as '${name}'`, () => {
+          expect(isAllEqual).toBeDefined();
+        });
+      }
+    );
   });
 });

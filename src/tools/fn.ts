@@ -45,7 +45,7 @@ export namespace fn {
    *
    * - `fn.result`
    *
-   * Returns a function that returns a function that returns the first argument.
+   * Returns a function that returns the first argument.
    *
    * ```typescript
    * const items = stuff
