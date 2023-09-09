@@ -120,7 +120,7 @@ export namespace safe {
    * safe.bool(false, true); // false
    * safe.bool(1, true); // true
    * safe.bool(0, true); // false
-   * safe.bool(123); // true
+   * safe.bool(123, true); // true
    * safe.bool('true', true); // true
    * safe.bool('false', true); // false
    * safe.bool('foobar', true); // true
@@ -131,7 +131,16 @@ export namespace safe {
    */
   export const bool = (input: boolean, fallback: boolean = false): boolean => {
     let result = input;
-    if (typeof result !== 'boolean' || result === undefined || result === null) result = fallback;
+    if (result === undefined || result === null) result = fallback;
+    if (typeof result !== 'boolean') {
+      if (result === 'true' || result === 1) {
+        result = true;
+      } else if (result === 'false' || result === 0) {
+        result = false;
+      } else {
+        result = fallback;
+      }
+    }
     return result;
   };
 
@@ -164,7 +173,7 @@ export namespace safe {
    * safe.func(undefined, (q: number) => 456); // (q: number) => 456
    * ```
    */
-  export const func = <T extends unknown>(input: T, fallback: T = (() => {}) as T): T => {
+  export const func = <T extends Function>(input: T, fallback: T = (() => {}) as unknown as T): T => {
     let result = input;
     if (typeof result !== 'function' || result === undefined || result === null) result = fallback;
     return result;
@@ -334,7 +343,7 @@ export namespace safe {
      *
      * ```typescript
      * safe.arrOf.bool([false, true, false]); // [ false, true, false ]
-     * safe.arrOf.bool(['foo', 1, true, null, undefined, [], {}]); // [ false, false, true, false, false, false, false ]
+     * safe.arrOf.bool(['foo', 123, true, null, undefined, [], {}]); // [ false, false, true, false, false, false, false ]
      * safe.arrOf.bool(true); // []
      * safe.arrOf.bool(false); // []
      * safe.arrOf.bool(123); // []
@@ -344,7 +353,7 @@ export namespace safe {
      * safe.arrOf.bool(undefined); // []
      *
      * safe.arrOf.bool([false, true, false], true, [true, true]); // [ false, true, false ]
-     * safe.arrOf.bool(['foo', 1, true, null, undefined, [], {}], true, [true, true]); // [ true, true, true, true, true, true, true ]
+     * safe.arrOf.bool(['foo', 123, true, null, undefined, [], {}], true, [true, true]); // [ true, true, true, true, true, true, true ]
      * safe.arrOf.bool(true, true, [true, true]); // [ true, true ]
      * safe.arrOf.bool(false, true, [true, true]); // [ true, true ]
      * safe.arrOf.bool(123, true, [true, true]); // [ true, true ]
@@ -388,7 +397,7 @@ export namespace safe {
      * safe.arrOf.func(undefined, (q) => 2, [(r) => 3]); //  [(r) => 3]
      * ```
      */
-    export const func = <T extends unknown>(input: T[], fallback?: T, fallbackArr: T[] = []): T[] => {
+    export const func = <T extends Function>(input: T[], fallback?: T, fallbackArr: T[] = []): T[] => {
       const result = safe.arr(input, fallbackArr);
       return result.map((item) => safe.func(item, fallback));
     };
@@ -412,7 +421,7 @@ export namespace safe {
      * safe.arrOf.obj(undefined); // []
      *
      * safe.arrOf.obj([{foo: 1}, {bar: 2}], {l: 3}, [{i: 4}]); // [ { foo: 1 }, { bar: 2 } ]
-     * safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}], {l: 3}, [{i: 4}]); // [ { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { l: 3 } ]
+     * safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}], {l: 3}, [{i: 4}]); // [ { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { } ]
      * safe.arrOf.obj(true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
      * safe.arrOf.obj(false, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
      * safe.arrOf.obj(123, {l: 3}, [{i: 4}]); // [ { i: 4 } ]

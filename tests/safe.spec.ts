@@ -212,7 +212,7 @@ describe('safe', () => {
       expect(result).toEqual(false);
     });
     it(`takes 123 with other params`, () => {
-      const result = swissak.safe.bool(123 as any);
+      const result = swissak.safe.bool(123 as any, true);
       expect(result).toEqual(true);
     });
     it(`takes 'true' with other params`, () => {
@@ -247,79 +247,112 @@ describe('safe', () => {
 
   describe('safe.func', () => {
     it(`takes (p: number) => 123`, () => {
-      const result = swissak.safe.func((p: number) => 123 as any);
-      expect(result).toEqual((p: number) => 123);
+      const func = (p: number) => 123 as any;
+      const result = swissak.safe.func(func);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toEqual(123);
     });
     it(`takes true`, () => {
-      const result = swissak.safe.func(true as any);
-      expect(result).toEqual(() => {});
+      const func = true as any;
+      const result = swissak.safe.func(func);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toBe(undefined);
     });
     it(`takes false`, () => {
-      const result = swissak.safe.func(false as any);
-      expect(result).toEqual(() => {});
+      const func = false as any;
+      const result = swissak.safe.func(func);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toBe(undefined);
     });
     it(`takes 123`, () => {
-      const result = swissak.safe.func(123 as any);
-      expect(result).toEqual(() => {});
+      const func = 123 as any;
+      const result = swissak.safe.func(func);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toBe(undefined);
     });
     it(`takes 'foobar'`, () => {
-      const result = swissak.safe.func('foobar' as any);
-      expect(result).toEqual(() => {});
+      const func = 'foobar' as any;
+      const result = swissak.safe.func(func);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toBe(undefined);
     });
     it(`takes {foo: 'bar'}`, () => {
-      const result = swissak.safe.func({ foo: 'bar' } as any);
-      expect(result).toEqual(() => {});
+      const func = { foo: 'bar' } as any;
+      const result = swissak.safe.func(func);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toBe(undefined);
     });
     it(`takes [1, 2, 3]`, () => {
-      const result = swissak.safe.func([1, 2, 3] as any);
-      expect(result).toEqual(() => {});
+      const func = [1, 2, 3] as any;
+      const result = swissak.safe.func(func);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toBe(undefined);
     });
     it(`takes null`, () => {
-      const result = swissak.safe.func(null as any);
-      expect(result).toEqual(() => {});
+      const func = null as any;
+      const result = swissak.safe.func(func);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toBe(undefined);
     });
     it(`takes undefined`, () => {
-      const result = swissak.safe.func(undefined as any);
-      expect(result).toEqual(() => {});
+      const func = undefined as any;
+      const result = swissak.safe.func(func);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toBe(undefined);
     });
     it(`takes (p: number) => 123 with other params`, () => {
-      const result = swissak.safe.func(
-        (p: number) => 123 as any,
-        (q: number) => 456
-      );
-      expect(result).toEqual((p: number) => 123);
+      const func = ((p: number) => 123) as any;
+      const result = swissak.safe.func(func, (q: number) => 456);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toEqual(123);
     });
     it(`takes true with other params`, () => {
-      const result = swissak.safe.func(true as any, (q: number) => 456);
-      expect(result).toEqual((q: number) => 456);
+      const func = true as any;
+      const result = swissak.safe.func(func, (q: number) => 456);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toEqual(456);
     });
     it(`takes false with other params`, () => {
-      const result = swissak.safe.func(false as any, (q: number) => 456);
-      expect(result).toEqual((q: number) => 456);
+      const func = false as any;
+      const result = swissak.safe.func(func, (q: number) => 456);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toEqual(456);
     });
     it(`takes 123 with other params`, () => {
-      const result = swissak.safe.func(123 as any, (q: number) => 456);
-      expect(result).toEqual((q: number) => 456);
+      const func = 123 as any;
+      const result = swissak.safe.func(func, (q: number) => 456);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toEqual(456);
     });
     it(`takes 'foobar' with other params`, () => {
-      const result = swissak.safe.func('foobar' as any, (q: number) => 456);
-      expect(result).toEqual((q: number) => 456);
+      const func = 'foobar' as any;
+      const result = swissak.safe.func(func, (q: number) => 456);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toEqual(456);
     });
     it(`takes {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.func({ foo: 'bar' } as any, (q: number) => 456);
-      expect(result).toEqual((q: number) => 456);
+      const func = { foo: 'bar' } as any;
+      const result = swissak.safe.func(func, (q: number) => 456);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toEqual(456);
     });
     it(`takes [1, 2, 3] with other params`, () => {
-      const result = swissak.safe.func([1, 2, 3] as any, (q: number) => 456);
-      expect(result).toEqual((q: number) => 456);
+      const func = [1, 2, 3] as any;
+      const result = swissak.safe.func(func, (q: number) => 456);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toEqual(456);
     });
     it(`takes null with other params`, () => {
-      const result = swissak.safe.func(null as any, (q: number) => 456);
-      expect(result).toEqual((q: number) => 456);
+      const func = null as any;
+      const result = swissak.safe.func(func, (q: number) => 456);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toEqual(456);
     });
     it(`takes undefined with other params`, () => {
-      const result = swissak.safe.func(undefined as any, (q: number) => 456);
-      expect(result).toEqual((q: number) => 456);
+      const func = undefined as any;
+      const result = swissak.safe.func(func, (q: number) => 456);
+      expect(typeof result).toBe('function');
+      expect(result(1)).toEqual(456);
     });
   });
 
@@ -612,8 +645,8 @@ describe('safe', () => {
       const result = swissak.safe.arrOf.bool([false, true, false] as any);
       expect(result).toEqual([false, true, false]);
     });
-    it(`takes ['foo', 1, true, null, undefined, [], {}]`, () => {
-      const result = swissak.safe.arrOf.bool(['foo', 1, true, null, undefined, [], {}] as any);
+    it(`takes ['foo', 123, true, null, undefined, [], {}]`, () => {
+      const result = swissak.safe.arrOf.bool(['foo', 123, true, null, undefined, [], {}] as any);
       expect(result).toEqual([false, false, true, false, false, false, false]);
     });
     it(`takes true`, () => {
@@ -648,8 +681,8 @@ describe('safe', () => {
       const result = swissak.safe.arrOf.bool([false, true, false] as any, true, [true, true]);
       expect(result).toEqual([false, true, false]);
     });
-    it(`takes ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
-      const result = swissak.safe.arrOf.bool(['foo', 1, true, null, undefined, [], {}] as any, true, [true, true]);
+    it(`takes ['foo', 123, true, null, undefined, [], {}] with other params`, () => {
+      const result = swissak.safe.arrOf.bool(['foo', 123, true, null, undefined, [], {}] as any, true, [true, true]);
       expect(result).toEqual([true, true, true, true, true, true, true]);
     });
     it(`takes true with other params`, () => {
@@ -685,11 +718,19 @@ describe('safe', () => {
   describe('safe.arrOf.func', () => {
     it(`takes [(p) => 1]`, () => {
       const result = swissak.safe.arrOf.func([(p) => 1] as any);
-      expect(result).toEqual([(p) => 1]);
+      expect(result.length).toBe(1);
+      expect(result[0](1)).toBe(1);
     });
     it(`takes ['foo', 1, true, null, undefined, [], {}]`, () => {
       const result = swissak.safe.arrOf.func(['foo', 1, true, null, undefined, [], {}] as any);
-      expect(result).toEqual([() => {}, () => {}, () => {}, () => {}, () => {}, () => {}, () => {}]);
+      expect(result.length).toBe(7);
+      expect(result[0]()).toBe(undefined);
+      expect(result[1]()).toBe(undefined);
+      expect(result[2]()).toBe(undefined);
+      expect(result[3]()).toBe(undefined);
+      expect(result[4]()).toBe(undefined);
+      expect(result[5]()).toBe(undefined);
+      expect(result[6]()).toBe(undefined);
     });
     it(`takes true`, () => {
       const result = swissak.safe.arrOf.func(true as any);
@@ -721,39 +762,54 @@ describe('safe', () => {
     });
     it(`takes [(p) => 1] with other params`, () => {
       const result = swissak.safe.arrOf.func([(p) => 1] as any, (q) => 2, [(r) => 3]);
-      expect(result).toEqual([(p) => 1]);
+      expect(result.length).toBe(1);
+      expect(result[0](1)).toBe(1);
     });
     it(`takes ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
       const result = swissak.safe.arrOf.func(['foo', 1, true, null, undefined, [], {}] as any, (q) => 2, [(r) => 3]);
-      expect(result).toEqual([(q) => 2, (q) => 2, (q) => 2, (q) => 2, (q) => 2, (q) => 2, (q) => 2]);
+      expect(result.length).toBe(7);
+      expect(result[0](1)).toBe(2);
+      expect(result[1](1)).toBe(2);
+      expect(result[2](1)).toBe(2);
+      expect(result[3](1)).toBe(2);
+      expect(result[4](1)).toBe(2);
+      expect(result[5](1)).toBe(2);
+      expect(result[6](1)).toBe(2);
     });
     it(`takes true with other params`, () => {
       const result = swissak.safe.arrOf.func(true as any, (q) => 2, [(r) => 3]);
-      expect(result).toEqual([(r) => 3]);
+      expect(result.length).toBe(1);
+      expect(result[0](1)).toBe(3);
     });
     it(`takes false with other params`, () => {
       const result = swissak.safe.arrOf.func(false as any, (q) => 2, [(r) => 3]);
-      expect(result).toEqual([(r) => 3]);
+      expect(result.length).toBe(1);
+      expect(result[0](1)).toBe(3);
     });
     it(`takes 123 with other params`, () => {
       const result = swissak.safe.arrOf.func(123 as any, (q) => 2, [(r) => 3]);
-      expect(result).toEqual([(r) => 3]);
+      expect(result.length).toBe(1);
+      expect(result[0](1)).toBe(3);
     });
     it(`takes 'foobar' with other params`, () => {
       const result = swissak.safe.arrOf.func('foobar' as any, (q) => 2, [(r) => 3]);
-      expect(result).toEqual([(r) => 3]);
+      expect(result.length).toBe(1);
+      expect(result[0](1)).toBe(3);
     });
     it(`takes {foo: 'bar'} with other params`, () => {
       const result = swissak.safe.arrOf.func({ foo: 'bar' } as any, (q) => 2, [(r) => 3]);
-      expect(result).toEqual([(r) => 3]);
+      expect(result.length).toBe(1);
+      expect(result[0](1)).toBe(3);
     });
     it(`takes null with other params`, () => {
       const result = swissak.safe.arrOf.func(null as any, (q) => 2, [(r) => 3]);
-      expect(result).toEqual([(r) => 3]);
+      expect(result.length).toBe(1);
+      expect(result[0](1)).toBe(3);
     });
     it(`takes undefined with other params`, () => {
       const result = swissak.safe.arrOf.func(undefined as any, (q) => 2, [(r) => 3]);
-      expect(result).toEqual([(r) => 3]);
+      expect(result.length).toBe(1);
+      expect(result[0](1)).toBe(3);
     });
   });
 
@@ -800,7 +856,7 @@ describe('safe', () => {
     });
     it(`takes ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
       const result = swissak.safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}] as any, { l: 3 }, [{ i: 4 }]);
-      expect(result).toEqual([{ l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { l: 3 }]);
+      expect(result).toEqual([{ l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], {}]);
     });
     it(`takes true with other params`, () => {
       const result = swissak.safe.arrOf.obj(true as any, { l: 3 }, [{ i: 4 }]);

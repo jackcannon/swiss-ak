@@ -4641,7 +4641,7 @@ safe.bool(true, true); // true
 safe.bool(false, true); // false
 safe.bool(1, true); // true
 safe.bool(0, true); // false
-safe.bool(123); // true
+safe.bool(123, true); // true
 safe.bool('true', true); // true
 safe.bool('false', true); // false
 safe.bool('foobar', true); // true
@@ -4823,7 +4823,7 @@ Process an array of booleans, ensuring that they are safe to use.
 
 ```typescript
 safe.arrOf.bool([false, true, false]); // [ false, true, false ]
-safe.arrOf.bool(['foo', 1, true, null, undefined, [], {}]); // [ false, false, true, false, false, false, false ]
+safe.arrOf.bool(['foo', 123, true, null, undefined, [], {}]); // [ false, false, true, false, false, false, false ]
 safe.arrOf.bool(true); // []
 safe.arrOf.bool(false); // []
 safe.arrOf.bool(123); // []
@@ -4833,7 +4833,7 @@ safe.arrOf.bool(null); // []
 safe.arrOf.bool(undefined); // []
 
 safe.arrOf.bool([false, true, false], true, [true, true]); // [ false, true, false ]
-safe.arrOf.bool(['foo', 1, true, null, undefined, [], {}], true, [true, true]); // [ true, true, true, true, true, true, true ]
+safe.arrOf.bool(['foo', 123, true, null, undefined, [], {}], true, [true, true]); // [ true, true, true, true, true, true, true ]
 safe.arrOf.bool(true, true, [true, true]); // [ true, true ]
 safe.arrOf.bool(false, true, [true, true]); // [ true, true ]
 safe.arrOf.bool(123, true, [true, true]); // [ true, true ]
@@ -4897,7 +4897,7 @@ safe.arrOf.obj(null); // []
 safe.arrOf.obj(undefined); // []
 
 safe.arrOf.obj([{foo: 1}, {bar: 2}], {l: 3}, [{i: 4}]); // [ { foo: 1 }, { bar: 2 } ]
-safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}], {l: 3}, [{i: 4}]); // [ { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { l: 3 } ]
+safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}], {l: 3}, [{i: 4}]); // [ { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { } ]
 safe.arrOf.obj(true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
 safe.arrOf.obj(false, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
 safe.arrOf.obj(123, {l: 3}, [{i: 4}]); // [ { i: 4 } ]

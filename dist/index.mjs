@@ -132,8 +132,17 @@ var safe;
   };
   safe2.bool = (input, fallback = false) => {
     let result = input;
-    if (typeof result !== "boolean" || result === void 0 || result === null)
+    if (result === void 0 || result === null)
       result = fallback;
+    if (typeof result !== "boolean") {
+      if (result === "true" || result === 1) {
+        result = true;
+      } else if (result === "false" || result === 0) {
+        result = false;
+      } else {
+        result = fallback;
+      }
+    }
     return result;
   };
   safe2.func = (input, fallback = () => {
