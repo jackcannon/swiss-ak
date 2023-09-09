@@ -1333,24 +1333,39 @@ var ErrorTools;
     }
   };
   ErrorTools2.retry = async (maxTries = 10, delay = 0, suppress = true, run = fn.result(void 0)) => {
+    const args = {
+      maxTries: safe.num(maxTries, true, 1, void 0, 10),
+      delay: safe.num(delay, true, 0),
+      suppress: safe.bool(suppress, true),
+      run: safe.func(run, fn.result(void 0))
+    };
     const loop = async (attempt, lastErr) => {
-      if (attempt >= maxTries) {
-        if (!suppress)
+      if (attempt >= args.maxTries) {
+        if (!args.suppress)
           throw lastErr;
         return void 0;
       }
       try {
-        const result = await run(attempt);
+        const result = await args.run(attempt);
         return result;
       } catch (err) {
-        if (delay)
-          await wait(delay);
+        if (args.delay)
+          await wait(args.delay);
         return await loop(attempt + 1, err);
       }
     };
     return await loop(0);
   };
-  ErrorTools2.retryOr = async (orValue, maxTries = 10, delay = 0, suppress = true, run = fn.result(orValue)) => ErrorTools2.tryOr(orValue, () => ErrorTools2.retry(maxTries, delay, suppress, run));
+  ErrorTools2.retryOr = async (orValue, maxTries = 10, delay = 0, suppress = true, run = fn.result(orValue)) => {
+    const args = {
+      orValue,
+      maxTries: safe.num(maxTries, true, 1),
+      delay: safe.num(delay, true, 0),
+      suppress: safe.bool(suppress, true),
+      run: safe.func(run, fn.result(orValue))
+    };
+    return ErrorTools2.tryOr(args.orValue, () => ErrorTools2.retry(args.maxTries, args.delay, args.suppress, args.run));
+  };
 })(ErrorTools || (ErrorTools = {}));
 var tryOr = ErrorTools.tryOr;
 var retry = ErrorTools.retry;

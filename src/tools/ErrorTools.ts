@@ -1,6 +1,7 @@
 // import { ms, wait, fn }
 
 import { fn } from './fn';
+import { safe } from './safe';
 import { ms } from './times';
 import { wait } from './waiters';
 
@@ -60,16 +61,23 @@ export namespace ErrorTools {
     suppress: boolean = true,
     run: (attemptNumber) => T = fn.result(undefined as T)
   ): Promise<T> => {
+    const args = {
+      maxTries: safe.num(maxTries, true, 1, undefined, 10),
+      delay: safe.num(delay, true, 0),
+      suppress: safe.bool(suppress, true),
+      run: safe.func(run, fn.result(undefined as T))
+    };
+
     const loop = async (attempt: number, lastErr?: Error): Promise<T> => {
-      if (attempt >= maxTries) {
-        if (!suppress) throw lastErr;
+      if (attempt >= args.maxTries) {
+        if (!args.suppress) throw lastErr;
         return undefined as T;
       }
       try {
-        const result = await run(attempt);
+        const result = await args.run(attempt);
         return result;
       } catch (err) {
-        if (delay) await wait(delay);
+        if (args.delay) await wait(args.delay);
         return await loop(attempt + 1, err);
       }
     };
@@ -102,7 +110,17 @@ export namespace ErrorTools {
     delay: ms = 0,
     suppress: boolean = true,
     run: () => T = fn.result(orValue)
-  ): Promise<T> => tryOr(orValue, () => retry(maxTries, delay, suppress, run));
+  ): Promise<T> => {
+    const args = {
+      orValue,
+      maxTries: safe.num(maxTries, true, 1),
+      delay: safe.num(delay, true, 0),
+      suppress: safe.bool(suppress, true),
+      run: safe.func(run, fn.result(orValue))
+    };
+
+    return tryOr(args.orValue, () => retry(args.maxTries, args.delay, args.suppress, args.run));
+  };
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: ErrorTools.tryOr  --> */
