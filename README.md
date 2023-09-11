@@ -3956,8 +3956,8 @@ const result = tryOr(5, seconds(1), true, () => getSomething());
 ### retryOr
 
 ```typescript
-retryOr(orValue: T, maxTries: number, delay: ms, suppress: boolean, run: () => T): Promise<T>
-ErrorTools.retryOr(orValue: T, maxTries: number, delay: ms, suppress: boolean, run: () => T): Promise<T>
+retryOr(orValue: T, maxTries: number, delay: ms, run: () => T): Promise<T>
+ErrorTools.retryOr(orValue: T, maxTries: number, delay: ms, run: () => T): Promise<T>
 ```
 
 Combination of retry and tryOr.
@@ -3965,7 +3965,7 @@ Combination of retry and tryOr.
 Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
 
 ```typescript
-const result = retryOr('default', 5, seconds(1), true, () => getSomething());
+const result = retryOr('default', 5, seconds(1), () => getSomething());
 ```
 
 |  #  | Parameter Name | Required | Type      | Default              |
@@ -3973,8 +3973,7 @@ const result = retryOr('default', 5, seconds(1), true, () => getSomething());
 | *0* | `orValue`      | **Yes**  | `T`       |                      |
 | *1* | `maxTries`     | *No*     | `number`  | `10`                 |
 | *2* | `delay`        | *No*     | `ms`      | `0`                  |
-| *3* | `suppress`     | *No*     | `boolean` | `true`               |
-| *4* | `run`          | *No*     | `() => T` | `fn.result(orValue)` |
+| *3* | `run`          | *No*     | `() => T` | `fn.result(orValue)` |
 
 | Return Type  |
 |--------------|

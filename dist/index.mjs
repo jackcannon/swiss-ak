@@ -1249,15 +1249,14 @@ var ErrorTools;
     };
     return await loop(0);
   };
-  ErrorTools2.retryOr = async (orValue, maxTries = 10, delay = 0, suppress = true, run = fn.result(orValue)) => {
+  ErrorTools2.retryOr = async (orValue, maxTries = 10, delay = 0, run = fn.result(orValue)) => {
     const args = {
       orValue,
       maxTries: safe.num(maxTries, true, 1),
       delay: safe.num(delay, true, 0),
-      suppress: safe.bool(suppress, true),
       run: safe.func(run, fn.result(orValue))
     };
-    return ErrorTools2.tryOr(args.orValue, () => ErrorTools2.retry(args.maxTries, args.delay, args.suppress, args.run));
+    return ErrorTools2.tryOr(args.orValue, () => ErrorTools2.retry(args.maxTries, args.delay, false, args.run));
   };
 })(ErrorTools || (ErrorTools = {}));
 var tryOr = ErrorTools.tryOr;

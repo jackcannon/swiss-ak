@@ -1,7 +1,7 @@
 import * as swissak from '../';
-import { register, multiTest } from './test-utils';
+import { register, multiTest, kitchenSink } from './test-utils';
 
-register({ describe, it });
+register({ describe, it, expect });
 
 describe('ArrayTools', () => {
   describe('create', () => {
@@ -73,71 +73,9 @@ describe('ArrayTools', () => {
           expect(array).toEqual([2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
         });
 
-        // handle length
-        it(`handles a zero length`, () => {
-          const array = range(0);
-          expect(array.length).toBe(0);
-        });
-        it(`handles a decimal length`, () => {
-          const array = range(10.5);
-          expect(array.length).toBe(10);
-        });
-        it(`handles a negative length`, () => {
-          const array = range(-10);
-          expect(array.length).toBe(0);
-        });
-        it(`handles a NaN length`, () => {
-          const array = range(NaN);
-          expect(array.length).toBe(0);
-        });
-        it(`handles an undefined length`, () => {
-          const array = range(undefined as any);
-          expect(array.length).toBe(1);
-        });
-
-        // handle multiplier
-        it(`handles a zero multiplier`, () => {
-          const array = range(10, 0);
-          expect(array).toEqual([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        });
-        it(`handles a decimal multiplier`, () => {
-          const array = range(10, 0.5);
-          expect(array).toEqual([0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5]);
-        });
-        it(`handles a negative multiplier`, () => {
-          const array = range(10, -2);
-          expect(array).toEqual([0, -2, -4, -6, -8, -10, -12, -14, -16, -18]);
-        });
-        it(`handles a NaN multiplier`, () => {
-          const array = range(10, NaN);
-          expect(array).toEqual([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        });
-        it(`handles an undefined multiplier`, () => {
-          const array = range(10, undefined as any);
-          expect(array).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-        });
-
-        // handle offset
-        it(`handles a zero offset`, () => {
-          const array = range(10, 2, 0);
-          expect(array).toEqual([0, 2, 4, 6, 8, 10, 12, 14, 16, 18]);
-        });
-        it(`handles a decimal offset`, () => {
-          const array = range(10, 2, 0.5);
-          expect(array).toEqual([0.5, 2.5, 4.5, 6.5, 8.5, 10.5, 12.5, 14.5, 16.5, 18.5]);
-        });
-        it(`handles a negative offset`, () => {
-          const array = range(10, 2, -3);
-          expect(array).toEqual([-3, -1, 1, 3, 5, 7, 9, 11, 13, 15]);
-        });
-        it(`handles a NaN offset`, () => {
-          const array = range(10, 2, NaN);
-          expect(array).toEqual([0, 2, 4, 6, 8, 10, 12, 14, 16, 18]);
-        });
-        it(`handles an undefined offset`, () => {
-          const array = range(10, 2, undefined as any);
-          expect(array).toEqual([0, 2, 4, 6, 8, 10, 12, 14, 16, 18]);
-        });
+        kitchenSink.toEqual('length', (v) => range(v), kitchenSink.safe.num(1, true, 0), kitchenSink.num);
+        kitchenSink.toEqual('multiplier', (v) => range(10, v), kitchenSink.safe.num(1), kitchenSink.num);
+        kitchenSink.toEqual('offset', (v) => range(10, 2, v), kitchenSink.safe.num(0), kitchenSink.num);
       }
     );
   });

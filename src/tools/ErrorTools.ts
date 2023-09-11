@@ -95,12 +95,11 @@ export namespace ErrorTools {
    * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
    *
    * ```typescript
-   * const result = retryOr('default', 5, seconds(1), true, () => getSomething());
+   * const result = retryOr('default', 5, seconds(1), () => getSomething());
    * ```
    * @param {T} orValue
    * @param {number} [maxTries=10]
    * @param {ms} [delay=0]
-   * @param {boolean} [suppress=true]
    * @param {() => T} [run=fn.result(orValue)]
    * @returns {Promise<T>}
    */
@@ -108,18 +107,16 @@ export namespace ErrorTools {
     orValue: T,
     maxTries: number = 10,
     delay: ms = 0,
-    suppress: boolean = true,
-    run: () => T = fn.result(orValue)
+    run: () => T | Promise<T> = fn.result(orValue)
   ): Promise<T> => {
     const args = {
       orValue,
       maxTries: safe.num(maxTries, true, 1),
       delay: safe.num(delay, true, 0),
-      suppress: safe.bool(suppress, true),
       run: safe.func(run, fn.result(orValue))
     };
 
-    return tryOr(args.orValue, () => retry(args.maxTries, args.delay, args.suppress, args.run));
+    return tryOr(args.orValue, () => retry(args.maxTries, args.delay, false, args.run));
   };
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 

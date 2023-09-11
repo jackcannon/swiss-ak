@@ -4918,16 +4918,15 @@ declare namespace ErrorTools {
      * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
      *
      * ```typescript
-     * const result = retryOr('default', 5, seconds(1), true, () => getSomething());
+     * const result = retryOr('default', 5, seconds(1), () => getSomething());
      * ```
      * @param {T} orValue
      * @param {number} [maxTries=10]
      * @param {ms} [delay=0]
-     * @param {boolean} [suppress=true]
      * @param {() => T} [run=fn.result(orValue)]
      * @returns {Promise<T>}
      */
-    const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, suppress?: boolean, run?: () => T) => Promise<T>;
+    const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
 }
 /**<!-- DOCS-ALIAS: ErrorTools.tryOr -->
  * tryOr
@@ -4975,16 +4974,15 @@ declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress
  * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
  * 
  * ```typescript
- * const result = retryOr('default', 5, seconds(1), true, () => getSomething());
+ * const result = retryOr('default', 5, seconds(1), () => getSomething());
  * ```
  * @param {T} orValue
  * @param {number} [maxTries=10]
  * @param {ms} [delay=0]
- * @param {boolean} [suppress=true]
  * @param {() => T} [run=fn.result(orValue)]
  * @returns {Promise<T>}
  */
-declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, suppress?: boolean, run?: () => T) => Promise<T>;
+declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
 
 /**<!-- DOCS: MathsTools ##! -->
  * MathsTools

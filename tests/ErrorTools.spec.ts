@@ -1,7 +1,7 @@
 import * as swissak from '../';
-import { register, multiTest } from './test-utils';
+import { register, multiTest, kitchenSink } from './test-utils';
 
-register({ describe, it });
+register({ describe, it, expect });
 
 describe('ErrorTools', () => {
   describe('tryOr', () => {
@@ -35,7 +35,16 @@ describe('ErrorTools', () => {
           expect(result).toBe('bar');
         });
 
-        // TODO passing args
+        it(`passes args to the function`, async () => {
+          let args = undefined;
+          const action = async (...newArgs) => {
+            args = newArgs;
+            return 'foo';
+          };
+          const result = await tryOr('bar', action, 'a', 'b', 'c');
+          expect(result).toBe('foo');
+          expect(args).toEqual(['a', 'b', 'c']);
+        });
       }
     );
   });
@@ -114,71 +123,34 @@ describe('ErrorTools', () => {
 
         // handles bad inputs
         // maxTries
-        it(`handles maxTries being zero`, async () => {
-          let count = 0;
-          const action = async () => {
-            count++;
-            throw new Error(`Error ${count}`);
-          };
-          const result = await retry(0, 0, true, action);
-          expect(result).toBe(undefined);
-          expect(count).toBe(1);
-        });
-        it(`handles maxTries being a decimal`, async () => {
-          let count = 0;
-          const action = async () => {
-            count++;
-            throw new Error(`Error ${count}`);
-          };
-          const result = await retry(3.5, 0, true, action);
-          expect(result).toBe(undefined);
-          expect(count).toBe(3);
-        });
-        it(`handles maxTries being negative`, async () => {
-          let count = 0;
-          const action = async () => {
-            count++;
-            throw new Error(`Error ${count}`);
-          };
-          const result = await retry(-1, 0, true, action);
-          expect(result).toBe(undefined);
-          expect(count).toBe(1);
-        });
-        it(`handles maxTries being NaN`, async () => {
-          let count = 0;
-          const action = async () => {
-            count++;
-            throw new Error(`Error ${count}`);
-          };
-          const result = await retry(NaN, 0, true, action);
-          expect(result).toBe(undefined);
-          expect(count).toBe(10);
-        });
-        it(`handles maxTries being undefined`, async () => {
-          let count = 0;
-          const action = async () => {
-            count++;
-            throw new Error(`Error ${count}`);
-          };
-          const result = await retry(undefined, 0, true, action);
-          expect(result).toBe(undefined);
-          expect(count).toBe(10);
-        });
+        kitchenSink.toEqual(
+          'maxTries',
+          async (v) => {
+            let count = 0;
+            const action = async () => {
+              count++;
+              throw new Error(`Error ${count}`);
+            };
+            const result = await retry(v, 0, true, action);
+            expect(result).toBe(undefined);
+            return count;
+          },
+          kitchenSink.safe.num(10, true, 1, undefined, 10),
+          kitchenSink.num
+        );
 
         // delay
-        it(`handles delay being zero`, async () => {
-          const start = Date.now();
-          let count = 0;
-          const action = async () => {
-            throw new Error(`Error ${++count}`);
-          };
-          const result = await retry(5, 0, true, action);
-          const duration = Date.now() - start;
-          expect(duration).toBeLessThan(10);
-          expect(result).toBe(undefined);
-          expect(count).toBe(5);
-        });
-        // TODO test delay being decimal, negative, NaN, undefined
+        kitchenSink.toEqual(
+          'delay',
+          async (v) => {
+            const action = async () => {
+              throw new Error(`Error`);
+            };
+            return retry(5, v, true, action);
+          },
+          kitchenSink.safe.num(0, true, 0),
+          kitchenSink.num
+        );
       }
     );
   });
@@ -192,6 +164,107 @@ describe('ErrorTools', () => {
         it(`exists as '${name}'`, () => {
           expect(retryOr).toBeDefined();
         });
+
+        it(`works first time`, async () => {
+          let count = 0;
+          const action = async () => {
+            count++;
+            return 'foo';
+          };
+          const result = await retryOr<string>('bar', 5, 0, action);
+          expect(result).toBe('foo');
+          expect(count).toBe(1);
+        });
+
+        it(`works on nth time`, async () => {
+          let count = 0;
+          const action = async () => {
+            count++;
+            if (count === 4) {
+              return 'foo';
+            }
+            throw new Error('An Error happened');
+          };
+          const result = await retryOr('bar', 5, 0, action);
+          expect(result).toBe('foo');
+          expect(count).toBe(4);
+        });
+
+        it(`returns orValue if no success`, async () => {
+          let count = 0;
+          const action = async () => {
+            count++;
+            throw new Error('An Error happened');
+          };
+          const result = await retryOr('bar', 5, 0, action);
+          expect(result).toBe('bar');
+          expect(count).toBe(5);
+        });
+        it(`dont throw error`, async () => {
+          let count = 0;
+          const action = async () => {
+            count++;
+            throw new Error('An Error happened');
+          };
+          let didSucceed = undefined;
+          let result;
+          try {
+            result = await retryOr('bar', 5, 0, action);
+            didSucceed = true;
+          } catch (e) {
+            didSucceed = false;
+          }
+          expect(result).toBe('bar');
+          expect(didSucceed).toBe(true);
+          expect(count).toBe(5);
+        });
+        it(`waits between attempts`, async () => {
+          const start = Date.now();
+          let count = 0;
+          const action = async () => {
+            count++;
+            throw new Error('An Error happened');
+          };
+          const result = await retryOr('bar', 5, 10, action);
+
+          const duration = Date.now() - start;
+          expect(duration).toBeGreaterThanOrEqual(50);
+          expect(result).toBe('bar');
+          expect(count).toBe(5);
+        });
+
+        kitchenSink.toBe(
+          'maxTries',
+          async (v) => {
+            let count = 0;
+            const action = async () => {
+              count++;
+              throw new Error('An Error happened');
+            };
+            const result = await retryOr('bar', v, 0, action);
+            expect(result).toBe('bar');
+            return count;
+          },
+          kitchenSink.safe.num(10, true, 1),
+          kitchenSink.num
+        );
+
+        kitchenSink.toBe(
+          'delay',
+          async (v) => {
+            let count = 0;
+            const action = async () => {
+              count++;
+              throw new Error('An Error happened');
+            };
+            const result = await retryOr('bar', 5, v, action);
+
+            expect(result).toBe('bar');
+            return count;
+          },
+          kitchenSink.safe.num(0, true, 0),
+          kitchenSink.num
+        );
       }
     );
   });
