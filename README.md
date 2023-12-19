@@ -3665,7 +3665,7 @@ ColourTools.toHex([255, 0, 0]) // '#FF0000'
 ColourTools.getLuminance(rgb: ColourValues): number
 ```
 
-IMPORTANT: This is not the same as the HSL luminance value.
+IMPORTANT: This is not the same as the HSL lightness value.
 
 Get the luminance value of a given colour.
 
@@ -3956,8 +3956,8 @@ const result = tryOr(5, seconds(1), true, () => getSomething());
 ### retryOr
 
 ```typescript
-retryOr(orValue: T, maxTries: number, delay: ms, run: () => T): Promise<T>
-ErrorTools.retryOr(orValue: T, maxTries: number, delay: ms, run: () => T): Promise<T>
+retryOr(orValue: T, maxTries: number, delay: ms, run: () => T | Promise<T>): Promise<T>
+ErrorTools.retryOr(orValue: T, maxTries: number, delay: ms, run: () => T | Promise<T>): Promise<T>
 ```
 
 Combination of retry and tryOr.
@@ -3968,12 +3968,12 @@ Try to execute a function and return its result if it succeeds, or retry a given
 const result = retryOr('default', 5, seconds(1), () => getSomething());
 ```
 
-|  #  | Parameter Name | Required | Type      | Default              |
-|:---:|:---------------|:---------|:----------|:---------------------|
-| *0* | `orValue`      | **Yes**  | `T`       |                      |
-| *1* | `maxTries`     | *No*     | `number`  | `10`                 |
-| *2* | `delay`        | *No*     | `ms`      | `0`                  |
-| *3* | `run`          | *No*     | `() => T` | `fn.result(orValue)` |
+|  #  | Parameter Name | Required | Type                    | Default              |
+|:---:|:---------------|:---------|:------------------------|:---------------------|
+| *0* | `orValue`      | **Yes**  | `T`                     |                      |
+| *1* | `maxTries`     | *No*     | `number`                | `10`                 |
+| *2* | `delay`        | *No*     | `ms`                    | `0`                  |
+| *3* | `run`          | *No*     | `() => T \| Promise<T>` | `fn.result(orValue)` |
 
 | Return Type  |
 |--------------|

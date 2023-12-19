@@ -533,7 +533,7 @@ export namespace ArrayTools {
      */
     export const partitionNums = (ignoreCase: boolean) => {
       const ignoreCaseSafe = safe.bool(ignoreCase);
-      return (name: string) => {
+      return (name: string): (string | number)[] => {
         const args = {
           ignoreCase: ignoreCaseSafe,
           name: safe.str(name, true)

@@ -4923,7 +4923,7 @@ declare namespace ErrorTools {
      * @param {T} orValue
      * @param {number} [maxTries=10]
      * @param {ms} [delay=0]
-     * @param {() => T} [run=fn.result(orValue)]
+     * @param {() => T | Promise<T>} [run=fn.result(orValue)]
      * @returns {Promise<T>}
      */
     const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
@@ -4979,7 +4979,7 @@ declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress
  * @param {T} orValue
  * @param {number} [maxTries=10]
  * @param {ms} [delay=0]
- * @param {() => T} [run=fn.result(orValue)]
+ * @param {() => T | Promise<T>} [run=fn.result(orValue)]
  * @returns {Promise<T>}
  */
 declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
@@ -5603,256 +5603,256 @@ declare namespace ColourTools {
      * ```
      */
     const namedColours: {
-        aliceblue: number[];
-        antiquewhite: number[];
-        aqua: number[];
-        aquamarine: number[];
-        azure: number[];
-        beige: number[];
-        bisque: number[];
-        black: number[];
-        blanchedalmond: number[];
-        blue: number[];
-        blueviolet: number[];
-        brown: number[];
-        burlywood: number[];
-        cadetblue: number[];
-        chartreuse: number[];
-        chocolate: number[];
-        coral: number[];
-        cornflowerblue: number[];
-        cornsilk: number[];
-        crimson: number[];
-        cyan: number[];
-        darkblue: number[];
-        darkcyan: number[];
-        darkgoldenrod: number[];
-        darkgray: number[];
-        darkgreen: number[];
-        darkgrey: number[];
-        darkkhaki: number[];
-        darkmagenta: number[];
-        darkolivegreen: number[];
-        darkorange: number[];
-        darkorchid: number[];
-        darkred: number[];
-        darksalmon: number[];
-        darkseagreen: number[];
-        darkslateblue: number[];
-        darkslategray: number[];
-        darkslategrey: number[];
-        darkturquoise: number[];
-        darkviolet: number[];
-        deeppink: number[];
-        deepskyblue: number[];
-        dimgray: number[];
-        dimgrey: number[];
-        dodgerblue: number[];
-        firebrick: number[];
-        floralwhite: number[];
-        forestgreen: number[];
-        fractal: number[];
-        fuchsia: number[];
-        gainsboro: number[];
-        ghostwhite: number[];
-        gold: number[];
-        goldenrod: number[];
-        gray0: number[];
-        gray1: number[];
-        gray2: number[];
-        gray3: number[];
-        gray4: number[];
-        gray5: number[];
-        gray6: number[];
-        gray7: number[];
-        gray8: number[];
-        gray9: number[];
-        gray10: number[];
-        gray11: number[];
-        gray12: number[];
-        gray13: number[];
-        gray14: number[];
-        gray15: number[];
-        gray16: number[];
-        gray17: number[];
-        gray18: number[];
-        gray19: number[];
-        gray20: number[];
-        gray21: number[];
-        gray22: number[];
-        gray23: number[];
-        gray24: number[];
-        gray25: number[];
-        gray26: number[];
-        gray27: number[];
-        gray28: number[];
-        gray29: number[];
-        gray30: number[];
-        gray31: number[];
-        gray32: number[];
-        gray33: number[];
-        gray34: number[];
-        gray35: number[];
-        gray36: number[];
-        gray37: number[];
-        gray38: number[];
-        gray39: number[];
-        gray40: number[];
-        gray41: number[];
-        gray42: number[];
-        gray43: number[];
-        gray44: number[];
-        gray45: number[];
-        gray46: number[];
-        gray47: number[];
-        gray48: number[];
-        gray49: number[];
-        gray50: number[];
-        gray51: number[];
-        gray52: number[];
-        gray53: number[];
-        gray54: number[];
-        gray55: number[];
-        gray56: number[];
-        gray57: number[];
-        gray58: number[];
-        gray59: number[];
-        gray60: number[];
-        gray61: number[];
-        gray62: number[];
-        gray63: number[];
-        gray64: number[];
-        gray65: number[];
-        gray66: number[];
-        gray67: number[];
-        gray68: number[];
-        gray69: number[];
-        gray70: number[];
-        gray71: number[];
-        gray72: number[];
-        gray73: number[];
-        gray74: number[];
-        gray75: number[];
-        gray76: number[];
-        gray77: number[];
-        gray78: number[];
-        gray79: number[];
-        gray80: number[];
-        gray81: number[];
-        gray82: number[];
-        gray83: number[];
-        gray84: number[];
-        gray85: number[];
-        gray86: number[];
-        gray87: number[];
-        gray88: number[];
-        gray89: number[];
-        gray90: number[];
-        gray91: number[];
-        gray92: number[];
-        gray93: number[];
-        gray94: number[];
-        gray95: number[];
-        gray96: number[];
-        gray97: number[];
-        gray98: number[];
-        gray99: number[];
-        gray100: number[];
-        gray: number[];
-        green: number[];
-        greenyellow: number[];
-        grey: number[];
-        honeydew: number[];
-        hotpink: number[];
-        indianred: number[];
-        indigo: number[];
-        ivory: number[];
-        khaki: number[];
-        lavender: number[];
-        lavenderblush: number[];
-        lawngreen: number[];
-        lemonchiffon: number[];
-        lightblue: number[];
-        lightcoral: number[];
-        lightcyan: number[];
-        lightgoldenrodyellow: number[];
-        lightgray: number[];
-        lightgreen: number[];
-        lightgrey: number[];
-        lightpink: number[];
-        lightsalmon: number[];
-        lightseagreen: number[];
-        lightskyblue: number[];
-        lightslategray: number[];
-        lightslategrey: number[];
-        lightsteelblue: number[];
-        lightyellow: number[];
-        lime: number[];
-        limegreen: number[];
-        linen: number[];
-        magenta: number[];
-        maroon: number[];
-        mediumaquamarine: number[];
-        mediumblue: number[];
-        mediumorchid: number[];
-        mediumpurple: number[];
-        mediumseagreen: number[];
-        mediumslateblue: number[];
-        mediumspringgreen: number[];
-        mediumturquoise: number[];
-        mediumvioletred: number[];
-        midnightblue: number[];
-        mintcream: number[];
-        mistyrose: number[];
-        moccasin: number[];
-        navajowhite: number[];
-        navy: number[];
-        none: number[];
-        oldlace: number[];
-        olive: number[];
-        olivedrab: number[];
-        orange: number[];
-        orangered: number[];
-        orchid: number[];
-        palegoldenrod: number[];
-        palegreen: number[];
-        paleturquoise: number[];
-        palevioletred: number[];
-        papayawhip: number[];
-        peachpuff: number[];
-        peru: number[];
-        pink: number[];
-        plum: number[];
-        powderblue: number[];
-        purple: number[];
-        red: number[];
-        rosybrown: number[];
-        royalblue: number[];
-        saddlebrown: number[];
-        salmon: number[];
-        sandybrown: number[];
-        seagreen: number[];
-        seashell: number[];
-        sienna: number[];
-        silver: number[];
-        skyblue: number[];
-        slateblue: number[];
-        slategray: number[];
-        slategrey: number[];
-        snow: number[];
-        springgreen: number[];
-        steelblue: number[];
-        tan: number[];
-        teal: number[];
-        thistle: number[];
-        tomato: number[];
-        turquoise: number[];
-        violet: number[];
-        wheat: number[];
-        white: number[];
-        whitesmoke: number[];
-        yellow: number[];
-        yellowgreen: number[];
+        aliceblue: ColourValues;
+        antiquewhite: ColourValues;
+        aqua: ColourValues;
+        aquamarine: ColourValues;
+        azure: ColourValues;
+        beige: ColourValues;
+        bisque: ColourValues;
+        black: ColourValues;
+        blanchedalmond: ColourValues;
+        blue: ColourValues;
+        blueviolet: ColourValues;
+        brown: ColourValues;
+        burlywood: ColourValues;
+        cadetblue: ColourValues;
+        chartreuse: ColourValues;
+        chocolate: ColourValues;
+        coral: ColourValues;
+        cornflowerblue: ColourValues;
+        cornsilk: ColourValues;
+        crimson: ColourValues;
+        cyan: ColourValues;
+        darkblue: ColourValues;
+        darkcyan: ColourValues;
+        darkgoldenrod: ColourValues;
+        darkgray: ColourValues;
+        darkgreen: ColourValues;
+        darkgrey: ColourValues;
+        darkkhaki: ColourValues;
+        darkmagenta: ColourValues;
+        darkolivegreen: ColourValues;
+        darkorange: ColourValues;
+        darkorchid: ColourValues;
+        darkred: ColourValues;
+        darksalmon: ColourValues;
+        darkseagreen: ColourValues;
+        darkslateblue: ColourValues;
+        darkslategray: ColourValues;
+        darkslategrey: ColourValues;
+        darkturquoise: ColourValues;
+        darkviolet: ColourValues;
+        deeppink: ColourValues;
+        deepskyblue: ColourValues;
+        dimgray: ColourValues;
+        dimgrey: ColourValues;
+        dodgerblue: ColourValues;
+        firebrick: ColourValues;
+        floralwhite: ColourValues;
+        forestgreen: ColourValues;
+        fractal: ColourValues;
+        fuchsia: ColourValues;
+        gainsboro: ColourValues;
+        ghostwhite: ColourValues;
+        gold: ColourValues;
+        goldenrod: ColourValues;
+        gray0: ColourValues;
+        gray1: ColourValues;
+        gray2: ColourValues;
+        gray3: ColourValues;
+        gray4: ColourValues;
+        gray5: ColourValues;
+        gray6: ColourValues;
+        gray7: ColourValues;
+        gray8: ColourValues;
+        gray9: ColourValues;
+        gray10: ColourValues;
+        gray11: ColourValues;
+        gray12: ColourValues;
+        gray13: ColourValues;
+        gray14: ColourValues;
+        gray15: ColourValues;
+        gray16: ColourValues;
+        gray17: ColourValues;
+        gray18: ColourValues;
+        gray19: ColourValues;
+        gray20: ColourValues;
+        gray21: ColourValues;
+        gray22: ColourValues;
+        gray23: ColourValues;
+        gray24: ColourValues;
+        gray25: ColourValues;
+        gray26: ColourValues;
+        gray27: ColourValues;
+        gray28: ColourValues;
+        gray29: ColourValues;
+        gray30: ColourValues;
+        gray31: ColourValues;
+        gray32: ColourValues;
+        gray33: ColourValues;
+        gray34: ColourValues;
+        gray35: ColourValues;
+        gray36: ColourValues;
+        gray37: ColourValues;
+        gray38: ColourValues;
+        gray39: ColourValues;
+        gray40: ColourValues;
+        gray41: ColourValues;
+        gray42: ColourValues;
+        gray43: ColourValues;
+        gray44: ColourValues;
+        gray45: ColourValues;
+        gray46: ColourValues;
+        gray47: ColourValues;
+        gray48: ColourValues;
+        gray49: ColourValues;
+        gray50: ColourValues;
+        gray51: ColourValues;
+        gray52: ColourValues;
+        gray53: ColourValues;
+        gray54: ColourValues;
+        gray55: ColourValues;
+        gray56: ColourValues;
+        gray57: ColourValues;
+        gray58: ColourValues;
+        gray59: ColourValues;
+        gray60: ColourValues;
+        gray61: ColourValues;
+        gray62: ColourValues;
+        gray63: ColourValues;
+        gray64: ColourValues;
+        gray65: ColourValues;
+        gray66: ColourValues;
+        gray67: ColourValues;
+        gray68: ColourValues;
+        gray69: ColourValues;
+        gray70: ColourValues;
+        gray71: ColourValues;
+        gray72: ColourValues;
+        gray73: ColourValues;
+        gray74: ColourValues;
+        gray75: ColourValues;
+        gray76: ColourValues;
+        gray77: ColourValues;
+        gray78: ColourValues;
+        gray79: ColourValues;
+        gray80: ColourValues;
+        gray81: ColourValues;
+        gray82: ColourValues;
+        gray83: ColourValues;
+        gray84: ColourValues;
+        gray85: ColourValues;
+        gray86: ColourValues;
+        gray87: ColourValues;
+        gray88: ColourValues;
+        gray89: ColourValues;
+        gray90: ColourValues;
+        gray91: ColourValues;
+        gray92: ColourValues;
+        gray93: ColourValues;
+        gray94: ColourValues;
+        gray95: ColourValues;
+        gray96: ColourValues;
+        gray97: ColourValues;
+        gray98: ColourValues;
+        gray99: ColourValues;
+        gray100: ColourValues;
+        gray: ColourValues;
+        green: ColourValues;
+        greenyellow: ColourValues;
+        grey: ColourValues;
+        honeydew: ColourValues;
+        hotpink: ColourValues;
+        indianred: ColourValues;
+        indigo: ColourValues;
+        ivory: ColourValues;
+        khaki: ColourValues;
+        lavender: ColourValues;
+        lavenderblush: ColourValues;
+        lawngreen: ColourValues;
+        lemonchiffon: ColourValues;
+        lightblue: ColourValues;
+        lightcoral: ColourValues;
+        lightcyan: ColourValues;
+        lightgoldenrodyellow: ColourValues;
+        lightgray: ColourValues;
+        lightgreen: ColourValues;
+        lightgrey: ColourValues;
+        lightpink: ColourValues;
+        lightsalmon: ColourValues;
+        lightseagreen: ColourValues;
+        lightskyblue: ColourValues;
+        lightslategray: ColourValues;
+        lightslategrey: ColourValues;
+        lightsteelblue: ColourValues;
+        lightyellow: ColourValues;
+        lime: ColourValues;
+        limegreen: ColourValues;
+        linen: ColourValues;
+        magenta: ColourValues;
+        maroon: ColourValues;
+        mediumaquamarine: ColourValues;
+        mediumblue: ColourValues;
+        mediumorchid: ColourValues;
+        mediumpurple: ColourValues;
+        mediumseagreen: ColourValues;
+        mediumslateblue: ColourValues;
+        mediumspringgreen: ColourValues;
+        mediumturquoise: ColourValues;
+        mediumvioletred: ColourValues;
+        midnightblue: ColourValues;
+        mintcream: ColourValues;
+        mistyrose: ColourValues;
+        moccasin: ColourValues;
+        navajowhite: ColourValues;
+        navy: ColourValues;
+        none: ColourValues;
+        oldlace: ColourValues;
+        olive: ColourValues;
+        olivedrab: ColourValues;
+        orange: ColourValues;
+        orangered: ColourValues;
+        orchid: ColourValues;
+        palegoldenrod: ColourValues;
+        palegreen: ColourValues;
+        paleturquoise: ColourValues;
+        palevioletred: ColourValues;
+        papayawhip: ColourValues;
+        peachpuff: ColourValues;
+        peru: ColourValues;
+        pink: ColourValues;
+        plum: ColourValues;
+        powderblue: ColourValues;
+        purple: ColourValues;
+        red: ColourValues;
+        rosybrown: ColourValues;
+        royalblue: ColourValues;
+        saddlebrown: ColourValues;
+        salmon: ColourValues;
+        sandybrown: ColourValues;
+        seagreen: ColourValues;
+        seashell: ColourValues;
+        sienna: ColourValues;
+        silver: ColourValues;
+        skyblue: ColourValues;
+        slateblue: ColourValues;
+        slategray: ColourValues;
+        slategrey: ColourValues;
+        snow: ColourValues;
+        springgreen: ColourValues;
+        steelblue: ColourValues;
+        tan: ColourValues;
+        teal: ColourValues;
+        thistle: ColourValues;
+        tomato: ColourValues;
+        turquoise: ColourValues;
+        violet: ColourValues;
+        wheat: ColourValues;
+        white: ColourValues;
+        whitesmoke: ColourValues;
+        yellow: ColourValues;
+        yellowgreen: ColourValues;
     };
     /**<!-- DOCS: ColourTools.parse ### @ -->
      * parse
@@ -5894,7 +5894,7 @@ declare namespace ColourTools {
      *
      * - `ColourTools.getLuminance`
      *
-     * IMPORTANT: This is not the same as the HSL luminance value.
+     * IMPORTANT: This is not the same as the HSL lightness value.
      *
      * Get the luminance value of a given colour.
      *
@@ -6510,7 +6510,7 @@ declare namespace safe {
      * safe.arr(undefined, [4, 5, 6]); // [ 4, 5, 6 ]
      * ```
      */
-    const arr: <T extends unknown>(input: T[], fallback?: T[]) => T[];
+    const arr: <T extends unknown>(input: T[], fallback?: T[], minLength?: number, maxLength?: number) => T[];
     /**<!-- DOCS: safe.arrOf ### -->
      * arrOf
      *
@@ -6546,7 +6546,7 @@ declare namespace safe {
          * safe.arrOf.num(undefined, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
          * ```
          */
-        const num: (input: number[], isInt?: boolean, min?: number, max?: number, fallback?: number, fallbackArr?: number[]) => number[];
+        const num: (input: number[], isInt?: boolean, min?: number, max?: number, fallback?: number, fallbackArr?: number[], arrMinLength?: number, arrMaxLength?: number) => number[];
         /**<!-- DOCS: safe.arrOf.str #### @ -->
          * str
          *
@@ -6576,7 +6576,7 @@ declare namespace safe {
          * safe.arrOf.str(undefined, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
          * ```
          */
-        const str: (input: string[], allowStringify?: boolean, fallback?: string, fallbackArr?: string[]) => string[];
+        const str: (input: string[], allowStringify?: boolean, fallback?: string, fallbackArr?: string[], arrMinLength?: number, arrMaxLength?: number) => string[];
         /**<!-- DOCS: safe.arrOf.bool #### @ -->
          * bool
          *
@@ -6606,7 +6606,7 @@ declare namespace safe {
          * safe.arrOf.bool(undefined, true, [true, true]); // [ true, true ]
          * ```
          */
-        const bool: (input: boolean[], fallback?: boolean, fallbackArr?: boolean[]) => boolean[];
+        const bool: (input: boolean[], fallback?: boolean, fallbackArr?: boolean[], arrMinLength?: number, arrMaxLength?: number) => boolean[];
         /**<!-- DOCS: safe.arrOf.func #### @ -->
          * func
          *
@@ -6636,7 +6636,7 @@ declare namespace safe {
          * safe.arrOf.func(undefined, (q) => 2, [(r) => 3]); //  [(r) => 3]
          * ```
          */
-        const func: <T extends Function>(input: T[], fallback?: T, fallbackArr?: T[]) => T[];
+        const func: <T extends Function>(input: T[], fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
         /**<!-- DOCS: safe.arrOf.obj #### @ -->
          * obj
          *
@@ -6666,7 +6666,7 @@ declare namespace safe {
          * safe.arrOf.obj(undefined, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
          * ```
          */
-        const obj: <T extends unknown>(input: T[], fallback?: T, fallbackArr?: T[]) => T[];
+        const obj: <T extends unknown>(input: T[], fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
         /**<!-- DOCS: safe.arrOf.arr #### @ -->
          * arr
          *
@@ -6696,7 +6696,7 @@ declare namespace safe {
          * safe.arrOf.arr(undefined, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
          * ```
          */
-        const arr: <T extends unknown>(input: T[][], fallback?: T[], fallbackArr?: T[][]) => T[][];
+        const arr: <T extends unknown>(input: T[][], fallback?: T[], fallbackArr?: T[][], arrMinLength?: number, arrMaxLength?: number) => T[][];
     }
 }
 

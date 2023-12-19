@@ -17,7 +17,19 @@ export const multiTest = <T extends unknown>(items: [T, string][], run: (item: T
     });
   });
 };
-
+const DEBUG = false;
+const stringify = (value: any) => {
+  if (typeof value === 'function') {
+    const lines = value
+      .toString()
+      .split(/\n\s*/gm)
+      .filter((line) => line.trim().length);
+    return (lines.length > 2 ? [...lines.slice(0, 2), lines.length > 3 ? '...' : undefined, lines.at(-1)] : lines.slice(0, 2))
+      .filter((l) => l)
+      .join(' ');
+  }
+  return JSON.stringify(value);
+};
 const runKitchenSink = <Ti extends unknown, To extends unknown>(
   checkType: 'toBe' | 'toEqual',
   name: string,
@@ -26,10 +38,19 @@ const runKitchenSink = <Ti extends unknown, To extends unknown>(
   testInputs: any[]
 ) => {
   testInputs.forEach((input) => {
-    core.it(`should handle ${name} being ${JSON.stringify(input)}`, async () => {
-      const normalised = normaliser(input);
+    const normalised = normaliser(input);
+    core.it(`should handle ${name} being ${stringify(input)}   \u001b[2m(as ${stringify(normalised)})\u001b[22m`, async () => {
+      if (DEBUG) console.log('\n\n ======= ACTUAL ======= \n\n');
       const actual = await sink(input);
+
+      if (DEBUG) console.log('\n\n ======= EXPECTED ======= \n\n');
       const expected = await sink(normalised);
+
+      if (DEBUG) console.log('\n\n ======= \n\n');
+      if (DEBUG) console.log('input:', stringify(input), stringify(normalised));
+      if (DEBUG) console.log('value:', actual, expected);
+      if (DEBUG) console.log();
+
       if (checkType === 'toBe') {
         core.expect(actual).toBe(expected);
       } else {
@@ -39,7 +60,17 @@ const runKitchenSink = <Ti extends unknown, To extends unknown>(
   });
 };
 
-export const kitchenSink = {
+type KitchenSinkTestFunction = <Ti extends unknown, To extends unknown>(
+  name: string,
+  sink: (value: Ti) => To | Promise<To>,
+  normaliser: (value: any) => Ti,
+  testInputs?: any[]
+) => void;
+
+const kitchenSinkTesters: {
+  toBe: KitchenSinkTestFunction;
+  toEqual: KitchenSinkTestFunction;
+} = {
   toBe<Ti extends unknown, To extends unknown>(
     name: string,
     sink: (value: Ti) => To | Promise<To>,
@@ -55,9 +86,15 @@ export const kitchenSink = {
     testInputs: any[] = kitchenSink.general
   ) {
     return runKitchenSink('toEqual', name, sink, normaliser, testInputs);
-  },
+  }
+};
+
+const kitchenSinkSamples = {
   num: [0, 1.5, 2.25, -1, -15, NaN, undefined, null, Infinity, -Infinity, '123', 'a string', true, false, { foo: 'bar' }, ['foo', 'bar']],
-  general: [undefined, null, Infinity, '123', 'a string', true, false, 123, 0, { foo: 'bar' }, ['foo', 'bar']],
+  general: [undefined, null, Infinity, '123', 'a string', true, false, 123, 0, { foo: 'bar' }, ['foo', 'bar']]
+};
+
+const kitchenSinkSafe = {
   safe: {
     num:
       (defaultValue: number, isInt: boolean = false, min?: number, max?: number, fallback: number = 0) =>
@@ -86,29 +123,56 @@ export const kitchenSink = {
 
     arrOf: {
       num:
-        (defaultValue: number[], isInt: boolean = false, min?: number, max?: number, fallback?: number, fallbackArr: number[] = []) =>
+        (
+          defaultValue: number[],
+          isInt: boolean = false,
+          min?: number,
+          max?: number,
+          fallback?: number,
+          fallbackArr: number[] = [],
+          arrMinLength: number = 0,
+          arrMaxLength: number = Infinity
+        ) =>
         (input: number[] = defaultValue): number[] =>
           safeOriginal.arrOf.num(input, isInt, min, max, fallback, fallbackArr),
       str:
-        (defaultValue: string[], allowStringify: boolean = false, fallback?: string, fallbackArr: string[] = []) =>
+        (
+          defaultValue: string[],
+          allowStringify: boolean = false,
+          fallback?: string,
+          fallbackArr: string[] = [],
+          arrMinLength: number = 0,
+          arrMaxLength: number = Infinity
+        ) =>
         (input: string[] = defaultValue): string[] =>
           safeOriginal.arrOf.str(input, allowStringify, fallback, fallbackArr),
       bool:
-        (defaultValue: boolean[], fallback?: boolean, fallbackArr: boolean[] = []) =>
+        (defaultValue: boolean[], fallback?: boolean, fallbackArr: boolean[] = [], arrMinLength: number = 0, arrMaxLength: number = Infinity) =>
         (input: boolean[] = defaultValue): boolean[] =>
           safeOriginal.arrOf.bool(input, fallback, fallbackArr),
       func:
-        <T extends Function>(defaultValue: T[], fallback?: T, fallbackArr: T[] = []) =>
+        <T extends Function>(defaultValue: T[], fallback?: T, fallbackArr: T[] = [], arrMinLength: number = 0, arrMaxLength: number = Infinity) =>
         (input: T[] = defaultValue): T[] =>
           safeOriginal.arrOf.func(input, fallback, fallbackArr),
       obj:
-        <T extends unknown>(defaultValue: T[], fallback?: T, fallbackArr: T[] = []) =>
+        <T extends unknown>(defaultValue: T[], fallback?: T, fallbackArr: T[] = [], arrMinLength: number = 0, arrMaxLength: number = Infinity) =>
         (input: T[] = defaultValue): T[] =>
           safeOriginal.arrOf.obj(input, fallback, fallbackArr),
       arr:
-        <T extends unknown>(defaultValue: T[][], fallback?: T[], fallbackArr: T[][] = []) =>
+        <T extends unknown>(
+          defaultValue: T[][],
+          fallback?: T[],
+          fallbackArr: T[][] = [],
+          arrMinLength: number = 0,
+          arrMaxLength: number = Infinity
+        ) =>
         (input: T[][] = defaultValue): T[][] =>
           safeOriginal.arrOf.arr(input, fallback, fallbackArr)
     }
   }
+};
+export const kitchenSink = {
+  ...kitchenSinkTesters,
+  ...kitchenSinkSamples,
+  ...kitchenSinkSafe
 };

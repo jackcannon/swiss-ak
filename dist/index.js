@@ -265,7 +265,7 @@ var safe;
       result = fallback;
     return result;
   };
-  safe2.arr = (input, fallback = []) => {
+  safe2.arr = (input, fallback = [], minLength = 0, maxLength = Infinity) => {
     let result = input;
     if (result === void 0 || result === null)
       result = fallback;
@@ -277,32 +277,36 @@ var safe;
         result = fallback;
       }
     }
+    if (result.length < minLength)
+      result = [...result, ...fallback.slice(result.length)];
+    if (result.length > maxLength)
+      result = result.slice(0, maxLength);
     return result;
   };
   let arrOf;
   ((arrOf2) => {
-    arrOf2.num = (input, isInt = false, min, max, fallback, fallbackArr = []) => {
-      const result = safe2.arr(input, fallbackArr);
+    arrOf2.num = (input, isInt = false, min, max, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe2.num(item, isInt, min, max, fallback));
     };
-    arrOf2.str = (input, allowStringify = false, fallback, fallbackArr = []) => {
-      const result = safe2.arr(input, fallbackArr);
+    arrOf2.str = (input, allowStringify = false, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe2.str(item, allowStringify, fallback));
     };
-    arrOf2.bool = (input, fallback, fallbackArr = []) => {
-      const result = safe2.arr(input, fallbackArr);
+    arrOf2.bool = (input, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe2.bool(item, fallback));
     };
-    arrOf2.func = (input, fallback, fallbackArr = []) => {
-      const result = safe2.arr(input, fallbackArr);
+    arrOf2.func = (input, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe2.func(item, fallback));
     };
-    arrOf2.obj = (input, fallback, fallbackArr = []) => {
-      const result = safe2.arr(input, fallbackArr);
+    arrOf2.obj = (input, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe2.obj(item, fallback));
     };
-    arrOf2.arr = (input, fallback, fallbackArr = []) => {
-      const result = safe2.arr(input, fallbackArr);
+    arrOf2.arr = (input, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe2.arr(item, fallback));
     };
   })(arrOf = safe2.arrOf || (safe2.arrOf = {}));
@@ -1371,6 +1375,8 @@ var retry = ErrorTools.retry;
 var retryOr = ErrorTools.retryOr;
 
 // src/tools/ColourTools.ts
+var safeRGB = (rgb) => safe.arrOf.num(rgb, true, 0, 255, 0, [0, 0, 0], 3, 3);
+var safeHSL = (hsl) => safe.arrOf.num(hsl, true, 0, 360, 0, [0, 0, 0], 3, 3).map((v, i) => safe.num(v, true, 0, [360, 100, 100][i], 0));
 var ColourTools;
 ((ColourTools2) => {
   ColourTools2.namedColours = {
@@ -1628,7 +1634,10 @@ var ColourTools;
   const limitValue = (val) => Math.max(0, Math.min(255, val));
   const roundMinMax = (value, min = 0, max = 255) => Math.min(max, Math.max(min, Math.round(value)));
   ColourTools2.parse = (input) => {
-    const trimmed = (input + "").trim();
+    const args = {
+      input: safe.str(input, true)
+    };
+    const trimmed = args.input.trim();
     if (ColourTools2.namedColours[trimmed]) {
       return ColourTools2.namedColours[trimmed];
     }
@@ -1653,24 +1662,37 @@ var ColourTools;
     return [0, 0, 0];
   };
   ColourTools2.toHex = (colour) => {
-    const hexs = colour.map((val) => (val ?? 0).toString(16).padStart(2, "0"));
+    const args = {
+      colour: safeRGB(colour)
+    };
+    const hexs = args.colour.map((val) => (val ?? 0).toString(16).padStart(2, "0"));
     return `#${hexs.join("")}`;
   };
   ColourTools2.getLuminance = (rgb) => {
-    const [y, u, v] = ColourTools2.toYUV(rgb);
+    const args = {
+      rgb: safeRGB(rgb)
+    };
+    const [y, u, v] = ColourTools2.toYUV(args.rgb);
     return y;
   };
   ColourTools2.toYUV = (rgb) => {
-    const [r, g, b] = rgb;
+    const args = {
+      rgb: safeRGB(rgb)
+    };
+    const [r, g, b] = args.rgb;
     const y = MathsTools.fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
     const u = MathsTools.fixFloat(-0.14713 * (r ?? 0) - 0.28886 * (g ?? 0) + 0.436 * (b ?? 0));
     const v = MathsTools.fixFloat(0.615 * (r ?? 0) - 0.51499 * (g ?? 0) - 0.10001 * (b ?? 0));
     return [y, u, v];
   };
   ColourTools2.toHSL = (colour, round = true) => {
-    const r = colour[0] / 255;
-    const g = colour[1] / 255;
-    const b = colour[2] / 255;
+    const args = {
+      colour: safeRGB(colour),
+      round: safe.bool(round, true)
+    };
+    const r = args.colour[0] / 255;
+    const g = args.colour[1] / 255;
+    const b = args.colour[2] / 255;
     const M = Math.max(r, g, b);
     const m = M - Math.min(r, g, b);
     let d = 0;
@@ -1690,39 +1712,57 @@ var ColourTools;
       100 * (m ? M <= 0.5 ? m / (2 * M - m) : m / (2 - (2 * M - m)) : 0),
       100 * (2 * M - m) / 2
     ];
-    if (round) {
+    if (args.round) {
       return [roundMinMax(result[0], 0, 360), roundMinMax(result[1], 0, 100), roundMinMax(result[2], 0, 100)];
     }
     return result;
   };
   ColourTools2.fromHSL = (hsl, round = true) => {
-    const h = hsl[0];
-    const s = hsl[1] / 100;
-    const l = hsl[2] / 100;
+    const args = {
+      hsl: safeHSL(hsl),
+      round: safe.bool(round, true)
+    };
+    const h = args.hsl[0];
+    const s = args.hsl[1] / 100;
+    const l = args.hsl[2] / 100;
     const k = (n) => (n + h / 30) % 12;
     const a = s * Math.min(l, 1 - l);
     const f = (n) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
     const result = [255 * f(0), 255 * f(8), 255 * f(4)];
-    if (round) {
+    if (args.round) {
       return [roundMinMax(result[0], 0, 255), roundMinMax(result[1], 0, 255), roundMinMax(result[2], 0, 255)];
     }
     return result;
   };
   ColourTools2.invertColour = (rgb) => {
-    const [r, g, b] = rgb;
+    const args = {
+      rgb: safeRGB(rgb)
+    };
+    const [r, g, b] = args.rgb;
     return [255 - r, 255 - g, 255 - b];
   };
   const white = [255, 255, 255];
   const black = [0, 0, 0];
-  ColourTools2.getContrastedColour = (colour) => ColourTools2.getLuminance(colour) > 186 ? black : white;
+  ColourTools2.getContrastedColour = (colour) => {
+    const args = {
+      colour: safeRGB(colour)
+    };
+    return ColourTools2.getLuminance(args.colour) > 186 ? black : white;
+  };
   ColourTools2.getLimitedColour = (colour, checkFn, adjustFn) => {
-    const hsl = ColourTools2.toHSL(colour);
-    if (checkFn(hsl)) {
-      const adjusted = adjustFn(hsl);
-      const out = ColourTools2.fromHSL(adjusted);
+    const args = {
+      colour: safeRGB(colour),
+      checkFn: safe.func(checkFn, () => true),
+      adjustFn: safe.func(adjustFn, (hsl2) => [...hsl2])
+    };
+    const hsl = ColourTools2.toHSL(args.colour);
+    if (args.checkFn(hsl)) {
+      const adjustedHSL = args.adjustFn(hsl);
+      const safeAdjustedHSL = safeHSL(adjustedHSL);
+      const out = ColourTools2.fromHSL(safeAdjustedHSL);
       return out;
     }
-    return colour;
+    return args.colour;
   };
 })(ColourTools || (ColourTools = {}));
 

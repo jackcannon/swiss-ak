@@ -100,7 +100,7 @@ export namespace ErrorTools {
    * @param {T} orValue
    * @param {number} [maxTries=10]
    * @param {ms} [delay=0]
-   * @param {() => T} [run=fn.result(orValue)]
+   * @param {() => T | Promise<T>} [run=fn.result(orValue)]
    * @returns {Promise<T>}
    */
   export const retryOr = async <T extends unknown>(

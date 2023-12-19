@@ -239,7 +239,7 @@ export namespace safe {
    * safe.arr(undefined, [4, 5, 6]); // [ 4, 5, 6 ]
    * ```
    */
-  export const arr = <T extends unknown>(input: T[], fallback: T[] = []): T[] => {
+  export const arr = <T extends unknown>(input: T[], fallback: T[] = [], minLength: number = 0, maxLength: number = Infinity): T[] => {
     let result = input;
     if (result === undefined || result === null) result = fallback;
     if (!Array.isArray(result)) {
@@ -250,6 +250,8 @@ export namespace safe {
         result = fallback;
       }
     }
+    if (result.length < minLength) result = [...result, ...fallback.slice(result.length)];
+    if (result.length > maxLength) result = result.slice(0, maxLength);
     return result;
   };
 
@@ -294,9 +296,11 @@ export namespace safe {
       min?: number,
       max?: number,
       fallback?: number,
-      fallbackArr: number[] = []
+      fallbackArr: number[] = [],
+      arrMinLength: number = 0,
+      arrMaxLength: number = Infinity
     ): number[] => {
-      const result = safe.arr(input, fallbackArr);
+      const result = safe.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe.num(item, isInt, min, max, fallback));
     };
 
@@ -329,8 +333,15 @@ export namespace safe {
      * safe.arrOf.str(undefined, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
      * ```
      */
-    export const str = (input: string[], allowStringify: boolean = false, fallback?: string, fallbackArr: string[] = []): string[] => {
-      const result = safe.arr(input, fallbackArr);
+    export const str = (
+      input: string[],
+      allowStringify: boolean = false,
+      fallback?: string,
+      fallbackArr: string[] = [],
+      arrMinLength: number = 0,
+      arrMaxLength: number = Infinity
+    ): string[] => {
+      const result = safe.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe.str(item, allowStringify, fallback));
     };
 
@@ -363,8 +374,14 @@ export namespace safe {
      * safe.arrOf.bool(undefined, true, [true, true]); // [ true, true ]
      * ```
      */
-    export const bool = (input: boolean[], fallback?: boolean, fallbackArr: boolean[] = []): boolean[] => {
-      const result = safe.arr(input, fallbackArr);
+    export const bool = (
+      input: boolean[],
+      fallback?: boolean,
+      fallbackArr: boolean[] = [],
+      arrMinLength: number = 0,
+      arrMaxLength: number = Infinity
+    ): boolean[] => {
+      const result = safe.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe.bool(item, fallback));
     };
 
@@ -397,8 +414,14 @@ export namespace safe {
      * safe.arrOf.func(undefined, (q) => 2, [(r) => 3]); //  [(r) => 3]
      * ```
      */
-    export const func = <T extends Function>(input: T[], fallback?: T, fallbackArr: T[] = []): T[] => {
-      const result = safe.arr(input, fallbackArr);
+    export const func = <T extends Function>(
+      input: T[],
+      fallback?: T,
+      fallbackArr: T[] = [],
+      arrMinLength: number = 0,
+      arrMaxLength: number = Infinity
+    ): T[] => {
+      const result = safe.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe.func(item, fallback));
     };
 
@@ -431,8 +454,14 @@ export namespace safe {
      * safe.arrOf.obj(undefined, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
      * ```
      */
-    export const obj = <T extends unknown>(input: T[], fallback?: T, fallbackArr: T[] = []): T[] => {
-      const result = safe.arr(input, fallbackArr);
+    export const obj = <T extends unknown>(
+      input: T[],
+      fallback?: T,
+      fallbackArr: T[] = [],
+      arrMinLength: number = 0,
+      arrMaxLength: number = Infinity
+    ): T[] => {
+      const result = safe.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe.obj(item, fallback));
     };
 
@@ -465,8 +494,14 @@ export namespace safe {
      * safe.arrOf.arr(undefined, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
      * ```
      */
-    export const arr = <T extends unknown>(input: T[][], fallback?: T[], fallbackArr: T[][] = []): T[][] => {
-      const result = safe.arr(input, fallbackArr);
+    export const arr = <T extends unknown>(
+      input: T[][],
+      fallback?: T[],
+      fallbackArr: T[][] = [],
+      arrMinLength: number = 0,
+      arrMaxLength: number = Infinity
+    ): T[][] => {
+      const result = safe.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe.arr(item, fallback));
     };
   }
