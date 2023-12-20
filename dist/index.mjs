@@ -176,6 +176,12 @@ var safe;
       result = result.slice(0, maxLength);
     return result;
   };
+  safe2.prop = (input, fallback = "") => {
+    if (typeof input === "number") {
+      return safe2.num(input, void 0, void 0, void 0, fallback);
+    }
+    return safe2.str(input, true, fallback);
+  };
   let arrOf;
   ((arrOf2) => {
     arrOf2.num = (input, isInt = false, min, max, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
@@ -201,6 +207,10 @@ var safe;
     arrOf2.arr = (input, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
       const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe2.arr(item, fallback));
+    };
+    arrOf2.prop = (input, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
+      return result.map((item) => safe2.prop(item, fallback));
     };
   })(arrOf = safe2.arrOf || (safe2.arrOf = {}));
 })(safe || (safe = {}));
@@ -390,7 +400,13 @@ var group = ArrayTools.group;
 // src/tools/MathsTools.ts
 var MathsTools;
 ((MathsTools2) => {
-  MathsTools2.fixFloat = (num, precision = 6) => Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision);
+  MathsTools2.fixFloat = (num, precision = 6) => {
+    const args = {
+      num: safe.num(num, false),
+      precision: safe.num(precision, true, 0)
+    };
+    return Math.round(args.num * Math.pow(10, args.precision)) / Math.pow(10, args.precision);
+  };
   MathsTools2.ff = MathsTools2.fixFloat;
   MathsTools2.addAll = (...args) => args.reduce((acc, num) => acc + num, 0);
   MathsTools2.floorTo = (to, value) => MathsTools2.fixFloat(Math.floor(value / to) * to);
@@ -446,20 +462,45 @@ var fn;
   fn2.isNotEmpty = (item) => Boolean(item && item.length);
   fn2.isEqual = (item) => (other) => Boolean(item === other);
   fn2.isNotEqual = (item) => (other) => Boolean(item !== other);
-  fn2.dedupe = (item, index, array) => array.indexOf(item) === index;
+  fn2.dedupe = (item, index, array2) => array2.indexOf(item) === index;
   fn2.dedupeMapped = (mapFn) => {
+    const args = {
+      mapFn: safe.func(mapFn, (v) => v)
+    };
     let mapped;
-    return (item, index, array) => {
+    return (item, index, array2) => {
       if (!mapped)
-        mapped = array.map(mapFn);
+        mapped = array2.map(args.mapFn);
       return mapped.indexOf(mapped[index]) === index;
     };
   };
   fn2.toString = (item) => item + "";
   fn2.toNumber = (item) => Number(item);
   fn2.toBool = (item) => item !== "false" && Boolean(item);
-  fn2.toProp = (prop) => (item) => item && item[prop];
-  fn2.toFixed = (precision) => (num) => MathsTools.fixFloat(num, precision);
+  fn2.toProp = (prop) => {
+    const args1 = {
+      prop: safe.prop(prop, "")
+    };
+    return (item) => {
+      const args = {
+        item: safe.obj(item),
+        ...args1
+      };
+      return args.item && args.item[args.prop];
+    };
+  };
+  fn2.toFixed = (precision) => {
+    const args1 = {
+      precision: safe.num(precision, true, 0)
+    };
+    return (num) => {
+      const args = {
+        num: safe.num(num, false),
+        ...args1
+      };
+      return MathsTools.fixFloat(args.num, args.precision);
+    };
+  };
   fn2.asc = (a, b) => {
     if (a < b)
       return -1;
@@ -475,28 +516,39 @@ var fn;
     return 0;
   };
   fn2.byProp = (propName, sortFn = fn2.asc) => {
-    return (a, b) => sortFn(a[propName], b[propName]);
+    const args = {
+      propName: safe.prop(propName, ""),
+      sortFn: safe.func(sortFn, fn2.asc)
+    };
+    return (a, b) => args.sortFn(a[args.propName], b[args.propName]);
   };
-  fn2.nearestTo = (target) => (a, b) => Math.abs(Number(target) - Number(a)) - Math.abs(Number(target) - Number(b));
-  fn2.furthestFrom = (target) => (a, b) => Math.abs(Number(target) - Number(b)) - Math.abs(Number(target) - Number(a));
-  fn2.arrayAsc = (a, b) => {
+  fn2.nearestTo = (target) => (a, b) => {
+    const diffA = Math.abs(Number(target) - Number(a));
+    const diffB = Math.abs(Number(target) - Number(b));
+    return (Number.isNaN(diffA) ? Infinity : diffA) - (Number.isNaN(diffB) ? Infinity : diffB);
+  };
+  fn2.furthestFrom = (target) => (a, b) => {
+    const diffA = Math.abs(Number(target) - Number(a));
+    const diffB = Math.abs(Number(target) - Number(b));
+    return (Number.isNaN(diffB) ? Infinity : diffB) - (Number.isNaN(diffA) ? Infinity : diffA);
+  };
+  fn2.array = (sortFn = fn2.asc) => (a, b) => {
     for (let i in a) {
-      const result2 = fn2.asc(a[i], b[i]);
+      const result2 = sortFn(a[i], b[i]);
       if (result2 !== 0)
         return result2;
     }
     return 0;
   };
-  fn2.arrayDesc = (a, b) => {
-    for (let i in a) {
-      const result2 = fn2.desc(a[i], b[i]);
-      if (result2 !== 0)
-        return result2;
-    }
-    return 0;
-  };
+  fn2.arrayAsc = fn2.array(fn2.asc);
+  fn2.arrayDesc = fn2.array(fn2.desc);
   fn2.combine = (a, b) => a + b;
-  fn2.combineProp = (propName) => (a, b) => a[propName] + b[propName];
+  fn2.combineProp = (propName) => {
+    const args = {
+      propName: safe.prop(propName, "")
+    };
+    return (a, b) => (a[args.propName] ?? a) + b[args.propName];
+  };
   fn2.mode = (prev, curr, index, arr) => {
     if (index > 1) {
       return prev;
@@ -507,13 +559,16 @@ var fn;
     return unique[counts.indexOf(max)];
   };
   fn2.modeMapped = (mapFn) => {
+    const args = {
+      mapFn: safe.func(mapFn, (v) => v)
+    };
     let result2;
     return (prev, curr, index, arr) => {
       if (result2)
         return result2;
-      const mapped = arr.map(mapFn);
+      const mapped = arr.map(args.mapFn);
       const uniqueU = mapped.filter(fn2.dedupe);
-      const uniqueT = arr.filter(fn2.dedupeMapped(mapFn));
+      const uniqueT = arr.filter(fn2.dedupeMapped(args.mapFn));
       const counts = uniqueU.map((item) => mapped.filter((i) => i === item)).map((a) => a.length);
       const max = Math.max(...counts);
       result2 = uniqueT[counts.indexOf(max)];
@@ -548,6 +603,7 @@ var fn;
     sorts3.byProp = fn2.byProp;
     sorts3.nearestTo = fn2.nearestTo;
     sorts3.furthestFrom = fn2.furthestFrom;
+    sorts3.array = fn2.array;
     sorts3.arrayAsc = fn2.arrayAsc;
     sorts3.arrayDesc = fn2.arrayDesc;
   })(sorts2 = fn2.sorts || (fn2.sorts = {}));

@@ -1,75 +1,78 @@
 import * as swissak from '../';
+import { register, should } from './test-utils';
+
+register({ describe, it, expect });
 
 describe('PromiseTools', () => {
   describe('getDeferred', () => {
-    it(`exists as 'getDeferred'`, () => {
+    it(should` exist as 'getDeferred'`, () => {
       expect(swissak.getDeferred).toBeDefined();
     });
-    it(`exists as 'PromiseTools.getDeferred'`, () => {
+    it(should` exist as 'PromiseTools.getDeferred'`, () => {
       expect(swissak.PromiseTools.getDeferred).toBeDefined();
     });
   });
   describe('all', () => {
-    it(`exists as 'all'`, () => {
+    it(should` exist as 'all'`, () => {
       expect(swissak.all).toBeDefined();
     });
-    it(`exists as 'PromiseTools.all'`, () => {
+    it(should` exist as 'PromiseTools.all'`, () => {
       expect(swissak.PromiseTools.all).toBeDefined();
     });
   });
   describe('allLimit', () => {
-    it(`exists as 'allLimit'`, () => {
+    it(should` exist as 'allLimit'`, () => {
       expect(swissak.allLimit).toBeDefined();
     });
-    it(`exists as 'PromiseTools.allLimit'`, () => {
+    it(should` exist as 'PromiseTools.allLimit'`, () => {
       expect(swissak.PromiseTools.allLimit).toBeDefined();
     });
   });
   describe('each', () => {
-    it(`exists as 'each'`, () => {
+    it(should` exist as 'each'`, () => {
       expect(swissak.each).toBeDefined();
     });
-    it(`exists as 'PromiseTools.each'`, () => {
+    it(should` exist as 'PromiseTools.each'`, () => {
       expect(swissak.PromiseTools.each).toBeDefined();
     });
   });
   describe('eachLimit', () => {
-    it(`exists as 'eachLimit'`, () => {
+    it(should` exist as 'eachLimit'`, () => {
       expect(swissak.eachLimit).toBeDefined();
     });
-    it(`exists as 'PromiseTools.eachLimit'`, () => {
+    it(should` exist as 'PromiseTools.eachLimit'`, () => {
       expect(swissak.PromiseTools.eachLimit).toBeDefined();
     });
   });
   describe('map', () => {
-    it(`exists as 'map'`, () => {
+    it(should` exist as 'map'`, () => {
       expect(swissak.map).toBeDefined();
     });
-    it(`exists as 'PromiseTools.map'`, () => {
+    it(should` exist as 'PromiseTools.map'`, () => {
       expect(swissak.PromiseTools.map).toBeDefined();
     });
   });
   describe('mapLimit', () => {
-    it(`exists as 'mapLimit'`, () => {
+    it(should` exist as 'mapLimit'`, () => {
       expect(swissak.mapLimit).toBeDefined();
     });
-    it(`exists as 'PromiseTools.mapLimit'`, () => {
+    it(should` exist as 'PromiseTools.mapLimit'`, () => {
       expect(swissak.PromiseTools.mapLimit).toBeDefined();
     });
   });
   describe('allObj', () => {
-    it(`exists as 'allObj'`, () => {
+    it(should` exist as 'allObj'`, () => {
       expect(swissak.allObj).toBeDefined();
     });
-    it(`exists as 'PromiseTools.allObj'`, () => {
+    it(should` exist as 'PromiseTools.allObj'`, () => {
       expect(swissak.PromiseTools.allObj).toBeDefined();
     });
   });
   describe('allLimitObj', () => {
-    it(`exists as 'allLimitObj'`, () => {
+    it(should` exist as 'allLimitObj'`, () => {
       expect(swissak.allLimitObj).toBeDefined();
     });
-    it(`exists as 'PromiseTools.allLimitObj'`, () => {
+    it(should` exist as 'PromiseTools.allLimitObj'`, () => {
       expect(swissak.PromiseTools.allLimitObj).toBeDefined();
     });
   });

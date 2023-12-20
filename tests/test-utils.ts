@@ -1,5 +1,7 @@
 import { safe as safeOriginal } from '../';
 
+const DEBUG = false;
+
 const core = {
   describe: ((name, func) => func()) as jest.Describe,
   it: ((name, func) => func((() => {}) as any)) as jest.It,
@@ -17,8 +19,8 @@ export const multiTest = <T extends unknown>(items: [T, string][], run: (item: T
     });
   });
 };
-const DEBUG = false;
-const stringify = (value: any) => {
+
+export const stringifyValue = (value: any) => {
   if (typeof value === 'function') {
     const lines = value
       .toString()
@@ -28,8 +30,29 @@ const stringify = (value: any) => {
       .filter((l) => l)
       .join(' ');
   }
-  return JSON.stringify(value);
+  if (typeof value === 'undefined') {
+    return 'undefined';
+  }
+
+  const json = JSON.stringify(value);
+  if (json === 'null' && value !== null) {
+    // values such as NaN and Infinity are not valid JSON, so we need to handle them separately
+    return value + '';
+  }
+
+  return json;
 };
+/**
+ * ```typescript
+ * it(should` return a thing`, () => { ... })
+ * ```
+ */
+export const should = (strings: TemplateStringsArray, ...exps: any[]) => {
+  const prefix = 'should' + ((strings[0] || '').startsWith(' ') ? '' : ' ');
+  const output = [...exps.flatMap((exp, i) => [strings[i], stringifyValue(exp)]), [...strings].at(-1)];
+  return prefix + output.join('');
+};
+
 const runKitchenSink = <Ti extends unknown, To extends unknown>(
   checkType: 'toBe' | 'toEqual',
   name: string,
@@ -39,16 +62,13 @@ const runKitchenSink = <Ti extends unknown, To extends unknown>(
 ) => {
   testInputs.forEach((input) => {
     const normalised = normaliser(input);
-    core.it(`should handle ${name} being ${stringify(input)}   \u001b[2m(as ${stringify(normalised)})\u001b[22m`, async () => {
-      if (DEBUG) console.log('\n\n ======= ACTUAL ======= \n\n');
+    core.it(should` handle ${name} being ${input}   \u001b[2m(as ${normalised})\u001b[22m`, async () => {
       const actual = await sink(input);
-
-      if (DEBUG) console.log('\n\n ======= EXPECTED ======= \n\n');
       const expected = await sink(normalised);
 
-      if (DEBUG) console.log('\n\n ======= \n\n');
-      if (DEBUG) console.log('input:', stringify(input), stringify(normalised));
-      if (DEBUG) console.log('value:', actual, expected);
+      if (DEBUG) console.log();
+      if (DEBUG) console.log('input:', stringifyValue(input), '->', stringifyValue(normalised));
+      if (DEBUG) console.log('value:', actual, '==', expected);
       if (DEBUG) console.log();
 
       if (checkType === 'toBe') {
@@ -91,7 +111,7 @@ const kitchenSinkTesters: {
 
 const kitchenSinkSamples = {
   num: [0, 1.5, 2.25, -1, -15, NaN, undefined, null, Infinity, -Infinity, '123', 'a string', true, false, { foo: 'bar' }, ['foo', 'bar']],
-  general: [undefined, null, Infinity, '123', 'a string', true, false, 123, 0, { foo: 'bar' }, ['foo', 'bar']]
+  general: [undefined, null, NaN, Infinity, '123', 'a string', true, false, 123, 0, { foo: 'bar' }, ['foo', 'bar']]
 };
 
 const kitchenSinkSafe = {
@@ -120,6 +140,10 @@ const kitchenSinkSafe = {
       <T extends unknown>(defaultValue: T[], fallback: T[] = []) =>
       (input: T[] = defaultValue): T[] =>
         safeOriginal.arr(input, fallback),
+    prop:
+      (defaultValue: string | number, fallback: string | number = '') =>
+      (input: string | number = defaultValue): string | number =>
+        safeOriginal.prop(input, fallback),
 
     arrOf: {
       num:
@@ -167,7 +191,17 @@ const kitchenSinkSafe = {
           arrMaxLength: number = Infinity
         ) =>
         (input: T[][] = defaultValue): T[][] =>
-          safeOriginal.arrOf.arr(input, fallback, fallbackArr)
+          safeOriginal.arrOf.arr(input, fallback, fallbackArr),
+      prop:
+        (
+          defaultValue: (string | number)[],
+          fallback?: string | number,
+          fallbackArr: (string | number)[] = [],
+          arrMinLength: number = 0,
+          arrMaxLength: number = Infinity
+        ) =>
+        (input: (string | number)[] = defaultValue): (string | number)[] =>
+          safeOriginal.arrOf.prop(input, fallback, fallbackArr)
     }
   }
 };

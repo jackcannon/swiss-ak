@@ -1,20 +1,23 @@
 import * as swissak from '../';
+import { register, should } from './test-utils';
+
+register({ describe, it, expect });
 
 describe('progress bar', () => {
   describe('printLn', () => {
-    it(`exists as 'printLn'`, () => {
+    it(should` exist as 'printLn'`, () => {
       expect(swissak.printLn).toBeDefined();
     });
-    it(`exists as 'progressBar.printLn'`, () => {
+    it(should` exist as 'progressBar.printLn'`, () => {
       expect(swissak.progressBar.printLn).toBeDefined();
     });
   });
 
   describe('getProgressBar', () => {
-    it(`exists as 'getProgressBar'`, () => {
+    it(should` exist as 'getProgressBar'`, () => {
       expect(swissak.getProgressBar).toBeDefined();
     });
-    it(`exists as 'progressBar.getProgressBar'`, () => {
+    it(should` exist as 'progressBar.getProgressBar'`, () => {
       expect(swissak.progressBar.getProgressBar).toBeDefined();
     });
   });
@@ -22,32 +25,32 @@ describe('progress bar', () => {
   const GENERIC_PROGRESS_BAR = swissak.getProgressBar(100);
   describe('Progress Bar object', () => {
     describe('update', () => {
-      it(`exists as 'update' on a progress bar object`, () => {
+      it(should` exist as 'update' on a progress bar object`, () => {
         expect(GENERIC_PROGRESS_BAR.update).toBeDefined();
       });
     });
     describe('next', () => {
-      it(`exists as 'next' on a progress bar object`, () => {
+      it(should` exist as 'next' on a progress bar object`, () => {
         expect(GENERIC_PROGRESS_BAR.next).toBeDefined();
       });
     });
     describe('set', () => {
-      it(`exists as 'set' on a progress bar object`, () => {
+      it(should` exist as 'set' on a progress bar object`, () => {
         expect(GENERIC_PROGRESS_BAR.set).toBeDefined();
       });
     });
     describe('reset', () => {
-      it(`exists as 'reset' on a progress bar object`, () => {
+      it(should` exist as 'reset' on a progress bar object`, () => {
         expect(GENERIC_PROGRESS_BAR.reset).toBeDefined();
       });
     });
     describe('start', () => {
-      it(`exists as 'start' on a progress bar object`, () => {
+      it(should` exist as 'start' on a progress bar object`, () => {
         expect(GENERIC_PROGRESS_BAR.start).toBeDefined();
       });
     });
     describe('finish', () => {
-      it(`exists as 'finish' on a progress bar object`, () => {
+      it(should` exist as 'finish' on a progress bar object`, () => {
         expect(GENERIC_PROGRESS_BAR.finish).toBeDefined();
       });
     });

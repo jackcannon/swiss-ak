@@ -1,5 +1,5 @@
 import * as swissak from '../';
-import { register, multiTest, kitchenSink } from './test-utils';
+import { register, multiTest, kitchenSink, should } from './test-utils';
 
 register({ describe, it, expect });
 
@@ -11,18 +11,18 @@ describe('ErrorTools', () => {
         [swissak.ErrorTools.tryOr, 'ErrorTools.tryOr']
       ],
       (tryOr, name) => {
-        it(`exists as '${name}'`, () => {
+        it(should` exist as ${name}`, () => {
           expect(tryOr).toBeDefined();
         });
 
-        it(`delivers the original if no error is thrown`, async () => {
+        it(should` deliver the original if no error is thrown`, async () => {
           const action = async () => {
             return 'foo';
           };
           const result = await tryOr('bar', action);
           expect(result).toBe('foo');
         });
-        it(`delivers the orValue if error is thrown`, async () => {
+        it(should` deliver the orValue if error is thrown`, async () => {
           const action = async () => {
             throw new Error('Some Error');
           };
@@ -30,12 +30,12 @@ describe('ErrorTools', () => {
           expect(result).toBe('bar');
         });
 
-        it(`handles func being a non-function`, async () => {
+        it(should` handle func being a non-function`, async () => {
           const result = await tryOr('bar', 'foo' as any);
           expect(result).toBe('bar');
         });
 
-        it(`passes args to the function`, async () => {
+        it(should` pass args to the function`, async () => {
           let args = undefined;
           const action = async (...newArgs) => {
             args = newArgs;
@@ -55,17 +55,17 @@ describe('ErrorTools', () => {
         [swissak.ErrorTools.retry, 'ErrorTools.retry']
       ],
       (retry, name) => {
-        it(`exists as '${name}'`, () => {
+        it(should` exist as ${name}`, () => {
           expect(retry).toBeDefined();
         });
-        it(`works first time`, async () => {
+        it(should` work first time`, async () => {
           const action = async () => {
             return 'foo';
           };
           const result = await retry(5, 0, true, action);
           expect(result).toBe('foo');
         });
-        it(`works on nth time`, async () => {
+        it(should` work on nth time`, async () => {
           let count = 0;
           const action = async () => {
             count++;
@@ -78,7 +78,7 @@ describe('ErrorTools', () => {
           expect(result).toBe('foo');
           expect(count).toBe(4);
         });
-        it(`returns undefined if no success`, async () => {
+        it(should` return undefined if no success`, async () => {
           let count = 0;
           const action = async () => {
             count++;
@@ -88,7 +88,7 @@ describe('ErrorTools', () => {
           expect(result).toBe(undefined);
           expect(count).toBe(5);
         });
-        it(`throws error if suppress is false`, async () => {
+        it(should` throw error if suppress is false`, async () => {
           let count = 0;
           const action = async () => {
             count++;
@@ -106,7 +106,7 @@ describe('ErrorTools', () => {
           expect(didSucceed).toBe(false);
           expect(count).toBe(5);
         });
-        it(`waits between attempts`, async () => {
+        it(should` wait between attempts`, async () => {
           const start = Date.now();
           let count = 0;
           const action = async () => {
@@ -161,11 +161,11 @@ describe('ErrorTools', () => {
         [swissak.ErrorTools.retryOr, 'ErrorTools.retryOr']
       ],
       (retryOr, name) => {
-        it(`exists as '${name}'`, () => {
+        it(should` exist as ${name}`, () => {
           expect(retryOr).toBeDefined();
         });
 
-        it(`works first time`, async () => {
+        it(should` work first time`, async () => {
           let count = 0;
           const action = async () => {
             count++;
@@ -176,7 +176,7 @@ describe('ErrorTools', () => {
           expect(count).toBe(1);
         });
 
-        it(`works on nth time`, async () => {
+        it(should` work on nth time`, async () => {
           let count = 0;
           const action = async () => {
             count++;
@@ -190,7 +190,7 @@ describe('ErrorTools', () => {
           expect(count).toBe(4);
         });
 
-        it(`returns orValue if no success`, async () => {
+        it(should` return orValue if no success`, async () => {
           let count = 0;
           const action = async () => {
             count++;
@@ -200,7 +200,7 @@ describe('ErrorTools', () => {
           expect(result).toBe('bar');
           expect(count).toBe(5);
         });
-        it(`dont throw error`, async () => {
+        it(should` not throw error`, async () => {
           let count = 0;
           const action = async () => {
             count++;
@@ -218,7 +218,7 @@ describe('ErrorTools', () => {
           expect(didSucceed).toBe(true);
           expect(count).toBe(5);
         });
-        it(`waits between attempts`, async () => {
+        it(should` wait between attempts`, async () => {
           const start = Date.now();
           let count = 0;
           const action = async () => {

@@ -1,8 +1,11 @@
 import * as swissak from '../';
+import { register, should } from './test-utils';
+
+register({ describe, it, expect });
 
 const testConstant = (name: string, value: number, expected: number) => {
   describe(name, () => {
-    it(`${name} - should be correct milliseconds`, () => {
+    it(should` ${name} - be correct milliseconds`, () => {
       expect(value).toBe(expected);
     });
   });
@@ -10,12 +13,12 @@ const testConstant = (name: string, value: number, expected: number) => {
 
 const testMultipliers = (name: string, func: Function, baseValue: number, multipliers: number[] = [0, 2, 5, 10, -1, -100]) => {
   describe(name, () => {
-    it(`${name} - should default input to 1`, () => {
+    it(should` ${name} - default input to 1`, () => {
       expect(func()).toBe(func(1));
     });
 
     multipliers.forEach((multiplier) => {
-      it(`${name} - should handle ${multiplier}x`, () => {
+      it(should` ${name} - handle ${multiplier}x`, () => {
         expect(func(multiplier)).toBe(multiplier * baseValue);
       });
     });

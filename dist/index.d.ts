@@ -1265,10 +1265,10 @@ declare namespace fn {
      * const items = stuff
      *   .map(condition ? mapSomething : fn.noact)
      * ```
-     * @param {T} item
+     * @param {T} [item]
      * @returns {T}
      */
-    export const noact: <T = any>(item: T) => T;
+    export const noact: <T = any>(item?: T) => T;
     /**<!-- DOCS: fn.result ### @ -->
      * result
      *
@@ -1280,10 +1280,10 @@ declare namespace fn {
      * const items = stuff
      *   .filter(condition ? mapSomething : fn.result(true))
      * ```
-     * @param {T} item
+     * @param {T} [item]
      * @returns {() => T}
      */
-    export const result: <T = any>(item: T) => () => T;
+    export const result: <T = any>(item?: T) => () => T;
     /**<!-- DOCS: fn.resolve ### @ -->
      * resolve
      *
@@ -1292,20 +1292,20 @@ declare namespace fn {
      * Returns an async function that resolves to the first argument
      *
      * Like fn.result, but wrapped in a Promise
-     * @param {T} item
+     * @param {T} [item]
      * @returns {() => Promise<T>}
      */
-    export const resolve: <T = any>(item: T) => () => Promise<T>;
+    export const resolve: <T = any>(item?: T) => () => Promise<T>;
     /**<!-- DOCS: fn.reject ### @ -->
      * reject
      *
      * - `fn.reject`
      *
      * Returns an async function that rejects with the first argument
-     * @param {T} item
+     * @param {T} [item]
      * @returns {() => Promise<T>}
      */
-    export const reject: <T = any>(item: T) => () => Promise<T>;
+    export const reject: <T = any>(item?: T) => () => Promise<T>;
     /**<!-- DOCS: fn.filters ### -->
      * filters
      *
@@ -1459,10 +1459,10 @@ declare namespace fn {
      * ```typescript
      * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
      * ```
-     * @param {(value: T, index: number, array: T[]) => U} mapFn
+     * @param {(value?: T, index?: number, array?: T[]) => U} mapFn
      * @returns {(item: T, index: number, array: T[]) => boolean}
      */
-    export const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
+    export const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value?: T, index?: number, array?: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
     /**<!-- DOCS: fn.maps ### -->
      * maps
      *
@@ -1531,10 +1531,10 @@ declare namespace fn {
      * ```typescript
      * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
      * ```
-     * @param {string} prop
+     * @param {string | number} prop
      * @returns {(item: O) => P}
      */
-    export const toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
+    export const toProp: <P = string, O = Object>(prop: string | number) => (item: O) => P;
     /**<!-- DOCS: fn.toFixed #### @ -->
      * toFixed
      *
@@ -1606,11 +1606,11 @@ declare namespace fn {
      * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
      * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
      * ```
-     * @param {string} propName
+     * @param {string | number} propName
      * @param {SortFn<T>} [sortFn=asc]
      * @returns {SortFn<O>}
      */
-    export const byProp: <T = number, O = Object>(propName: string, sortFn?: SortFn<T>) => SortFn<O>;
+    export const byProp: <T = number, O = Object>(propName: string | number, sortFn?: SortFn<T>) => SortFn<O>;
     /**<!-- DOCS: fn.nearestTo #### @ -->
      * nearestTo
      *
@@ -1619,6 +1619,8 @@ declare namespace fn {
      * - `sorts.nearestTo`
      *
      * Sort by the nearest value to the given value.
+     *
+     * Values get converted to numbers before comparison.
      *
      * ```typescript
      * const people = [2, 4, 3, 1];
@@ -1645,6 +1647,20 @@ declare namespace fn {
      * @returns {(a: any, b: any) => number}
      */
     export const furthestFrom: <T = number>(target: T) => (a: any, b: any) => number;
+    /**<!-- DOCS: fn.array #### @ -->
+     * array
+     *
+     * - `fn.array`
+     * - `fn.sorts.array`
+     * - `sorts.array`
+     *
+     * Sort an array of arrays by the given sort function.
+     *
+     * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+     * @param {SortFn<T>} [sortFn=asc]
+     * @returns {(a: T[], b: T[]) => number}
+     */
+    export const array: <T extends unknown>(sortFn?: SortFn<T>) => (a: T[], b: T[]) => number;
     /**<!-- DOCS: fn.arrayAsc #### @ -->
      * arrayAsc
      *
@@ -1653,9 +1669,8 @@ declare namespace fn {
      * - `sorts.arrayAsc`
      *
      * Sort an array of arrays in ascending order
-     * @param {any[]} a
-     * @param {any[]} b
-     * @returns {any}
+     *
+     * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
      */
     export const arrayAsc: (a: any[], b: any[]) => number;
     /**<!-- DOCS: fn.arrayDesc #### @ -->
@@ -1666,9 +1681,8 @@ declare namespace fn {
      * - `sorts.arrayDesc`
      *
      * Sort an array of arrays in descending order
-     * @param {any[]} a
-     * @param {any[]} b
-     * @returns {any}
+     *
+     * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
      */
     export const arrayDesc: (a: any[], b: any[]) => number;
     /**<!-- DOCS: fn.reduces ### -->
@@ -1691,11 +1705,11 @@ declare namespace fn {
      * [1, 2, 3].reduce(fn.combine); // 6
      * ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
      * ```
-     * @param {any} a
-     * @param {any} b
-     * @returns {any}
+     * @param {T} a
+     * @param {T} b
+     * @returns {T}
      */
-    export const combine: (a: any, b: any) => any;
+    export const combine: <T extends unknown = number>(a: T, b: T) => T;
     /**<!-- DOCS: fn.combineProp #### @ -->
      * combineProp
      *
@@ -1710,10 +1724,10 @@ declare namespace fn {
      * people.reduce(fn.combineProp('age')); // 6
      * people.reduce(fn.combineProp('name')); // 'abc'
      * ```
-     * @param {string} propName
-     * @returns {(a: any, b: any) => any}
+     * @param {string | number} propName
+     * @returns {(a: O | T, b: O) => T}
      */
-    export const combineProp: (propName: string) => (a: any, b: any) => any;
+    export const combineProp: <O extends unknown, T extends unknown = number>(propName: string | number) => (a: O | T, b: O) => T;
     /**<!-- DOCS: fn.mode #### @ -->
      * mode
      *
@@ -1928,10 +1942,10 @@ declare namespace fn {
          * ```typescript
          * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
          * ```
-         * @param {(value: T, index: number, array: T[]) => U} mapFn
+         * @param {(value?: T, index?: number, array?: T[]) => U} mapFn
          * @returns {(item: T, index: number, array: T[]) => boolean}
          */
-        const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
+        const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value?: T, index?: number, array?: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
     }
     /**<!-- DOCS-ALIAS: fn.maps -->
      * maps
@@ -2002,10 +2016,10 @@ declare namespace fn {
          * ```typescript
          * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
          * ```
-         * @param {string} prop
+         * @param {string | number} prop
          * @returns {(item: O) => P}
          */
-        const toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
+        const toProp: <P = string, O = Object>(prop: string | number) => (item: O) => P;
         /**<!-- DOCS-ALIAS: fn.toFixed -->
          * toFixed
          * 
@@ -2078,11 +2092,11 @@ declare namespace fn {
          * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
          * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
          * ```
-         * @param {string} propName
+         * @param {string | number} propName
          * @param {SortFn<T>} [sortFn=asc]
          * @returns {SortFn<O>}
          */
-        const byProp: <T = number, O = Object>(propName: string, sortFn?: SortFn<T>) => SortFn<O>;
+        const byProp: <T = number, O = Object>(propName: string | number, sortFn?: SortFn<T>) => SortFn<O>;
         /**<!-- DOCS-ALIAS: fn.nearestTo -->
          * nearestTo
          * 
@@ -2091,6 +2105,8 @@ declare namespace fn {
          * - `sorts.nearestTo`
          * 
          * Sort by the nearest value to the given value.
+         * 
+         * Values get converted to numbers before comparison.
          * 
          * ```typescript
          * const people = [2, 4, 3, 1];
@@ -2117,6 +2133,20 @@ declare namespace fn {
          * @returns {(a: any, b: any) => number}
          */
         const furthestFrom: <T = number>(target: T) => (a: any, b: any) => number;
+        /**<!-- DOCS-ALIAS: fn.array -->
+         * array
+         * 
+         * - `fn.array`
+         * - `fn.sorts.array`
+         * - `sorts.array`
+         * 
+         * Sort an array of arrays by the given sort function.
+         * 
+         * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+         * @param {SortFn<T>} [sortFn=asc]
+         * @returns {(a: T[], b: T[]) => number}
+         */
+        const array: <T extends unknown>(sortFn?: SortFn<T>) => (a: T[], b: T[]) => number;
         /**<!-- DOCS-ALIAS: fn.arrayAsc -->
          * arrayAsc
          * 
@@ -2125,9 +2155,8 @@ declare namespace fn {
          * - `sorts.arrayAsc`
          * 
          * Sort an array of arrays in ascending order
-         * @param {any[]} a
-         * @param {any[]} b
-         * @returns {any}
+         * 
+         * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
          */
         const arrayAsc: (a: any[], b: any[]) => number;
         /**<!-- DOCS-ALIAS: fn.arrayDesc -->
@@ -2138,9 +2167,8 @@ declare namespace fn {
          * - `sorts.arrayDesc`
          * 
          * Sort an array of arrays in descending order
-         * @param {any[]} a
-         * @param {any[]} b
-         * @returns {any}
+         * 
+         * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
          */
         const arrayDesc: (a: any[], b: any[]) => number;
     }
@@ -2165,11 +2193,11 @@ declare namespace fn {
          * [1, 2, 3].reduce(fn.combine); // 6
          * ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
          * ```
-         * @param {any} a
-         * @param {any} b
-         * @returns {any}
+         * @param {T} a
+         * @param {T} b
+         * @returns {T}
          */
-        const combine: (a: any, b: any) => any;
+        const combine: <T extends unknown = number>(a: T, b: T) => T;
         /**<!-- DOCS-ALIAS: fn.combineProp -->
          * combineProp
          * 
@@ -2184,10 +2212,10 @@ declare namespace fn {
          * people.reduce(fn.combineProp('age')); // 6
          * people.reduce(fn.combineProp('name')); // 'abc'
          * ```
-         * @param {string} propName
-         * @returns {(a: any, b: any) => any}
+         * @param {string | number} propName
+         * @returns {(a: O | T, b: O) => T}
          */
-        const combineProp: (propName: string) => (a: any, b: any) => any;
+        const combineProp: <O extends unknown, T extends unknown = number>(propName: string | number) => (a: O | T, b: O) => T;
         /**<!-- DOCS-ALIAS: fn.mode -->
          * mode
          * 
@@ -6360,6 +6388,12 @@ declare namespace safe {
      * safe.num(null, true, 0, 100, 99); // 99
      * safe.num(undefined, true, 0, 100, 99); // 99
      * ```
+     * @param {number} input
+     * @param {boolean} [isInt=false]
+     * @param {number} [min]
+     * @param {number} [max]
+     * @param {number} [fallback=0]
+     * @returns {number}
      */
     const num: (input: number, isInt?: boolean, min?: number, max?: number, fallback?: number) => number;
     /**<!-- DOCS: safe.str ### @ -->
@@ -6388,6 +6422,10 @@ declare namespace safe {
      * safe.str(null, true, 'bar'); // 'bar'
      * safe.str(undefined, true, 'bar'); // 'bar'
      * ```
+     * @param {string} input
+     * @param {boolean} [allowBasicStringify=false]
+     * @param {string} [fallback='']
+     * @returns {string}
      */
     const str: (input: string, allowBasicStringify?: boolean, fallback?: string) => string;
     /**<!-- DOCS: safe.bool ### @ -->
@@ -6423,6 +6461,9 @@ declare namespace safe {
      * safe.bool([], true); // true
      * safe.bool(null, true); // true
      * safe.bool(undefined, true); // true
+     * @param {boolean} input
+     * @param {boolean} [fallback=false]
+     * @returns {boolean}
      */
     const bool: (input: boolean, fallback?: boolean) => boolean;
     /**<!-- DOCS: safe.func ### @ -->
@@ -6453,6 +6494,9 @@ declare namespace safe {
      * safe.func(null, (q: number) => 456); // (q: number) => 456
      * safe.func(undefined, (q: number) => 456); // (q: number) => 456
      * ```
+     * @param {T} input
+     * @param {T} [fallback=(() => {}) as unknown as T]
+     * @returns {T}
      */
     const func: <T extends Function>(input: T, fallback?: T) => T;
     /**<!-- DOCS: safe.obj ### @ -->
@@ -6481,6 +6525,9 @@ declare namespace safe {
      * safe.obj(null, {baz: 123}); // {baz: 123}
      * safe.obj(undefined, {baz: 123}); // {baz: 123}
      * ```
+     * @param {T} input
+     * @param {T} [fallback={} as T]
+     * @returns {T}
      */
     const obj: <T extends unknown>(input: T, fallback?: T) => T;
     /**<!-- DOCS: safe.arr ### @ -->
@@ -6509,8 +6556,46 @@ declare namespace safe {
      * safe.arr(null, [4, 5, 6]); // [ 4, 5, 6 ]
      * safe.arr(undefined, [4, 5, 6]); // [ 4, 5, 6 ]
      * ```
+     * @param {T[]} input
+     * @param {T[]} [fallback=[]]
+     * @param {number} [minLength=0]
+     * @param {number} [maxLength=Infinity]
+     * @returns {T[]}
      */
     const arr: <T extends unknown>(input: T[], fallback?: T[], minLength?: number, maxLength?: number) => T[];
+    /**<!-- DOCS: safe.prop ### @ -->
+     * prop
+     *
+     * - `safe.prop`
+     *
+     * Process a value (string or number) that is expected to be used as a property name, ensuring that it is safe to use.
+     *
+     * Equivalent to `typeof value === 'number' ? safe.num(value) : safe.str(value, true, '')`
+     *
+     * ```typescript
+     * safe.prop('foo'); // 'foo'
+     * safe.prop(''); // ''
+     * safe.prop(123); // 123
+     * safe.prop(true); // 'true'
+     * safe.prop({foo: 'bar'}); // ''
+     * safe.prop([]); // ''
+     * safe.prop(null); // ''
+     * safe.prop(undefined); // ''
+     *
+     * safe.prop('foo', 'bar'); // 'foo'
+     * safe.prop('', 'bar'); // ''
+     * safe.prop(123, 'bar'); // 123
+     * safe.prop(true, 'bar'); // 'true'
+     * safe.prop({foo: 'bar'}, 'bar'); // 'bar'
+     * safe.prop([], 'bar'); // 'bar'
+     * safe.prop(null, 'bar'); // 'bar'
+     * safe.prop(undefined, 'bar'); // 'bar'
+     * ```
+     * @param {string | number} input
+     * @param {string | number} [fallback='']
+     * @returns {string | number}
+     */
+    const prop: (input: string | number, fallback?: string | number) => string | number;
     /**<!-- DOCS: safe.arrOf ### -->
      * arrOf
      *
@@ -6520,7 +6605,7 @@ declare namespace safe {
         /**<!-- DOCS: safe.arrOf.num #### @ -->
          * num
          *
-         * - `safe.num`
+         * - `safe.arrOf.num`
          *
          * Process an array of numbers, ensuring that they are safe to use.
          *
@@ -6545,12 +6630,21 @@ declare namespace safe {
          * safe.arrOf.num(null, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
          * safe.arrOf.num(undefined, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
          * ```
+         * @param {number[]} input
+         * @param {boolean} [isInt=false]
+         * @param {number} [min]
+         * @param {number} [max]
+         * @param {number} [fallback]
+         * @param {number[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {number[]}
          */
         const num: (input: number[], isInt?: boolean, min?: number, max?: number, fallback?: number, fallbackArr?: number[], arrMinLength?: number, arrMaxLength?: number) => number[];
         /**<!-- DOCS: safe.arrOf.str #### @ -->
          * str
          *
-         * - `safe.str`
+         * - `safe.arrOf.str`
          *
          * Process an array of strings, ensuring that they are safe to use.
          *
@@ -6575,12 +6669,19 @@ declare namespace safe {
          * safe.arrOf.str(null, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
          * safe.arrOf.str(undefined, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
          * ```
+         * @param {string[]} input
+         * @param {boolean} [allowStringify=false]
+         * @param {string} [fallback]
+         * @param {string[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {string[]}
          */
         const str: (input: string[], allowStringify?: boolean, fallback?: string, fallbackArr?: string[], arrMinLength?: number, arrMaxLength?: number) => string[];
         /**<!-- DOCS: safe.arrOf.bool #### @ -->
          * bool
          *
-         * - `safe.bool`
+         * - `safe.arrOf.bool`
          *
          * Process an array of booleans, ensuring that they are safe to use.
          *
@@ -6605,12 +6706,18 @@ declare namespace safe {
          * safe.arrOf.bool(null, true, [true, true]); // [ true, true ]
          * safe.arrOf.bool(undefined, true, [true, true]); // [ true, true ]
          * ```
+         * @param {boolean[]} input
+         * @param {boolean} [fallback]
+         * @param {boolean[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {boolean[]}
          */
         const bool: (input: boolean[], fallback?: boolean, fallbackArr?: boolean[], arrMinLength?: number, arrMaxLength?: number) => boolean[];
         /**<!-- DOCS: safe.arrOf.func #### @ -->
          * func
          *
-         * - `safe.func<T>`
+         * - `safe.arrOf.func<T>`
          *
          * Process an array of functions, ensuring that they are safe to use.
          *
@@ -6635,12 +6742,18 @@ declare namespace safe {
          * safe.arrOf.func(null, (q) => 2, [(r) => 3]); //  [(r) => 3]
          * safe.arrOf.func(undefined, (q) => 2, [(r) => 3]); //  [(r) => 3]
          * ```
+         * @param {T[]} input
+         * @param {T} [fallback]
+         * @param {T[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {T[]}
          */
         const func: <T extends Function>(input: T[], fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
         /**<!-- DOCS: safe.arrOf.obj #### @ -->
          * obj
          *
-         * - `safe.obj<T>`
+         * - `safe.arrOf.obj<T>`
          *
          * Process an array of objects, ensuring that they are safe to use.
          *
@@ -6665,12 +6778,18 @@ declare namespace safe {
          * safe.arrOf.obj(null, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
          * safe.arrOf.obj(undefined, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
          * ```
+         * @param {T[]} input
+         * @param {T} [fallback]
+         * @param {T[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {T[]}
          */
         const obj: <T extends unknown>(input: T[], fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
         /**<!-- DOCS: safe.arrOf.arr #### @ -->
          * arr
          *
-         * - `safe.arr<T>`
+         * - `safe.arrOf.arr<T>`
          *
          * Process an array of arrays, ensuring that they are safe to use.
          *
@@ -6695,8 +6814,50 @@ declare namespace safe {
          * safe.arrOf.arr(null, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
          * safe.arrOf.arr(undefined, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
          * ```
+         * @param {T[][]} input
+         * @param {T[]} [fallback]
+         * @param {T[][]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {T[][]}
          */
         const arr: <T extends unknown>(input: T[][], fallback?: T[], fallbackArr?: T[][], arrMinLength?: number, arrMaxLength?: number) => T[][];
+        /**<!-- DOCS: safe.arrOf.prop #### @ -->
+         * prop
+         *
+         * - `safe.arrOf.prop`
+         *
+         * Process an array of arrays, ensuring that they are safe to use.
+         *
+         * ```typescript
+         * safe.arrOf.prop([['foo'], ['bar']]); // [ '', '' ]
+         * safe.arrOf.prop(['foo', 1, true, null, undefined, [], {}]); // [ 'foo', 1, 'true', '', '', '', '' ]
+         * safe.arrOf.prop(true); // []
+         * safe.arrOf.prop(false); // []
+         * safe.arrOf.prop(123); // []
+         * safe.arrOf.prop('foobar'); // []
+         * safe.arrOf.prop({foo: 'bar'}); // []
+         * safe.arrOf.prop(null); // []
+         * safe.arrOf.prop(undefined); // []
+         *
+         * safe.arrOf.prop([['foo'], ['bar']], ['baz'], ['IPSUM']); // [ [ 'baz' ], [ 'baz' ] ]
+         * safe.arrOf.prop(['foo', 1, true, null, undefined, [], {}], ['baz'], ['IPSUM']); // [ 'foo', 1, 'true', [ 'baz' ], [ 'baz' ], [ 'baz' ],[ 'baz' ] ]
+         * safe.arrOf.prop(true, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.prop(false, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.prop(123, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.prop('foobar', ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.prop({foo: 'bar'}, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.prop(null, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.prop(undefined, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * ```
+         * @param {(string | number)[]} input
+         * @param {string | number} [fallback]
+         * @param {(string | number)[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {(string | number)[]}
+         */
+        const prop: (input: (string | number)[], fallback?: string | number, fallbackArr?: (string | number)[], arrMinLength?: number, arrMaxLength?: number) => (string | number)[];
     }
 }
 

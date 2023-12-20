@@ -1,4 +1,5 @@
 import { MathsTools } from './MathsTools';
+import { safe } from './safe';
 
 //<!-- DOCS: 30 -->
 /**<!-- DOCS: fn ##! -->
@@ -35,10 +36,10 @@ export namespace fn {
    * const items = stuff
    *   .map(condition ? mapSomething : fn.noact)
    * ```
-   * @param {T} item
+   * @param {T} [item]
    * @returns {T}
    */
-  export const noact = <T = any>(item: T): T => item;
+  export const noact = <T = any>(item?: T): T => item;
 
   /**<!-- DOCS: fn.result ### @ -->
    * result
@@ -51,11 +52,11 @@ export namespace fn {
    * const items = stuff
    *   .filter(condition ? mapSomething : fn.result(true))
    * ```
-   * @param {T} item
+   * @param {T} [item]
    * @returns {() => T}
    */
   export const result =
-    <T = any>(item: T) =>
+    <T = any>(item?: T) =>
     (): T =>
       item;
 
@@ -67,11 +68,11 @@ export namespace fn {
    * Returns an async function that resolves to the first argument
    *
    * Like fn.result, but wrapped in a Promise
-   * @param {T} item
+   * @param {T} [item]
    * @returns {() => Promise<T>}
    */
   export const resolve =
-    <T = any>(item: T) =>
+    <T = any>(item?: T) =>
     (): Promise<T> =>
       Promise.resolve(item);
 
@@ -81,11 +82,11 @@ export namespace fn {
    * - `fn.reject`
    *
    * Returns an async function that rejects with the first argument
-   * @param {T} item
+   * @param {T} [item]
    * @returns {() => Promise<T>}
    */
   export const reject =
-    <T = any>(item: T) =>
+    <T = any>(item?: T) =>
     (): Promise<T> =>
       Promise.reject(item);
 
@@ -256,13 +257,16 @@ export namespace fn {
    * ```typescript
    * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
    * ```
-   * @param {(value: T, index: number, array: T[]) => U} mapFn
+   * @param {(value?: T, index?: number, array?: T[]) => U} mapFn
    * @returns {(item: T, index: number, array: T[]) => boolean}
    */
-  export const dedupeMapped = <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => {
+  export const dedupeMapped = <T extends unknown, U extends unknown>(mapFn: (value?: T, index?: number, array?: T[]) => U) => {
+    const args = {
+      mapFn: safe.func(mapFn, (v: T) => v as unknown as U)
+    };
     let mapped: U[];
     return (item: T, index: number, array: T[]): boolean => {
-      if (!mapped) mapped = array.map(mapFn);
+      if (!mapped) mapped = array.map(args.mapFn);
       return mapped.indexOf(mapped[index]) === index;
     };
   };
@@ -338,13 +342,21 @@ export namespace fn {
    * ```typescript
    * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
    * ```
-   * @param {string} prop
+   * @param {string | number} prop
    * @returns {(item: O) => P}
    */
-  export const toProp =
-    <P = string, O = Object>(prop: string) =>
-    (item: O): P =>
-      item && item[prop];
+  export const toProp = <P = string, O = Object>(prop: string | number) => {
+    const args1 = {
+      prop: safe.prop(prop, '')
+    };
+    return (item: O): P => {
+      const args = {
+        item: safe.obj(item),
+        ...args1
+      };
+      return args.item && args.item[args.prop];
+    };
+  };
 
   /**<!-- DOCS: fn.toFixed #### @ -->
    * toFixed
@@ -361,10 +373,18 @@ export namespace fn {
    * @param {number} precision
    * @returns {(num: number) => number}
    */
-  export const toFixed =
-    (precision: number) =>
-    (num: number): number =>
-      MathsTools.fixFloat(num, precision);
+  export const toFixed = (precision: number) => {
+    const args1 = {
+      precision: safe.num(precision, true, 0)
+    };
+    return (num: number): number => {
+      const args = {
+        num: safe.num(num, false),
+        ...args1
+      };
+      return MathsTools.fixFloat(args.num, args.precision);
+    };
+  };
 
   /**<!-- DOCS: fn.sorts ### -->
    * sorts
@@ -432,12 +452,16 @@ export namespace fn {
    * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
    * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
    * ```
-   * @param {string} propName
+   * @param {string | number} propName
    * @param {SortFn<T>} [sortFn=asc]
    * @returns {SortFn<O>}
    */
-  export const byProp = <T = number, O = Object>(propName: string, sortFn: SortFn<T> = asc): SortFn<O> => {
-    return (a: O, b: O) => sortFn(a[propName] as T, b[propName] as T);
+  export const byProp = <T = number, O = Object>(propName: string | number, sortFn: SortFn<T> = asc): SortFn<O> => {
+    const args = {
+      propName: safe.prop(propName, ''),
+      sortFn: safe.func(sortFn, asc)
+    };
+    return (a: O, b: O) => args.sortFn(a[args.propName] as T, b[args.propName] as T);
   };
 
   /**<!-- DOCS: fn.nearestTo #### @ -->
@@ -449,6 +473,8 @@ export namespace fn {
    *
    * Sort by the nearest value to the given value.
    *
+   * Values get converted to numbers before comparison.
+   *
    * ```typescript
    * const people = [2, 4, 3, 1];
    * people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
@@ -458,8 +484,11 @@ export namespace fn {
    */
   export const nearestTo =
     <T = number>(target: T) =>
-    (a: any, b: any) =>
-      Math.abs(Number(target) - Number(a)) - Math.abs(Number(target) - Number(b));
+    (a: any, b: any) => {
+      const diffA = Math.abs(Number(target) - Number(a));
+      const diffB = Math.abs(Number(target) - Number(b));
+      return (Number.isNaN(diffA) ? Infinity : diffA) - (Number.isNaN(diffB) ? Infinity : diffB);
+    };
 
   /**<!-- DOCS: fn.furthestFrom #### @ -->
    * furthestFrom
@@ -479,8 +508,34 @@ export namespace fn {
    */
   export const furthestFrom =
     <T = number>(target: T) =>
-    (a: any, b: any) =>
-      Math.abs(Number(target) - Number(b)) - Math.abs(Number(target) - Number(a));
+    (a: any, b: any) => {
+      const diffA = Math.abs(Number(target) - Number(a));
+      const diffB = Math.abs(Number(target) - Number(b));
+      return (Number.isNaN(diffB) ? Infinity : diffB) - (Number.isNaN(diffA) ? Infinity : diffA);
+    };
+
+  /**<!-- DOCS: fn.array #### @ -->
+   * array
+   *
+   * - `fn.array`
+   * - `fn.sorts.array`
+   * - `sorts.array`
+   *
+   * Sort an array of arrays by the given sort function.
+   *
+   * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+   * @param {SortFn<T>} [sortFn=asc]
+   * @returns {(a: T[], b: T[]) => number}
+   */
+  export const array =
+    <T extends unknown>(sortFn: SortFn<T> = asc) =>
+    (a: T[], b: T[]) => {
+      for (let i in a) {
+        const result = sortFn(a[i], b[i]);
+        if (result !== 0) return result;
+      }
+      return 0;
+    };
 
   /**<!-- DOCS: fn.arrayAsc #### @ -->
    * arrayAsc
@@ -490,17 +545,10 @@ export namespace fn {
    * - `sorts.arrayAsc`
    *
    * Sort an array of arrays in ascending order
-   * @param {any[]} a
-   * @param {any[]} b
-   * @returns {any}
+   *
+   * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
    */
-  export const arrayAsc = (a: any[], b: any[]) => {
-    for (let i in a) {
-      const result = asc(a[i], b[i]);
-      if (result !== 0) return result;
-    }
-    return 0;
-  };
+  export const arrayAsc = array(asc);
 
   /**<!-- DOCS: fn.arrayDesc #### @ -->
    * arrayDesc
@@ -510,17 +558,10 @@ export namespace fn {
    * - `sorts.arrayDesc`
    *
    * Sort an array of arrays in descending order
-   * @param {any[]} a
-   * @param {any[]} b
-   * @returns {any}
+   *
+   * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
    */
-  export const arrayDesc = (a: any[], b: any[]) => {
-    for (let i in a) {
-      const result = desc(a[i], b[i]);
-      if (result !== 0) return result;
-    }
-    return 0;
-  };
+  export const arrayDesc = array(desc);
 
   /**<!-- DOCS: fn.reduces ### -->
    * reduces
@@ -543,11 +584,11 @@ export namespace fn {
    * [1, 2, 3].reduce(fn.combine); // 6
    * ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
    * ```
-   * @param {any} a
-   * @param {any} b
-   * @returns {any}
+   * @param {T} a
+   * @param {T} b
+   * @returns {T}
    */
-  export const combine = (a: any, b: any): any => a + b;
+  export const combine = <T extends unknown = number>(a: T, b: T): T => (a as any) + b;
 
   /**<!-- DOCS: fn.combineProp #### @ -->
    * combineProp
@@ -563,13 +604,15 @@ export namespace fn {
    * people.reduce(fn.combineProp('age')); // 6
    * people.reduce(fn.combineProp('name')); // 'abc'
    * ```
-   * @param {string} propName
-   * @returns {(a: any, b: any) => any}
+   * @param {string | number} propName
+   * @returns {(a: O | T, b: O) => T}
    */
-  export const combineProp =
-    (propName: string) =>
-    (a: any, b: any): any =>
-      a[propName] + b[propName];
+  export const combineProp = <O extends unknown, T extends unknown = number>(propName: string | number) => {
+    const args = {
+      propName: safe.prop(propName, '')
+    };
+    return (a: O | T, b: O): T => (a[args.propName] ?? a) + b[args.propName];
+  };
 
   /**<!-- DOCS: fn.mode #### @ -->
    * mode
@@ -618,15 +661,19 @@ export namespace fn {
    * @returns {(prev: T, curr: T, index: number, arr: T[]) => T}
    */
   export const modeMapped = <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => {
+    const args = {
+      mapFn: safe.func(mapFn, (v: T) => v as unknown as U)
+    };
+
     let result: T;
 
     return (prev: T, curr: T, index: number, arr: T[]): T => {
       if (result) return result;
 
-      const mapped: U[] = arr.map(mapFn);
+      const mapped: U[] = arr.map(args.mapFn);
 
       const uniqueU: U[] = mapped.filter(dedupe);
-      const uniqueT: T[] = arr.filter(dedupeMapped(mapFn));
+      const uniqueT: T[] = arr.filter(dedupeMapped(args.mapFn));
 
       const counts: number[] = uniqueU.map((item) => mapped.filter((i) => i === item)).map((a) => a.length);
       const max: number = Math.max(...counts);
@@ -718,6 +765,8 @@ export namespace fn {
     export const nearestTo = fn.nearestTo;
     /** <!-- DOCS-ALIAS: fn.furthestFrom  --> */
     export const furthestFrom = fn.furthestFrom;
+    /** <!-- DOCS-ALIAS: fn.array  --> */
+    export const array = fn.array;
     /** <!-- DOCS-ALIAS: fn.arrayAsc  --> */
     export const arrayAsc = fn.arrayAsc;
     /** <!-- DOCS-ALIAS: fn.arrayDesc  --> */

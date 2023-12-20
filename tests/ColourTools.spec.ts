@@ -1,5 +1,5 @@
 import * as swissak from '../';
-import { register, kitchenSink } from './test-utils';
+import { register, kitchenSink, should } from './test-utils';
 
 register({ describe, it, expect });
 
@@ -375,11 +375,11 @@ const badColourValues = [
 
 describe('ColourTools', () => {
   describe('namedColours', () => {
-    it(`exists as 'ColourTools.namedColours'`, () => {
+    it(should` exist as 'ColourTools.namedColours'`, () => {
       expect(swissak.ColourTools.namedColours).toBeDefined();
     });
 
-    it(`has the correct colours`, () => {
+    it(should` has the correct colours`, () => {
       const colours = Object.keys(swissak.ColourTools.namedColours);
       expect(colours).toEqual([
         'aliceblue',
@@ -638,7 +638,7 @@ describe('ColourTools', () => {
     describe(`each colour has the correct number of values`, () => {
       const entries = Object.entries(swissak.ColourTools.namedColours);
       entries.forEach(([name, colour]) => {
-        it(`'${name}' has 3 rgb values`, () => {
+        it(should` '${name}' has 3 rgb values`, () => {
           expect(colour.length).toBe(3);
           expect(colour[0]).toBeGreaterThanOrEqual(0);
           expect(colour[1]).toBeGreaterThanOrEqual(0);
@@ -651,39 +651,39 @@ describe('ColourTools', () => {
     });
   });
   describe('parse', () => {
-    it(`exists as 'ColourTools.parse'`, () => {
+    it(should` exist as 'ColourTools.parse'`, () => {
       expect(swissak.ColourTools.parse).toBeDefined();
     });
 
     kitchenSink.toEqual('input', (v) => swissak.ColourTools.parse(v), kitchenSink.safe.str(undefined, true), kitchenSink.general);
 
     testColours.forEach(({ rgb, hex, name, rgbStr, hslStr }) => {
-      it(`can parse hex lowercase - ${hex.toLowerCase()}`, () => {
+      it(should` parse hex lowercase - ${hex.toLowerCase()}`, () => {
         const parsed = swissak.ColourTools.parse(hex.toLowerCase());
         expect(parsed).toEqual(rgb);
       });
-      it(`can parse hex uppercase - ${hex.toUpperCase()}`, () => {
+      it(should` parse hex uppercase - ${hex.toUpperCase()}`, () => {
         const parsed = swissak.ColourTools.parse(hex.toUpperCase());
         expect(parsed).toEqual(rgb);
       });
       if (name) {
-        it(`can parse name - ${name}`, () => {
+        it(should` parse name - ${name}`, () => {
           const parsed = swissak.ColourTools.parse(name);
           expect(parsed).toEqual(rgb);
         });
       }
-      it(`can parse rgb - ${rgbStr}`, () => {
+      it(should` parse rgb - ${rgbStr}`, () => {
         const parsed = swissak.ColourTools.parse(rgbStr);
         expect(parsed).toEqual(rgb);
       });
-      // it(`can parse hsl - ${hslStr}`, () => {
+      // it(should` parse hsl - ${hslStr}`, () => {
       //   const parsed = swissak.ColourTools.parse(hslStr);
       //   expect(parsed).toEqual(rgb);
       // });
     });
   });
   describe('toHex', () => {
-    it(`exists as 'ColourTools.toHex'`, () => {
+    it(should` exist as 'ColourTools.toHex'`, () => {
       expect(swissak.ColourTools.toHex).toBeDefined();
     });
 
@@ -695,14 +695,14 @@ describe('ColourTools', () => {
     );
 
     testColours.forEach(({ rgb, hex }) => {
-      it(`can convert to hex - ${rgb} -> ${hex}`, () => {
+      it(should` convert to hex - ${rgb} -> ${hex}`, () => {
         const actual = swissak.ColourTools.toHex(rgb);
         expect(actual).toEqual(hex);
       });
     });
   });
   describe('getLuminance', () => {
-    it(`exists as 'ColourTools.getLuminance'`, () => {
+    it(should` exist as 'ColourTools.getLuminance'`, () => {
       expect(swissak.ColourTools.getLuminance).toBeDefined();
     });
 
@@ -714,14 +714,14 @@ describe('ColourTools', () => {
     );
 
     testColours.forEach(({ rgb, yuv }) => {
-      it(`can get luminance - ${rgb} -> ${yuv[0]}`, () => {
+      it(should` get luminance - ${rgb} -> ${yuv[0]}`, () => {
         const actual = swissak.ColourTools.getLuminance(rgb);
         expect(actual).toBe(yuv[0]);
       });
     });
   });
   describe('toYUV', () => {
-    it(`exists as 'ColourTools.toYUV'`, () => {
+    it(should` exist as 'ColourTools.toYUV'`, () => {
       expect(swissak.ColourTools.toYUV).toBeDefined();
     });
 
@@ -733,14 +733,14 @@ describe('ColourTools', () => {
     );
 
     testColours.forEach(({ rgb, yuv }) => {
-      it(`can convert to yuv - ${rgb} -> ${yuv}`, () => {
+      it(should` convert to yuv - ${rgb} -> ${yuv}`, () => {
         const actual = swissak.ColourTools.toYUV(rgb);
         expect(actual).toEqual(yuv);
       });
     });
   });
   describe('toHSL', () => {
-    it(`exists as 'ColourTools.toHSL'`, () => {
+    it(should` exist as 'ColourTools.toHSL'`, () => {
       expect(swissak.ColourTools.toHSL).toBeDefined();
     });
 
@@ -753,14 +753,14 @@ describe('ColourTools', () => {
     kitchenSink.toEqual('round', (v) => swissak.ColourTools.toHSL([255, 0, 0], v), kitchenSink.safe.bool(true, true), badColourValues);
 
     testColours.forEach(({ rgb, hsl }) => {
-      it(`can convert to hsl - ${rgb} -> ${hsl}`, () => {
+      it(should` convert to hsl - ${rgb} -> ${hsl}`, () => {
         const actual = swissak.ColourTools.toHSL(rgb);
         expect(actual).toEqual(hsl);
       });
     });
   });
   describe('fromHSL', () => {
-    it(`exists as 'ColourTools.fromHSL'`, () => {
+    it(should` exist as 'ColourTools.fromHSL'`, () => {
       expect(swissak.ColourTools.fromHSL).toBeDefined();
     });
 
@@ -785,14 +785,14 @@ describe('ColourTools', () => {
     kitchenSink.toEqual('round', (v) => swissak.ColourTools.fromHSL([255, 0, 0], v), kitchenSink.safe.bool(true, true), badColourValues);
 
     testColours.forEach(({ hsl, hslToRgb }) => {
-      it(`can convert from hsl - ${hsl} -> ${hslToRgb}`, () => {
+      it(should` convert from hsl - ${hsl} -> ${hslToRgb}`, () => {
         const actual = swissak.ColourTools.fromHSL(hsl);
         expect(actual).toEqual(hslToRgb);
       });
     });
   });
   describe('invertColour', () => {
-    it(`exists as 'ColourTools.invertColour'`, () => {
+    it(should` exist as 'ColourTools.invertColour'`, () => {
       expect(swissak.ColourTools.invertColour).toBeDefined();
     });
 
@@ -804,14 +804,14 @@ describe('ColourTools', () => {
     );
 
     testColours.forEach(({ rgb, inverted }) => {
-      it(`can invert colour - ${rgb} -> ${inverted}`, () => {
+      it(should` invert colour - ${rgb} -> ${inverted}`, () => {
         const actual = swissak.ColourTools.invertColour(rgb);
         expect(actual).toEqual(inverted);
       });
     });
   });
   describe('getContrastedColour', () => {
-    it(`exists as 'ColourTools.getContrastedColour'`, () => {
+    it(should` exist as 'ColourTools.getContrastedColour'`, () => {
       expect(swissak.ColourTools.getContrastedColour).toBeDefined();
     });
 
@@ -823,14 +823,14 @@ describe('ColourTools', () => {
     );
 
     testColours.forEach(({ rgb, contrasted }) => {
-      it(`can get contrasting colour - ${rgb} -> ${contrasted}`, () => {
+      it(should` get contrasting colour - ${rgb} -> ${contrasted}`, () => {
         const actual = swissak.ColourTools.getContrastedColour(rgb);
         expect(actual).toEqual(contrasted);
       });
     });
   });
   describe('getLimitedColour', () => {
-    it(`exists as 'ColourTools.getLimitedColour'`, () => {
+    it(should` exist as 'ColourTools.getLimitedColour'`, () => {
       expect(swissak.ColourTools.getLimitedColour).toBeDefined();
     });
 
@@ -845,6 +845,22 @@ describe('ColourTools', () => {
       kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
       badColourValues
     );
+
+    const testValues = [
+      ...kitchenSink.general,
+      () => undefined,
+      () => null,
+      () => Infinity,
+      () => '123',
+      () => 'a string',
+      () => true,
+      () => false,
+      () => 123,
+      () => 0,
+      () => ({ foo: 'bar' }),
+      () => ['foo', 'bar']
+    ];
+
     kitchenSink.toEqual(
       'checkFn',
       (v) => swissak.ColourTools.getLimitedColour([255, 0, 0], v as any, ([h, s, l]) => [h, 50, l]),
@@ -852,31 +868,17 @@ describe('ColourTools', () => {
         () => true,
         () => true
       ),
-      [...kitchenSink.general, ...kitchenSink.general.map((v) => () => v)]
+      testValues
     );
     kitchenSink.toEqual(
       'adjustFn',
       (v) => swissak.ColourTools.getLimitedColour([255, 0, 0], ([h, s, l]) => s > 50, v as any),
       kitchenSink.safe.func(undefined, (hsl) => [...hsl]),
-      [
-        ...kitchenSink.general,
-        () => undefined,
-        () => null,
-        () => Infinity,
-        () => '123',
-        () => 'a string',
-        () => true,
-        () => false,
-        () => 123,
-        () => 0,
-        () => ({ foo: 'bar' }),
-        () => ['foo', 'bar'],
-        ([h, s, l]) => [h, 50, l]
-      ]
+      [...testValues, ([h, s, l]) => [h, 50, l]]
     );
 
     testColours.forEach(({ rgb, limitedSaturation50, limitedLightness10 }) => {
-      it(`can get limit saturation - ${rgb} -> ${limitedSaturation50}`, () => {
+      it(should` get limit saturation - ${rgb} -> ${limitedSaturation50}`, () => {
         const actual = swissak.ColourTools.getLimitedColour(
           rgb,
           ([h, s, l]) => s > 50,
@@ -884,7 +886,7 @@ describe('ColourTools', () => {
         );
         expect(actual).toEqual(limitedSaturation50);
       });
-      it(`can get limit lightness - ${rgb} -> ${limitedLightness10}`, () => {
+      it(should` get limit lightness - ${rgb} -> ${limitedLightness10}`, () => {
         const actual = swissak.ColourTools.getLimitedColour(
           rgb,
           ([h, s, l]) => l > 10,

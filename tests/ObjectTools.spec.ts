@@ -1,38 +1,41 @@
 import * as swissak from '../';
+import { register, should } from './test-utils';
+
+register({ describe, it, expect });
 
 describe('ObjectTools', () => {
   describe('remodel', () => {
-    it(`exists as 'ObjectTools.remodel'`, () => {
+    it(should` exist as 'ObjectTools.remodel'`, () => {
       expect(swissak.ObjectTools.remodel).toBeDefined();
     });
   });
   describe('remodelEach', () => {
-    it(`exists as 'ObjectTools.remodelEach'`, () => {
+    it(should` exist as 'ObjectTools.remodelEach'`, () => {
       expect(swissak.ObjectTools.remodelEach).toBeDefined();
     });
   });
   describe('map', () => {
-    it(`exists as 'ObjectTools.map'`, () => {
+    it(should` exist as 'ObjectTools.map'`, () => {
       expect(swissak.ObjectTools.map).toBeDefined();
     });
   });
   describe('mapValues', () => {
-    it(`exists as 'ObjectTools.mapValues'`, () => {
+    it(should` exist as 'ObjectTools.mapValues'`, () => {
       expect(swissak.ObjectTools.mapValues).toBeDefined();
     });
   });
   describe('mapKeys', () => {
-    it(`exists as 'ObjectTools.mapKeys'`, () => {
+    it(should` exist as 'ObjectTools.mapKeys'`, () => {
       expect(swissak.ObjectTools.mapKeys).toBeDefined();
     });
   });
   describe('filter', () => {
-    it(`exists as 'ObjectTools.filter'`, () => {
+    it(should` exist as 'ObjectTools.filter'`, () => {
       expect(swissak.ObjectTools.filter).toBeDefined();
     });
   });
   describe('clean', () => {
-    it(`exists as 'ObjectTools.clean'`, () => {
+    it(should` exist as 'ObjectTools.clean'`, () => {
       expect(swissak.ObjectTools.clean).toBeDefined();
     });
   });

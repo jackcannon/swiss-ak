@@ -271,6 +271,7 @@ A collection of useful higher-order functions.
       - [byProp](#byprop)
       - [nearestTo](#nearestto)
       - [furthestFrom](#furthestfrom)
+      - [array](#array)
       - [arrayAsc](#arrayasc)
       - [arrayDesc](#arraydesc)
     - [**reduces**](#reduces)
@@ -317,7 +318,7 @@ const items = stuff
 
 |  #  | Parameter Name | Required | Type |
 |:---:|:---------------|:---------|:-----|
-| *0* | `item`         | **Yes**  | `T`  |
+| *0* | `item`         | *No*     | `T`  |
 
 | Return Type |
 |-------------|
@@ -340,7 +341,7 @@ const items = stuff
 
 |  #  | Parameter Name | Required | Type |
 |:---:|:---------------|:---------|:-----|
-| *0* | `item`         | **Yes**  | `T`  |
+| *0* | `item`         | *No*     | `T`  |
 
 | Return Type |
 |-------------|
@@ -360,7 +361,7 @@ Like fn.result, but wrapped in a Promise
 
 |  #  | Parameter Name | Required | Type |
 |:---:|:---------------|:---------|:-----|
-| *0* | `item`         | **Yes**  | `T`  |
+| *0* | `item`         | *No*     | `T`  |
 
 | Return Type        |
 |--------------------|
@@ -378,7 +379,7 @@ Returns an async function that rejects with the first argument
 
 |  #  | Parameter Name | Required | Type |
 |:---:|:---------------|:---------|:-----|
-| *0* | `item`         | **Yes**  | `T`  |
+| *0* | `item`         | *No*     | `T`  |
 
 | Return Type        |
 |--------------------|
@@ -597,9 +598,9 @@ Removes duplicate items from an array.
 #### dedupeMapped
 
 ```typescript
-fn.dedupeMapped(mapFn: (value: T, index: number, array: T[]) => U): (item: T, index: number, array: T[]) => boolean
-fn.filters.dedupeMapped(mapFn: (value: T, index: number, array: T[]) => U): (item: T, index: number, array: T[]) => boolean
-filters.dedupeMapped(mapFn: (value: T, index: number, array: T[]) => U): (item: T, index: number, array: T[]) => boolean
+fn.dedupeMapped(mapFn: (value?: T, index?: number, array?: T[]) => U): (item: T, index: number, array: T[]) => boolean
+fn.filters.dedupeMapped(mapFn: (value?: T, index?: number, array?: T[]) => U): (item: T, index: number, array: T[]) => boolean
+filters.dedupeMapped(mapFn: (value?: T, index?: number, array?: T[]) => U): (item: T, index: number, array: T[]) => boolean
 ```
 
 Removes duplicate items from an array based on a mapped value.
@@ -608,9 +609,9 @@ Removes duplicate items from an array based on a mapped value.
 [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
 ```
 
-|  #  | Parameter Name | Required | Type                                         |
-|:---:|:---------------|:---------|:---------------------------------------------|
-| *0* | `mapFn`        | **Yes**  | `(value: T, index: number, array: T[]) => U` |
+|  #  | Parameter Name | Required | Type                                            |
+|:---:|:---------------|:---------|:------------------------------------------------|
+| *0* | `mapFn`        | **Yes**  | `(value?: T, index?: number, array?: T[]) => U` |
 
 | Return Type                                       |
 |---------------------------------------------------|
@@ -704,9 +705,9 @@ Maps the item to a boolean.
 #### toProp
 
 ```typescript
-fn.toProp(prop: string): (item: O) => P
-fn.maps.toProp(prop: string): (item: O) => P
-maps.toProp(prop: string): (item: O) => P
+fn.toProp(prop: string | number): (item: O) => P
+fn.maps.toProp(prop: string | number): (item: O) => P
+maps.toProp(prop: string | number): (item: O) => P
 ```
 
 Maps the item to a given property of the item
@@ -715,9 +716,9 @@ Maps the item to a given property of the item
 [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
 ```
 
-|  #  | Parameter Name | Required | Type     |
-|:---:|:---------------|:---------|:---------|
-| *0* | `prop`         | **Yes**  | `string` |
+|  #  | Parameter Name | Required | Type               |
+|:---:|:---------------|:---------|:-------------------|
+| *0* | `prop`         | **Yes**  | `string \| number` |
 
 | Return Type      |
 |------------------|
@@ -812,9 +813,9 @@ Sort descending.
 #### byProp
 
 ```typescript
-fn.byProp(propName: string, sortFn: SortFn<T>): SortFn<O>
-fn.sorts.byProp(propName: string, sortFn: SortFn<T>): SortFn<O>
-sorts.byProp(propName: string, sortFn: SortFn<T>): SortFn<O>
+fn.byProp(propName: string | number, sortFn: SortFn<T>): SortFn<O>
+fn.sorts.byProp(propName: string | number, sortFn: SortFn<T>): SortFn<O>
+sorts.byProp(propName: string | number, sortFn: SortFn<T>): SortFn<O>
 ```
 
 Sort by a given property.
@@ -824,10 +825,10 @@ const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
 people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
 ```
 
-|  #  | Parameter Name | Required | Type        | Default |
-|:---:|:---------------|:---------|:------------|:--------|
-| *0* | `propName`     | **Yes**  | `string`    |         |
-| *1* | `sortFn`       | *No*     | `SortFn<T>` | `asc`   |
+|  #  | Parameter Name | Required | Type               | Default |
+|:---:|:---------------|:---------|:-------------------|:--------|
+| *0* | `propName`     | **Yes**  | `string \| number` |         |
+| *1* | `sortFn`       | *No*     | `SortFn<T>`        | `asc`   |
 
 | Return Type |
 |-------------|
@@ -844,6 +845,8 @@ sorts.nearestTo(target: T): (a: any, b: any) => number
 ```
 
 Sort by the nearest value to the given value.
+
+Values get converted to numbers before comparison.
 
 ```typescript
 const people = [2, 4, 3, 1];
@@ -885,45 +888,53 @@ people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
+#### array
+
+```typescript
+fn.array(sortFn: SortFn<T>): (a: T[], b: T[]) => number
+fn.sorts.array(sortFn: SortFn<T>): (a: T[], b: T[]) => number
+sorts.array(sortFn: SortFn<T>): (a: T[], b: T[]) => number
+```
+
+Sort an array of arrays by the given sort function.
+
+Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+
+|  #  | Parameter Name | Required | Type        | Default |
+|:---:|:---------------|:---------|:------------|:--------|
+| *0* | `sortFn`       | *No*     | `SortFn<T>` | `asc`   |
+
+| Return Type                  |
+|------------------------------|
+| `(a: T[], b: T[]) => number` |
+
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
+
 #### arrayAsc
 
 ```typescript
-fn.arrayAsc(a: any[], b: any[]): any
-fn.sorts.arrayAsc(a: any[], b: any[]): any
-sorts.arrayAsc(a: any[], b: any[]): any
+fn.arrayAsc;
+fn.sorts.arrayAsc;
+sorts.arrayAsc;
 ```
 
 Sort an array of arrays in ascending order
 
-|  #  | Parameter Name | Required | Type    |
-|:---:|:---------------|:---------|:--------|
-| *0* | `a`            | **Yes**  | `any[]` |
-| *1* | `b`            | **Yes**  | `any[]` |
-
-| Return Type |
-|-------------|
-| `any`       |
+Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
 #### arrayDesc
 
 ```typescript
-fn.arrayDesc(a: any[], b: any[]): any
-fn.sorts.arrayDesc(a: any[], b: any[]): any
-sorts.arrayDesc(a: any[], b: any[]): any
+fn.arrayDesc;
+fn.sorts.arrayDesc;
+sorts.arrayDesc;
 ```
 
 Sort an array of arrays in descending order
 
-|  #  | Parameter Name | Required | Type    |
-|:---:|:---------------|:---------|:--------|
-| *0* | `a`            | **Yes**  | `any[]` |
-| *1* | `b`            | **Yes**  | `any[]` |
-
-| Return Type |
-|-------------|
-| `any`       |
+Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -940,9 +951,9 @@ Collection of functions that can be used with Array.reduce
 #### combine
 
 ```typescript
-fn.combine(a: any, b: any): any
-fn.reduces.combine(a: any, b: any): any
-reduces.combine(a: any, b: any): any
+fn.combine(a: T, b: T): T
+fn.reduces.combine(a: T, b: T): T
+reduces.combine(a: T, b: T): T
 ```
 
 Adds or concats the items
@@ -952,23 +963,23 @@ Adds or concats the items
 ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
 ```
 
-|  #  | Parameter Name | Required | Type  |
-|:---:|:---------------|:---------|:------|
-| *0* | `a`            | **Yes**  | `any` |
-| *1* | `b`            | **Yes**  | `any` |
+|  #  | Parameter Name | Required | Type |
+|:---:|:---------------|:---------|:-----|
+| *0* | `a`            | **Yes**  | `T`  |
+| *1* | `b`            | **Yes**  | `T`  |
 
 | Return Type |
 |-------------|
-| `any`       |
+| `T`         |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
 #### combineProp
 
 ```typescript
-fn.combineProp(propName: string): (a: any, b: any) => any
-fn.reduces.combineProp(propName: string): (a: any, b: any) => any
-reduces.combineProp(propName: string): (a: any, b: any) => any
+fn.combineProp(propName: string | number): (a: O | T, b: O) => T
+fn.reduces.combineProp(propName: string | number): (a: O | T, b: O) => T
+reduces.combineProp(propName: string | number): (a: O | T, b: O) => T
 ```
 
 Adds or concats the given property of the items
@@ -979,13 +990,13 @@ people.reduce(fn.combineProp('age')); // 6
 people.reduce(fn.combineProp('name')); // 'abc'
 ```
 
-|  #  | Parameter Name | Required | Type     |
-|:---:|:---------------|:---------|:---------|
-| *0* | `propName`     | **Yes**  | `string` |
+|  #  | Parameter Name | Required | Type               |
+|:---:|:---------------|:---------|:-------------------|
+| *0* | `propName`     | **Yes**  | `string \| number` |
 
-| Return Type               |
-|---------------------------|
-| `(a: any, b: any) => any` |
+| Return Type              |
+|--------------------------|
+| `(a: O \| T, b: O) => T` |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -4542,6 +4553,7 @@ Used internally for input validation.
     - [func](#safe_func)
     - [obj](#safe_obj)
     - [arr](#safe_arr)
+    - [prop](#safe_prop)
     - [**arrOf**](#arrof)
       - [num](#safe_arrof_num)
       - [str](#safe_arrof_str)
@@ -4549,13 +4561,14 @@ Used internally for input validation.
       - [func](#safe_arrof_func)
       - [obj](#safe_arrof_obj)
       - [arr](#safe_arrof_arr)
+      - [prop](#safe_arrof_prop)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ### <span id="safe_num">num</span>
 
 ```typescript
-safe.num;
+safe.num(input: number, isInt: boolean, min: number, max: number, fallback: number): number
 ```
 
 Process a number value, ensuring that it is safe to use.
@@ -4582,12 +4595,24 @@ safe.num(null, true, 0, 100, 99); // 99
 safe.num(undefined, true, 0, 100, 99); // 99
 ```
 
+|  #  | Parameter Name | Required | Type      | Default |
+|:---:|:---------------|:---------|:----------|:--------|
+| *0* | `input`        | **Yes**  | `number`  |         |
+| *1* | `isInt`        | *No*     | `boolean` | `false` |
+| *2* | `min`          | *No*     | `number`  |         |
+| *3* | `max`          | *No*     | `number`  |         |
+| *4* | `fallback`     | *No*     | `number`  | `0`     |
+
+| Return Type |
+|-------------|
+| `number`    |
+
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
 ### <span id="safe_str">str</span>
 
 ```typescript
-safe.str;
+safe.str(input: string, allowBasicStringify: boolean, fallback: string): string
 ```
 
 Process a string value, ensuring that it is safe to use.
@@ -4612,12 +4637,22 @@ safe.str(null, true, 'bar'); // 'bar'
 safe.str(undefined, true, 'bar'); // 'bar'
 ```
 
+|  #  | Parameter Name        | Required | Type      | Default |
+|:---:|:----------------------|:---------|:----------|:--------|
+| *0* | `input`               | **Yes**  | `string`  |         |
+| *1* | `allowBasicStringify` | *No*     | `boolean` | `false` |
+| *2* | `fallback`            | *No*     | `string`  | `''`    |
+
+| Return Type |
+|-------------|
+| `string`    |
+
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
 ### <span id="safe_bool">bool</span>
 
 ```typescript
-safe.bool;
+safe.bool(input: boolean, fallback: boolean): boolean
 ```
 
 Process a boolean value, ensuring that it is safe to use.
@@ -4649,12 +4684,21 @@ safe.bool([], true); // true
 safe.bool(null, true); // true
 safe.bool(undefined, true); // true
 
+|  #  | Parameter Name | Required | Type      | Default |
+|:---:|:---------------|:---------|:----------|:--------|
+| *0* | `input`        | **Yes**  | `boolean` |         |
+| *1* | `fallback`     | *No*     | `boolean` | `false` |
+
+| Return Type |
+|-------------|
+| `boolean`   |
+
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
 ### <span id="safe_func">func</span>
 
 ```typescript
-safe.func<T>;
+safe.func<T>(input: T, fallback: T): T
 ```
 
 Process a function value, ensuring that it is safe to use.
@@ -4681,12 +4725,21 @@ safe.func(null, (q: number) => 456); // (q: number) => 456
 safe.func(undefined, (q: number) => 456); // (q: number) => 456
 ```
 
+|  #  | Parameter Name | Required | Type | Default                      |
+|:---:|:---------------|:---------|:-----|:-----------------------------|
+| *0* | `input`        | **Yes**  | `T`  |                              |
+| *1* | `fallback`     | *No*     | `T`  | `(() => {}) as unknown as T` |
+
+| Return Type |
+|-------------|
+| `T`         |
+
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
 ### <span id="safe_obj">obj</span>
 
 ```typescript
-safe.obj<T>;
+safe.obj<T>(input: T, fallback: T): T
 ```
 
 Process an object value, ensuring that it is safe to use.
@@ -4711,12 +4764,21 @@ safe.obj(null, {baz: 123}); // {baz: 123}
 safe.obj(undefined, {baz: 123}); // {baz: 123}
 ```
 
+|  #  | Parameter Name | Required | Type | Default   |
+|:---:|:---------------|:---------|:-----|:----------|
+| *0* | `input`        | **Yes**  | `T`  |           |
+| *1* | `fallback`     | *No*     | `T`  | `{} as T` |
+
+| Return Type |
+|-------------|
+| `T`         |
+
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
 ### <span id="safe_arr">arr</span>
 
 ```typescript
-safe.arr<T>;
+safe.arr<T>(input: T[], fallback: T[], minLength: number, maxLength: number): T[]
 ```
 
 Process an array value, ensuring that it is safe to use.
@@ -4741,6 +4803,58 @@ safe.arr(null, [4, 5, 6]); // [ 4, 5, 6 ]
 safe.arr(undefined, [4, 5, 6]); // [ 4, 5, 6 ]
 ```
 
+|  #  | Parameter Name | Required | Type     | Default    |
+|:---:|:---------------|:---------|:---------|:-----------|
+| *0* | `input`        | **Yes**  | `T[]`    |            |
+| *1* | `fallback`     | *No*     | `T[]`    | `[]`       |
+| *2* | `minLength`    | *No*     | `number` | `0`        |
+| *3* | `maxLength`    | *No*     | `number` | `Infinity` |
+
+| Return Type |
+|-------------|
+| `T[]`       |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+### <span id="safe_prop">prop</span>
+
+```typescript
+safe.prop(input: string | number, fallback: string | number): string | number
+```
+
+Process a value (string or number) that is expected to be used as a property name, ensuring that it is safe to use.
+
+Equivalent to `typeof value === 'number' ? safe.num(value) : safe.str(value, true, '')`
+
+```typescript
+safe.prop('foo'); // 'foo'
+safe.prop(''); // ''
+safe.prop(123); // 123
+safe.prop(true); // 'true'
+safe.prop({foo: 'bar'}); // ''
+safe.prop([]); // ''
+safe.prop(null); // ''
+safe.prop(undefined); // ''
+
+safe.prop('foo', 'bar'); // 'foo'
+safe.prop('', 'bar'); // ''
+safe.prop(123, 'bar'); // 123
+safe.prop(true, 'bar'); // 'true'
+safe.prop({foo: 'bar'}, 'bar'); // 'bar'
+safe.prop([], 'bar'); // 'bar'
+safe.prop(null, 'bar'); // 'bar'
+safe.prop(undefined, 'bar'); // 'bar'
+```
+
+|  #  | Parameter Name | Required | Type               | Default |
+|:---:|:---------------|:---------|:-------------------|:--------|
+| *0* | `input`        | **Yes**  | `string \| number` |         |
+| *1* | `fallback`     | *No*     | `string \| number` | `''`    |
+
+| Return Type        |
+|--------------------|
+| `string \| number` |
+
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
 ### arrOf
@@ -4751,7 +4865,7 @@ A series of functions for processing arrays of values.
 #### <span id="safe_arrof_num">num</span>
 
 ```typescript
-safe.num;
+safe.arrOf.num(input: number[], isInt: boolean, min: number, max: number, fallback: number, fallbackArr: number[], arrMinLength: number, arrMaxLength: number): number[]
 ```
 
 Process an array of numbers, ensuring that they are safe to use.
@@ -4778,12 +4892,27 @@ safe.arrOf.num(null, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
 safe.arrOf.num(undefined, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
 ```
 
+|  #  | Parameter Name | Required | Type       | Default    |
+|:---:|:---------------|:---------|:-----------|:-----------|
+| *0* | `input`        | **Yes**  | `number[]` |            |
+| *1* | `isInt`        | *No*     | `boolean`  | `false`    |
+| *2* | `min`          | *No*     | `number`   |            |
+| *3* | `max`          | *No*     | `number`   |            |
+| *4* | `fallback`     | *No*     | `number`   |            |
+| *5* | `fallbackArr`  | *No*     | `number[]` | `[]`       |
+| *6* | `arrMinLength` | *No*     | `number`   | `0`        |
+| *7* | `arrMaxLength` | *No*     | `number`   | `Infinity` |
+
+| Return Type |
+|-------------|
+| `number[]`  |
+
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
 #### <span id="safe_arrof_str">str</span>
 
 ```typescript
-safe.str;
+safe.arrOf.str(input: string[], allowStringify: boolean, fallback: string, fallbackArr: string[], arrMinLength: number, arrMaxLength: number): string[]
 ```
 
 Process an array of strings, ensuring that they are safe to use.
@@ -4810,12 +4939,25 @@ safe.arrOf.str(null, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
 safe.arrOf.str(undefined, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
 ```
 
+|  #  | Parameter Name   | Required | Type       | Default    |
+|:---:|:-----------------|:---------|:-----------|:-----------|
+| *0* | `input`          | **Yes**  | `string[]` |            |
+| *1* | `allowStringify` | *No*     | `boolean`  | `false`    |
+| *2* | `fallback`       | *No*     | `string`   |            |
+| *3* | `fallbackArr`    | *No*     | `string[]` | `[]`       |
+| *4* | `arrMinLength`   | *No*     | `number`   | `0`        |
+| *5* | `arrMaxLength`   | *No*     | `number`   | `Infinity` |
+
+| Return Type |
+|-------------|
+| `string[]`  |
+
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
 #### <span id="safe_arrof_bool">bool</span>
 
 ```typescript
-safe.bool;
+safe.arrOf.bool(input: boolean[], fallback: boolean, fallbackArr: boolean[], arrMinLength: number, arrMaxLength: number): boolean[]
 ```
 
 Process an array of booleans, ensuring that they are safe to use.
@@ -4842,12 +4984,24 @@ safe.arrOf.bool(null, true, [true, true]); // [ true, true ]
 safe.arrOf.bool(undefined, true, [true, true]); // [ true, true ]
 ```
 
+|  #  | Parameter Name | Required | Type        | Default    |
+|:---:|:---------------|:---------|:------------|:-----------|
+| *0* | `input`        | **Yes**  | `boolean[]` |            |
+| *1* | `fallback`     | *No*     | `boolean`   |            |
+| *2* | `fallbackArr`  | *No*     | `boolean[]` | `[]`       |
+| *3* | `arrMinLength` | *No*     | `number`    | `0`        |
+| *4* | `arrMaxLength` | *No*     | `number`    | `Infinity` |
+
+| Return Type |
+|-------------|
+| `boolean[]` |
+
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
 #### <span id="safe_arrof_func">func</span>
 
 ```typescript
-safe.func<T>;
+safe.arrOf.func<T>(input: T[], fallback: T, fallbackArr: T[], arrMinLength: number, arrMaxLength: number): T[]
 ```
 
 Process an array of functions, ensuring that they are safe to use.
@@ -4874,12 +5028,24 @@ safe.arrOf.func(null, (q) => 2, [(r) => 3]); //  [(r) => 3]
 safe.arrOf.func(undefined, (q) => 2, [(r) => 3]); //  [(r) => 3]
 ```
 
+|  #  | Parameter Name | Required | Type     | Default    |
+|:---:|:---------------|:---------|:---------|:-----------|
+| *0* | `input`        | **Yes**  | `T[]`    |            |
+| *1* | `fallback`     | *No*     | `T`      |            |
+| *2* | `fallbackArr`  | *No*     | `T[]`    | `[]`       |
+| *3* | `arrMinLength` | *No*     | `number` | `0`        |
+| *4* | `arrMaxLength` | *No*     | `number` | `Infinity` |
+
+| Return Type |
+|-------------|
+| `T[]`       |
+
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
 #### <span id="safe_arrof_obj">obj</span>
 
 ```typescript
-safe.obj<T>;
+safe.arrOf.obj<T>(input: T[], fallback: T, fallbackArr: T[], arrMinLength: number, arrMaxLength: number): T[]
 ```
 
 Process an array of objects, ensuring that they are safe to use.
@@ -4906,12 +5072,24 @@ safe.arrOf.obj(null, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
 safe.arrOf.obj(undefined, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
 ```
 
+|  #  | Parameter Name | Required | Type     | Default    |
+|:---:|:---------------|:---------|:---------|:-----------|
+| *0* | `input`        | **Yes**  | `T[]`    |            |
+| *1* | `fallback`     | *No*     | `T`      |            |
+| *2* | `fallbackArr`  | *No*     | `T[]`    | `[]`       |
+| *3* | `arrMinLength` | *No*     | `number` | `0`        |
+| *4* | `arrMaxLength` | *No*     | `number` | `Infinity` |
+
+| Return Type |
+|-------------|
+| `T[]`       |
+
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
 #### <span id="safe_arrof_arr">arr</span>
 
 ```typescript
-safe.arr<T>;
+safe.arrOf.arr<T>(input: T[][], fallback: T[], fallbackArr: T[][], arrMinLength: number, arrMaxLength: number): T[][]
 ```
 
 Process an array of arrays, ensuring that they are safe to use.
@@ -4937,6 +5115,62 @@ safe.arrOf.arr({foo: 'bar'}, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
 safe.arrOf.arr(null, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
 safe.arrOf.arr(undefined, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
 ```
+
+|  #  | Parameter Name | Required | Type     | Default    |
+|:---:|:---------------|:---------|:---------|:-----------|
+| *0* | `input`        | **Yes**  | `T[][]`  |            |
+| *1* | `fallback`     | *No*     | `T[]`    |            |
+| *2* | `fallbackArr`  | *No*     | `T[][]`  | `[]`       |
+| *3* | `arrMinLength` | *No*     | `number` | `0`        |
+| *4* | `arrMaxLength` | *No*     | `number` | `Infinity` |
+
+| Return Type |
+|-------------|
+| `T[][]`     |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+#### <span id="safe_arrof_prop">prop</span>
+
+```typescript
+safe.arrOf.prop(input: (string | number)[], fallback: string | number, fallbackArr: (string | number)[], arrMinLength: number, arrMaxLength: number): (string | number)[]
+```
+
+Process an array of arrays, ensuring that they are safe to use.
+
+```typescript
+safe.arrOf.prop([['foo'], ['bar']]); // [ '', '' ]
+safe.arrOf.prop(['foo', 1, true, null, undefined, [], {}]); // [ 'foo', 1, 'true', '', '', '', '' ]
+safe.arrOf.prop(true); // []
+safe.arrOf.prop(false); // []
+safe.arrOf.prop(123); // []
+safe.arrOf.prop('foobar'); // []
+safe.arrOf.prop({foo: 'bar'}); // []
+safe.arrOf.prop(null); // []
+safe.arrOf.prop(undefined); // []
+
+safe.arrOf.prop([['foo'], ['bar']], ['baz'], ['IPSUM']); // [ [ 'baz' ], [ 'baz' ] ]
+safe.arrOf.prop(['foo', 1, true, null, undefined, [], {}], ['baz'], ['IPSUM']); // [ 'foo', 1, 'true', [ 'baz' ], [ 'baz' ], [ 'baz' ],[ 'baz' ] ]
+safe.arrOf.prop(true, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.prop(false, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.prop(123, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.prop('foobar', ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.prop({foo: 'bar'}, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.prop(null, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.prop(undefined, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+```
+
+|  #  | Parameter Name | Required | Type                   | Default    |
+|:---:|:---------------|:---------|:-----------------------|:-----------|
+| *0* | `input`        | **Yes**  | `(string \| number)[]` |            |
+| *1* | `fallback`     | *No*     | `string \| number`     |            |
+| *2* | `fallbackArr`  | *No*     | `(string \| number)[]` | `[]`       |
+| *3* | `arrMinLength` | *No*     | `number`               | `0`        |
+| *4* | `arrMaxLength` | *No*     | `number`               | `Infinity` |
+
+| Return Type            |
+|------------------------|
+| `(string \| number)[]` |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 

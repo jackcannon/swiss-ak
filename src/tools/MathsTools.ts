@@ -1,4 +1,5 @@
 import { ArrayTools } from './ArrayTools';
+import { safe } from './safe';
 
 //<!-- DOCS: 130 -->
 /**<!-- DOCS: MathsTools ##! -->
@@ -31,7 +32,13 @@ export namespace MathsTools {
    * @param {number} num
    * @returns {number}
    */
-  export const fixFloat = (num: number, precision = 6): number => Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision);
+  export const fixFloat = (num: number, precision = 6): number => {
+    const args = {
+      num: safe.num(num, false),
+      precision: safe.num(precision, true, 0)
+    };
+    return Math.round(args.num * Math.pow(10, args.precision)) / Math.pow(10, args.precision);
+  };
 
   /** <!-- DOCS-ALIAS: MathsTools.fixFloat  --> */
   export const ff = fixFloat;

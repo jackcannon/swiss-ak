@@ -8,6 +8,8 @@
  * Used internally for input validation.
  */
 export namespace safe {
+  // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
   /**<!-- DOCS: safe.num ### @ -->
    * num
    *
@@ -36,6 +38,12 @@ export namespace safe {
    * safe.num(null, true, 0, 100, 99); // 99
    * safe.num(undefined, true, 0, 100, 99); // 99
    * ```
+   * @param {number} input
+   * @param {boolean} [isInt=false]
+   * @param {number} [min]
+   * @param {number} [max]
+   * @param {number} [fallback=0]
+   * @returns {number}
    */
   export const num = (input: number, isInt: boolean = false, min?: number, max?: number, fallback: number = 0): number => {
     let result = input;
@@ -75,6 +83,10 @@ export namespace safe {
    * safe.str(null, true, 'bar'); // 'bar'
    * safe.str(undefined, true, 'bar'); // 'bar'
    * ```
+   * @param {string} input
+   * @param {boolean} [allowBasicStringify=false]
+   * @param {string} [fallback='']
+   * @returns {string}
    */
   export const str = (input: string, allowBasicStringify: boolean = false, fallback: string = ''): string => {
     let result = input;
@@ -128,6 +140,9 @@ export namespace safe {
    * safe.bool([], true); // true
    * safe.bool(null, true); // true
    * safe.bool(undefined, true); // true
+   * @param {boolean} input
+   * @param {boolean} [fallback=false]
+   * @returns {boolean}
    */
   export const bool = (input: boolean, fallback: boolean = false): boolean => {
     let result = input;
@@ -172,6 +187,9 @@ export namespace safe {
    * safe.func(null, (q: number) => 456); // (q: number) => 456
    * safe.func(undefined, (q: number) => 456); // (q: number) => 456
    * ```
+   * @param {T} input
+   * @param {T} [fallback=(() => {}) as unknown as T]
+   * @returns {T}
    */
   export const func = <T extends Function>(input: T, fallback: T = (() => {}) as unknown as T): T => {
     let result = input;
@@ -205,6 +223,9 @@ export namespace safe {
    * safe.obj(null, {baz: 123}); // {baz: 123}
    * safe.obj(undefined, {baz: 123}); // {baz: 123}
    * ```
+   * @param {T} input
+   * @param {T} [fallback={} as T]
+   * @returns {T}
    */
   export const obj = <T extends unknown>(input: T, fallback: T = {} as T): T => {
     let result = input;
@@ -238,6 +259,11 @@ export namespace safe {
    * safe.arr(null, [4, 5, 6]); // [ 4, 5, 6 ]
    * safe.arr(undefined, [4, 5, 6]); // [ 4, 5, 6 ]
    * ```
+   * @param {T[]} input
+   * @param {T[]} [fallback=[]]
+   * @param {number} [minLength=0]
+   * @param {number} [maxLength=Infinity]
+   * @returns {T[]}
    */
   export const arr = <T extends unknown>(input: T[], fallback: T[] = [], minLength: number = 0, maxLength: number = Infinity): T[] => {
     let result = input;
@@ -255,16 +281,57 @@ export namespace safe {
     return result;
   };
 
+  /**<!-- DOCS: safe.prop ### @ -->
+   * prop
+   *
+   * - `safe.prop`
+   *
+   * Process a value (string or number) that is expected to be used as a property name, ensuring that it is safe to use.
+   *
+   * Equivalent to `typeof value === 'number' ? safe.num(value) : safe.str(value, true, '')`
+   *
+   * ```typescript
+   * safe.prop('foo'); // 'foo'
+   * safe.prop(''); // ''
+   * safe.prop(123); // 123
+   * safe.prop(true); // 'true'
+   * safe.prop({foo: 'bar'}); // ''
+   * safe.prop([]); // ''
+   * safe.prop(null); // ''
+   * safe.prop(undefined); // ''
+   *
+   * safe.prop('foo', 'bar'); // 'foo'
+   * safe.prop('', 'bar'); // ''
+   * safe.prop(123, 'bar'); // 123
+   * safe.prop(true, 'bar'); // 'true'
+   * safe.prop({foo: 'bar'}, 'bar'); // 'bar'
+   * safe.prop([], 'bar'); // 'bar'
+   * safe.prop(null, 'bar'); // 'bar'
+   * safe.prop(undefined, 'bar'); // 'bar'
+   * ```
+   * @param {string | number} input
+   * @param {string | number} [fallback='']
+   * @returns {string | number}
+   */
+  export const prop = (input: string | number, fallback: string | number = ''): string | number => {
+    if (typeof input === 'number') {
+      return safe.num(input, undefined, undefined, undefined, fallback as unknown as number);
+    }
+    return safe.str(input, true, fallback as string);
+  };
+
   /**<!-- DOCS: safe.arrOf ### -->
    * arrOf
    *
    * A series of functions for processing arrays of values.
    */
   export namespace arrOf {
+    // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
     /**<!-- DOCS: safe.arrOf.num #### @ -->
      * num
      *
-     * - `safe.num`
+     * - `safe.arrOf.num`
      *
      * Process an array of numbers, ensuring that they are safe to use.
      *
@@ -289,6 +356,15 @@ export namespace safe {
      * safe.arrOf.num(null, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
      * safe.arrOf.num(undefined, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
      * ```
+     * @param {number[]} input
+     * @param {boolean} [isInt=false]
+     * @param {number} [min]
+     * @param {number} [max]
+     * @param {number} [fallback]
+     * @param {number[]} [fallbackArr=[]]
+     * @param {number} [arrMinLength=0]
+     * @param {number} [arrMaxLength=Infinity]
+     * @returns {number[]}
      */
     export const num = (
       input: number[],
@@ -307,7 +383,7 @@ export namespace safe {
     /**<!-- DOCS: safe.arrOf.str #### @ -->
      * str
      *
-     * - `safe.str`
+     * - `safe.arrOf.str`
      *
      * Process an array of strings, ensuring that they are safe to use.
      *
@@ -332,6 +408,13 @@ export namespace safe {
      * safe.arrOf.str(null, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
      * safe.arrOf.str(undefined, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
      * ```
+     * @param {string[]} input
+     * @param {boolean} [allowStringify=false]
+     * @param {string} [fallback]
+     * @param {string[]} [fallbackArr=[]]
+     * @param {number} [arrMinLength=0]
+     * @param {number} [arrMaxLength=Infinity]
+     * @returns {string[]}
      */
     export const str = (
       input: string[],
@@ -348,7 +431,7 @@ export namespace safe {
     /**<!-- DOCS: safe.arrOf.bool #### @ -->
      * bool
      *
-     * - `safe.bool`
+     * - `safe.arrOf.bool`
      *
      * Process an array of booleans, ensuring that they are safe to use.
      *
@@ -373,6 +456,12 @@ export namespace safe {
      * safe.arrOf.bool(null, true, [true, true]); // [ true, true ]
      * safe.arrOf.bool(undefined, true, [true, true]); // [ true, true ]
      * ```
+     * @param {boolean[]} input
+     * @param {boolean} [fallback]
+     * @param {boolean[]} [fallbackArr=[]]
+     * @param {number} [arrMinLength=0]
+     * @param {number} [arrMaxLength=Infinity]
+     * @returns {boolean[]}
      */
     export const bool = (
       input: boolean[],
@@ -388,7 +477,7 @@ export namespace safe {
     /**<!-- DOCS: safe.arrOf.func #### @ -->
      * func
      *
-     * - `safe.func<T>`
+     * - `safe.arrOf.func<T>`
      *
      * Process an array of functions, ensuring that they are safe to use.
      *
@@ -413,6 +502,12 @@ export namespace safe {
      * safe.arrOf.func(null, (q) => 2, [(r) => 3]); //  [(r) => 3]
      * safe.arrOf.func(undefined, (q) => 2, [(r) => 3]); //  [(r) => 3]
      * ```
+     * @param {T[]} input
+     * @param {T} [fallback]
+     * @param {T[]} [fallbackArr=[]]
+     * @param {number} [arrMinLength=0]
+     * @param {number} [arrMaxLength=Infinity]
+     * @returns {T[]}
      */
     export const func = <T extends Function>(
       input: T[],
@@ -428,7 +523,7 @@ export namespace safe {
     /**<!-- DOCS: safe.arrOf.obj #### @ -->
      * obj
      *
-     * - `safe.obj<T>`
+     * - `safe.arrOf.obj<T>`
      *
      * Process an array of objects, ensuring that they are safe to use.
      *
@@ -453,6 +548,12 @@ export namespace safe {
      * safe.arrOf.obj(null, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
      * safe.arrOf.obj(undefined, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
      * ```
+     * @param {T[]} input
+     * @param {T} [fallback]
+     * @param {T[]} [fallbackArr=[]]
+     * @param {number} [arrMinLength=0]
+     * @param {number} [arrMaxLength=Infinity]
+     * @returns {T[]}
      */
     export const obj = <T extends unknown>(
       input: T[],
@@ -468,7 +569,7 @@ export namespace safe {
     /**<!-- DOCS: safe.arrOf.arr #### @ -->
      * arr
      *
-     * - `safe.arr<T>`
+     * - `safe.arrOf.arr<T>`
      *
      * Process an array of arrays, ensuring that they are safe to use.
      *
@@ -493,6 +594,12 @@ export namespace safe {
      * safe.arrOf.arr(null, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
      * safe.arrOf.arr(undefined, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
      * ```
+     * @param {T[][]} input
+     * @param {T[]} [fallback]
+     * @param {T[][]} [fallbackArr=[]]
+     * @param {number} [arrMinLength=0]
+     * @param {number} [arrMaxLength=Infinity]
+     * @returns {T[][]}
      */
     export const arr = <T extends unknown>(
       input: T[][],
@@ -504,5 +611,51 @@ export namespace safe {
       const result = safe.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe.arr(item, fallback));
     };
-  }
-}
+
+    /**<!-- DOCS: safe.arrOf.prop #### @ -->
+     * prop
+     *
+     * - `safe.arrOf.prop`
+     *
+     * Process an array of arrays, ensuring that they are safe to use.
+     *
+     * ```typescript
+     * safe.arrOf.prop([['foo'], ['bar']]); // [ '', '' ]
+     * safe.arrOf.prop(['foo', 1, true, null, undefined, [], {}]); // [ 'foo', 1, 'true', '', '', '', '' ]
+     * safe.arrOf.prop(true); // []
+     * safe.arrOf.prop(false); // []
+     * safe.arrOf.prop(123); // []
+     * safe.arrOf.prop('foobar'); // []
+     * safe.arrOf.prop({foo: 'bar'}); // []
+     * safe.arrOf.prop(null); // []
+     * safe.arrOf.prop(undefined); // []
+     *
+     * safe.arrOf.prop([['foo'], ['bar']], ['baz'], ['IPSUM']); // [ [ 'baz' ], [ 'baz' ] ]
+     * safe.arrOf.prop(['foo', 1, true, null, undefined, [], {}], ['baz'], ['IPSUM']); // [ 'foo', 1, 'true', [ 'baz' ], [ 'baz' ], [ 'baz' ],[ 'baz' ] ]
+     * safe.arrOf.prop(true, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+     * safe.arrOf.prop(false, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+     * safe.arrOf.prop(123, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+     * safe.arrOf.prop('foobar', ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+     * safe.arrOf.prop({foo: 'bar'}, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+     * safe.arrOf.prop(null, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+     * safe.arrOf.prop(undefined, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+     * ```
+     * @param {(string | number)[]} input
+     * @param {string | number} [fallback]
+     * @param {(string | number)[]} [fallbackArr=[]]
+     * @param {number} [arrMinLength=0]
+     * @param {number} [arrMaxLength=Infinity]
+     * @returns {(string | number)[]}
+     */
+    export const prop = (
+      input: (string | number)[],
+      fallback?: string | number,
+      fallbackArr: (string | number)[] = [],
+      arrMinLength: number = 0,
+      arrMaxLength: number = Infinity
+    ): (string | number)[] => {
+      const result = safe.arr(input, fallbackArr, arrMinLength, arrMaxLength);
+      return result.map((item) => safe.prop(item, fallback));
+    };
+  } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
+} // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
