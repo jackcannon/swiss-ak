@@ -2697,7 +2697,7 @@ MathsTools.fixFloat(0.1 + 0.2) // 0.3
 ### addAll
 
 ```typescript
-MathsTools.addAll(...args: number[]): number
+MathsTools.addAll(...nums: number[]): number
 ```
 
 Adds all numbers together. Each argument is a number (use spread operator to pass in an array) similar to Math.min/Math.max
@@ -2708,7 +2708,7 @@ MathsTools.addAll(1, 2, 3, 4, 5); // 15
 
 |  #   | Parameter Name | Required | Type       |
 |:----:|:---------------|:---------|:-----------|
-| *0…* | `args`         | *No*     | `number[]` |
+| *0…* | `nums`         | *No*     | `number[]` |
 
 | Return Type |
 |-------------|
@@ -2901,6 +2901,9 @@ MathsTools.getOrdinal(num: number): "th" | "st" | "nd" | "rd"
 ```
 
 Gets the ordinal suffix for a number.
+
+Note: all numbers are treated as positive.
+Note: all decimals are 'th' (e.g. 1.2 is '1.2th') as they are tenth, hundredth, thousandth, etc.
 
 ```typescript
 MathsTools.getOrdinal(1); // 'st'
@@ -5136,7 +5139,7 @@ safe.arrOf.arr(undefined, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
 safe.arrOf.prop(input: (string | number)[], fallback: string | number, fallbackArr: (string | number)[], arrMinLength: number, arrMaxLength: number): (string | number)[]
 ```
 
-Process an array of arrays, ensuring that they are safe to use.
+Process an array of values that can be used as properties (string or number), ensuring that they are safe to use.
 
 ```typescript
 safe.arrOf.prop([['foo'], ['bar']]); // [ '', '' ]

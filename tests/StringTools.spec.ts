@@ -1,5 +1,5 @@
 import * as swissak from '../';
-import { register, should } from './test-utils';
+import { multiTest, register, should } from './test-utils';
 
 register({ describe, it, expect });
 
@@ -25,258 +25,243 @@ describe('StringTools', () => {
     });
   });
   describe('toLowerCamelCase', () => {
-    it(should` exist as 'StringTools.toLowerCamelCase'`, () => {
-      expect(swissak.StringTools.toLowerCamelCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toLowerCamelCase'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toLowerCamelCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toLowerCamelCase'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toLowerCamelCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toLowerCamelCase'`, () => {
-      expect(swissak.StringTools.fromSpaced.toLowerCamelCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toLowerCamelCase'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toLowerCamelCase).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toLowerCamelCase, 'StringTools.toLowerCamelCase'],
+        [swissak.StringTools.fromSlugCase.toLowerCamelCase, 'StringTools.fromSlugCase.toLowerCamelCase'],
+        [swissak.StringTools.fromSnakeCase.toLowerCamelCase, 'StringTools.fromSnakeCase.toLowerCamelCase'],
+        [swissak.StringTools.fromSpaced.toLowerCamelCase, 'StringTools.fromSpaced.toLowerCamelCase'],
+        [swissak.StringTools.fromCamelCase.toLowerCamelCase, 'StringTools.fromCamelCase.toLowerCamelCase']
+      ],
+      (toLowerCamelCase, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toLowerCamelCase).toBeDefined();
+        });
+      }
+    );
   });
   describe('toUpperCamelCase', () => {
-    it(should` exist as 'StringTools.toUpperCamelCase'`, () => {
-      expect(swissak.StringTools.toUpperCamelCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toUpperCamelCase'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toUpperCamelCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toUpperCamelCase'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toUpperCamelCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toUpperCamelCase'`, () => {
-      expect(swissak.StringTools.fromSpaced.toUpperCamelCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toUpperCamelCase'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toUpperCamelCase).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toUpperCamelCase, 'StringTools.toUpperCamelCase'],
+        [swissak.StringTools.fromSlugCase.toUpperCamelCase, 'StringTools.fromSlugCase.toUpperCamelCase'],
+        [swissak.StringTools.fromSnakeCase.toUpperCamelCase, 'StringTools.fromSnakeCase.toUpperCamelCase'],
+        [swissak.StringTools.fromSpaced.toUpperCamelCase, 'StringTools.fromSpaced.toUpperCamelCase'],
+        [swissak.StringTools.fromCamelCase.toUpperCamelCase, 'StringTools.fromCamelCase.toUpperCamelCase']
+      ],
+      (toUpperCamelCase, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toUpperCamelCase).toBeDefined();
+        });
+      }
+    );
   });
   describe('toCamelCase', () => {
-    it(should` exist as 'StringTools.toCamelCase'`, () => {
-      expect(swissak.StringTools.toCamelCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toCamelCase'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toCamelCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toCamelCase'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toCamelCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toCamelCase'`, () => {
-      expect(swissak.StringTools.fromSpaced.toCamelCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toCamelCase'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toCamelCase).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toCamelCase, 'StringTools.toCamelCase'],
+        [swissak.StringTools.fromSlugCase.toCamelCase, 'StringTools.fromSlugCase.toCamelCase'],
+        [swissak.StringTools.fromSnakeCase.toCamelCase, 'StringTools.fromSnakeCase.toCamelCase'],
+        [swissak.StringTools.fromSpaced.toCamelCase, 'StringTools.fromSpaced.toCamelCase'],
+        [swissak.StringTools.fromCamelCase.toCamelCase, 'StringTools.fromCamelCase.toCamelCase']
+      ],
+      (toCamelCase, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toCamelCase).toBeDefined();
+        });
+      }
+    );
   });
   describe('toLowerSlugCase', () => {
-    it(should` exist as 'StringTools.toLowerSlugCase'`, () => {
-      expect(swissak.StringTools.toLowerSlugCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toLowerSlugCase'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toLowerSlugCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toLowerSlugCase'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toLowerSlugCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toLowerSlugCase'`, () => {
-      expect(swissak.StringTools.fromSpaced.toLowerSlugCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toLowerSlugCase'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toLowerSlugCase).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toLowerSlugCase, 'StringTools.toLowerSlugCase'],
+        [swissak.StringTools.fromSlugCase.toLowerSlugCase, 'StringTools.fromSlugCase.toLowerSlugCase'],
+        [swissak.StringTools.fromSnakeCase.toLowerSlugCase, 'StringTools.fromSnakeCase.toLowerSlugCase'],
+        [swissak.StringTools.fromSpaced.toLowerSlugCase, 'StringTools.fromSpaced.toLowerSlugCase'],
+        [swissak.StringTools.fromCamelCase.toLowerSlugCase, 'StringTools.fromCamelCase.toLowerSlugCase']
+      ],
+      (toLowerSlugCase, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toLowerSlugCase).toBeDefined();
+        });
+      }
+    );
   });
   describe('toUpperSlugCase', () => {
-    it(should` exist as 'StringTools.toUpperSlugCase'`, () => {
-      expect(swissak.StringTools.toUpperSlugCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toUpperSlugCase'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toUpperSlugCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toUpperSlugCase'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toUpperSlugCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toUpperSlugCase'`, () => {
-      expect(swissak.StringTools.fromSpaced.toUpperSlugCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toUpperSlugCase'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toUpperSlugCase).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toUpperSlugCase, 'StringTools.toUpperSlugCase'],
+        [swissak.StringTools.fromSlugCase.toUpperSlugCase, 'StringTools.fromSlugCase.toUpperSlugCase'],
+        [swissak.StringTools.fromSnakeCase.toUpperSlugCase, 'StringTools.fromSnakeCase.toUpperSlugCase'],
+        [swissak.StringTools.fromSpaced.toUpperSlugCase, 'StringTools.fromSpaced.toUpperSlugCase'],
+        [swissak.StringTools.fromCamelCase.toUpperSlugCase, 'StringTools.fromCamelCase.toUpperSlugCase']
+      ],
+      (toUpperSlugCase, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toUpperSlugCase).toBeDefined();
+        });
+      }
+    );
   });
   describe('toSlugCase', () => {
-    it(should` exist as 'StringTools.toSlugCase'`, () => {
-      expect(swissak.StringTools.toSlugCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toSlugCase'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toSlugCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toSlugCase'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toSlugCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toSlugCase'`, () => {
-      expect(swissak.StringTools.fromSpaced.toSlugCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toSlugCase'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toSlugCase).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toSlugCase, 'StringTools.toSlugCase'],
+        [swissak.StringTools.fromSlugCase.toSlugCase, 'StringTools.fromSlugCase.toSlugCase'],
+        [swissak.StringTools.fromSnakeCase.toSlugCase, 'StringTools.fromSnakeCase.toSlugCase'],
+        [swissak.StringTools.fromSpaced.toSlugCase, 'StringTools.fromSpaced.toSlugCase'],
+        [swissak.StringTools.fromCamelCase.toSlugCase, 'StringTools.fromCamelCase.toSlugCase']
+      ],
+      (toSlugCase, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toSlugCase).toBeDefined();
+        });
+      }
+    );
   });
   describe('toLowerSnakeCase', () => {
-    it(should` exist as 'StringTools.toLowerSnakeCase'`, () => {
-      expect(swissak.StringTools.toLowerSnakeCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toLowerSnakeCase'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toLowerSnakeCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toLowerSnakeCase'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toLowerSnakeCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toLowerSnakeCase'`, () => {
-      expect(swissak.StringTools.fromSpaced.toLowerSnakeCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toLowerSnakeCase'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toLowerSnakeCase).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toLowerSnakeCase, 'StringTools.toLowerSnakeCase'],
+        [swissak.StringTools.fromSlugCase.toLowerSnakeCase, 'StringTools.fromSlugCase.toLowerSnakeCase'],
+        [swissak.StringTools.fromSnakeCase.toLowerSnakeCase, 'StringTools.fromSnakeCase.toLowerSnakeCase'],
+        [swissak.StringTools.fromSpaced.toLowerSnakeCase, 'StringTools.fromSpaced.toLowerSnakeCase'],
+        [swissak.StringTools.fromCamelCase.toLowerSnakeCase, 'StringTools.fromCamelCase.toLowerSnakeCase']
+      ],
+      (toLowerSnakeCase, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toLowerSnakeCase).toBeDefined();
+        });
+      }
+    );
   });
   describe('toUpperSnakeCase', () => {
-    it(should` exist as 'StringTools.toUpperSnakeCase'`, () => {
-      expect(swissak.StringTools.toUpperSnakeCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toUpperSnakeCase'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toUpperSnakeCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toUpperSnakeCase'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toUpperSnakeCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toUpperSnakeCase'`, () => {
-      expect(swissak.StringTools.fromSpaced.toUpperSnakeCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toUpperSnakeCase'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toUpperSnakeCase).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toUpperSnakeCase, 'StringTools.toUpperSnakeCase'],
+        [swissak.StringTools.fromSlugCase.toUpperSnakeCase, 'StringTools.fromSlugCase.toUpperSnakeCase'],
+        [swissak.StringTools.fromSnakeCase.toUpperSnakeCase, 'StringTools.fromSnakeCase.toUpperSnakeCase'],
+        [swissak.StringTools.fromSpaced.toUpperSnakeCase, 'StringTools.fromSpaced.toUpperSnakeCase'],
+        [swissak.StringTools.fromCamelCase.toUpperSnakeCase, 'StringTools.fromCamelCase.toUpperSnakeCase']
+      ],
+      (toUpperSnakeCase, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toUpperSnakeCase).toBeDefined();
+        });
+      }
+    );
   });
   describe('toSnakeCase', () => {
-    it(should` exist as 'StringTools.toSnakeCase'`, () => {
-      expect(swissak.StringTools.toSnakeCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toSnakeCase'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toSnakeCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toSnakeCase'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toSnakeCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toSnakeCase'`, () => {
-      expect(swissak.StringTools.fromSpaced.toSnakeCase).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toSnakeCase'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toSnakeCase).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toSnakeCase, 'StringTools.toSnakeCase'],
+        [swissak.StringTools.fromSlugCase.toSnakeCase, 'StringTools.fromSlugCase.toSnakeCase'],
+        [swissak.StringTools.fromSnakeCase.toSnakeCase, 'StringTools.fromSnakeCase.toSnakeCase'],
+        [swissak.StringTools.fromSpaced.toSnakeCase, 'StringTools.fromSpaced.toSnakeCase'],
+        [swissak.StringTools.fromCamelCase.toSnakeCase, 'StringTools.fromCamelCase.toSnakeCase']
+      ],
+      (toSnakeCase, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toSnakeCase).toBeDefined();
+        });
+      }
+    );
   });
   describe('toLowerSpaced', () => {
-    it(should` exist as 'StringTools.toLowerSpaced'`, () => {
-      expect(swissak.StringTools.toLowerSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toLowerSpaced'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toLowerSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toLowerSpaced'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toLowerSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toLowerSpaced'`, () => {
-      expect(swissak.StringTools.fromSpaced.toLowerSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toLowerSpaced'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toLowerSpaced).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toLowerSpaced, 'StringTools.toLowerSpaced'],
+        [swissak.StringTools.fromSlugCase.toLowerSpaced, 'StringTools.fromSlugCase.toLowerSpaced'],
+        [swissak.StringTools.fromSnakeCase.toLowerSpaced, 'StringTools.fromSnakeCase.toLowerSpaced'],
+        [swissak.StringTools.fromSpaced.toLowerSpaced, 'StringTools.fromSpaced.toLowerSpaced'],
+        [swissak.StringTools.fromCamelCase.toLowerSpaced, 'StringTools.fromCamelCase.toLowerSpaced']
+      ],
+      (toLowerSpaced, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toLowerSpaced).toBeDefined();
+        });
+      }
+    );
   });
   describe('toUpperSpaced', () => {
-    it(should` exist as 'StringTools.toUpperSpaced'`, () => {
-      expect(swissak.StringTools.toUpperSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toUpperSpaced'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toUpperSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toUpperSpaced'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toUpperSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toUpperSpaced'`, () => {
-      expect(swissak.StringTools.fromSpaced.toUpperSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toUpperSpaced'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toUpperSpaced).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toUpperSpaced, 'StringTools.toUpperSpaced'],
+        [swissak.StringTools.fromSlugCase.toUpperSpaced, 'StringTools.fromSlugCase.toUpperSpaced'],
+        [swissak.StringTools.fromSnakeCase.toUpperSpaced, 'StringTools.fromSnakeCase.toUpperSpaced'],
+        [swissak.StringTools.fromSpaced.toUpperSpaced, 'StringTools.fromSpaced.toUpperSpaced'],
+        [swissak.StringTools.fromCamelCase.toUpperSpaced, 'StringTools.fromCamelCase.toUpperSpaced']
+      ],
+      (toUpperSpaced, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toUpperSpaced).toBeDefined();
+        });
+      }
+    );
   });
   describe('toCapitalisedSpaced', () => {
-    it(should` exist as 'StringTools.toCapitalisedSpaced'`, () => {
-      expect(swissak.StringTools.toCapitalisedSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toCapitalisedSpaced'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toCapitalisedSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toCapitalisedSpaced'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toCapitalisedSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toCapitalisedSpaced'`, () => {
-      expect(swissak.StringTools.fromSpaced.toCapitalisedSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toCapitalisedSpaced'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toCapitalisedSpaced).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toCapitalisedSpaced, 'StringTools.toCapitalisedSpaced'],
+        [swissak.StringTools.fromSlugCase.toCapitalisedSpaced, 'StringTools.fromSlugCase.toCapitalisedSpaced'],
+        [swissak.StringTools.fromSnakeCase.toCapitalisedSpaced, 'StringTools.fromSnakeCase.toCapitalisedSpaced'],
+        [swissak.StringTools.fromSpaced.toCapitalisedSpaced, 'StringTools.fromSpaced.toCapitalisedSpaced'],
+        [swissak.StringTools.fromCamelCase.toCapitalisedSpaced, 'StringTools.fromCamelCase.toCapitalisedSpaced']
+      ],
+      (toCapitalisedSpaced, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toCapitalisedSpaced).toBeDefined();
+        });
+      }
+    );
   });
   describe('toSpaced', () => {
-    it(should` exist as 'StringTools.toSpaced'`, () => {
-      expect(swissak.StringTools.toSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSlugCase.toSpaced'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSnakeCase.toSpaced'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromSpaced.toSpaced'`, () => {
-      expect(swissak.StringTools.fromSpaced.toSpaced).toBeDefined();
-    });
-    it(should` exist as 'StringTools.fromCamelCase.toSpaced'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toSpaced).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toSpaced, 'StringTools.toSpaced'],
+        [swissak.StringTools.fromSlugCase.toSpaced, 'StringTools.fromSlugCase.toSpaced'],
+        [swissak.StringTools.fromSnakeCase.toSpaced, 'StringTools.fromSnakeCase.toSpaced'],
+        [swissak.StringTools.fromSpaced.toSpaced, 'StringTools.fromSpaced.toSpaced'],
+        [swissak.StringTools.fromCamelCase.toSpaced, 'StringTools.fromCamelCase.toSpaced']
+      ],
+      (toSpaced, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toSpaced).toBeDefined();
+        });
+      }
+    );
   });
   describe('toCharacterSeparated', () => {
-    it(should` exist as 'StringTools.toCharacterSeparated'`, () => {
-      expect(swissak.StringTools.toCharacterSeparated).toBeDefined();
-    });
-  });
-  describe('fromSlugCase.toCharacterSeparated', () => {
-    it(should` exist as 'StringTools.fromSlugCase.toCharacterSeparated'`, () => {
-      expect(swissak.StringTools.fromSlugCase.toCharacterSeparated).toBeDefined();
-    });
-  });
-  describe('fromSnakeCase.toCharacterSeparated', () => {
-    it(should` exist as 'StringTools.fromSnakeCase.toCharacterSeparated'`, () => {
-      expect(swissak.StringTools.fromSnakeCase.toCharacterSeparated).toBeDefined();
-    });
-  });
-  describe('fromSpaced.toCharacterSeparated', () => {
-    it(should` exist as 'StringTools.fromSpaced.toCharacterSeparated'`, () => {
-      expect(swissak.StringTools.fromSpaced.toCharacterSeparated).toBeDefined();
-    });
-  });
-  describe('fromCamelCase.toCharacterSeparated', () => {
-    it(should` exist as 'StringTools.fromCamelCase.toCharacterSeparated'`, () => {
-      expect(swissak.StringTools.fromCamelCase.toCharacterSeparated).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.StringTools.toCharacterSeparated, 'StringTools.toCharacterSeparated'],
+        [swissak.StringTools.fromSlugCase.toCharacterSeparated, 'StringTools.fromSlugCase.toCharacterSeparated'],
+        [swissak.StringTools.fromSnakeCase.toCharacterSeparated, 'StringTools.fromSnakeCase.toCharacterSeparated'],
+        [swissak.StringTools.fromSpaced.toCharacterSeparated, 'StringTools.fromSpaced.toCharacterSeparated'],
+        [swissak.StringTools.fromCamelCase.toCharacterSeparated, 'StringTools.fromCamelCase.toCharacterSeparated']
+      ],
+      (toCharacterSeparated, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(toCharacterSeparated).toBeDefined();
+        });
+      }
+    );
   });
 
+  // TODO - add fromXs
+
   describe('clx', () => {
-    it(should` exist as 'clx'`, () => {
-      expect(swissak.clx).toBeDefined();
-    });
-    it(should` exist as 'StringTools.clx'`, () => {
-      expect(swissak.StringTools.clx).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.clx, 'clx'],
+        [swissak.StringTools.clx, 'StringTools.clx']
+      ],
+      (clx, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(clx).toBeDefined();
+        });
+      }
+    );
   });
 });

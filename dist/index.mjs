@@ -402,16 +402,39 @@ var MathsTools;
 ((MathsTools2) => {
   MathsTools2.fixFloat = (num, precision = 6) => {
     const args = {
-      num: safe.num(num, false),
+      num: safe.num(num),
       precision: safe.num(precision, true, 0)
     };
     return Math.round(args.num * Math.pow(10, args.precision)) / Math.pow(10, args.precision);
   };
   MathsTools2.ff = MathsTools2.fixFloat;
-  MathsTools2.addAll = (...args) => args.reduce((acc, num) => acc + num, 0);
-  MathsTools2.floorTo = (to, value) => MathsTools2.fixFloat(Math.floor(value / to) * to);
-  MathsTools2.roundTo = (to, value) => MathsTools2.fixFloat(Math.round(value / to) * to);
-  MathsTools2.ceilTo = (to, value) => MathsTools2.fixFloat(Math.ceil(value / to) * to);
+  MathsTools2.addAll = (...nums) => {
+    const args = {
+      nums: safe.arrOf.num(nums, false, void 0, void 0, 0, [0], 1)
+    };
+    return args.nums.reduce((acc, num) => acc + num, 0);
+  };
+  MathsTools2.floorTo = (to, value) => {
+    const args = {
+      to: safe.num(to),
+      value: safe.num(value)
+    };
+    return MathsTools2.fixFloat(Math.floor(args.value / args.to) * args.to);
+  };
+  MathsTools2.roundTo = (to, value) => {
+    const args = {
+      to: safe.num(to),
+      value: safe.num(value)
+    };
+    return MathsTools2.fixFloat(Math.round(args.value / args.to) * args.to);
+  };
+  MathsTools2.ceilTo = (to, value) => {
+    const args = {
+      to: safe.num(to),
+      value: safe.num(value)
+    };
+    return MathsTools2.fixFloat(Math.ceil(args.value / args.to) * args.to);
+  };
   let round;
   ((round2) => {
     round2.floorTo = MathsTools2.floorTo;
@@ -419,17 +442,54 @@ var MathsTools;
     round2.ceilTo = MathsTools2.ceilTo;
     round2.to = MathsTools2.roundTo;
   })(round = MathsTools2.round || (MathsTools2.round = {}));
-  MathsTools2.lerp = (progress, fromVal, toVal) => fromVal + (toVal - fromVal) * progress;
-  MathsTools2.lerpArray = (progress, fromArr, toArr) => ArrayTools.zip(fromArr, toArr).map(([fromVal, toVal]) => MathsTools2.lerp(progress, fromVal, toVal));
+  MathsTools2.lerp = (progress, fromVal, toVal) => {
+    const args = {
+      progress: safe.num(progress),
+      fromVal: safe.num(fromVal),
+      toVal: safe.num(toVal)
+    };
+    return MathsTools2.fixFloat(args.fromVal + (args.toVal - args.fromVal) * args.progress);
+  };
+  MathsTools2.lerpArray = (progress, fromArr, toArr) => {
+    const args = {
+      progress: safe.num(progress),
+      fromArr: safe.arrOf.num(fromArr),
+      toArr: safe.arrOf.num(toArr)
+    };
+    return ArrayTools.zip(args.fromArr, args.toArr).map(([fromVal, toVal]) => MathsTools2.lerp(args.progress, fromVal, toVal));
+  };
   MathsTools2.lerpObj = (progress, fromObj, toObj) => {
-    const entries2 = Object.entries(fromObj);
-    const lerped = entries2.map(([key, fromVal]) => typeof fromVal === "number" ? [key, MathsTools2.lerp(progress, fromVal, toObj[key])] : [key, fromVal]);
+    const args = {
+      progress: safe.num(progress),
+      fromObj: safe.obj(fromObj),
+      toObj: safe.obj(toObj)
+    };
+    const entries2 = Object.entries(args.fromObj);
+    const lerped = entries2.map(
+      ([key, fromVal]) => typeof fromVal === "number" ? [key, MathsTools2.lerp(args.progress, fromVal, args.toObj[key])] : [key, fromVal]
+    );
     return Object.fromEntries(lerped);
   };
-  MathsTools2.clamp = (value, min, max) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
+  MathsTools2.clamp = (value, min, max) => {
+    const args = {
+      value: safe.num(value),
+      min: safe.num(min),
+      max: safe.num(max)
+    };
+    const realMin = Math.min(args.min, args.max);
+    const realMax = Math.max(args.min, args.max);
+    return Math.max(realMin, Math.min(args.value, realMax));
+  };
   MathsTools2.getOrdinal = (num = 0) => {
-    const lastDigit = num % 10;
-    if ([11, 12, 13].includes(num)) {
+    const args = {
+      num: safe.num(num)
+    };
+    const lastDigit = Math.abs(args.num) % 10;
+    const isDecimal = args.num % 1 !== 0;
+    if (isDecimal) {
+      return "th";
+    }
+    if ([11, 12, 13].includes(args.num)) {
       return "th";
     }
     if (lastDigit === 1) {

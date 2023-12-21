@@ -5072,10 +5072,10 @@ declare namespace MathsTools {
      * ```typescript
      * MathsTools.addAll(1, 2, 3, 4, 5); // 15
      * ```
-     * @param {...number} [args]
+     * @param {...number} [nums]
      * @returns {number}
      */
-    const addAll: (...args: number[]) => number;
+    const addAll: (...nums: number[]) => number;
     /**<!-- DOCS: MathsTools.round ### -->
      * round
      */
@@ -5288,6 +5288,9 @@ declare namespace MathsTools {
      * - `MathsTools.getOrdinal`
      *
      * Gets the ordinal suffix for a number.
+     *
+     * Note: all numbers are treated as positive.
+     * Note: all decimals are 'th' (e.g. 1.2 is '1.2th') as they are tenth, hundredth, thousandth, etc.
      *
      * ```typescript
      * MathsTools.getOrdinal(1); // 'st'
@@ -6827,7 +6830,7 @@ declare namespace safe {
          *
          * - `safe.arrOf.prop`
          *
-         * Process an array of arrays, ensuring that they are safe to use.
+         * Process an array of values that can be used as properties (string or number), ensuring that they are safe to use.
          *
          * ```typescript
          * safe.arrOf.prop([['foo'], ['bar']]); // [ '', '' ]

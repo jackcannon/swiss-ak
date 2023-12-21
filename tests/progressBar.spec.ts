@@ -1,25 +1,35 @@
 import * as swissak from '../';
-import { register, should } from './test-utils';
+import { register, should, multiTest } from './test-utils';
 
 register({ describe, it, expect });
 
 describe('progress bar', () => {
   describe('printLn', () => {
-    it(should` exist as 'printLn'`, () => {
-      expect(swissak.printLn).toBeDefined();
-    });
-    it(should` exist as 'progressBar.printLn'`, () => {
-      expect(swissak.progressBar.printLn).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.printLn, 'printLn'],
+        [swissak.progressBar.printLn, 'progressBar.printLn']
+      ],
+      (printLn, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(printLn).toBeDefined();
+        });
+      }
+    );
   });
 
   describe('getProgressBar', () => {
-    it(should` exist as 'getProgressBar'`, () => {
-      expect(swissak.getProgressBar).toBeDefined();
-    });
-    it(should` exist as 'progressBar.getProgressBar'`, () => {
-      expect(swissak.progressBar.getProgressBar).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.getProgressBar, 'getProgressBar'],
+        [swissak.progressBar.getProgressBar, 'progressBar.getProgressBar']
+      ],
+      (getProgressBar, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(getProgressBar).toBeDefined();
+        });
+      }
+    );
   });
 
   const GENERIC_PROGRESS_BAR = swissak.getProgressBar(100);

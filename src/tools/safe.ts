@@ -617,7 +617,7 @@ export namespace safe {
      *
      * - `safe.arrOf.prop`
      *
-     * Process an array of arrays, ensuring that they are safe to use.
+     * Process an array of values that can be used as properties (string or number), ensuring that they are safe to use.
      *
      * ```typescript
      * safe.arrOf.prop([['foo'], ['bar']]); // [ '', '' ]
