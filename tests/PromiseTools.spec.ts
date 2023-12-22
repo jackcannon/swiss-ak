@@ -14,6 +14,8 @@ describe('PromiseTools', () => {
         it(should` exist as ${name}`, () => {
           expect(getDeferred).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -27,6 +29,8 @@ describe('PromiseTools', () => {
         it(should` exist as ${name}`, () => {
           expect(all).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -40,6 +44,8 @@ describe('PromiseTools', () => {
         it(should` exist as ${name}`, () => {
           expect(allLimit).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -53,6 +59,8 @@ describe('PromiseTools', () => {
         it(should` exist as ${name}`, () => {
           expect(each).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -66,6 +74,8 @@ describe('PromiseTools', () => {
         it(should` exist as ${name}`, () => {
           expect(eachLimit).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -79,6 +89,8 @@ describe('PromiseTools', () => {
         it(should` exist as ${name}`, () => {
           expect(map).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -92,6 +104,8 @@ describe('PromiseTools', () => {
         it(should` exist as ${name}`, () => {
           expect(mapLimit).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -105,6 +119,8 @@ describe('PromiseTools', () => {
         it(should` exist as ${name}`, () => {
           expect(allObj).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -118,6 +134,8 @@ describe('PromiseTools', () => {
         it(should` exist as ${name}`, () => {
           expect(allLimitObj).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });

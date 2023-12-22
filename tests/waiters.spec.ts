@@ -14,6 +14,8 @@ describe('waiters', () => {
         it(should` exist as ${name}`, () => {
           expect(wait).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -27,6 +29,8 @@ describe('waiters', () => {
         it(should` exist as ${name}`, () => {
           expect(waitUntil).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -40,6 +44,8 @@ describe('waiters', () => {
         it(should` exist as ${name}`, () => {
           expect(waitFor).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -53,6 +59,8 @@ describe('waiters', () => {
         it(should` exist as ${name}`, () => {
           expect(waitEvery).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -66,6 +74,8 @@ describe('waiters', () => {
         it(should` exist as ${name}`, () => {
           expect(stopInterval).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -79,6 +89,8 @@ describe('waiters', () => {
         it(should` exist as ${name}`, () => {
           expect(interval).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });

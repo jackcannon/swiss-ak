@@ -8,6 +8,8 @@ describe('symbols', () => {
     it(should` exist as ${name}`, () => {
       expect(symbols).toBeDefined();
     });
+
+    // TODO tests
   });
 });
 
@@ -16,5 +18,7 @@ describe('superscript', () => {
     it(should` exist as ${name}`, () => {
       expect(superscript).toBeDefined();
     });
+
+    // TODO tests
   });
 });

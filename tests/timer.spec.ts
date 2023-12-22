@@ -8,6 +8,8 @@ describe('timer', () => {
     it(should` exist as ${name}`, () => {
       expect(timer).toBeDefined();
     });
+
+    // TODO tests
   });
 });
 describe('getTimer', () => {
@@ -15,5 +17,7 @@ describe('getTimer', () => {
     it(should` exist as ${name}`, () => {
       expect(getTimer).toBeDefined();
     });
+
+    // TODO tests
   });
 });

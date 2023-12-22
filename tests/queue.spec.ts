@@ -11,6 +11,8 @@ describe('queue', () => {
       it(should` exist as ${name}`, () => {
         expect(queue).toBeDefined();
       });
+
+      // TODO tests
     });
   });
   describe('QueueManager', () => {
@@ -18,6 +20,8 @@ describe('queue', () => {
       it(should` exist as ${name}`, () => {
         expect(QueueManager).toBeDefined();
       });
+
+      // TODO tests
     });
   });
 
@@ -31,6 +35,8 @@ describe('queue', () => {
         it(should` exist as ${name}`, () => {
           expect(setDefaultPauseTime).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -45,6 +51,8 @@ describe('queue', () => {
         it(should` exist as ${name}`, () => {
           expect(setPauseTime).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -59,6 +67,8 @@ describe('queue', () => {
         it(should` exist as ${name}`, () => {
           expect(add).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -73,6 +83,8 @@ describe('queue', () => {
         it(should` exist as ${name}`, () => {
           expect(newQueue).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });

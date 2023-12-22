@@ -9,6 +9,8 @@ describe('TimeTools', () => {
       it(should` exist as ${name}`, () => {
         expect(toReadableDuration).toBeDefined();
       });
+
+      // TODO tests
     });
   });
 });

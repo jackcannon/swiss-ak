@@ -34,9 +34,7 @@ describe('times constants', () => {
         [swissak.MILLISECOND, 'MILLISECOND'],
         [swissak.times.MILLISECOND, 'times.MILLISECOND']
       ],
-      (value, name) => {
-        testConstant(name, value, 1);
-      }
+      (value, name) => testConstant(name, value, 1)
     );
   });
   describe('seconds', () => {
@@ -45,9 +43,7 @@ describe('times constants', () => {
         [swissak.SECOND, 'SECOND'],
         [swissak.times.SECOND, 'times.SECOND']
       ],
-      (value, name) => {
-        testConstant(name, value, 1000);
-      }
+      (value, name) => testConstant(name, value, 1000)
     );
   });
   describe('minutes', () => {
@@ -56,9 +52,7 @@ describe('times constants', () => {
         [swissak.MINUTE, 'MINUTE'],
         [swissak.times.MINUTE, 'times.MINUTE']
       ],
-      (value, name) => {
-        testConstant(name, value, 60_000);
-      }
+      (value, name) => testConstant(name, value, 60_000)
     );
   });
   describe('hours', () => {
@@ -67,9 +61,7 @@ describe('times constants', () => {
         [swissak.HOUR, 'HOUR'],
         [swissak.times.HOUR, 'times.HOUR']
       ],
-      (value, name) => {
-        testConstant(name, value, 3_600_000);
-      }
+      (value, name) => testConstant(name, value, 3_600_000)
     );
   });
   describe('days', () => {
@@ -78,9 +70,7 @@ describe('times constants', () => {
         [swissak.DAY, 'DAY'],
         [swissak.times.DAY, 'times.DAY']
       ],
-      (value, name) => {
-        testConstant(name, value, 86_400_000);
-      }
+      (value, name) => testConstant(name, value, 86_400_000)
     );
   });
   describe('weeks', () => {
@@ -89,9 +79,7 @@ describe('times constants', () => {
         [swissak.WEEK, 'WEEK'],
         [swissak.times.WEEK, 'times.WEEK']
       ],
-      (value, name) => {
-        testConstant(name, value, 604_800_000);
-      }
+      (value, name) => testConstant(name, value, 604_800_000)
     );
   });
   describe('months', () => {
@@ -100,9 +88,7 @@ describe('times constants', () => {
         [swissak.MONTH, 'MONTH'],
         [swissak.times.MONTH, 'times.MONTH']
       ],
-      (value, name) => {
-        testConstant(name, value, 2_592_000_000);
-      }
+      (value, name) => testConstant(name, value, 2_592_000_000)
     );
   });
   describe('years', () => {
@@ -111,9 +97,7 @@ describe('times constants', () => {
         [swissak.YEAR, 'YEAR'],
         [swissak.times.YEAR, 'times.YEAR']
       ],
-      (value, name) => {
-        testConstant(name, value, 31_557_600_000);
-      }
+      (value, name) => testConstant(name, value, 31_557_600_000)
     );
   });
   describe('decades', () => {
@@ -122,9 +106,7 @@ describe('times constants', () => {
         [swissak.DECADE, 'DECADE'],
         [swissak.times.DECADE, 'times.DECADE']
       ],
-      (value, name) => {
-        testConstant(name, value, 315_576_000_000);
-      }
+      (value, name) => testConstant(name, value, 315_576_000_000)
     );
   });
   describe('centuries', () => {
@@ -133,9 +115,7 @@ describe('times constants', () => {
         [swissak.CENTURY, 'CENTURY'],
         [swissak.times.CENTURY, 'times.CENTURY']
       ],
-      (value, name) => {
-        testConstant(name, value, 3_155_760_000_000);
-      }
+      (value, name) => testConstant(name, value, 3_155_760_000_000)
     );
   });
   describe('millenniums', () => {
@@ -144,9 +124,7 @@ describe('times constants', () => {
         [swissak.MILLENNIUM, 'MILLENNIUM'],
         [swissak.times.MILLENNIUM, 'times.MILLENNIUM']
       ],
-      (value, name) => {
-        testConstant(name, value, 31_557_600_000_000);
-      }
+      (value, name) => testConstant(name, value, 31_557_600_000_000)
     );
   });
 });
@@ -158,9 +136,7 @@ describe('times functions', () => {
         [swissak.milliseconds, 'milliseconds'],
         [swissak.times.milliseconds, 'times.milliseconds']
       ],
-      (func, name) => {
-        testMultipliers(name, func, swissak.MILLISECOND);
-      }
+      (func, name) => testMultipliers(name, func, swissak.MILLISECOND)
     );
   });
   describe('seconds', () => {
@@ -169,9 +145,7 @@ describe('times functions', () => {
         [swissak.seconds, 'seconds'],
         [swissak.times.seconds, 'times.seconds']
       ],
-      (func, name) => {
-        testMultipliers(name, func, swissak.SECOND);
-      }
+      (func, name) => testMultipliers(name, func, swissak.SECOND)
     );
   });
   describe('minutes', () => {
@@ -180,9 +154,7 @@ describe('times functions', () => {
         [swissak.minutes, 'minutes'],
         [swissak.times.minutes, 'times.minutes']
       ],
-      (func, name) => {
-        testMultipliers(name, func, swissak.MINUTE);
-      }
+      (func, name) => testMultipliers(name, func, swissak.MINUTE)
     );
   });
   describe('hours', () => {
@@ -191,9 +163,7 @@ describe('times functions', () => {
         [swissak.hours, 'hours'],
         [swissak.times.hours, 'times.hours']
       ],
-      (func, name) => {
-        testMultipliers(name, func, swissak.HOUR);
-      }
+      (func, name) => testMultipliers(name, func, swissak.HOUR)
     );
   });
   describe('days', () => {
@@ -202,9 +172,7 @@ describe('times functions', () => {
         [swissak.days, 'days'],
         [swissak.times.days, 'times.days']
       ],
-      (func, name) => {
-        testMultipliers(name, func, swissak.DAY);
-      }
+      (func, name) => testMultipliers(name, func, swissak.DAY)
     );
   });
   describe('weeks', () => {
@@ -213,9 +181,7 @@ describe('times functions', () => {
         [swissak.weeks, 'weeks'],
         [swissak.times.weeks, 'times.weeks']
       ],
-      (func, name) => {
-        testMultipliers(name, func, swissak.WEEK);
-      }
+      (func, name) => testMultipliers(name, func, swissak.WEEK)
     );
   });
   describe('months', () => {
@@ -224,9 +190,7 @@ describe('times functions', () => {
         [swissak.months, 'months'],
         [swissak.times.months, 'times.months']
       ],
-      (func, name) => {
-        testMultipliers(name, func, swissak.MONTH);
-      }
+      (func, name) => testMultipliers(name, func, swissak.MONTH)
     );
   });
   describe('years', () => {
@@ -235,9 +199,7 @@ describe('times functions', () => {
         [swissak.years, 'years'],
         [swissak.times.years, 'times.years']
       ],
-      (func, name) => {
-        testMultipliers(name, func, swissak.YEAR);
-      }
+      (func, name) => testMultipliers(name, func, swissak.YEAR)
     );
   });
   describe('decades', () => {
@@ -246,9 +208,7 @@ describe('times functions', () => {
         [swissak.decades, 'decades'],
         [swissak.times.decades, 'times.decades']
       ],
-      (func, name) => {
-        testMultipliers(name, func, swissak.DECADE);
-      }
+      (func, name) => testMultipliers(name, func, swissak.DECADE)
     );
   });
   describe('centuries', () => {
@@ -257,9 +217,7 @@ describe('times functions', () => {
         [swissak.centuries, 'centuries'],
         [swissak.times.centuries, 'times.centuries']
       ],
-      (func, name) => {
-        testMultipliers(name, func, swissak.CENTURY);
-      }
+      (func, name) => testMultipliers(name, func, swissak.CENTURY)
     );
   });
   describe('millenniums', () => {
@@ -268,9 +226,7 @@ describe('times functions', () => {
         [swissak.millenniums, 'millenniums'],
         [swissak.times.millenniums, 'times.millenniums']
       ],
-      (func, name) => {
-        testMultipliers(name, func, swissak.MILLENNIUM);
-      }
+      (func, name) => testMultipliers(name, func, swissak.MILLENNIUM)
     );
   });
 });

@@ -9,6 +9,8 @@ describe('StringTools', () => {
       it(should` exist as ${name}`, () => {
         expect(capitalise).toBeDefined();
       });
+
+      // TODO tests
     });
   });
   describe('angloise', () => {
@@ -16,6 +18,8 @@ describe('StringTools', () => {
       it(should` exist as ${name}`, () => {
         expect(angloise).toBeDefined();
       });
+
+      // TODO tests
     });
   });
   describe('clean', () => {
@@ -23,6 +27,8 @@ describe('StringTools', () => {
       it(should` exist as ${name}`, () => {
         expect(clean).toBeDefined();
       });
+
+      // TODO tests
     });
   });
   describe('repeat', () => {
@@ -30,6 +36,8 @@ describe('StringTools', () => {
       it(should` exist as ${name}`, () => {
         expect(repeat).toBeDefined();
       });
+
+      // TODO tests
     });
   });
   describe('toLowerCamelCase', () => {
@@ -45,6 +53,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toLowerCamelCase).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -61,6 +71,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toUpperCamelCase).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -77,6 +89,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toCamelCase).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -93,6 +107,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toLowerSlugCase).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -109,6 +125,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toUpperSlugCase).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -125,6 +143,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toSlugCase).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -141,6 +161,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toLowerSnakeCase).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -157,6 +179,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toUpperSnakeCase).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -173,6 +197,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toSnakeCase).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -189,6 +215,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toLowerSpaced).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -205,6 +233,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toUpperSpaced).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -221,6 +251,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toCapitalisedSpaced).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -237,6 +269,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toSpaced).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -253,6 +287,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(toCharacterSeparated).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
@@ -269,6 +305,8 @@ describe('StringTools', () => {
         it(should` exist as ${name}`, () => {
           expect(clx).toBeDefined();
         });
+
+        // TODO tests
       }
     );
   });
