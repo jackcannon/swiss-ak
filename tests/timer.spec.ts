@@ -1,15 +1,19 @@
 import * as swissak from '../';
-import { register, should } from './test-utils';
+import { register, should, singleTest, multiTest, kitchenSink } from './test-utils';
 
 register({ describe, it, expect });
 
 describe('timer', () => {
-  it(should` exist as 'timer'`, () => {
-    expect(swissak.timer).toBeDefined();
+  singleTest(swissak.timer, 'timer', (timer, name) => {
+    it(should` exist as ${name}`, () => {
+      expect(timer).toBeDefined();
+    });
   });
 });
 describe('getTimer', () => {
-  it(should` exist as 'getTimer'`, () => {
-    expect(swissak.getTimer).toBeDefined();
+  singleTest(swissak.getTimer, 'getTimer', (getTimer, name) => {
+    it(should` exist as ${name}`, () => {
+      expect(getTimer).toBeDefined();
+    });
   });
 });

@@ -1,5 +1,5 @@
 import * as swissak from '../';
-import { register, multiTest, kitchenSink, should } from './test-utils';
+import { register, should, singleTest, multiTest, kitchenSink } from './test-utils';
 
 register({ describe, it, expect });
 
@@ -663,160 +663,166 @@ describe('ArrayTools', () => {
     );
   });
   describe('findAndRemove', () => {
-    it(should` exist as 'ArrayTools.findAndRemove'`, () => {
-      expect(swissak.ArrayTools.findAndRemove).toBeDefined();
-    });
-    it(should` find the correct item and remove it`, () => {
-      const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
-      const result = swissak.ArrayTools.findAndRemove(array, (item) => item === 999);
-      expect(result).toBe(999);
-      expect(array).toEqual([1, 2, 4, 5, 6, 7, 8, 999, 0]);
-    });
-    it(should` return undefined if not found`, () => {
-      const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
-      const result = swissak.ArrayTools.findAndRemove(array, (item) => item === 666);
-      expect(result).toBeUndefined();
-      expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 999, 0]);
-    });
-    it(should` insert provided items in place of removed items`, () => {
-      const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
-      const result = swissak.ArrayTools.findAndRemove(array, (item) => item === 999, 111, 222, 333);
-      expect(result).toBe(999);
-      expect(array).toEqual([1, 2, 111, 222, 333, 4, 5, 6, 7, 8, 999, 0]);
-    });
-    it(should` ignore insertItems if nothing found`, () => {
-      const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
-      const result = swissak.ArrayTools.findAndRemove(array, (item) => item === 666, 111, 222, 333);
-      expect(result).toBeUndefined();
-      expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 999, 0]);
-    });
+    singleTest(swissak.ArrayTools.findAndRemove, 'ArrayTools.findAndRemove', (findAndRemove, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(findAndRemove).toBeDefined();
+      });
+      it(should` find the correct item and remove it`, () => {
+        const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
+        const result = findAndRemove(array, (item) => item === 999);
+        expect(result).toBe(999);
+        expect(array).toEqual([1, 2, 4, 5, 6, 7, 8, 999, 0]);
+      });
+      it(should` return undefined if not found`, () => {
+        const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
+        const result = findAndRemove(array, (item) => item === 666);
+        expect(result).toBeUndefined();
+        expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 999, 0]);
+      });
+      it(should` insert provided items in place of removed items`, () => {
+        const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
+        const result = findAndRemove(array, (item) => item === 999, 111, 222, 333);
+        expect(result).toBe(999);
+        expect(array).toEqual([1, 2, 111, 222, 333, 4, 5, 6, 7, 8, 999, 0]);
+      });
+      it(should` ignore insertItems if nothing found`, () => {
+        const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
+        const result = findAndRemove(array, (item) => item === 666, 111, 222, 333);
+        expect(result).toBeUndefined();
+        expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 999, 0]);
+      });
 
-    // handle array
-    it(should` handle empty arrays`, () => {
-      const array = [];
-      const result = swissak.ArrayTools.findAndRemove(array, (item) => item === 999);
-      expect(result).toEqual(undefined);
-      expect(array).toEqual([]);
-    });
-    it(should` handle non-array params`, () => {
-      const array = 999 as any;
-      const result = swissak.ArrayTools.findAndRemove(array, (item) => item === 999);
-      expect(result).toEqual(undefined);
-      expect(array).toEqual(999);
-    });
+      // handle array
+      it(should` handle empty arrays`, () => {
+        const array = [];
+        const result = findAndRemove(array, (item) => item === 999);
+        expect(result).toEqual(undefined);
+        expect(array).toEqual([]);
+      });
+      it(should` handle non-array params`, () => {
+        const array = 999 as any;
+        const result = findAndRemove(array, (item) => item === 999);
+        expect(result).toEqual(undefined);
+        expect(array).toEqual(999);
+      });
 
-    // handle predicate function
-    it(should` handle non-function predicate`, () => {
-      const array = [1, 2, 3];
-      const result = swissak.ArrayTools.findAndRemove(array, 999 as any);
-      expect(result).toEqual(undefined);
-      expect(array).toEqual([1, 2, 3]);
-    });
+      // handle predicate function
+      it(should` handle non-function predicate`, () => {
+        const array = [1, 2, 3];
+        const result = findAndRemove(array, 999 as any);
+        expect(result).toEqual(undefined);
+        expect(array).toEqual([1, 2, 3]);
+      });
 
-    // handle insertItems
-    it(should` handle non-type matching insertItems`, () => {
-      const array = [1, 2, 3];
-      const result = swissak.ArrayTools.findAndRemove(array, (item) => item === 2, 'a' as any, 'b' as any);
-      expect(result).toEqual(2);
-      expect(array).toEqual([1, 'a', 'b', 3]);
+      // handle insertItems
+      it(should` handle non-type matching insertItems`, () => {
+        const array = [1, 2, 3];
+        const result = findAndRemove(array, (item) => item === 2, 'a' as any, 'b' as any);
+        expect(result).toEqual(2);
+        expect(array).toEqual([1, 'a', 'b', 3]);
+      });
     });
   });
   describe('findLastAndRemove', () => {
-    it(should` exist as 'ArrayTools.findLastAndRemove'`, () => {
-      expect(swissak.ArrayTools.findLastAndRemove).toBeDefined();
-    });
-    it(should` find the correct item and remove it`, () => {
-      const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
-      const result = swissak.ArrayTools.findLastAndRemove(array, (item) => item === 999);
-      expect(result).toBe(999);
-      expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 0]);
-    });
-    it(should` return undefined if not found`, () => {
-      const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
-      const result = swissak.ArrayTools.findLastAndRemove(array, (item) => item === 666);
-      expect(result).toBeUndefined();
-      expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 999, 0]);
-    });
-    it(should` insert provided items in place of removed items`, () => {
-      const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
-      const result = swissak.ArrayTools.findLastAndRemove(array, (item) => item === 999, 111, 222, 333);
-      expect(result).toBe(999);
-      expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 111, 222, 333, 0]);
-    });
-    it(should` ignore insertItems if nothing found`, () => {
-      const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
-      const result = swissak.ArrayTools.findLastAndRemove(array, (item) => item === 666, 111, 222, 333);
-      expect(result).toBeUndefined();
-      expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 999, 0]);
-    });
+    singleTest(swissak.ArrayTools.findLastAndRemove, 'ArrayTools.findLastAndRemove', (findLastAndRemove, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(findLastAndRemove).toBeDefined();
+      });
+      it(should` find the correct item and remove it`, () => {
+        const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
+        const result = findLastAndRemove(array, (item) => item === 999);
+        expect(result).toBe(999);
+        expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 0]);
+      });
+      it(should` return undefined if not found`, () => {
+        const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
+        const result = findLastAndRemove(array, (item) => item === 666);
+        expect(result).toBeUndefined();
+        expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 999, 0]);
+      });
+      it(should` insert provided items in place of removed items`, () => {
+        const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
+        const result = findLastAndRemove(array, (item) => item === 999, 111, 222, 333);
+        expect(result).toBe(999);
+        expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 111, 222, 333, 0]);
+      });
+      it(should` ignore insertItems if nothing found`, () => {
+        const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
+        const result = findLastAndRemove(array, (item) => item === 666, 111, 222, 333);
+        expect(result).toBeUndefined();
+        expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 999, 0]);
+      });
 
-    // handle array
-    it(should` handle empty arrays`, () => {
-      const array = [];
-      const result = swissak.ArrayTools.findLastAndRemove(array, (item) => item === 999);
-      expect(result).toEqual(undefined);
-      expect(array).toEqual([]);
-    });
-    it(should` handle non-array params`, () => {
-      const array = 999 as any;
-      const result = swissak.ArrayTools.findLastAndRemove(array, (item) => item === 999);
-      expect(result).toEqual(undefined);
-      expect(array).toEqual(999);
-    });
+      // handle array
+      it(should` handle empty arrays`, () => {
+        const array = [];
+        const result = findLastAndRemove(array, (item) => item === 999);
+        expect(result).toEqual(undefined);
+        expect(array).toEqual([]);
+      });
+      it(should` handle non-array params`, () => {
+        const array = 999 as any;
+        const result = findLastAndRemove(array, (item) => item === 999);
+        expect(result).toEqual(undefined);
+        expect(array).toEqual(999);
+      });
 
-    // handle predicate function
-    it(should` handle non-function predicate`, () => {
-      const array = [1, 2, 3];
-      const result = swissak.ArrayTools.findLastAndRemove(array, 999 as any);
-      expect(result).toEqual(undefined);
-      expect(array).toEqual([1, 2, 3]);
-    });
+      // handle predicate function
+      it(should` handle non-function predicate`, () => {
+        const array = [1, 2, 3];
+        const result = findLastAndRemove(array, 999 as any);
+        expect(result).toEqual(undefined);
+        expect(array).toEqual([1, 2, 3]);
+      });
 
-    // handle insertItems
-    it(should` handle non-type matching insertItems`, () => {
-      const array = [1, 2, 3];
-      const result = swissak.ArrayTools.findLastAndRemove(array, (item) => item === 2, 'a' as any, 'b' as any);
-      expect(result).toEqual(2);
-      expect(array).toEqual([1, 'a', 'b', 3]);
+      // handle insertItems
+      it(should` handle non-type matching insertItems`, () => {
+        const array = [1, 2, 3];
+        const result = findLastAndRemove(array, (item) => item === 2, 'a' as any, 'b' as any);
+        expect(result).toEqual(2);
+        expect(array).toEqual([1, 'a', 'b', 3]);
+      });
     });
   });
   describe('filterAndRemove', () => {
-    it(should` exist as 'ArrayTools.filterAndRemove'`, () => {
-      expect(swissak.ArrayTools.filterAndRemove).toBeDefined();
-    });
-    it(should` find the correct item and remove it`, () => {
-      const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
-      const result = swissak.ArrayTools.filterAndRemove(array, (item) => item === 999);
-      expect(result).toEqual([999, 999]);
-      expect(array).toEqual([1, 2, 4, 5, 6, 7, 8, 0]);
-    });
-    it(should` return empty array if not found`, () => {
-      const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
-      const result = swissak.ArrayTools.filterAndRemove(array, (item) => item === 666);
-      expect(result).toEqual([]);
-      expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 999, 0]);
-    });
+    singleTest(swissak.ArrayTools.filterAndRemove, 'ArrayTools.filterAndRemove', (filterAndRemove, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(filterAndRemove).toBeDefined();
+      });
+      it(should` find the correct item and remove it`, () => {
+        const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
+        const result = filterAndRemove(array, (item) => item === 999);
+        expect(result).toEqual([999, 999]);
+        expect(array).toEqual([1, 2, 4, 5, 6, 7, 8, 0]);
+      });
+      it(should` return empty array if not found`, () => {
+        const array = [1, 2, 999, 4, 5, 6, 7, 8, 999, 0];
+        const result = filterAndRemove(array, (item) => item === 666);
+        expect(result).toEqual([]);
+        expect(array).toEqual([1, 2, 999, 4, 5, 6, 7, 8, 999, 0]);
+      });
 
-    // handle array
-    it(should` handle empty arrays`, () => {
-      const array = [];
-      const result = swissak.ArrayTools.filterAndRemove(array, (item) => item === 999);
-      expect(result).toEqual([]);
-      expect(array).toEqual([]);
-    });
-    it(should` handle non-array params`, () => {
-      const array = 999 as any;
-      const result = swissak.ArrayTools.filterAndRemove(array, (item) => item === 999);
-      expect(result).toEqual([]);
-      expect(array).toEqual(999);
-    });
+      // handle array
+      it(should` handle empty arrays`, () => {
+        const array = [];
+        const result = filterAndRemove(array, (item) => item === 999);
+        expect(result).toEqual([]);
+        expect(array).toEqual([]);
+      });
+      it(should` handle non-array params`, () => {
+        const array = 999 as any;
+        const result = filterAndRemove(array, (item) => item === 999);
+        expect(result).toEqual([]);
+        expect(array).toEqual(999);
+      });
 
-    // handle predicate function
-    it(should` handle non-function predicate`, () => {
-      const array = [1, 2, 3];
-      const result = swissak.ArrayTools.filterAndRemove(array, 999 as any);
-      expect(result).toEqual([]);
-      expect(array).toEqual([1, 2, 3]);
+      // handle predicate function
+      it(should` handle non-function predicate`, () => {
+        const array = [1, 2, 3];
+        const result = filterAndRemove(array, 999 as any);
+        expect(result).toEqual([]);
+        expect(array).toEqual([1, 2, 3]);
+      });
     });
   });
 
@@ -825,50 +831,54 @@ describe('ArrayTools', () => {
       expect(swissak.ArrayTools.utils).toBeDefined();
     });
     describe('isNumString', () => {
-      it(should` exist as 'ArrayTools.utils.isNumString'`, () => {
-        expect(swissak.ArrayTools.utils.isNumString).toBeDefined();
-      });
+      singleTest(swissak.ArrayTools.utils.isNumString, 'ArrayTools.utils.isNumString', (isNumString, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(isNumString).toBeDefined();
+        });
 
-      it(should` return true for a number string`, () => {
-        expect(swissak.ArrayTools.utils.isNumString('123')).toBe(true);
-      });
-      it(should` return false for a letter-only string`, () => {
-        expect(swissak.ArrayTools.utils.isNumString('abc')).toBe(false);
-      });
-      it(should` return false for a mixed string`, () => {
-        expect(swissak.ArrayTools.utils.isNumString('a123')).toBe(false);
-      });
-      it(should` handle non-string item - number`, () => {
-        expect(swissak.ArrayTools.utils.isNumString(123 as any)).toBe(false);
-      });
-      it(should` handle non-string item - boolean`, () => {
-        expect(swissak.ArrayTools.utils.isNumString(true as any)).toBe(false);
+        it(should` return true for a number string`, () => {
+          expect(isNumString('123')).toBe(true);
+        });
+        it(should` return false for a letter-only string`, () => {
+          expect(isNumString('abc')).toBe(false);
+        });
+        it(should` return false for a mixed string`, () => {
+          expect(isNumString('a123')).toBe(false);
+        });
+        it(should` handle non-string item - number`, () => {
+          expect(isNumString(123 as any)).toBe(false);
+        });
+        it(should` handle non-string item - boolean`, () => {
+          expect(isNumString(true as any)).toBe(false);
+        });
       });
     });
     describe('partitionNums', () => {
-      it(should` exist as 'ArrayTools.utils.partitionNums'`, () => {
-        expect(swissak.ArrayTools.utils.partitionNums).toBeDefined();
-      });
+      singleTest(swissak.ArrayTools.utils.partitionNums, 'ArrayTools.utils.partitionNums', (partitionNums, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(partitionNums).toBeDefined();
+        });
 
-      it(should` return an array of numbers and strings`, () => {
-        const result = swissak.ArrayTools.utils.partitionNums(false)('abc123def');
-        expect(result).toEqual(['abc', 123, 'def']);
-      });
+        it(should` return an array of numbers and strings`, () => {
+          const result = partitionNums(false)('abc123def');
+          expect(result).toEqual(['abc', 123, 'def']);
+        });
 
-      // handles ignoreCase
-      it(should` handle non-boolean ignoreCase`, () => {
-        const result = swissak.ArrayTools.utils.partitionNums(999 as any)('abc123def');
-        expect(result).toEqual(['abc', 123, 'def']);
-      });
+        // handles ignoreCase
+        it(should` handle non-boolean ignoreCase`, () => {
+          const result = partitionNums(999 as any)('abc123def');
+          expect(result).toEqual(['abc', 123, 'def']);
+        });
 
-      // handles non-string item
-      it(should` handle non-string item - number`, () => {
-        const result = swissak.ArrayTools.utils.partitionNums(false)(123 as any);
-        expect(result).toEqual([123]);
-      });
-      it(should` handle non-string item - boolean`, () => {
-        const result = swissak.ArrayTools.utils.partitionNums(false)(true as any);
-        expect(result).toEqual(['true']);
+        // handles non-string item
+        it(should` handle non-string item - number`, () => {
+          const result = partitionNums(false)(123 as any);
+          expect(result).toEqual([123]);
+        });
+        it(should` handle non-string item - boolean`, () => {
+          const result = partitionNums(false)(true as any);
+          expect(result).toEqual(['true']);
+        });
       });
     });
   });

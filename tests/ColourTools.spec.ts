@@ -1,5 +1,5 @@
 import * as swissak from '../';
-import { register, kitchenSink, should } from './test-utils';
+import { register, should, singleTest, multiTest, kitchenSink } from './test-utils';
 
 register({ describe, it, expect });
 
@@ -375,524 +375,534 @@ const badColourValues = [
 
 describe('ColourTools', () => {
   describe('namedColours', () => {
-    it(should` exist as 'ColourTools.namedColours'`, () => {
-      expect(swissak.ColourTools.namedColours).toBeDefined();
-    });
+    singleTest(swissak.ColourTools.namedColours, 'ColourTools.namedColours', (namedColours, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(namedColours).toBeDefined();
+      });
 
-    it(should` has the correct colours`, () => {
-      const colours = Object.keys(swissak.ColourTools.namedColours);
-      expect(colours).toEqual([
-        'aliceblue',
-        'antiquewhite',
-        'aqua',
-        'aquamarine',
-        'azure',
-        'beige',
-        'bisque',
-        'black',
-        'blanchedalmond',
-        'blue',
-        'blueviolet',
-        'brown',
-        'burlywood',
-        'cadetblue',
-        'chartreuse',
-        'chocolate',
-        'coral',
-        'cornflowerblue',
-        'cornsilk',
-        'crimson',
-        'cyan',
-        'darkblue',
-        'darkcyan',
-        'darkgoldenrod',
-        'darkgray',
-        'darkgreen',
-        'darkgrey',
-        'darkkhaki',
-        'darkmagenta',
-        'darkolivegreen',
-        'darkorange',
-        'darkorchid',
-        'darkred',
-        'darksalmon',
-        'darkseagreen',
-        'darkslateblue',
-        'darkslategray',
-        'darkslategrey',
-        'darkturquoise',
-        'darkviolet',
-        'deeppink',
-        'deepskyblue',
-        'dimgray',
-        'dimgrey',
-        'dodgerblue',
-        'firebrick',
-        'floralwhite',
-        'forestgreen',
-        'fractal',
-        'fuchsia',
-        'gainsboro',
-        'ghostwhite',
-        'gold',
-        'goldenrod',
-        'gray0',
-        'gray1',
-        'gray2',
-        'gray3',
-        'gray4',
-        'gray5',
-        'gray6',
-        'gray7',
-        'gray8',
-        'gray9',
-        'gray10',
-        'gray11',
-        'gray12',
-        'gray13',
-        'gray14',
-        'gray15',
-        'gray16',
-        'gray17',
-        'gray18',
-        'gray19',
-        'gray20',
-        'gray21',
-        'gray22',
-        'gray23',
-        'gray24',
-        'gray25',
-        'gray26',
-        'gray27',
-        'gray28',
-        'gray29',
-        'gray30',
-        'gray31',
-        'gray32',
-        'gray33',
-        'gray34',
-        'gray35',
-        'gray36',
-        'gray37',
-        'gray38',
-        'gray39',
-        'gray40',
-        'gray41',
-        'gray42',
-        'gray43',
-        'gray44',
-        'gray45',
-        'gray46',
-        'gray47',
-        'gray48',
-        'gray49',
-        'gray50',
-        'gray51',
-        'gray52',
-        'gray53',
-        'gray54',
-        'gray55',
-        'gray56',
-        'gray57',
-        'gray58',
-        'gray59',
-        'gray60',
-        'gray61',
-        'gray62',
-        'gray63',
-        'gray64',
-        'gray65',
-        'gray66',
-        'gray67',
-        'gray68',
-        'gray69',
-        'gray70',
-        'gray71',
-        'gray72',
-        'gray73',
-        'gray74',
-        'gray75',
-        'gray76',
-        'gray77',
-        'gray78',
-        'gray79',
-        'gray80',
-        'gray81',
-        'gray82',
-        'gray83',
-        'gray84',
-        'gray85',
-        'gray86',
-        'gray87',
-        'gray88',
-        'gray89',
-        'gray90',
-        'gray91',
-        'gray92',
-        'gray93',
-        'gray94',
-        'gray95',
-        'gray96',
-        'gray97',
-        'gray98',
-        'gray99',
-        'gray100',
-        'gray',
-        'green',
-        'greenyellow',
-        'grey',
-        'honeydew',
-        'hotpink',
-        'indianred',
-        'indigo',
-        'ivory',
-        'khaki',
-        'lavender',
-        'lavenderblush',
-        'lawngreen',
-        'lemonchiffon',
-        'lightblue',
-        'lightcoral',
-        'lightcyan',
-        'lightgoldenrodyellow',
-        'lightgray',
-        'lightgreen',
-        'lightgrey',
-        'lightpink',
-        'lightsalmon',
-        'lightseagreen',
-        'lightskyblue',
-        'lightslategray',
-        'lightslategrey',
-        'lightsteelblue',
-        'lightyellow',
-        'lime',
-        'limegreen',
-        'linen',
-        'magenta',
-        'maroon',
-        'mediumaquamarine',
-        'mediumblue',
-        'mediumorchid',
-        'mediumpurple',
-        'mediumseagreen',
-        'mediumslateblue',
-        'mediumspringgreen',
-        'mediumturquoise',
-        'mediumvioletred',
-        'midnightblue',
-        'mintcream',
-        'mistyrose',
-        'moccasin',
-        'navajowhite',
-        'navy',
-        'none',
-        'oldlace',
-        'olive',
-        'olivedrab',
-        'orange',
-        'orangered',
-        'orchid',
-        'palegoldenrod',
-        'palegreen',
-        'paleturquoise',
-        'palevioletred',
-        'papayawhip',
-        'peachpuff',
-        'peru',
-        'pink',
-        'plum',
-        'powderblue',
-        'purple',
-        'red',
-        'rosybrown',
-        'royalblue',
-        'saddlebrown',
-        'salmon',
-        'sandybrown',
-        'seagreen',
-        'seashell',
-        'sienna',
-        'silver',
-        'skyblue',
-        'slateblue',
-        'slategray',
-        'slategrey',
-        'snow',
-        'springgreen',
-        'steelblue',
-        'tan',
-        'teal',
-        'thistle',
-        'tomato',
-        'turquoise',
-        'violet',
-        'wheat',
-        'white',
-        'whitesmoke',
-        'yellow',
-        'yellowgreen'
-      ]);
-    });
+      it(should` has the correct colours`, () => {
+        const colours = Object.keys(namedColours);
+        expect(colours).toEqual([
+          'aliceblue',
+          'antiquewhite',
+          'aqua',
+          'aquamarine',
+          'azure',
+          'beige',
+          'bisque',
+          'black',
+          'blanchedalmond',
+          'blue',
+          'blueviolet',
+          'brown',
+          'burlywood',
+          'cadetblue',
+          'chartreuse',
+          'chocolate',
+          'coral',
+          'cornflowerblue',
+          'cornsilk',
+          'crimson',
+          'cyan',
+          'darkblue',
+          'darkcyan',
+          'darkgoldenrod',
+          'darkgray',
+          'darkgreen',
+          'darkgrey',
+          'darkkhaki',
+          'darkmagenta',
+          'darkolivegreen',
+          'darkorange',
+          'darkorchid',
+          'darkred',
+          'darksalmon',
+          'darkseagreen',
+          'darkslateblue',
+          'darkslategray',
+          'darkslategrey',
+          'darkturquoise',
+          'darkviolet',
+          'deeppink',
+          'deepskyblue',
+          'dimgray',
+          'dimgrey',
+          'dodgerblue',
+          'firebrick',
+          'floralwhite',
+          'forestgreen',
+          'fractal',
+          'fuchsia',
+          'gainsboro',
+          'ghostwhite',
+          'gold',
+          'goldenrod',
+          'gray0',
+          'gray1',
+          'gray2',
+          'gray3',
+          'gray4',
+          'gray5',
+          'gray6',
+          'gray7',
+          'gray8',
+          'gray9',
+          'gray10',
+          'gray11',
+          'gray12',
+          'gray13',
+          'gray14',
+          'gray15',
+          'gray16',
+          'gray17',
+          'gray18',
+          'gray19',
+          'gray20',
+          'gray21',
+          'gray22',
+          'gray23',
+          'gray24',
+          'gray25',
+          'gray26',
+          'gray27',
+          'gray28',
+          'gray29',
+          'gray30',
+          'gray31',
+          'gray32',
+          'gray33',
+          'gray34',
+          'gray35',
+          'gray36',
+          'gray37',
+          'gray38',
+          'gray39',
+          'gray40',
+          'gray41',
+          'gray42',
+          'gray43',
+          'gray44',
+          'gray45',
+          'gray46',
+          'gray47',
+          'gray48',
+          'gray49',
+          'gray50',
+          'gray51',
+          'gray52',
+          'gray53',
+          'gray54',
+          'gray55',
+          'gray56',
+          'gray57',
+          'gray58',
+          'gray59',
+          'gray60',
+          'gray61',
+          'gray62',
+          'gray63',
+          'gray64',
+          'gray65',
+          'gray66',
+          'gray67',
+          'gray68',
+          'gray69',
+          'gray70',
+          'gray71',
+          'gray72',
+          'gray73',
+          'gray74',
+          'gray75',
+          'gray76',
+          'gray77',
+          'gray78',
+          'gray79',
+          'gray80',
+          'gray81',
+          'gray82',
+          'gray83',
+          'gray84',
+          'gray85',
+          'gray86',
+          'gray87',
+          'gray88',
+          'gray89',
+          'gray90',
+          'gray91',
+          'gray92',
+          'gray93',
+          'gray94',
+          'gray95',
+          'gray96',
+          'gray97',
+          'gray98',
+          'gray99',
+          'gray100',
+          'gray',
+          'green',
+          'greenyellow',
+          'grey',
+          'honeydew',
+          'hotpink',
+          'indianred',
+          'indigo',
+          'ivory',
+          'khaki',
+          'lavender',
+          'lavenderblush',
+          'lawngreen',
+          'lemonchiffon',
+          'lightblue',
+          'lightcoral',
+          'lightcyan',
+          'lightgoldenrodyellow',
+          'lightgray',
+          'lightgreen',
+          'lightgrey',
+          'lightpink',
+          'lightsalmon',
+          'lightseagreen',
+          'lightskyblue',
+          'lightslategray',
+          'lightslategrey',
+          'lightsteelblue',
+          'lightyellow',
+          'lime',
+          'limegreen',
+          'linen',
+          'magenta',
+          'maroon',
+          'mediumaquamarine',
+          'mediumblue',
+          'mediumorchid',
+          'mediumpurple',
+          'mediumseagreen',
+          'mediumslateblue',
+          'mediumspringgreen',
+          'mediumturquoise',
+          'mediumvioletred',
+          'midnightblue',
+          'mintcream',
+          'mistyrose',
+          'moccasin',
+          'navajowhite',
+          'navy',
+          'none',
+          'oldlace',
+          'olive',
+          'olivedrab',
+          'orange',
+          'orangered',
+          'orchid',
+          'palegoldenrod',
+          'palegreen',
+          'paleturquoise',
+          'palevioletred',
+          'papayawhip',
+          'peachpuff',
+          'peru',
+          'pink',
+          'plum',
+          'powderblue',
+          'purple',
+          'red',
+          'rosybrown',
+          'royalblue',
+          'saddlebrown',
+          'salmon',
+          'sandybrown',
+          'seagreen',
+          'seashell',
+          'sienna',
+          'silver',
+          'skyblue',
+          'slateblue',
+          'slategray',
+          'slategrey',
+          'snow',
+          'springgreen',
+          'steelblue',
+          'tan',
+          'teal',
+          'thistle',
+          'tomato',
+          'turquoise',
+          'violet',
+          'wheat',
+          'white',
+          'whitesmoke',
+          'yellow',
+          'yellowgreen'
+        ]);
+      });
 
-    describe(`each colour has the correct number of values`, () => {
-      const entries = Object.entries(swissak.ColourTools.namedColours);
-      entries.forEach(([name, colour]) => {
-        it(should` '${name}' has 3 rgb values`, () => {
-          expect(colour.length).toBe(3);
-          expect(colour[0]).toBeGreaterThanOrEqual(0);
-          expect(colour[1]).toBeGreaterThanOrEqual(0);
-          expect(colour[2]).toBeGreaterThanOrEqual(0);
-          expect(colour[0]).toBeLessThanOrEqual(255);
-          expect(colour[1]).toBeLessThanOrEqual(255);
-          expect(colour[2]).toBeLessThanOrEqual(255);
+      describe(`each colour has the correct number of values`, () => {
+        const entries = Object.entries(namedColours);
+        entries.forEach(([name, colour]) => {
+          it(should` '${name}' has 3 rgb values`, () => {
+            expect(colour.length).toBe(3);
+            expect(colour[0]).toBeGreaterThanOrEqual(0);
+            expect(colour[1]).toBeGreaterThanOrEqual(0);
+            expect(colour[2]).toBeGreaterThanOrEqual(0);
+            expect(colour[0]).toBeLessThanOrEqual(255);
+            expect(colour[1]).toBeLessThanOrEqual(255);
+            expect(colour[2]).toBeLessThanOrEqual(255);
+          });
         });
       });
     });
   });
   describe('parse', () => {
-    it(should` exist as 'ColourTools.parse'`, () => {
-      expect(swissak.ColourTools.parse).toBeDefined();
-    });
-
-    kitchenSink.toEqual('input', (v) => swissak.ColourTools.parse(v), kitchenSink.safe.str(undefined, true), kitchenSink.general);
-
-    testColours.forEach(({ rgb, hex, name, rgbStr, hslStr }) => {
-      it(should` parse hex lowercase - ${hex.toLowerCase()}`, () => {
-        const parsed = swissak.ColourTools.parse(hex.toLowerCase());
-        expect(parsed).toEqual(rgb);
+    singleTest(swissak.ColourTools.parse, 'ColourTools.parse', (parse, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(parse).toBeDefined();
       });
-      it(should` parse hex uppercase - ${hex.toUpperCase()}`, () => {
-        const parsed = swissak.ColourTools.parse(hex.toUpperCase());
-        expect(parsed).toEqual(rgb);
-      });
-      if (name) {
-        it(should` parse name - ${name}`, () => {
-          const parsed = swissak.ColourTools.parse(name);
+
+      kitchenSink.toEqual('input', (v) => parse(v), kitchenSink.safe.str(undefined, true), kitchenSink.general);
+
+      testColours.forEach(({ rgb, hex, name, rgbStr, hslStr }) => {
+        it(should` parse hex lowercase - ${hex.toLowerCase()}`, () => {
+          const parsed = parse(hex.toLowerCase());
           expect(parsed).toEqual(rgb);
         });
-      }
-      it(should` parse rgb - ${rgbStr}`, () => {
-        const parsed = swissak.ColourTools.parse(rgbStr);
-        expect(parsed).toEqual(rgb);
+        it(should` parse hex uppercase - ${hex.toUpperCase()}`, () => {
+          const parsed = parse(hex.toUpperCase());
+          expect(parsed).toEqual(rgb);
+        });
+        if (name) {
+          it(should` parse name - ${name}`, () => {
+            const parsed = parse(name);
+            expect(parsed).toEqual(rgb);
+          });
+        }
+        it(should` parse rgb - ${rgbStr}`, () => {
+          const parsed = parse(rgbStr);
+          expect(parsed).toEqual(rgb);
+        });
+        // it(should` parse hsl - ${hslStr}`, () => {
+        //   const parsed = parse(hslStr);
+        //   expect(parsed).toEqual(rgb);
+        // });
       });
-      // it(should` parse hsl - ${hslStr}`, () => {
-      //   const parsed = swissak.ColourTools.parse(hslStr);
-      //   expect(parsed).toEqual(rgb);
-      // });
     });
   });
   describe('toHex', () => {
-    it(should` exist as 'ColourTools.toHex'`, () => {
-      expect(swissak.ColourTools.toHex).toBeDefined();
-    });
+    singleTest(swissak.ColourTools.toHex, 'ColourTools.toHex', (toHex, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(toHex).toBeDefined();
+      });
 
-    kitchenSink.toEqual(
-      'colour',
-      (v) => swissak.ColourTools.toHex(v as any),
-      kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
-      badColourValues
-    );
+      kitchenSink.toEqual('colour', (v) => toHex(v as any), kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3), badColourValues);
 
-    testColours.forEach(({ rgb, hex }) => {
-      it(should` convert to hex - ${rgb} -> ${hex}`, () => {
-        const actual = swissak.ColourTools.toHex(rgb);
-        expect(actual).toEqual(hex);
+      testColours.forEach(({ rgb, hex }) => {
+        it(should` convert to hex - ${rgb} -> ${hex}`, () => {
+          const actual = toHex(rgb);
+          expect(actual).toEqual(hex);
+        });
       });
     });
   });
   describe('getLuminance', () => {
-    it(should` exist as 'ColourTools.getLuminance'`, () => {
-      expect(swissak.ColourTools.getLuminance).toBeDefined();
-    });
+    singleTest(swissak.ColourTools.getLuminance, 'ColourTools.getLuminance', (getLuminance, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(getLuminance).toBeDefined();
+      });
 
-    kitchenSink.toEqual(
-      'rgb',
-      (v) => swissak.ColourTools.getLuminance(v as any),
-      kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
-      badColourValues
-    );
+      kitchenSink.toEqual(
+        'rgb',
+        (v) => getLuminance(v as any),
+        kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
+        badColourValues
+      );
 
-    testColours.forEach(({ rgb, yuv }) => {
-      it(should` get luminance - ${rgb} -> ${yuv[0]}`, () => {
-        const actual = swissak.ColourTools.getLuminance(rgb);
-        expect(actual).toBe(yuv[0]);
+      testColours.forEach(({ rgb, yuv }) => {
+        it(should` get luminance - ${rgb} -> ${yuv[0]}`, () => {
+          const actual = getLuminance(rgb);
+          expect(actual).toBe(yuv[0]);
+        });
       });
     });
   });
   describe('toYUV', () => {
-    it(should` exist as 'ColourTools.toYUV'`, () => {
-      expect(swissak.ColourTools.toYUV).toBeDefined();
-    });
+    singleTest(swissak.ColourTools.toYUV, 'ColourTools.toYUV', (toYUV, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(toYUV).toBeDefined();
+      });
 
-    kitchenSink.toEqual(
-      'rgb',
-      (v) => swissak.ColourTools.toYUV(v as any),
-      kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
-      badColourValues
-    );
+      kitchenSink.toEqual('rgb', (v) => toYUV(v as any), kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3), badColourValues);
 
-    testColours.forEach(({ rgb, yuv }) => {
-      it(should` convert to yuv - ${rgb} -> ${yuv}`, () => {
-        const actual = swissak.ColourTools.toYUV(rgb);
-        expect(actual).toEqual(yuv);
+      testColours.forEach(({ rgb, yuv }) => {
+        it(should` convert to yuv - ${rgb} -> ${yuv}`, () => {
+          const actual = toYUV(rgb);
+          expect(actual).toEqual(yuv);
+        });
       });
     });
   });
   describe('toHSL', () => {
-    it(should` exist as 'ColourTools.toHSL'`, () => {
-      expect(swissak.ColourTools.toHSL).toBeDefined();
-    });
+    singleTest(swissak.ColourTools.toHSL, 'ColourTools.toHSL', (toHSL, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(toHSL).toBeDefined();
+      });
 
-    kitchenSink.toEqual(
-      'colour',
-      (v) => swissak.ColourTools.toHSL(v as any, true),
-      kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
-      badColourValues
-    );
-    kitchenSink.toEqual('round', (v) => swissak.ColourTools.toHSL([255, 0, 0], v), kitchenSink.safe.bool(true, true), badColourValues);
+      kitchenSink.toEqual(
+        'colour',
+        (v) => toHSL(v as any, true),
+        kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
+        badColourValues
+      );
+      kitchenSink.toEqual('round', (v) => toHSL([255, 0, 0], v), kitchenSink.safe.bool(true, true), badColourValues);
 
-    testColours.forEach(({ rgb, hsl }) => {
-      it(should` convert to hsl - ${rgb} -> ${hsl}`, () => {
-        const actual = swissak.ColourTools.toHSL(rgb);
-        expect(actual).toEqual(hsl);
+      testColours.forEach(({ rgb, hsl }) => {
+        it(should` convert to hsl - ${rgb} -> ${hsl}`, () => {
+          const actual = toHSL(rgb);
+          expect(actual).toEqual(hsl);
+        });
       });
     });
   });
   describe('fromHSL', () => {
-    it(should` exist as 'ColourTools.fromHSL'`, () => {
-      expect(swissak.ColourTools.fromHSL).toBeDefined();
-    });
+    singleTest(swissak.ColourTools.fromHSL, 'ColourTools.fromHSL', (fromHSL, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(fromHSL).toBeDefined();
+      });
 
-    kitchenSink.toEqual(
-      'hsl',
-      (v) => swissak.ColourTools.fromHSL(v as any, true),
-      (v) =>
-        kitchenSink.safe.arrOf
-          .num(
-            undefined,
-            true,
-            0,
-            360,
-            0,
-            [0, 0, 0],
-            3,
-            3
-          )(v)
-          .map((value, i) => kitchenSink.safe.num(undefined, true, 0, [360, 100, 100][i], 0)(value)),
-      badColourValues
-    );
-    kitchenSink.toEqual('round', (v) => swissak.ColourTools.fromHSL([255, 0, 0], v), kitchenSink.safe.bool(true, true), badColourValues);
+      kitchenSink.toEqual(
+        'hsl',
+        (v) => fromHSL(v as any, true),
+        (v) =>
+          kitchenSink.safe.arrOf
+            .num(
+              undefined,
+              true,
+              0,
+              360,
+              0,
+              [0, 0, 0],
+              3,
+              3
+            )(v)
+            .map((value, i) => kitchenSink.safe.num(undefined, true, 0, [360, 100, 100][i], 0)(value)),
+        badColourValues
+      );
+      kitchenSink.toEqual('round', (v) => fromHSL([255, 0, 0], v), kitchenSink.safe.bool(true, true), badColourValues);
 
-    testColours.forEach(({ hsl, hslToRgb }) => {
-      it(should` convert from hsl - ${hsl} -> ${hslToRgb}`, () => {
-        const actual = swissak.ColourTools.fromHSL(hsl);
-        expect(actual).toEqual(hslToRgb);
+      testColours.forEach(({ hsl, hslToRgb }) => {
+        it(should` convert from hsl - ${hsl} -> ${hslToRgb}`, () => {
+          const actual = fromHSL(hsl);
+          expect(actual).toEqual(hslToRgb);
+        });
       });
     });
   });
   describe('invertColour', () => {
-    it(should` exist as 'ColourTools.invertColour'`, () => {
-      expect(swissak.ColourTools.invertColour).toBeDefined();
-    });
+    singleTest(swissak.ColourTools.invertColour, 'ColourTools.invertColour', (invertColour, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(invertColour).toBeDefined();
+      });
 
-    kitchenSink.toEqual(
-      'rgb',
-      (v) => swissak.ColourTools.invertColour(v as any),
-      kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
-      badColourValues
-    );
+      kitchenSink.toEqual(
+        'rgb',
+        (v) => invertColour(v as any),
+        kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
+        badColourValues
+      );
 
-    testColours.forEach(({ rgb, inverted }) => {
-      it(should` invert colour - ${rgb} -> ${inverted}`, () => {
-        const actual = swissak.ColourTools.invertColour(rgb);
-        expect(actual).toEqual(inverted);
+      testColours.forEach(({ rgb, inverted }) => {
+        it(should` invert colour - ${rgb} -> ${inverted}`, () => {
+          const actual = invertColour(rgb);
+          expect(actual).toEqual(inverted);
+        });
       });
     });
   });
   describe('getContrastedColour', () => {
-    it(should` exist as 'ColourTools.getContrastedColour'`, () => {
-      expect(swissak.ColourTools.getContrastedColour).toBeDefined();
-    });
+    singleTest(swissak.ColourTools.getContrastedColour, 'ColourTools.getContrastedColour', (getContrastedColour, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(getContrastedColour).toBeDefined();
+      });
 
-    kitchenSink.toEqual(
-      'colour',
-      (v) => swissak.ColourTools.getContrastedColour(v as any),
-      kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
-      badColourValues
-    );
+      kitchenSink.toEqual(
+        'colour',
+        (v) => getContrastedColour(v as any),
+        kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
+        badColourValues
+      );
 
-    testColours.forEach(({ rgb, contrasted }) => {
-      it(should` get contrasting colour - ${rgb} -> ${contrasted}`, () => {
-        const actual = swissak.ColourTools.getContrastedColour(rgb);
-        expect(actual).toEqual(contrasted);
+      testColours.forEach(({ rgb, contrasted }) => {
+        it(should` get contrasting colour - ${rgb} -> ${contrasted}`, () => {
+          const actual = getContrastedColour(rgb);
+          expect(actual).toEqual(contrasted);
+        });
       });
     });
   });
   describe('getLimitedColour', () => {
-    it(should` exist as 'ColourTools.getLimitedColour'`, () => {
-      expect(swissak.ColourTools.getLimitedColour).toBeDefined();
-    });
-
-    kitchenSink.toEqual(
-      'colour',
-      (v) =>
-        swissak.ColourTools.getLimitedColour(
-          v as any,
-          ([h, s, l]) => s > 50,
-          ([h, s, l]) => [h, 50, l]
-        ),
-      kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
-      badColourValues
-    );
-
-    const testValues = [
-      ...kitchenSink.general,
-      () => undefined,
-      () => null,
-      () => Infinity,
-      () => '123',
-      () => 'a string',
-      () => true,
-      () => false,
-      () => 123,
-      () => 0,
-      () => ({ foo: 'bar' }),
-      () => ['foo', 'bar']
-    ];
-
-    kitchenSink.toEqual(
-      'checkFn',
-      (v) => swissak.ColourTools.getLimitedColour([255, 0, 0], v as any, ([h, s, l]) => [h, 50, l]),
-      kitchenSink.safe.func(
-        () => true,
-        () => true
-      ),
-      testValues
-    );
-    kitchenSink.toEqual(
-      'adjustFn',
-      (v) => swissak.ColourTools.getLimitedColour([255, 0, 0], ([h, s, l]) => s > 50, v as any),
-      kitchenSink.safe.func(undefined, (hsl) => [...hsl]),
-      [...testValues, ([h, s, l]) => [h, 50, l]]
-    );
-
-    testColours.forEach(({ rgb, limitedSaturation50, limitedLightness10 }) => {
-      it(should` get limit saturation - ${rgb} -> ${limitedSaturation50}`, () => {
-        const actual = swissak.ColourTools.getLimitedColour(
-          rgb,
-          ([h, s, l]) => s > 50,
-          ([h, s, l]) => [h, 50, l]
-        );
-        expect(actual).toEqual(limitedSaturation50);
+    singleTest(swissak.ColourTools.getLimitedColour, 'ColourTools.getLimitedColour', (getLimitedColour, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(getLimitedColour).toBeDefined();
       });
-      it(should` get limit lightness - ${rgb} -> ${limitedLightness10}`, () => {
-        const actual = swissak.ColourTools.getLimitedColour(
-          rgb,
-          ([h, s, l]) => l > 10,
-          ([h, s, l]) => [h, s, 10]
-        );
-        expect(actual).toEqual(limitedLightness10);
+
+      kitchenSink.toEqual(
+        'colour',
+        (v) =>
+          getLimitedColour(
+            v as any,
+            ([h, s, l]) => s > 50,
+            ([h, s, l]) => [h, 50, l]
+          ),
+        kitchenSink.safe.arrOf.num([0, 0, 0], true, 0, 255, 0, [0, 0, 0], 3, 3),
+        badColourValues
+      );
+
+      const testValues = [
+        ...kitchenSink.general,
+        () => undefined,
+        () => null,
+        () => Infinity,
+        () => '123',
+        () => 'a string',
+        () => true,
+        () => false,
+        () => 123,
+        () => 0,
+        () => ({ foo: 'bar' }),
+        () => ['foo', 'bar']
+      ];
+
+      kitchenSink.toEqual(
+        'checkFn',
+        (v) => getLimitedColour([255, 0, 0], v as any, ([h, s, l]) => [h, 50, l]),
+        kitchenSink.safe.func(
+          () => true,
+          () => true
+        ),
+        testValues
+      );
+      kitchenSink.toEqual(
+        'adjustFn',
+        (v) => getLimitedColour([255, 0, 0], ([h, s, l]) => s > 50, v as any),
+        kitchenSink.safe.func(undefined, (hsl) => [...hsl]),
+        [...testValues, ([h, s, l]) => [h, 50, l]]
+      );
+
+      testColours.forEach(({ rgb, limitedSaturation50, limitedLightness10 }) => {
+        it(should` get limit saturation - ${rgb} -> ${limitedSaturation50}`, () => {
+          const actual = getLimitedColour(
+            rgb,
+            ([h, s, l]) => s > 50,
+            ([h, s, l]) => [h, 50, l]
+          );
+          expect(actual).toEqual(limitedSaturation50);
+        });
+        it(should` get limit lightness - ${rgb} -> ${limitedLightness10}`, () => {
+          const actual = getLimitedColour(
+            rgb,
+            ([h, s, l]) => l > 10,
+            ([h, s, l]) => [h, s, 10]
+          );
+          expect(actual).toEqual(limitedLightness10);
+        });
       });
     });
   });

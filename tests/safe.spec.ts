@@ -1,1107 +1,1191 @@
 import * as swissak from '../';
-import { register, multiTest, should } from './test-utils';
+import { register, should, singleTest, multiTest, kitchenSink } from './test-utils';
 
 register({ describe, it });
 
 describe('safe', () => {
   describe('safe.num', () => {
-    it(should` take 10`, () => {
-      const result = swissak.safe.num(10 as any);
-      expect(result).toEqual(10);
-    });
-    it(should` take 10000`, () => {
-      const result = swissak.safe.num(10000 as any);
-      expect(result).toEqual(10000);
-    });
-    it(should` take -1`, () => {
-      const result = swissak.safe.num(-1 as any);
-      expect(result).toEqual(-1);
-    });
-    it(should` take true`, () => {
-      const result = swissak.safe.num(true as any);
-      expect(result).toEqual(0);
-    });
-    it(should` take '123'`, () => {
-      const result = swissak.safe.num('123' as any);
-      expect(result).toEqual(0);
-    });
-    it(should` take NaN`, () => {
-      const result = swissak.safe.num(NaN as any);
-      expect(result).toEqual(0);
-    });
-    it(should` take Infinity`, () => {
-      const result = swissak.safe.num(Infinity as any);
-      expect(result).toEqual(0);
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.num(null as any);
-      expect(result).toEqual(0);
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.num(undefined as any);
-      expect(result).toEqual(0);
-    });
-    it(should` take 10 with other params`, () => {
-      const result = swissak.safe.num(10 as any, true, 0, 100, 99);
-      expect(result).toEqual(10);
-    });
-    it(should` take 10000 with other params`, () => {
-      const result = swissak.safe.num(10000 as any, true, 0, 100, 99);
-      expect(result).toEqual(100);
-    });
-    it(should` take -1 with other params`, () => {
-      const result = swissak.safe.num(-1 as any, true, 0, 100, 99);
-      expect(result).toEqual(0);
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.num(true as any, true, 0, 100, 99);
-      expect(result).toEqual(99);
-    });
-    it(should` take '123' with other params`, () => {
-      const result = swissak.safe.num('123' as any, true, 0, 100, 99);
-      expect(result).toEqual(99);
-    });
-    it(should` take NaN with other params`, () => {
-      const result = swissak.safe.num(NaN as any, true, 0, 100, 99);
-      expect(result).toEqual(99);
-    });
-    it(should` take Infinity with other params`, () => {
-      const result = swissak.safe.num(Infinity as any, true, 0, 100, 99);
-      expect(result).toEqual(100);
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.num(null as any, true, 0, 100, 99);
-      expect(result).toEqual(99);
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.num(undefined as any, true, 0, 100, 99);
-      expect(result).toEqual(99);
+    singleTest(swissak.safe.num, 'safe.num', (num, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(num).toBeDefined();
+      });
+
+      it(should` take 10`, () => {
+        const result = num(10 as any);
+        expect(result).toEqual(10);
+      });
+      it(should` take 10000`, () => {
+        const result = num(10000 as any);
+        expect(result).toEqual(10000);
+      });
+      it(should` take -1`, () => {
+        const result = num(-1 as any);
+        expect(result).toEqual(-1);
+      });
+      it(should` take true`, () => {
+        const result = num(true as any);
+        expect(result).toEqual(0);
+      });
+      it(should` take '123'`, () => {
+        const result = num('123' as any);
+        expect(result).toEqual(0);
+      });
+      it(should` take NaN`, () => {
+        const result = num(NaN as any);
+        expect(result).toEqual(0);
+      });
+      it(should` take Infinity`, () => {
+        const result = num(Infinity as any);
+        expect(result).toEqual(0);
+      });
+      it(should` take null`, () => {
+        const result = num(null as any);
+        expect(result).toEqual(0);
+      });
+      it(should` take undefined`, () => {
+        const result = num(undefined as any);
+        expect(result).toEqual(0);
+      });
+      it(should` take 10 with other params`, () => {
+        const result = num(10 as any, true, 0, 100, 99);
+        expect(result).toEqual(10);
+      });
+      it(should` take 10000 with other params`, () => {
+        const result = num(10000 as any, true, 0, 100, 99);
+        expect(result).toEqual(100);
+      });
+      it(should` take -1 with other params`, () => {
+        const result = num(-1 as any, true, 0, 100, 99);
+        expect(result).toEqual(0);
+      });
+      it(should` take true with other params`, () => {
+        const result = num(true as any, true, 0, 100, 99);
+        expect(result).toEqual(99);
+      });
+      it(should` take '123' with other params`, () => {
+        const result = num('123' as any, true, 0, 100, 99);
+        expect(result).toEqual(99);
+      });
+      it(should` take NaN with other params`, () => {
+        const result = num(NaN as any, true, 0, 100, 99);
+        expect(result).toEqual(99);
+      });
+      it(should` take Infinity with other params`, () => {
+        const result = num(Infinity as any, true, 0, 100, 99);
+        expect(result).toEqual(100);
+      });
+      it(should` take null with other params`, () => {
+        const result = num(null as any, true, 0, 100, 99);
+        expect(result).toEqual(99);
+      });
+      it(should` take undefined with other params`, () => {
+        const result = num(undefined as any, true, 0, 100, 99);
+        expect(result).toEqual(99);
+      });
     });
   });
 
   describe('safe.str', () => {
-    it(should` take 'foo'`, () => {
-      const result = swissak.safe.str('foo' as any);
-      expect(result).toEqual('foo');
-    });
-    it(should` take ''`, () => {
-      const result = swissak.safe.str('' as any);
-      expect(result).toEqual('');
-    });
-    it(should` take 123`, () => {
-      const result = swissak.safe.str(123 as any);
-      expect(result).toEqual('');
-    });
-    it(should` take true`, () => {
-      const result = swissak.safe.str(true as any);
-      expect(result).toEqual('');
-    });
-    it(should` take {foo: 'bar'}`, () => {
-      const result = swissak.safe.str({ foo: 'bar' } as any);
-      expect(result).toEqual('');
-    });
-    it(should` take []`, () => {
-      const result = swissak.safe.str([] as any);
-      expect(result).toEqual('');
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.str(null as any);
-      expect(result).toEqual('');
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.str(undefined as any);
-      expect(result).toEqual('');
-    });
-    it(should` take 'foo' with other params`, () => {
-      const result = swissak.safe.str('foo' as any, true, 'bar');
-      expect(result).toEqual('foo');
-    });
-    it(should` take '' with other params`, () => {
-      const result = swissak.safe.str('' as any, true, 'bar');
-      expect(result).toEqual('');
-    });
-    it(should` take 123 with other params`, () => {
-      const result = swissak.safe.str(123 as any, true, 'bar');
-      expect(result).toEqual('123');
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.str(true as any, true, 'bar');
-      expect(result).toEqual('true');
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.str({ foo: 'bar' } as any, true, 'bar');
-      expect(result).toEqual('bar');
-    });
-    it(should` take [] with other params`, () => {
-      const result = swissak.safe.str([] as any, true, 'bar');
-      expect(result).toEqual('bar');
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.str(null as any, true, 'bar');
-      expect(result).toEqual('bar');
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.str(undefined as any, true, 'bar');
-      expect(result).toEqual('bar');
+    singleTest(swissak.safe.str, 'safe.str', (str, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(str).toBeDefined();
+      });
+
+      it(should` take 'foo'`, () => {
+        const result = str('foo' as any);
+        expect(result).toEqual('foo');
+      });
+      it(should` take ''`, () => {
+        const result = str('' as any);
+        expect(result).toEqual('');
+      });
+      it(should` take 123`, () => {
+        const result = str(123 as any);
+        expect(result).toEqual('');
+      });
+      it(should` take true`, () => {
+        const result = str(true as any);
+        expect(result).toEqual('');
+      });
+      it(should` take {foo: 'bar'}`, () => {
+        const result = str({ foo: 'bar' } as any);
+        expect(result).toEqual('');
+      });
+      it(should` take []`, () => {
+        const result = str([] as any);
+        expect(result).toEqual('');
+      });
+      it(should` take null`, () => {
+        const result = str(null as any);
+        expect(result).toEqual('');
+      });
+      it(should` take undefined`, () => {
+        const result = str(undefined as any);
+        expect(result).toEqual('');
+      });
+      it(should` take 'foo' with other params`, () => {
+        const result = str('foo' as any, true, 'bar');
+        expect(result).toEqual('foo');
+      });
+      it(should` take '' with other params`, () => {
+        const result = str('' as any, true, 'bar');
+        expect(result).toEqual('');
+      });
+      it(should` take 123 with other params`, () => {
+        const result = str(123 as any, true, 'bar');
+        expect(result).toEqual('123');
+      });
+      it(should` take true with other params`, () => {
+        const result = str(true as any, true, 'bar');
+        expect(result).toEqual('true');
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const result = str({ foo: 'bar' } as any, true, 'bar');
+        expect(result).toEqual('bar');
+      });
+      it(should` take [] with other params`, () => {
+        const result = str([] as any, true, 'bar');
+        expect(result).toEqual('bar');
+      });
+      it(should` take null with other params`, () => {
+        const result = str(null as any, true, 'bar');
+        expect(result).toEqual('bar');
+      });
+      it(should` take undefined with other params`, () => {
+        const result = str(undefined as any, true, 'bar');
+        expect(result).toEqual('bar');
+      });
     });
   });
 
   describe('safe.bool', () => {
-    it(should` take true`, () => {
-      const result = swissak.safe.bool(true as any);
-      expect(result).toEqual(true);
-    });
-    it(should` take false`, () => {
-      const result = swissak.safe.bool(false as any);
-      expect(result).toEqual(false);
-    });
-    it(should` take 1`, () => {
-      const result = swissak.safe.bool(1 as any);
-      expect(result).toEqual(true);
-    });
-    it(should` take 0`, () => {
-      const result = swissak.safe.bool(0 as any);
-      expect(result).toEqual(false);
-    });
-    it(should` take 123`, () => {
-      const result = swissak.safe.bool(123 as any);
-      expect(result).toEqual(false);
-    });
-    it(should` take 'true'`, () => {
-      const result = swissak.safe.bool('true' as any);
-      expect(result).toEqual(true);
-    });
-    it(should` take 'false'`, () => {
-      const result = swissak.safe.bool('false' as any);
-      expect(result).toEqual(false);
-    });
-    it(should` take 'foobar'`, () => {
-      const result = swissak.safe.bool('foobar' as any);
-      expect(result).toEqual(false);
-    });
-    it(should` take {foo: 'bar'}`, () => {
-      const result = swissak.safe.bool({ foo: 'bar' } as any);
-      expect(result).toEqual(false);
-    });
-    it(should` take []`, () => {
-      const result = swissak.safe.bool([] as any);
-      expect(result).toEqual(false);
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.bool(null as any);
-      expect(result).toEqual(false);
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.bool(undefined as any);
-      expect(result).toEqual(false);
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.bool(true as any, true);
-      expect(result).toEqual(true);
-    });
-    it(should` take false with other params`, () => {
-      const result = swissak.safe.bool(false as any, true);
-      expect(result).toEqual(false);
-    });
-    it(should` take 1 with other params`, () => {
-      const result = swissak.safe.bool(1 as any, true);
-      expect(result).toEqual(true);
-    });
-    it(should` take 0 with other params`, () => {
-      const result = swissak.safe.bool(0 as any, true);
-      expect(result).toEqual(false);
-    });
-    it(should` take 123 with other params`, () => {
-      const result = swissak.safe.bool(123 as any, true);
-      expect(result).toEqual(true);
-    });
-    it(should` take 'true' with other params`, () => {
-      const result = swissak.safe.bool('true' as any, true);
-      expect(result).toEqual(true);
-    });
-    it(should` take 'false' with other params`, () => {
-      const result = swissak.safe.bool('false' as any, true);
-      expect(result).toEqual(false);
-    });
-    it(should` take 'foobar' with other params`, () => {
-      const result = swissak.safe.bool('foobar' as any, true);
-      expect(result).toEqual(true);
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.bool({ foo: 'bar' } as any, true);
-      expect(result).toEqual(true);
-    });
-    it(should` take [] with other params`, () => {
-      const result = swissak.safe.bool([] as any, true);
-      expect(result).toEqual(true);
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.bool(null as any, true);
-      expect(result).toEqual(true);
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.bool(undefined as any, true);
-      expect(result).toEqual(true);
+    singleTest(swissak.safe.bool, 'safe.bool', (bool, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(bool).toBeDefined();
+      });
+
+      it(should` take true`, () => {
+        const result = bool(true as any);
+        expect(result).toEqual(true);
+      });
+      it(should` take false`, () => {
+        const result = bool(false as any);
+        expect(result).toEqual(false);
+      });
+      it(should` take 1`, () => {
+        const result = bool(1 as any);
+        expect(result).toEqual(true);
+      });
+      it(should` take 0`, () => {
+        const result = bool(0 as any);
+        expect(result).toEqual(false);
+      });
+      it(should` take 123`, () => {
+        const result = bool(123 as any);
+        expect(result).toEqual(false);
+      });
+      it(should` take 'true'`, () => {
+        const result = bool('true' as any);
+        expect(result).toEqual(true);
+      });
+      it(should` take 'false'`, () => {
+        const result = bool('false' as any);
+        expect(result).toEqual(false);
+      });
+      it(should` take 'foobar'`, () => {
+        const result = bool('foobar' as any);
+        expect(result).toEqual(false);
+      });
+      it(should` take {foo: 'bar'}`, () => {
+        const result = bool({ foo: 'bar' } as any);
+        expect(result).toEqual(false);
+      });
+      it(should` take []`, () => {
+        const result = bool([] as any);
+        expect(result).toEqual(false);
+      });
+      it(should` take null`, () => {
+        const result = bool(null as any);
+        expect(result).toEqual(false);
+      });
+      it(should` take undefined`, () => {
+        const result = bool(undefined as any);
+        expect(result).toEqual(false);
+      });
+      it(should` take true with other params`, () => {
+        const result = bool(true as any, true);
+        expect(result).toEqual(true);
+      });
+      it(should` take false with other params`, () => {
+        const result = bool(false as any, true);
+        expect(result).toEqual(false);
+      });
+      it(should` take 1 with other params`, () => {
+        const result = bool(1 as any, true);
+        expect(result).toEqual(true);
+      });
+      it(should` take 0 with other params`, () => {
+        const result = bool(0 as any, true);
+        expect(result).toEqual(false);
+      });
+      it(should` take 123 with other params`, () => {
+        const result = bool(123 as any, true);
+        expect(result).toEqual(true);
+      });
+      it(should` take 'true' with other params`, () => {
+        const result = bool('true' as any, true);
+        expect(result).toEqual(true);
+      });
+      it(should` take 'false' with other params`, () => {
+        const result = bool('false' as any, true);
+        expect(result).toEqual(false);
+      });
+      it(should` take 'foobar' with other params`, () => {
+        const result = bool('foobar' as any, true);
+        expect(result).toEqual(true);
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const result = bool({ foo: 'bar' } as any, true);
+        expect(result).toEqual(true);
+      });
+      it(should` take [] with other params`, () => {
+        const result = bool([] as any, true);
+        expect(result).toEqual(true);
+      });
+      it(should` take null with other params`, () => {
+        const result = bool(null as any, true);
+        expect(result).toEqual(true);
+      });
+      it(should` take undefined with other params`, () => {
+        const result = bool(undefined as any, true);
+        expect(result).toEqual(true);
+      });
     });
   });
 
   describe('safe.func', () => {
-    it(should` take (p: number) => 123`, () => {
-      const func = (p: number) => 123 as any;
-      const result = swissak.safe.func(func);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toEqual(123);
-    });
-    it(should` take true`, () => {
-      const func = true as any;
-      const result = swissak.safe.func(func);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toBe(undefined);
-    });
-    it(should` take false`, () => {
-      const func = false as any;
-      const result = swissak.safe.func(func);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toBe(undefined);
-    });
-    it(should` take 123`, () => {
-      const func = 123 as any;
-      const result = swissak.safe.func(func);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toBe(undefined);
-    });
-    it(should` take 'foobar'`, () => {
-      const func = 'foobar' as any;
-      const result = swissak.safe.func(func);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toBe(undefined);
-    });
-    it(should` take {foo: 'bar'}`, () => {
-      const func = { foo: 'bar' } as any;
-      const result = swissak.safe.func(func);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toBe(undefined);
-    });
-    it(should` take [1, 2, 3]`, () => {
-      const func = [1, 2, 3] as any;
-      const result = swissak.safe.func(func);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toBe(undefined);
-    });
-    it(should` take null`, () => {
-      const func = null as any;
-      const result = swissak.safe.func(func);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toBe(undefined);
-    });
-    it(should` take undefined`, () => {
-      const func = undefined as any;
-      const result = swissak.safe.func(func);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toBe(undefined);
-    });
-    it(should` take (p: number) => 123 with other params`, () => {
-      const func = ((p: number) => 123) as any;
-      const result = swissak.safe.func(func, (q: number) => 456);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toEqual(123);
-    });
-    it(should` take true with other params`, () => {
-      const func = true as any;
-      const result = swissak.safe.func(func, (q: number) => 456);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toEqual(456);
-    });
-    it(should` take false with other params`, () => {
-      const func = false as any;
-      const result = swissak.safe.func(func, (q: number) => 456);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toEqual(456);
-    });
-    it(should` take 123 with other params`, () => {
-      const func = 123 as any;
-      const result = swissak.safe.func(func, (q: number) => 456);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toEqual(456);
-    });
-    it(should` take 'foobar' with other params`, () => {
-      const func = 'foobar' as any;
-      const result = swissak.safe.func(func, (q: number) => 456);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toEqual(456);
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const func = { foo: 'bar' } as any;
-      const result = swissak.safe.func(func, (q: number) => 456);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toEqual(456);
-    });
-    it(should` take [1, 2, 3] with other params`, () => {
-      const func = [1, 2, 3] as any;
-      const result = swissak.safe.func(func, (q: number) => 456);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toEqual(456);
-    });
-    it(should` take null with other params`, () => {
-      const func = null as any;
-      const result = swissak.safe.func(func, (q: number) => 456);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toEqual(456);
-    });
-    it(should` take undefined with other params`, () => {
-      const func = undefined as any;
-      const result = swissak.safe.func(func, (q: number) => 456);
-      expect(typeof result).toBe('function');
-      expect(result(1)).toEqual(456);
+    singleTest(swissak.safe.func, 'safe.func', (func, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(func).toBeDefined();
+      });
+
+      it(should` take (p: number) => 123`, () => {
+        const input = (p: number) => 123 as any;
+        const result = func(input);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toEqual(123);
+      });
+      it(should` take true`, () => {
+        const input = true as any;
+        const result = func(input);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toBe(undefined);
+      });
+      it(should` take false`, () => {
+        const input = false as any;
+        const result = func(input);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toBe(undefined);
+      });
+      it(should` take 123`, () => {
+        const input = 123 as any;
+        const result = func(input);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toBe(undefined);
+      });
+      it(should` take 'foobar'`, () => {
+        const input = 'foobar' as any;
+        const result = func(input);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toBe(undefined);
+      });
+      it(should` take {foo: 'bar'}`, () => {
+        const input = { foo: 'bar' } as any;
+        const result = func(input);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toBe(undefined);
+      });
+      it(should` take [1, 2, 3]`, () => {
+        const input = [1, 2, 3] as any;
+        const result = func(input);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toBe(undefined);
+      });
+      it(should` take null`, () => {
+        const input = null as any;
+        const result = func(input);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toBe(undefined);
+      });
+      it(should` take undefined`, () => {
+        const input = undefined as any;
+        const result = func(input);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toBe(undefined);
+      });
+      it(should` take (p: number) => 123 with other params`, () => {
+        const input = ((p: number) => 123) as any;
+        const result = func(input, (q: number) => 456);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toEqual(123);
+      });
+      it(should` take true with other params`, () => {
+        const input = true as any;
+        const result = func(input, (q: number) => 456);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toEqual(456);
+      });
+      it(should` take false with other params`, () => {
+        const input = false as any;
+        const result = func(input, (q: number) => 456);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toEqual(456);
+      });
+      it(should` take 123 with other params`, () => {
+        const input = 123 as any;
+        const result = func(input, (q: number) => 456);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toEqual(456);
+      });
+      it(should` take 'foobar' with other params`, () => {
+        const input = 'foobar' as any;
+        const result = func(input, (q: number) => 456);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toEqual(456);
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const input = { foo: 'bar' } as any;
+        const result = func(input, (q: number) => 456);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toEqual(456);
+      });
+      it(should` take [1, 2, 3] with other params`, () => {
+        const input = [1, 2, 3] as any;
+        const result = func(input, (q: number) => 456);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toEqual(456);
+      });
+      it(should` take null with other params`, () => {
+        const input = null as any;
+        const result = func(input, (q: number) => 456);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toEqual(456);
+      });
+      it(should` take undefined with other params`, () => {
+        const input = undefined as any;
+        const result = func(input, (q: number) => 456);
+        expect(typeof result).toBe('function');
+        expect(result(1)).toEqual(456);
+      });
     });
   });
 
   describe('safe.obj', () => {
-    it(should` take {foo: 'bar'}`, () => {
-      const result = swissak.safe.obj({ foo: 'bar' } as any);
-      expect(result).toEqual({ foo: 'bar' });
-    });
-    it(should` take [1, 2, 3]`, () => {
-      const result = swissak.safe.obj([1, 2, 3] as any);
-      expect(result).toEqual([1, 2, 3]);
-    });
-    it(should` take true`, () => {
-      const result = swissak.safe.obj(true as any);
-      expect(result).toEqual({});
-    });
-    it(should` take false`, () => {
-      const result = swissak.safe.obj(false as any);
-      expect(result).toEqual({});
-    });
-    it(should` take 123`, () => {
-      const result = swissak.safe.obj(123 as any);
-      expect(result).toEqual({});
-    });
-    it(should` take 'foobar'`, () => {
-      const result = swissak.safe.obj('foobar' as any);
-      expect(result).toEqual({});
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.obj(null as any);
-      expect(result).toEqual({});
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.obj(undefined as any);
-      expect(result).toEqual({});
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.obj({ foo: 'bar' } as any, { baz: 123 });
-      expect(result).toEqual({ foo: 'bar' });
-    });
-    it(should` take [1, 2, 3] with other params`, () => {
-      const result = swissak.safe.obj([1, 2, 3] as any, { baz: 123 });
-      expect(result).toEqual([1, 2, 3]);
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.obj(true as any, { baz: 123 });
-      expect(result).toEqual({ baz: 123 });
-    });
-    it(should` take false with other params`, () => {
-      const result = swissak.safe.obj(false as any, { baz: 123 });
-      expect(result).toEqual({ baz: 123 });
-    });
-    it(should` take 123 with other params`, () => {
-      const result = swissak.safe.obj(123 as any, { baz: 123 });
-      expect(result).toEqual({ baz: 123 });
-    });
-    it(should` take 'foobar' with other params`, () => {
-      const result = swissak.safe.obj('foobar' as any, { baz: 123 });
-      expect(result).toEqual({ baz: 123 });
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.obj(null as any, { baz: 123 });
-      expect(result).toEqual({ baz: 123 });
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.obj(undefined as any, { baz: 123 });
-      expect(result).toEqual({ baz: 123 });
+    singleTest(swissak.safe.obj, 'safe.obj', (obj, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(obj).toBeDefined();
+      });
+
+      it(should` take {foo: 'bar'}`, () => {
+        const result = obj({ foo: 'bar' } as any);
+        expect(result).toEqual({ foo: 'bar' });
+      });
+      it(should` take [1, 2, 3]`, () => {
+        const result = obj([1, 2, 3] as any);
+        expect(result).toEqual([1, 2, 3]);
+      });
+      it(should` take true`, () => {
+        const result = obj(true as any);
+        expect(result).toEqual({});
+      });
+      it(should` take false`, () => {
+        const result = obj(false as any);
+        expect(result).toEqual({});
+      });
+      it(should` take 123`, () => {
+        const result = obj(123 as any);
+        expect(result).toEqual({});
+      });
+      it(should` take 'foobar'`, () => {
+        const result = obj('foobar' as any);
+        expect(result).toEqual({});
+      });
+      it(should` take null`, () => {
+        const result = obj(null as any);
+        expect(result).toEqual({});
+      });
+      it(should` take undefined`, () => {
+        const result = obj(undefined as any);
+        expect(result).toEqual({});
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const result = obj({ foo: 'bar' } as any, { baz: 123 });
+        expect(result).toEqual({ foo: 'bar' });
+      });
+      it(should` take [1, 2, 3] with other params`, () => {
+        const result = obj([1, 2, 3] as any, { baz: 123 });
+        expect(result).toEqual([1, 2, 3]);
+      });
+      it(should` take true with other params`, () => {
+        const result = obj(true as any, { baz: 123 });
+        expect(result).toEqual({ baz: 123 });
+      });
+      it(should` take false with other params`, () => {
+        const result = obj(false as any, { baz: 123 });
+        expect(result).toEqual({ baz: 123 });
+      });
+      it(should` take 123 with other params`, () => {
+        const result = obj(123 as any, { baz: 123 });
+        expect(result).toEqual({ baz: 123 });
+      });
+      it(should` take 'foobar' with other params`, () => {
+        const result = obj('foobar' as any, { baz: 123 });
+        expect(result).toEqual({ baz: 123 });
+      });
+      it(should` take null with other params`, () => {
+        const result = obj(null as any, { baz: 123 });
+        expect(result).toEqual({ baz: 123 });
+      });
+      it(should` take undefined with other params`, () => {
+        const result = obj(undefined as any, { baz: 123 });
+        expect(result).toEqual({ baz: 123 });
+      });
     });
   });
 
   describe('safe.arr', () => {
-    it(should` take [1, 2, 3]`, () => {
-      const result = swissak.safe.arr([1, 2, 3] as any);
-      expect(result).toEqual([1, 2, 3]);
-    });
-    it(should` take true`, () => {
-      const result = swissak.safe.arr(true as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take false`, () => {
-      const result = swissak.safe.arr(false as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 123`, () => {
-      const result = swissak.safe.arr(123 as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 'foobar'`, () => {
-      const result = swissak.safe.arr('foobar' as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take {foo: 'bar'}`, () => {
-      const result = swissak.safe.arr({ foo: 'bar' } as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.arr(null as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.arr(undefined as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take [1, 2, 3] with other params`, () => {
-      const result = swissak.safe.arr([1, 2, 3] as any, [4, 5, 6]);
-      expect(result).toEqual([1, 2, 3]);
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.arr(true as any, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
-    });
-    it(should` take false with other params`, () => {
-      const result = swissak.safe.arr(false as any, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
-    });
-    it(should` take 123 with other params`, () => {
-      const result = swissak.safe.arr(123 as any, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
-    });
-    it(should` take 'foobar' with other params`, () => {
-      const result = swissak.safe.arr('foobar' as any, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.arr({ foo: 'bar' } as any, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.arr(null as any, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.arr(undefined as any, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
+    singleTest(swissak.safe.arr, 'safe.arr', (arr, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(arr).toBeDefined();
+      });
+
+      it(should` take [1, 2, 3]`, () => {
+        const result = arr([1, 2, 3] as any);
+        expect(result).toEqual([1, 2, 3]);
+      });
+      it(should` take true`, () => {
+        const result = arr(true as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take false`, () => {
+        const result = arr(false as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 123`, () => {
+        const result = arr(123 as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 'foobar'`, () => {
+        const result = arr('foobar' as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take {foo: 'bar'}`, () => {
+        const result = arr({ foo: 'bar' } as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take null`, () => {
+        const result = arr(null as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take undefined`, () => {
+        const result = arr(undefined as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take [1, 2, 3] with other params`, () => {
+        const result = arr([1, 2, 3] as any, [4, 5, 6]);
+        expect(result).toEqual([1, 2, 3]);
+      });
+      it(should` take true with other params`, () => {
+        const result = arr(true as any, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
+      it(should` take false with other params`, () => {
+        const result = arr(false as any, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
+      it(should` take 123 with other params`, () => {
+        const result = arr(123 as any, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
+      it(should` take 'foobar' with other params`, () => {
+        const result = arr('foobar' as any, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const result = arr({ foo: 'bar' } as any, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
+      it(should` take null with other params`, () => {
+        const result = arr(null as any, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
+      it(should` take undefined with other params`, () => {
+        const result = arr(undefined as any, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
     });
   });
 
   describe('safe.prop', () => {
-    it(should` take 'foo'`, () => {
-      const result = swissak.safe.prop('foo' as any);
-      expect(result).toEqual('foo');
-    });
-    it(should` take ''`, () => {
-      const result = swissak.safe.prop('' as any);
-      expect(result).toEqual('');
-    });
-    it(should` take 123`, () => {
-      const result = swissak.safe.prop(123 as any);
-      expect(result).toEqual(123);
-    });
-    it(should` take true`, () => {
-      const result = swissak.safe.prop(true as any);
-      expect(result).toEqual('true');
-    });
-    it(should` take {foo: 'bar'}`, () => {
-      const result = swissak.safe.prop({ foo: 'bar' } as any);
-      expect(result).toEqual('');
-    });
-    it(should` take []`, () => {
-      const result = swissak.safe.prop([] as any);
-      expect(result).toEqual('');
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.prop(null as any);
-      expect(result).toEqual('');
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.prop(undefined as any);
-      expect(result).toEqual('');
-    });
-    it(should` take 'foo' with other params`, () => {
-      const result = swissak.safe.prop('foo' as any, 'bar');
-      expect(result).toEqual('foo');
-    });
-    it(should` take '' with other params`, () => {
-      const result = swissak.safe.prop('' as any, 'bar');
-      expect(result).toEqual('');
-    });
-    it(should` take 123 with other params`, () => {
-      const result = swissak.safe.prop(123 as any, 'bar');
-      expect(result).toEqual(123);
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.prop(true as any, 'bar');
-      expect(result).toEqual('true');
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.prop({ foo: 'bar' } as any, 'bar');
-      expect(result).toEqual('bar');
-    });
-    it(should` take [] with other params`, () => {
-      const result = swissak.safe.prop([] as any, 'bar');
-      expect(result).toEqual('bar');
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.prop(null as any, 'bar');
-      expect(result).toEqual('bar');
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.prop(undefined as any, 'bar');
-      expect(result).toEqual('bar');
+    singleTest(swissak.safe.prop, 'safe.prop', (prop, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(prop).toBeDefined();
+      });
+
+      it(should` take 'foo'`, () => {
+        const result = prop('foo' as any);
+        expect(result).toEqual('foo');
+      });
+      it(should` take ''`, () => {
+        const result = prop('' as any);
+        expect(result).toEqual('');
+      });
+      it(should` take 123`, () => {
+        const result = prop(123 as any);
+        expect(result).toEqual(123);
+      });
+      it(should` take true`, () => {
+        const result = prop(true as any);
+        expect(result).toEqual('true');
+      });
+      it(should` take {foo: 'bar'}`, () => {
+        const result = prop({ foo: 'bar' } as any);
+        expect(result).toEqual('');
+      });
+      it(should` take []`, () => {
+        const result = prop([] as any);
+        expect(result).toEqual('');
+      });
+      it(should` take null`, () => {
+        const result = prop(null as any);
+        expect(result).toEqual('');
+      });
+      it(should` take undefined`, () => {
+        const result = prop(undefined as any);
+        expect(result).toEqual('');
+      });
+      it(should` take 'foo' with other params`, () => {
+        const result = prop('foo' as any, 'bar');
+        expect(result).toEqual('foo');
+      });
+      it(should` take '' with other params`, () => {
+        const result = prop('' as any, 'bar');
+        expect(result).toEqual('');
+      });
+      it(should` take 123 with other params`, () => {
+        const result = prop(123 as any, 'bar');
+        expect(result).toEqual(123);
+      });
+      it(should` take true with other params`, () => {
+        const result = prop(true as any, 'bar');
+        expect(result).toEqual('true');
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const result = prop({ foo: 'bar' } as any, 'bar');
+        expect(result).toEqual('bar');
+      });
+      it(should` take [] with other params`, () => {
+        const result = prop([] as any, 'bar');
+        expect(result).toEqual('bar');
+      });
+      it(should` take null with other params`, () => {
+        const result = prop(null as any, 'bar');
+        expect(result).toEqual('bar');
+      });
+      it(should` take undefined with other params`, () => {
+        const result = prop(undefined as any, 'bar');
+        expect(result).toEqual('bar');
+      });
     });
   });
 
   describe('safe.arrOf.num', () => {
-    it(should` take [1, 2, 3]`, () => {
-      const result = swissak.safe.arrOf.num([1, 2, 3] as any);
-      expect(result).toEqual([1, 2, 3]);
-    });
-    it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
-      const result = swissak.safe.arrOf.num(['foo', 1, true, null, undefined, [], {}] as any);
-      expect(result).toEqual([0, 1, 0, 0, 0, 0, 0]);
-    });
-    it(should` take true`, () => {
-      const result = swissak.safe.arrOf.num(true as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take false`, () => {
-      const result = swissak.safe.arrOf.num(false as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 123`, () => {
-      const result = swissak.safe.arrOf.num(123 as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 'foobar'`, () => {
-      const result = swissak.safe.arrOf.num('foobar' as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take {foo: 'bar'}`, () => {
-      const result = swissak.safe.arrOf.num({ foo: 'bar' } as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.arrOf.num(null as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.arrOf.num(undefined as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take [1, 2, 3] with other params`, () => {
-      const result = swissak.safe.arrOf.num([1, 2, 3] as any, true, 0, 100, 99, [4, 5, 6]);
-      expect(result).toEqual([1, 2, 3]);
-    });
-    it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
-      const result = swissak.safe.arrOf.num(['foo', 1, true, null, undefined, [], {}] as any, true, 0, 100, 99, [4, 5, 6]);
-      expect(result).toEqual([99, 1, 99, 99, 99, 99, 99]);
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.arrOf.num(true as any, true, 0, 100, 99, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
-    });
-    it(should` take false with other params`, () => {
-      const result = swissak.safe.arrOf.num(false as any, true, 0, 100, 99, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
-    });
-    it(should` take 123 with other params`, () => {
-      const result = swissak.safe.arrOf.num(123 as any, true, 0, 100, 99, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
-    });
-    it(should` take 'foobar' with other params`, () => {
-      const result = swissak.safe.arrOf.num('foobar' as any, true, 0, 100, 99, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.arrOf.num({ foo: 'bar' } as any, true, 0, 100, 99, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.arrOf.num(null as any, true, 0, 100, 99, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.arrOf.num(undefined as any, true, 0, 100, 99, [4, 5, 6]);
-      expect(result).toEqual([4, 5, 6]);
+    singleTest(swissak.safe.arrOf.num, 'safe.arrOf.num', (arrOfNum, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(arrOfNum).toBeDefined();
+      });
+
+      it(should` take [1, 2, 3]`, () => {
+        const result = arrOfNum([1, 2, 3] as any);
+        expect(result).toEqual([1, 2, 3]);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
+        const result = arrOfNum(['foo', 1, true, null, undefined, [], {}] as any);
+        expect(result).toEqual([0, 1, 0, 0, 0, 0, 0]);
+      });
+      it(should` take true`, () => {
+        const result = arrOfNum(true as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take false`, () => {
+        const result = arrOfNum(false as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 123`, () => {
+        const result = arrOfNum(123 as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 'foobar'`, () => {
+        const result = arrOfNum('foobar' as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take {foo: 'bar'}`, () => {
+        const result = arrOfNum({ foo: 'bar' } as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take null`, () => {
+        const result = arrOfNum(null as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take undefined`, () => {
+        const result = arrOfNum(undefined as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take [1, 2, 3] with other params`, () => {
+        const result = arrOfNum([1, 2, 3] as any, true, 0, 100, 99, [4, 5, 6]);
+        expect(result).toEqual([1, 2, 3]);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
+        const result = arrOfNum(['foo', 1, true, null, undefined, [], {}] as any, true, 0, 100, 99, [4, 5, 6]);
+        expect(result).toEqual([99, 1, 99, 99, 99, 99, 99]);
+      });
+      it(should` take true with other params`, () => {
+        const result = arrOfNum(true as any, true, 0, 100, 99, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
+      it(should` take false with other params`, () => {
+        const result = arrOfNum(false as any, true, 0, 100, 99, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
+      it(should` take 123 with other params`, () => {
+        const result = arrOfNum(123 as any, true, 0, 100, 99, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
+      it(should` take 'foobar' with other params`, () => {
+        const result = arrOfNum('foobar' as any, true, 0, 100, 99, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const result = arrOfNum({ foo: 'bar' } as any, true, 0, 100, 99, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
+      it(should` take null with other params`, () => {
+        const result = arrOfNum(null as any, true, 0, 100, 99, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
+      it(should` take undefined with other params`, () => {
+        const result = arrOfNum(undefined as any, true, 0, 100, 99, [4, 5, 6]);
+        expect(result).toEqual([4, 5, 6]);
+      });
     });
   });
 
   describe('safe.arrOf.str', () => {
-    it(should` take ['foo', 'bar', 'baz']`, () => {
-      const result = swissak.safe.arrOf.str(['foo', 'bar', 'baz'] as any);
-      expect(result).toEqual(['foo', 'bar', 'baz']);
-    });
-    it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
-      const result = swissak.safe.arrOf.str(['foo', 1, true, null, undefined, [], {}] as any);
-      expect(result).toEqual(['foo', '', '', '', '', '', '']);
-    });
-    it(should` take true`, () => {
-      const result = swissak.safe.arrOf.str(true as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take false`, () => {
-      const result = swissak.safe.arrOf.str(false as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 123`, () => {
-      const result = swissak.safe.arrOf.str(123 as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 'foobar'`, () => {
-      const result = swissak.safe.arrOf.str('foobar' as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take {foo: 'bar'}`, () => {
-      const result = swissak.safe.arrOf.str({ foo: 'bar' } as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.arrOf.str(null as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.arrOf.str(undefined as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take ['foo', 'bar', 'baz'] with other params`, () => {
-      const result = swissak.safe.arrOf.str(['foo', 'bar', 'baz'] as any, true, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['foo', 'bar', 'baz']);
-    });
-    it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
-      const result = swissak.safe.arrOf.str(['foo', 1, true, null, undefined, [], {}] as any, true, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['foo', '1', 'true', 'LOREM', 'LOREM', 'LOREM', 'LOREM']);
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.arrOf.str(true as any, true, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
-    });
-    it(should` take false with other params`, () => {
-      const result = swissak.safe.arrOf.str(false as any, true, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
-    });
-    it(should` take 123 with other params`, () => {
-      const result = swissak.safe.arrOf.str(123 as any, true, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
-    });
-    it(should` take 'foobar' with other params`, () => {
-      const result = swissak.safe.arrOf.str('foobar' as any, true, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.arrOf.str({ foo: 'bar' } as any, true, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.arrOf.str(null as any, true, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.arrOf.str(undefined as any, true, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
+    singleTest(swissak.safe.arrOf.str, 'safe.arrOf.str', (arrOfStr, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(arrOfStr).toBeDefined();
+      });
+
+      it(should` take ['foo', 'bar', 'baz']`, () => {
+        const result = arrOfStr(['foo', 'bar', 'baz'] as any);
+        expect(result).toEqual(['foo', 'bar', 'baz']);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
+        const result = arrOfStr(['foo', 1, true, null, undefined, [], {}] as any);
+        expect(result).toEqual(['foo', '', '', '', '', '', '']);
+      });
+      it(should` take true`, () => {
+        const result = arrOfStr(true as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take false`, () => {
+        const result = arrOfStr(false as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 123`, () => {
+        const result = arrOfStr(123 as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 'foobar'`, () => {
+        const result = arrOfStr('foobar' as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take {foo: 'bar'}`, () => {
+        const result = arrOfStr({ foo: 'bar' } as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take null`, () => {
+        const result = arrOfStr(null as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take undefined`, () => {
+        const result = arrOfStr(undefined as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take ['foo', 'bar', 'baz'] with other params`, () => {
+        const result = arrOfStr(['foo', 'bar', 'baz'] as any, true, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['foo', 'bar', 'baz']);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
+        const result = arrOfStr(['foo', 1, true, null, undefined, [], {}] as any, true, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['foo', '1', 'true', 'LOREM', 'LOREM', 'LOREM', 'LOREM']);
+      });
+      it(should` take true with other params`, () => {
+        const result = arrOfStr(true as any, true, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
+      it(should` take false with other params`, () => {
+        const result = arrOfStr(false as any, true, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
+      it(should` take 123 with other params`, () => {
+        const result = arrOfStr(123 as any, true, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
+      it(should` take 'foobar' with other params`, () => {
+        const result = arrOfStr('foobar' as any, true, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const result = arrOfStr({ foo: 'bar' } as any, true, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
+      it(should` take null with other params`, () => {
+        const result = arrOfStr(null as any, true, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
+      it(should` take undefined with other params`, () => {
+        const result = arrOfStr(undefined as any, true, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
     });
   });
 
   describe('safe.arrOf.bool', () => {
-    it(should` take [false, true, false]`, () => {
-      const result = swissak.safe.arrOf.bool([false, true, false] as any);
-      expect(result).toEqual([false, true, false]);
-    });
-    it(should` take ['foo', 123, true, null, undefined, [], {}]`, () => {
-      const result = swissak.safe.arrOf.bool(['foo', 123, true, null, undefined, [], {}] as any);
-      expect(result).toEqual([false, false, true, false, false, false, false]);
-    });
-    it(should` take true`, () => {
-      const result = swissak.safe.arrOf.bool(true as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take false`, () => {
-      const result = swissak.safe.arrOf.bool(false as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 123`, () => {
-      const result = swissak.safe.arrOf.bool(123 as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 'foobar'`, () => {
-      const result = swissak.safe.arrOf.bool('foobar' as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take {foo: 'bar'}`, () => {
-      const result = swissak.safe.arrOf.bool({ foo: 'bar' } as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.arrOf.bool(null as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.arrOf.bool(undefined as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take [false, true, false] with other params`, () => {
-      const result = swissak.safe.arrOf.bool([false, true, false] as any, true, [true, true]);
-      expect(result).toEqual([false, true, false]);
-    });
-    it(should` take ['foo', 123, true, null, undefined, [], {}] with other params`, () => {
-      const result = swissak.safe.arrOf.bool(['foo', 123, true, null, undefined, [], {}] as any, true, [true, true]);
-      expect(result).toEqual([true, true, true, true, true, true, true]);
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.arrOf.bool(true as any, true, [true, true]);
-      expect(result).toEqual([true, true]);
-    });
-    it(should` take false with other params`, () => {
-      const result = swissak.safe.arrOf.bool(false as any, true, [true, true]);
-      expect(result).toEqual([true, true]);
-    });
-    it(should` take 123 with other params`, () => {
-      const result = swissak.safe.arrOf.bool(123 as any, true, [true, true]);
-      expect(result).toEqual([true, true]);
-    });
-    it(should` take 'foobar' with other params`, () => {
-      const result = swissak.safe.arrOf.bool('foobar' as any, true, [true, true]);
-      expect(result).toEqual([true, true]);
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.arrOf.bool({ foo: 'bar' } as any, true, [true, true]);
-      expect(result).toEqual([true, true]);
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.arrOf.bool(null as any, true, [true, true]);
-      expect(result).toEqual([true, true]);
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.arrOf.bool(undefined as any, true, [true, true]);
-      expect(result).toEqual([true, true]);
+    singleTest(swissak.safe.arrOf.bool, 'safe.arrOf.bool', (arrOfBool, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(arrOfBool).toBeDefined();
+      });
+
+      it(should` take [false, true, false]`, () => {
+        const result = arrOfBool([false, true, false] as any);
+        expect(result).toEqual([false, true, false]);
+      });
+      it(should` take ['foo', 123, true, null, undefined, [], {}]`, () => {
+        const result = arrOfBool(['foo', 123, true, null, undefined, [], {}] as any);
+        expect(result).toEqual([false, false, true, false, false, false, false]);
+      });
+      it(should` take true`, () => {
+        const result = arrOfBool(true as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take false`, () => {
+        const result = arrOfBool(false as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 123`, () => {
+        const result = arrOfBool(123 as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 'foobar'`, () => {
+        const result = arrOfBool('foobar' as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take {foo: 'bar'}`, () => {
+        const result = arrOfBool({ foo: 'bar' } as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take null`, () => {
+        const result = arrOfBool(null as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take undefined`, () => {
+        const result = arrOfBool(undefined as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take [false, true, false] with other params`, () => {
+        const result = arrOfBool([false, true, false] as any, true, [true, true]);
+        expect(result).toEqual([false, true, false]);
+      });
+      it(should` take ['foo', 123, true, null, undefined, [], {}] with other params`, () => {
+        const result = arrOfBool(['foo', 123, true, null, undefined, [], {}] as any, true, [true, true]);
+        expect(result).toEqual([true, true, true, true, true, true, true]);
+      });
+      it(should` take true with other params`, () => {
+        const result = arrOfBool(true as any, true, [true, true]);
+        expect(result).toEqual([true, true]);
+      });
+      it(should` take false with other params`, () => {
+        const result = arrOfBool(false as any, true, [true, true]);
+        expect(result).toEqual([true, true]);
+      });
+      it(should` take 123 with other params`, () => {
+        const result = arrOfBool(123 as any, true, [true, true]);
+        expect(result).toEqual([true, true]);
+      });
+      it(should` take 'foobar' with other params`, () => {
+        const result = arrOfBool('foobar' as any, true, [true, true]);
+        expect(result).toEqual([true, true]);
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const result = arrOfBool({ foo: 'bar' } as any, true, [true, true]);
+        expect(result).toEqual([true, true]);
+      });
+      it(should` take null with other params`, () => {
+        const result = arrOfBool(null as any, true, [true, true]);
+        expect(result).toEqual([true, true]);
+      });
+      it(should` take undefined with other params`, () => {
+        const result = arrOfBool(undefined as any, true, [true, true]);
+        expect(result).toEqual([true, true]);
+      });
     });
   });
 
   describe('safe.arrOf.func', () => {
-    it(should` take [(p) => 1]`, () => {
-      const result = swissak.safe.arrOf.func([(p) => 1] as any);
-      expect(result.length).toBe(1);
-      expect(result[0](1)).toBe(1);
-    });
-    it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
-      const result = swissak.safe.arrOf.func(['foo', 1, true, null, undefined, [], {}] as any);
-      expect(result.length).toBe(7);
-      expect(result[0]()).toBe(undefined);
-      expect(result[1]()).toBe(undefined);
-      expect(result[2]()).toBe(undefined);
-      expect(result[3]()).toBe(undefined);
-      expect(result[4]()).toBe(undefined);
-      expect(result[5]()).toBe(undefined);
-      expect(result[6]()).toBe(undefined);
-    });
-    it(should` take true`, () => {
-      const result = swissak.safe.arrOf.func(true as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take false`, () => {
-      const result = swissak.safe.arrOf.func(false as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 123`, () => {
-      const result = swissak.safe.arrOf.func(123 as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 'foobar'`, () => {
-      const result = swissak.safe.arrOf.func('foobar' as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take {foo: 'bar'}`, () => {
-      const result = swissak.safe.arrOf.func({ foo: 'bar' } as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.arrOf.func(null as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.arrOf.func(undefined as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take [(p) => 1] with other params`, () => {
-      const result = swissak.safe.arrOf.func([(p) => 1] as any, (q) => 2, [(r) => 3]);
-      expect(result.length).toBe(1);
-      expect(result[0](1)).toBe(1);
-    });
-    it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
-      const result = swissak.safe.arrOf.func(['foo', 1, true, null, undefined, [], {}] as any, (q) => 2, [(r) => 3]);
-      expect(result.length).toBe(7);
-      expect(result[0](1)).toBe(2);
-      expect(result[1](1)).toBe(2);
-      expect(result[2](1)).toBe(2);
-      expect(result[3](1)).toBe(2);
-      expect(result[4](1)).toBe(2);
-      expect(result[5](1)).toBe(2);
-      expect(result[6](1)).toBe(2);
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.arrOf.func(true as any, (q) => 2, [(r) => 3]);
-      expect(result.length).toBe(1);
-      expect(result[0](1)).toBe(3);
-    });
-    it(should` take false with other params`, () => {
-      const result = swissak.safe.arrOf.func(false as any, (q) => 2, [(r) => 3]);
-      expect(result.length).toBe(1);
-      expect(result[0](1)).toBe(3);
-    });
-    it(should` take 123 with other params`, () => {
-      const result = swissak.safe.arrOf.func(123 as any, (q) => 2, [(r) => 3]);
-      expect(result.length).toBe(1);
-      expect(result[0](1)).toBe(3);
-    });
-    it(should` take 'foobar' with other params`, () => {
-      const result = swissak.safe.arrOf.func('foobar' as any, (q) => 2, [(r) => 3]);
-      expect(result.length).toBe(1);
-      expect(result[0](1)).toBe(3);
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.arrOf.func({ foo: 'bar' } as any, (q) => 2, [(r) => 3]);
-      expect(result.length).toBe(1);
-      expect(result[0](1)).toBe(3);
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.arrOf.func(null as any, (q) => 2, [(r) => 3]);
-      expect(result.length).toBe(1);
-      expect(result[0](1)).toBe(3);
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.arrOf.func(undefined as any, (q) => 2, [(r) => 3]);
-      expect(result.length).toBe(1);
-      expect(result[0](1)).toBe(3);
+    singleTest(swissak.safe.arrOf.func, 'safe.arrOf.func', (arrOfFunc, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(arrOfFunc).toBeDefined();
+      });
+
+      it(should` take [(p) => 1]`, () => {
+        const result = arrOfFunc([(p) => 1] as any);
+        expect(result.length).toBe(1);
+        expect(result[0](1)).toBe(1);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
+        const result = arrOfFunc(['foo', 1, true, null, undefined, [], {}] as any);
+        expect(result.length).toBe(7);
+        expect(result[0]()).toBe(undefined);
+        expect(result[1]()).toBe(undefined);
+        expect(result[2]()).toBe(undefined);
+        expect(result[3]()).toBe(undefined);
+        expect(result[4]()).toBe(undefined);
+        expect(result[5]()).toBe(undefined);
+        expect(result[6]()).toBe(undefined);
+      });
+      it(should` take true`, () => {
+        const result = arrOfFunc(true as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take false`, () => {
+        const result = arrOfFunc(false as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 123`, () => {
+        const result = arrOfFunc(123 as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 'foobar'`, () => {
+        const result = arrOfFunc('foobar' as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take {foo: 'bar'}`, () => {
+        const result = arrOfFunc({ foo: 'bar' } as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take null`, () => {
+        const result = arrOfFunc(null as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take undefined`, () => {
+        const result = arrOfFunc(undefined as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take [(p) => 1] with other params`, () => {
+        const result = arrOfFunc([(p) => 1] as any, (q) => 2, [(r) => 3]);
+        expect(result.length).toBe(1);
+        expect(result[0](1)).toBe(1);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
+        const result = arrOfFunc(['foo', 1, true, null, undefined, [], {}] as any, (q) => 2, [(r) => 3]);
+        expect(result.length).toBe(7);
+        expect(result[0](1)).toBe(2);
+        expect(result[1](1)).toBe(2);
+        expect(result[2](1)).toBe(2);
+        expect(result[3](1)).toBe(2);
+        expect(result[4](1)).toBe(2);
+        expect(result[5](1)).toBe(2);
+        expect(result[6](1)).toBe(2);
+      });
+      it(should` take true with other params`, () => {
+        const result = arrOfFunc(true as any, (q) => 2, [(r) => 3]);
+        expect(result.length).toBe(1);
+        expect(result[0](1)).toBe(3);
+      });
+      it(should` take false with other params`, () => {
+        const result = arrOfFunc(false as any, (q) => 2, [(r) => 3]);
+        expect(result.length).toBe(1);
+        expect(result[0](1)).toBe(3);
+      });
+      it(should` take 123 with other params`, () => {
+        const result = arrOfFunc(123 as any, (q) => 2, [(r) => 3]);
+        expect(result.length).toBe(1);
+        expect(result[0](1)).toBe(3);
+      });
+      it(should` take 'foobar' with other params`, () => {
+        const result = arrOfFunc('foobar' as any, (q) => 2, [(r) => 3]);
+        expect(result.length).toBe(1);
+        expect(result[0](1)).toBe(3);
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const result = arrOfFunc({ foo: 'bar' } as any, (q) => 2, [(r) => 3]);
+        expect(result.length).toBe(1);
+        expect(result[0](1)).toBe(3);
+      });
+      it(should` take null with other params`, () => {
+        const result = arrOfFunc(null as any, (q) => 2, [(r) => 3]);
+        expect(result.length).toBe(1);
+        expect(result[0](1)).toBe(3);
+      });
+      it(should` take undefined with other params`, () => {
+        const result = arrOfFunc(undefined as any, (q) => 2, [(r) => 3]);
+        expect(result.length).toBe(1);
+        expect(result[0](1)).toBe(3);
+      });
     });
   });
 
   describe('safe.arrOf.obj', () => {
-    it(should` take [{foo: 1}, {bar: 2}]`, () => {
-      const result = swissak.safe.arrOf.obj([{ foo: 1 }, { bar: 2 }] as any);
-      expect(result).toEqual([{ foo: 1 }, { bar: 2 }]);
-    });
-    it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
-      const result = swissak.safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}] as any);
-      expect(result).toEqual([{}, {}, {}, {}, {}, [], {}]);
-    });
-    it(should` take true`, () => {
-      const result = swissak.safe.arrOf.obj(true as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take false`, () => {
-      const result = swissak.safe.arrOf.obj(false as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 123`, () => {
-      const result = swissak.safe.arrOf.obj(123 as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 'foobar'`, () => {
-      const result = swissak.safe.arrOf.obj('foobar' as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take {foo: 'bar'}`, () => {
-      const result = swissak.safe.arrOf.obj({ foo: 'bar' } as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.arrOf.obj(null as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.arrOf.obj(undefined as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take [{foo: 1}, {bar: 2}] with other params`, () => {
-      const result = swissak.safe.arrOf.obj([{ foo: 1 }, { bar: 2 }] as any, { l: 3 }, [{ i: 4 }]);
-      expect(result).toEqual([{ foo: 1 }, { bar: 2 }]);
-    });
-    it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
-      const result = swissak.safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}] as any, { l: 3 }, [{ i: 4 }]);
-      expect(result).toEqual([{ l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], {}]);
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.arrOf.obj(true as any, { l: 3 }, [{ i: 4 }]);
-      expect(result).toEqual([{ i: 4 }]);
-    });
-    it(should` take false with other params`, () => {
-      const result = swissak.safe.arrOf.obj(false as any, { l: 3 }, [{ i: 4 }]);
-      expect(result).toEqual([{ i: 4 }]);
-    });
-    it(should` take 123 with other params`, () => {
-      const result = swissak.safe.arrOf.obj(123 as any, { l: 3 }, [{ i: 4 }]);
-      expect(result).toEqual([{ i: 4 }]);
-    });
-    it(should` take 'foobar' with other params`, () => {
-      const result = swissak.safe.arrOf.obj('foobar' as any, { l: 3 }, [{ i: 4 }]);
-      expect(result).toEqual([{ i: 4 }]);
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.arrOf.obj({ foo: 'bar' } as any, { l: 3 }, [{ i: 4 }]);
-      expect(result).toEqual([{ i: 4 }]);
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.arrOf.obj(null as any, { l: 3 }, [{ i: 4 }]);
-      expect(result).toEqual([{ i: 4 }]);
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.arrOf.obj(undefined as any, { l: 3 }, [{ i: 4 }]);
-      expect(result).toEqual([{ i: 4 }]);
+    singleTest(swissak.safe.arrOf.obj, 'safe.arrOf.obj', (arrOfObj, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(arrOfObj).toBeDefined();
+      });
+
+      it(should` take [{foo: 1}, {bar: 2}]`, () => {
+        const result = arrOfObj([{ foo: 1 }, { bar: 2 }] as any);
+        expect(result).toEqual([{ foo: 1 }, { bar: 2 }]);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
+        const result = arrOfObj(['foo', 1, true, null, undefined, [], {}] as any);
+        expect(result).toEqual([{}, {}, {}, {}, {}, [], {}]);
+      });
+      it(should` take true`, () => {
+        const result = arrOfObj(true as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take false`, () => {
+        const result = arrOfObj(false as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 123`, () => {
+        const result = arrOfObj(123 as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 'foobar'`, () => {
+        const result = arrOfObj('foobar' as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take {foo: 'bar'}`, () => {
+        const result = arrOfObj({ foo: 'bar' } as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take null`, () => {
+        const result = arrOfObj(null as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take undefined`, () => {
+        const result = arrOfObj(undefined as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take [{foo: 1}, {bar: 2}] with other params`, () => {
+        const result = arrOfObj([{ foo: 1 }, { bar: 2 }] as any, { l: 3 }, [{ i: 4 }]);
+        expect(result).toEqual([{ foo: 1 }, { bar: 2 }]);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
+        const result = arrOfObj(['foo', 1, true, null, undefined, [], {}] as any, { l: 3 }, [{ i: 4 }]);
+        expect(result).toEqual([{ l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], {}]);
+      });
+      it(should` take true with other params`, () => {
+        const result = arrOfObj(true as any, { l: 3 }, [{ i: 4 }]);
+        expect(result).toEqual([{ i: 4 }]);
+      });
+      it(should` take false with other params`, () => {
+        const result = arrOfObj(false as any, { l: 3 }, [{ i: 4 }]);
+        expect(result).toEqual([{ i: 4 }]);
+      });
+      it(should` take 123 with other params`, () => {
+        const result = arrOfObj(123 as any, { l: 3 }, [{ i: 4 }]);
+        expect(result).toEqual([{ i: 4 }]);
+      });
+      it(should` take 'foobar' with other params`, () => {
+        const result = arrOfObj('foobar' as any, { l: 3 }, [{ i: 4 }]);
+        expect(result).toEqual([{ i: 4 }]);
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const result = arrOfObj({ foo: 'bar' } as any, { l: 3 }, [{ i: 4 }]);
+        expect(result).toEqual([{ i: 4 }]);
+      });
+      it(should` take null with other params`, () => {
+        const result = arrOfObj(null as any, { l: 3 }, [{ i: 4 }]);
+        expect(result).toEqual([{ i: 4 }]);
+      });
+      it(should` take undefined with other params`, () => {
+        const result = arrOfObj(undefined as any, { l: 3 }, [{ i: 4 }]);
+        expect(result).toEqual([{ i: 4 }]);
+      });
     });
   });
 
   describe('safe.arrOf.arr', () => {
-    it(should` take [['foo'], ['bar']]`, () => {
-      const result = swissak.safe.arrOf.arr([['foo'], ['bar']] as any);
-      expect(result).toEqual([['foo'], ['bar']]);
-    });
-    it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
-      const result = swissak.safe.arrOf.arr(['foo', 1, true, null, undefined, [], {}] as any);
-      expect(result).toEqual([[], [], [], [], [], [], []]);
-    });
-    it(should` take true`, () => {
-      const result = swissak.safe.arrOf.arr(true as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take false`, () => {
-      const result = swissak.safe.arrOf.arr(false as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 123`, () => {
-      const result = swissak.safe.arrOf.arr(123 as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 'foobar'`, () => {
-      const result = swissak.safe.arrOf.arr('foobar' as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take {foo: 'bar'}`, () => {
-      const result = swissak.safe.arrOf.arr({ foo: 'bar' } as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.arrOf.arr(null as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.arrOf.arr(undefined as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take [['foo'], ['bar']] with other params`, () => {
-      const result = swissak.safe.arrOf.arr([['foo'], ['bar']] as any, ['baz'], [['IPSUM']]);
-      expect(result).toEqual([['foo'], ['bar']]);
-    });
-    it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
-      const result = swissak.safe.arrOf.arr(['foo', 1, true, null, undefined, [], {}] as any, ['baz'], [['IPSUM']]);
-      expect(result).toEqual([['baz'], ['baz'], ['baz'], ['baz'], ['baz'], [], ['baz']]);
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.arrOf.arr(true as any, ['baz'], [['IPSUM']]);
-      expect(result).toEqual([['IPSUM']]);
-    });
-    it(should` take false with other params`, () => {
-      const result = swissak.safe.arrOf.arr(false as any, ['baz'], [['IPSUM']]);
-      expect(result).toEqual([['IPSUM']]);
-    });
-    it(should` take 123 with other params`, () => {
-      const result = swissak.safe.arrOf.arr(123 as any, ['baz'], [['IPSUM']]);
-      expect(result).toEqual([['IPSUM']]);
-    });
-    it(should` take 'foobar' with other params`, () => {
-      const result = swissak.safe.arrOf.arr('foobar' as any, ['baz'], [['IPSUM']]);
-      expect(result).toEqual([['IPSUM']]);
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.arrOf.arr({ foo: 'bar' } as any, ['baz'], [['IPSUM']]);
-      expect(result).toEqual([['IPSUM']]);
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.arrOf.arr(null as any, ['baz'], [['IPSUM']]);
-      expect(result).toEqual([['IPSUM']]);
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.arrOf.arr(undefined as any, ['baz'], [['IPSUM']]);
-      expect(result).toEqual([['IPSUM']]);
+    singleTest(swissak.safe.arrOf.arr, 'safe.arrOf.arr', (arrOfArr, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(arrOfArr).toBeDefined();
+      });
+
+      it(should` take [['foo'], ['bar']]`, () => {
+        const result = arrOfArr([['foo'], ['bar']] as any);
+        expect(result).toEqual([['foo'], ['bar']]);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
+        const result = arrOfArr(['foo', 1, true, null, undefined, [], {}] as any);
+        expect(result).toEqual([[], [], [], [], [], [], []]);
+      });
+      it(should` take true`, () => {
+        const result = arrOfArr(true as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take false`, () => {
+        const result = arrOfArr(false as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 123`, () => {
+        const result = arrOfArr(123 as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 'foobar'`, () => {
+        const result = arrOfArr('foobar' as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take {foo: 'bar'}`, () => {
+        const result = arrOfArr({ foo: 'bar' } as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take null`, () => {
+        const result = arrOfArr(null as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take undefined`, () => {
+        const result = arrOfArr(undefined as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take [['foo'], ['bar']] with other params`, () => {
+        const result = arrOfArr([['foo'], ['bar']] as any, ['baz'], [['IPSUM']]);
+        expect(result).toEqual([['foo'], ['bar']]);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
+        const result = arrOfArr(['foo', 1, true, null, undefined, [], {}] as any, ['baz'], [['IPSUM']]);
+        expect(result).toEqual([['baz'], ['baz'], ['baz'], ['baz'], ['baz'], [], ['baz']]);
+      });
+      it(should` take true with other params`, () => {
+        const result = arrOfArr(true as any, ['baz'], [['IPSUM']]);
+        expect(result).toEqual([['IPSUM']]);
+      });
+      it(should` take false with other params`, () => {
+        const result = arrOfArr(false as any, ['baz'], [['IPSUM']]);
+        expect(result).toEqual([['IPSUM']]);
+      });
+      it(should` take 123 with other params`, () => {
+        const result = arrOfArr(123 as any, ['baz'], [['IPSUM']]);
+        expect(result).toEqual([['IPSUM']]);
+      });
+      it(should` take 'foobar' with other params`, () => {
+        const result = arrOfArr('foobar' as any, ['baz'], [['IPSUM']]);
+        expect(result).toEqual([['IPSUM']]);
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const result = arrOfArr({ foo: 'bar' } as any, ['baz'], [['IPSUM']]);
+        expect(result).toEqual([['IPSUM']]);
+      });
+      it(should` take null with other params`, () => {
+        const result = arrOfArr(null as any, ['baz'], [['IPSUM']]);
+        expect(result).toEqual([['IPSUM']]);
+      });
+      it(should` take undefined with other params`, () => {
+        const result = arrOfArr(undefined as any, ['baz'], [['IPSUM']]);
+        expect(result).toEqual([['IPSUM']]);
+      });
     });
   });
 
   describe('safe.arrOf.prop', () => {
-    it(should` take ['foo', 'bar', 'baz']`, () => {
-      const result = swissak.safe.arrOf.prop(['foo', 'bar', 'baz'] as any);
-      expect(result).toEqual(['foo', 'bar', 'baz']);
-    });
-    it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
-      const result = swissak.safe.arrOf.prop(['foo', 1, true, null, undefined, [], {}] as any);
-      expect(result).toEqual(['foo', 1, 'true', '', '', '', '']);
-    });
-    it(should` take true`, () => {
-      const result = swissak.safe.arrOf.prop(true as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take false`, () => {
-      const result = swissak.safe.arrOf.prop(false as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 123`, () => {
-      const result = swissak.safe.arrOf.prop(123 as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take 'foobar'`, () => {
-      const result = swissak.safe.arrOf.prop('foobar' as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take {foo: 'bar'}`, () => {
-      const result = swissak.safe.arrOf.prop({ foo: 'bar' } as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take null`, () => {
-      const result = swissak.safe.arrOf.prop(null as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take undefined`, () => {
-      const result = swissak.safe.arrOf.prop(undefined as any);
-      expect(result).toEqual([]);
-    });
-    it(should` take ['foo', 'bar', 'baz'] with other params`, () => {
-      const result = swissak.safe.arrOf.prop(['foo', 'bar', 'baz'] as any, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['foo', 'bar', 'baz']);
-    });
-    it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
-      const result = swissak.safe.arrOf.prop(['foo', 1, true, null, undefined, [], {}] as any, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['foo', 1, 'true', 'LOREM', 'LOREM', 'LOREM', 'LOREM']);
-    });
-    it(should` take true with other params`, () => {
-      const result = swissak.safe.arrOf.prop(true as any, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
-    });
-    it(should` take false with other params`, () => {
-      const result = swissak.safe.arrOf.prop(false as any, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
-    });
-    it(should` take 123 with other params`, () => {
-      const result = swissak.safe.arrOf.prop(123 as any, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
-    });
-    it(should` take 'foobar' with other params`, () => {
-      const result = swissak.safe.arrOf.prop('foobar' as any, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
-    });
-    it(should` take {foo: 'bar'} with other params`, () => {
-      const result = swissak.safe.arrOf.prop({ foo: 'bar' } as any, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
-    });
-    it(should` take null with other params`, () => {
-      const result = swissak.safe.arrOf.prop(null as any, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
-    });
-    it(should` take undefined with other params`, () => {
-      const result = swissak.safe.arrOf.prop(undefined as any, 'LOREM', ['IPSUM']);
-      expect(result).toEqual(['IPSUM']);
+    singleTest(swissak.safe.arrOf.prop, 'safe.arrOf.prop', (arrOfProp, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(arrOfProp).toBeDefined();
+      });
+
+      it(should` take ['foo', 'bar', 'baz']`, () => {
+        const result = arrOfProp(['foo', 'bar', 'baz'] as any);
+        expect(result).toEqual(['foo', 'bar', 'baz']);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
+        const result = arrOfProp(['foo', 1, true, null, undefined, [], {}] as any);
+        expect(result).toEqual(['foo', 1, 'true', '', '', '', '']);
+      });
+      it(should` take true`, () => {
+        const result = arrOfProp(true as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take false`, () => {
+        const result = arrOfProp(false as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 123`, () => {
+        const result = arrOfProp(123 as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take 'foobar'`, () => {
+        const result = arrOfProp('foobar' as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take {foo: 'bar'}`, () => {
+        const result = arrOfProp({ foo: 'bar' } as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take null`, () => {
+        const result = arrOfProp(null as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take undefined`, () => {
+        const result = arrOfProp(undefined as any);
+        expect(result).toEqual([]);
+      });
+      it(should` take ['foo', 'bar', 'baz'] with other params`, () => {
+        const result = arrOfProp(['foo', 'bar', 'baz'] as any, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['foo', 'bar', 'baz']);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
+        const result = arrOfProp(['foo', 1, true, null, undefined, [], {}] as any, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['foo', 1, 'true', 'LOREM', 'LOREM', 'LOREM', 'LOREM']);
+      });
+      it(should` take true with other params`, () => {
+        const result = arrOfProp(true as any, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
+      it(should` take false with other params`, () => {
+        const result = arrOfProp(false as any, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
+      it(should` take 123 with other params`, () => {
+        const result = arrOfProp(123 as any, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
+      it(should` take 'foobar' with other params`, () => {
+        const result = arrOfProp('foobar' as any, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
+      it(should` take {foo: 'bar'} with other params`, () => {
+        const result = arrOfProp({ foo: 'bar' } as any, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
+      it(should` take null with other params`, () => {
+        const result = arrOfProp(null as any, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
+      it(should` take undefined with other params`, () => {
+        const result = arrOfProp(undefined as any, 'LOREM', ['IPSUM']);
+        expect(result).toEqual(['IPSUM']);
+      });
     });
   });
 });

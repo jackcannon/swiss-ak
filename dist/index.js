@@ -105,99 +105,6 @@ __export(src_exports, {
 });
 module.exports = __toCommonJS(src_exports);
 
-// src/tools/times.ts
-var times;
-((times2) => {
-  times2.MILLISECOND = 1;
-  times2.SECOND = 1e3 * times2.MILLISECOND;
-  times2.MINUTE = 60 * times2.SECOND;
-  times2.HOUR = 60 * times2.MINUTE;
-  times2.DAY = 24 * times2.HOUR;
-  times2.WEEK = 7 * times2.DAY;
-  times2.MONTH = 30 * times2.DAY;
-  times2.YEAR = 365.25 * times2.DAY;
-  times2.DECADE = 10 * times2.YEAR;
-  times2.CENTURY = 100 * times2.YEAR;
-  times2.MILLENNIUM = 1e3 * times2.YEAR;
-  times2.milliseconds = (x = 1) => x;
-  times2.seconds = (x = 1) => x * times2.SECOND;
-  times2.minutes = (x = 1) => x * times2.MINUTE;
-  times2.hours = (x = 1) => x * times2.HOUR;
-  times2.days = (x = 1) => x * times2.DAY;
-  times2.weeks = (x = 1) => x * times2.WEEK;
-  times2.months = (x = 1) => x * times2.MONTH;
-  times2.years = (x = 1) => x * times2.YEAR;
-  times2.decades = (x = 1) => x * times2.DECADE;
-  times2.centuries = (x = 1) => x * times2.CENTURY;
-  times2.millenniums = (x = 1) => x * times2.MILLENNIUM;
-})(times || (times = {}));
-var MILLISECOND = times.MILLISECOND;
-var SECOND = times.SECOND;
-var MINUTE = times.MINUTE;
-var HOUR = times.HOUR;
-var DAY = times.DAY;
-var WEEK = times.WEEK;
-var MONTH = times.MONTH;
-var YEAR = times.YEAR;
-var DECADE = times.DECADE;
-var CENTURY = times.CENTURY;
-var MILLENNIUM = times.MILLENNIUM;
-var milliseconds = times.milliseconds;
-var seconds = times.seconds;
-var minutes = times.minutes;
-var hours = times.hours;
-var days = times.days;
-var weeks = times.weeks;
-var months = times.months;
-var years = times.years;
-var decades = times.decades;
-var centuries = times.centuries;
-var millenniums = times.millenniums;
-
-// src/tools/waiters.ts
-var waiters;
-((waiters2) => {
-  waiters2.wait = (time) => new Promise((resolve) => setTimeout(resolve, time));
-  const PING_RATIO = 0.75;
-  const ROUND_AMOUNT = 1.5;
-  const getPingDuration = (time, now = Date.now()) => Math.ceil((time - now) * PING_RATIO / ROUND_AMOUNT) * ROUND_AMOUNT;
-  waiters2.waitUntil = async (time) => {
-    while (Date.now() < time) {
-      await waiters2.wait(getPingDuration(time));
-    }
-    return null;
-  };
-  waiters2.waitFor = async (time) => waiters2.waitUntil(Date.now() + time);
-  const getNextEvery = (timing, offset = 0) => {
-    const now = Date.now();
-    const result = timing - (now - offset) % timing;
-    return result <= 10 ? timing : result;
-  };
-  waiters2.waitEvery = (timing, offset) => waiters2.waitFor(getNextEvery(timing, offset));
-  const stopped = [];
-  waiters2.stopInterval = (intID) => stopped.push(intID);
-  waiters2.interval = (action, timing) => {
-    const intID = Math.floor(Math.random() * Math.pow(10, 10));
-    let count = 0;
-    const run = async () => {
-      await waiters2.waitEvery(timing);
-      if (stopped.includes(intID)) {
-        return;
-      }
-      action(intID, ++count);
-      run();
-    };
-    run();
-    return intID;
-  };
-})(waiters || (waiters = {}));
-var wait = waiters.wait;
-var waitUntil = waiters.waitUntil;
-var waitFor = waiters.waitFor;
-var waitEvery = waiters.waitEvery;
-var stopInterval = waiters.stopInterval;
-var interval = waiters.interval;
-
 // src/tools/safe.ts
 var safe;
 ((safe2) => {
@@ -321,6 +228,99 @@ var safe;
     };
   })(arrOf = safe2.arrOf || (safe2.arrOf = {}));
 })(safe || (safe = {}));
+
+// src/tools/times.ts
+var times;
+((times2) => {
+  times2.MILLISECOND = 1;
+  times2.SECOND = 1e3 * times2.MILLISECOND;
+  times2.MINUTE = 60 * times2.SECOND;
+  times2.HOUR = 60 * times2.MINUTE;
+  times2.DAY = 24 * times2.HOUR;
+  times2.WEEK = 7 * times2.DAY;
+  times2.MONTH = 30 * times2.DAY;
+  times2.YEAR = 365.25 * times2.DAY;
+  times2.DECADE = 10 * times2.YEAR;
+  times2.CENTURY = 100 * times2.YEAR;
+  times2.MILLENNIUM = 1e3 * times2.YEAR;
+  times2.milliseconds = (x = 1) => safe.num(x);
+  times2.seconds = (x = 1) => safe.num(x) * times2.SECOND;
+  times2.minutes = (x = 1) => safe.num(x) * times2.MINUTE;
+  times2.hours = (x = 1) => safe.num(x) * times2.HOUR;
+  times2.days = (x = 1) => safe.num(x) * times2.DAY;
+  times2.weeks = (x = 1) => safe.num(x) * times2.WEEK;
+  times2.months = (x = 1) => safe.num(x) * times2.MONTH;
+  times2.years = (x = 1) => safe.num(x) * times2.YEAR;
+  times2.decades = (x = 1) => safe.num(x) * times2.DECADE;
+  times2.centuries = (x = 1) => safe.num(x) * times2.CENTURY;
+  times2.millenniums = (x = 1) => safe.num(x) * times2.MILLENNIUM;
+})(times || (times = {}));
+var MILLISECOND = times.MILLISECOND;
+var SECOND = times.SECOND;
+var MINUTE = times.MINUTE;
+var HOUR = times.HOUR;
+var DAY = times.DAY;
+var WEEK = times.WEEK;
+var MONTH = times.MONTH;
+var YEAR = times.YEAR;
+var DECADE = times.DECADE;
+var CENTURY = times.CENTURY;
+var MILLENNIUM = times.MILLENNIUM;
+var milliseconds = times.milliseconds;
+var seconds = times.seconds;
+var minutes = times.minutes;
+var hours = times.hours;
+var days = times.days;
+var weeks = times.weeks;
+var months = times.months;
+var years = times.years;
+var decades = times.decades;
+var centuries = times.centuries;
+var millenniums = times.millenniums;
+
+// src/tools/waiters.ts
+var waiters;
+((waiters2) => {
+  waiters2.wait = (time) => new Promise((resolve) => setTimeout(resolve, time));
+  const PING_RATIO = 0.75;
+  const ROUND_AMOUNT = 1.5;
+  const getPingDuration = (time, now = Date.now()) => Math.ceil((time - now) * PING_RATIO / ROUND_AMOUNT) * ROUND_AMOUNT;
+  waiters2.waitUntil = async (time) => {
+    while (Date.now() < time) {
+      await waiters2.wait(getPingDuration(time));
+    }
+    return null;
+  };
+  waiters2.waitFor = async (time) => waiters2.waitUntil(Date.now() + time);
+  const getNextEvery = (timing, offset = 0) => {
+    const now = Date.now();
+    const result = timing - (now - offset) % timing;
+    return result <= 10 ? timing : result;
+  };
+  waiters2.waitEvery = (timing, offset) => waiters2.waitFor(getNextEvery(timing, offset));
+  const stopped = [];
+  waiters2.stopInterval = (intID) => stopped.push(intID);
+  waiters2.interval = (action, timing) => {
+    const intID = Math.floor(Math.random() * Math.pow(10, 10));
+    let count = 0;
+    const run = async () => {
+      await waiters2.waitEvery(timing);
+      if (stopped.includes(intID)) {
+        return;
+      }
+      action(intID, ++count);
+      run();
+    };
+    run();
+    return intID;
+  };
+})(waiters || (waiters = {}));
+var wait = waiters.wait;
+var waitUntil = waiters.waitUntil;
+var waitFor = waiters.waitFor;
+var waitEvery = waiters.waitEvery;
+var stopInterval = waiters.stopInterval;
+var interval = waiters.interval;
 
 // src/tools/ArrayTools.ts
 var ArrayTools;
@@ -1100,18 +1100,64 @@ var getProgressBar = progressBar.getProgressBar;
 // src/tools/ObjectTools.ts
 var ObjectTools;
 ((ObjectTools2) => {
-  ObjectTools2.remodel = (obj, func) => Object.fromEntries(func(Object.entries(obj)) ?? Object.entries(obj));
-  ObjectTools2.remodelEach = (obj, func) => Object.fromEntries(Object.entries(obj).map((entry, index, entries2) => func(entry, index, entries2) ?? entry));
-  ObjectTools2.map = (obj, func) => ObjectTools2.remodel(obj, (entries2) => entries2.map(([key, value], index) => func(key, value, index)));
-  ObjectTools2.mapValues = (obj, func) => ObjectTools2.remodel(obj, (entries2) => entries2.map(([key, value], index) => [key, func(key, value, index)]));
-  ObjectTools2.mapKeys = (obj, func) => ObjectTools2.remodel(obj, (entries2) => entries2.map(([key, value], index) => [func(key, value, index), value]));
-  ObjectTools2.filter = (obj, func) => ObjectTools2.remodel(obj, (entries2) => entries2.filter(([key, value], index) => func(key, value, index)));
-  ObjectTools2.clean = (obj) => ObjectTools2.filter(obj, (key, value) => value !== void 0);
-  ObjectTools2.invert = (obj) => ObjectTools2.remodelEach(obj, ([key, value]) => {
-    var _a;
-    const newKey = ((_a = value == null ? void 0 : value.toString) == null ? void 0 : _a.call(value)) ?? value + "";
-    return [newKey, key];
-  });
+  ObjectTools2.remodel = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (entries2) => entries2)
+    };
+    return Object.fromEntries(args.func(Object.entries(args.obj)) ?? Object.entries(args.obj));
+  };
+  ObjectTools2.remodelEach = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (entry) => entry)
+    };
+    return Object.fromEntries(Object.entries(args.obj).map((entry, index, entries2) => args.func(entry, index, entries2) ?? entry));
+  };
+  ObjectTools2.map = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (key, value) => [key, value])
+    };
+    return ObjectTools2.remodel(args.obj, (entries2) => entries2.map(([key, value], index) => args.func(key, value, index)));
+  };
+  ObjectTools2.mapValues = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (key, value) => value)
+    };
+    return ObjectTools2.remodel(args.obj, (entries2) => entries2.map(([key, value], index) => [key, args.func(key, value, index)]));
+  };
+  ObjectTools2.mapKeys = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (key) => key)
+    };
+    return ObjectTools2.remodel(args.obj, (entries2) => entries2.map(([key, value], index) => [args.func(key, value, index), value]));
+  };
+  ObjectTools2.filter = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, () => true)
+    };
+    return ObjectTools2.remodel(args.obj, (entries2) => entries2.filter(([key, value], index) => args.func(key, value, index)));
+  };
+  ObjectTools2.clean = (obj) => {
+    const args = {
+      obj: safe.obj(obj)
+    };
+    return ObjectTools2.filter(args.obj, (key, value) => value !== void 0);
+  };
+  ObjectTools2.invert = (obj) => {
+    const args = {
+      obj: safe.obj(obj)
+    };
+    return ObjectTools2.remodelEach(args.obj, ([key, value]) => {
+      var _a;
+      const newKey = ((_a = value == null ? void 0 : value.toString) == null ? void 0 : _a.call(value)) ?? value + "";
+      return [newKey, key];
+    });
+  };
 })(ObjectTools || (ObjectTools = {}));
 
 // src/tools/StringTools.ts

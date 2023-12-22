@@ -1,5 +1,5 @@
 import * as swissak from '../';
-import { register, multiTest, kitchenSink, should } from './test-utils';
+import { register, should, singleTest, multiTest, kitchenSink } from './test-utils';
 
 register({ describe, it, expect });
 

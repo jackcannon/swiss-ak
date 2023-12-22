@@ -1,27 +1,35 @@
 import * as swissak from '../';
-import { multiTest, register, should } from './test-utils';
+import { register, should, singleTest, multiTest, kitchenSink } from './test-utils';
 
 register({ describe, it, expect });
 
 describe('StringTools', () => {
   describe('capitalise', () => {
-    it(should` exist as 'StringTools.capitalise'`, () => {
-      expect(swissak.StringTools.capitalise).toBeDefined();
+    singleTest(swissak.StringTools.capitalise, 'StringTools.capitalise', (capitalise, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(capitalise).toBeDefined();
+      });
     });
   });
   describe('angloise', () => {
-    it(should` exist as 'StringTools.angloise'`, () => {
-      expect(swissak.StringTools.angloise).toBeDefined();
+    singleTest(swissak.StringTools.angloise, 'StringTools.angloise', (angloise, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(angloise).toBeDefined();
+      });
     });
   });
   describe('clean', () => {
-    it(should` exist as 'StringTools.clean'`, () => {
-      expect(swissak.StringTools.clean).toBeDefined();
+    singleTest(swissak.StringTools.clean, 'StringTools.clean', (clean, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(clean).toBeDefined();
+      });
     });
   });
   describe('repeat', () => {
-    it(should` exist as 'StringTools.repeat'`, () => {
-      expect(swissak.StringTools.repeat).toBeDefined();
+    singleTest(swissak.StringTools.repeat, 'StringTools.repeat', (repeat, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(repeat).toBeDefined();
+      });
     });
   });
   describe('toLowerCamelCase', () => {

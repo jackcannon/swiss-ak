@@ -1,55 +1,85 @@
 import * as swissak from '../';
-import { register, should } from './test-utils';
+import { register, should, singleTest, multiTest, kitchenSink } from './test-utils';
 
 register({ describe, it, expect });
 
 describe('waiters', () => {
   describe('wait', () => {
-    it(should` exist as 'wait'`, () => {
-      expect(swissak.wait).toBeDefined();
-    });
-    it(should` exist as 'waiters.wait'`, () => {
-      expect(swissak.waiters.wait).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.wait, 'wait'],
+        [swissak.waiters.wait, 'waiters.wait']
+      ],
+      (wait, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(wait).toBeDefined();
+        });
+      }
+    );
   });
   describe('waitUntil', () => {
-    it(should` exist as 'waitUntil'`, () => {
-      expect(swissak.waitUntil).toBeDefined();
-    });
-    it(should` exist as 'waiters.waitUntil'`, () => {
-      expect(swissak.waiters.waitUntil).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.waitUntil, 'waitUntil'],
+        [swissak.waiters.waitUntil, 'waiters.waitUntil']
+      ],
+      (waitUntil, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(waitUntil).toBeDefined();
+        });
+      }
+    );
   });
   describe('waitFor', () => {
-    it(should` exist as 'waitFor'`, () => {
-      expect(swissak.waitFor).toBeDefined();
-    });
-    it(should` exist as 'waiters.waitFor'`, () => {
-      expect(swissak.waiters.waitFor).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.waitFor, 'waitFor'],
+        [swissak.waiters.waitFor, 'waiters.waitFor']
+      ],
+      (waitFor, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(waitFor).toBeDefined();
+        });
+      }
+    );
   });
   describe('waitEvery', () => {
-    it(should` exist as 'waitEvery'`, () => {
-      expect(swissak.waitEvery).toBeDefined();
-    });
-    it(should` exist as 'waiters.waitEvery'`, () => {
-      expect(swissak.waiters.waitEvery).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.waitEvery, 'waitEvery'],
+        [swissak.waiters.waitEvery, 'waiters.waitEvery']
+      ],
+      (waitEvery, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(waitEvery).toBeDefined();
+        });
+      }
+    );
   });
   describe('stopInterval', () => {
-    it(should` exist as 'stopInterval'`, () => {
-      expect(swissak.stopInterval).toBeDefined();
-    });
-    it(should` exist as 'waiters.stopInterval'`, () => {
-      expect(swissak.waiters.stopInterval).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.stopInterval, 'stopInterval'],
+        [swissak.waiters.stopInterval, 'waiters.stopInterval']
+      ],
+      (stopInterval, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(stopInterval).toBeDefined();
+        });
+      }
+    );
   });
   describe('interval', () => {
-    it(should` exist as 'interval'`, () => {
-      expect(swissak.interval).toBeDefined();
-    });
-    it(should` exist as 'waiters.interval'`, () => {
-      expect(swissak.waiters.interval).toBeDefined();
-    });
+    multiTest(
+      [
+        [swissak.interval, 'interval'],
+        [swissak.waiters.interval, 'waiters.interval']
+      ],
+      (interval, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(interval).toBeDefined();
+        });
+      }
+    );
   });
 });

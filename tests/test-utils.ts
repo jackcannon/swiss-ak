@@ -12,11 +12,25 @@ export const register = (newCore: Partial<typeof core>) => {
   Object.assign(core, newCore);
 };
 
+/**
+ * Helper to test multiple items with the same test function
+ */
 export const multiTest = <T extends unknown>(items: [T, string][], run: (item: T, name: string) => void) => {
   items.forEach(([item, name]) => {
     core.describe(name, () => {
       run(item, name);
     });
+  });
+};
+
+/**
+ * Helper to test a single item with a test function
+ *
+ * Follows similar pattern to multiTest for consistency
+ */
+export const singleTest = <T extends unknown>(item: T, name: string, run: (item: T, name: string) => void) => {
+  core.describe(name, () => {
+    run(item, name);
   });
 };
 

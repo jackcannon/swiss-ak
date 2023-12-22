@@ -1,5 +1,5 @@
 import * as swissak from '../';
-import { register, kitchenSink, multiTest, should } from './test-utils';
+import { register, should, singleTest, multiTest, kitchenSink } from './test-utils';
 
 register({ describe, it, expect });
 
@@ -7,62 +7,72 @@ const GENERAL_ARRAY = [undefined, null, NaN, Infinity, '123', 'a string', true, 
 
 describe('fn', () => {
   describe('noop', () => {
-    it(should` exist as 'fn.noop'`, () => {
-      expect(swissak.fn.noop).toBeDefined();
-    });
-    it(should` return nothing`, () => {
-      expect(swissak.fn.noop()).toBe(undefined);
+    singleTest(swissak.fn.noop, 'fn.noop', (noop, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(noop).toBeDefined();
+      });
+      it(should` return nothing`, () => {
+        expect(noop()).toBe(undefined);
+      });
     });
   });
   describe('noact', () => {
-    it(should` exist as 'fn.noact'`, () => {
-      expect(swissak.fn.noact).toBeDefined();
-    });
+    singleTest(swissak.fn.noact, 'fn.noact', (noact, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(noact).toBeDefined();
+      });
 
-    kitchenSink.general.forEach((value) => {
-      it(should` return ${value}`, () => {
-        expect(swissak.fn.noact(value)).toBe(value);
+      kitchenSink.general.forEach((value) => {
+        it(should` return ${value}`, () => {
+          expect(noact(value)).toBe(value);
+        });
       });
     });
   });
   describe('result', () => {
-    it(should` exist as 'fn.result'`, () => {
-      expect(swissak.fn.result).toBeDefined();
-    });
+    singleTest(swissak.fn.result, 'fn.result', (result, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(result).toBeDefined();
+      });
 
-    kitchenSink.general.forEach((value) => {
-      it(should` return a function that returns ${value}`, () => {
-        expect(swissak.fn.result(value)()).toBe(value);
+      kitchenSink.general.forEach((value) => {
+        it(should` return a function that returns ${value}`, () => {
+          expect(result(value)()).toBe(value);
+        });
       });
     });
   });
   describe('resolve', () => {
-    it(should` exist as 'fn.resolve'`, () => {
-      expect(swissak.fn.resolve).toBeDefined();
-    });
+    singleTest(swissak.fn.resolve, 'fn.resolve', (resolve, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(resolve).toBeDefined();
+      });
 
-    it(should` return a function that returns a promise`, () => {
-      expect(swissak.fn.resolve(undefined)()).toBeInstanceOf(Promise);
-    });
+      it(should` return a function that returns a promise`, () => {
+        expect(resolve(undefined)()).toBeInstanceOf(Promise);
+      });
 
-    kitchenSink.general.forEach((value) => {
-      it(should` return a function that returns a promise that resolves to ${value}`, () => {
-        expect(swissak.fn.resolve(value)()).resolves.toBe(value);
+      kitchenSink.general.forEach((value) => {
+        it(should` return a function that returns a promise that resolves to ${value}`, () => {
+          expect(resolve(value)()).resolves.toBe(value);
+        });
       });
     });
   });
   describe('reject', () => {
-    it(should` exist as 'fn.reject'`, () => {
-      expect(swissak.fn.reject).toBeDefined();
-    });
+    singleTest(swissak.fn.reject, 'fn.reject', (reject, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(reject).toBeDefined();
+      });
 
-    it(should` return a function that returns a promise `, () => {
-      expect(swissak.fn.reject(undefined)()).rejects.toBe(undefined);
-    });
+      it(should` return a function that returns a promise `, () => {
+        expect(reject(undefined)()).rejects.toBe(undefined);
+      });
 
-    kitchenSink.general.forEach((value) => {
-      it(should` return a function that returns a promise that rejects to ${value}`, () => {
-        expect(swissak.fn.reject(value)()).rejects.toBe(value);
+      kitchenSink.general.forEach((value) => {
+        it(should` return a function that returns a promise that rejects to ${value}`, () => {
+          expect(reject(value)()).rejects.toBe(value);
+        });
       });
     });
   });
