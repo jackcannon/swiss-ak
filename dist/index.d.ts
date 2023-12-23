@@ -2520,6 +2520,8 @@ declare namespace progressBar {
         endChar: string;
         showCurrent: boolean;
         currentChar: string;
+        print: boolean;
+        printFn: any;
     }
     /**<!-- DOCS: progressBar.ProgressBarOptions ### -->
      * Options
@@ -2532,7 +2534,7 @@ declare namespace progressBar {
      * | Property         | Default                           | Description                                            |
      * | ---------------- | --------------------------------- | ------------------------------------------------------ |
      * | prefix           | `''`                              | String to show to left of progress bar                 |
-     * | prefixWidth      | `1`                               | Min width of prefix - `10` => `Example˽˽˽`             |
+     * | prefixWidth      | `0`                               | Min width of prefix - `10` => `Example˽˽˽`             |
      * | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
      * | wrapperFn        | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
      * | barWrapFn        | nothing                           | function to wrap the bar                               |
@@ -2548,8 +2550,11 @@ declare namespace progressBar {
      * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
      * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
      * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+     * | print            | `true`                            | Whether or not to print/output/log the progress bar    |
+     * | printFn          | progressBar.printLn               | Function to use to print the progress bar              |
      */
     export type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
+    export const getFullOptions: (opts?: ProgressBarOptions) => ProgressBarOptionsFull;
     /**<!-- DOCS: progressBar.getProgressBar ### @ -->
      * getProgressBar
      *
@@ -2585,11 +2590,11 @@ declare namespace progressBar {
      * ABC ▕█████ ▏ [4 / 5]
      * ABC ▕██████▏ [5 / 5]
      * ```
-     * @param {number} max
+     * @param {number} [max]
      * @param {ProgressBarOptions} [options={}]
      * @returns {ProgressBar}
      */
-    export const getProgressBar: (max: number, options?: ProgressBarOptions) => ProgressBar;
+    export const getProgressBar: (max?: number, options?: ProgressBarOptions) => ProgressBar;
     export {};
 }
 /**<!-- DOCS-ALIAS: progressBar.ProgressBarOptions -->
@@ -2603,7 +2608,7 @@ declare namespace progressBar {
  * | Property         | Default                           | Description                                            |
  * | ---------------- | --------------------------------- | ------------------------------------------------------ |
  * | prefix           | `''`                              | String to show to left of progress bar                 |
- * | prefixWidth      | `1`                               | Min width of prefix - `10` => `Example˽˽˽`             |
+ * | prefixWidth      | `0`                               | Min width of prefix - `10` => `Example˽˽˽`             |
  * | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
  * | wrapperFn        | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
  * | barWrapFn        | nothing                           | function to wrap the bar                               |
@@ -2619,6 +2624,8 @@ declare namespace progressBar {
  * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
  * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
  * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+ * | print            | `true`                            | Whether or not to print/output/log the progress bar    |
+ * | printFn          | progressBar.printLn               | Function to use to print the progress bar              |
  */
 declare type ProgressBarOptions = progressBar.ProgressBarOptions;
 /**<!-- DOCS-ALIAS: progressBar.printLn -->
@@ -2686,11 +2693,11 @@ declare const printLn: (...text: any[]) => void;
  * ABC ▕█████ ▏ [4 / 5]
  * ABC ▕██████▏ [5 / 5]
  * ```
- * @param {number} max
+ * @param {number} [max]
  * @param {ProgressBarOptions} [options={}]
  * @returns {ProgressBar}
  */
-declare const getProgressBar: (max: number, options?: ProgressBarOptions) => ProgressBar;
+declare const getProgressBar: (max?: number, options?: ProgressBarOptions) => ProgressBar;
 
 /**<!-- DOCS: ArrayTools ##! -->
  * ArrayTools

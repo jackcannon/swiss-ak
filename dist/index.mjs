@@ -858,6 +858,9 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
 };
 var timer = getTimer();
 
+// src/utils/optionUtils.ts
+var option = (value, deflt, safeFn) => value !== void 0 ? safeFn(value, deflt) : deflt;
+
 // src/tools/progressBar.ts
 var progressBar;
 ((progressBar2) => {
@@ -879,9 +882,9 @@ var progressBar;
       console.log(...text);
     }
   };
-  const print = (text, wrapperFn = fn.noact) => {
+  const printWrapped = (text, wrapperFn = fn.noact, printFn = progressBar2.printLn) => {
     const wrapped = wrapperFn(text || "");
-    progressBar2.printLn(wrapped);
+    printFn(wrapped);
   };
   const getCharWidth = (num, max, width) => Math.round(width * (Math.max(0, Math.min(num / max, 1)) / 1));
   const getBarString = (current, max, width, opts) => {
@@ -909,46 +912,57 @@ var progressBar;
     const joined = items.filter((x) => x).join(" ");
     return joined.length ? " " + joined : "";
   };
-  const getFullOptions = (opts = {}) => {
+  progressBar2.getFullOptions = (opts = {}) => {
     var _a;
     return {
-      prefix: "",
-      prefixWidth: 1,
-      maxWidth: ((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.columns) ? process.stdout.columns : 100,
-      wrapperFn: fn.noact,
-      barWrapFn: fn.noact,
-      barProgWrapFn: fn.noact,
-      barCurrentWrapFn: fn.noact,
-      barEmptyWrapFn: fn.noact,
-      showCount: true,
-      showPercent: false,
-      countWidth: 0,
-      progChar: "\u2588",
-      emptyChar: " ",
-      startChar: "\u2595",
-      endChar: "\u258F",
-      showCurrent: false,
-      currentChar: "\u259E",
-      ...opts
+      prefix: option(opts.prefix, "", (v, dflt) => safe.str(v, true, dflt)),
+      prefixWidth: option(opts.prefixWidth, 0, (v, dflt) => safe.num(v, true, 0, void 0, dflt)),
+      maxWidth: option(
+        opts.maxWidth,
+        ((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.columns) !== void 0 ? process.stdout.columns : 100,
+        (v, dflt) => safe.num(v, true, 0, void 0, dflt)
+      ),
+      wrapperFn: option(opts.wrapperFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      barWrapFn: option(opts.barWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      barProgWrapFn: option(opts.barProgWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      barCurrentWrapFn: option(opts.barCurrentWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      barEmptyWrapFn: option(opts.barEmptyWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      showCount: option(opts.showCount, true, (v, dflt) => safe.bool(v, dflt)),
+      showPercent: option(opts.showPercent, false, (v, dflt) => safe.bool(v, dflt)),
+      countWidth: option(opts.countWidth, 0, (v, dflt) => safe.num(v, true, 0, void 0, dflt)),
+      progChar: option(opts.progChar, "\u2588", (v, dflt) => safe.str(v, false, dflt)),
+      emptyChar: option(opts.emptyChar, " ", (v, dflt) => safe.str(v, false, dflt)),
+      startChar: option(opts.startChar, "\u2595", (v, dflt) => safe.str(v, false, dflt)),
+      endChar: option(opts.endChar, "\u258F", (v, dflt) => safe.str(v, false, dflt)),
+      showCurrent: option(opts.showCurrent, false, (v, dflt) => safe.bool(v, dflt)),
+      currentChar: option(opts.currentChar, "\u259E", (v, dflt) => safe.str(v, false, dflt)),
+      print: option(opts.print, true, (v, dflt) => safe.bool(v, dflt)),
+      printFn: option(opts.printFn, progressBar2.printLn, (v, dflt) => safe.func(v, dflt))
     };
   };
   progressBar2.getProgressBar = (max, options = {}) => {
-    const opts = getFullOptions(options);
-    const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar } = opts;
+    const args = {
+      max: safe.num(max, true, -1, void 0, -1),
+      options: safe.obj(options, {})
+    };
+    const opts = progressBar2.getFullOptions(args.options);
+    const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar, print, printFn } = opts;
     let current = 0;
     let finished = false;
-    const maxNum = typeof max === "number" ? max : 1;
-    const isMaxKnown = typeof max === "number";
+    const isMaxKnown = args.max !== -1;
     const update = () => {
-      const suffix = getSuffix(current, maxNum, isMaxKnown, opts);
-      const fullPrefix = prefix.padEnd(prefixWidth);
+      const suffix = getSuffix(current, args.max, isMaxKnown, opts);
+      const idealMinBarWidth = Math.min(5, maxWidth - [suffix, startChar, endChar].join("").length);
+      const maxPrefixWidth = maxWidth - ([suffix, startChar, endChar].join("").length + idealMinBarWidth);
+      const fullPrefix = prefix.padEnd(prefixWidth).substring(0, maxPrefixWidth);
       const output = `${fullPrefix}${getBarString(
         current,
-        Math.max(1, maxNum),
+        Math.max(1, args.max),
         Math.max(0, maxWidth - [fullPrefix, suffix, startChar, endChar].join("").length),
         opts
       )}${suffix}`;
-      print(output, wrapperFn);
+      if (print)
+        printWrapped(output, wrapperFn, printFn);
       return output;
     };
     const next = () => {
@@ -958,22 +972,27 @@ var progressBar;
       return update();
     };
     const set = (newCurrent) => {
+      const args2 = {
+        newCurrent: safe.num(newCurrent, true, 0, void 0)
+      };
       if (finished)
         return "";
-      current = newCurrent;
+      current = args2.newCurrent;
       return update();
     };
     const reset = () => {
       return set(0);
     };
     const start = () => {
-      progressBar2.printLn();
+      if (opts.print)
+        opts.printFn();
       return update();
     };
     const finish = () => {
       finished = true;
       const output = update();
-      progressBar2.printLn();
+      if (opts.print)
+        opts.printFn();
       return output;
     };
     return {
@@ -983,7 +1002,7 @@ var progressBar;
       update,
       start,
       finish,
-      max
+      max: args.max === -1 ? void 0 : args.max
     };
   };
 })(progressBar || (progressBar = {}));

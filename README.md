@@ -4064,7 +4064,7 @@ All options are optional.
 | Property         | Default                           | Description                                            |
 | ---------------- | --------------------------------- | ------------------------------------------------------ |
 | prefix           | `''`                              | String to show to left of progress bar                 |
-| prefixWidth      | `1`                               | Min width of prefix - `10` => `Example˽˽˽`             |
+| prefixWidth      | `0`                               | Min width of prefix - `10` => `Example˽˽˽`             |
 | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
 | wrapperFn        | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
 | barWrapFn        | nothing                           | function to wrap the bar                               |
@@ -4080,6 +4080,8 @@ All options are optional.
 | endChar          | `'▏'`                             | Character to end the progress bar with                 |
 | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
 | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+| print            | `true`                            | Whether or not to print/output/log the progress bar    |
+| printFn          | progressBar.printLn               | Function to use to print the progress bar              |
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 
@@ -4122,7 +4124,7 @@ ABC ▕██████▏ [5 / 5]
 
 |  #  | Parameter Name | Required | Type                 | Default |
 |:---:|:---------------|:---------|:---------------------|:--------|
-| *0* | `max`          | **Yes**  | `number`             |         |
+| *0* | `max`          | *No*     | `number`             |         |
 | *1* | `options`      | *No*     | `ProgressBarOptions` | `{}`    |
 
 | Return Type   |

@@ -1,4 +1,6 @@
+import { option } from '../utils/optionUtils';
 import { fn } from './fn';
+import { safe } from './safe';
 
 //<!-- DOCS: 600 -->
 
@@ -76,9 +78,9 @@ export namespace progressBar {
     }
   };
 
-  const print = (text?: string, wrapperFn: any = fn.noact) => {
+  const printWrapped = (text?: string, wrapperFn: any = fn.noact, printFn: any = printLn) => {
     const wrapped = wrapperFn(text || '');
-    printLn(wrapped);
+    printFn(wrapped);
   };
 
   const getCharWidth = (num: number, max: number, width: number) => Math.round(width * (Math.max(0, Math.min(num / max, 1)) / 1));
@@ -130,6 +132,8 @@ export namespace progressBar {
     endChar: string;
     showCurrent: boolean;
     currentChar: string;
+    print: boolean;
+    printFn: any;
   }
   /**<!-- DOCS: progressBar.ProgressBarOptions ### -->
    * Options
@@ -142,7 +146,7 @@ export namespace progressBar {
    * | Property         | Default                           | Description                                            |
    * | ---------------- | --------------------------------- | ------------------------------------------------------ |
    * | prefix           | `''`                              | String to show to left of progress bar                 |
-   * | prefixWidth      | `1`                               | Min width of prefix - `10` => `Example˽˽˽`             |
+   * | prefixWidth      | `0`                               | Min width of prefix - `10` => `Example˽˽˽`             |
    * | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
    * | wrapperFn        | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
    * | barWrapFn        | nothing                           | function to wrap the bar                               |
@@ -158,27 +162,32 @@ export namespace progressBar {
    * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
    * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
    * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+   * | print            | `true`                            | Whether or not to print/output/log the progress bar    |
+   * | printFn          | progressBar.printLn               | Function to use to print the progress bar              |
    */
   export type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
-  const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull => ({
-    prefix: '',
-    prefixWidth: 1,
-    maxWidth: process?.stdout?.columns ? process.stdout.columns : 100,
-    wrapperFn: fn.noact,
-    barWrapFn: fn.noact,
-    barProgWrapFn: fn.noact,
-    barCurrentWrapFn: fn.noact,
-    barEmptyWrapFn: fn.noact,
-    showCount: true,
-    showPercent: false,
-    countWidth: 0,
-    progChar: '█',
-    emptyChar: ' ',
-    startChar: '▕',
-    endChar: '▏',
-    showCurrent: false,
-    currentChar: '▞',
-    ...opts
+  export const getFullOptions = (opts: ProgressBarOptions = {}): ProgressBarOptionsFull => ({
+    prefix: option(opts.prefix, '', (v, dflt) => safe.str(v, true, dflt)),
+    prefixWidth: option(opts.prefixWidth, 0, (v, dflt) => safe.num(v, true, 0, undefined, dflt)),
+    maxWidth: option(opts.maxWidth, process?.stdout?.columns !== undefined ? process.stdout.columns : 100, (v, dflt) =>
+      safe.num(v, true, 0, undefined, dflt)
+    ),
+    wrapperFn: option(opts.wrapperFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+    barWrapFn: option(opts.barWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+    barProgWrapFn: option(opts.barProgWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+    barCurrentWrapFn: option(opts.barCurrentWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+    barEmptyWrapFn: option(opts.barEmptyWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+    showCount: option(opts.showCount, true, (v, dflt) => safe.bool(v, dflt)),
+    showPercent: option(opts.showPercent, false, (v, dflt) => safe.bool(v, dflt)),
+    countWidth: option(opts.countWidth, 0, (v, dflt) => safe.num(v, true, 0, undefined, dflt)),
+    progChar: option(opts.progChar, '█', (v, dflt) => safe.str(v, false, dflt)),
+    emptyChar: option(opts.emptyChar, ' ', (v, dflt) => safe.str(v, false, dflt)),
+    startChar: option(opts.startChar, '▕', (v, dflt) => safe.str(v, false, dflt)),
+    endChar: option(opts.endChar, '▏', (v, dflt) => safe.str(v, false, dflt)),
+    showCurrent: option(opts.showCurrent, false, (v, dflt) => safe.bool(v, dflt)),
+    currentChar: option(opts.currentChar, '▞', (v, dflt) => safe.str(v, false, dflt)),
+    print: option(opts.print, true, (v, dflt) => safe.bool(v, dflt)),
+    printFn: option(opts.printFn, progressBar.printLn, (v, dflt) => safe.func(v, dflt))
   });
 
   /**<!-- DOCS: progressBar.getProgressBar ### @ -->
@@ -216,18 +225,21 @@ export namespace progressBar {
    * ABC ▕█████ ▏ [4 / 5]
    * ABC ▕██████▏ [5 / 5]
    * ```
-   * @param {number} max
+   * @param {number} [max]
    * @param {ProgressBarOptions} [options={}]
    * @returns {ProgressBar}
    */
-  export const getProgressBar = (max: number, options: ProgressBarOptions = {}): ProgressBar => {
-    const opts = getFullOptions(options);
-    const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar } = opts;
+  export const getProgressBar = (max?: number, options: ProgressBarOptions = {}): ProgressBar => {
+    const args = {
+      max: safe.num(max, true, -1, undefined, -1),
+      options: safe.obj(options, {})
+    };
+    const opts = getFullOptions(args.options);
+    const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar, print, printFn } = opts;
     let current = 0;
     let finished = false;
 
-    const maxNum = typeof max === 'number' ? max : 1;
-    const isMaxKnown = typeof max === 'number';
+    const isMaxKnown = args.max !== -1;
 
     /**<!-- DOCS: progressBar.update #### -->
      * update
@@ -238,16 +250,21 @@ export namespace progressBar {
      * @returns {string} The output string
      */
     const update = (): string => {
-      const suffix = getSuffix(current, maxNum, isMaxKnown, opts);
-      const fullPrefix = prefix.padEnd(prefixWidth);
+      const suffix = getSuffix(current, args.max, isMaxKnown, opts);
+
+      const idealMinBarWidth = Math.min(5, maxWidth - [suffix, startChar, endChar].join('').length);
+      const maxPrefixWidth = maxWidth - ([suffix, startChar, endChar].join('').length + idealMinBarWidth);
+
+      const fullPrefix = prefix.padEnd(prefixWidth).substring(0, maxPrefixWidth);
+
       const output = `${fullPrefix}${getBarString(
         current,
-        Math.max(1, maxNum),
+        Math.max(1, args.max),
         Math.max(0, maxWidth - [fullPrefix, suffix, startChar, endChar].join('').length),
         opts
       )}${suffix}`;
 
-      print(output, wrapperFn);
+      if (print) printWrapped(output, wrapperFn, printFn);
       return output;
     };
 
@@ -275,8 +292,11 @@ export namespace progressBar {
      * @returns {string} The output string
      */
     const set = (newCurrent: number): string => {
+      const args = {
+        newCurrent: safe.num(newCurrent, true, 0, undefined)
+      };
       if (finished) return '';
-      current = newCurrent;
+      current = args.newCurrent;
       return update();
     };
 
@@ -301,7 +321,7 @@ export namespace progressBar {
      * @returns {string} The output string
      */
     const start = (): string => {
-      printLn(); // blank/new line
+      if (opts.print) opts.printFn(); // blank/new line
       return update();
     };
 
@@ -316,7 +336,7 @@ export namespace progressBar {
     const finish = (): string => {
       finished = true;
       const output = update();
-      printLn(); // blank/new line
+      if (opts.print) opts.printFn(); // blank/new line
       return output;
     };
 
@@ -335,7 +355,7 @@ export namespace progressBar {
        *
        * Readonly number value of the max value (provided to getProgressBar as first argument)
        */
-      max
+      max: args.max === -1 ? undefined : args.max
     };
   };
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
