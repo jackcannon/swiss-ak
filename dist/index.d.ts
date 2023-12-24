@@ -3789,7 +3789,7 @@ declare namespace StringTools {
          * 
          * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
          * @param {string | string[]} input
-         * @param {string} char
+         * @param {string} [char=',']
          * @param {boolean} [toUpper=false]
          * @returns {string}
          */
@@ -3993,7 +3993,7 @@ declare namespace StringTools {
      * 
      * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
      * @param {string | string[]} input
-     * @param {string} char
+     * @param {string} [char=',']
      * @param {boolean} [toUpper=false]
      * @returns {string}
      */

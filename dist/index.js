@@ -1182,11 +1182,42 @@ var ObjectTools;
 // src/tools/StringTools.ts
 var StringTools;
 ((StringTools2) => {
-  StringTools2.capitalise = (input = "") => (input || "").split(/\s/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
-  StringTools2.angloise = (input) => input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  StringTools2.clean = (input = "") => StringTools2.angloise([input].flat().join(" ")).replace(/\s{1,}/g, " ").replace(/[^A-Za-z0-9 ]/gi, "");
-  StringTools2.repeat = (maxLength, repeated) => (repeated && typeof repeated === "string" ? repeated : "").repeat(Math.max(0, maxLength));
+  StringTools2.capitalise = (input = "") => {
+    const inp = safe.str(input);
+    return inp.split(/\s/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+  };
+  StringTools2.angloise = (input) => {
+    const inp = safe.str(input);
+    return inp.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+  StringTools2.clean = (input = "") => {
+    const inp = safe.str(input);
+    return StringTools2.angloise([inp].flat().join(" ")).replace(/\s{1,}/g, " ").replace(/[^A-Za-z0-9 ]/gi, "");
+  };
+  StringTools2.repeat = (maxLength, repeated) => {
+    const args = {
+      maxLength: safe.num(maxLength, true),
+      repeated: safe.str(repeated)
+    };
+    return args.repeated.repeat(Math.max(0, args.maxLength));
+  };
+  const processClxArray = (arr) => arr.filter(fn.exists).map((item) => {
+    if (typeof item === "string")
+      return item;
+    if (item instanceof Array) {
+      return processClxArray(item);
+    }
+    if (typeof item === "object") {
+      return Object.keys(item).filter((key) => item[key]).join(" ");
+    }
+    return void 0;
+  }).filter(fn.exists).flat();
   StringTools2.clx = (...args) => processClxArray(args).join(" ");
+  const safeInput = (v) => {
+    if (v instanceof Array)
+      return safe.arrOf.str(v);
+    return safe.str(v, false, "");
+  };
   const caseHandler = (overrideSplitter) => {
     const getSplit = (input = "") => {
       if (overrideSplitter)
@@ -1195,25 +1226,52 @@ var StringTools;
       return arr.map((s) => StringTools2.clean(s.replace(/-|_/g, " ")).split(" ")).flat().filter((s) => s.length);
     };
     const toCamelCase2 = (input, capitaliseFirst = false) => {
-      const split = getSplit(input);
-      return split.map((word, index) => index === 0 && !capitaliseFirst ? word.toLowerCase() : StringTools2.capitalise(word)).join("");
+      const args = {
+        input: safeInput(input),
+        capitaliseFirst: safe.bool(capitaliseFirst)
+      };
+      const split = getSplit(args.input);
+      return split.map((word, index) => index === 0 && !args.capitaliseFirst ? word.toLowerCase() : StringTools2.capitalise(word)).join("");
     };
-    const toLowerCamelCase2 = (input) => toCamelCase2(input, false);
-    const toUpperCamelCase2 = (input) => toCamelCase2(input, true);
-    const toCharacterSeparated2 = (input, char, toUpper = false) => {
-      const split = getSplit(input);
-      return split.map((word, index) => toUpper ? word.toUpperCase() : word.toLowerCase()).join(char);
+    const toLowerCamelCase2 = (input) => toCamelCase2(safeInput(input), false);
+    const toUpperCamelCase2 = (input) => toCamelCase2(safeInput(input), true);
+    const toCharacterSeparated2 = (input, char = ",", toUpper = false) => {
+      const args = {
+        input: safeInput(input),
+        char: safe.str(char),
+        toUpper: safe.bool(toUpper, false)
+      };
+      const split = getSplit(args.input);
+      return split.map((word, index) => args.toUpper ? word.toUpperCase() : word.toLowerCase()).join(args.char);
     };
-    const toSlugCase2 = (input, toUpper = false) => toCharacterSeparated2(input, "-", toUpper);
-    const toLowerSlugCase2 = (input) => toSlugCase2(input, false);
-    const toUpperSlugCase2 = (input) => toSlugCase2(input, true);
-    const toSnakeCase2 = (input, toUpper = false) => toCharacterSeparated2(input, "_", toUpper);
-    const toLowerSnakeCase2 = (input) => toSnakeCase2(input, false);
-    const toUpperSnakeCase2 = (input) => toSnakeCase2(input, true);
-    const toSpaced2 = (input, toUpper = false) => toCharacterSeparated2(input, " ", toUpper);
-    const toLowerSpaced2 = (input) => toSpaced2(input, false);
-    const toUpperSpaced2 = (input) => toSpaced2(input, true);
-    const toCapitalisedSpaced2 = (input) => StringTools2.capitalise(toSpaced2(input, false));
+    const toSlugCase2 = (input, toUpper = false) => {
+      const args = {
+        input: safeInput(input),
+        toUpper: safe.bool(toUpper)
+      };
+      return toCharacterSeparated2(args.input, "-", args.toUpper);
+    };
+    const toLowerSlugCase2 = (input) => toSlugCase2(safeInput(input), false);
+    const toUpperSlugCase2 = (input) => toSlugCase2(safeInput(input), true);
+    const toSnakeCase2 = (input, toUpper = false) => {
+      const args = {
+        input: safeInput(input),
+        toUpper: safe.bool(toUpper)
+      };
+      return toCharacterSeparated2(args.input, "_", args.toUpper);
+    };
+    const toLowerSnakeCase2 = (input) => toSnakeCase2(safeInput(input), false);
+    const toUpperSnakeCase2 = (input) => toSnakeCase2(safeInput(input), true);
+    const toSpaced2 = (input, toUpper = false) => {
+      const args = {
+        input: safeInput(input),
+        toUpper: safe.bool(toUpper)
+      };
+      return toCharacterSeparated2(args.input, " ", args.toUpper);
+    };
+    const toLowerSpaced2 = (input) => toSpaced2(safeInput(input), false);
+    const toUpperSpaced2 = (input) => toSpaced2(safeInput(input), true);
+    const toCapitalisedSpaced2 = (input) => StringTools2.capitalise(toSpaced2(safeInput(input), false));
     return {
       toLowerCamelCase: toLowerCamelCase2,
       toUpperCamelCase: toUpperCamelCase2,
@@ -1256,16 +1314,6 @@ var StringTools;
       (s) => s.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").trim()
     ).map((s) => s.split(" ")).flat()
   );
-  const processClxArray = (arr) => arr.filter(Boolean).map((item) => {
-    if (typeof item === "string")
-      return item;
-    if (item instanceof Array) {
-      return processClxArray(item);
-    }
-    if (typeof item === "object") {
-      return Object.keys(item).filter((key) => item[key]).join(" ");
-    }
-  }).flat();
   let matchBrackets;
   ((matchBrackets2) => {
     const defaultReplaceSymbols = {
@@ -1279,6 +1327,15 @@ var StringTools;
       "<": "\u2770",
       ">": "\u2771"
     };
+    const safeSymbols = (symbols2) => ObjectTools.filter(safe.obj(symbols2), (k) => Object.keys(defaultReplaceSymbols).includes(k));
+    const safeBracketType = (bracketType) => {
+      const safed = safe.str(bracketType);
+      if (["()", "[]", "{}", "<>", "round", "square", "curly", "angle"].includes(safed)) {
+        return safed;
+      }
+      return "round";
+    };
+    const escapePCRE = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const runReplace = (input, replaceSymbols = {}, outputDepth = false) => {
       const fullSyms = matchBrackets2.getReplaceSymbols(replaceSymbols);
       let infos = {
@@ -1329,15 +1386,30 @@ var StringTools;
         return fullSyms[br] + (id || "0") + fullSyms.END;
       });
     };
-    matchBrackets2.unique = (input, replaceSymbols = {}) => runReplace(input, replaceSymbols, false);
-    matchBrackets2.depth = (input, replaceSymbols = {}) => runReplace(input, replaceSymbols, true);
+    matchBrackets2.unique = (input, replaceSymbols = {}) => {
+      const args = {
+        input: safe.str(input),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      return runReplace(args.input, args.replaceSymbols, false);
+    };
+    matchBrackets2.depth = (input, replaceSymbols = {}) => {
+      const args = {
+        input: safe.str(input),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      return runReplace(args.input, args.replaceSymbols, true);
+    };
     matchBrackets2.clean = (input, replaceSymbols = {}) => {
-      const fullSyms = matchBrackets2.getReplaceSymbols(replaceSymbols);
-      const invertedSyms = ObjectTools.invert(fullSyms);
-      const { END, ...withoutEND } = fullSyms;
+      const args = {
+        input: safe.str(input),
+        replaceSymbols: matchBrackets2.getReplaceSymbols(replaceSymbols)
+      };
+      const invertedSyms = ObjectTools.invert(args.replaceSymbols);
+      const { END, ...withoutEND } = args.replaceSymbols;
       const startSyms = Object.values(withoutEND);
-      const regex = new RegExp(`(${startSyms.map((s) => `\\${s}`).join("|")})[0-9]+${fullSyms.END}`, "g");
-      return input.replaceAll(regex, (m, startSym) => invertedSyms[startSym] || "");
+      const regex = new RegExp(`(${startSyms.map(escapePCRE).join("|")})[0-9]+${escapePCRE(args.replaceSymbols.END)}`, "g");
+      return args.input.replaceAll(regex, (m, startSym) => invertedSyms[startSym] || "");
     };
     const getBracketSymsForMatch = (bracketType, replaceSymbols) => {
       const fullSyms = matchBrackets2.getReplaceSymbols(replaceSymbols);
@@ -1355,40 +1427,60 @@ var StringTools;
       return [openSym, closeSym, endSym];
     };
     const runGrabSearch = (fullDirty, [openSym, closeSym, endSym], findID, replaceSymbols) => {
-      const regex = new RegExp(`${openSym}${findID}${endSym}(.|
-)*?${closeSym}${findID}${endSym}`, "g");
+      const regex = new RegExp(
+        `${escapePCRE(openSym)}${findID}${escapePCRE(endSym)}(.|
+)*?${escapePCRE(closeSym)}${findID}${escapePCRE(endSym)}`,
+        "g"
+      );
       const foundDirty = Array.from(fullDirty.matchAll(regex) || []).map((match) => match[0]);
       const found = foundDirty.map((str) => matchBrackets2.clean(str, replaceSymbols));
       return found;
     };
     matchBrackets2.grabDepth = (input, bracketType = "round", depthID = 0, replaceSymbols = {}) => {
-      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
-      const fullDirty = matchBrackets2.depth(input, replaceSymbols);
-      return runGrabSearch(fullDirty, syms, depthID !== void 0 ? depthID + "" : "", replaceSymbols);
+      const args = {
+        input: safe.str(input),
+        bracketType: safeBracketType(bracketType),
+        depthID: safe.num(depthID, true, 0),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      const syms = getBracketSymsForMatch(args.bracketType, args.replaceSymbols);
+      const fullDirty = matchBrackets2.depth(args.input, args.replaceSymbols);
+      return runGrabSearch(fullDirty, syms, args.depthID + "", args.replaceSymbols);
     };
     matchBrackets2.grabUnique = (input, bracketType = "round", uniqueID = 0, replaceSymbols = {}) => {
       var _a;
-      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
-      const fullDirty = matchBrackets2.unique(input, replaceSymbols);
-      return (_a = runGrabSearch(fullDirty, syms, uniqueID !== void 0 ? uniqueID + "" : "", replaceSymbols)) == null ? void 0 : _a[0];
+      const args = {
+        input: safe.str(input),
+        bracketType: safeBracketType(bracketType),
+        uniqueID: safe.num(uniqueID, true, 0),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      const syms = getBracketSymsForMatch(args.bracketType, args.replaceSymbols);
+      const fullDirty = matchBrackets2.unique(args.input, args.replaceSymbols);
+      return (_a = runGrabSearch(fullDirty, syms, args.uniqueID + "", args.replaceSymbols)) == null ? void 0 : _a[0];
     };
     matchBrackets2.grab = (input, bracketType = "round", replaceSymbols = {}) => {
-      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
-      const fullDirty = matchBrackets2.unique(input, replaceSymbols);
+      const args = {
+        input: safe.str(input),
+        bracketType: safeBracketType(bracketType),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      const syms = getBracketSymsForMatch(args.bracketType, args.replaceSymbols);
+      const fullDirty = matchBrackets2.unique(args.input, args.replaceSymbols);
       const [openSym, closeSym, endSym] = syms;
-      const regex = new RegExp(`(?:${openSym}|${closeSym})([0-9]+)${endSym}`, "g");
+      const regex = new RegExp(`(?:${escapePCRE(openSym)}|${escapePCRE(closeSym)})([0-9]+)${escapePCRE(endSym)}`, "g");
       const allIDs = Array.from(fullDirty.matchAll(regex) || []).map((match) => Number(match[1])).filter(fn.dedupe);
       const found = allIDs.map((uniqueID) => {
         var _a;
-        return (_a = runGrabSearch(fullDirty, syms, uniqueID + "", replaceSymbols)) == null ? void 0 : _a[0];
+        return (_a = runGrabSearch(fullDirty, syms, uniqueID + "", args.replaceSymbols)) == null ? void 0 : _a[0];
       });
       return found;
     };
     matchBrackets2.getReplaceSymbols = (replaceSymbols = {}) => {
-      return {
+      return safeSymbols({
         ...defaultReplaceSymbols,
         ...replaceSymbols
-      };
+      });
     };
   })(matchBrackets = StringTools2.matchBrackets || (StringTools2.matchBrackets = {}));
 })(StringTools || (StringTools = {}));

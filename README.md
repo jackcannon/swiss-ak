@@ -2060,7 +2060,7 @@ Convert a string to text where words are separated by a given character (e.g. `t
 |  #  | Parameter Name | Required | Type                 | Default |
 |:---:|:---------------|:---------|:---------------------|:--------|
 | *0* | `input`        | **Yes**  | `string \| string[]` |         |
-| *1* | `char`         | **Yes**  | `string`             |         |
+| *1* | `char`         | *No*     | `string`             | `','`   |
 | *2* | `toUpper`      | *No*     | `boolean`            | `false` |
 
 | Return Type |
