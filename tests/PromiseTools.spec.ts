@@ -410,7 +410,8 @@ describe('PromiseTools', () => {
         });
 
         it('should limit to number of simultaneous promises', async () => {
-          const { result, diff, duration } = await testTimer(timingUnit * 3, async (target) => {
+          // Note: as they aren't functions, the promises 'start' at the same time, and so they'll finish at the same time, even if they're limited to 1
+          const { result, diff, duration } = await testTimer(timingUnit, async (target) => {
             const input = {
               foo: swissak.wait(timingUnit).then(() => 1),
               bar: swissak.wait(timingUnit).then(() => 2),
@@ -419,8 +420,6 @@ describe('PromiseTools', () => {
             };
             return await allLimitObj(1, input);
           });
-
-          console.log('DURATION', duration);
 
           expect(result).toEqual({ foo: 1, bar: 2, baz: 3 });
           expect(diff).toBeLessThanOrEqual(timingErrorRange);
