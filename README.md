@@ -2945,6 +2945,8 @@ A collection of promise utilities
     - [mapLimit](#maplimit)
     - [allObj](#allobj)
     - [allLimitObj](#alllimitobj)
+    - [PromiseFunc<T>](#promisefunct)
+    - [PromiseItem<T>](#promiseitemt)
     - [DeferredPromise](#deferredpromise)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
@@ -2985,27 +2987,27 @@ const luckyNumber: number = await run();
 ### all
 
 ```typescript
-all(promises: Promise<T>[]): Promise<any>
-PromiseTools.all(promises: Promise<T>[]): Promise<any>
+all(items: PromiseTools.PromiseItem<T>[]): Promise<T[]>
+PromiseTools.all(items: PromiseTools.PromiseItem<T>[]): Promise<T[]>
 ```
 
-An alias for Promise.all
+Similar to Promise.all, but accepts values, functions, and promises.
 
-|  #  | Parameter Name | Required | Type           |
-|:---:|:---------------|:---------|:---------------|
-| *0* | `promises`     | **Yes**  | `Promise<T>[]` |
+|  #  | Parameter Name | Required | Type                            |
+|:---:|:---------------|:---------|:--------------------------------|
+| *0* | `items`        | **Yes**  | `PromiseTools.PromiseItem<T>[]` |
 
 | Return Type    |
 |----------------|
-| `Promise<any>` |
+| `Promise<T[]>` |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
 ### allLimit
 
 ```typescript
-allLimit(limit: number, items: ((index: number) => Promise<T>)[], noThrow: boolean): Promise<T[]>
-PromiseTools.allLimit(limit: number, items: ((index: number) => Promise<T>)[], noThrow: boolean): Promise<T[]>
+allLimit(limit: number, items: PromiseTools.PromiseItem<T>[], noThrow: boolean): Promise<T[]>
+PromiseTools.allLimit(limit: number, items: PromiseTools.PromiseItem<T>[], noThrow: boolean): Promise<T[]>
 ```
 
 Like Promise.all, but limits the numbers of concurrently running items.
@@ -3043,11 +3045,11 @@ timer.log();
 // 	d: 10s
 ```
 
-|  #  | Parameter Name | Required | Type                                | Default |
-|:---:|:---------------|:---------|:------------------------------------|:--------|
-| *0* | `limit`        | **Yes**  | `number`                            |         |
-| *1* | `items`        | **Yes**  | `((index: number) => Promise<T>)[]` |         |
-| *2* | `noThrow`      | *No*     | `boolean`                           | `false` |
+|  #  | Parameter Name | Required | Type                            | Default |
+|:---:|:---------------|:---------|:--------------------------------|:--------|
+| *0* | `limit`        | **Yes**  | `number`                        |         |
+| *1* | `items`        | **Yes**  | `PromiseTools.PromiseItem<T>[]` |         |
+| *2* | `noThrow`      | *No*     | `boolean`                       | `false` |
 
 | Return Type    |
 |----------------|
@@ -3290,6 +3292,28 @@ timer.log();
 | Return Type                       |
 |-----------------------------------|
 | `Promise<UnWrapPromiseObject<T>>` |
+
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
+
+### PromiseFunc<T>
+
+```typescript
+PromiseFunc<T>;
+```
+
+A function that returns a promise
+
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
+
+### PromiseItem<T>
+
+```typescript
+PromiseItem<T>;
+```
+
+A promise, a function that returns a promise (see PromiseFunc<T>), or a value
+
+Accepted by `PromiseTools.all`, `PromiseTools.allLimit`, `PromiseTools.allObj`, and `PromiseTools.allLimitObj` in place of promises
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 

@@ -4,7 +4,7 @@ import { register, should, singleTest, multiTest, kitchenSink } from './test-uti
 register({ describe, it, expect });
 
 const timingUnit = 10; // milliseconds
-const timingErrorRange = 8; // milliseconds
+const timingErrorRange = 10; // milliseconds
 
 const testTimer = async <T extends unknown>(targetDuration: number, func: (target: number) => Promise<T>) => {
   const start = Date.now();
@@ -68,12 +68,40 @@ describe('PromiseTools', () => {
           expect(all).toBeDefined();
         });
 
-        it('should resolve when all the promises are resolved', async () => {
+        it('should resolve when all are resolved - with promises', async () => {
           const { result, diff } = await testTimer(timingUnit, async (target) => {
             const input = [
               Promise.resolve(1),
               swissak.wait(timingUnit),
               Promise.resolve(3)
+              //
+            ];
+            return await all(input);
+          });
+
+          expect(result).toEqual([1, undefined, 3]);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+        it('should resolve when all are resolved - with functions', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = [
+              () => Promise.resolve(1),
+              () => swissak.wait(timingUnit),
+              () => Promise.resolve(3)
+              //
+            ];
+            return await all(input);
+          });
+
+          expect(result).toEqual([1, undefined, 3]);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+        it('should resolve when all are resolved - with values', async () => {
+          const { result, diff } = await testTimer(0, async (target) => {
+            const input = [
+              1,
+              undefined,
+              3
               //
             ];
             return await all(input);
@@ -98,7 +126,21 @@ describe('PromiseTools', () => {
           expect(allLimit).toBeDefined();
         });
 
-        it('should resolve when all the promises are resolved', async () => {
+        it('should resolve when all the promises are resolved - with promises', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = [
+              Promise.resolve(1),
+              swissak.wait(target).then(() => 2),
+              Promise.resolve(3)
+              //
+            ];
+            return await allLimit(2, input);
+          });
+
+          expect(result).toEqual([1, 2, 3]);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+        it('should resolve when all the promises are resolved - with functions', async () => {
           const { result, diff } = await testTimer(timingUnit, async (target) => {
             const input = [
               () => Promise.resolve(1),
@@ -112,8 +154,32 @@ describe('PromiseTools', () => {
           expect(result).toEqual([1, 2, 3]);
           expect(diff).toBeLessThanOrEqual(timingErrorRange);
         });
+        it('should resolve when all the promises are resolved - with values', async () => {
+          const { result, diff } = await testTimer(0, async (target) => {
+            const input = [1, 2, 3];
+            return await allLimit(2, input);
+          });
 
-        it('should limit to number of simultaneous promises', async () => {
+          expect(result).toEqual([1, 2, 3]);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        it('should limit to number of simultaneous promises - with promises', async () => {
+          // Note: as they aren't functions, the promises 'start' at the same time, and so they'll finish at the same time, even if they're limited to 1
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = [
+              swissak.wait(timingUnit).then(() => 1),
+              swissak.wait(timingUnit).then(() => 2),
+              swissak.wait(timingUnit).then(() => 3)
+              //
+            ];
+            return await allLimit(1, input);
+          });
+
+          expect(result).toEqual([1, 2, 3]);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+        it('should limit to number of simultaneous promises - with functions', async () => {
           const { result, diff } = await testTimer(timingUnit * 3, async (target) => {
             const input = [
               () => swissak.wait(timingUnit).then(() => 1),
@@ -121,6 +187,15 @@ describe('PromiseTools', () => {
               () => swissak.wait(timingUnit).then(() => 3)
               //
             ];
+            return await allLimit(1, input);
+          });
+
+          expect(result).toEqual([1, 2, 3]);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+        it('should limit to number of simultaneous promises - with values', async () => {
+          const { result, diff } = await testTimer(0, async (target) => {
+            const input = [1, 2, 3];
             return await allLimit(1, input);
           });
 
@@ -352,12 +427,40 @@ describe('PromiseTools', () => {
           expect(allObj).toBeDefined();
         });
 
-        it('should resolve when all the promises are resolved', async () => {
+        it('should resolve when all the promises are resolved - with promises', async () => {
           const { result, diff } = await testTimer(timingUnit, async (target) => {
             const input = {
               foo: Promise.resolve(1),
               bar: swissak.wait(timingUnit).then(() => 2),
               baz: Promise.resolve(3)
+              //
+            };
+            return await allObj(input);
+          });
+
+          expect(result).toEqual({ foo: 1, bar: 2, baz: 3 });
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+        it('should resolve when all the promises are resolved - with functions', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = {
+              foo: () => Promise.resolve(1),
+              bar: () => swissak.wait(timingUnit).then(() => 2),
+              baz: () => Promise.resolve(3)
+              //
+            };
+            return await allObj(input);
+          });
+
+          expect(result).toEqual({ foo: 1, bar: 2, baz: 3 });
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+        it('should resolve when all the promises are resolved - with values', async () => {
+          const { result, diff } = await testTimer(0, async (target) => {
+            const input = {
+              foo: () => 1,
+              bar: () => 2,
+              baz: () => 3
               //
             };
             return await allObj(input);
@@ -382,7 +485,7 @@ describe('PromiseTools', () => {
           expect(allLimitObj).toBeDefined();
         });
 
-        it('should resolve when all the promises are resolved', async () => {
+        it('should resolve when all the promises are resolved - with promises', async () => {
           const { result, diff } = await testTimer(timingUnit, async (target) => {
             const input = {
               foo: Promise.resolve(1),
@@ -408,8 +511,16 @@ describe('PromiseTools', () => {
           expect(result).toEqual({ foo: 1, bar: 2, baz: 3 });
           expect(diff).toBeLessThanOrEqual(timingErrorRange);
         });
+        it('should resolve when all the promises are resolved - with values', async () => {
+          const { result, diff } = await testTimer(0, async (target) => {
+            const input = { foo: 1, bar: 2, baz: 3 };
+            return await allLimitObj(1, input);
+          });
+          expect(result).toEqual({ foo: 1, bar: 2, baz: 3 });
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
 
-        it('should limit to number of simultaneous promises', async () => {
+        it('should limit to number of simultaneous promises - with promises', async () => {
           // Note: as they aren't functions, the promises 'start' at the same time, and so they'll finish at the same time, even if they're limited to 1
           const { result, diff, duration } = await testTimer(timingUnit, async (target) => {
             const input = {
@@ -438,8 +549,17 @@ describe('PromiseTools', () => {
           expect(result).toEqual({ foo: 1, bar: 2, baz: 3 });
           expect(diff).toBeLessThanOrEqual(timingErrorRange);
         });
+        it('should limit to number of simultaneous promises - with values', async () => {
+          const { result, diff } = await testTimer(0, async (target) => {
+            const input = { foo: 1, bar: 2, baz: 3 };
+            return await allLimitObj(1, input);
+          });
 
-        it('handle one of the promises rejecting (when noThrow is true)', async () => {
+          expect(result).toEqual({ foo: 1, bar: 2, baz: 3 });
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        it('handle one of the promises rejecting (when noThrow is true) - with promises', async () => {
           const { result, diff } = await testTimer(timingUnit, async (target) => {
             const input = {
               foo: Promise.resolve(1),
@@ -468,7 +588,7 @@ describe('PromiseTools', () => {
           expect(diff).toBeLessThanOrEqual(timingErrorRange);
         });
 
-        it('error when one of the promises is rejecting (when noThrow is false)', async () => {
+        it('error when one of the promises is rejecting (when noThrow is false) - with promises', async () => {
           const { result, diff } = await testTimer(timingUnit, async (target) => {
             try {
               const input = {

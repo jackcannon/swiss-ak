@@ -4369,11 +4369,11 @@ declare namespace PromiseTools {
      * - `all`
      * - `PromiseTools.all`
      *
-     * An alias for Promise.all
-     * @param {Promise<T>[]} promises
-     * @returns {Promise<any>}
+     * Similar to Promise.all, but accepts values, functions, and promises.
+     * @param {PromiseTools.PromiseItem<T>[]} items
+     * @returns {Promise<T[]>}
      */
-    export const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
+    export const all: <T extends unknown>(items: PromiseItem<T>[]) => Promise<T[]>;
     /**<!-- DOCS: PromiseTools.allLimit ### @ -->
      * allLimit
      *
@@ -4415,11 +4415,11 @@ declare namespace PromiseTools {
      * // 	d: 10s
      * ```
      * @param {number} limit
-     * @param {((index: number) => Promise<T>)[]} items
+     * @param {PromiseTools.PromiseItem<T>[]} items
      * @param {boolean} [noThrow=false]
      * @returns {Promise<T[]>}
      */
-    export const allLimit: <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow?: boolean) => Promise<T[]>;
+    export const allLimit: <T extends unknown>(limit: number, items: PromiseItem<T>[], noThrow?: boolean) => Promise<T[]>;
     /**<!-- DOCS: PromiseTools.each ### @ -->
      * each
      *
@@ -4614,6 +4614,24 @@ declare namespace PromiseTools {
      * @returns {Promise<UnWrapPromiseObject<T>>}
      */
     export const allLimitObj: <T extends Object>(limit: number, input: T, noThrow?: boolean) => Promise<UnWrapPromiseObject<T>>;
+    /**<!-- DOCS: PromiseTools.PromiseFunc ### -->
+     * PromiseFunc<T>
+     *
+     * - `PromiseFunc<T>`
+     *
+     * A function that returns a promise
+     */
+    export type PromiseFunc<T> = () => Promise<T>;
+    /**<!-- DOCS: PromiseTools.PromiseItem ### -->
+     * PromiseItem<T>
+     *
+     * - `PromiseItem<T>`
+     *
+     * A promise, a function that returns a promise (see PromiseFunc<T>), or a value
+     *
+     * Accepted by `PromiseTools.all`, `PromiseTools.allLimit`, `PromiseTools.allObj`, and `PromiseTools.allLimitObj` in place of promises
+     */
+    export type PromiseItem<T> = Promise<T> | PromiseFunc<T> | T;
     export {};
 }
 /**<!-- DOCS-ALIAS: PromiseTools.DeferredPromise -->
@@ -4659,11 +4677,11 @@ declare const getDeferred: <T extends unknown>() => PromiseTools.DeferredPromise
  * - `all`
  * - `PromiseTools.all`
  * 
- * An alias for Promise.all
- * @param {Promise<T>[]} promises
- * @returns {Promise<any>}
+ * Similar to Promise.all, but accepts values, functions, and promises.
+ * @param {PromiseTools.PromiseItem<T>[]} items
+ * @returns {Promise<T[]>}
  */
-declare const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
+declare const all: <T extends unknown>(items: PromiseTools.PromiseItem<T>[]) => Promise<T[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.allLimit -->
  * allLimit
  * 
@@ -4705,11 +4723,11 @@ declare const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
  * // 	d: 10s
  * ```
  * @param {number} limit
- * @param {((index: number) => Promise<T>)[]} items
+ * @param {PromiseTools.PromiseItem<T>[]} items
  * @param {boolean} [noThrow=false]
  * @returns {Promise<T[]>}
  */
-declare const allLimit: <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow?: boolean) => Promise<T[]>;
+declare const allLimit: <T extends unknown>(limit: number, items: PromiseTools.PromiseItem<T>[], noThrow?: boolean) => Promise<T[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.each -->
  * each
  * 

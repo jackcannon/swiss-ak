@@ -1400,16 +1400,16 @@ var PromiseTools;
       promise
     };
   };
-  PromiseTools2.all = async (promises) => {
+  PromiseTools2.all = async (items) => {
     const args = {
-      promises: safe.arr(promises, [])
+      items: safe.arr(items).map(functionifyPromiseItem)
     };
-    return await Promise.all(args.promises);
+    return await Promise.all(args.items.map((item) => item()));
   };
   PromiseTools2.allLimit = (limit, items, noThrow = false) => {
     const args = {
       limit: safe.num(limit, true, 1, void 0, 1),
-      items: safe.arr(items).map((item) => safe.func(item, async () => item)),
+      items: safe.arr(items).map(functionifyPromiseItem),
       noThrow: safe.bool(noThrow, false)
     };
     let runningCount = 0;
@@ -1455,7 +1455,7 @@ var PromiseTools;
       items: safe.arr(items, []),
       func: safe.func(func, () => Promise.resolve())
     };
-    await Promise.all(args.items.map((item, index, array) => args.func(item, index, array)));
+    await PromiseTools2.all(args.items.map((item, index, array) => args.func(item, index, array)));
   };
   PromiseTools2.eachLimit = async (limit, items, func) => {
     const args = {
@@ -1474,7 +1474,7 @@ var PromiseTools;
       func: safe.func(func, (v) => Promise.resolve(v))
     };
     const result = [];
-    await Promise.all(
+    await PromiseTools2.all(
       args.items.map(async (item, index, array) => {
         const res = await args.func(item, index, array);
         result[index] = res;
@@ -1496,16 +1496,18 @@ var PromiseTools;
       })
     );
   };
-  const objectify = async (func, input) => {
+  const objectify = async (operate, input) => {
     const keys = Object.keys(input);
-    const results = await func(Object.values(input));
+    const values = Object.values(input);
+    const promFuncs = values.map(functionifyPromiseItem);
+    const results = await operate(promFuncs);
     return Object.fromEntries(keys.map((key, index) => [key, results[index]]));
   };
   PromiseTools2.allObj = async (input) => {
     const args = {
       input: safe.obj(input, {})
     };
-    return objectify((arr) => Promise.all(arr), args.input);
+    return objectify((arr) => PromiseTools2.all(arr), args.input);
   };
   PromiseTools2.allLimitObj = async (limit, input, noThrow = false) => {
     const args = {
@@ -1516,6 +1518,11 @@ var PromiseTools;
     return objectify((items) => {
       return PromiseTools2.allLimit(args.limit, items, args.noThrow);
     }, args.input);
+  };
+  const functionifyPromiseItem = (item) => {
+    if (typeof item === "function")
+      return item;
+    return async () => item;
   };
 })(PromiseTools || (PromiseTools = {}));
 var getDeferred = PromiseTools.getDeferred;
