@@ -3,6 +3,17 @@ import { register, should, singleTest, multiTest, kitchenSink } from './test-uti
 
 register({ describe, it, expect });
 
+const timingUnit = 10; // milliseconds
+const timingErrorRange = 8; // milliseconds
+
+const testTimer = async <T extends unknown>(targetDuration: number, func: (target: number) => Promise<T>) => {
+  const start = Date.now();
+  const result = await func(targetDuration);
+  const duration = Date.now() - start;
+  const diff = Math.abs(duration - targetDuration);
+  return { result, duration, diff };
+};
+
 describe('PromiseTools', () => {
   describe('getDeferred', () => {
     multiTest(
@@ -15,7 +26,34 @@ describe('PromiseTools', () => {
           expect(getDeferred).toBeDefined();
         });
 
-        // TODO tests
+        it('should return a deferred', () => {
+          const deferred = getDeferred();
+          expect(deferred.promise).toBeDefined();
+          expect(deferred.promise).toBeInstanceOf(Promise);
+
+          expect(deferred.resolve).toBeDefined();
+          expect(typeof deferred.resolve).toBe('function');
+
+          expect(deferred.reject).toBeDefined();
+          expect(typeof deferred.reject).toBe('function');
+        });
+
+        it('should resolve the promise', async () => {
+          const deferred = getDeferred();
+          deferred.resolve('foo');
+          expect(await deferred.promise).toBe('foo');
+        });
+
+        it('should reject the promise', async () => {
+          const deferred = getDeferred();
+          deferred.reject('foo');
+          try {
+            await deferred.promise;
+            throw new Error('Promise should have rejected');
+          } catch (err) {
+            expect(err).toBe('foo');
+          }
+        });
       }
     );
   });
@@ -30,7 +68,22 @@ describe('PromiseTools', () => {
           expect(all).toBeDefined();
         });
 
-        // TODO tests
+        it('should resolve when all the promises are resolved', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = [
+              Promise.resolve(1),
+              swissak.wait(timingUnit),
+              Promise.resolve(3)
+              //
+            ];
+            return await all(input);
+          });
+
+          expect(result).toEqual([1, undefined, 3]);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        kitchenSink.toEqual('promises', async (v: any) => await all(v), kitchenSink.safe.arr(undefined, []), kitchenSink.general);
       }
     );
   });
@@ -45,7 +98,90 @@ describe('PromiseTools', () => {
           expect(allLimit).toBeDefined();
         });
 
-        // TODO tests
+        it('should resolve when all the promises are resolved', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = [
+              () => Promise.resolve(1),
+              () => swissak.wait(target).then(() => 2),
+              () => Promise.resolve(3)
+              //
+            ];
+            return await allLimit(2, input);
+          });
+
+          expect(result).toEqual([1, 2, 3]);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        it('should limit to number of simultaneous promises', async () => {
+          const { result, diff } = await testTimer(timingUnit * 3, async (target) => {
+            const input = [
+              () => swissak.wait(timingUnit).then(() => 1),
+              () => swissak.wait(timingUnit).then(() => 2),
+              () => swissak.wait(timingUnit).then(() => 3)
+              //
+            ];
+            return await allLimit(1, input);
+          });
+
+          expect(result).toEqual([1, 2, 3]);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        it(should` resolve even when one of the promises rejects (with noThrow)`, async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = [
+              () => Promise.resolve(1),
+              () => swissak.wait(target).then(() => 2),
+              () => Promise.reject(3)
+              //
+            ];
+            return await allLimit(2, input, true);
+          });
+
+          expect(result).toEqual([1, 2]);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+        it(should` error when one of the promises rejects (with noThrow false)`, async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            try {
+              const input = [
+                () => Promise.resolve(1),
+                () => swissak.wait(target).then(() => 2),
+                () => Promise.reject(3)
+                //
+              ];
+              return await allLimit(2, input, false);
+            } catch (err) {
+              return 'ERROR';
+            }
+          });
+
+          expect(result).toEqual('ERROR');
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        kitchenSink.toEqual(
+          'limit',
+          async (v: any) => await allLimit(v, [() => Promise.resolve(1)]),
+          kitchenSink.safe.num(undefined, true, 1, undefined, 1),
+          kitchenSink.general
+        );
+        kitchenSink.toEqual(
+          'items',
+          async (v: any) => await allLimit(1, v),
+          (v: any) =>
+            kitchenSink.safe
+              .arr(undefined)(v)
+              .map((item) => kitchenSink.safe.func(undefined, async () => item)(item as any)),
+          kitchenSink.general
+        );
+        kitchenSink.toEqual(
+          'noThrow',
+          async (v: any) => await allLimit(1, [() => Promise.resolve(1)], v),
+          kitchenSink.safe.bool(false, false),
+          kitchenSink.general
+        );
       }
     );
   });
@@ -60,7 +196,28 @@ describe('PromiseTools', () => {
           expect(each).toBeDefined();
         });
 
-        // TODO tests
+        it('should resolve when all the promises are resolved', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = [1, 2, 3];
+            return await each(input, (item) => swissak.wait(target).then(() => item * 2));
+          });
+
+          expect(result).toEqual(undefined);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        kitchenSink.toEqual(
+          'items',
+          async (v: any) => await each(v, (item) => Promise.resolve(item)),
+          kitchenSink.safe.arr(undefined, []),
+          kitchenSink.general
+        );
+        kitchenSink.toEqual(
+          'func',
+          async (v: any) => await each([1, 2, 3], v),
+          kitchenSink.safe.func(undefined, () => Promise.resolve()),
+          kitchenSink.general
+        );
       }
     );
   });
@@ -75,7 +232,34 @@ describe('PromiseTools', () => {
           expect(eachLimit).toBeDefined();
         });
 
-        // TODO tests
+        it('should should limit to number of simultaneous promises', async () => {
+          const { result, diff } = await testTimer(timingUnit * 3, async (target) => {
+            const input = [1, 2, 3];
+            return await eachLimit(1, input, (item) => swissak.wait(timingUnit).then(() => item * 2));
+          });
+
+          expect(result).toEqual(undefined);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        kitchenSink.toEqual(
+          'limit',
+          async (v: any) => await eachLimit(v, [1, 2, 3], (item) => Promise.resolve(item)),
+          kitchenSink.safe.num(undefined, true, 1, undefined, 1),
+          kitchenSink.num
+        );
+        kitchenSink.toEqual(
+          'items',
+          async (v: any) => await eachLimit(2, v, (item) => Promise.resolve(item)),
+          kitchenSink.safe.arr(undefined, []),
+          kitchenSink.general
+        );
+        kitchenSink.toEqual(
+          'func',
+          async (v: any) => await eachLimit(2, [1, 2, 3], v),
+          kitchenSink.safe.func(undefined, () => Promise.resolve()),
+          kitchenSink.general
+        );
       }
     );
   });
@@ -90,7 +274,28 @@ describe('PromiseTools', () => {
           expect(map).toBeDefined();
         });
 
-        // TODO tests
+        it('should resolve when all the promises are resolved', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = [1, 2, 3];
+            return await map(input, (item) => swissak.wait(timingUnit).then(() => item * 2));
+          });
+
+          expect(result).toEqual([2, 4, 6]);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        kitchenSink.toEqual(
+          'items',
+          async (v: any) => await map(v, (item) => Promise.resolve(item)),
+          kitchenSink.safe.arr(undefined, []),
+          kitchenSink.general
+        );
+        kitchenSink.toEqual(
+          'func',
+          async (v: any) => await map([1, 2, 3], v),
+          kitchenSink.safe.func(undefined, (v) => Promise.resolve(v)),
+          kitchenSink.general
+        );
       }
     );
   });
@@ -105,7 +310,34 @@ describe('PromiseTools', () => {
           expect(mapLimit).toBeDefined();
         });
 
-        // TODO tests
+        it('should limit to number of simultaneous promises', async () => {
+          const { result, diff } = await testTimer(timingUnit * 3, async (target) => {
+            const input = [1, 2, 3];
+            return await mapLimit(1, input, (item) => swissak.wait(timingUnit).then(() => item * 2));
+          });
+
+          expect(result).toEqual([2, 4, 6]);
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        kitchenSink.toEqual(
+          'limit',
+          async (v: any) => await mapLimit(v, [1, 2, 3], (item) => Promise.resolve(item)),
+          kitchenSink.safe.num(undefined, true, 1, undefined, 1),
+          kitchenSink.num
+        );
+        kitchenSink.toEqual(
+          'items',
+          async (v: any) => await mapLimit(2, v, (item) => Promise.resolve(item)),
+          kitchenSink.safe.arr(undefined, []),
+          kitchenSink.general
+        );
+        kitchenSink.toEqual(
+          'func',
+          async (v: any) => await mapLimit(2, [1, 2, 3], v),
+          kitchenSink.safe.func(undefined, (v) => Promise.resolve(v)),
+          kitchenSink.general
+        );
       }
     );
   });
@@ -120,7 +352,22 @@ describe('PromiseTools', () => {
           expect(allObj).toBeDefined();
         });
 
-        // TODO tests
+        it('should resolve when all the promises are resolved', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = {
+              foo: Promise.resolve(1),
+              bar: swissak.wait(timingUnit).then(() => 2),
+              baz: Promise.resolve(3)
+              //
+            };
+            return await allObj(input);
+          });
+
+          expect(result).toEqual({ foo: 1, bar: 2, baz: 3 });
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        kitchenSink.toEqual('input', async (v: any) => await allObj(v), kitchenSink.safe.obj(undefined, {}), kitchenSink.general);
       }
     );
   });
@@ -135,7 +382,140 @@ describe('PromiseTools', () => {
           expect(allLimitObj).toBeDefined();
         });
 
-        // TODO tests
+        it('should resolve when all the promises are resolved', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = {
+              foo: Promise.resolve(1),
+              bar: swissak.wait(timingUnit).then(() => 2),
+              baz: Promise.resolve(3)
+              //
+            };
+            return await allLimitObj(1, input);
+          });
+          expect(result).toEqual({ foo: 1, bar: 2, baz: 3 });
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+        it('should resolve when all the promises are resolved - with functions', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = {
+              foo: () => Promise.resolve(1),
+              bar: () => swissak.wait(timingUnit).then(() => 2),
+              baz: () => Promise.resolve(3)
+              //
+            };
+            return await allLimitObj(1, input);
+          });
+          expect(result).toEqual({ foo: 1, bar: 2, baz: 3 });
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        it('should limit to number of simultaneous promises', async () => {
+          const { result, diff, duration } = await testTimer(timingUnit * 3, async (target) => {
+            const input = {
+              foo: swissak.wait(timingUnit).then(() => 1),
+              bar: swissak.wait(timingUnit).then(() => 2),
+              baz: swissak.wait(timingUnit).then(() => 3)
+              //
+            };
+            return await allLimitObj(1, input);
+          });
+
+          console.log('DURATION', duration);
+
+          expect(result).toEqual({ foo: 1, bar: 2, baz: 3 });
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+        it('should limit to number of simultaneous promises - with functions', async () => {
+          const { result, diff } = await testTimer(timingUnit * 3, async (target) => {
+            const input = {
+              foo: () => swissak.wait(timingUnit).then(() => 1),
+              bar: () => swissak.wait(timingUnit).then(() => 2),
+              baz: () => swissak.wait(timingUnit).then(() => 3)
+              //
+            };
+            return await allLimitObj(1, input);
+          });
+
+          expect(result).toEqual({ foo: 1, bar: 2, baz: 3 });
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        it('handle one of the promises rejecting (when noThrow is true)', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = {
+              foo: Promise.resolve(1),
+              bar: swissak.wait(target).then(() => 2),
+              baz: Promise.reject(3)
+              //
+            };
+            return await allLimitObj(2, input, true);
+          });
+
+          expect(result).toEqual({ foo: 1, bar: 2 });
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+        it('handle one of the promises rejecting (when noThrow is true) - with functions', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            const input = {
+              foo: () => Promise.resolve(1),
+              bar: () => swissak.wait(target).then(() => 2),
+              baz: () => Promise.reject(3)
+              //
+            };
+            return await allLimitObj(2, input, true);
+          });
+
+          expect(result).toEqual({ foo: 1, bar: 2 });
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        it('error when one of the promises is rejecting (when noThrow is false)', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            try {
+              const input = {
+                foo: Promise.resolve(1),
+                bar: swissak.wait(target).then(() => 2),
+                baz: Promise.reject(3)
+                //
+              };
+              const result = await allLimitObj(2, input, false);
+              return result;
+            } catch (err) {
+              return 'ERROR';
+            }
+          });
+
+          expect(result).toEqual('ERROR');
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+        it('error when one of the promises is rejecting (when noThrow is false) - with functions', async () => {
+          const { result, diff } = await testTimer(timingUnit, async (target) => {
+            try {
+              const input = {
+                foo: () => Promise.resolve(1),
+                bar: () => swissak.wait(target).then(() => 2),
+                baz: () => Promise.reject(3)
+                //
+              };
+              const result = await allLimitObj(2, input, false);
+              return result;
+            } catch (err) {
+              return 'ERROR';
+            }
+          });
+
+          expect(result).toEqual('ERROR');
+          expect(diff).toBeLessThanOrEqual(timingErrorRange);
+        });
+
+        kitchenSink.toEqual(
+          'limit',
+          async (v: any) => await allLimitObj(v, {}),
+          kitchenSink.safe.num(undefined, true, 1, undefined, 1),
+          kitchenSink.num
+        );
+        kitchenSink.toEqual('input', async (v: any) => await allLimitObj(1, v), kitchenSink.safe.obj(undefined, {}), kitchenSink.general);
+        kitchenSink.toEqual('noThrow', async (v: any) => await allLimitObj(1, {}, v), kitchenSink.safe.bool(false, false), kitchenSink.general);
       }
     );
   });

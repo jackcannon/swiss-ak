@@ -3058,8 +3058,8 @@ timer.log();
 ### each
 
 ```typescript
-each(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any>
-PromiseTools.each(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any>
+each(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void>
+PromiseTools.each(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void>
 ```
 
 Run an async function against each item in an array
@@ -3081,17 +3081,17 @@ console.log(''); // after 2 seconds
 | *0* | `items`        | **Yes**  | `Ti[]`                                                   |
 | *1* | `func`         | **Yes**  | `(item: Ti, index: number, array: Ti[]) => Promise<any>` |
 
-| Return Type    |
-|----------------|
-| `Promise<any>` |
+| Return Type     |
+|-----------------|
+| `Promise<void>` |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
 ### eachLimit
 
 ```typescript
-eachLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any>
-PromiseTools.eachLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any>
+eachLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void>
+PromiseTools.eachLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void>
 ```
 
 Run an async function against each item in an array, limiting the number of items that can run concurrently.
@@ -3116,9 +3116,9 @@ console.log(''); // after 4 seconds
 | *1* | `items`        | **Yes**  | `Ti[]`                                                   |
 | *2* | `func`         | **Yes**  | `(item: Ti, index: number, array: Ti[]) => Promise<any>` |
 
-| Return Type    |
-|----------------|
-| `Promise<any>` |
+| Return Type     |
+|-----------------|
+| `Promise<void>` |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 

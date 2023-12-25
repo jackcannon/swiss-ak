@@ -1,4 +1,10 @@
 //<!-- DOCS: 140 -->
+
+import { safe } from './safe';
+
+// TODO - all and allLimit need to accept the same things
+// TODO - everything should accept functions AND promises AND values
+
 /**<!-- DOCS: PromiseTools ##! -->
  * PromiseTools
  *
@@ -77,7 +83,10 @@ export namespace PromiseTools {
    * @returns {Promise<any>}
    */
   export const all = async <T extends unknown>(promises: Promise<T>[]): Promise<any> => {
-    await Promise.all(promises);
+    const args = {
+      promises: safe.arr(promises, [])
+    };
+    return await Promise.all(args.promises);
   };
 
   /**<!-- DOCS: PromiseTools.allLimit ### @ -->
@@ -126,24 +135,30 @@ export namespace PromiseTools {
    * @returns {Promise<T[]>}
    */
   export const allLimit = <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow: boolean = false): Promise<T[]> => {
+    const args = {
+      limit: safe.num(limit, true, 1, undefined, 1),
+      items: safe.arr(items).map((item) => safe.func(item, async () => item as unknown as Promise<T>)),
+      noThrow: safe.bool(noThrow, false)
+    };
+
     let runningCount: number = 0;
     let errors: any[] = [];
-    let remaining: ((index: number) => Promise<T>)[] = [...items];
+    let remaining: ((index: number) => Promise<T>)[] = [...args.items];
     const result: T[] = [];
     const deferred = getDeferred<T[]>();
 
     const update = () => {
       if (remaining.length === 0 && runningCount === 0) {
-        if (errors.length && !noThrow) {
+        if (errors.length && !args.noThrow) {
           deferred.reject(errors);
           return;
         }
         deferred.resolve(result);
         return;
       }
-      if (runningCount < limit && remaining.length) {
+      if (runningCount < args.limit && remaining.length) {
         const next = remaining.shift() as (index: number) => Promise<T>;
-        const index = items.indexOf(next);
+        const index = args.items.indexOf(next);
         run(next, index);
       }
     };
@@ -158,11 +173,11 @@ export namespace PromiseTools {
       update();
     };
 
-    for (let i = 0; i < Math.min(limit, items.length); i++) {
+    for (let i = 0; i < Math.min(args.limit, args.items.length); i++) {
       update();
     }
 
-    if (!items || items.length === 0) {
+    if (!args.items || args.items.length === 0) {
       deferred.resolve(result);
     }
 
@@ -190,10 +205,15 @@ export namespace PromiseTools {
    * ```
    * @param {Ti[]} items
    * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
-   * @returns {Promise<any>}
+   * @returns {Promise<void>}
    */
-  export const each = async <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any> => {
-    await Promise.all(items.map((item: Ti, index: number, array: Ti[]) => func(item, index, array)));
+  export const each = async <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void> => {
+    const args = {
+      items: safe.arr(items, []),
+      func: safe.func(func, () => Promise.resolve())
+    };
+    await Promise.all(args.items.map((item: Ti, index: number, array: Ti[]) => args.func(item, index, array)));
+    // Do not return
   };
 
   /**<!-- DOCS: PromiseTools.eachLimit ### @ -->
@@ -220,17 +240,23 @@ export namespace PromiseTools {
    * @param {number} limit
    * @param {Ti[]} items
    * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
-   * @returns {Promise<any>}
+   * @returns {Promise<void>}
    */
   export const eachLimit = async <Ti extends unknown>(
     limit: number,
     items: Ti[],
     func: (item: Ti, index: number, array: Ti[]) => Promise<any>
-  ): Promise<any> => {
+  ): Promise<void> => {
+    const args = {
+      limit: safe.num(limit, true, 1, undefined, 1),
+      items: safe.arr(items, []),
+      func: safe.func(func, () => Promise.resolve())
+    };
     await allLimit(
-      limit,
-      items.map((item: Ti, index: number, array: Ti[]) => () => func(item, index, array))
+      args.limit,
+      args.items.map((item: Ti, index: number, array: Ti[]) => () => args.func(item, index, array))
     );
+    // do not return
   };
 
   /**<!-- DOCS: PromiseTools.map ### @ -->
@@ -261,11 +287,15 @@ export namespace PromiseTools {
     items: Ti[],
     func: (item: Ti, index: number, array: Ti[]) => Promise<To>
   ): Promise<To[]> => {
+    const args = {
+      items: safe.arr(items, []),
+      func: safe.func(func, (v) => Promise.resolve(v as unknown as To))
+    };
     const result: To[] = [];
 
     await Promise.all(
-      items.map(async (item: Ti, index: number, array: Ti[]) => {
-        const res = await func(item, index, array);
+      args.items.map(async (item: Ti, index: number, array: Ti[]) => {
+        const res = await args.func(item, index, array);
         result[index] = res;
       })
     );
@@ -304,14 +334,20 @@ export namespace PromiseTools {
     limit: number,
     items: Ti[],
     func: (item: Ti, index: number, array: Ti[]) => Promise<To>
-  ): Promise<To[]> =>
-    await allLimit(
-      limit,
-      items.map((item: Ti, index: number, array: Ti[]) => () => {
-        const res = func(item, index, array);
+  ): Promise<To[]> => {
+    const args = {
+      limit: safe.num(limit, true, 1, undefined, 1),
+      items: safe.arr(items, []),
+      func: safe.func(func, (v) => Promise.resolve(v as unknown as To))
+    };
+    return await allLimit(
+      args.limit,
+      args.items.map((item: Ti, index: number, array: Ti[]) => () => {
+        const res = args.func(item, index, array);
         return res;
       })
     );
+  };
 
   const objectify = async <T extends Object>(func: Function, input: T): Promise<UnWrapPromiseObject<T>> => {
     const keys = Object.keys(input);
@@ -361,7 +397,10 @@ export namespace PromiseTools {
    * @returns {Promise<UnWrapPromiseObject<T>>}
    */
   export const allObj = async <T extends Object>(input: T): Promise<UnWrapPromiseObject<T>> => {
-    return objectify((arr) => Promise.all(arr), input);
+    const args = {
+      input: safe.obj(input, {} as T)
+    };
+    return objectify((arr) => Promise.all(arr), args.input);
   };
 
   /**<!-- DOCS: PromiseTools.allLimitObj ### @ -->
@@ -410,9 +449,14 @@ export namespace PromiseTools {
    * @returns {Promise<UnWrapPromiseObject<T>>}
    */
   export const allLimitObj = async <T extends Object>(limit: number, input: T, noThrow: boolean = false): Promise<UnWrapPromiseObject<T>> => {
+    const args = {
+      limit: safe.num(limit, true, 1, undefined, 1),
+      input: safe.obj(input, {} as T),
+      noThrow: safe.bool(noThrow, false)
+    };
     return objectify((items: ((index: number) => Promise<T>)[]) => {
-      return allLimit(limit, items, noThrow);
-    }, input);
+      return allLimit(args.limit, items, args.noThrow);
+    }, args.input);
   };
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 

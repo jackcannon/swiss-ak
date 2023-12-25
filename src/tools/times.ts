@@ -265,8 +265,6 @@ export namespace times {
    */
   export const MILLENNIUM = 1000 * YEAR;
 
-  // TODO add input safety to multiplier functions
-
   /**<!-- DOCS: times.milliseconds ### -1 @ -->
    * milliseconds
    *

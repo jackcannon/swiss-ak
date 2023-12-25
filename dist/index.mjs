@@ -1401,26 +1401,34 @@ var PromiseTools;
     };
   };
   PromiseTools2.all = async (promises) => {
-    await Promise.all(promises);
+    const args = {
+      promises: safe.arr(promises, [])
+    };
+    return await Promise.all(args.promises);
   };
   PromiseTools2.allLimit = (limit, items, noThrow = false) => {
+    const args = {
+      limit: safe.num(limit, true, 1, void 0, 1),
+      items: safe.arr(items).map((item) => safe.func(item, async () => item)),
+      noThrow: safe.bool(noThrow, false)
+    };
     let runningCount = 0;
     let errors = [];
-    let remaining = [...items];
+    let remaining = [...args.items];
     const result = [];
     const deferred = PromiseTools2.getDeferred();
     const update = () => {
       if (remaining.length === 0 && runningCount === 0) {
-        if (errors.length && !noThrow) {
+        if (errors.length && !args.noThrow) {
           deferred.reject(errors);
           return;
         }
         deferred.resolve(result);
         return;
       }
-      if (runningCount < limit && remaining.length) {
+      if (runningCount < args.limit && remaining.length) {
         const next = remaining.shift();
-        const index = items.indexOf(next);
+        const index = args.items.indexOf(next);
         run(next, index);
       }
     };
@@ -1434,52 +1442,80 @@ var PromiseTools;
       runningCount--;
       update();
     };
-    for (let i = 0; i < Math.min(limit, items.length); i++) {
+    for (let i = 0; i < Math.min(args.limit, args.items.length); i++) {
       update();
     }
-    if (!items || items.length === 0) {
+    if (!args.items || args.items.length === 0) {
       deferred.resolve(result);
     }
     return deferred.promise;
   };
   PromiseTools2.each = async (items, func) => {
-    await Promise.all(items.map((item, index, array) => func(item, index, array)));
+    const args = {
+      items: safe.arr(items, []),
+      func: safe.func(func, () => Promise.resolve())
+    };
+    await Promise.all(args.items.map((item, index, array) => args.func(item, index, array)));
   };
   PromiseTools2.eachLimit = async (limit, items, func) => {
+    const args = {
+      limit: safe.num(limit, true, 1, void 0, 1),
+      items: safe.arr(items, []),
+      func: safe.func(func, () => Promise.resolve())
+    };
     await PromiseTools2.allLimit(
-      limit,
-      items.map((item, index, array) => () => func(item, index, array))
+      args.limit,
+      args.items.map((item, index, array) => () => args.func(item, index, array))
     );
   };
   PromiseTools2.map = async (items, func) => {
+    const args = {
+      items: safe.arr(items, []),
+      func: safe.func(func, (v) => Promise.resolve(v))
+    };
     const result = [];
     await Promise.all(
-      items.map(async (item, index, array) => {
-        const res = await func(item, index, array);
+      args.items.map(async (item, index, array) => {
+        const res = await args.func(item, index, array);
         result[index] = res;
       })
     );
     return result;
   };
-  PromiseTools2.mapLimit = async (limit, items, func) => await PromiseTools2.allLimit(
-    limit,
-    items.map((item, index, array) => () => {
-      const res = func(item, index, array);
-      return res;
-    })
-  );
+  PromiseTools2.mapLimit = async (limit, items, func) => {
+    const args = {
+      limit: safe.num(limit, true, 1, void 0, 1),
+      items: safe.arr(items, []),
+      func: safe.func(func, (v) => Promise.resolve(v))
+    };
+    return await PromiseTools2.allLimit(
+      args.limit,
+      args.items.map((item, index, array) => () => {
+        const res = args.func(item, index, array);
+        return res;
+      })
+    );
+  };
   const objectify = async (func, input) => {
     const keys = Object.keys(input);
     const results = await func(Object.values(input));
     return Object.fromEntries(keys.map((key, index) => [key, results[index]]));
   };
   PromiseTools2.allObj = async (input) => {
-    return objectify((arr) => Promise.all(arr), input);
+    const args = {
+      input: safe.obj(input, {})
+    };
+    return objectify((arr) => Promise.all(arr), args.input);
   };
   PromiseTools2.allLimitObj = async (limit, input, noThrow = false) => {
+    const args = {
+      limit: safe.num(limit, true, 1, void 0, 1),
+      input: safe.obj(input, {}),
+      noThrow: safe.bool(noThrow, false)
+    };
     return objectify((items) => {
-      return PromiseTools2.allLimit(limit, items, noThrow);
-    }, input);
+      return PromiseTools2.allLimit(args.limit, items, args.noThrow);
+    }, args.input);
   };
 })(PromiseTools || (PromiseTools = {}));
 var getDeferred = PromiseTools.getDeferred;

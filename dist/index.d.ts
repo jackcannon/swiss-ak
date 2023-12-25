@@ -4441,9 +4441,9 @@ declare namespace PromiseTools {
      * ```
      * @param {Ti[]} items
      * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
-     * @returns {Promise<any>}
+     * @returns {Promise<void>}
      */
-    export const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
+    export const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<void>;
     /**<!-- DOCS: PromiseTools.eachLimit ### @ -->
      * eachLimit
      *
@@ -4468,9 +4468,9 @@ declare namespace PromiseTools {
      * @param {number} limit
      * @param {Ti[]} items
      * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
-     * @returns {Promise<any>}
+     * @returns {Promise<void>}
      */
-    export const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
+    export const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<void>;
     /**<!-- DOCS: PromiseTools.map ### @ -->
      * map
      *
@@ -4731,9 +4731,9 @@ declare const allLimit: <T extends unknown>(limit: number, items: ((index: numbe
  * ```
  * @param {Ti[]} items
  * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
- * @returns {Promise<any>}
+ * @returns {Promise<void>}
  */
-declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
+declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<void>;
 /**<!-- DOCS-ALIAS: PromiseTools.eachLimit -->
  * eachLimit
  * 
@@ -4758,9 +4758,9 @@ declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: nu
  * @param {number} limit
  * @param {Ti[]} items
  * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
- * @returns {Promise<any>}
+ * @returns {Promise<void>}
  */
-declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
+declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<void>;
 /**<!-- DOCS-ALIAS: PromiseTools.map -->
  * map
  * 
