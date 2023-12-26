@@ -2050,36 +2050,61 @@ var QueueManager = class {
     this.promises = /* @__PURE__ */ new Map();
     this.pauseTimes = /* @__PURE__ */ new Map();
     this.defaultPauseTime = 0;
-    if (defaultPauseTime)
-      this.setDefaultPauseTime(defaultPauseTime);
+    const args = {
+      defaultPauseTime: safe.num(defaultPauseTime, true, 0)
+    };
+    this.setDefaultPauseTime(args.defaultPauseTime);
   }
   getPromise(id) {
-    const existing = this.promises.get(id);
+    const args = {
+      id: safe.str(id, false, Math.random().toString(36).slice(2))
+    };
+    const existing = this.promises.get(args.id);
     if (existing)
       return existing;
     const promise = Promise.resolve();
-    this.promises.set(id, promise);
+    this.promises.set(args.id, promise);
     return promise;
   }
   setDefaultPauseTime(time) {
-    this.defaultPauseTime = time;
+    const args = {
+      time: safe.num(time, true, 0)
+    };
+    this.defaultPauseTime = args.time;
   }
   setPauseTime(id, time) {
-    this.pauseTimes.set(id, time);
+    const args = {
+      id: safe.str(id, false, Math.random().toString(36).slice(2)),
+      time: safe.num(time, true, 0)
+    };
+    this.pauseTimes.set(args.id, args.time);
   }
-  add(id, fn2) {
-    const promise = this.getPromise(id).then(async () => {
-      const result = await fn2();
-      const pauseTime = this.pauseTimes.get(id) ?? -1;
+  add(id, promiseItem) {
+    const args = {
+      id: safe.str(id, false, Math.random().toString(36).slice(2)),
+      promiseItem: safe.func(promiseItem, async () => promiseItem)
+    };
+    const promise = this.getPromise(args.id).then(async () => {
+      const result = await args.promiseItem();
+      const pauseTime = this.pauseTimes.get(args.id) ?? this.defaultPauseTime;
       if (pauseTime >= 0)
         await wait(pauseTime);
       return result;
     });
-    this.promises.set(id, promise);
+    this.promises.set(args.id, promise);
     return promise;
   }
-  new(defaultPauseTime) {
-    return new QueueManager(defaultPauseTime);
+  new(defaultPauseTime = 0) {
+    const args = {
+      defaultPauseTime: safe.num(defaultPauseTime, true, 0)
+    };
+    return new QueueManager(args.defaultPauseTime);
+  }
+  static new(defaultPauseTime = 0) {
+    const args = {
+      defaultPauseTime: safe.num(defaultPauseTime, true, 0)
+    };
+    return new QueueManager(args.defaultPauseTime);
   }
 };
 var queue = new QueueManager();

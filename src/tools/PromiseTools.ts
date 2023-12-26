@@ -2,9 +2,6 @@
 
 import { safe } from './safe';
 
-// TODO - all and allLimit need to accept the same things
-// TODO - everything should accept functions AND promises AND values
-
 /**<!-- DOCS: PromiseTools ##! -->
  * PromiseTools
  *

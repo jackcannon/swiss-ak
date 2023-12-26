@@ -4416,15 +4416,15 @@ PromiseTools.each(range(5), async (i) => {
 #### setDefaultPauseTime
 
 ```typescript
-queue.setDefaultPauseTime(time: number): void
-new QueueManager().setDefaultPauseTime(time: number): void
+queue.setDefaultPauseTime(time: ms): void
+new QueueManager().setDefaultPauseTime(time: ms): void
 ```
 
 Sets the default pause time for pauses between queue items.
 
-|  #  | Parameter Name | Required | Type     |
-|:---:|:---------------|:---------|:---------|
-| *0* | `time`         | **Yes**  | `number` |
+|  #  | Parameter Name | Required | Type |
+|:---:|:---------------|:---------|:-----|
+| *0* | `time`         | **Yes**  | `ms` |
 
 | Return Type |
 |-------------|
@@ -4435,8 +4435,8 @@ Sets the default pause time for pauses between queue items.
 #### setPauseTime
 
 ```typescript
-queue.setPauseTime(id: string, time: number): void
-new QueueManager().setPauseTime(id: string, time: number): void
+queue.setPauseTime(id: string, time: ms): void
+new QueueManager().setPauseTime(id: string, time: ms): void
 ```
 
 Sets the pause time for pauses between queue items for the specified queue.
@@ -4444,7 +4444,7 @@ Sets the pause time for pauses between queue items for the specified queue.
 |  #  | Parameter Name | Required | Type     |
 |:---:|:---------------|:---------|:---------|
 | *0* | `id`           | **Yes**  | `string` |
-| *1* | `time`         | **Yes**  | `number` |
+| *1* | `time`         | **Yes**  | `ms`     |
 
 | Return Type |
 |-------------|
@@ -4455,16 +4455,16 @@ Sets the pause time for pauses between queue items for the specified queue.
 #### add
 
 ```typescript
-queue.add(id: string, fn: () => Promise<T>): Promise<T>
-new QueueManager().add(id: string, fn: () => Promise<T>): Promise<T>
+queue.add(id: string, promiseItem: PromiseTools.PromiseItem<T>): Promise<T>
+new QueueManager().add(id: string, promiseItem: PromiseTools.PromiseItem<T>): Promise<T>
 ```
 
 Adds a function to the queue.
 
-|  #  | Parameter Name | Required | Type               |
-|:---:|:---------------|:---------|:-------------------|
-| *0* | `id`           | **Yes**  | `string`           |
-| *1* | `fn`           | **Yes**  | `() => Promise<T>` |
+|  #  | Parameter Name | Required | Type                          |
+|:---:|:---------------|:---------|:------------------------------|
+| *0* | `id`           | **Yes**  | `string`                      |
+| *1* | `promiseItem`  | **Yes**  | `PromiseTools.PromiseItem<T>` |
 
 | Return Type  |
 |--------------|
@@ -4475,15 +4475,16 @@ Adds a function to the queue.
 #### new
 
 ```typescript
-queue.new(defaultPauseTime: number): QueueManager
-new QueueManager().new(defaultPauseTime: number): QueueManager
+queue.new(defaultPauseTime: ms): QueueManager
+new QueueManager().new(defaultPauseTime: ms): QueueManager
+QueueManager.new(defaultPauseTime: ms): QueueManager
 ```
 
 Creates a new QueueManager instance.
 
-|  #  | Parameter Name     | Required | Type     |
-|:---:|:-------------------|:---------|:---------|
-| *0* | `defaultPauseTime` | *No*     | `number` |
+|  #  | Parameter Name     | Required | Type | Default |
+|:---:|:-------------------|:---------|:-----|:--------|
+| *0* | `defaultPauseTime` | *No*     | `ms` | `0`     |
 
 | Return Type    |
 |----------------|

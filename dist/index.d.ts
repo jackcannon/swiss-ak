@@ -6318,9 +6318,9 @@ declare const superscript: (num: number | string) => string;
  */
 declare class QueueManager {
     promises: Map<string, Promise<any>>;
-    pauseTimes: Map<string, number>;
-    defaultPauseTime: number;
-    constructor(defaultPauseTime?: number);
+    pauseTimes: Map<string, ms>;
+    defaultPauseTime: ms;
+    constructor(defaultPauseTime?: ms);
     getPromise(id: string): Promise<any>;
     /**<!-- DOCS: queue.setDefaultPauseTime #### @ -->
      * setDefaultPauseTime
@@ -6329,10 +6329,10 @@ declare class QueueManager {
      * - `new QueueManager().setDefaultPauseTime`
      *
      * Sets the default pause time for pauses between queue items.
-     * @param {number} time
+     * @param {ms} time
      * @returns {void}
      */
-    setDefaultPauseTime(time: number): void;
+    setDefaultPauseTime(time: ms): void;
     /**<!-- DOCS: queue.setPauseTime #### @ -->
      * setPauseTime
      *
@@ -6341,10 +6341,10 @@ declare class QueueManager {
      *
      * Sets the pause time for pauses between queue items for the specified queue.
      * @param {string} id
-     * @param {number} time
+     * @param {ms} time
      * @returns {void}
      */
-    setPauseTime(id: string, time: number): void;
+    setPauseTime(id: string, time: ms): void;
     /**<!-- DOCS: queue.add #### @ -->
      * add
      *
@@ -6353,21 +6353,34 @@ declare class QueueManager {
      *
      * Adds a function to the queue.
      * @param {string} id
-     * @param {() => Promise<T>} fn
+     * @param {PromiseTools.PromiseItem<T>} promiseItem
      * @returns {Promise<T>}
      */
-    add<T>(id: string, fn: () => Promise<T>): Promise<T>;
+    add<T>(id: string, promiseItem: PromiseTools.PromiseItem<T>): Promise<T>;
     /**<!-- DOCS: queue.new #### @ -->
      * new
      *
      * - `queue.new`
      * - `new QueueManager().new`
+     * - `QueueManager.new`
      *
      * Creates a new QueueManager instance.
-     * @param {number} [defaultPauseTime]
+     * @param {ms} [defaultPauseTime=0]
      * @returns {QueueManager}
      */
-    new(defaultPauseTime?: number): QueueManager;
+    new(defaultPauseTime?: ms): QueueManager;
+    /**<!-- DOCS-ALIAS: queue.new -->
+     * new
+     * 
+     * - `queue.new`
+     * - `new QueueManager().new`
+     * - `QueueManager.new`
+     * 
+     * Creates a new QueueManager instance.
+     * @param {ms} [defaultPauseTime=0]
+     * @returns {QueueManager}
+     */
+    static new(defaultPauseTime?: ms): QueueManager;
 }
 /**<!-- DOCS: queue.queue ### -->
  * queue
