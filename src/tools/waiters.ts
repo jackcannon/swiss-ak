@@ -1,3 +1,4 @@
+import { safe } from './safe';
 import { ms } from './times';
 
 //<!-- DOCS: 20 -->
@@ -38,7 +39,7 @@ export namespace waiters {
    * @param {ms} time
    * @returns {Promise<unknown>}
    */
-  export const wait = (time: ms) => new Promise((resolve) => setTimeout(resolve, time));
+  export const wait = (time: ms) => new Promise((resolve) => setTimeout(resolve, safe.num(time, true, 0)));
 
   // a certain percentage of the difference between now and given time
   const PING_RATIO = 0.75;
@@ -64,8 +65,11 @@ export namespace waiters {
    * @returns {Promise<null>}
    */
   export const waitUntil = async (time: ms): Promise<null> => {
-    while (Date.now() < time) {
-      await wait(getPingDuration(time));
+    const args = {
+      time: safe.num(time, true, 0)
+    };
+    while (Date.now() < args.time) {
+      await wait(getPingDuration(args.time));
     }
     return null;
   };
@@ -88,7 +92,7 @@ export namespace waiters {
    * @param {ms} time
    * @returns {Promise<null>}
    */
-  export const waitFor = async (time: ms): Promise<null> => waitUntil(Date.now() + time);
+  export const waitFor = async (time: ms): Promise<null> => waitUntil(Date.now() + safe.num(time, true, 0));
 
   // get the time (ms) until the next 'every X' event
   const getNextEvery = (timing: ms, offset: ms = 0): ms => {
@@ -116,7 +120,13 @@ export namespace waiters {
    * @param {ms} [offset]
    * @returns {Promise<null>}
    */
-  export const waitEvery = (timing: ms, offset?: ms): Promise<null> => waitFor(getNextEvery(timing, offset));
+  export const waitEvery = (timing: ms, offset?: ms): Promise<null> => {
+    const args = {
+      timing: safe.num(timing, true, 0),
+      offset: safe.num(offset, true, 0)
+    };
+    return waitFor(getNextEvery(args.timing, args.offset));
+  };
 
   const stopped: number[] = [];
   /**<!-- DOCS: waiters.stopInterval ### @ -->
@@ -137,9 +147,14 @@ export namespace waiters {
    * }, hours(1));
    * ```
    * @param {number} intID
-   * @returns {number}
+   * @returns {void}
    */
-  export const stopInterval = (intID: number) => stopped.push(intID);
+  export const stopInterval = (intID: number): void => {
+    const args = {
+      intID: safe.num(intID, true, 0)
+    };
+    stopped.push(args.intID);
+  };
 
   /**<!-- DOCS: waiters.interval ### @ -->
    * interval
@@ -165,14 +180,18 @@ export namespace waiters {
    * @returns {number}
    */
   export const interval = (action: (intID?: number, count?: number) => any, timing: ms): number => {
-    const intID: number = Math.floor(Math.random() * Math.pow(10, 10));
+    const args = {
+      action: safe.func(action),
+      timing: safe.num(timing, true, 1, undefined, 1)
+    };
+    const intID: number = safe.num(Math.floor(Math.random() * Math.pow(10, 10)), true, 0);
     let count: number = 0;
     const run = async () => {
-      await waitEvery(timing);
+      await waitEvery(args.timing);
       if (stopped.includes(intID)) {
         return;
       }
-      action(intID, ++count);
+      args.action(intID, ++count);
       run();
     };
     run();

@@ -54,6 +54,8 @@ export namespace safe {
     if (min !== undefined && result < min) result = min;
     if (max !== undefined && result > max) result = max;
     if (Math.abs(result) === Infinity) result = fallback;
+    if (min !== undefined && result < min) result = min;
+    if (max !== undefined && result > max) result = max;
     return result;
   };
 

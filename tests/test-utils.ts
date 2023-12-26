@@ -67,6 +67,15 @@ export const should = (strings: TemplateStringsArray, ...exps: any[]) => {
   return prefix + output.join('');
 };
 
+export const testTimer = async <T extends unknown>(targetDuration: number, func: (target: number) => Promise<T>) => {
+  const start = Date.now();
+  const result = await func(targetDuration);
+  const end = Date.now();
+  const duration = end - start;
+  const diff = Math.abs(duration - targetDuration);
+  return { result, duration, diff, start, end };
+};
+
 const runKitchenSink = <Ti extends unknown, To extends unknown>(
   checkType: 'toBe' | 'toEqual',
   name: string,

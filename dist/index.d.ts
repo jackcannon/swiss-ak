@@ -1083,9 +1083,9 @@ declare namespace waiters {
      * }, hours(1));
      * ```
      * @param {number} intID
-     * @returns {number}
+     * @returns {void}
      */
-    const stopInterval: (intID: number) => number;
+    const stopInterval: (intID: number) => void;
     /**<!-- DOCS: waiters.interval ### @ -->
      * interval
      *
@@ -1206,9 +1206,9 @@ declare const waitEvery: (timing: ms, offset?: ms) => Promise<null>;
  * }, hours(1));
  * ```
  * @param {number} intID
- * @returns {number}
+ * @returns {void}
  */
-declare const stopInterval: (intID: number) => number;
+declare const stopInterval: (intID: number) => void;
 /**<!-- DOCS-ALIAS: waiters.interval -->
  * interval
  * 

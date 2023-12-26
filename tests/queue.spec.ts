@@ -3,8 +3,8 @@ import { register, should, singleTest, multiTest, kitchenSink } from './test-uti
 
 register({ describe, it, expect });
 
-const timingUnit = 10; // milliseconds
-const timingErrorRange = 8; // milliseconds
+const timingUnit = 20; // milliseconds
+const timingErrorRange = 12; // milliseconds
 
 const QUEUE_INSTANCE = new swissak.QueueManager();
 

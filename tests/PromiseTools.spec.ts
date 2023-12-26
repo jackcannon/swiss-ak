@@ -1,18 +1,10 @@
 import * as swissak from '../';
-import { register, should, singleTest, multiTest, kitchenSink } from './test-utils';
+import { register, should, singleTest, multiTest, kitchenSink, testTimer } from './test-utils';
 
 register({ describe, it, expect });
 
 const timingUnit = 10; // milliseconds
 const timingErrorRange = 10; // milliseconds
-
-const testTimer = async <T extends unknown>(targetDuration: number, func: (target: number) => Promise<T>) => {
-  const start = Date.now();
-  const result = await func(targetDuration);
-  const duration = Date.now() - start;
-  const diff = Math.abs(duration - targetDuration);
-  return { result, duration, diff };
-};
 
 describe('PromiseTools', () => {
   describe('getDeferred', () => {

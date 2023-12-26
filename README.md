@@ -182,8 +182,8 @@ console.log(new Date().toTimeString()); // 14:00:00
 ### stopInterval
 
 ```typescript
-stopInterval(intID: number): number
-waiters.stopInterval(intID: number): number
+stopInterval(intID: number): void
+waiters.stopInterval(intID: number): void
 ```
 
 ```typescript
@@ -204,7 +204,7 @@ interval((intID, count) => {
 
 | Return Type |
 |-------------|
-| `number`    |
+| `void`      |
 
 <p style="text-align: right" align="right"><a href="#waiters"> [↑ Back to <b>waiters</b> ↑] </a></p>
 

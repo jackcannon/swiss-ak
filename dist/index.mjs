@@ -15,6 +15,10 @@ var safe;
       result = max;
     if (Math.abs(result) === Infinity)
       result = fallback;
+    if (min !== void 0 && result < min)
+      result = min;
+    if (max !== void 0 && result > max)
+      result = max;
     return result;
   };
   safe2.str = (input, allowBasicStringify = false, fallback = "") => {
@@ -174,34 +178,52 @@ var millenniums = times.millenniums;
 // src/tools/waiters.ts
 var waiters;
 ((waiters2) => {
-  waiters2.wait = (time) => new Promise((resolve) => setTimeout(resolve, time));
+  waiters2.wait = (time) => new Promise((resolve) => setTimeout(resolve, safe.num(time, true, 0)));
   const PING_RATIO = 0.75;
   const ROUND_AMOUNT = 1.5;
   const getPingDuration = (time, now = Date.now()) => Math.ceil((time - now) * PING_RATIO / ROUND_AMOUNT) * ROUND_AMOUNT;
   waiters2.waitUntil = async (time) => {
-    while (Date.now() < time) {
-      await waiters2.wait(getPingDuration(time));
+    const args = {
+      time: safe.num(time, true, 0)
+    };
+    while (Date.now() < args.time) {
+      await waiters2.wait(getPingDuration(args.time));
     }
     return null;
   };
-  waiters2.waitFor = async (time) => waiters2.waitUntil(Date.now() + time);
+  waiters2.waitFor = async (time) => waiters2.waitUntil(Date.now() + safe.num(time, true, 0));
   const getNextEvery = (timing, offset = 0) => {
     const now = Date.now();
     const result = timing - (now - offset) % timing;
     return result <= 10 ? timing : result;
   };
-  waiters2.waitEvery = (timing, offset) => waiters2.waitFor(getNextEvery(timing, offset));
+  waiters2.waitEvery = (timing, offset) => {
+    const args = {
+      timing: safe.num(timing, true, 0),
+      offset: safe.num(offset, true, 0)
+    };
+    return waiters2.waitFor(getNextEvery(args.timing, args.offset));
+  };
   const stopped = [];
-  waiters2.stopInterval = (intID) => stopped.push(intID);
+  waiters2.stopInterval = (intID) => {
+    const args = {
+      intID: safe.num(intID, true, 0)
+    };
+    stopped.push(args.intID);
+  };
   waiters2.interval = (action, timing) => {
-    const intID = Math.floor(Math.random() * Math.pow(10, 10));
+    const args = {
+      action: safe.func(action),
+      timing: safe.num(timing, true, 1, void 0, 1)
+    };
+    const intID = safe.num(Math.floor(Math.random() * Math.pow(10, 10)), true, 0);
     let count = 0;
     const run = async () => {
-      await waiters2.waitEvery(timing);
+      await waiters2.waitEvery(args.timing);
       if (stopped.includes(intID)) {
         return;
       }
-      action(intID, ++count);
+      args.action(intID, ++count);
       run();
     };
     run();
