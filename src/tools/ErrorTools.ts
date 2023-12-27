@@ -1,6 +1,7 @@
 // import { ms, wait, fn }
 
 import { fn } from './fn';
+import { safe } from './safe';
 import { ms } from './times';
 import { wait } from './waiters';
 
@@ -60,16 +61,23 @@ export namespace ErrorTools {
     suppress: boolean = true,
     run: (attemptNumber) => T = fn.result(undefined as T)
   ): Promise<T> => {
+    const args = {
+      maxTries: safe.num(maxTries, true, 1, undefined, 10),
+      delay: safe.num(delay, true, 0),
+      suppress: safe.bool(suppress, true),
+      run: safe.func(run, fn.result(undefined as T))
+    };
+
     const loop = async (attempt: number, lastErr?: Error): Promise<T> => {
-      if (attempt >= maxTries) {
-        if (!suppress) throw lastErr;
+      if (attempt >= args.maxTries) {
+        if (!args.suppress) throw lastErr;
         return undefined as T;
       }
       try {
-        const result = await run(attempt);
+        const result = await args.run(attempt);
         return result;
       } catch (err) {
-        if (delay) await wait(delay);
+        if (args.delay) await wait(args.delay);
         return await loop(attempt + 1, err);
       }
     };
@@ -87,22 +95,29 @@ export namespace ErrorTools {
    * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
    *
    * ```typescript
-   * const result = retryOr('default', 5, seconds(1), true, () => getSomething());
+   * const result = retryOr('default', 5, seconds(1), () => getSomething());
    * ```
    * @param {T} orValue
    * @param {number} [maxTries=10]
    * @param {ms} [delay=0]
-   * @param {boolean} [suppress=true]
-   * @param {() => T} [run=fn.result(orValue)]
+   * @param {() => T | Promise<T>} [run=fn.result(orValue)]
    * @returns {Promise<T>}
    */
   export const retryOr = async <T extends unknown>(
     orValue: T,
     maxTries: number = 10,
     delay: ms = 0,
-    suppress: boolean = true,
-    run: () => T = fn.result(orValue)
-  ): Promise<T> => tryOr(orValue, () => retry(maxTries, delay, suppress, run));
+    run: () => T | Promise<T> = fn.result(orValue)
+  ): Promise<T> => {
+    const args = {
+      orValue,
+      maxTries: safe.num(maxTries, true, 1),
+      delay: safe.num(delay, true, 0),
+      run: safe.func(run, fn.result(orValue))
+    };
+
+    return tryOr(args.orValue, () => retry(args.maxTries, args.delay, false, args.run));
+  };
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: ErrorTools.tryOr  --> */

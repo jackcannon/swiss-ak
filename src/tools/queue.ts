@@ -1,3 +1,7 @@
+import { ArrayTools } from './ArrayTools';
+import { PromiseTools } from './PromiseTools';
+import { safe } from './safe';
+import { ms } from './times';
 import { wait } from './waiters';
 
 //<!-- DOCS: 800 -->
@@ -50,20 +54,26 @@ import { wait } from './waiters';
  */
 export class QueueManager {
   promises: Map<string, Promise<any>> = new Map<string, Promise<any>>();
-  pauseTimes: Map<string, number> = new Map<string, number>();
-  defaultPauseTime: number = 0;
+  pauseTimes: Map<string, ms> = new Map<string, ms>();
+  defaultPauseTime: ms = 0;
 
-  constructor(defaultPauseTime?: number) {
-    if (defaultPauseTime) this.setDefaultPauseTime(defaultPauseTime);
+  constructor(defaultPauseTime?: ms) {
+    const args = {
+      defaultPauseTime: safe.num(defaultPauseTime, true, 0) as ms
+    };
+    this.setDefaultPauseTime(args.defaultPauseTime);
   }
 
   getPromise(id: string): Promise<any> {
-    const existing = this.promises.get(id);
+    const args = {
+      id: safe.str(id, false, Math.random().toString(36).slice(2))
+    };
+    const existing = this.promises.get(args.id);
 
     if (existing) return existing;
 
     const promise = Promise.resolve();
-    this.promises.set(id, promise);
+    this.promises.set(args.id, promise);
     return promise;
   }
 
@@ -74,11 +84,14 @@ export class QueueManager {
    * - `new QueueManager().setDefaultPauseTime`
    *
    * Sets the default pause time for pauses between queue items.
-   * @param {number} time
+   * @param {ms} time
    * @returns {void}
    */
-  setDefaultPauseTime(time: number) {
-    this.defaultPauseTime = time;
+  setDefaultPauseTime(time: ms) {
+    const args = {
+      time: safe.num(time, true, 0) as ms
+    };
+    this.defaultPauseTime = args.time;
   }
 
   /**<!-- DOCS: queue.setPauseTime #### @ -->
@@ -89,11 +102,15 @@ export class QueueManager {
    *
    * Sets the pause time for pauses between queue items for the specified queue.
    * @param {string} id
-   * @param {number} time
+   * @param {ms} time
    * @returns {void}
    */
-  setPauseTime(id: string, time: number) {
-    this.pauseTimes.set(id, time);
+  setPauseTime(id: string, time: ms) {
+    const args = {
+      id: safe.str(id, false, Math.random().toString(36).slice(2)),
+      time: safe.num(time, true, 0) as ms
+    };
+    this.pauseTimes.set(args.id, args.time);
   }
 
   /**<!-- DOCS: queue.add #### @ -->
@@ -104,18 +121,22 @@ export class QueueManager {
    *
    * Adds a function to the queue.
    * @param {string} id
-   * @param {() => Promise<T>} fn
+   * @param {PromiseTools.PromiseItem<T>} promiseItem
    * @returns {Promise<T>}
    */
-  add<T>(id: string, fn: () => Promise<T>): Promise<T> {
-    const promise = this.getPromise(id).then(async () => {
-      const result: T = await fn();
-      const pauseTime = this.pauseTimes.get(id) ?? -1;
+  add<T>(id: string, promiseItem: PromiseTools.PromiseItem<T>): Promise<T> {
+    const args = {
+      id: safe.str(id, false, Math.random().toString(36).slice(2)),
+      promiseItem: safe.func(promiseItem as any, async () => promiseItem as unknown as T) as () => Promise<T> // functionified like functionifyPromiseItem
+    };
+    const promise = this.getPromise(args.id).then(async () => {
+      const result: T = await args.promiseItem();
+      const pauseTime = this.pauseTimes.get(args.id) ?? this.defaultPauseTime;
       if (pauseTime >= 0) await wait(pauseTime);
       return result;
     });
 
-    this.promises.set(id, promise);
+    this.promises.set(args.id, promise);
 
     return promise;
   }
@@ -125,13 +146,25 @@ export class QueueManager {
    *
    * - `queue.new`
    * - `new QueueManager().new`
+   * - `QueueManager.new`
    *
    * Creates a new QueueManager instance.
-   * @param {number} [defaultPauseTime]
+   * @param {ms} [defaultPauseTime=0]
    * @returns {QueueManager}
    */
-  new(defaultPauseTime?: number) {
-    return new QueueManager(defaultPauseTime);
+  new(defaultPauseTime: ms = 0) {
+    const args = {
+      defaultPauseTime: safe.num(defaultPauseTime, true, 0) as ms
+    };
+    return new QueueManager(args.defaultPauseTime);
+  }
+
+  /** <!-- DOCS-ALIAS: queue.new --> */
+  static new(defaultPauseTime: ms = 0) {
+    const args = {
+      defaultPauseTime: safe.num(defaultPauseTime, true, 0) as ms
+    };
+    return new QueueManager(args.defaultPauseTime);
   }
 }
 

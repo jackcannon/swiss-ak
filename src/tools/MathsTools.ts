@@ -1,4 +1,5 @@
 import { ArrayTools } from './ArrayTools';
+import { safe } from './safe';
 
 //<!-- DOCS: 130 -->
 /**<!-- DOCS: MathsTools ##! -->
@@ -31,7 +32,13 @@ export namespace MathsTools {
    * @param {number} num
    * @returns {number}
    */
-  export const fixFloat = (num: number, precision = 6): number => Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision);
+  export const fixFloat = (num: number, precision = 6): number => {
+    const args = {
+      num: safe.num(num),
+      precision: safe.num(precision, true, 0)
+    };
+    return Math.round(args.num * Math.pow(10, args.precision)) / Math.pow(10, args.precision);
+  };
 
   /** <!-- DOCS-ALIAS: MathsTools.fixFloat  --> */
   export const ff = fixFloat;
@@ -46,10 +53,15 @@ export namespace MathsTools {
    * ```typescript
    * MathsTools.addAll(1, 2, 3, 4, 5); // 15
    * ```
-   * @param {...number} [args]
+   * @param {...number} [nums]
    * @returns {number}
    */
-  export const addAll = (...args: number[]): number => args.reduce((acc, num) => acc + num, 0);
+  export const addAll = (...nums: number[]): number => {
+    const args = {
+      nums: safe.arrOf.num(nums, false, undefined, undefined, 0, [0], 1)
+    };
+    return args.nums.reduce((acc, num) => acc + num, 0);
+  };
 
   /**<!-- DOCS: MathsTools.round ### -->
    * round
@@ -71,7 +83,13 @@ export namespace MathsTools {
    * @param {number} value
    * @returns {number}
    */
-  export const floorTo = (to: number, value: number) => fixFloat(Math.floor(value / to) * to);
+  export const floorTo = (to: number, value: number) => {
+    const args = {
+      to: safe.num(to),
+      value: safe.num(value)
+    };
+    return fixFloat(Math.floor(args.value / args.to) * args.to);
+  };
 
   /**<!-- DOCS: MathsTools.roundTo #### @ -->
    * roundTo
@@ -91,7 +109,13 @@ export namespace MathsTools {
    * @param {number} value
    * @returns {number}
    */
-  export const roundTo = (to: number, value: number) => fixFloat(Math.round(value / to) * to);
+  export const roundTo = (to: number, value: number) => {
+    const args = {
+      to: safe.num(to),
+      value: safe.num(value)
+    };
+    return fixFloat(Math.round(args.value / args.to) * args.to);
+  };
 
   /**<!-- DOCS: MathsTools.ceilTo #### @ -->
    * ceilTo
@@ -110,7 +134,13 @@ export namespace MathsTools {
    * @param {number} value
    * @returns {number}
    */
-  export const ceilTo = (to: number, value: number) => fixFloat(Math.ceil(value / to) * to);
+  export const ceilTo = (to: number, value: number) => {
+    const args = {
+      to: safe.num(to),
+      value: safe.num(value)
+    };
+    return fixFloat(Math.ceil(args.value / args.to) * args.to);
+  };
 
   /**
    * round
@@ -147,7 +177,14 @@ export namespace MathsTools {
    * @param {number} toVal
    * @returns {number}
    */
-  export const lerp = (progress: number, fromVal: number, toVal: number): number => fromVal + (toVal - fromVal) * progress;
+  export const lerp = (progress: number, fromVal: number, toVal: number): number => {
+    const args = {
+      progress: safe.num(progress),
+      fromVal: safe.num(fromVal),
+      toVal: safe.num(toVal)
+    };
+    return fixFloat(args.fromVal + (args.toVal - args.fromVal) * args.progress);
+  };
 
   /**<!-- DOCS: MathsTools.lerpArray ### @ -->
    * lerpArray
@@ -164,8 +201,14 @@ export namespace MathsTools {
    * @param {number[]} toArr
    * @returns {number[]}
    */
-  export const lerpArray = (progress: number, fromArr: number[], toArr: number[]): number[] =>
-    ArrayTools.zip(fromArr, toArr).map(([fromVal, toVal]) => lerp(progress, fromVal, toVal));
+  export const lerpArray = (progress: number, fromArr: number[], toArr: number[]): number[] => {
+    const args = {
+      progress: safe.num(progress),
+      fromArr: safe.arrOf.num(fromArr),
+      toArr: safe.arrOf.num(toArr)
+    };
+    return ArrayTools.zip(args.fromArr, args.toArr).map(([fromVal, toVal]) => lerp(args.progress, fromVal, toVal));
+  };
 
   /**<!-- DOCS: MathsTools.lerpObj ### @ -->
    * lerpObj
@@ -183,8 +226,15 @@ export namespace MathsTools {
    * @returns {T}
    */
   export const lerpObj = <T extends object>(progress: number, fromObj: T, toObj: T): T => {
-    const entries = Object.entries(fromObj);
-    const lerped = entries.map(([key, fromVal]) => (typeof fromVal === 'number' ? [key, lerp(progress, fromVal, toObj[key])] : [key, fromVal]));
+    const args = {
+      progress: safe.num(progress),
+      fromObj: safe.obj(fromObj),
+      toObj: safe.obj(toObj)
+    };
+    const entries = Object.entries(args.fromObj);
+    const lerped = entries.map(([key, fromVal]) =>
+      typeof fromVal === 'number' ? [key, lerp(args.progress, fromVal, args.toObj[key])] : [key, fromVal]
+    );
     return Object.fromEntries(lerped) as T;
   };
 
@@ -204,7 +254,16 @@ export namespace MathsTools {
    * @param {number} max
    * @returns {number}
    */
-  export const clamp = (value: number, min: number, max: number) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
+  export const clamp = (value: number, min: number, max: number) => {
+    const args = {
+      value: safe.num(value),
+      min: safe.num(min),
+      max: safe.num(max)
+    };
+    const realMin = Math.min(args.min, args.max);
+    const realMax = Math.max(args.min, args.max);
+    return Math.max(realMin, Math.min(args.value, realMax));
+  };
 
   /**<!-- DOCS: MathsTools.getOrdinal ### @ -->
    * getOrdinal
@@ -212,6 +271,9 @@ export namespace MathsTools {
    * - `MathsTools.getOrdinal`
    *
    * Gets the ordinal suffix for a number.
+   *
+   * Note: all numbers are treated as positive.
+   * Note: all decimals are 'th' (e.g. 1.2 is '1.2th') as they are tenth, hundredth, thousandth, etc.
    *
    * ```typescript
    * MathsTools.getOrdinal(1); // 'st'
@@ -233,9 +295,17 @@ export namespace MathsTools {
    * @returns {"th" | "st" | "nd" | "rd"}
    */
   export const getOrdinal = (num: number = 0) => {
-    const lastDigit = num % 10;
+    const args = {
+      num: safe.num(num)
+    };
+    const lastDigit = Math.abs(args.num) % 10;
+    const isDecimal = args.num % 1 !== 0;
 
-    if ([11, 12, 13].includes(num)) {
+    if (isDecimal) {
+      return 'th';
+    }
+
+    if ([11, 12, 13].includes(args.num)) {
       return 'th';
     }
     if (lastDigit === 1) {

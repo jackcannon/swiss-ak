@@ -1083,9 +1083,9 @@ declare namespace waiters {
      * }, hours(1));
      * ```
      * @param {number} intID
-     * @returns {number}
+     * @returns {void}
      */
-    const stopInterval: (intID: number) => number;
+    const stopInterval: (intID: number) => void;
     /**<!-- DOCS: waiters.interval ### @ -->
      * interval
      *
@@ -1206,9 +1206,9 @@ declare const waitEvery: (timing: ms, offset?: ms) => Promise<null>;
  * }, hours(1));
  * ```
  * @param {number} intID
- * @returns {number}
+ * @returns {void}
  */
-declare const stopInterval: (intID: number) => number;
+declare const stopInterval: (intID: number) => void;
 /**<!-- DOCS-ALIAS: waiters.interval -->
  * interval
  * 
@@ -1265,25 +1265,25 @@ declare namespace fn {
      * const items = stuff
      *   .map(condition ? mapSomething : fn.noact)
      * ```
-     * @param {T} item
+     * @param {T} [item]
      * @returns {T}
      */
-    export const noact: <T = any>(item: T) => T;
+    export const noact: <T = any>(item?: T) => T;
     /**<!-- DOCS: fn.result ### @ -->
      * result
      *
      * - `fn.result`
      *
-     * Returns a function that returns a function that returns the first argument.
+     * Returns a function that returns the first argument.
      *
      * ```typescript
      * const items = stuff
      *   .filter(condition ? mapSomething : fn.result(true))
      * ```
-     * @param {T} item
+     * @param {T} [item]
      * @returns {() => T}
      */
-    export const result: <T = any>(item: T) => () => T;
+    export const result: <T = any>(item?: T) => () => T;
     /**<!-- DOCS: fn.resolve ### @ -->
      * resolve
      *
@@ -1292,20 +1292,20 @@ declare namespace fn {
      * Returns an async function that resolves to the first argument
      *
      * Like fn.result, but wrapped in a Promise
-     * @param {T} item
+     * @param {T} [item]
      * @returns {() => Promise<T>}
      */
-    export const resolve: <T = any>(item: T) => () => Promise<T>;
+    export const resolve: <T = any>(item?: T) => () => Promise<T>;
     /**<!-- DOCS: fn.reject ### @ -->
      * reject
      *
      * - `fn.reject`
      *
      * Returns an async function that rejects with the first argument
-     * @param {T} item
+     * @param {T} [item]
      * @returns {() => Promise<T>}
      */
-    export const reject: <T = any>(item: T) => () => Promise<T>;
+    export const reject: <T = any>(item?: T) => () => Promise<T>;
     /**<!-- DOCS: fn.filters ### -->
      * filters
      *
@@ -1459,10 +1459,10 @@ declare namespace fn {
      * ```typescript
      * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
      * ```
-     * @param {(value: T, index: number, array: T[]) => U} mapFn
+     * @param {(value?: T, index?: number, array?: T[]) => U} mapFn
      * @returns {(item: T, index: number, array: T[]) => boolean}
      */
-    export const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
+    export const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value?: T, index?: number, array?: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
     /**<!-- DOCS: fn.maps ### -->
      * maps
      *
@@ -1531,10 +1531,10 @@ declare namespace fn {
      * ```typescript
      * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
      * ```
-     * @param {string} prop
+     * @param {string | number} prop
      * @returns {(item: O) => P}
      */
-    export const toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
+    export const toProp: <P = string, O = Object>(prop: string | number) => (item: O) => P;
     /**<!-- DOCS: fn.toFixed #### @ -->
      * toFixed
      *
@@ -1606,11 +1606,11 @@ declare namespace fn {
      * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
      * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
      * ```
-     * @param {string} propName
+     * @param {string | number} propName
      * @param {SortFn<T>} [sortFn=asc]
      * @returns {SortFn<O>}
      */
-    export const byProp: <T = number, O = Object>(propName: string, sortFn?: SortFn<T>) => SortFn<O>;
+    export const byProp: <T = number, O = Object>(propName: string | number, sortFn?: SortFn<T>) => SortFn<O>;
     /**<!-- DOCS: fn.nearestTo #### @ -->
      * nearestTo
      *
@@ -1619,6 +1619,8 @@ declare namespace fn {
      * - `sorts.nearestTo`
      *
      * Sort by the nearest value to the given value.
+     *
+     * Values get converted to numbers before comparison.
      *
      * ```typescript
      * const people = [2, 4, 3, 1];
@@ -1645,6 +1647,20 @@ declare namespace fn {
      * @returns {(a: any, b: any) => number}
      */
     export const furthestFrom: <T = number>(target: T) => (a: any, b: any) => number;
+    /**<!-- DOCS: fn.array #### @ -->
+     * array
+     *
+     * - `fn.array`
+     * - `fn.sorts.array`
+     * - `sorts.array`
+     *
+     * Sort an array of arrays by the given sort function.
+     *
+     * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+     * @param {SortFn<T>} [sortFn=asc]
+     * @returns {(a: T[], b: T[]) => number}
+     */
+    export const array: <T extends unknown>(sortFn?: SortFn<T>) => (a: T[], b: T[]) => number;
     /**<!-- DOCS: fn.arrayAsc #### @ -->
      * arrayAsc
      *
@@ -1653,9 +1669,8 @@ declare namespace fn {
      * - `sorts.arrayAsc`
      *
      * Sort an array of arrays in ascending order
-     * @param {any[]} a
-     * @param {any[]} b
-     * @returns {any}
+     *
+     * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
      */
     export const arrayAsc: (a: any[], b: any[]) => number;
     /**<!-- DOCS: fn.arrayDesc #### @ -->
@@ -1666,9 +1681,8 @@ declare namespace fn {
      * - `sorts.arrayDesc`
      *
      * Sort an array of arrays in descending order
-     * @param {any[]} a
-     * @param {any[]} b
-     * @returns {any}
+     *
+     * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
      */
     export const arrayDesc: (a: any[], b: any[]) => number;
     /**<!-- DOCS: fn.reduces ### -->
@@ -1691,11 +1705,11 @@ declare namespace fn {
      * [1, 2, 3].reduce(fn.combine); // 6
      * ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
      * ```
-     * @param {any} a
-     * @param {any} b
-     * @returns {any}
+     * @param {T} a
+     * @param {T} b
+     * @returns {T}
      */
-    export const combine: (a: any, b: any) => any;
+    export const combine: <T extends unknown = number>(a: T, b: T) => T;
     /**<!-- DOCS: fn.combineProp #### @ -->
      * combineProp
      *
@@ -1710,10 +1724,10 @@ declare namespace fn {
      * people.reduce(fn.combineProp('age')); // 6
      * people.reduce(fn.combineProp('name')); // 'abc'
      * ```
-     * @param {string} propName
-     * @returns {(a: any, b: any) => any}
+     * @param {string | number} propName
+     * @returns {(a: O | T, b: O) => T}
      */
-    export const combineProp: (propName: string) => (a: any, b: any) => any;
+    export const combineProp: <O extends unknown, T extends unknown = number>(propName: string | number) => (a: O | T, b: O) => T;
     /**<!-- DOCS: fn.mode #### @ -->
      * mode
      *
@@ -1928,10 +1942,10 @@ declare namespace fn {
          * ```typescript
          * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
          * ```
-         * @param {(value: T, index: number, array: T[]) => U} mapFn
+         * @param {(value?: T, index?: number, array?: T[]) => U} mapFn
          * @returns {(item: T, index: number, array: T[]) => boolean}
          */
-        const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
+        const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value?: T, index?: number, array?: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
     }
     /**<!-- DOCS-ALIAS: fn.maps -->
      * maps
@@ -2002,10 +2016,10 @@ declare namespace fn {
          * ```typescript
          * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
          * ```
-         * @param {string} prop
+         * @param {string | number} prop
          * @returns {(item: O) => P}
          */
-        const toProp: <P = string, O = Object>(prop: string) => (item: O) => P;
+        const toProp: <P = string, O = Object>(prop: string | number) => (item: O) => P;
         /**<!-- DOCS-ALIAS: fn.toFixed -->
          * toFixed
          * 
@@ -2078,11 +2092,11 @@ declare namespace fn {
          * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
          * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
          * ```
-         * @param {string} propName
+         * @param {string | number} propName
          * @param {SortFn<T>} [sortFn=asc]
          * @returns {SortFn<O>}
          */
-        const byProp: <T = number, O = Object>(propName: string, sortFn?: SortFn<T>) => SortFn<O>;
+        const byProp: <T = number, O = Object>(propName: string | number, sortFn?: SortFn<T>) => SortFn<O>;
         /**<!-- DOCS-ALIAS: fn.nearestTo -->
          * nearestTo
          * 
@@ -2091,6 +2105,8 @@ declare namespace fn {
          * - `sorts.nearestTo`
          * 
          * Sort by the nearest value to the given value.
+         * 
+         * Values get converted to numbers before comparison.
          * 
          * ```typescript
          * const people = [2, 4, 3, 1];
@@ -2117,6 +2133,20 @@ declare namespace fn {
          * @returns {(a: any, b: any) => number}
          */
         const furthestFrom: <T = number>(target: T) => (a: any, b: any) => number;
+        /**<!-- DOCS-ALIAS: fn.array -->
+         * array
+         * 
+         * - `fn.array`
+         * - `fn.sorts.array`
+         * - `sorts.array`
+         * 
+         * Sort an array of arrays by the given sort function.
+         * 
+         * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+         * @param {SortFn<T>} [sortFn=asc]
+         * @returns {(a: T[], b: T[]) => number}
+         */
+        const array: <T extends unknown>(sortFn?: SortFn<T>) => (a: T[], b: T[]) => number;
         /**<!-- DOCS-ALIAS: fn.arrayAsc -->
          * arrayAsc
          * 
@@ -2125,9 +2155,8 @@ declare namespace fn {
          * - `sorts.arrayAsc`
          * 
          * Sort an array of arrays in ascending order
-         * @param {any[]} a
-         * @param {any[]} b
-         * @returns {any}
+         * 
+         * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
          */
         const arrayAsc: (a: any[], b: any[]) => number;
         /**<!-- DOCS-ALIAS: fn.arrayDesc -->
@@ -2138,9 +2167,8 @@ declare namespace fn {
          * - `sorts.arrayDesc`
          * 
          * Sort an array of arrays in descending order
-         * @param {any[]} a
-         * @param {any[]} b
-         * @returns {any}
+         * 
+         * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
          */
         const arrayDesc: (a: any[], b: any[]) => number;
     }
@@ -2165,11 +2193,11 @@ declare namespace fn {
          * [1, 2, 3].reduce(fn.combine); // 6
          * ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
          * ```
-         * @param {any} a
-         * @param {any} b
-         * @returns {any}
+         * @param {T} a
+         * @param {T} b
+         * @returns {T}
          */
-        const combine: (a: any, b: any) => any;
+        const combine: <T extends unknown = number>(a: T, b: T) => T;
         /**<!-- DOCS-ALIAS: fn.combineProp -->
          * combineProp
          * 
@@ -2184,10 +2212,10 @@ declare namespace fn {
          * people.reduce(fn.combineProp('age')); // 6
          * people.reduce(fn.combineProp('name')); // 'abc'
          * ```
-         * @param {string} propName
-         * @returns {(a: any, b: any) => any}
+         * @param {string | number} propName
+         * @returns {(a: O | T, b: O) => T}
          */
-        const combineProp: (propName: string) => (a: any, b: any) => any;
+        const combineProp: <O extends unknown, T extends unknown = number>(propName: string | number) => (a: O | T, b: O) => T;
         /**<!-- DOCS-ALIAS: fn.mode -->
          * mode
          * 
@@ -2313,14 +2341,130 @@ interface CustomEntryObj {
     end?: number;
     duration?: number;
 }
+/**<!-- DOCS: ITimer ### -->
+ * Timer Instance
+ */
 interface ITimer<TName> {
-    start(...labelArr: string[]): void;
-    end(...labelArr: string[]): void;
+    /**<!-- DOCS: ITimer.start #### -->
+     * start
+     *
+     * - `timer.start`
+     * - `getTimer().start`
+     *
+     * Start a timer
+     * @param {...string} labels
+     * @returns {void}
+     */
+    start(...labels: string[]): void;
+    /**<!-- DOCS: ITimer.end #### -->
+     * end
+     *
+     * - `timer.end`
+     * - `getTimer().end`
+     *
+     * End a given timer
+     * @param {...string} labels
+     * @returns {void}
+     */
+    end(...labels: string[]): void;
+    /**<!-- DOCS: ITimer.switch #### -->
+     * switch
+     *
+     * - `timer.switch`
+     * - `getTimer().switch`
+     *
+     * Switch the timer
+     * The same as calling timer.end(endLabel) and timer.start(startLabel)
+     *
+     * @param {string | string[]} endLabel
+     * @param {string | string[]} startLabel
+     * @returns {void}
+     */
     switch(endLabel: string | string[], startLabel: string | string[]): void;
+    /**<!-- DOCS: ITimer.getTable #### -->
+     * getTable
+     *
+     * - `timer.getTable`
+     * - `getTimer().getTable`
+     *
+     * Get the timing table as a string
+     *
+     * @param {string} [prefix]
+     * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries]
+     * @returns {string} - the timing table
+     */
+    getTable(prefix?: string, customEntries?: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): string;
+    /**<!-- DOCS: ITimer.log #### -->
+     * log
+     *
+     * - `timer.log`
+     * - `getTimer().log`
+     *
+     * Log the timing table
+     *
+     * @param {string} [prefix]
+     * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries]
+     * @returns {number} - the number of lines logged
+     */
     log(prefix?: string, customEntries?: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): number;
+    /**<!-- DOCS: ITimer.reset #### -->
+     * reset
+     *
+     * - `timer.reset`
+     * - `getTimer().reset`
+     *
+     * Reset the timer
+     *
+     * @returns {void}
+     */
     reset(): void;
+    /**<!-- DOCS: ITimer.getDuration #### -->
+     * getDuration
+     *
+     * - `timer.getDuration`
+     * - `getTimer().getDuration`
+     *
+     * Get the duration of a given timer
+     *
+     * @returns {ms}
+     */
+    getDuration(label: string): ms;
+    /**<!-- DOCS: ITimer.names #### -->
+     * names
+     *
+     * - `timer.names`
+     * - `getTimer().names`
+     *
+     * The names of the timers
+     */
     names: KeysOnly<TName>;
+    /**<!-- DOCS: ITimer.displayNames #### -->
+     * displayNames
+     *
+     * - `timer.displayNames`
+     * - `getTimer().displayNames`
+     *
+     * The display names of the timers
+     */
     displayNames: TName;
+    /**<!-- DOCS: ITimer.startTimes #### -->
+     * startTimes
+     *
+     * - `timer.startTimes`
+     * - `getTimer().startTimes`
+     *
+     * The start times of the timers
+     */
+    startTimes: Partial<OfType<TName, ms>>;
+    /**<!-- DOCS: ITimer.endTimes #### -->
+     * endTimes
+     *
+     * - `timer.endTimes`
+     * - `getTimer().endTimes`
+     *
+     * The end times of the timers
+     */
+    endTimes: Partial<OfType<TName, ms>>;
 }
 /**<!-- DOCS: timer.getTimer ### @ -->
  * getTimer
@@ -2367,7 +2511,28 @@ declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean,
  *
  * - `timer`
  *
- * Global timer
+ * Usage:
+ * ```typescript
+ * timer.start('TOTAL', 'Intro');
+ *
+ * await wait(seconds(4)); // do something async
+ *
+ * timer.switch('Intro', 'Ending'); // same as calling timer.end('Intro') and timer.start('Ending')
+ *
+ * await wait(seconds(6)); // do something async
+ *
+ * timer.end('TOTAL', 'Ending');
+ * timer.log();
+ * ```
+ *
+ * Output:
+ * ```
+ * Times:
+ * 	Intro:   4s
+ * 	Ending:  6s
+ * 	⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+ * 	TOTAL:   10s
+ *  * ```
  */
 declare const timer: ITimer<INames> & KeysOnly<INames>;
 
@@ -2492,6 +2657,8 @@ declare namespace progressBar {
         endChar: string;
         showCurrent: boolean;
         currentChar: string;
+        print: boolean;
+        printFn: any;
     }
     /**<!-- DOCS: progressBar.ProgressBarOptions ### -->
      * Options
@@ -2504,7 +2671,7 @@ declare namespace progressBar {
      * | Property         | Default                           | Description                                            |
      * | ---------------- | --------------------------------- | ------------------------------------------------------ |
      * | prefix           | `''`                              | String to show to left of progress bar                 |
-     * | prefixWidth      | `1`                               | Min width of prefix - `10` => `Example˽˽˽`             |
+     * | prefixWidth      | `0`                               | Min width of prefix - `10` => `Example˽˽˽`             |
      * | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
      * | wrapperFn        | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
      * | barWrapFn        | nothing                           | function to wrap the bar                               |
@@ -2520,8 +2687,11 @@ declare namespace progressBar {
      * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
      * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
      * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+     * | print            | `true`                            | Whether or not to print/output/log the progress bar    |
+     * | printFn          | progressBar.printLn               | Function to use to print the progress bar              |
      */
     export type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
+    export const getFullOptions: (opts?: ProgressBarOptions) => ProgressBarOptionsFull;
     /**<!-- DOCS: progressBar.getProgressBar ### @ -->
      * getProgressBar
      *
@@ -2557,11 +2727,11 @@ declare namespace progressBar {
      * ABC ▕█████ ▏ [4 / 5]
      * ABC ▕██████▏ [5 / 5]
      * ```
-     * @param {number} max
+     * @param {number} [max]
      * @param {ProgressBarOptions} [options={}]
      * @returns {ProgressBar}
      */
-    export const getProgressBar: (max: number, options?: ProgressBarOptions) => ProgressBar;
+    export const getProgressBar: (max?: number, options?: ProgressBarOptions) => ProgressBar;
     export {};
 }
 /**<!-- DOCS-ALIAS: progressBar.ProgressBarOptions -->
@@ -2575,7 +2745,7 @@ declare namespace progressBar {
  * | Property         | Default                           | Description                                            |
  * | ---------------- | --------------------------------- | ------------------------------------------------------ |
  * | prefix           | `''`                              | String to show to left of progress bar                 |
- * | prefixWidth      | `1`                               | Min width of prefix - `10` => `Example˽˽˽`             |
+ * | prefixWidth      | `0`                               | Min width of prefix - `10` => `Example˽˽˽`             |
  * | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
  * | wrapperFn        | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
  * | barWrapFn        | nothing                           | function to wrap the bar                               |
@@ -2591,6 +2761,8 @@ declare namespace progressBar {
  * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
  * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
  * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+ * | print            | `true`                            | Whether or not to print/output/log the progress bar    |
+ * | printFn          | progressBar.printLn               | Function to use to print the progress bar              |
  */
 declare type ProgressBarOptions = progressBar.ProgressBarOptions;
 /**<!-- DOCS-ALIAS: progressBar.printLn -->
@@ -2658,11 +2830,11 @@ declare const printLn: (...text: any[]) => void;
  * ABC ▕█████ ▏ [4 / 5]
  * ABC ▕██████▏ [5 / 5]
  * ```
- * @param {number} max
+ * @param {number} [max]
  * @param {ProgressBarOptions} [options={}]
  * @returns {ProgressBar}
  */
-declare const getProgressBar: (max: number, options?: ProgressBarOptions) => ProgressBar;
+declare const getProgressBar: (max?: number, options?: ProgressBarOptions) => ProgressBar;
 
 /**<!-- DOCS: ArrayTools ##! -->
  * ArrayTools
@@ -2723,7 +2895,7 @@ declare namespace ArrayTools {
      */
     export const range: (length?: number, multiplier?: number, offset?: number) => number[];
     type UnwrapArray<T> = T extends Array<infer U> ? U : T;
-    type UnwrapArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...UnwrapArrays<Tail>] : [];
+    type ZippedArrays<T extends [...any[]]> = T extends [infer Head, ...infer Tail] ? [UnwrapArray<Head>, ...ZippedArrays<Tail>] : [];
     /**<!-- DOCS: ArrayTools.zip ### @ -->
      * zip
      *
@@ -2740,9 +2912,9 @@ declare namespace ArrayTools {
      * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
      * ```
      * @param {...T} [arrs]
-     * @returns {UnwrapArrays<T>[]}
+     * @returns {ZippedArrays<T>[]}
      */
-    export const zip: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
+    export const zip: <T extends any[]>(...arrs: T) => ZippedArrays<T>[];
     /**<!-- DOCS: ArrayTools.zipMax ### @ -->
      * zipMax
      *
@@ -2759,9 +2931,9 @@ declare namespace ArrayTools {
      * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
      * ```
      * @param {...T} [arrs]
-     * @returns {UnwrapArrays<T>[]}
+     * @returns {ZippedArrays<T>[]}
      */
-    export const zipMax: <T extends any[]>(...arrs: T) => UnwrapArrays<T>[];
+    export const zipMax: <T extends any[]>(...arrs: T) => ZippedArrays<T>[];
     /**<!-- DOCS: ArrayTools.sortByMapped ### @ -->
      * sortByMapped
      *
@@ -2929,7 +3101,7 @@ declare namespace ArrayTools {
      *   { group: 2, name: 'b' },
      *   { group: 1, name: 'c' },
      * ];
-     * ArrayTools.groupObj(arr, item => item.id); // {
+     * ArrayTools.groupObj(arr, item => item.group); // {
      * //   1: [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
      * //   2: [ { group: 2, name: 'b' } ]
      * // }
@@ -2956,7 +3128,7 @@ declare namespace ArrayTools {
      *   { group: 2, name: 'b' },
      *   { group: 1, name: 'c' },
      * ];
-     * ArrayTools.groupObj(arr, item => item.id); // [
+     * ArrayTools.group(arr, item => item.group); // [
      * //   [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
      * //   [ { group: 2, name: 'b' } ]
      * // ]
@@ -3106,7 +3278,7 @@ declare const range: (length?: number, multiplier?: number, offset?: number) => 
  * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
  * ```
  * @param {...T} [arrs]
- * @returns {UnwrapArrays<T>[]}
+ * @returns {ZippedArrays<T>[]}
  */
 declare const zip: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...any] : []] : []] : []] : []] : []] : []] : []] : []] : []] : []] : [])[];
 /**<!-- DOCS-ALIAS: ArrayTools.zipMax -->
@@ -3125,7 +3297,7 @@ declare const zip: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...i
  * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
  * ```
  * @param {...T} [arrs]
- * @returns {UnwrapArrays<T>[]}
+ * @returns {ZippedArrays<T>[]}
  */
 declare const zipMax: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...any] : []] : []] : []] : []] : []] : []] : []] : []] : []] : []] : [])[];
 /**<!-- DOCS-ALIAS: ArrayTools.sortByMapped -->
@@ -3295,7 +3467,7 @@ declare const partition: <T extends unknown>(array: T[], partitionSize?: number)
  *   { group: 2, name: 'b' },
  *   { group: 1, name: 'c' },
  * ];
- * ArrayTools.groupObj(arr, item => item.id); // {
+ * ArrayTools.groupObj(arr, item => item.group); // {
  * //   1: [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
  * //   2: [ { group: 2, name: 'b' } ]
  * // }
@@ -3322,7 +3494,7 @@ declare const groupObj: <T extends unknown>(array: T[], mapFn: (item: T, index: 
  *   { group: 2, name: 'b' },
  *   { group: 1, name: 'c' },
  * ];
- * ArrayTools.groupObj(arr, item => item.id); // [
+ * ArrayTools.group(arr, item => item.group); // [
  * //   [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
  * //   [ { group: 2, name: 'b' } ]
  * // ]
@@ -3754,7 +3926,7 @@ declare namespace StringTools {
          * 
          * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
          * @param {string | string[]} input
-         * @param {string} char
+         * @param {string} [char=',']
          * @param {boolean} [toUpper=false]
          * @returns {string}
          */
@@ -3958,7 +4130,7 @@ declare namespace StringTools {
      * 
      * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
      * @param {string | string[]} input
-     * @param {string} char
+     * @param {string} [char=',']
      * @param {boolean} [toUpper=false]
      * @returns {string}
      */
@@ -4334,11 +4506,11 @@ declare namespace PromiseTools {
      * - `all`
      * - `PromiseTools.all`
      *
-     * An alias for Promise.all
-     * @param {Promise<T>[]} promises
-     * @returns {Promise<any>}
+     * Similar to Promise.all, but accepts values, functions, and promises.
+     * @param {PromiseTools.PromiseItem<T>[]} items
+     * @returns {Promise<T[]>}
      */
-    export const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
+    export const all: <T extends unknown>(items: PromiseItem<T>[]) => Promise<T[]>;
     /**<!-- DOCS: PromiseTools.allLimit ### @ -->
      * allLimit
      *
@@ -4380,11 +4552,11 @@ declare namespace PromiseTools {
      * // 	d: 10s
      * ```
      * @param {number} limit
-     * @param {((index: number) => Promise<T>)[]} items
+     * @param {PromiseTools.PromiseItem<T>[]} items
      * @param {boolean} [noThrow=false]
      * @returns {Promise<T[]>}
      */
-    export const allLimit: <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow?: boolean) => Promise<T[]>;
+    export const allLimit: <T extends unknown>(limit: number, items: PromiseItem<T>[], noThrow?: boolean) => Promise<T[]>;
     /**<!-- DOCS: PromiseTools.each ### @ -->
      * each
      *
@@ -4406,9 +4578,9 @@ declare namespace PromiseTools {
      * ```
      * @param {Ti[]} items
      * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
-     * @returns {Promise<any>}
+     * @returns {Promise<void>}
      */
-    export const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
+    export const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<void>;
     /**<!-- DOCS: PromiseTools.eachLimit ### @ -->
      * eachLimit
      *
@@ -4433,9 +4605,9 @@ declare namespace PromiseTools {
      * @param {number} limit
      * @param {Ti[]} items
      * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
-     * @returns {Promise<any>}
+     * @returns {Promise<void>}
      */
-    export const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
+    export const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<void>;
     /**<!-- DOCS: PromiseTools.map ### @ -->
      * map
      *
@@ -4579,6 +4751,24 @@ declare namespace PromiseTools {
      * @returns {Promise<UnWrapPromiseObject<T>>}
      */
     export const allLimitObj: <T extends Object>(limit: number, input: T, noThrow?: boolean) => Promise<UnWrapPromiseObject<T>>;
+    /**<!-- DOCS: PromiseTools.PromiseFunc ### -->
+     * PromiseFunc<T>
+     *
+     * - `PromiseFunc<T>`
+     *
+     * A function that returns a promise
+     */
+    export type PromiseFunc<T> = () => Promise<T>;
+    /**<!-- DOCS: PromiseTools.PromiseItem ### -->
+     * PromiseItem<T>
+     *
+     * - `PromiseItem<T>`
+     *
+     * A promise, a function that returns a promise (see PromiseFunc<T>), or a value
+     *
+     * Accepted by `PromiseTools.all`, `PromiseTools.allLimit`, `PromiseTools.allObj`, and `PromiseTools.allLimitObj` in place of promises
+     */
+    export type PromiseItem<T> = Promise<T> | PromiseFunc<T> | T;
     export {};
 }
 /**<!-- DOCS-ALIAS: PromiseTools.DeferredPromise -->
@@ -4624,11 +4814,11 @@ declare const getDeferred: <T extends unknown>() => PromiseTools.DeferredPromise
  * - `all`
  * - `PromiseTools.all`
  * 
- * An alias for Promise.all
- * @param {Promise<T>[]} promises
- * @returns {Promise<any>}
+ * Similar to Promise.all, but accepts values, functions, and promises.
+ * @param {PromiseTools.PromiseItem<T>[]} items
+ * @returns {Promise<T[]>}
  */
-declare const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
+declare const all: <T extends unknown>(items: PromiseTools.PromiseItem<T>[]) => Promise<T[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.allLimit -->
  * allLimit
  * 
@@ -4670,11 +4860,11 @@ declare const all: <T extends unknown>(promises: Promise<T>[]) => Promise<any>;
  * // 	d: 10s
  * ```
  * @param {number} limit
- * @param {((index: number) => Promise<T>)[]} items
+ * @param {PromiseTools.PromiseItem<T>[]} items
  * @param {boolean} [noThrow=false]
  * @returns {Promise<T[]>}
  */
-declare const allLimit: <T extends unknown>(limit: number, items: ((index: number) => Promise<T>)[], noThrow?: boolean) => Promise<T[]>;
+declare const allLimit: <T extends unknown>(limit: number, items: PromiseTools.PromiseItem<T>[], noThrow?: boolean) => Promise<T[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.each -->
  * each
  * 
@@ -4696,9 +4886,9 @@ declare const allLimit: <T extends unknown>(limit: number, items: ((index: numbe
  * ```
  * @param {Ti[]} items
  * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
- * @returns {Promise<any>}
+ * @returns {Promise<void>}
  */
-declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
+declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<void>;
 /**<!-- DOCS-ALIAS: PromiseTools.eachLimit -->
  * eachLimit
  * 
@@ -4723,9 +4913,9 @@ declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: nu
  * @param {number} limit
  * @param {Ti[]} items
  * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
- * @returns {Promise<any>}
+ * @returns {Promise<void>}
  */
-declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<any>;
+declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<void>;
 /**<!-- DOCS-ALIAS: PromiseTools.map -->
  * map
  * 
@@ -4918,16 +5108,15 @@ declare namespace ErrorTools {
      * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
      *
      * ```typescript
-     * const result = retryOr('default', 5, seconds(1), true, () => getSomething());
+     * const result = retryOr('default', 5, seconds(1), () => getSomething());
      * ```
      * @param {T} orValue
      * @param {number} [maxTries=10]
      * @param {ms} [delay=0]
-     * @param {boolean} [suppress=true]
-     * @param {() => T} [run=fn.result(orValue)]
+     * @param {() => T | Promise<T>} [run=fn.result(orValue)]
      * @returns {Promise<T>}
      */
-    const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, suppress?: boolean, run?: () => T) => Promise<T>;
+    const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
 }
 /**<!-- DOCS-ALIAS: ErrorTools.tryOr -->
  * tryOr
@@ -4975,16 +5164,15 @@ declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress
  * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
  * 
  * ```typescript
- * const result = retryOr('default', 5, seconds(1), true, () => getSomething());
+ * const result = retryOr('default', 5, seconds(1), () => getSomething());
  * ```
  * @param {T} orValue
  * @param {number} [maxTries=10]
  * @param {ms} [delay=0]
- * @param {boolean} [suppress=true]
- * @param {() => T} [run=fn.result(orValue)]
+ * @param {() => T | Promise<T>} [run=fn.result(orValue)]
  * @returns {Promise<T>}
  */
-declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, suppress?: boolean, run?: () => T) => Promise<T>;
+declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
 
 /**<!-- DOCS: MathsTools ##! -->
  * MathsTools
@@ -5046,10 +5234,10 @@ declare namespace MathsTools {
      * ```typescript
      * MathsTools.addAll(1, 2, 3, 4, 5); // 15
      * ```
-     * @param {...number} [args]
+     * @param {...number} [nums]
      * @returns {number}
      */
-    const addAll: (...args: number[]) => number;
+    const addAll: (...nums: number[]) => number;
     /**<!-- DOCS: MathsTools.round ### -->
      * round
      */
@@ -5262,6 +5450,9 @@ declare namespace MathsTools {
      * - `MathsTools.getOrdinal`
      *
      * Gets the ordinal suffix for a number.
+     *
+     * Note: all numbers are treated as positive.
+     * Note: all decimals are 'th' (e.g. 1.2 is '1.2th') as they are tenth, hundredth, thousandth, etc.
      *
      * ```typescript
      * MathsTools.getOrdinal(1); // 'st'
@@ -5605,256 +5796,256 @@ declare namespace ColourTools {
      * ```
      */
     const namedColours: {
-        aliceblue: number[];
-        antiquewhite: number[];
-        aqua: number[];
-        aquamarine: number[];
-        azure: number[];
-        beige: number[];
-        bisque: number[];
-        black: number[];
-        blanchedalmond: number[];
-        blue: number[];
-        blueviolet: number[];
-        brown: number[];
-        burlywood: number[];
-        cadetblue: number[];
-        chartreuse: number[];
-        chocolate: number[];
-        coral: number[];
-        cornflowerblue: number[];
-        cornsilk: number[];
-        crimson: number[];
-        cyan: number[];
-        darkblue: number[];
-        darkcyan: number[];
-        darkgoldenrod: number[];
-        darkgray: number[];
-        darkgreen: number[];
-        darkgrey: number[];
-        darkkhaki: number[];
-        darkmagenta: number[];
-        darkolivegreen: number[];
-        darkorange: number[];
-        darkorchid: number[];
-        darkred: number[];
-        darksalmon: number[];
-        darkseagreen: number[];
-        darkslateblue: number[];
-        darkslategray: number[];
-        darkslategrey: number[];
-        darkturquoise: number[];
-        darkviolet: number[];
-        deeppink: number[];
-        deepskyblue: number[];
-        dimgray: number[];
-        dimgrey: number[];
-        dodgerblue: number[];
-        firebrick: number[];
-        floralwhite: number[];
-        forestgreen: number[];
-        fractal: number[];
-        fuchsia: number[];
-        gainsboro: number[];
-        ghostwhite: number[];
-        gold: number[];
-        goldenrod: number[];
-        gray0: number[];
-        gray1: number[];
-        gray2: number[];
-        gray3: number[];
-        gray4: number[];
-        gray5: number[];
-        gray6: number[];
-        gray7: number[];
-        gray8: number[];
-        gray9: number[];
-        gray10: number[];
-        gray11: number[];
-        gray12: number[];
-        gray13: number[];
-        gray14: number[];
-        gray15: number[];
-        gray16: number[];
-        gray17: number[];
-        gray18: number[];
-        gray19: number[];
-        gray20: number[];
-        gray21: number[];
-        gray22: number[];
-        gray23: number[];
-        gray24: number[];
-        gray25: number[];
-        gray26: number[];
-        gray27: number[];
-        gray28: number[];
-        gray29: number[];
-        gray30: number[];
-        gray31: number[];
-        gray32: number[];
-        gray33: number[];
-        gray34: number[];
-        gray35: number[];
-        gray36: number[];
-        gray37: number[];
-        gray38: number[];
-        gray39: number[];
-        gray40: number[];
-        gray41: number[];
-        gray42: number[];
-        gray43: number[];
-        gray44: number[];
-        gray45: number[];
-        gray46: number[];
-        gray47: number[];
-        gray48: number[];
-        gray49: number[];
-        gray50: number[];
-        gray51: number[];
-        gray52: number[];
-        gray53: number[];
-        gray54: number[];
-        gray55: number[];
-        gray56: number[];
-        gray57: number[];
-        gray58: number[];
-        gray59: number[];
-        gray60: number[];
-        gray61: number[];
-        gray62: number[];
-        gray63: number[];
-        gray64: number[];
-        gray65: number[];
-        gray66: number[];
-        gray67: number[];
-        gray68: number[];
-        gray69: number[];
-        gray70: number[];
-        gray71: number[];
-        gray72: number[];
-        gray73: number[];
-        gray74: number[];
-        gray75: number[];
-        gray76: number[];
-        gray77: number[];
-        gray78: number[];
-        gray79: number[];
-        gray80: number[];
-        gray81: number[];
-        gray82: number[];
-        gray83: number[];
-        gray84: number[];
-        gray85: number[];
-        gray86: number[];
-        gray87: number[];
-        gray88: number[];
-        gray89: number[];
-        gray90: number[];
-        gray91: number[];
-        gray92: number[];
-        gray93: number[];
-        gray94: number[];
-        gray95: number[];
-        gray96: number[];
-        gray97: number[];
-        gray98: number[];
-        gray99: number[];
-        gray100: number[];
-        gray: number[];
-        green: number[];
-        greenyellow: number[];
-        grey: number[];
-        honeydew: number[];
-        hotpink: number[];
-        indianred: number[];
-        indigo: number[];
-        ivory: number[];
-        khaki: number[];
-        lavender: number[];
-        lavenderblush: number[];
-        lawngreen: number[];
-        lemonchiffon: number[];
-        lightblue: number[];
-        lightcoral: number[];
-        lightcyan: number[];
-        lightgoldenrodyellow: number[];
-        lightgray: number[];
-        lightgreen: number[];
-        lightgrey: number[];
-        lightpink: number[];
-        lightsalmon: number[];
-        lightseagreen: number[];
-        lightskyblue: number[];
-        lightslategray: number[];
-        lightslategrey: number[];
-        lightsteelblue: number[];
-        lightyellow: number[];
-        lime: number[];
-        limegreen: number[];
-        linen: number[];
-        magenta: number[];
-        maroon: number[];
-        mediumaquamarine: number[];
-        mediumblue: number[];
-        mediumorchid: number[];
-        mediumpurple: number[];
-        mediumseagreen: number[];
-        mediumslateblue: number[];
-        mediumspringgreen: number[];
-        mediumturquoise: number[];
-        mediumvioletred: number[];
-        midnightblue: number[];
-        mintcream: number[];
-        mistyrose: number[];
-        moccasin: number[];
-        navajowhite: number[];
-        navy: number[];
-        none: number[];
-        oldlace: number[];
-        olive: number[];
-        olivedrab: number[];
-        orange: number[];
-        orangered: number[];
-        orchid: number[];
-        palegoldenrod: number[];
-        palegreen: number[];
-        paleturquoise: number[];
-        palevioletred: number[];
-        papayawhip: number[];
-        peachpuff: number[];
-        peru: number[];
-        pink: number[];
-        plum: number[];
-        powderblue: number[];
-        purple: number[];
-        red: number[];
-        rosybrown: number[];
-        royalblue: number[];
-        saddlebrown: number[];
-        salmon: number[];
-        sandybrown: number[];
-        seagreen: number[];
-        seashell: number[];
-        sienna: number[];
-        silver: number[];
-        skyblue: number[];
-        slateblue: number[];
-        slategray: number[];
-        slategrey: number[];
-        snow: number[];
-        springgreen: number[];
-        steelblue: number[];
-        tan: number[];
-        teal: number[];
-        thistle: number[];
-        tomato: number[];
-        turquoise: number[];
-        violet: number[];
-        wheat: number[];
-        white: number[];
-        whitesmoke: number[];
-        yellow: number[];
-        yellowgreen: number[];
+        aliceblue: ColourValues;
+        antiquewhite: ColourValues;
+        aqua: ColourValues;
+        aquamarine: ColourValues;
+        azure: ColourValues;
+        beige: ColourValues;
+        bisque: ColourValues;
+        black: ColourValues;
+        blanchedalmond: ColourValues;
+        blue: ColourValues;
+        blueviolet: ColourValues;
+        brown: ColourValues;
+        burlywood: ColourValues;
+        cadetblue: ColourValues;
+        chartreuse: ColourValues;
+        chocolate: ColourValues;
+        coral: ColourValues;
+        cornflowerblue: ColourValues;
+        cornsilk: ColourValues;
+        crimson: ColourValues;
+        cyan: ColourValues;
+        darkblue: ColourValues;
+        darkcyan: ColourValues;
+        darkgoldenrod: ColourValues;
+        darkgray: ColourValues;
+        darkgreen: ColourValues;
+        darkgrey: ColourValues;
+        darkkhaki: ColourValues;
+        darkmagenta: ColourValues;
+        darkolivegreen: ColourValues;
+        darkorange: ColourValues;
+        darkorchid: ColourValues;
+        darkred: ColourValues;
+        darksalmon: ColourValues;
+        darkseagreen: ColourValues;
+        darkslateblue: ColourValues;
+        darkslategray: ColourValues;
+        darkslategrey: ColourValues;
+        darkturquoise: ColourValues;
+        darkviolet: ColourValues;
+        deeppink: ColourValues;
+        deepskyblue: ColourValues;
+        dimgray: ColourValues;
+        dimgrey: ColourValues;
+        dodgerblue: ColourValues;
+        firebrick: ColourValues;
+        floralwhite: ColourValues;
+        forestgreen: ColourValues;
+        fractal: ColourValues;
+        fuchsia: ColourValues;
+        gainsboro: ColourValues;
+        ghostwhite: ColourValues;
+        gold: ColourValues;
+        goldenrod: ColourValues;
+        gray0: ColourValues;
+        gray1: ColourValues;
+        gray2: ColourValues;
+        gray3: ColourValues;
+        gray4: ColourValues;
+        gray5: ColourValues;
+        gray6: ColourValues;
+        gray7: ColourValues;
+        gray8: ColourValues;
+        gray9: ColourValues;
+        gray10: ColourValues;
+        gray11: ColourValues;
+        gray12: ColourValues;
+        gray13: ColourValues;
+        gray14: ColourValues;
+        gray15: ColourValues;
+        gray16: ColourValues;
+        gray17: ColourValues;
+        gray18: ColourValues;
+        gray19: ColourValues;
+        gray20: ColourValues;
+        gray21: ColourValues;
+        gray22: ColourValues;
+        gray23: ColourValues;
+        gray24: ColourValues;
+        gray25: ColourValues;
+        gray26: ColourValues;
+        gray27: ColourValues;
+        gray28: ColourValues;
+        gray29: ColourValues;
+        gray30: ColourValues;
+        gray31: ColourValues;
+        gray32: ColourValues;
+        gray33: ColourValues;
+        gray34: ColourValues;
+        gray35: ColourValues;
+        gray36: ColourValues;
+        gray37: ColourValues;
+        gray38: ColourValues;
+        gray39: ColourValues;
+        gray40: ColourValues;
+        gray41: ColourValues;
+        gray42: ColourValues;
+        gray43: ColourValues;
+        gray44: ColourValues;
+        gray45: ColourValues;
+        gray46: ColourValues;
+        gray47: ColourValues;
+        gray48: ColourValues;
+        gray49: ColourValues;
+        gray50: ColourValues;
+        gray51: ColourValues;
+        gray52: ColourValues;
+        gray53: ColourValues;
+        gray54: ColourValues;
+        gray55: ColourValues;
+        gray56: ColourValues;
+        gray57: ColourValues;
+        gray58: ColourValues;
+        gray59: ColourValues;
+        gray60: ColourValues;
+        gray61: ColourValues;
+        gray62: ColourValues;
+        gray63: ColourValues;
+        gray64: ColourValues;
+        gray65: ColourValues;
+        gray66: ColourValues;
+        gray67: ColourValues;
+        gray68: ColourValues;
+        gray69: ColourValues;
+        gray70: ColourValues;
+        gray71: ColourValues;
+        gray72: ColourValues;
+        gray73: ColourValues;
+        gray74: ColourValues;
+        gray75: ColourValues;
+        gray76: ColourValues;
+        gray77: ColourValues;
+        gray78: ColourValues;
+        gray79: ColourValues;
+        gray80: ColourValues;
+        gray81: ColourValues;
+        gray82: ColourValues;
+        gray83: ColourValues;
+        gray84: ColourValues;
+        gray85: ColourValues;
+        gray86: ColourValues;
+        gray87: ColourValues;
+        gray88: ColourValues;
+        gray89: ColourValues;
+        gray90: ColourValues;
+        gray91: ColourValues;
+        gray92: ColourValues;
+        gray93: ColourValues;
+        gray94: ColourValues;
+        gray95: ColourValues;
+        gray96: ColourValues;
+        gray97: ColourValues;
+        gray98: ColourValues;
+        gray99: ColourValues;
+        gray100: ColourValues;
+        gray: ColourValues;
+        green: ColourValues;
+        greenyellow: ColourValues;
+        grey: ColourValues;
+        honeydew: ColourValues;
+        hotpink: ColourValues;
+        indianred: ColourValues;
+        indigo: ColourValues;
+        ivory: ColourValues;
+        khaki: ColourValues;
+        lavender: ColourValues;
+        lavenderblush: ColourValues;
+        lawngreen: ColourValues;
+        lemonchiffon: ColourValues;
+        lightblue: ColourValues;
+        lightcoral: ColourValues;
+        lightcyan: ColourValues;
+        lightgoldenrodyellow: ColourValues;
+        lightgray: ColourValues;
+        lightgreen: ColourValues;
+        lightgrey: ColourValues;
+        lightpink: ColourValues;
+        lightsalmon: ColourValues;
+        lightseagreen: ColourValues;
+        lightskyblue: ColourValues;
+        lightslategray: ColourValues;
+        lightslategrey: ColourValues;
+        lightsteelblue: ColourValues;
+        lightyellow: ColourValues;
+        lime: ColourValues;
+        limegreen: ColourValues;
+        linen: ColourValues;
+        magenta: ColourValues;
+        maroon: ColourValues;
+        mediumaquamarine: ColourValues;
+        mediumblue: ColourValues;
+        mediumorchid: ColourValues;
+        mediumpurple: ColourValues;
+        mediumseagreen: ColourValues;
+        mediumslateblue: ColourValues;
+        mediumspringgreen: ColourValues;
+        mediumturquoise: ColourValues;
+        mediumvioletred: ColourValues;
+        midnightblue: ColourValues;
+        mintcream: ColourValues;
+        mistyrose: ColourValues;
+        moccasin: ColourValues;
+        navajowhite: ColourValues;
+        navy: ColourValues;
+        none: ColourValues;
+        oldlace: ColourValues;
+        olive: ColourValues;
+        olivedrab: ColourValues;
+        orange: ColourValues;
+        orangered: ColourValues;
+        orchid: ColourValues;
+        palegoldenrod: ColourValues;
+        palegreen: ColourValues;
+        paleturquoise: ColourValues;
+        palevioletred: ColourValues;
+        papayawhip: ColourValues;
+        peachpuff: ColourValues;
+        peru: ColourValues;
+        pink: ColourValues;
+        plum: ColourValues;
+        powderblue: ColourValues;
+        purple: ColourValues;
+        red: ColourValues;
+        rosybrown: ColourValues;
+        royalblue: ColourValues;
+        saddlebrown: ColourValues;
+        salmon: ColourValues;
+        sandybrown: ColourValues;
+        seagreen: ColourValues;
+        seashell: ColourValues;
+        sienna: ColourValues;
+        silver: ColourValues;
+        skyblue: ColourValues;
+        slateblue: ColourValues;
+        slategray: ColourValues;
+        slategrey: ColourValues;
+        snow: ColourValues;
+        springgreen: ColourValues;
+        steelblue: ColourValues;
+        tan: ColourValues;
+        teal: ColourValues;
+        thistle: ColourValues;
+        tomato: ColourValues;
+        turquoise: ColourValues;
+        violet: ColourValues;
+        wheat: ColourValues;
+        white: ColourValues;
+        whitesmoke: ColourValues;
+        yellow: ColourValues;
+        yellowgreen: ColourValues;
     };
     /**<!-- DOCS: ColourTools.parse ### @ -->
      * parse
@@ -5896,7 +6087,7 @@ declare namespace ColourTools {
      *
      * - `ColourTools.getLuminance`
      *
-     * IMPORTANT: This is not the same as the HSL luminance value.
+     * IMPORTANT: This is not the same as the HSL lightness value.
      *
      * Get the luminance value of a given colour.
      *
@@ -6083,8 +6274,12 @@ declare namespace TimeTools {
  * | EJECT                   | `symbols.EJECT`                   |   ⏏    |
  * | TILDE                   | `symbols.TILDE`                   |   ~    |
  * | HOME                    | `symbols.HOME`                    |   ~    |
+ * | RADIO_EMPTY             | `symbols.RADIO_EMPTY`             |   ◯    |
+ * | RADIO_FULL              | `symbols.RADIO_FULL`              |   ◉    |
+ * | CURSOR                  | `symbols.CURSOR`                  |   ❯    |
  * | CHEV_LFT                | `symbols.CHEV_LFT`                |   ‹    |
  * | CHEV_RGT                | `symbols.CHEV_RGT`                |   ›    |
+ * | CHAIN                   | `symbols.CHAIN`                   |   ⫘    |
  * | TRI_UPP                 | `symbols.TRI_UPP`                 |   ▲    |
  * | TRI_DWN                 | `symbols.TRI_DWN`                 |   ▼    |
  * | TRI_RGT                 | `symbols.TRI_RGT`                 |   ▶    |
@@ -6131,7 +6326,6 @@ declare namespace TimeTools {
  */
 declare const symbols: {
     TAB: string;
-    NBSP: string;
     TICK: string;
     CROSS: string;
     PLUS: string;
@@ -6264,9 +6458,9 @@ declare const superscript: (num: number | string) => string;
  */
 declare class QueueManager {
     promises: Map<string, Promise<any>>;
-    pauseTimes: Map<string, number>;
-    defaultPauseTime: number;
-    constructor(defaultPauseTime?: number);
+    pauseTimes: Map<string, ms>;
+    defaultPauseTime: ms;
+    constructor(defaultPauseTime?: ms);
     getPromise(id: string): Promise<any>;
     /**<!-- DOCS: queue.setDefaultPauseTime #### @ -->
      * setDefaultPauseTime
@@ -6275,10 +6469,10 @@ declare class QueueManager {
      * - `new QueueManager().setDefaultPauseTime`
      *
      * Sets the default pause time for pauses between queue items.
-     * @param {number} time
+     * @param {ms} time
      * @returns {void}
      */
-    setDefaultPauseTime(time: number): void;
+    setDefaultPauseTime(time: ms): void;
     /**<!-- DOCS: queue.setPauseTime #### @ -->
      * setPauseTime
      *
@@ -6287,10 +6481,10 @@ declare class QueueManager {
      *
      * Sets the pause time for pauses between queue items for the specified queue.
      * @param {string} id
-     * @param {number} time
+     * @param {ms} time
      * @returns {void}
      */
-    setPauseTime(id: string, time: number): void;
+    setPauseTime(id: string, time: ms): void;
     /**<!-- DOCS: queue.add #### @ -->
      * add
      *
@@ -6299,21 +6493,34 @@ declare class QueueManager {
      *
      * Adds a function to the queue.
      * @param {string} id
-     * @param {() => Promise<T>} fn
+     * @param {PromiseTools.PromiseItem<T>} promiseItem
      * @returns {Promise<T>}
      */
-    add<T>(id: string, fn: () => Promise<T>): Promise<T>;
+    add<T>(id: string, promiseItem: PromiseTools.PromiseItem<T>): Promise<T>;
     /**<!-- DOCS: queue.new #### @ -->
      * new
      *
      * - `queue.new`
      * - `new QueueManager().new`
+     * - `QueueManager.new`
      *
      * Creates a new QueueManager instance.
-     * @param {number} [defaultPauseTime]
+     * @param {ms} [defaultPauseTime=0]
      * @returns {QueueManager}
      */
-    new(defaultPauseTime?: number): QueueManager;
+    new(defaultPauseTime?: ms): QueueManager;
+    /**<!-- DOCS-ALIAS: queue.new -->
+     * new
+     * 
+     * - `queue.new`
+     * - `new QueueManager().new`
+     * - `QueueManager.new`
+     * 
+     * Creates a new QueueManager instance.
+     * @param {ms} [defaultPauseTime=0]
+     * @returns {QueueManager}
+     */
+    static new(defaultPauseTime?: ms): QueueManager;
 }
 /**<!-- DOCS: queue.queue ### -->
  * queue
@@ -6326,4 +6533,636 @@ declare class QueueManager {
  */
 declare const queue: QueueManager;
 
-export { ArrayTools, CENTURY, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+/**<!-- DOCS: safe ##! -->
+ * safe
+ *
+ * A series of simple functions for ensuring that a value is safe to use.
+ *
+ * Used internally for input validation.
+ */
+declare namespace safe {
+    /**<!-- DOCS: safe.num ### @ -->
+     * num
+     *
+     * - `safe.num`
+     *
+     * Process a number value, ensuring that it is safe to use.
+     *
+     * ```typescript
+     * safe.num(10); // 10
+     * safe.num(10000); // 10000
+     * safe.num(-1); // -1
+     * safe.num(true); // 0
+     * safe.num('123'); // 0
+     * safe.num(NaN); // 0
+     * safe.num(Infinity); // 0
+     * safe.num(null); // 0
+     * safe.num(undefined); // 0
+     *
+     * safe.num(10, true, 0, 100, 99); // 10
+     * safe.num(10000, true, 0, 100, 99); // 100
+     * safe.num(-1, true, 0, 100, 99); // 0
+     * safe.num(true, true, 0, 100, 99); // 99
+     * safe.num('123', true, 0, 100, 99); // 99
+     * safe.num(NaN, true, 0, 100, 99); // 99
+     * safe.num(Infinity, true, 0, 100, 99); // 100
+     * safe.num(null, true, 0, 100, 99); // 99
+     * safe.num(undefined, true, 0, 100, 99); // 99
+     * ```
+     * @param {number} input
+     * @param {boolean} [isInt=false]
+     * @param {number} [min]
+     * @param {number} [max]
+     * @param {number} [fallback=0]
+     * @returns {number}
+     */
+    const num: (input: number, isInt?: boolean, min?: number, max?: number, fallback?: number) => number;
+    /**<!-- DOCS: safe.str ### @ -->
+     * str
+     *
+     * - `safe.str`
+     *
+     * Process a string value, ensuring that it is safe to use.
+     *
+     * ```typescript
+     * safe.str('foo'); // 'foo'
+     * safe.str(''); // ''
+     * safe.str(123); // ''
+     * safe.str(true); // ''
+     * safe.str({foo: 'bar'}); // ''
+     * safe.str([]); // ''
+     * safe.str(null); // ''
+     * safe.str(undefined); // ''
+     *
+     * safe.str('foo', true, 'bar'); // 'foo'
+     * safe.str('', true, 'bar'); // ''
+     * safe.str(123, true, 'bar'); // '123'
+     * safe.str(true, true, 'bar'); // 'true'
+     * safe.str({foo: 'bar'}, true, 'bar'); // 'bar'
+     * safe.str([], true, 'bar'); // 'bar'
+     * safe.str(null, true, 'bar'); // 'bar'
+     * safe.str(undefined, true, 'bar'); // 'bar'
+     * ```
+     * @param {string} input
+     * @param {boolean} [allowBasicStringify=false]
+     * @param {string} [fallback='']
+     * @returns {string}
+     */
+    const str: (input: string, allowBasicStringify?: boolean, fallback?: string) => string;
+    /**<!-- DOCS: safe.bool ### @ -->
+     * bool
+     *
+     * - `safe.bool`
+     *
+     * Process a boolean value, ensuring that it is safe to use.
+     *
+     * ```typescript
+     * safe.bool(true); // true
+     * safe.bool(false); // false
+     * safe.bool(1); // true
+     * safe.bool(0); // false
+     * safe.bool(123); // false
+     * safe.bool('true'); // true
+     * safe.bool('false'); // false
+     * safe.bool('foobar'); // false
+     * safe.bool({foo: 'bar'}); // false
+     * safe.bool([]); // false
+     * safe.bool(null); // false
+     * safe.bool(undefined); // false
+     *
+     * safe.bool(true, true); // true
+     * safe.bool(false, true); // false
+     * safe.bool(1, true); // true
+     * safe.bool(0, true); // false
+     * safe.bool(123, true); // true
+     * safe.bool('true', true); // true
+     * safe.bool('false', true); // false
+     * safe.bool('foobar', true); // true
+     * safe.bool({foo: 'bar'}, true); // true
+     * safe.bool([], true); // true
+     * safe.bool(null, true); // true
+     * safe.bool(undefined, true); // true
+     * @param {boolean} input
+     * @param {boolean} [fallback=false]
+     * @returns {boolean}
+     */
+    const bool: (input: boolean, fallback?: boolean) => boolean;
+    /**<!-- DOCS: safe.func ### @ -->
+     * func
+     *
+     * - `safe.func<T>`
+     *
+     * Process a function value, ensuring that it is safe to use.
+     *
+     * ```typescript
+     * safe.func((p: number) => 123); // (p: number) => 123
+     * safe.func(true); // (() => {})
+     * safe.func(false); // (() => {})
+     * safe.func(123); // (() => {})
+     * safe.func('foobar'); // (() => {})
+     * safe.func({foo: 'bar'}); // (() => {})
+     * safe.func([1, 2, 3]); // (() => {})
+     * safe.func(null); // (() => {})
+     * safe.func(undefined); // (() => {})
+     *
+     * safe.func((p: number) => 123, (q: number) => 456); // (p: number) => 123
+     * safe.func(true, (q: number) => 456); // (q: number) => 456
+     * safe.func(false, (q: number) => 456); // (q: number) => 456
+     * safe.func(123, (q: number) => 456); // (q: number) => 456
+     * safe.func('foobar', (q: number) => 456); // (q: number) => 456
+     * safe.func({foo: 'bar'}, (q: number) => 456); // (q: number) => 456
+     * safe.func([1, 2, 3], (q: number) => 456); // (q: number) => 456
+     * safe.func(null, (q: number) => 456); // (q: number) => 456
+     * safe.func(undefined, (q: number) => 456); // (q: number) => 456
+     * ```
+     * @param {T} input
+     * @param {T} [fallback=(() => {}) as unknown as T]
+     * @returns {T}
+     */
+    const func: <T extends Function>(input: T, fallback?: T) => T;
+    /**<!-- DOCS: safe.obj ### @ -->
+     * obj
+     *
+     * - `safe.obj<T>`
+     *
+     * Process an object value, ensuring that it is safe to use.
+     *
+     * ```typescript
+     * safe.obj({foo: 'bar'}); // {foo: 'bar'}
+     * safe.obj([1, 2, 3]); // [1, 2, 3]
+     * safe.obj(true); // {}
+     * safe.obj(false); // {}
+     * safe.obj(123); // {}
+     * safe.obj('foobar'); // {}
+     * safe.obj(null); // {}
+     * safe.obj(undefined); // {}
+     *
+     * safe.obj({foo: 'bar'}, true, {baz: 123}); // {foo: 'bar'}
+     * safe.obj([1, 2, 3], true, {baz: 123}); // [1, 2, 3]
+     * safe.obj(true, true, {baz: 123}); // {baz: 123}
+     * safe.obj(false, true, {baz: 123}); // {baz: 123}
+     * safe.obj(123, true, {baz: 123}); // {baz: 123}
+     * safe.obj('foobar', true, {baz: 123}); // {baz: 123}
+     * safe.obj(null, true, {baz: 123}); // {baz: 123}
+     * safe.obj(undefined, true, {baz: 123}); // {baz: 123}
+     * ```
+     * @param {T} input
+     * @param {boolean} [allowArrays=false]
+     * @param {T} [fallback={} as T]
+     * @returns {T}
+     */
+    const obj: <T extends unknown>(input: T, allowArrays?: boolean, fallback?: T) => T;
+    /**<!-- DOCS: safe.objWith ### @ -->
+     * objWith
+     *
+     * - `safe.objWith<T>`
+     *
+     * Process an object value, ensuring that it is safe to use, and has the neccesary properties.
+     *
+     * You must provide a config object that defines the properties that are required, and how to process them.
+     * Each required property must have a fallback value, and can have an optional `checkFn` and `safeFn`.
+     *  - fallback - the value to use if the property is missing or invalid
+     *  - checkFn - a function that returns true if the property is missing or invalid (defaults to `(v) => v === undefined`)
+     * - safeFn - a function that returns the safe value to use (defaults to `(v, f) => f`)
+     *
+     * ```typescript
+     * const config1: ObjWithConfig<{ foo: string }> = {
+     *   foo: {
+     *     fallback: 'a',
+     *     safeFn: (v, f) => safe.str(v, false, f),
+     *   },
+     * };
+     * safe.objWith({foo: 'bar'}, config1); // { foo: 'bar' }
+     * safe.objWith([1, 2, 3], config1); // { '0': 1, '1': 2, '2': 3, foo: 'a' }
+     * safe.objWith(true, config1); // { foo: 'a' }
+     * safe.objWith(false, config1); // { foo: 'a' }
+     * safe.objWith(123, config1); // { foo: 'a' }
+     * safe.objWith('foobar', config1); // { foo: 'a' }
+     * safe.objWith(null, config1); // { foo: 'a' }
+     * safe.objWith(undefined, config1); // { foo: 'a' }
+     *
+     * const config2: ObjWithConfig<{ foo: string; bar: number }> = {
+     *   ...config1,
+     *   bar: {
+     *     fallback: 78,
+     *     safeFn: (v, f) => safe.num(v, true, 0, 100, f),
+     *   },
+     * };
+     * safe.objWith({foo: 'bar', bar: 45}, config2); // { foo: 'bar', bar: 45 }
+     * safe.objWith([1, 2, 3], config2); // { '0': 1, '1': 2, '2': 3, foo: 'a', bar: 78 }
+     * safe.objWith(true, config2); // { foo: 'a', bar: 78 }
+     * safe.objWith(false, config2); // { foo: 'a', bar: 78 }
+     * safe.objWith(123, config2); // { foo: 'a', bar: 78 }
+     * safe.objWith('foobar', config2); // { foo: 'a', bar: 78 }
+     * safe.objWith(null, config2); // { foo: 'a', bar: 78 }
+     * safe.objWith(undefined, config2); // { foo: 'a', bar: 78 }
+     * ```
+     * @param {T} input
+     * @param {ObjWithConfig<T>} objConfig
+     * @param {boolean} [allowComposition=true]
+     * @returns {T}
+     */
+    const objWith: <T extends unknown>(input: T, objConfig: ObjWithConfig<T>, allowComposition?: boolean) => T;
+    /**<!-- DOCS: safe.arr ### @ -->
+     * arr
+     *
+     * - `safe.arr<T>`
+     *
+     * Process an array value, ensuring that it is safe to use.
+     *
+     * ```typescript
+     * safe.arr([1, 2, 3]); // [ 1, 2, 3 ]
+     * safe.arr(true); // []
+     * safe.arr(false); // []
+     * safe.arr(123); // []
+     * safe.arr('foobar'); // []
+     * safe.arr({foo: 'bar'}); // []
+     * safe.arr(null); // []
+     * safe.arr(undefined); // []
+     *
+     * safe.arr([1, 2, 3], [4, 5, 6]); // [ 1, 2, 3 ]
+     * safe.arr(true, [4, 5, 6]); // [ 4, 5, 6 ]
+     * safe.arr(false, [4, 5, 6]); // [ 4, 5, 6 ]
+     * safe.arr(123, [4, 5, 6]); // [ 4, 5, 6 ]
+     * safe.arr('foobar', [4, 5, 6]); // [ 4, 5, 6 ]
+     * safe.arr({foo: 'bar'}, [4, 5, 6]); // [ 4, 5, 6 ]
+     * safe.arr(null, [4, 5, 6]); // [ 4, 5, 6 ]
+     * safe.arr(undefined, [4, 5, 6]); // [ 4, 5, 6 ]
+     * ```
+     * @param {T[]} input
+     * @param {T[]} [fallback=[]]
+     * @param {number} [minLength=0]
+     * @param {number} [maxLength=Infinity]
+     * @returns {T[]}
+     */
+    const arr: <T extends unknown>(input: T[], fallback?: T[], minLength?: number, maxLength?: number) => T[];
+    /**<!-- DOCS: safe.prop ### @ -->
+     * prop
+     *
+     * - `safe.prop`
+     *
+     * Process a value (string or number) that is expected to be used as a property name, ensuring that it is safe to use.
+     *
+     * Equivalent to `typeof value === 'number' ? safe.num(value) : safe.str(value, true, '')`
+     *
+     * ```typescript
+     * safe.prop('foo'); // 'foo'
+     * safe.prop(''); // ''
+     * safe.prop(123); // 123
+     * safe.prop(true); // 'true'
+     * safe.prop({foo: 'bar'}); // ''
+     * safe.prop([]); // ''
+     * safe.prop(null); // ''
+     * safe.prop(undefined); // ''
+     *
+     * safe.prop('foo', 'bar'); // 'foo'
+     * safe.prop('', 'bar'); // ''
+     * safe.prop(123, 'bar'); // 123
+     * safe.prop(true, 'bar'); // 'true'
+     * safe.prop({foo: 'bar'}, 'bar'); // 'bar'
+     * safe.prop([], 'bar'); // 'bar'
+     * safe.prop(null, 'bar'); // 'bar'
+     * safe.prop(undefined, 'bar'); // 'bar'
+     * ```
+     * @param {string | number} input
+     * @param {string | number} [fallback='']
+     * @returns {string | number}
+     */
+    const prop: (input: string | number, fallback?: string | number) => string | number;
+    /**<!-- DOCS: safe.arrOf ### -->
+     * arrOf
+     *
+     * A series of functions for processing arrays of values.
+     */
+    namespace arrOf {
+        /**<!-- DOCS: safe.arrOf.num #### @ -->
+         * num
+         *
+         * - `safe.arrOf.num`
+         *
+         * Process an array of numbers, ensuring that they are safe to use.
+         *
+         * ```typescript
+         * safe.arrOf.num([1, 2, 3]); // [ 1, 2, 3 ]
+         * safe.arrOf.num(['foo', 1, true, null, undefined, [], {}]); // [ 0, 1, 0, 0, 0, 0, 0 ]
+         * safe.arrOf.num(true); // []
+         * safe.arrOf.num(false); // []
+         * safe.arrOf.num(123); // []
+         * safe.arrOf.num('foobar'); // []
+         * safe.arrOf.num({foo: 'bar'}); // []
+         * safe.arrOf.num(null); // []
+         * safe.arrOf.num(undefined); // []
+         *
+         * safe.arrOf.num([1, 2, 3], true, 0, 100, 99, [4, 5, 6]); // [ 1, 2, 3 ]
+         * safe.arrOf.num(['foo', 1, true, null, undefined, [], {}], true, 0, 100, 99, [4, 5, 6]); // [ 99, 1, 99, 99, 99, 99, 99 ]
+         * safe.arrOf.num(true, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+         * safe.arrOf.num(false, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+         * safe.arrOf.num(123, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+         * safe.arrOf.num('foobar', true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+         * safe.arrOf.num({foo: 'bar'}, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+         * safe.arrOf.num(null, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+         * safe.arrOf.num(undefined, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+         * ```
+         * @param {number[]} input
+         * @param {boolean} [isInt=false]
+         * @param {number} [min]
+         * @param {number} [max]
+         * @param {number} [fallback]
+         * @param {number[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {number[]}
+         */
+        const num: (input: number[], isInt?: boolean, min?: number, max?: number, fallback?: number, fallbackArr?: number[], arrMinLength?: number, arrMaxLength?: number) => number[];
+        /**<!-- DOCS: safe.arrOf.str #### @ -->
+         * str
+         *
+         * - `safe.arrOf.str`
+         *
+         * Process an array of strings, ensuring that they are safe to use.
+         *
+         * ```typescript
+         * safe.arrOf.str(['foo', 'bar', 'baz']); // [ 'foo', 'bar', 'baz' ]
+         * safe.arrOf.str(['foo', 1, true, null, undefined, [], {}]); // [ 'foo', '', '', '', '', '', '' ]
+         * safe.arrOf.str(true); // []
+         * safe.arrOf.str(false); // []
+         * safe.arrOf.str(123); // []
+         * safe.arrOf.str('foobar'); // []
+         * safe.arrOf.str({foo: 'bar'}); // []
+         * safe.arrOf.str(null); // []
+         * safe.arrOf.str(undefined); // []
+         *
+         * safe.arrOf.str(['foo', 'bar', 'baz'], true, 'LOREM', ['IPSUM']); // [ 'foo', 'bar', 'baz' ]
+         * safe.arrOf.str(['foo', 1, true, null, undefined, [], {}], true, 'LOREM', ['IPSUM']); // [ 'foo', '1', 'true', 'LOREM', 'LOREM', 'LOREM', 'LOREM' ]
+         * safe.arrOf.str(true, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.str(false, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.str(123, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.str('foobar', true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.str({foo: 'bar'}, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.str(null, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.str(undefined, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+         * ```
+         * @param {string[]} input
+         * @param {boolean} [allowStringify=false]
+         * @param {string} [fallback]
+         * @param {string[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {string[]}
+         */
+        const str: (input: string[], allowStringify?: boolean, fallback?: string, fallbackArr?: string[], arrMinLength?: number, arrMaxLength?: number) => string[];
+        /**<!-- DOCS: safe.arrOf.bool #### @ -->
+         * bool
+         *
+         * - `safe.arrOf.bool`
+         *
+         * Process an array of booleans, ensuring that they are safe to use.
+         *
+         * ```typescript
+         * safe.arrOf.bool([false, true, false]); // [ false, true, false ]
+         * safe.arrOf.bool(['foo', 123, true, null, undefined, [], {}]); // [ false, false, true, false, false, false, false ]
+         * safe.arrOf.bool(true); // []
+         * safe.arrOf.bool(false); // []
+         * safe.arrOf.bool(123); // []
+         * safe.arrOf.bool('foobar'); // []
+         * safe.arrOf.bool({foo: 'bar'}); // []
+         * safe.arrOf.bool(null); // []
+         * safe.arrOf.bool(undefined); // []
+         *
+         * safe.arrOf.bool([false, true, false], true, [true, true]); // [ false, true, false ]
+         * safe.arrOf.bool(['foo', 123, true, null, undefined, [], {}], true, [true, true]); // [ true, true, true, true, true, true, true ]
+         * safe.arrOf.bool(true, true, [true, true]); // [ true, true ]
+         * safe.arrOf.bool(false, true, [true, true]); // [ true, true ]
+         * safe.arrOf.bool(123, true, [true, true]); // [ true, true ]
+         * safe.arrOf.bool('foobar', true, [true, true]); // [ true, true ]
+         * safe.arrOf.bool({foo: 'bar'}, true, [true, true]); // [ true, true ]
+         * safe.arrOf.bool(null, true, [true, true]); // [ true, true ]
+         * safe.arrOf.bool(undefined, true, [true, true]); // [ true, true ]
+         * ```
+         * @param {boolean[]} input
+         * @param {boolean} [fallback]
+         * @param {boolean[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {boolean[]}
+         */
+        const bool: (input: boolean[], fallback?: boolean, fallbackArr?: boolean[], arrMinLength?: number, arrMaxLength?: number) => boolean[];
+        /**<!-- DOCS: safe.arrOf.func #### @ -->
+         * func
+         *
+         * - `safe.arrOf.func<T>`
+         *
+         * Process an array of functions, ensuring that they are safe to use.
+         *
+         * ```typescript
+         * safe.arrOf.func([(p) => 1]); // [(p) => 1]
+         * safe.arrOf.func(['foo', 1, true, null, undefined, [], {}]); // [() => {}, () => {}, () => {}, () => {}, () => {}, () => {}, () => {}]
+         * safe.arrOf.func(true); // []
+         * safe.arrOf.func(false); // []
+         * safe.arrOf.func(123); // []
+         * safe.arrOf.func('foobar'); // []
+         * safe.arrOf.func({foo: 'bar'}); // []
+         * safe.arrOf.func(null); // []
+         * safe.arrOf.func(undefined); // []
+         *
+         * safe.arrOf.func([(p) => 1], (q) => 2, [(r) => 3]); // [(p) => 1]
+         * safe.arrOf.func(['foo', 1, true, null, undefined, [], {}], (q) => 2, [(r) => 3]); // [(q) => 2, (q) => 2, (q) => 2, (q) => 2, (q) => 2, (q) => 2, (q) => 2]
+         * safe.arrOf.func(true, (q) => 2, [(r) => 3]); //  [(r) => 3]
+         * safe.arrOf.func(false, (q) => 2, [(r) => 3]); //  [(r) => 3]
+         * safe.arrOf.func(123, (q) => 2, [(r) => 3]); //  [(r) => 3]
+         * safe.arrOf.func('foobar', (q) => 2, [(r) => 3]); //  [(r) => 3]
+         * safe.arrOf.func({foo: 'bar'}, (q) => 2, [(r) => 3]); //  [(r) => 3]
+         * safe.arrOf.func(null, (q) => 2, [(r) => 3]); //  [(r) => 3]
+         * safe.arrOf.func(undefined, (q) => 2, [(r) => 3]); //  [(r) => 3]
+         * ```
+         * @param {T[]} input
+         * @param {T} [fallback]
+         * @param {T[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {T[]}
+         */
+        const func: <T extends Function>(input: T[], fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
+        /**<!-- DOCS: safe.arrOf.obj #### @ -->
+         * obj
+         *
+         * - `safe.arrOf.obj<T>`
+         *
+         * Process an array of objects, ensuring that they are safe to use.
+         *
+         * ```typescript
+         * safe.arrOf.obj([{foo: 1}, {bar: 2}]); // [ { foo: 1 }, { bar: 2 } ]
+         * safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}]); // [ {}, {}, {}, {}, {}, [], {} ]
+         * safe.arrOf.obj(true); // []
+         * safe.arrOf.obj(false); // []
+         * safe.arrOf.obj(123); // []
+         * safe.arrOf.obj('foobar'); // []
+         * safe.arrOf.obj({foo: 'bar'}); // []
+         * safe.arrOf.obj(null); // []
+         * safe.arrOf.obj(undefined); // []
+         *
+         * safe.arrOf.obj([{foo: 1}, {bar: 2}], true, {l: 3}, [{i: 4}]); // [ { foo: 1 }, { bar: 2 } ]
+         * safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}], true, {l: 3}, [{i: 4}]); // [ { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { } ]
+         * safe.arrOf.obj(true, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj(false, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj(123, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj('foobar', true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj({foo: 'bar'}, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj(null, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj(undefined, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * ```
+         * @param {T[]} input
+         * @param {boolean} [allowArrays=false]
+         * @param {T} [fallback]
+         * @param {T[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {T[]}
+         */
+        const obj: <T extends unknown>(input: T[], allowArrays?: boolean, fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
+        /**<!-- DOCS: safe.arrOf.objWith #### @ -->
+         * objWith
+         *
+         * - `safe.arrOf.objWith<T>`
+         *
+         * Process an array of objects, ensuring that they are safe to use, and have the neccesary properties.
+         *
+         * ```typescript
+         * const config1: ObjWithConfig<{ foo: string }> = {
+         *   foo: {
+         *     fallback: 'a',
+         *     safeFn: (v, f) => safe.str(v, false, f)
+         *   }
+         * };
+         * safe.arrOf.objWith([{ foo: 1 }, { bar: 2 }], config1); // [ { foo: 'a' }, { bar: 2, foo: 'a' } ]
+         * safe.arrOf.objWith(['foo', 1, true, null, undefined, [], {}], config1); // [{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' }]
+         * safe.arrOf.objWith(true, config1); // []
+         * safe.arrOf.objWith(false, config1); // []
+         * safe.arrOf.objWith(123, config1); // []
+         * safe.arrOf.objWith('foobar', config1); // []
+         * safe.arrOf.objWith({ foo: 'bar' }, config1); // []
+         * safe.arrOf.objWith(null, config1); // []
+         *
+         * const config2: ObjWithConfig<{ foo: string, bar: number }> = {
+         *   ...config1,
+         *   bar: {
+         *     fallback: 78,
+         *     safeFn: (v, f) => safe.num(v, true, 0, 100, f)
+         *   }
+         * };
+         * safe.arrOf.objWith([{ foo: 1 }, { bar: 2 }], config2); // [ { foo: 'a', bar: 78 }, { bar: 2, foo: 'a' } ]
+         * safe.arrOf.objWith(['foo', 1, true, null, undefined, [], {}], config2); // [{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 }]
+         * safe.arrOf.objWith(true, config2); // []
+         * safe.arrOf.objWith(false, config2); // []
+         * safe.arrOf.objWith(123, config2); // []
+         * safe.arrOf.objWith('foobar', config2); // []
+         * safe.arrOf.objWith({ foo: 'bar' }, config2); // []
+         * safe.arrOf.objWith(null, config2); // []
+         * ```
+         * @param {T[]} input
+         * @param {ObjWithConfig<T>} objConfig
+         * @param {boolean} [allowComposition=true]
+         * @param {T[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {T[]}
+         */
+        const objWith: <T extends unknown>(input: T[], objConfig: ObjWithConfig<T>, allowComposition?: boolean, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
+        /**<!-- DOCS: safe.arrOf.arr #### @ -->
+         * arr
+         *
+         * - `safe.arrOf.arr<T>`
+         *
+         * Process an array of arrays, ensuring that they are safe to use.
+         *
+         * ```typescript
+         * safe.arrOf.arr([['foo'], ['bar']]); // [ [ 'foo' ], [ 'bar' ] ]
+         * safe.arrOf.arr(['foo', 1, true, null, undefined, [], {}]); // [ [], [], [], [], [], [], [] ]
+         * safe.arrOf.arr(true); // []
+         * safe.arrOf.arr(false); // []
+         * safe.arrOf.arr(123); // []
+         * safe.arrOf.arr('foobar'); // []
+         * safe.arrOf.arr({foo: 'bar'}); // []
+         * safe.arrOf.arr(null); // []
+         * safe.arrOf.arr(undefined); // []
+         *
+         * safe.arrOf.arr([['foo'], ['bar']], ['baz'], [['IPSUM']]); // [ [ 'foo' ], [ 'bar' ] ]
+         * safe.arrOf.arr(['foo', 1, true, null, undefined, [], {}], ['baz'], [['IPSUM']]); // [ [ 'baz' ], [ 'baz' ], [ 'baz' ], [ 'baz' ], [ 'baz' ], [], [ 'baz' ] ]
+         * safe.arrOf.arr(true, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+         * safe.arrOf.arr(false, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+         * safe.arrOf.arr(123, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+         * safe.arrOf.arr('foobar', ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+         * safe.arrOf.arr({foo: 'bar'}, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+         * safe.arrOf.arr(null, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+         * safe.arrOf.arr(undefined, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+         * ```
+         * @param {T[][]} input
+         * @param {T[]} [fallback]
+         * @param {T[][]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {T[][]}
+         */
+        const arr: <T extends unknown>(input: T[][], fallback?: T[], fallbackArr?: T[][], arrMinLength?: number, arrMaxLength?: number) => T[][];
+        /**<!-- DOCS: safe.arrOf.prop #### @ -->
+         * prop
+         *
+         * - `safe.arrOf.prop`
+         *
+         * Process an array of values that can be used as properties (string or number), ensuring that they are safe to use.
+         *
+         * ```typescript
+         * safe.arrOf.prop([['foo'], ['bar']]); // [ '', '' ]
+         * safe.arrOf.prop(['foo', 1, true, null, undefined, [], {}]); // [ 'foo', 1, 'true', '', '', '', '' ]
+         * safe.arrOf.prop(true); // []
+         * safe.arrOf.prop(false); // []
+         * safe.arrOf.prop(123); // []
+         * safe.arrOf.prop('foobar'); // []
+         * safe.arrOf.prop({foo: 'bar'}); // []
+         * safe.arrOf.prop(null); // []
+         * safe.arrOf.prop(undefined); // []
+         *
+         * safe.arrOf.prop([['foo'], ['bar']], ['baz'], ['IPSUM']); // [ [ 'baz' ], [ 'baz' ] ]
+         * safe.arrOf.prop(['foo', 1, true, null, undefined, [], {}], ['baz'], ['IPSUM']); // [ 'foo', 1, 'true', [ 'baz' ], [ 'baz' ], [ 'baz' ],[ 'baz' ] ]
+         * safe.arrOf.prop(true, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.prop(false, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.prop(123, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.prop('foobar', ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.prop({foo: 'bar'}, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.prop(null, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * safe.arrOf.prop(undefined, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+         * ```
+         * @param {(string | number)[]} input
+         * @param {string | number} [fallback]
+         * @param {(string | number)[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {(string | number)[]}
+         */
+        const prop: (input: (string | number)[], fallback?: string | number, fallbackArr?: (string | number)[], arrMinLength?: number, arrMaxLength?: number) => (string | number)[];
+    }
+    /**<!-- DOCS: safe.ObjWithConfig ### -->
+     * ObjWithConfig<O>
+     *
+     * - `safe.ObjWithConfig`
+     *
+     * A type for defining the configuration of an object when using `safe.objWith`.
+     */
+    type ObjWithConfig<O> = {
+        [K in keyof O]?: ObjWithPropConfig<O[K]>;
+    };
+    /**<!-- DOCS: safe.ObjWithPropConfig #### -->
+     * ObjWithPropConfig<O>
+     *
+     * - `safe.ObjWithPropConfig`
+     *
+     * A type for defining what is required for a property of an object when using `safe.objWith`.
+     */
+    interface ObjWithPropConfig<T> {
+        fallback: T;
+        checkFn?: (value?: T, fallback?: T) => boolean;
+        safeFn?: (value?: T, fallback?: T) => T;
+    }
+}
+
+export { ArrayTools, CENTURY, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

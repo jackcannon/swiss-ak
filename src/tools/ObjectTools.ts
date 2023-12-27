@@ -1,3 +1,4 @@
+import { safe } from './safe';
 import { ObjOfType, OfType } from './types';
 
 //<!-- DOCS: 110 -->
@@ -27,7 +28,13 @@ export namespace ObjectTools {
   export const remodel = <T extends Object = Object, V extends any = any, W extends any = any, O extends any = OfType<T, W>>(
     obj: T,
     func: (entries: [string, V][]) => [string, W][]
-  ): O => Object.fromEntries(func(Object.entries(obj)) ?? Object.entries(obj)) as O;
+  ): O => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (entries: [string, V][]) => entries as unknown as [string, W][])
+    };
+    return Object.fromEntries(args.func(Object.entries(args.obj)) ?? Object.entries(args.obj)) as O;
+  };
 
   /**<!-- DOCS: ObjectTools.remodelEach ### @ -->
    * remodelEach
@@ -49,7 +56,13 @@ export namespace ObjectTools {
   export const remodelEach = <T extends Object = Object, V extends any = any, W extends any = any, O extends any = OfType<T, W>>(
     obj: T,
     func: (entry: [string, V], index: number, entries: [string, V][]) => [string, W]
-  ): O => Object.fromEntries(Object.entries(obj).map((entry, index, entries) => func(entry, index, entries) ?? entry)) as O;
+  ): O => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (entry) => entry as unknown as [string, W])
+    };
+    return Object.fromEntries(Object.entries(args.obj).map((entry, index, entries) => args.func(entry, index, entries) ?? entry)) as O;
+  };
 
   /**<!-- DOCS: ObjectTools.map ### @ -->
    * map
@@ -68,7 +81,13 @@ export namespace ObjectTools {
   export const map = <T extends Object, V extends any, W extends any>(
     obj: T,
     func: (key: string, value: V, index: number) => [string, W]
-  ): OfType<T, W> => remodel(obj, (entries) => entries.map(([key, value], index) => func(key, value, index))) as OfType<T, W>;
+  ): OfType<T, W> => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (key, value) => [key, value] as unknown as [string, W])
+    };
+    return remodel(args.obj, (entries) => entries.map(([key, value], index) => args.func(key, value, index))) as OfType<T, W>;
+  };
 
   /**<!-- DOCS: ObjectTools.mapValues ### @ -->
    * mapValues
@@ -87,7 +106,13 @@ export namespace ObjectTools {
   export const mapValues = <T extends Object, V extends any, W extends any>(
     obj: T,
     func: (key: string, value: V, index: number) => W
-  ): OfType<T, W> => remodel(obj, (entries) => entries.map(([key, value], index) => [key, func(key, value, index)])) as OfType<T, W>;
+  ): OfType<T, W> => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (key, value) => value as unknown as W)
+    };
+    return remodel(args.obj, (entries) => entries.map(([key, value], index) => [key, args.func(key, value, index)])) as OfType<T, W>;
+  };
 
   /**<!-- DOCS: ObjectTools.mapKeys ### @ -->
    * mapKeys
@@ -103,8 +128,13 @@ export namespace ObjectTools {
    * @param {(key: string, value: V, index: number) => string} func
    * @returns {T}
    */
-  export const mapKeys = <T extends Object, V extends any>(obj: T, func: (key: string, value: V, index: number) => string): T =>
-    remodel(obj, (entries) => entries.map(([key, value], index) => [func(key, value, index), value])) as T;
+  export const mapKeys = <T extends Object, V extends any>(obj: T, func: (key: string, value: V, index: number) => string): T => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (key) => key)
+    };
+    return remodel(args.obj, (entries) => entries.map(([key, value], index) => [args.func(key, value, index), value])) as T;
+  };
 
   /**<!-- DOCS: ObjectTools.filter ### @ -->
    * filter
@@ -120,8 +150,16 @@ export namespace ObjectTools {
    * @param {(key: string, value: V, index: number) => boolean} func
    * @returns {O}
    */
-  export const filter = <T extends Object, V extends any, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean): O =>
-    remodel(obj, (entries) => entries.filter(([key, value], index) => func(key, value, index))) as O;
+  export const filter = <T extends Object, V extends any, O extends Partial<T>>(
+    obj: T,
+    func: (key: string, value: V, index: number) => boolean
+  ): O => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, () => true)
+    };
+    return remodel(args.obj, (entries) => entries.filter(([key, value], index) => args.func(key, value, index))) as O;
+  };
 
   /**<!-- DOCS: ObjectTools.clean ### @ -->
    * clean
@@ -136,7 +174,12 @@ export namespace ObjectTools {
    * @param {T} obj
    * @returns {O}
    */
-  export const clean = <T extends Object, O extends Partial<T>>(obj: T): O => filter(obj, (key, value) => value !== undefined) as O;
+  export const clean = <T extends Object, O extends Partial<T>>(obj: T): O => {
+    const args = {
+      obj: safe.obj(obj)
+    };
+    return filter(args.obj, (key, value) => value !== undefined) as O;
+  };
 
   /**<!-- DOCS: ObjectTools.invert ### @ -->
    * invert
@@ -151,9 +194,13 @@ export namespace ObjectTools {
    * @param {Ti} obj
    * @returns {To}
    */
-  export const invert = <Ti extends Object, To extends ObjOfType<string>>(obj: Ti): To =>
-    remodelEach(obj, ([key, value]) => {
+  export const invert = <Ti extends Object, To extends ObjOfType<string>>(obj: Ti): To => {
+    const args = {
+      obj: safe.obj(obj)
+    };
+    return remodelEach(args.obj, ([key, value]) => {
       const newKey = value?.toString?.() ?? value + '';
       return [newKey, key];
     });
+  };
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE

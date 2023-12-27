@@ -1,5 +1,6 @@
 import { ObjectTools } from './ObjectTools';
 import { fn } from './fn';
+import { safe } from './safe';
 
 //<!-- DOCS: 120 -->
 
@@ -26,11 +27,13 @@ export namespace StringTools {
    * @param {string} [input='']
    * @returns {string}
    */
-  export const capitalise = (input: string = '') =>
-    (input || '')
+  export const capitalise = (input: string = ''): string => {
+    const inp = safe.str(input);
+    return inp
       .split(/\s/)
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
+  };
 
   /**<!-- DOCS: StringTools.angloise ### @ -->
    * angloise
@@ -45,7 +48,10 @@ export namespace StringTools {
    * @param {string} input
    * @returns {string}
    */
-  export const angloise = (input: string): string => input.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  export const angloise = (input: string): string => {
+    const inp = safe.str(input);
+    return inp.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  };
 
   /**<!-- DOCS: StringTools.clean ### @ -->
    * clean
@@ -60,10 +66,12 @@ export namespace StringTools {
    * @param {string} [input='']
    * @returns {string}
    */
-  export const clean = (input: string = ''): string =>
-    angloise([input].flat().join(' '))
+  export const clean = (input: string = ''): string => {
+    const inp = safe.str(input);
+    return angloise([inp].flat().join(' '))
       .replace(/\s{1,}/g, ' ')
       .replace(/[^A-Za-z0-9 ]/gi, '');
+  };
 
   /**<!-- DOCS: StringTools.repeat ### @ -->
    * repeat
@@ -82,8 +90,35 @@ export namespace StringTools {
    * @param {string} repeated
    * @returns {string}
    */
-  export const repeat = (maxLength: number, repeated: string) =>
-    (repeated && typeof repeated === 'string' ? repeated : '').repeat(Math.max(0, maxLength));
+  export const repeat = (maxLength: number, repeated: string): string => {
+    const args = {
+      maxLength: safe.num(maxLength, true),
+      repeated: safe.str(repeated)
+    };
+    return args.repeated.repeat(Math.max(0, args.maxLength));
+  };
+
+  // clx
+  const processClxArray = (arr: any): string[] =>
+    arr
+      .filter(fn.exists)
+      .map((item) => {
+        if (typeof item === 'string') return item;
+
+        if (item instanceof Array) {
+          return processClxArray(item);
+        }
+
+        if (typeof item === 'object') {
+          return Object.keys(item)
+            .filter((key) => item[key])
+            .join(' ');
+        }
+
+        return undefined;
+      })
+      .filter(fn.exists)
+      .flat();
 
   /**<!-- DOCS: StringTools.clx ### @ -->
    * clx
@@ -105,7 +140,7 @@ export namespace StringTools {
    * @param {...ClxType} [args]
    * @returns {string}
    */
-  export const clx = (...args: ClxType[]) => processClxArray(args).join(' ');
+  export const clx = (...args: ClxType[]): string => processClxArray(args).join(' ');
 
   /**<!-- DOCS: StringTools.Case_Manipulators ### -->
    * Case Manipulators
@@ -143,6 +178,11 @@ export namespace StringTools {
 
   type SplittingFn = (input: string | string[]) => string[];
 
+  const safeInput = (v: string | string[]): string | string[] => {
+    if (v instanceof Array) return safe.arrOf.str(v);
+    return safe.str(v, false, '');
+  };
+
   // SWISS-DOCS-JSDOC-REMOVE-NEXT-LINE
   const caseHandler = (overrideSplitter?: SplittingFn): StringCaseHandler => {
     const getSplit: SplittingFn = (input: string | string[] = ''): string[] => {
@@ -169,8 +209,12 @@ export namespace StringTools {
      * @returns {string}
      */
     const toCamelCase = (input: string | string[], capitaliseFirst: boolean = false): string => {
-      const split = getSplit(input);
-      return split.map((word, index) => (index === 0 && !capitaliseFirst ? word.toLowerCase() : capitalise(word))).join('');
+      const args = {
+        input: safeInput(input),
+        capitaliseFirst: safe.bool(capitaliseFirst)
+      };
+      const split = getSplit(args.input);
+      return split.map((word, index) => (index === 0 && !args.capitaliseFirst ? word.toLowerCase() : capitalise(word))).join('');
     };
     /**<!-- DOCS: StringTools.toLowerCamelCase #### @ -->
      * toLowerCamelCase
@@ -185,7 +229,7 @@ export namespace StringTools {
      * @param {string | string[]} input
      * @returns {string}
      */
-    const toLowerCamelCase = (input: string | string[]): string => toCamelCase(input, false);
+    const toLowerCamelCase = (input: string | string[]): string => toCamelCase(safeInput(input), false);
 
     /**<!-- DOCS: StringTools.toUpperCamelCase #### @ -->
      * toUpperCamelCase
@@ -200,7 +244,7 @@ export namespace StringTools {
      * @param {string | string[]} input
      * @returns {string}
      */
-    const toUpperCamelCase = (input: string | string[]): string => toCamelCase(input, true);
+    const toUpperCamelCase = (input: string | string[]): string => toCamelCase(safeInput(input), true);
 
     /**<!-- DOCS: StringTools.toCharacterSeparated #### @ -->
      * toCharacterSeparated
@@ -213,13 +257,18 @@ export namespace StringTools {
      *
      * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
      * @param {string | string[]} input
-     * @param {string} char
+     * @param {string} [char=',']
      * @param {boolean} [toUpper=false]
      * @returns {string}
      */
-    const toCharacterSeparated = (input: string | string[], char: string, toUpper: boolean = false) => {
-      const split = getSplit(input);
-      return split.map((word, index) => (toUpper ? word.toUpperCase() : word.toLowerCase())).join(char);
+    const toCharacterSeparated = (input: string | string[], char: string = ',', toUpper: boolean = false) => {
+      const args = {
+        input: safeInput(input),
+        char: safe.str(char),
+        toUpper: safe.bool(toUpper, false)
+      };
+      const split = getSplit(args.input);
+      return split.map((word, index) => (args.toUpper ? word.toUpperCase() : word.toLowerCase())).join(args.char);
     };
 
     /**<!-- DOCS: StringTools.toSlugCase #### @ -->
@@ -236,7 +285,13 @@ export namespace StringTools {
      * @param {boolean} [toUpper=false]
      * @returns {string}
      */
-    const toSlugCase = (input: string | string[], toUpper: boolean = false): string => toCharacterSeparated(input, '-', toUpper);
+    const toSlugCase = (input: string | string[], toUpper: boolean = false): string => {
+      const args = {
+        input: safeInput(input),
+        toUpper: safe.bool(toUpper)
+      };
+      return toCharacterSeparated(args.input, '-', args.toUpper);
+    };
 
     /**<!-- DOCS: StringTools.toLowerSlugCase #### @ -->
      * toLowerSlugCase
@@ -251,7 +306,7 @@ export namespace StringTools {
      * @param {string | string[]} input
      * @returns {string}
      */
-    const toLowerSlugCase = (input: string | string[]): string => toSlugCase(input, false);
+    const toLowerSlugCase = (input: string | string[]): string => toSlugCase(safeInput(input), false);
 
     /**<!-- DOCS: StringTools.toUpperSlugCase #### @ -->
      * toUpperSlugCase
@@ -266,7 +321,7 @@ export namespace StringTools {
      * @param {string | string[]} input
      * @returns {string}
      */
-    const toUpperSlugCase = (input: string | string[]): string => toSlugCase(input, true);
+    const toUpperSlugCase = (input: string | string[]): string => toSlugCase(safeInput(input), true);
 
     /**<!-- DOCS: StringTools.toSnakeCase #### @ -->
      * toSnakeCase
@@ -282,7 +337,13 @@ export namespace StringTools {
      * @param {boolean} [toUpper=false]
      * @returns {string}
      */
-    const toSnakeCase = (input: string | string[], toUpper: boolean = false): string => toCharacterSeparated(input, '_', toUpper);
+    const toSnakeCase = (input: string | string[], toUpper: boolean = false): string => {
+      const args = {
+        input: safeInput(input),
+        toUpper: safe.bool(toUpper)
+      };
+      return toCharacterSeparated(args.input, '_', args.toUpper);
+    };
 
     /**<!-- DOCS: StringTools.toLowerSnakeCase #### @ -->
      * toLowerSnakeCase
@@ -297,7 +358,7 @@ export namespace StringTools {
      * @param {string | string[]} input
      * @returns {string}
      */
-    const toLowerSnakeCase = (input: string | string[]): string => toSnakeCase(input, false);
+    const toLowerSnakeCase = (input: string | string[]): string => toSnakeCase(safeInput(input), false);
 
     /**<!-- DOCS: StringTools.toUpperSnakeCase #### @ -->
      * toUpperSnakeCase
@@ -312,7 +373,7 @@ export namespace StringTools {
      * @param {string | string[]} input
      * @returns {string}
      */
-    const toUpperSnakeCase = (input: string | string[]): string => toSnakeCase(input, true);
+    const toUpperSnakeCase = (input: string | string[]): string => toSnakeCase(safeInput(input), true);
 
     /**<!-- DOCS: StringTools.toSpaced #### @ -->
      * toSpaced
@@ -328,7 +389,13 @@ export namespace StringTools {
      * @param {boolean} [toUpper=false]
      * @returns {string}
      */
-    const toSpaced = (input: string | string[], toUpper: boolean = false): string => toCharacterSeparated(input, ' ', toUpper);
+    const toSpaced = (input: string | string[], toUpper: boolean = false): string => {
+      const args = {
+        input: safeInput(input),
+        toUpper: safe.bool(toUpper)
+      };
+      return toCharacterSeparated(args.input, ' ', args.toUpper);
+    };
 
     /**<!-- DOCS: StringTools.toLowerSpaced #### @ -->
      * toLowerSpaced
@@ -343,7 +410,7 @@ export namespace StringTools {
      * @param {string | string[]} input
      * @returns {string}
      */
-    const toLowerSpaced = (input: string | string[]): string => toSpaced(input, false);
+    const toLowerSpaced = (input: string | string[]): string => toSpaced(safeInput(input), false);
 
     /**<!-- DOCS: StringTools.toUpperSpaced #### @ -->
      * toUpperSpaced
@@ -358,7 +425,7 @@ export namespace StringTools {
      * @param {string | string[]} input
      * @returns {string}
      */
-    const toUpperSpaced = (input: string | string[]): string => toSpaced(input, true);
+    const toUpperSpaced = (input: string | string[]): string => toSpaced(safeInput(input), true);
 
     /**<!-- DOCS: StringTools.toCapitalisedSpaced #### @ -->
      * toCapitalisedSpaced
@@ -373,7 +440,7 @@ export namespace StringTools {
      * @param {string | string[]} input
      * @returns {string}
      */
-    const toCapitalisedSpaced = (input: string | string[]): string => capitalise(toSpaced(input, false));
+    const toCapitalisedSpaced = (input: string | string[]): string => capitalise(toSpaced(safeInput(input), false));
 
     return {
       toLowerCamelCase,
@@ -530,25 +597,6 @@ export namespace StringTools {
       .flat()
   );
 
-  // clx
-  const processClxArray = (arr: any): string[] =>
-    arr
-      .filter(Boolean)
-      .map((item) => {
-        if (typeof item === 'string') return item;
-
-        if (item instanceof Array) {
-          return processClxArray(item);
-        }
-
-        if (typeof item === 'object') {
-          return Object.keys(item)
-            .filter((key) => item[key])
-            .join(' ');
-        }
-      })
-      .flat();
-
   /**<!-- DOCS: StringTools.matchBrackets ### -->
    * matchBrackets
    *
@@ -568,6 +616,21 @@ export namespace StringTools {
       '<': '❰',
       '>': '❱'
     };
+
+    const safeSymbols = (symbols: Partial<BracketReplaceSymbols>): Partial<BracketReplaceSymbols> =>
+      ObjectTools.filter(safe.obj(symbols), (k) => Object.keys(defaultReplaceSymbols).includes(k));
+
+    const safeBracketType = <T = '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'>(bracketType: T): T => {
+      const safed = safe.str(bracketType as unknown as string);
+      if (['()', '[]', '{}', '<>', 'round', 'square', 'curly', 'angle'].includes(safed)) {
+        return safed as unknown as T;
+      }
+      return 'round' as unknown as T;
+    };
+
+    // make characters safe for regex
+    // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+    const escapePCRE = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
     const runReplace = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}, outputDepth: boolean = false): string => {
       const fullSyms = getReplaceSymbols(replaceSymbols);
@@ -651,7 +714,13 @@ export namespace StringTools {
      * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
      * @returns {string}
      */
-    export const unique = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => runReplace(input, replaceSymbols, false);
+    export const unique = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => {
+      const args = {
+        input: safe.str(input),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      return runReplace(args.input, args.replaceSymbols, false);
+    };
 
     /**<!-- DOCS: StringTools.matchBrackets.depth #### @ -->
      * depth
@@ -669,7 +738,13 @@ export namespace StringTools {
      * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
      * @returns {string}
      */
-    export const depth = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => runReplace(input, replaceSymbols, true);
+    export const depth = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => {
+      const args = {
+        input: safe.str(input),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      return runReplace(args.input, args.replaceSymbols, true);
+    };
 
     /**<!-- DOCS: StringTools.matchBrackets.clean #### @ -->
      * clean
@@ -691,13 +766,16 @@ export namespace StringTools {
      * @returns {string}
      */
     export const clean = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => {
-      const fullSyms = getReplaceSymbols(replaceSymbols);
-      const invertedSyms = ObjectTools.invert(fullSyms);
+      const args = {
+        input: safe.str(input),
+        replaceSymbols: getReplaceSymbols(replaceSymbols)
+      };
+      const invertedSyms = ObjectTools.invert(args.replaceSymbols);
 
-      const { END, ...withoutEND } = fullSyms;
+      const { END, ...withoutEND } = args.replaceSymbols;
       const startSyms = Object.values(withoutEND);
-      const regex = new RegExp(`(${startSyms.map((s) => `\\${s}`).join('|')})[0-9]+${fullSyms.END}`, 'g');
-      return input.replaceAll(regex, (m, startSym) => invertedSyms[startSym] || '');
+      const regex = new RegExp(`(${startSyms.map(escapePCRE).join('|')})[0-9]+${escapePCRE(args.replaceSymbols.END)}`, 'g');
+      return args.input.replaceAll(regex, (m, startSym) => invertedSyms[startSym] || '');
     };
 
     const getBracketSymsForMatch = (
@@ -725,7 +803,10 @@ export namespace StringTools {
       findID: string,
       replaceSymbols: Partial<BracketReplaceSymbols>
     ) => {
-      const regex = new RegExp(`${openSym}${findID}${endSym}(.|\n)*?${closeSym}${findID}${endSym}`, 'g');
+      const regex = new RegExp(
+        `${escapePCRE(openSym)}${findID}${escapePCRE(endSym)}(.|\n)*?${escapePCRE(closeSym)}${findID}${escapePCRE(endSym)}`,
+        'g'
+      );
       const foundDirty = Array.from(fullDirty.matchAll(regex) || []).map((match) => match[0]);
 
       const found = foundDirty.map((str) => clean(str, replaceSymbols));
@@ -764,9 +845,15 @@ export namespace StringTools {
       depthID: number = 0,
       replaceSymbols: Partial<BracketReplaceSymbols> = {}
     ): string[] => {
-      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
-      const fullDirty = depth(input, replaceSymbols);
-      return runGrabSearch(fullDirty, syms, depthID !== undefined ? depthID + '' : '', replaceSymbols);
+      const args = {
+        input: safe.str(input),
+        bracketType: safeBracketType(bracketType),
+        depthID: safe.num(depthID, true, 0),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      const syms = getBracketSymsForMatch(args.bracketType, args.replaceSymbols);
+      const fullDirty = depth(args.input, args.replaceSymbols);
+      return runGrabSearch(fullDirty, syms, args.depthID + '', args.replaceSymbols);
     };
 
     /**<!-- DOCS: StringTools.matchBrackets.grabUnique #### @ -->
@@ -802,9 +889,15 @@ export namespace StringTools {
       uniqueID: number = 0,
       replaceSymbols: Partial<BracketReplaceSymbols> = {}
     ): string => {
-      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
-      const fullDirty = unique(input, replaceSymbols);
-      return runGrabSearch(fullDirty, syms, uniqueID !== undefined ? uniqueID + '' : '', replaceSymbols)?.[0];
+      const args = {
+        input: safe.str(input),
+        bracketType: safeBracketType(bracketType),
+        uniqueID: safe.num(uniqueID, true, 0),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      const syms = getBracketSymsForMatch(args.bracketType, args.replaceSymbols);
+      const fullDirty = unique(args.input, args.replaceSymbols);
+      return runGrabSearch(fullDirty, syms, args.uniqueID + '', args.replaceSymbols)?.[0];
     };
 
     /**<!-- DOCS: StringTools.matchBrackets.grab #### @ -->
@@ -836,16 +929,21 @@ export namespace StringTools {
       bracketType: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle' = 'round',
       replaceSymbols: Partial<BracketReplaceSymbols> = {}
     ): string[] => {
-      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
-      const fullDirty = unique(input, replaceSymbols);
+      const args = {
+        input: safe.str(input),
+        bracketType: safeBracketType(bracketType),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      const syms = getBracketSymsForMatch(args.bracketType, args.replaceSymbols);
+      const fullDirty = unique(args.input, args.replaceSymbols);
 
       const [openSym, closeSym, endSym] = syms;
-      const regex = new RegExp(`(?:${openSym}|${closeSym})([0-9]+)${endSym}`, 'g');
+      const regex = new RegExp(`(?:${escapePCRE(openSym)}|${escapePCRE(closeSym)})([0-9]+)${escapePCRE(endSym)}`, 'g');
       const allIDs = Array.from(fullDirty.matchAll(regex) || [])
         .map((match) => Number(match[1]))
         .filter(fn.dedupe);
 
-      const found = allIDs.map((uniqueID) => runGrabSearch(fullDirty, syms, uniqueID + '', replaceSymbols)?.[0]);
+      const found = allIDs.map((uniqueID) => runGrabSearch(fullDirty, syms, uniqueID + '', args.replaceSymbols)?.[0]);
 
       return found;
     };
@@ -892,10 +990,10 @@ export namespace StringTools {
      * @returns {BracketReplaceSymbols}
      */
     export const getReplaceSymbols = (replaceSymbols: Partial<BracketReplaceSymbols> = {}): BracketReplaceSymbols => {
-      return {
+      return safeSymbols({
         ...defaultReplaceSymbols,
         ...replaceSymbols
-      };
+      }) as BracketReplaceSymbols;
     };
 
     /**<!-- DOCS: StringTools.matchBrackets.BracketReplaceSymbols #### -->

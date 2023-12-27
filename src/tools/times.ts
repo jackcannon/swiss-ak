@@ -1,3 +1,5 @@
+import { safe } from './safe';
+
 /**<!-- DOCS: times ##! 10 -->
  * times
  *
@@ -280,7 +282,7 @@ export namespace times {
    * @param {ms} [x=1]
    * @returns {number}
    */
-  export const milliseconds = (x: ms = 1): ms => x;
+  export const milliseconds = (x: ms = 1): ms => safe.num(x);
 
   /**<!-- DOCS: times.seconds ### -1 @ -->
    * seconds
@@ -299,7 +301,7 @@ export namespace times {
    * @param {second} [x=1]
    * @returns {number}
    */
-  export const seconds = (x: second = 1): ms => x * SECOND;
+  export const seconds = (x: second = 1): ms => safe.num(x) * SECOND;
 
   /**<!-- DOCS: times.minutes ### -1 @ -->
    * minutes
@@ -318,7 +320,7 @@ export namespace times {
    * @param {minute} [x=1]
    * @returns {number}
    */
-  export const minutes = (x: minute = 1): ms => x * MINUTE;
+  export const minutes = (x: minute = 1): ms => safe.num(x) * MINUTE;
 
   /**<!-- DOCS: times.hours ### -1 @ -->
    * hours
@@ -337,7 +339,7 @@ export namespace times {
    * @param {hour} [x=1]
    * @returns {number}
    */
-  export const hours = (x: hour = 1): ms => x * HOUR;
+  export const hours = (x: hour = 1): ms => safe.num(x) * HOUR;
 
   /**<!-- DOCS: times.days ### -1 @ -->
    * days
@@ -356,7 +358,7 @@ export namespace times {
    * @param {day} [x=1]
    * @returns {number}
    */
-  export const days = (x: day = 1): ms => x * DAY;
+  export const days = (x: day = 1): ms => safe.num(x) * DAY;
 
   /**<!-- DOCS: times.weeks ### -1 @ -->
    * weeks
@@ -375,7 +377,7 @@ export namespace times {
    * @param {week} [x=1]
    * @returns {number}
    */
-  export const weeks = (x: week = 1): ms => x * WEEK;
+  export const weeks = (x: week = 1): ms => safe.num(x) * WEEK;
 
   /**<!-- DOCS: times.months ### -1 @ -->
    * months
@@ -394,7 +396,7 @@ export namespace times {
    * @param {month} [x=1]
    * @returns {number}
    */
-  export const months = (x: month = 1): ms => x * MONTH;
+  export const months = (x: month = 1): ms => safe.num(x) * MONTH;
 
   /**<!-- DOCS: times.years ### -1 @ -->
    * years
@@ -413,7 +415,7 @@ export namespace times {
    * @param {year} [x=1]
    * @returns {number}
    */
-  export const years = (x: year = 1): ms => x * YEAR;
+  export const years = (x: year = 1): ms => safe.num(x) * YEAR;
 
   /**<!-- DOCS: times.decades ### -1 @ -->
    * decades
@@ -432,7 +434,7 @@ export namespace times {
    * @param {decade} [x=1]
    * @returns {number}
    */
-  export const decades = (x: decade = 1): ms => x * DECADE;
+  export const decades = (x: decade = 1): ms => safe.num(x) * DECADE;
 
   /**<!-- DOCS: times.centuries ### -1 @ -->
    * centuries
@@ -451,7 +453,7 @@ export namespace times {
    * @param {century} [x=1]
    * @returns {number}
    */
-  export const centuries = (x: century = 1): ms => x * CENTURY;
+  export const centuries = (x: century = 1): ms => safe.num(x) * CENTURY;
 
   /**<!-- DOCS: times.millenniums ### -1 @ -->
    * millenniums
@@ -470,7 +472,7 @@ export namespace times {
    * @param {millennium} [x=1]
    * @returns {number}
    */
-  export const millenniums = (x: millennium = 1): ms => x * MILLENNIUM;
+  export const millenniums = (x: millennium = 1): ms => safe.num(x) * MILLENNIUM;
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: times.ms  --> */

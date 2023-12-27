@@ -20,6 +20,7 @@ A collection of useful little things that I like to reuse across projects
     - [**symbols**](#symbols)
     - [**queue**](#queue)
     - [**timer**](#timer)
+    - [**safe**](#safe)
     - [**Types**](#types)
 
 <!-- DOCS: TOC END -->
@@ -181,8 +182,8 @@ console.log(new Date().toTimeString()); // 14:00:00
 ### stopInterval
 
 ```typescript
-stopInterval(intID: number): number
-waiters.stopInterval(intID: number): number
+stopInterval(intID: number): void
+waiters.stopInterval(intID: number): void
 ```
 
 ```typescript
@@ -203,7 +204,7 @@ interval((intID, count) => {
 
 | Return Type |
 |-------------|
-| `number`    |
+| `void`      |
 
 <p style="text-align: right" align="right"><a href="#waiters"> [↑ Back to <b>waiters</b> ↑] </a></p>
 
@@ -270,6 +271,7 @@ A collection of useful higher-order functions.
       - [byProp](#byprop)
       - [nearestTo](#nearestto)
       - [furthestFrom](#furthestfrom)
+      - [array](#array)
       - [arrayAsc](#arrayasc)
       - [arrayDesc](#arraydesc)
     - [**reduces**](#reduces)
@@ -316,7 +318,7 @@ const items = stuff
 
 |  #  | Parameter Name | Required | Type |
 |:---:|:---------------|:---------|:-----|
-| *0* | `item`         | **Yes**  | `T`  |
+| *0* | `item`         | *No*     | `T`  |
 
 | Return Type |
 |-------------|
@@ -330,7 +332,7 @@ const items = stuff
 fn.result(item: T): () => T
 ```
 
-Returns a function that returns a function that returns the first argument.
+Returns a function that returns the first argument.
 
 ```typescript
 const items = stuff
@@ -339,7 +341,7 @@ const items = stuff
 
 |  #  | Parameter Name | Required | Type |
 |:---:|:---------------|:---------|:-----|
-| *0* | `item`         | **Yes**  | `T`  |
+| *0* | `item`         | *No*     | `T`  |
 
 | Return Type |
 |-------------|
@@ -359,7 +361,7 @@ Like fn.result, but wrapped in a Promise
 
 |  #  | Parameter Name | Required | Type |
 |:---:|:---------------|:---------|:-----|
-| *0* | `item`         | **Yes**  | `T`  |
+| *0* | `item`         | *No*     | `T`  |
 
 | Return Type        |
 |--------------------|
@@ -377,7 +379,7 @@ Returns an async function that rejects with the first argument
 
 |  #  | Parameter Name | Required | Type |
 |:---:|:---------------|:---------|:-----|
-| *0* | `item`         | **Yes**  | `T`  |
+| *0* | `item`         | *No*     | `T`  |
 
 | Return Type        |
 |--------------------|
@@ -596,9 +598,9 @@ Removes duplicate items from an array.
 #### dedupeMapped
 
 ```typescript
-fn.dedupeMapped(mapFn: (value: T, index: number, array: T[]) => U): (item: T, index: number, array: T[]) => boolean
-fn.filters.dedupeMapped(mapFn: (value: T, index: number, array: T[]) => U): (item: T, index: number, array: T[]) => boolean
-filters.dedupeMapped(mapFn: (value: T, index: number, array: T[]) => U): (item: T, index: number, array: T[]) => boolean
+fn.dedupeMapped(mapFn: (value?: T, index?: number, array?: T[]) => U): (item: T, index: number, array: T[]) => boolean
+fn.filters.dedupeMapped(mapFn: (value?: T, index?: number, array?: T[]) => U): (item: T, index: number, array: T[]) => boolean
+filters.dedupeMapped(mapFn: (value?: T, index?: number, array?: T[]) => U): (item: T, index: number, array: T[]) => boolean
 ```
 
 Removes duplicate items from an array based on a mapped value.
@@ -607,9 +609,9 @@ Removes duplicate items from an array based on a mapped value.
 [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
 ```
 
-|  #  | Parameter Name | Required | Type                                         |
-|:---:|:---------------|:---------|:---------------------------------------------|
-| *0* | `mapFn`        | **Yes**  | `(value: T, index: number, array: T[]) => U` |
+|  #  | Parameter Name | Required | Type                                            |
+|:---:|:---------------|:---------|:------------------------------------------------|
+| *0* | `mapFn`        | **Yes**  | `(value?: T, index?: number, array?: T[]) => U` |
 
 | Return Type                                       |
 |---------------------------------------------------|
@@ -703,9 +705,9 @@ Maps the item to a boolean.
 #### toProp
 
 ```typescript
-fn.toProp(prop: string): (item: O) => P
-fn.maps.toProp(prop: string): (item: O) => P
-maps.toProp(prop: string): (item: O) => P
+fn.toProp(prop: string | number): (item: O) => P
+fn.maps.toProp(prop: string | number): (item: O) => P
+maps.toProp(prop: string | number): (item: O) => P
 ```
 
 Maps the item to a given property of the item
@@ -714,9 +716,9 @@ Maps the item to a given property of the item
 [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
 ```
 
-|  #  | Parameter Name | Required | Type     |
-|:---:|:---------------|:---------|:---------|
-| *0* | `prop`         | **Yes**  | `string` |
+|  #  | Parameter Name | Required | Type               |
+|:---:|:---------------|:---------|:-------------------|
+| *0* | `prop`         | **Yes**  | `string \| number` |
 
 | Return Type      |
 |------------------|
@@ -811,9 +813,9 @@ Sort descending.
 #### byProp
 
 ```typescript
-fn.byProp(propName: string, sortFn: SortFn<T>): SortFn<O>
-fn.sorts.byProp(propName: string, sortFn: SortFn<T>): SortFn<O>
-sorts.byProp(propName: string, sortFn: SortFn<T>): SortFn<O>
+fn.byProp(propName: string | number, sortFn: SortFn<T>): SortFn<O>
+fn.sorts.byProp(propName: string | number, sortFn: SortFn<T>): SortFn<O>
+sorts.byProp(propName: string | number, sortFn: SortFn<T>): SortFn<O>
 ```
 
 Sort by a given property.
@@ -823,10 +825,10 @@ const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
 people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
 ```
 
-|  #  | Parameter Name | Required | Type        | Default |
-|:---:|:---------------|:---------|:------------|:--------|
-| *0* | `propName`     | **Yes**  | `string`    |         |
-| *1* | `sortFn`       | *No*     | `SortFn<T>` | `asc`   |
+|  #  | Parameter Name | Required | Type               | Default |
+|:---:|:---------------|:---------|:-------------------|:--------|
+| *0* | `propName`     | **Yes**  | `string \| number` |         |
+| *1* | `sortFn`       | *No*     | `SortFn<T>`        | `asc`   |
 
 | Return Type |
 |-------------|
@@ -843,6 +845,8 @@ sorts.nearestTo(target: T): (a: any, b: any) => number
 ```
 
 Sort by the nearest value to the given value.
+
+Values get converted to numbers before comparison.
 
 ```typescript
 const people = [2, 4, 3, 1];
@@ -884,45 +888,53 @@ people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
+#### array
+
+```typescript
+fn.array(sortFn: SortFn<T>): (a: T[], b: T[]) => number
+fn.sorts.array(sortFn: SortFn<T>): (a: T[], b: T[]) => number
+sorts.array(sortFn: SortFn<T>): (a: T[], b: T[]) => number
+```
+
+Sort an array of arrays by the given sort function.
+
+Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+
+|  #  | Parameter Name | Required | Type        | Default |
+|:---:|:---------------|:---------|:------------|:--------|
+| *0* | `sortFn`       | *No*     | `SortFn<T>` | `asc`   |
+
+| Return Type                  |
+|------------------------------|
+| `(a: T[], b: T[]) => number` |
+
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
+
 #### arrayAsc
 
 ```typescript
-fn.arrayAsc(a: any[], b: any[]): any
-fn.sorts.arrayAsc(a: any[], b: any[]): any
-sorts.arrayAsc(a: any[], b: any[]): any
+fn.arrayAsc;
+fn.sorts.arrayAsc;
+sorts.arrayAsc;
 ```
 
 Sort an array of arrays in ascending order
 
-|  #  | Parameter Name | Required | Type    |
-|:---:|:---------------|:---------|:--------|
-| *0* | `a`            | **Yes**  | `any[]` |
-| *1* | `b`            | **Yes**  | `any[]` |
-
-| Return Type |
-|-------------|
-| `any`       |
+Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
 #### arrayDesc
 
 ```typescript
-fn.arrayDesc(a: any[], b: any[]): any
-fn.sorts.arrayDesc(a: any[], b: any[]): any
-sorts.arrayDesc(a: any[], b: any[]): any
+fn.arrayDesc;
+fn.sorts.arrayDesc;
+sorts.arrayDesc;
 ```
 
 Sort an array of arrays in descending order
 
-|  #  | Parameter Name | Required | Type    |
-|:---:|:---------------|:---------|:--------|
-| *0* | `a`            | **Yes**  | `any[]` |
-| *1* | `b`            | **Yes**  | `any[]` |
-
-| Return Type |
-|-------------|
-| `any`       |
+Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -939,9 +951,9 @@ Collection of functions that can be used with Array.reduce
 #### combine
 
 ```typescript
-fn.combine(a: any, b: any): any
-fn.reduces.combine(a: any, b: any): any
-reduces.combine(a: any, b: any): any
+fn.combine(a: T, b: T): T
+fn.reduces.combine(a: T, b: T): T
+reduces.combine(a: T, b: T): T
 ```
 
 Adds or concats the items
@@ -951,23 +963,23 @@ Adds or concats the items
 ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
 ```
 
-|  #  | Parameter Name | Required | Type  |
-|:---:|:---------------|:---------|:------|
-| *0* | `a`            | **Yes**  | `any` |
-| *1* | `b`            | **Yes**  | `any` |
+|  #  | Parameter Name | Required | Type |
+|:---:|:---------------|:---------|:-----|
+| *0* | `a`            | **Yes**  | `T`  |
+| *1* | `b`            | **Yes**  | `T`  |
 
 | Return Type |
 |-------------|
-| `any`       |
+| `T`         |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
 #### combineProp
 
 ```typescript
-fn.combineProp(propName: string): (a: any, b: any) => any
-fn.reduces.combineProp(propName: string): (a: any, b: any) => any
-reduces.combineProp(propName: string): (a: any, b: any) => any
+fn.combineProp(propName: string | number): (a: O | T, b: O) => T
+fn.reduces.combineProp(propName: string | number): (a: O | T, b: O) => T
+reduces.combineProp(propName: string | number): (a: O | T, b: O) => T
 ```
 
 Adds or concats the given property of the items
@@ -978,13 +990,13 @@ people.reduce(fn.combineProp('age')); // 6
 people.reduce(fn.combineProp('name')); // 'abc'
 ```
 
-|  #  | Parameter Name | Required | Type     |
-|:---:|:---------------|:---------|:---------|
-| *0* | `propName`     | **Yes**  | `string` |
+|  #  | Parameter Name | Required | Type               |
+|:---:|:---------------|:---------|:-------------------|
+| *0* | `propName`     | **Yes**  | `string \| number` |
 
-| Return Type               |
-|---------------------------|
-| `(a: any, b: any) => any` |
+| Return Type              |
+|--------------------------|
+| `(a: O \| T, b: O) => T` |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -1159,8 +1171,8 @@ ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
 ### zip
 
 ```typescript
-zip(...arrs: T[]): UnwrapArrays<T>[]
-ArrayTools.zip(...arrs: T[]): UnwrapArrays<T>[]
+zip(...arrs: T[]): ZippedArrays<T>[]
+ArrayTools.zip(...arrs: T[]): ZippedArrays<T>[]
 ```
 
 Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
@@ -1179,15 +1191,15 @@ ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c']
 
 | Return Type         |
 |---------------------|
-| `UnwrapArrays<T>[]` |
+| `ZippedArrays<T>[]` |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
 ### zipMax
 
 ```typescript
-zipMax(...arrs: T[]): UnwrapArrays<T>[]
-ArrayTools.zipMax(...arrs: T[]): UnwrapArrays<T>[]
+zipMax(...arrs: T[]): ZippedArrays<T>[]
+ArrayTools.zipMax(...arrs: T[]): ZippedArrays<T>[]
 ```
 
 Converts multiple arrays into an array of 'tuples' for each value at the corresponding indexes.
@@ -1206,7 +1218,7 @@ ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 
 
 | Return Type         |
 |---------------------|
-| `UnwrapArrays<T>[]` |
+| `ZippedArrays<T>[]` |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1442,7 +1454,7 @@ const arr = [
   { group: 2, name: 'b' },
   { group: 1, name: 'c' },
 ];
-ArrayTools.groupObj(arr, item => item.id); // {
+ArrayTools.groupObj(arr, item => item.group); // {
 //   1: [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
 //   2: [ { group: 2, name: 'b' } ]
 // }
@@ -1474,7 +1486,7 @@ const arr = [
   { group: 2, name: 'b' },
   { group: 1, name: 'c' },
 ];
-ArrayTools.groupObj(arr, item => item.id); // [
+ArrayTools.group(arr, item => item.group); // [
 //   [ { group: 1, name: 'a' }, { group: 1, name: 'c' } ],
 //   [ { group: 2, name: 'b' } ]
 // ]
@@ -2048,7 +2060,7 @@ Convert a string to text where words are separated by a given character (e.g. `t
 |  #  | Parameter Name | Required | Type                 | Default |
 |:---:|:---------------|:---------|:---------------------|:--------|
 | *0* | `input`        | **Yes**  | `string \| string[]` |         |
-| *1* | `char`         | **Yes**  | `string`             |         |
+| *1* | `char`         | *No*     | `string`             | `','`   |
 | *2* | `toUpper`      | *No*     | `boolean`            | `false` |
 
 | Return Type |
@@ -2685,7 +2697,7 @@ MathsTools.fixFloat(0.1 + 0.2) // 0.3
 ### addAll
 
 ```typescript
-MathsTools.addAll(...args: number[]): number
+MathsTools.addAll(...nums: number[]): number
 ```
 
 Adds all numbers together. Each argument is a number (use spread operator to pass in an array) similar to Math.min/Math.max
@@ -2696,7 +2708,7 @@ MathsTools.addAll(1, 2, 3, 4, 5); // 15
 
 |  #   | Parameter Name | Required | Type       |
 |:----:|:---------------|:---------|:-----------|
-| *0…* | `args`         | *No*     | `number[]` |
+| *0…* | `nums`         | *No*     | `number[]` |
 
 | Return Type |
 |-------------|
@@ -2890,6 +2902,9 @@ MathsTools.getOrdinal(num: number): "th" | "st" | "nd" | "rd"
 
 Gets the ordinal suffix for a number.
 
+Note: all numbers are treated as positive.
+Note: all decimals are 'th' (e.g. 1.2 is '1.2th') as they are tenth, hundredth, thousandth, etc.
+
 ```typescript
 MathsTools.getOrdinal(1); // 'st'
 MathsTools.getOrdinal(2); // 'nd'
@@ -2930,6 +2945,8 @@ A collection of promise utilities
     - [mapLimit](#maplimit)
     - [allObj](#allobj)
     - [allLimitObj](#alllimitobj)
+    - [PromiseFunc<T>](#promisefunct)
+    - [PromiseItem<T>](#promiseitemt)
     - [DeferredPromise](#deferredpromise)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
@@ -2970,27 +2987,27 @@ const luckyNumber: number = await run();
 ### all
 
 ```typescript
-all(promises: Promise<T>[]): Promise<any>
-PromiseTools.all(promises: Promise<T>[]): Promise<any>
+all(items: PromiseTools.PromiseItem<T>[]): Promise<T[]>
+PromiseTools.all(items: PromiseTools.PromiseItem<T>[]): Promise<T[]>
 ```
 
-An alias for Promise.all
+Similar to Promise.all, but accepts values, functions, and promises.
 
-|  #  | Parameter Name | Required | Type           |
-|:---:|:---------------|:---------|:---------------|
-| *0* | `promises`     | **Yes**  | `Promise<T>[]` |
+|  #  | Parameter Name | Required | Type                            |
+|:---:|:---------------|:---------|:--------------------------------|
+| *0* | `items`        | **Yes**  | `PromiseTools.PromiseItem<T>[]` |
 
 | Return Type    |
 |----------------|
-| `Promise<any>` |
+| `Promise<T[]>` |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
 ### allLimit
 
 ```typescript
-allLimit(limit: number, items: ((index: number) => Promise<T>)[], noThrow: boolean): Promise<T[]>
-PromiseTools.allLimit(limit: number, items: ((index: number) => Promise<T>)[], noThrow: boolean): Promise<T[]>
+allLimit(limit: number, items: PromiseTools.PromiseItem<T>[], noThrow: boolean): Promise<T[]>
+PromiseTools.allLimit(limit: number, items: PromiseTools.PromiseItem<T>[], noThrow: boolean): Promise<T[]>
 ```
 
 Like Promise.all, but limits the numbers of concurrently running items.
@@ -3028,11 +3045,11 @@ timer.log();
 // 	d: 10s
 ```
 
-|  #  | Parameter Name | Required | Type                                | Default |
-|:---:|:---------------|:---------|:------------------------------------|:--------|
-| *0* | `limit`        | **Yes**  | `number`                            |         |
-| *1* | `items`        | **Yes**  | `((index: number) => Promise<T>)[]` |         |
-| *2* | `noThrow`      | *No*     | `boolean`                           | `false` |
+|  #  | Parameter Name | Required | Type                            | Default |
+|:---:|:---------------|:---------|:--------------------------------|:--------|
+| *0* | `limit`        | **Yes**  | `number`                        |         |
+| *1* | `items`        | **Yes**  | `PromiseTools.PromiseItem<T>[]` |         |
+| *2* | `noThrow`      | *No*     | `boolean`                       | `false` |
 
 | Return Type    |
 |----------------|
@@ -3043,8 +3060,8 @@ timer.log();
 ### each
 
 ```typescript
-each(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any>
-PromiseTools.each(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any>
+each(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void>
+PromiseTools.each(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void>
 ```
 
 Run an async function against each item in an array
@@ -3066,17 +3083,17 @@ console.log(''); // after 2 seconds
 | *0* | `items`        | **Yes**  | `Ti[]`                                                   |
 | *1* | `func`         | **Yes**  | `(item: Ti, index: number, array: Ti[]) => Promise<any>` |
 
-| Return Type    |
-|----------------|
-| `Promise<any>` |
+| Return Type     |
+|-----------------|
+| `Promise<void>` |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
 ### eachLimit
 
 ```typescript
-eachLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any>
-PromiseTools.eachLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<any>
+eachLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void>
+PromiseTools.eachLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void>
 ```
 
 Run an async function against each item in an array, limiting the number of items that can run concurrently.
@@ -3101,9 +3118,9 @@ console.log(''); // after 4 seconds
 | *1* | `items`        | **Yes**  | `Ti[]`                                                   |
 | *2* | `func`         | **Yes**  | `(item: Ti, index: number, array: Ti[]) => Promise<any>` |
 
-| Return Type    |
-|----------------|
-| `Promise<any>` |
+| Return Type     |
+|-----------------|
+| `Promise<void>` |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
@@ -3275,6 +3292,28 @@ timer.log();
 | Return Type                       |
 |-----------------------------------|
 | `Promise<UnWrapPromiseObject<T>>` |
+
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
+
+### PromiseFunc<T>
+
+```typescript
+PromiseFunc<T>;
+```
+
+A function that returns a promise
+
+<p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
+
+### PromiseItem<T>
+
+```typescript
+PromiseItem<T>;
+```
+
+A promise, a function that returns a promise (see PromiseFunc<T>), or a value
+
+Accepted by `PromiseTools.all`, `PromiseTools.allLimit`, `PromiseTools.allObj`, and `PromiseTools.allLimitObj` in place of promises
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
@@ -3664,7 +3703,7 @@ ColourTools.toHex([255, 0, 0]) // '#FF0000'
 ColourTools.getLuminance(rgb: ColourValues): number
 ```
 
-IMPORTANT: This is not the same as the HSL luminance value.
+IMPORTANT: This is not the same as the HSL lightness value.
 
 Get the luminance value of a given colour.
 
@@ -3955,8 +3994,8 @@ const result = tryOr(5, seconds(1), true, () => getSomething());
 ### retryOr
 
 ```typescript
-retryOr(orValue: T, maxTries: number, delay: ms, suppress: boolean, run: () => T): Promise<T>
-ErrorTools.retryOr(orValue: T, maxTries: number, delay: ms, suppress: boolean, run: () => T): Promise<T>
+retryOr(orValue: T, maxTries: number, delay: ms, run: () => T | Promise<T>): Promise<T>
+ErrorTools.retryOr(orValue: T, maxTries: number, delay: ms, run: () => T | Promise<T>): Promise<T>
 ```
 
 Combination of retry and tryOr.
@@ -3964,16 +4003,15 @@ Combination of retry and tryOr.
 Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
 
 ```typescript
-const result = retryOr('default', 5, seconds(1), true, () => getSomething());
+const result = retryOr('default', 5, seconds(1), () => getSomething());
 ```
 
-|  #  | Parameter Name | Required | Type      | Default              |
-|:---:|:---------------|:---------|:----------|:---------------------|
-| *0* | `orValue`      | **Yes**  | `T`       |                      |
-| *1* | `maxTries`     | *No*     | `number`  | `10`                 |
-| *2* | `delay`        | *No*     | `ms`      | `0`                  |
-| *3* | `suppress`     | *No*     | `boolean` | `true`               |
-| *4* | `run`          | *No*     | `() => T` | `fn.result(orValue)` |
+|  #  | Parameter Name | Required | Type                    | Default              |
+|:---:|:---------------|:---------|:------------------------|:---------------------|
+| *0* | `orValue`      | **Yes**  | `T`                     |                      |
+| *1* | `maxTries`     | *No*     | `number`                | `10`                 |
+| *2* | `delay`        | *No*     | `ms`                    | `0`                  |
+| *3* | `run`          | *No*     | `() => T \| Promise<T>` | `fn.result(orValue)` |
 
 | Return Type  |
 |--------------|
@@ -3993,8 +4031,8 @@ A progress bar that can be used in the terminal.
       - [update](#update)
       - [next](#next)
       - [set](#set)
-      - [reset](#reset)
-      - [start](#start)
+      - [reset](#progressbar_reset)
+      - [start](#progressbar_start)
       - [finish](#finish)
       - [max](#max)
 
@@ -4050,7 +4088,7 @@ All options are optional.
 | Property         | Default                           | Description                                            |
 | ---------------- | --------------------------------- | ------------------------------------------------------ |
 | prefix           | `''`                              | String to show to left of progress bar                 |
-| prefixWidth      | `1`                               | Min width of prefix - `10` => `Example˽˽˽`             |
+| prefixWidth      | `0`                               | Min width of prefix - `10` => `Example˽˽˽`             |
 | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
 | wrapperFn        | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
 | barWrapFn        | nothing                           | function to wrap the bar                               |
@@ -4066,6 +4104,8 @@ All options are optional.
 | endChar          | `'▏'`                             | Character to end the progress bar with                 |
 | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
 | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+| print            | `true`                            | Whether or not to print/output/log the progress bar    |
+| printFn          | progressBar.printLn               | Function to use to print the progress bar              |
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 
@@ -4108,7 +4148,7 @@ ABC ▕██████▏ [5 / 5]
 
 |  #  | Parameter Name | Required | Type                 | Default |
 |:---:|:---------------|:---------|:---------------------|:--------|
-| *0* | `max`          | **Yes**  | `number`             |         |
+| *0* | `max`          | *No*     | `number`             |         |
 | *1* | `options`      | *No*     | `ProgressBarOptions` | `{}`    |
 
 | Return Type   |
@@ -4163,7 +4203,7 @@ Set the progress bar to a specific value
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 
-#### reset
+#### <span id="progressbar_reset">reset</span>
 
 ```typescript
 getProgressBar().reset(undefined): string
@@ -4177,7 +4217,7 @@ Set the progress bar to 0
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 
-#### start
+#### <span id="progressbar_start">start</span>
 
 ```typescript
 getProgressBar().start(undefined): string
@@ -4237,8 +4277,12 @@ A series of characters that can be used for display symbols
 | EJECT                   | `symbols.EJECT`                   |   ⏏    |
 | TILDE                   | `symbols.TILDE`                   |   ~    |
 | HOME                    | `symbols.HOME`                    |   ~    |
+| RADIO_EMPTY             | `symbols.RADIO_EMPTY`             |   ◯    |
+| RADIO_FULL              | `symbols.RADIO_FULL`              |   ◉    |
+| CURSOR                  | `symbols.CURSOR`                  |   ❯    |
 | CHEV_LFT                | `symbols.CHEV_LFT`                |   ‹    |
 | CHEV_RGT                | `symbols.CHEV_RGT`                |   ›    |
+| CHAIN                   | `symbols.CHAIN`                   |   ⫘    |
 | TRI_UPP                 | `symbols.TRI_UPP`                 |   ▲    |
 | TRI_DWN                 | `symbols.TRI_DWN`                 |   ▼    |
 | TRI_RGT                 | `symbols.TRI_RGT`                 |   ▶    |
@@ -4376,15 +4420,15 @@ PromiseTools.each(range(5), async (i) => {
 #### setDefaultPauseTime
 
 ```typescript
-queue.setDefaultPauseTime(time: number): void
-new QueueManager().setDefaultPauseTime(time: number): void
+queue.setDefaultPauseTime(time: ms): void
+new QueueManager().setDefaultPauseTime(time: ms): void
 ```
 
 Sets the default pause time for pauses between queue items.
 
-|  #  | Parameter Name | Required | Type     |
-|:---:|:---------------|:---------|:---------|
-| *0* | `time`         | **Yes**  | `number` |
+|  #  | Parameter Name | Required | Type |
+|:---:|:---------------|:---------|:-----|
+| *0* | `time`         | **Yes**  | `ms` |
 
 | Return Type |
 |-------------|
@@ -4395,8 +4439,8 @@ Sets the default pause time for pauses between queue items.
 #### setPauseTime
 
 ```typescript
-queue.setPauseTime(id: string, time: number): void
-new QueueManager().setPauseTime(id: string, time: number): void
+queue.setPauseTime(id: string, time: ms): void
+new QueueManager().setPauseTime(id: string, time: ms): void
 ```
 
 Sets the pause time for pauses between queue items for the specified queue.
@@ -4404,7 +4448,7 @@ Sets the pause time for pauses between queue items for the specified queue.
 |  #  | Parameter Name | Required | Type     |
 |:---:|:---------------|:---------|:---------|
 | *0* | `id`           | **Yes**  | `string` |
-| *1* | `time`         | **Yes**  | `number` |
+| *1* | `time`         | **Yes**  | `ms`     |
 
 | Return Type |
 |-------------|
@@ -4415,16 +4459,16 @@ Sets the pause time for pauses between queue items for the specified queue.
 #### add
 
 ```typescript
-queue.add(id: string, fn: () => Promise<T>): Promise<T>
-new QueueManager().add(id: string, fn: () => Promise<T>): Promise<T>
+queue.add(id: string, promiseItem: PromiseTools.PromiseItem<T>): Promise<T>
+new QueueManager().add(id: string, promiseItem: PromiseTools.PromiseItem<T>): Promise<T>
 ```
 
 Adds a function to the queue.
 
-|  #  | Parameter Name | Required | Type               |
-|:---:|:---------------|:---------|:-------------------|
-| *0* | `id`           | **Yes**  | `string`           |
-| *1* | `fn`           | **Yes**  | `() => Promise<T>` |
+|  #  | Parameter Name | Required | Type                          |
+|:---:|:---------------|:---------|:------------------------------|
+| *0* | `id`           | **Yes**  | `string`                      |
+| *1* | `promiseItem`  | **Yes**  | `PromiseTools.PromiseItem<T>` |
 
 | Return Type  |
 |--------------|
@@ -4435,15 +4479,16 @@ Adds a function to the queue.
 #### new
 
 ```typescript
-queue.new(defaultPauseTime: number): QueueManager
-new QueueManager().new(defaultPauseTime: number): QueueManager
+queue.new(defaultPauseTime: ms): QueueManager
+new QueueManager().new(defaultPauseTime: ms): QueueManager
+QueueManager.new(defaultPauseTime: ms): QueueManager
 ```
 
 Creates a new QueueManager instance.
 
-|  #  | Parameter Name     | Required | Type     |
-|:---:|:-------------------|:---------|:---------|
-| *0* | `defaultPauseTime` | *No*     | `number` |
+|  #  | Parameter Name     | Required | Type | Default |
+|:---:|:-------------------|:---------|:-----|:--------|
+| *0* | `defaultPauseTime` | *No*     | `ms` | `0`     |
 
 | Return Type    |
 |----------------|
@@ -4467,10 +4512,197 @@ See QueueManager for more information.
 A debug tool for measuring the duration of code blocks.
 
   - [**timer**](#timer)
+    - [**Timer Instance**](#timer-instance)
+      - [start](#itimer_start)
+      - [end](#end)
+      - [switch](#switch)
+      - [getTable](#gettable)
+      - [log](#log)
+      - [reset](#itimer_reset)
+      - [getDuration](#getduration)
+      - [names](#names)
+      - [displayNames](#displaynames)
+      - [startTimes](#starttimes)
+      - [endTimes](#endtimes)
     - [getTimer](#gettimer)
     - [timer](#timer_timer)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+### Timer Instance
+
+#### <span id="itimer_start">start</span>
+
+```typescript
+timer.start(...labels: string[]): void
+getTimer().start(...labels: string[]): void
+```
+
+Start a timer
+
+|  #   | Parameter Name | Required | Type       |
+|:----:|:---------------|:---------|:-----------|
+| *0…* | `labels`       | **Yes**  | `string[]` |
+
+| Return Type |
+|-------------|
+| `void`      |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### end
+
+```typescript
+timer.end(...labels: string[]): void
+getTimer().end(...labels: string[]): void
+```
+
+End a given timer
+
+|  #   | Parameter Name | Required | Type       |
+|:----:|:---------------|:---------|:-----------|
+| *0…* | `labels`       | **Yes**  | `string[]` |
+
+| Return Type |
+|-------------|
+| `void`      |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### switch
+
+```typescript
+timer.switch(endLabel: string | string[], startLabel: string | string[]): void
+getTimer().switch(endLabel: string | string[], startLabel: string | string[]): void
+```
+
+Switch the timer
+The same as calling timer.end(endLabel) and timer.start(startLabel)
+
+|  #  | Parameter Name | Required | Type                 |
+|:---:|:---------------|:---------|:---------------------|
+| *0* | `endLabel`     | **Yes**  | `string \| string[]` |
+| *1* | `startLabel`   | **Yes**  | `string \| string[]` |
+
+| Return Type |
+|-------------|
+| `void`      |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### getTable
+
+```typescript
+timer.getTable(prefix: string, customEntries: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): string
+getTimer().getTable(prefix: string, customEntries: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): string
+```
+
+Get the timing table as a string
+
+|  #  | Parameter Name  | Required | Type                                                                                                        |
+|:---:|:----------------|:---------|:------------------------------------------------------------------------------------------------------------|
+| *0* | `prefix`        | *No*     | `string`                                                                                                    |
+| *1* | `customEntries` | *No*     | `((durations: TimerDurations<TName>) => CustomEntryObj)[] \| CustomEntryDict<TimerDurations<TName>, TName>` |
+
+| Return Type |                  |
+|-------------|------------------|
+| `string`    | the timing table |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### log
+
+```typescript
+timer.log(prefix: string, customEntries: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): number
+getTimer().log(prefix: string, customEntries: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): number
+```
+
+Log the timing table
+
+|  #  | Parameter Name  | Required | Type                                                                                                        |
+|:---:|:----------------|:---------|:------------------------------------------------------------------------------------------------------------|
+| *0* | `prefix`        | *No*     | `string`                                                                                                    |
+| *1* | `customEntries` | *No*     | `((durations: TimerDurations<TName>) => CustomEntryObj)[] \| CustomEntryDict<TimerDurations<TName>, TName>` |
+
+| Return Type |                            |
+|-------------|----------------------------|
+| `number`    | the number of lines logged |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### <span id="itimer_reset">reset</span>
+
+```typescript
+timer.reset(undefined): void
+getTimer().reset(undefined): void
+```
+
+Reset the timer
+
+| Return Type |
+|-------------|
+| `void`      |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### getDuration
+
+```typescript
+timer.getDuration(undefined): ms
+getTimer().getDuration(undefined): ms
+```
+
+Get the duration of a given timer
+
+| Return Type |
+|-------------|
+| `ms`        |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### names
+
+```typescript
+timer.names;
+getTimer().names;
+```
+
+The names of the timers
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### displayNames
+
+```typescript
+timer.displayNames;
+getTimer().displayNames;
+```
+
+The display names of the timers
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### startTimes
+
+```typescript
+timer.startTimes;
+getTimer().startTimes;
+```
+
+The start times of the timers
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### endTimes
+
+```typescript
+timer.endTimes;
+getTimer().endTimes;
+```
+
+The end times of the timers
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
 
 ### getTimer
 
@@ -4526,9 +4758,804 @@ Example Times:
 timer;
 ```
 
-Global timer
+Usage:
+```typescript
+timer.start('TOTAL', 'Intro');
+
+await wait(seconds(4)); // do something async
+
+timer.switch('Intro', 'Ending'); // same as calling timer.end('Intro') and timer.start('Ending')
+
+await wait(seconds(6)); // do something async
+
+timer.end('TOTAL', 'Ending');
+timer.log();
+```
+
+Output:
+```
+Times:
+	Intro:   4s
+	Ending:  6s
+	⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+	TOTAL:   10s
+ * ```
 
 <p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+## safe
+A series of simple functions for ensuring that a value is safe to use.
+
+Used internally for input validation.
+
+  - [**safe**](#safe)
+    - [num](#safe_num)
+    - [str](#safe_str)
+    - [bool](#safe_bool)
+    - [func](#safe_func)
+    - [obj](#safe_obj)
+    - [objWith](#safe_objwith)
+    - [arr](#safe_arr)
+    - [prop](#safe_prop)
+    - [**arrOf**](#arrof)
+      - [num](#safe_arrof_num)
+      - [str](#safe_arrof_str)
+      - [bool](#safe_arrof_bool)
+      - [func](#safe_arrof_func)
+      - [obj](#safe_arrof_obj)
+      - [objWith](#safe_arrof_objwith)
+      - [arr](#safe_arrof_arr)
+      - [prop](#safe_arrof_prop)
+    - [**ObjWithConfig<O>**](#objwithconfigo)
+      - [ObjWithPropConfig<O>](#objwithpropconfigo)
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+### <span id="safe_num">num</span>
+
+```typescript
+safe.num(input: number, isInt: boolean, min: number, max: number, fallback: number): number
+```
+
+Process a number value, ensuring that it is safe to use.
+
+```typescript
+safe.num(10); // 10
+safe.num(10000); // 10000
+safe.num(-1); // -1
+safe.num(true); // 0
+safe.num('123'); // 0
+safe.num(NaN); // 0
+safe.num(Infinity); // 0
+safe.num(null); // 0
+safe.num(undefined); // 0
+
+safe.num(10, true, 0, 100, 99); // 10
+safe.num(10000, true, 0, 100, 99); // 100
+safe.num(-1, true, 0, 100, 99); // 0
+safe.num(true, true, 0, 100, 99); // 99
+safe.num('123', true, 0, 100, 99); // 99
+safe.num(NaN, true, 0, 100, 99); // 99
+safe.num(Infinity, true, 0, 100, 99); // 100
+safe.num(null, true, 0, 100, 99); // 99
+safe.num(undefined, true, 0, 100, 99); // 99
+```
+
+|  #  | Parameter Name | Required | Type      | Default |
+|:---:|:---------------|:---------|:----------|:--------|
+| *0* | `input`        | **Yes**  | `number`  |         |
+| *1* | `isInt`        | *No*     | `boolean` | `false` |
+| *2* | `min`          | *No*     | `number`  |         |
+| *3* | `max`          | *No*     | `number`  |         |
+| *4* | `fallback`     | *No*     | `number`  | `0`     |
+
+| Return Type |
+|-------------|
+| `number`    |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+### <span id="safe_str">str</span>
+
+```typescript
+safe.str(input: string, allowBasicStringify: boolean, fallback: string): string
+```
+
+Process a string value, ensuring that it is safe to use.
+
+```typescript
+safe.str('foo'); // 'foo'
+safe.str(''); // ''
+safe.str(123); // ''
+safe.str(true); // ''
+safe.str({foo: 'bar'}); // ''
+safe.str([]); // ''
+safe.str(null); // ''
+safe.str(undefined); // ''
+
+safe.str('foo', true, 'bar'); // 'foo'
+safe.str('', true, 'bar'); // ''
+safe.str(123, true, 'bar'); // '123'
+safe.str(true, true, 'bar'); // 'true'
+safe.str({foo: 'bar'}, true, 'bar'); // 'bar'
+safe.str([], true, 'bar'); // 'bar'
+safe.str(null, true, 'bar'); // 'bar'
+safe.str(undefined, true, 'bar'); // 'bar'
+```
+
+|  #  | Parameter Name        | Required | Type      | Default |
+|:---:|:----------------------|:---------|:----------|:--------|
+| *0* | `input`               | **Yes**  | `string`  |         |
+| *1* | `allowBasicStringify` | *No*     | `boolean` | `false` |
+| *2* | `fallback`            | *No*     | `string`  | `''`    |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+### <span id="safe_bool">bool</span>
+
+```typescript
+safe.bool(input: boolean, fallback: boolean): boolean
+```
+
+Process a boolean value, ensuring that it is safe to use.
+
+```typescript
+safe.bool(true); // true
+safe.bool(false); // false
+safe.bool(1); // true
+safe.bool(0); // false
+safe.bool(123); // false
+safe.bool('true'); // true
+safe.bool('false'); // false
+safe.bool('foobar'); // false
+safe.bool({foo: 'bar'}); // false
+safe.bool([]); // false
+safe.bool(null); // false
+safe.bool(undefined); // false
+
+safe.bool(true, true); // true
+safe.bool(false, true); // false
+safe.bool(1, true); // true
+safe.bool(0, true); // false
+safe.bool(123, true); // true
+safe.bool('true', true); // true
+safe.bool('false', true); // false
+safe.bool('foobar', true); // true
+safe.bool({foo: 'bar'}, true); // true
+safe.bool([], true); // true
+safe.bool(null, true); // true
+safe.bool(undefined, true); // true
+
+|  #  | Parameter Name | Required | Type      | Default |
+|:---:|:---------------|:---------|:----------|:--------|
+| *0* | `input`        | **Yes**  | `boolean` |         |
+| *1* | `fallback`     | *No*     | `boolean` | `false` |
+
+| Return Type |
+|-------------|
+| `boolean`   |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+### <span id="safe_func">func</span>
+
+```typescript
+safe.func<T>(input: T, fallback: T): T
+```
+
+Process a function value, ensuring that it is safe to use.
+
+```typescript
+safe.func((p: number) => 123); // (p: number) => 123
+safe.func(true); // (() => {})
+safe.func(false); // (() => {})
+safe.func(123); // (() => {})
+safe.func('foobar'); // (() => {})
+safe.func({foo: 'bar'}); // (() => {})
+safe.func([1, 2, 3]); // (() => {})
+safe.func(null); // (() => {})
+safe.func(undefined); // (() => {})
+
+safe.func((p: number) => 123, (q: number) => 456); // (p: number) => 123
+safe.func(true, (q: number) => 456); // (q: number) => 456
+safe.func(false, (q: number) => 456); // (q: number) => 456
+safe.func(123, (q: number) => 456); // (q: number) => 456
+safe.func('foobar', (q: number) => 456); // (q: number) => 456
+safe.func({foo: 'bar'}, (q: number) => 456); // (q: number) => 456
+safe.func([1, 2, 3], (q: number) => 456); // (q: number) => 456
+safe.func(null, (q: number) => 456); // (q: number) => 456
+safe.func(undefined, (q: number) => 456); // (q: number) => 456
+```
+
+|  #  | Parameter Name | Required | Type | Default                      |
+|:---:|:---------------|:---------|:-----|:-----------------------------|
+| *0* | `input`        | **Yes**  | `T`  |                              |
+| *1* | `fallback`     | *No*     | `T`  | `(() => {}) as unknown as T` |
+
+| Return Type |
+|-------------|
+| `T`         |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+### <span id="safe_obj">obj</span>
+
+```typescript
+safe.obj<T>(input: T, allowArrays: boolean, fallback: T): T
+```
+
+Process an object value, ensuring that it is safe to use.
+
+```typescript
+safe.obj({foo: 'bar'}); // {foo: 'bar'}
+safe.obj([1, 2, 3]); // [1, 2, 3]
+safe.obj(true); // {}
+safe.obj(false); // {}
+safe.obj(123); // {}
+safe.obj('foobar'); // {}
+safe.obj(null); // {}
+safe.obj(undefined); // {}
+
+safe.obj({foo: 'bar'}, true, {baz: 123}); // {foo: 'bar'}
+safe.obj([1, 2, 3], true, {baz: 123}); // [1, 2, 3]
+safe.obj(true, true, {baz: 123}); // {baz: 123}
+safe.obj(false, true, {baz: 123}); // {baz: 123}
+safe.obj(123, true, {baz: 123}); // {baz: 123}
+safe.obj('foobar', true, {baz: 123}); // {baz: 123}
+safe.obj(null, true, {baz: 123}); // {baz: 123}
+safe.obj(undefined, true, {baz: 123}); // {baz: 123}
+```
+
+|  #  | Parameter Name | Required | Type      | Default   |
+|:---:|:---------------|:---------|:----------|:----------|
+| *0* | `input`        | **Yes**  | `T`       |           |
+| *1* | `allowArrays`  | *No*     | `boolean` | `false`   |
+| *2* | `fallback`     | *No*     | `T`       | `{} as T` |
+
+| Return Type |
+|-------------|
+| `T`         |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+### <span id="safe_objwith">objWith</span>
+
+```typescript
+safe.objWith<T>(input: T, objConfig: ObjWithConfig<T>, allowComposition: boolean): T
+```
+
+Process an object value, ensuring that it is safe to use, and has the neccesary properties.
+
+You must provide a config object that defines the properties that are required, and how to process them.
+Each required property must have a fallback value, and can have an optional `checkFn` and `safeFn`.
+ - fallback - the value to use if the property is missing or invalid
+ - checkFn - a function that returns true if the property is missing or invalid (defaults to `(v) => v === undefined`)
+- safeFn - a function that returns the safe value to use (defaults to `(v, f) => f`)
+
+```typescript
+const config1: ObjWithConfig<{ foo: string }> = {
+  foo: {
+    fallback: 'a',
+    safeFn: (v, f) => safe.str(v, false, f),
+  },
+};
+safe.objWith({foo: 'bar'}, config1); // { foo: 'bar' }
+safe.objWith([1, 2, 3], config1); // { '0': 1, '1': 2, '2': 3, foo: 'a' }
+safe.objWith(true, config1); // { foo: 'a' }
+safe.objWith(false, config1); // { foo: 'a' }
+safe.objWith(123, config1); // { foo: 'a' }
+safe.objWith('foobar', config1); // { foo: 'a' }
+safe.objWith(null, config1); // { foo: 'a' }
+safe.objWith(undefined, config1); // { foo: 'a' }
+
+const config2: ObjWithConfig<{ foo: string; bar: number }> = {
+  ...config1,
+  bar: {
+    fallback: 78,
+    safeFn: (v, f) => safe.num(v, true, 0, 100, f),
+  },
+};
+safe.objWith({foo: 'bar', bar: 45}, config2); // { foo: 'bar', bar: 45 }
+safe.objWith([1, 2, 3], config2); // { '0': 1, '1': 2, '2': 3, foo: 'a', bar: 78 }
+safe.objWith(true, config2); // { foo: 'a', bar: 78 }
+safe.objWith(false, config2); // { foo: 'a', bar: 78 }
+safe.objWith(123, config2); // { foo: 'a', bar: 78 }
+safe.objWith('foobar', config2); // { foo: 'a', bar: 78 }
+safe.objWith(null, config2); // { foo: 'a', bar: 78 }
+safe.objWith(undefined, config2); // { foo: 'a', bar: 78 }
+```
+
+|  #  | Parameter Name     | Required | Type               | Default |
+|:---:|:-------------------|:---------|:-------------------|:--------|
+| *0* | `input`            | **Yes**  | `T`                |         |
+| *1* | `objConfig`        | **Yes**  | `ObjWithConfig<T>` |         |
+| *2* | `allowComposition` | *No*     | `boolean`          | `true`  |
+
+| Return Type |
+|-------------|
+| `T`         |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+### <span id="safe_arr">arr</span>
+
+```typescript
+safe.arr<T>(input: T[], fallback: T[], minLength: number, maxLength: number): T[]
+```
+
+Process an array value, ensuring that it is safe to use.
+
+```typescript
+safe.arr([1, 2, 3]); // [ 1, 2, 3 ]
+safe.arr(true); // []
+safe.arr(false); // []
+safe.arr(123); // []
+safe.arr('foobar'); // []
+safe.arr({foo: 'bar'}); // []
+safe.arr(null); // []
+safe.arr(undefined); // []
+
+safe.arr([1, 2, 3], [4, 5, 6]); // [ 1, 2, 3 ]
+safe.arr(true, [4, 5, 6]); // [ 4, 5, 6 ]
+safe.arr(false, [4, 5, 6]); // [ 4, 5, 6 ]
+safe.arr(123, [4, 5, 6]); // [ 4, 5, 6 ]
+safe.arr('foobar', [4, 5, 6]); // [ 4, 5, 6 ]
+safe.arr({foo: 'bar'}, [4, 5, 6]); // [ 4, 5, 6 ]
+safe.arr(null, [4, 5, 6]); // [ 4, 5, 6 ]
+safe.arr(undefined, [4, 5, 6]); // [ 4, 5, 6 ]
+```
+
+|  #  | Parameter Name | Required | Type     | Default    |
+|:---:|:---------------|:---------|:---------|:-----------|
+| *0* | `input`        | **Yes**  | `T[]`    |            |
+| *1* | `fallback`     | *No*     | `T[]`    | `[]`       |
+| *2* | `minLength`    | *No*     | `number` | `0`        |
+| *3* | `maxLength`    | *No*     | `number` | `Infinity` |
+
+| Return Type |
+|-------------|
+| `T[]`       |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+### <span id="safe_prop">prop</span>
+
+```typescript
+safe.prop(input: string | number, fallback: string | number): string | number
+```
+
+Process a value (string or number) that is expected to be used as a property name, ensuring that it is safe to use.
+
+Equivalent to `typeof value === 'number' ? safe.num(value) : safe.str(value, true, '')`
+
+```typescript
+safe.prop('foo'); // 'foo'
+safe.prop(''); // ''
+safe.prop(123); // 123
+safe.prop(true); // 'true'
+safe.prop({foo: 'bar'}); // ''
+safe.prop([]); // ''
+safe.prop(null); // ''
+safe.prop(undefined); // ''
+
+safe.prop('foo', 'bar'); // 'foo'
+safe.prop('', 'bar'); // ''
+safe.prop(123, 'bar'); // 123
+safe.prop(true, 'bar'); // 'true'
+safe.prop({foo: 'bar'}, 'bar'); // 'bar'
+safe.prop([], 'bar'); // 'bar'
+safe.prop(null, 'bar'); // 'bar'
+safe.prop(undefined, 'bar'); // 'bar'
+```
+
+|  #  | Parameter Name | Required | Type               | Default |
+|:---:|:---------------|:---------|:-------------------|:--------|
+| *0* | `input`        | **Yes**  | `string \| number` |         |
+| *1* | `fallback`     | *No*     | `string \| number` | `''`    |
+
+| Return Type        |
+|--------------------|
+| `string \| number` |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+### arrOf
+A series of functions for processing arrays of values.
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+#### <span id="safe_arrof_num">num</span>
+
+```typescript
+safe.arrOf.num(input: number[], isInt: boolean, min: number, max: number, fallback: number, fallbackArr: number[], arrMinLength: number, arrMaxLength: number): number[]
+```
+
+Process an array of numbers, ensuring that they are safe to use.
+
+```typescript
+safe.arrOf.num([1, 2, 3]); // [ 1, 2, 3 ]
+safe.arrOf.num(['foo', 1, true, null, undefined, [], {}]); // [ 0, 1, 0, 0, 0, 0, 0 ]
+safe.arrOf.num(true); // []
+safe.arrOf.num(false); // []
+safe.arrOf.num(123); // []
+safe.arrOf.num('foobar'); // []
+safe.arrOf.num({foo: 'bar'}); // []
+safe.arrOf.num(null); // []
+safe.arrOf.num(undefined); // []
+
+safe.arrOf.num([1, 2, 3], true, 0, 100, 99, [4, 5, 6]); // [ 1, 2, 3 ]
+safe.arrOf.num(['foo', 1, true, null, undefined, [], {}], true, 0, 100, 99, [4, 5, 6]); // [ 99, 1, 99, 99, 99, 99, 99 ]
+safe.arrOf.num(true, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+safe.arrOf.num(false, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+safe.arrOf.num(123, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+safe.arrOf.num('foobar', true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+safe.arrOf.num({foo: 'bar'}, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+safe.arrOf.num(null, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+safe.arrOf.num(undefined, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
+```
+
+|  #  | Parameter Name | Required | Type       | Default    |
+|:---:|:---------------|:---------|:-----------|:-----------|
+| *0* | `input`        | **Yes**  | `number[]` |            |
+| *1* | `isInt`        | *No*     | `boolean`  | `false`    |
+| *2* | `min`          | *No*     | `number`   |            |
+| *3* | `max`          | *No*     | `number`   |            |
+| *4* | `fallback`     | *No*     | `number`   |            |
+| *5* | `fallbackArr`  | *No*     | `number[]` | `[]`       |
+| *6* | `arrMinLength` | *No*     | `number`   | `0`        |
+| *7* | `arrMaxLength` | *No*     | `number`   | `Infinity` |
+
+| Return Type |
+|-------------|
+| `number[]`  |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+#### <span id="safe_arrof_str">str</span>
+
+```typescript
+safe.arrOf.str(input: string[], allowStringify: boolean, fallback: string, fallbackArr: string[], arrMinLength: number, arrMaxLength: number): string[]
+```
+
+Process an array of strings, ensuring that they are safe to use.
+
+```typescript
+safe.arrOf.str(['foo', 'bar', 'baz']); // [ 'foo', 'bar', 'baz' ]
+safe.arrOf.str(['foo', 1, true, null, undefined, [], {}]); // [ 'foo', '', '', '', '', '', '' ]
+safe.arrOf.str(true); // []
+safe.arrOf.str(false); // []
+safe.arrOf.str(123); // []
+safe.arrOf.str('foobar'); // []
+safe.arrOf.str({foo: 'bar'}); // []
+safe.arrOf.str(null); // []
+safe.arrOf.str(undefined); // []
+
+safe.arrOf.str(['foo', 'bar', 'baz'], true, 'LOREM', ['IPSUM']); // [ 'foo', 'bar', 'baz' ]
+safe.arrOf.str(['foo', 1, true, null, undefined, [], {}], true, 'LOREM', ['IPSUM']); // [ 'foo', '1', 'true', 'LOREM', 'LOREM', 'LOREM', 'LOREM' ]
+safe.arrOf.str(true, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.str(false, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.str(123, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.str('foobar', true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.str({foo: 'bar'}, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.str(null, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.str(undefined, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
+```
+
+|  #  | Parameter Name   | Required | Type       | Default    |
+|:---:|:-----------------|:---------|:-----------|:-----------|
+| *0* | `input`          | **Yes**  | `string[]` |            |
+| *1* | `allowStringify` | *No*     | `boolean`  | `false`    |
+| *2* | `fallback`       | *No*     | `string`   |            |
+| *3* | `fallbackArr`    | *No*     | `string[]` | `[]`       |
+| *4* | `arrMinLength`   | *No*     | `number`   | `0`        |
+| *5* | `arrMaxLength`   | *No*     | `number`   | `Infinity` |
+
+| Return Type |
+|-------------|
+| `string[]`  |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+#### <span id="safe_arrof_bool">bool</span>
+
+```typescript
+safe.arrOf.bool(input: boolean[], fallback: boolean, fallbackArr: boolean[], arrMinLength: number, arrMaxLength: number): boolean[]
+```
+
+Process an array of booleans, ensuring that they are safe to use.
+
+```typescript
+safe.arrOf.bool([false, true, false]); // [ false, true, false ]
+safe.arrOf.bool(['foo', 123, true, null, undefined, [], {}]); // [ false, false, true, false, false, false, false ]
+safe.arrOf.bool(true); // []
+safe.arrOf.bool(false); // []
+safe.arrOf.bool(123); // []
+safe.arrOf.bool('foobar'); // []
+safe.arrOf.bool({foo: 'bar'}); // []
+safe.arrOf.bool(null); // []
+safe.arrOf.bool(undefined); // []
+
+safe.arrOf.bool([false, true, false], true, [true, true]); // [ false, true, false ]
+safe.arrOf.bool(['foo', 123, true, null, undefined, [], {}], true, [true, true]); // [ true, true, true, true, true, true, true ]
+safe.arrOf.bool(true, true, [true, true]); // [ true, true ]
+safe.arrOf.bool(false, true, [true, true]); // [ true, true ]
+safe.arrOf.bool(123, true, [true, true]); // [ true, true ]
+safe.arrOf.bool('foobar', true, [true, true]); // [ true, true ]
+safe.arrOf.bool({foo: 'bar'}, true, [true, true]); // [ true, true ]
+safe.arrOf.bool(null, true, [true, true]); // [ true, true ]
+safe.arrOf.bool(undefined, true, [true, true]); // [ true, true ]
+```
+
+|  #  | Parameter Name | Required | Type        | Default    |
+|:---:|:---------------|:---------|:------------|:-----------|
+| *0* | `input`        | **Yes**  | `boolean[]` |            |
+| *1* | `fallback`     | *No*     | `boolean`   |            |
+| *2* | `fallbackArr`  | *No*     | `boolean[]` | `[]`       |
+| *3* | `arrMinLength` | *No*     | `number`    | `0`        |
+| *4* | `arrMaxLength` | *No*     | `number`    | `Infinity` |
+
+| Return Type |
+|-------------|
+| `boolean[]` |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+#### <span id="safe_arrof_func">func</span>
+
+```typescript
+safe.arrOf.func<T>(input: T[], fallback: T, fallbackArr: T[], arrMinLength: number, arrMaxLength: number): T[]
+```
+
+Process an array of functions, ensuring that they are safe to use.
+
+```typescript
+safe.arrOf.func([(p) => 1]); // [(p) => 1]
+safe.arrOf.func(['foo', 1, true, null, undefined, [], {}]); // [() => {}, () => {}, () => {}, () => {}, () => {}, () => {}, () => {}]
+safe.arrOf.func(true); // []
+safe.arrOf.func(false); // []
+safe.arrOf.func(123); // []
+safe.arrOf.func('foobar'); // []
+safe.arrOf.func({foo: 'bar'}); // []
+safe.arrOf.func(null); // []
+safe.arrOf.func(undefined); // []
+
+safe.arrOf.func([(p) => 1], (q) => 2, [(r) => 3]); // [(p) => 1]
+safe.arrOf.func(['foo', 1, true, null, undefined, [], {}], (q) => 2, [(r) => 3]); // [(q) => 2, (q) => 2, (q) => 2, (q) => 2, (q) => 2, (q) => 2, (q) => 2]
+safe.arrOf.func(true, (q) => 2, [(r) => 3]); //  [(r) => 3]
+safe.arrOf.func(false, (q) => 2, [(r) => 3]); //  [(r) => 3]
+safe.arrOf.func(123, (q) => 2, [(r) => 3]); //  [(r) => 3]
+safe.arrOf.func('foobar', (q) => 2, [(r) => 3]); //  [(r) => 3]
+safe.arrOf.func({foo: 'bar'}, (q) => 2, [(r) => 3]); //  [(r) => 3]
+safe.arrOf.func(null, (q) => 2, [(r) => 3]); //  [(r) => 3]
+safe.arrOf.func(undefined, (q) => 2, [(r) => 3]); //  [(r) => 3]
+```
+
+|  #  | Parameter Name | Required | Type     | Default    |
+|:---:|:---------------|:---------|:---------|:-----------|
+| *0* | `input`        | **Yes**  | `T[]`    |            |
+| *1* | `fallback`     | *No*     | `T`      |            |
+| *2* | `fallbackArr`  | *No*     | `T[]`    | `[]`       |
+| *3* | `arrMinLength` | *No*     | `number` | `0`        |
+| *4* | `arrMaxLength` | *No*     | `number` | `Infinity` |
+
+| Return Type |
+|-------------|
+| `T[]`       |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+#### <span id="safe_arrof_obj">obj</span>
+
+```typescript
+safe.arrOf.obj<T>(input: T[], allowArrays: boolean, fallback: T, fallbackArr: T[], arrMinLength: number, arrMaxLength: number): T[]
+```
+
+Process an array of objects, ensuring that they are safe to use.
+
+```typescript
+safe.arrOf.obj([{foo: 1}, {bar: 2}]); // [ { foo: 1 }, { bar: 2 } ]
+safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}]); // [ {}, {}, {}, {}, {}, [], {} ]
+safe.arrOf.obj(true); // []
+safe.arrOf.obj(false); // []
+safe.arrOf.obj(123); // []
+safe.arrOf.obj('foobar'); // []
+safe.arrOf.obj({foo: 'bar'}); // []
+safe.arrOf.obj(null); // []
+safe.arrOf.obj(undefined); // []
+
+safe.arrOf.obj([{foo: 1}, {bar: 2}], true, {l: 3}, [{i: 4}]); // [ { foo: 1 }, { bar: 2 } ]
+safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}], true, {l: 3}, [{i: 4}]); // [ { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { } ]
+safe.arrOf.obj(true, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj(false, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj(123, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj('foobar', true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj({foo: 'bar'}, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj(null, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj(undefined, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+```
+
+|  #  | Parameter Name | Required | Type      | Default    |
+|:---:|:---------------|:---------|:----------|:-----------|
+| *0* | `input`        | **Yes**  | `T[]`     |            |
+| *1* | `allowArrays`  | *No*     | `boolean` | `false`    |
+| *2* | `fallback`     | *No*     | `T`       |            |
+| *3* | `fallbackArr`  | *No*     | `T[]`     | `[]`       |
+| *4* | `arrMinLength` | *No*     | `number`  | `0`        |
+| *5* | `arrMaxLength` | *No*     | `number`  | `Infinity` |
+
+| Return Type |
+|-------------|
+| `T[]`       |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+#### <span id="safe_arrof_objwith">objWith</span>
+
+```typescript
+safe.arrOf.objWith<T>(input: T[], objConfig: ObjWithConfig<T>, allowComposition: boolean, fallbackArr: T[], arrMinLength: number, arrMaxLength: number): T[]
+```
+
+Process an array of objects, ensuring that they are safe to use, and have the neccesary properties.
+
+```typescript
+const config1: ObjWithConfig<{ foo: string }> = {
+  foo: {
+    fallback: 'a',
+    safeFn: (v, f) => safe.str(v, false, f)
+  }
+};
+safe.arrOf.objWith([{ foo: 1 }, { bar: 2 }], config1); // [ { foo: 'a' }, { bar: 2, foo: 'a' } ]
+safe.arrOf.objWith(['foo', 1, true, null, undefined, [], {}], config1); // [{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' }]
+safe.arrOf.objWith(true, config1); // []
+safe.arrOf.objWith(false, config1); // []
+safe.arrOf.objWith(123, config1); // []
+safe.arrOf.objWith('foobar', config1); // []
+safe.arrOf.objWith({ foo: 'bar' }, config1); // []
+safe.arrOf.objWith(null, config1); // []
+
+const config2: ObjWithConfig<{ foo: string, bar: number }> = {
+  ...config1,
+  bar: {
+    fallback: 78,
+    safeFn: (v, f) => safe.num(v, true, 0, 100, f)
+  }
+};
+safe.arrOf.objWith([{ foo: 1 }, { bar: 2 }], config2); // [ { foo: 'a', bar: 78 }, { bar: 2, foo: 'a' } ]
+safe.arrOf.objWith(['foo', 1, true, null, undefined, [], {}], config2); // [{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 }]
+safe.arrOf.objWith(true, config2); // []
+safe.arrOf.objWith(false, config2); // []
+safe.arrOf.objWith(123, config2); // []
+safe.arrOf.objWith('foobar', config2); // []
+safe.arrOf.objWith({ foo: 'bar' }, config2); // []
+safe.arrOf.objWith(null, config2); // []
+```
+
+|  #  | Parameter Name     | Required | Type               | Default    |
+|:---:|:-------------------|:---------|:-------------------|:-----------|
+| *0* | `input`            | **Yes**  | `T[]`              |            |
+| *1* | `objConfig`        | **Yes**  | `ObjWithConfig<T>` |            |
+| *2* | `allowComposition` | *No*     | `boolean`          | `true`     |
+| *3* | `fallbackArr`      | *No*     | `T[]`              | `[]`       |
+| *4* | `arrMinLength`     | *No*     | `number`           | `0`        |
+| *5* | `arrMaxLength`     | *No*     | `number`           | `Infinity` |
+
+| Return Type |
+|-------------|
+| `T[]`       |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+#### <span id="safe_arrof_arr">arr</span>
+
+```typescript
+safe.arrOf.arr<T>(input: T[][], fallback: T[], fallbackArr: T[][], arrMinLength: number, arrMaxLength: number): T[][]
+```
+
+Process an array of arrays, ensuring that they are safe to use.
+
+```typescript
+safe.arrOf.arr([['foo'], ['bar']]); // [ [ 'foo' ], [ 'bar' ] ]
+safe.arrOf.arr(['foo', 1, true, null, undefined, [], {}]); // [ [], [], [], [], [], [], [] ]
+safe.arrOf.arr(true); // []
+safe.arrOf.arr(false); // []
+safe.arrOf.arr(123); // []
+safe.arrOf.arr('foobar'); // []
+safe.arrOf.arr({foo: 'bar'}); // []
+safe.arrOf.arr(null); // []
+safe.arrOf.arr(undefined); // []
+
+safe.arrOf.arr([['foo'], ['bar']], ['baz'], [['IPSUM']]); // [ [ 'foo' ], [ 'bar' ] ]
+safe.arrOf.arr(['foo', 1, true, null, undefined, [], {}], ['baz'], [['IPSUM']]); // [ [ 'baz' ], [ 'baz' ], [ 'baz' ], [ 'baz' ], [ 'baz' ], [], [ 'baz' ] ]
+safe.arrOf.arr(true, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+safe.arrOf.arr(false, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+safe.arrOf.arr(123, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+safe.arrOf.arr('foobar', ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+safe.arrOf.arr({foo: 'bar'}, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+safe.arrOf.arr(null, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+safe.arrOf.arr(undefined, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
+```
+
+|  #  | Parameter Name | Required | Type     | Default    |
+|:---:|:---------------|:---------|:---------|:-----------|
+| *0* | `input`        | **Yes**  | `T[][]`  |            |
+| *1* | `fallback`     | *No*     | `T[]`    |            |
+| *2* | `fallbackArr`  | *No*     | `T[][]`  | `[]`       |
+| *3* | `arrMinLength` | *No*     | `number` | `0`        |
+| *4* | `arrMaxLength` | *No*     | `number` | `Infinity` |
+
+| Return Type |
+|-------------|
+| `T[][]`     |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+#### <span id="safe_arrof_prop">prop</span>
+
+```typescript
+safe.arrOf.prop(input: (string | number)[], fallback: string | number, fallbackArr: (string | number)[], arrMinLength: number, arrMaxLength: number): (string | number)[]
+```
+
+Process an array of values that can be used as properties (string or number), ensuring that they are safe to use.
+
+```typescript
+safe.arrOf.prop([['foo'], ['bar']]); // [ '', '' ]
+safe.arrOf.prop(['foo', 1, true, null, undefined, [], {}]); // [ 'foo', 1, 'true', '', '', '', '' ]
+safe.arrOf.prop(true); // []
+safe.arrOf.prop(false); // []
+safe.arrOf.prop(123); // []
+safe.arrOf.prop('foobar'); // []
+safe.arrOf.prop({foo: 'bar'}); // []
+safe.arrOf.prop(null); // []
+safe.arrOf.prop(undefined); // []
+
+safe.arrOf.prop([['foo'], ['bar']], ['baz'], ['IPSUM']); // [ [ 'baz' ], [ 'baz' ] ]
+safe.arrOf.prop(['foo', 1, true, null, undefined, [], {}], ['baz'], ['IPSUM']); // [ 'foo', 1, 'true', [ 'baz' ], [ 'baz' ], [ 'baz' ],[ 'baz' ] ]
+safe.arrOf.prop(true, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.prop(false, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.prop(123, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.prop('foobar', ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.prop({foo: 'bar'}, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.prop(null, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+safe.arrOf.prop(undefined, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
+```
+
+|  #  | Parameter Name | Required | Type                   | Default    |
+|:---:|:---------------|:---------|:-----------------------|:-----------|
+| *0* | `input`        | **Yes**  | `(string \| number)[]` |            |
+| *1* | `fallback`     | *No*     | `string \| number`     |            |
+| *2* | `fallbackArr`  | *No*     | `(string \| number)[]` | `[]`       |
+| *3* | `arrMinLength` | *No*     | `number`               | `0`        |
+| *4* | `arrMaxLength` | *No*     | `number`               | `Infinity` |
+
+| Return Type            |
+|------------------------|
+| `(string \| number)[]` |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+### ObjWithConfig<O>
+
+```typescript
+safe.ObjWithConfig;
+```
+
+A type for defining the configuration of an object when using `safe.objWith`.
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+#### ObjWithPropConfig<O>
+
+```typescript
+safe.ObjWithPropConfig;
+```
+
+A type for defining what is required for a property of an object when using `safe.objWith`.
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
 ## Types
 Some commonly used typescript types

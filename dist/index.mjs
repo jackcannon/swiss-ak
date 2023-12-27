@@ -1,3 +1,156 @@
+// src/tools/safe.ts
+var safe;
+((safe2) => {
+  safe2.num = (input, isInt = false, min, max, fallback = 0) => {
+    let result = input;
+    if (typeof result !== "number" || result === void 0 || result === null)
+      result = fallback;
+    if (Number.isNaN(result))
+      result = fallback;
+    if (isInt)
+      result = Math.floor(result);
+    if (min !== void 0 && result < min)
+      result = min;
+    if (max !== void 0 && result > max)
+      result = max;
+    if (Math.abs(result) === Infinity)
+      result = fallback;
+    if (min !== void 0 && result < min)
+      result = min;
+    if (max !== void 0 && result > max)
+      result = max;
+    return result;
+  };
+  safe2.str = (input, allowBasicStringify = false, fallback = "") => {
+    var _a;
+    let result = input;
+    if (result === void 0 || result === null)
+      result = fallback;
+    if (typeof result !== "string") {
+      if (allowBasicStringify) {
+        if (["number", "boolean", "bigint"].includes(typeof result)) {
+          result = result + "";
+        } else if (["symbol"].includes(typeof result)) {
+          result = (_a = result.toString) == null ? void 0 : _a.call(result);
+        } else {
+          result = fallback;
+        }
+      } else {
+        result = fallback;
+      }
+    }
+    return result;
+  };
+  safe2.bool = (input, fallback = false) => {
+    let result = input;
+    if (result === void 0 || result === null)
+      result = fallback;
+    if (typeof result !== "boolean") {
+      if (result === "true" || result === 1) {
+        result = true;
+      } else if (result === "false" || result === 0) {
+        result = false;
+      } else {
+        result = fallback;
+      }
+    }
+    return result;
+  };
+  safe2.func = (input, fallback = () => {
+  }) => {
+    let result = input;
+    if (typeof result !== "function" || result === void 0 || result === null)
+      result = fallback;
+    return result;
+  };
+  safe2.obj = (input, allowArrays = false, fallback = {}) => {
+    let result = input;
+    if (typeof result !== "object" || result === void 0 || result === null)
+      result = fallback;
+    if (!allowArrays && Array.isArray(result))
+      result = fallback;
+    return result;
+  };
+  safe2.objWith = (input, objConfig, allowComposition = true) => {
+    const inputObj = safe2.obj(input, true, {});
+    const result = allowComposition ? { ...inputObj } : inputObj;
+    let isBroken = false;
+    Object.entries(objConfig).forEach(([key, propConfig]) => {
+      const { fallback, checkFn, safeFn } = propConfig;
+      const origValue = inputObj[key];
+      let safeValue = origValue ?? fallback;
+      if (safeFn) {
+        safeValue = safeFn(origValue, fallback);
+        result[key] = safeValue;
+      }
+      if ((checkFn || ((v) => v === void 0))(origValue, fallback)) {
+        isBroken = true;
+        result[key] = safeValue;
+      }
+    });
+    return result;
+  };
+  safe2.arr = (input, fallback = [], minLength = 0, maxLength = Infinity) => {
+    let result = input;
+    if (result === void 0 || result === null)
+      result = fallback;
+    if (!Array.isArray(result)) {
+      const frommed = Array.from(result);
+      if (!["string", "number", "boolean", "bigint", "symbol"].includes(typeof result) && Array.isArray(frommed) && frommed.length) {
+        result = frommed;
+      } else {
+        result = fallback;
+      }
+    }
+    if (result.length < minLength)
+      result = [...result, ...fallback.slice(result.length)];
+    if (result.length > maxLength)
+      result = result.slice(0, maxLength);
+    return result;
+  };
+  safe2.prop = (input, fallback = "") => {
+    if (typeof input === "number") {
+      return safe2.num(input, void 0, void 0, void 0, fallback);
+    }
+    return safe2.str(input, true, fallback);
+  };
+  let arrOf;
+  ((arrOf2) => {
+    arrOf2.num = (input, isInt = false, min, max, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
+      return result.map((item) => safe2.num(item, isInt, min, max, fallback));
+    };
+    arrOf2.str = (input, allowStringify = false, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
+      return result.map((item) => safe2.str(item, allowStringify, fallback));
+    };
+    arrOf2.bool = (input, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
+      return result.map((item) => safe2.bool(item, fallback));
+    };
+    arrOf2.func = (input, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
+      return result.map((item) => safe2.func(item, fallback));
+    };
+    arrOf2.obj = (input, allowArrays = false, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
+      return result.map((item) => safe2.obj(item, allowArrays, fallback));
+    };
+    arrOf2.objWith = (input, objConfig, allowComposition = true, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
+      return result.map((item) => safe2.objWith(item, objConfig, allowComposition));
+    };
+    arrOf2.arr = (input, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
+      return result.map((item) => safe2.arr(item, fallback));
+    };
+    arrOf2.prop = (input, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
+      return result.map((item) => safe2.prop(item, fallback));
+    };
+  })(arrOf = safe2.arrOf || (safe2.arrOf = {}));
+})(safe || (safe = {}));
+
 // src/tools/times.ts
 var times;
 ((times2) => {
@@ -12,17 +165,17 @@ var times;
   times2.DECADE = 10 * times2.YEAR;
   times2.CENTURY = 100 * times2.YEAR;
   times2.MILLENNIUM = 1e3 * times2.YEAR;
-  times2.milliseconds = (x = 1) => x;
-  times2.seconds = (x = 1) => x * times2.SECOND;
-  times2.minutes = (x = 1) => x * times2.MINUTE;
-  times2.hours = (x = 1) => x * times2.HOUR;
-  times2.days = (x = 1) => x * times2.DAY;
-  times2.weeks = (x = 1) => x * times2.WEEK;
-  times2.months = (x = 1) => x * times2.MONTH;
-  times2.years = (x = 1) => x * times2.YEAR;
-  times2.decades = (x = 1) => x * times2.DECADE;
-  times2.centuries = (x = 1) => x * times2.CENTURY;
-  times2.millenniums = (x = 1) => x * times2.MILLENNIUM;
+  times2.milliseconds = (x = 1) => safe.num(x);
+  times2.seconds = (x = 1) => safe.num(x) * times2.SECOND;
+  times2.minutes = (x = 1) => safe.num(x) * times2.MINUTE;
+  times2.hours = (x = 1) => safe.num(x) * times2.HOUR;
+  times2.days = (x = 1) => safe.num(x) * times2.DAY;
+  times2.weeks = (x = 1) => safe.num(x) * times2.WEEK;
+  times2.months = (x = 1) => safe.num(x) * times2.MONTH;
+  times2.years = (x = 1) => safe.num(x) * times2.YEAR;
+  times2.decades = (x = 1) => safe.num(x) * times2.DECADE;
+  times2.centuries = (x = 1) => safe.num(x) * times2.CENTURY;
+  times2.millenniums = (x = 1) => safe.num(x) * times2.MILLENNIUM;
 })(times || (times = {}));
 var MILLISECOND = times.MILLISECOND;
 var SECOND = times.SECOND;
@@ -50,34 +203,52 @@ var millenniums = times.millenniums;
 // src/tools/waiters.ts
 var waiters;
 ((waiters2) => {
-  waiters2.wait = (time) => new Promise((resolve) => setTimeout(resolve, time));
+  waiters2.wait = (time) => new Promise((resolve) => setTimeout(resolve, safe.num(time, true, 0)));
   const PING_RATIO = 0.75;
   const ROUND_AMOUNT = 1.5;
   const getPingDuration = (time, now = Date.now()) => Math.ceil((time - now) * PING_RATIO / ROUND_AMOUNT) * ROUND_AMOUNT;
   waiters2.waitUntil = async (time) => {
-    while (Date.now() < time) {
-      await waiters2.wait(getPingDuration(time));
+    const args = {
+      time: safe.num(time, true, 0)
+    };
+    while (Date.now() < args.time) {
+      await waiters2.wait(getPingDuration(args.time));
     }
     return null;
   };
-  waiters2.waitFor = async (time) => waiters2.waitUntil(Date.now() + time);
+  waiters2.waitFor = async (time) => waiters2.waitUntil(Date.now() + safe.num(time, true, 0));
   const getNextEvery = (timing, offset = 0) => {
     const now = Date.now();
     const result = timing - (now - offset) % timing;
     return result <= 10 ? timing : result;
   };
-  waiters2.waitEvery = (timing, offset) => waiters2.waitFor(getNextEvery(timing, offset));
+  waiters2.waitEvery = (timing, offset) => {
+    const args = {
+      timing: safe.num(timing, true, 0),
+      offset: safe.num(offset, true, 0)
+    };
+    return waiters2.waitFor(getNextEvery(args.timing, args.offset));
+  };
   const stopped = [];
-  waiters2.stopInterval = (intID) => stopped.push(intID);
+  waiters2.stopInterval = (intID) => {
+    const args = {
+      intID: safe.num(intID, true, 0)
+    };
+    stopped.push(args.intID);
+  };
   waiters2.interval = (action, timing) => {
-    const intID = Math.floor(Math.random() * Math.pow(10, 10));
+    const args = {
+      action: safe.func(action),
+      timing: safe.num(timing, true, 1, void 0, 1)
+    };
+    const intID = safe.num(Math.floor(Math.random() * Math.pow(10, 10)), true, 0);
     let count = 0;
     const run = async () => {
-      await waiters2.waitEvery(timing);
+      await waiters2.waitEvery(args.timing);
       if (stopped.includes(intID)) {
         return;
       }
-      action(intID, ++count);
+      args.action(intID, ++count);
       run();
     };
     run();
@@ -94,26 +265,72 @@ var interval = waiters.interval;
 // src/tools/ArrayTools.ts
 var ArrayTools;
 ((ArrayTools2) => {
-  ArrayTools2.create = (length = 1, value = 1) => new Array(Math.floor(Math.max(0, length))).fill(value);
-  ArrayTools2.filled = ArrayTools2.create;
-  ArrayTools2.range = (length = 1, multiplier = 1, offset = 0) => ArrayTools2.create(length, 1).map((v, i) => MathsTools.fixFloat(i * multiplier) + offset);
-  const zipFn = (length, arrs) => ArrayTools2.range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
-  ArrayTools2.zip = (...arrs) => zipFn(Math.min(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
-  ArrayTools2.zipMax = (...arrs) => zipFn(Math.max(...(arrs.length ? arrs : [[]]).map((arr) => (arr || []).length)), arrs);
-  ArrayTools2.sortByMapped = (arr, mapFn, sortFn = fn.asc) => ArrayTools2.zip(arr, arr.map(mapFn)).sort((a, b) => sortFn(a[1], b[1])).map(([v]) => v);
-  ArrayTools2.randomise = (arr) => ArrayTools2.sortByMapped(arr, () => Math.random());
-  ArrayTools2.reverse = (arr) => [...arr].reverse();
-  ArrayTools2.entries = (arr) => ArrayTools2.zip(ArrayTools2.range(arr.length), arr);
-  ArrayTools2.repeat = (maxLength, ...items) => {
-    const simple = ArrayTools2.create(maxLength, items[0]);
-    return items.length === 1 ? simple : simple.map((v, i) => items[i % items.length]);
+  ArrayTools2.create = (length = 1, value = 1) => {
+    const args = {
+      length: safe.num(length, true, 0),
+      value
+    };
+    return new Array(args.length).fill(args.value);
   };
-  ArrayTools2.roll = (distance, arr) => [
-    ...arr.slice(distance % arr.length),
-    ...arr.slice(0, distance % arr.length)
-  ];
+  ArrayTools2.filled = ArrayTools2.create;
+  ArrayTools2.range = (length = 1, multiplier = 1, offset = 0) => {
+    const args = {
+      length: safe.num(length, true, 0),
+      multiplier: safe.num(multiplier),
+      offset: safe.num(offset)
+    };
+    return ArrayTools2.create(length, 1).map((v, i) => MathsTools.fixFloat(i * args.multiplier) + args.offset);
+  };
+  const zipFn = (length, arrs) => ArrayTools2.range(length).map((i) => arrs.map((arr) => (arr || [])[i]));
+  ArrayTools2.zip = (...arrs) => {
+    const input = safe.arrOf.arr(arrs);
+    return zipFn(Math.min(...(input.length ? input : [[]]).map((arr) => (arr || []).length)), input);
+  };
+  ArrayTools2.zipMax = (...arrs) => {
+    const input = safe.arr(arrs).map((arr) => safe.arr(arr));
+    return zipFn(Math.max(...(input.length ? input : [[]]).map((arr) => (arr || []).length)), input);
+  };
+  ArrayTools2.sortByMapped = (arr, mapFn, sortFn = fn.asc) => {
+    const args = {
+      arr: safe.arr(arr),
+      mapFn: safe.func(mapFn, fn.noact),
+      sortFn: safe.func(sortFn, fn.asc)
+    };
+    return ArrayTools2.zip(args.arr, args.arr.map(args.mapFn)).sort((a, b) => args.sortFn(a[1], b[1])).map(([v]) => v);
+  };
+  ArrayTools2.randomise = (arr) => {
+    const input = safe.arr(arr);
+    return ArrayTools2.sortByMapped(input, () => Math.random());
+  };
+  ArrayTools2.reverse = (arr) => {
+    const input = safe.arr(arr);
+    return [...input].reverse();
+  };
+  ArrayTools2.entries = (arr) => {
+    const input = safe.arr(arr);
+    return ArrayTools2.zip(ArrayTools2.range(input.length), input);
+  };
+  ArrayTools2.repeat = (maxLength, ...items) => {
+    const args = {
+      maxLength: safe.num(maxLength, true, 0),
+      items: safe.arr(items)
+    };
+    const simple = ArrayTools2.create(args.maxLength, args.items[0]);
+    return args.items.length === 1 ? simple : simple.map((v, i) => args.items[i % args.items.length]);
+  };
+  ArrayTools2.roll = (distance, arr) => {
+    const args = {
+      distance: safe.num(distance, true),
+      arr: safe.arr(arr)
+    };
+    return [...args.arr.slice(args.distance % args.arr.length), ...args.arr.slice(0, args.distance % args.arr.length)];
+  };
   ArrayTools2.sortNumberedText = (texts, ignoreCase = true) => {
-    return ArrayTools2.sortByMapped(texts, utils.partitionNums(ignoreCase), (a, b) => {
+    const args = {
+      texts: safe.arrOf.str(texts),
+      ignoreCase: safe.bool(ignoreCase)
+    };
+    return ArrayTools2.sortByMapped(args.texts, utils.partitionNums(args.ignoreCase), (a, b) => {
       for (let i in a) {
         const result = fn.asc(a[i], b[i]);
         if (result !== 0)
@@ -123,17 +340,25 @@ var ArrayTools;
     });
   };
   ArrayTools2.partition = (array, partitionSize = Math.ceil(array.length / 2)) => {
-    const numParts = Math.ceil(array.length / partitionSize);
+    const args = {
+      array: safe.arr(array),
+      partitionSize: safe.num(partitionSize, true, 1)
+    };
+    const numParts = Math.ceil(args.array.length / args.partitionSize);
     const result = [];
     for (let i = 0; i < numParts; i++) {
-      result.push(array.slice(i * partitionSize, (i + 1) * partitionSize));
+      result.push(args.array.slice(i * args.partitionSize, (i + 1) * args.partitionSize));
     }
     return result;
   };
   ArrayTools2.groupObj = (array, mapFn) => {
+    const args = {
+      array: safe.arr(array),
+      mapFn: safe.func(mapFn, fn.noact)
+    };
     const result = {};
-    array.forEach((item, index) => {
-      const key = mapFn(item, index, array);
+    args.array.forEach((item, index) => {
+      const key = args.mapFn(item, index, args.array);
       if (key === void 0)
         return;
       if (!result[key])
@@ -143,33 +368,64 @@ var ArrayTools;
     return result;
   };
   ArrayTools2.group = (array, mapFn) => {
-    const obj = ArrayTools2.groupObj(array, mapFn);
+    const args = {
+      array: safe.arr(array),
+      mapFn: safe.func(mapFn, fn.noact)
+    };
+    const obj = ArrayTools2.groupObj(args.array, args.mapFn);
     return Object.values(obj);
   };
   ArrayTools2.findAndRemove = (array, predicate, ...insertItems) => {
-    const index = array.findIndex(predicate);
+    const args = {
+      array: safe.arr(array),
+      predicate: safe.func(predicate, () => false),
+      insertItems: safe.arr(insertItems)
+    };
+    const index = args.array.findIndex(args.predicate);
     if (index === -1)
       return void 0;
-    return array.splice(index, 1, ...insertItems)[0];
+    return args.array.splice(index, 1, ...args.insertItems)[0];
   };
   ArrayTools2.findLastAndRemove = (array, predicate, ...insertItems) => {
-    const reverseIndex = ArrayTools2.reverse(array).findIndex(predicate);
-    const index = reverseIndex === -1 ? -1 : array.length - 1 - reverseIndex;
+    const args = {
+      array: safe.arr(array),
+      predicate: safe.func(predicate, () => false),
+      insertItems: safe.arr(insertItems)
+    };
+    const reverseIndex = ArrayTools2.reverse(args.array).findIndex(args.predicate);
+    const index = reverseIndex === -1 ? -1 : args.array.length - 1 - reverseIndex;
     if (index === -1)
       return void 0;
-    return array.splice(index, 1, ...insertItems)[0];
+    return args.array.splice(index, 1, ...args.insertItems)[0];
   };
   ArrayTools2.filterAndRemove = (array, predicate) => {
-    const result = array.filter(predicate);
+    const args = {
+      array: safe.arr(array),
+      predicate: safe.func(predicate, () => false)
+    };
+    const result = args.array.filter(args.predicate);
     result.forEach((item) => {
-      ArrayTools2.findAndRemove(array, (i) => i === item);
+      ArrayTools2.findAndRemove(args.array, (i) => i === item);
     });
     return result;
   };
   let utils;
   ((utils2) => {
-    utils2.isNumString = (text) => Boolean(text.match(/^[0-9-.]+$/));
-    utils2.partitionNums = (ignoreCase) => (name) => (ignoreCase ? name.toLowerCase() : name).split(/([0-9]+)/).map((s) => utils2.isNumString(s) ? Number(s) : s);
+    utils2.isNumString = (text) => {
+      const input = safe.str(text);
+      return Boolean(input.match(/^[0-9-.]+$/));
+    };
+    utils2.partitionNums = (ignoreCase) => {
+      const ignoreCaseSafe = safe.bool(ignoreCase);
+      return (name) => {
+        const args = {
+          ignoreCase: ignoreCaseSafe,
+          name: safe.str(name, true)
+        };
+        const baseStr = args.ignoreCase ? args.name.toLowerCase() : args.name;
+        return baseStr.split(/([0-9]+)/).map((s) => utils2.isNumString(s) ? Number(s) : s).filter((s) => s !== "");
+      };
+    };
   })(utils = ArrayTools2.utils || (ArrayTools2.utils = {}));
 })(ArrayTools || (ArrayTools = {}));
 var create = ArrayTools.create;
@@ -191,12 +447,41 @@ var group = ArrayTools.group;
 // src/tools/MathsTools.ts
 var MathsTools;
 ((MathsTools2) => {
-  MathsTools2.fixFloat = (num, precision = 6) => Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision);
+  MathsTools2.fixFloat = (num, precision = 6) => {
+    const args = {
+      num: safe.num(num),
+      precision: safe.num(precision, true, 0)
+    };
+    return Math.round(args.num * Math.pow(10, args.precision)) / Math.pow(10, args.precision);
+  };
   MathsTools2.ff = MathsTools2.fixFloat;
-  MathsTools2.addAll = (...args) => args.reduce((acc, num) => acc + num, 0);
-  MathsTools2.floorTo = (to, value) => MathsTools2.fixFloat(Math.floor(value / to) * to);
-  MathsTools2.roundTo = (to, value) => MathsTools2.fixFloat(Math.round(value / to) * to);
-  MathsTools2.ceilTo = (to, value) => MathsTools2.fixFloat(Math.ceil(value / to) * to);
+  MathsTools2.addAll = (...nums) => {
+    const args = {
+      nums: safe.arrOf.num(nums, false, void 0, void 0, 0, [0], 1)
+    };
+    return args.nums.reduce((acc, num) => acc + num, 0);
+  };
+  MathsTools2.floorTo = (to, value) => {
+    const args = {
+      to: safe.num(to),
+      value: safe.num(value)
+    };
+    return MathsTools2.fixFloat(Math.floor(args.value / args.to) * args.to);
+  };
+  MathsTools2.roundTo = (to, value) => {
+    const args = {
+      to: safe.num(to),
+      value: safe.num(value)
+    };
+    return MathsTools2.fixFloat(Math.round(args.value / args.to) * args.to);
+  };
+  MathsTools2.ceilTo = (to, value) => {
+    const args = {
+      to: safe.num(to),
+      value: safe.num(value)
+    };
+    return MathsTools2.fixFloat(Math.ceil(args.value / args.to) * args.to);
+  };
   let round;
   ((round2) => {
     round2.floorTo = MathsTools2.floorTo;
@@ -204,17 +489,54 @@ var MathsTools;
     round2.ceilTo = MathsTools2.ceilTo;
     round2.to = MathsTools2.roundTo;
   })(round = MathsTools2.round || (MathsTools2.round = {}));
-  MathsTools2.lerp = (progress, fromVal, toVal) => fromVal + (toVal - fromVal) * progress;
-  MathsTools2.lerpArray = (progress, fromArr, toArr) => ArrayTools.zip(fromArr, toArr).map(([fromVal, toVal]) => MathsTools2.lerp(progress, fromVal, toVal));
+  MathsTools2.lerp = (progress, fromVal, toVal) => {
+    const args = {
+      progress: safe.num(progress),
+      fromVal: safe.num(fromVal),
+      toVal: safe.num(toVal)
+    };
+    return MathsTools2.fixFloat(args.fromVal + (args.toVal - args.fromVal) * args.progress);
+  };
+  MathsTools2.lerpArray = (progress, fromArr, toArr) => {
+    const args = {
+      progress: safe.num(progress),
+      fromArr: safe.arrOf.num(fromArr),
+      toArr: safe.arrOf.num(toArr)
+    };
+    return ArrayTools.zip(args.fromArr, args.toArr).map(([fromVal, toVal]) => MathsTools2.lerp(args.progress, fromVal, toVal));
+  };
   MathsTools2.lerpObj = (progress, fromObj, toObj) => {
-    const entries2 = Object.entries(fromObj);
-    const lerped = entries2.map(([key, fromVal]) => typeof fromVal === "number" ? [key, MathsTools2.lerp(progress, fromVal, toObj[key])] : [key, fromVal]);
+    const args = {
+      progress: safe.num(progress),
+      fromObj: safe.obj(fromObj),
+      toObj: safe.obj(toObj)
+    };
+    const entries2 = Object.entries(args.fromObj);
+    const lerped = entries2.map(
+      ([key, fromVal]) => typeof fromVal === "number" ? [key, MathsTools2.lerp(args.progress, fromVal, args.toObj[key])] : [key, fromVal]
+    );
     return Object.fromEntries(lerped);
   };
-  MathsTools2.clamp = (value, min, max) => Math.max(Math.min(min, max), Math.min(value, Math.max(min, max)));
+  MathsTools2.clamp = (value, min, max) => {
+    const args = {
+      value: safe.num(value),
+      min: safe.num(min),
+      max: safe.num(max)
+    };
+    const realMin = Math.min(args.min, args.max);
+    const realMax = Math.max(args.min, args.max);
+    return Math.max(realMin, Math.min(args.value, realMax));
+  };
   MathsTools2.getOrdinal = (num = 0) => {
-    const lastDigit = num % 10;
-    if ([11, 12, 13].includes(num)) {
+    const args = {
+      num: safe.num(num)
+    };
+    const lastDigit = Math.abs(args.num) % 10;
+    const isDecimal = args.num % 1 !== 0;
+    if (isDecimal) {
+      return "th";
+    }
+    if ([11, 12, 13].includes(args.num)) {
       return "th";
     }
     if (lastDigit === 1) {
@@ -247,20 +569,45 @@ var fn;
   fn2.isNotEmpty = (item) => Boolean(item && item.length);
   fn2.isEqual = (item) => (other) => Boolean(item === other);
   fn2.isNotEqual = (item) => (other) => Boolean(item !== other);
-  fn2.dedupe = (item, index, array) => array.indexOf(item) === index;
+  fn2.dedupe = (item, index, array2) => array2.indexOf(item) === index;
   fn2.dedupeMapped = (mapFn) => {
+    const args = {
+      mapFn: safe.func(mapFn, (v) => v)
+    };
     let mapped;
-    return (item, index, array) => {
+    return (item, index, array2) => {
       if (!mapped)
-        mapped = array.map(mapFn);
+        mapped = array2.map(args.mapFn);
       return mapped.indexOf(mapped[index]) === index;
     };
   };
   fn2.toString = (item) => item + "";
   fn2.toNumber = (item) => Number(item);
   fn2.toBool = (item) => item !== "false" && Boolean(item);
-  fn2.toProp = (prop) => (item) => item && item[prop];
-  fn2.toFixed = (precision) => (num) => MathsTools.fixFloat(num, precision);
+  fn2.toProp = (prop) => {
+    const args1 = {
+      prop: safe.prop(prop, "")
+    };
+    return (item) => {
+      const args = {
+        item: safe.obj(item, true),
+        ...args1
+      };
+      return args.item && args.item[args.prop];
+    };
+  };
+  fn2.toFixed = (precision) => {
+    const args1 = {
+      precision: safe.num(precision, true, 0)
+    };
+    return (num) => {
+      const args = {
+        num: safe.num(num, false),
+        ...args1
+      };
+      return MathsTools.fixFloat(args.num, args.precision);
+    };
+  };
   fn2.asc = (a, b) => {
     if (a < b)
       return -1;
@@ -276,28 +623,39 @@ var fn;
     return 0;
   };
   fn2.byProp = (propName, sortFn = fn2.asc) => {
-    return (a, b) => sortFn(a[propName], b[propName]);
+    const args = {
+      propName: safe.prop(propName, ""),
+      sortFn: safe.func(sortFn, fn2.asc)
+    };
+    return (a, b) => args.sortFn(a[args.propName], b[args.propName]);
   };
-  fn2.nearestTo = (target) => (a, b) => Math.abs(Number(target) - Number(a)) - Math.abs(Number(target) - Number(b));
-  fn2.furthestFrom = (target) => (a, b) => Math.abs(Number(target) - Number(b)) - Math.abs(Number(target) - Number(a));
-  fn2.arrayAsc = (a, b) => {
+  fn2.nearestTo = (target) => (a, b) => {
+    const diffA = Math.abs(Number(target) - Number(a));
+    const diffB = Math.abs(Number(target) - Number(b));
+    return (Number.isNaN(diffA) ? Infinity : diffA) - (Number.isNaN(diffB) ? Infinity : diffB);
+  };
+  fn2.furthestFrom = (target) => (a, b) => {
+    const diffA = Math.abs(Number(target) - Number(a));
+    const diffB = Math.abs(Number(target) - Number(b));
+    return (Number.isNaN(diffB) ? Infinity : diffB) - (Number.isNaN(diffA) ? Infinity : diffA);
+  };
+  fn2.array = (sortFn = fn2.asc) => (a, b) => {
     for (let i in a) {
-      const result2 = fn2.asc(a[i], b[i]);
+      const result2 = sortFn(a[i], b[i]);
       if (result2 !== 0)
         return result2;
     }
     return 0;
   };
-  fn2.arrayDesc = (a, b) => {
-    for (let i in a) {
-      const result2 = fn2.desc(a[i], b[i]);
-      if (result2 !== 0)
-        return result2;
-    }
-    return 0;
-  };
+  fn2.arrayAsc = fn2.array(fn2.asc);
+  fn2.arrayDesc = fn2.array(fn2.desc);
   fn2.combine = (a, b) => a + b;
-  fn2.combineProp = (propName) => (a, b) => a[propName] + b[propName];
+  fn2.combineProp = (propName) => {
+    const args = {
+      propName: safe.prop(propName, "")
+    };
+    return (a, b) => (a[args.propName] ?? a) + b[args.propName];
+  };
   fn2.mode = (prev, curr, index, arr) => {
     if (index > 1) {
       return prev;
@@ -308,13 +666,16 @@ var fn;
     return unique[counts.indexOf(max)];
   };
   fn2.modeMapped = (mapFn) => {
+    const args = {
+      mapFn: safe.func(mapFn, (v) => v)
+    };
     let result2;
     return (prev, curr, index, arr) => {
       if (result2)
         return result2;
-      const mapped = arr.map(mapFn);
+      const mapped = arr.map(args.mapFn);
       const uniqueU = mapped.filter(fn2.dedupe);
-      const uniqueT = arr.filter(fn2.dedupeMapped(mapFn));
+      const uniqueT = arr.filter(fn2.dedupeMapped(args.mapFn));
       const counts = uniqueU.map((item) => mapped.filter((i) => i === item)).map((a) => a.length);
       const max = Math.max(...counts);
       result2 = uniqueT[counts.indexOf(max)];
@@ -349,6 +710,7 @@ var fn;
     sorts3.byProp = fn2.byProp;
     sorts3.nearestTo = fn2.nearestTo;
     sorts3.furthestFrom = fn2.furthestFrom;
+    sorts3.array = fn2.array;
     sorts3.arrayAsc = fn2.arrayAsc;
     sorts3.arrayDesc = fn2.arrayDesc;
   })(sorts2 = fn2.sorts || (fn2.sorts = {}));
@@ -428,20 +790,25 @@ var units = [
 var TimeTools;
 ((TimeTools2) => {
   TimeTools2.toReadableDuration = (duration, longNames = false, maxUnits = 3) => {
-    if (duration === 0)
+    const args = {
+      duration: safe.num(duration, true),
+      longNames: safe.bool(longNames, false),
+      maxUnits: safe.num(maxUnits, true, 1, void 0, 3)
+    };
+    if (args.duration === 0)
       return "";
     const allUnitValues = units.map((unit, index) => {
       var _a;
       const previousUnitValue = ((_a = units[index - 1]) == null ? void 0 : _a.value) ?? Infinity;
-      const amount = Math.floor(Math.abs(duration) % previousUnitValue / unit.value);
+      const amount = Math.floor(Math.abs(args.duration) % previousUnitValue / unit.value);
       return { amount, unit };
     }).filter(({ amount }) => amount > 0);
-    const results = allUnitValues.slice(0, maxUnits).map(({ amount, unit }) => {
-      const labelObj = longNames ? unit.long : unit.short;
+    const results = allUnitValues.slice(0, args.maxUnits).map(({ amount, unit }) => {
+      const labelObj = args.longNames ? unit.long : unit.short;
       const label = amount > 1 ? labelObj.plural : labelObj.singular;
       return `${amount}${label}`;
     });
-    if (longNames) {
+    if (args.longNames) {
       if (results.length <= 1) {
         return results.join("");
       }
@@ -453,95 +820,155 @@ var TimeTools;
 
 // src/tools/timer.ts
 var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, displayNames) => {
+  const args = {
+    name: safe.str(name),
+    verbose: safe.bool(verbose, false),
+    wrapperFn: safe.func(wrapperFn, noWrap),
+    chalk: safe.objWith(
+      chalk,
+      {
+        bold: {
+          fallback: noWrap,
+          safeFn: (v, f) => safe.func(v, f)
+        },
+        dim: {
+          fallback: noWrap,
+          safeFn: (v, f) => safe.func(v, f)
+        }
+      },
+      false
+    ),
+    displayNames: safe.obj(displayNames)
+  };
   let startTimes = {};
   let endTimes = {};
   let dispNames = {
-    ...displayNames || {}
+    ...args.displayNames || {}
   };
   const names = Object.fromEntries(Object.keys(dispNames).map((key) => [key, key]));
   const getDuration = (label) => {
+    if (!startTimes[label])
+      return 0;
     const start = startTimes[label];
     const end = endTimes[label] || Date.now();
     return end - start;
   };
-  const logLine = (label, prefix = "", nameColLength = 0, duration = getDuration(label)) => {
+  const getLogLine = (label, prefix = "", nameColLength = 0, duration = getDuration(label)) => {
     const lineStart = `${dispNames[label] || label}: `.padEnd(nameColLength + 1, " ");
     const lineEnd = `${TimeTools.toReadableDuration(duration, false, 4)}`;
-    const line = chalk.bold(prefix + lineStart) + lineEnd;
-    console.log(wrapperFn(line));
-    return (prefix + lineStart + lineEnd).replace("	", "").length;
+    const line = args.chalk.bold(prefix + lineStart) + lineEnd;
+    return {
+      line: args.wrapperFn(line),
+      width: (prefix + lineStart + lineEnd).replace("	", "").length
+    };
   };
   startTimes.TOTAL = Date.now();
   return {
     ...names,
-    start(...labelArr) {
-      for (let label of labelArr) {
+    start(...labels) {
+      const args2 = {
+        labels: safe.arrOf.str(labels)
+      };
+      for (let label of args2.labels) {
         startTimes[label] = Date.now();
       }
     },
-    end(...labelArr) {
-      for (let label of labelArr) {
+    end(...labels) {
+      const args2 = {
+        labels: safe.arrOf.str(labels)
+      };
+      for (let label of args2.labels) {
         endTimes[label] = Date.now();
-        if (verbose) {
-          logLine(label);
-          console.log("");
+        if (args.verbose) {
+          console.log(getLogLine(label) + "\n");
         }
       }
     },
     switch(endLabel, startLabel) {
-      if (endLabel)
-        this.end(...[endLabel].flat());
-      if (startLabel)
-        this.start(...[startLabel].flat());
-    },
-    log(prefix, customEntries) {
-      let lc = 0;
-      const log = (...args) => {
-        lc++;
-        console.log(...args);
+      const args2 = {
+        endLabel: endLabel instanceof Array ? safe.arrOf.str(endLabel) : safe.str(endLabel),
+        startLabel: startLabel instanceof Array ? safe.arrOf.str(startLabel) : safe.str(startLabel)
       };
-      const logLine2 = (label, prefix2, nameColLength2, duration) => {
-        lc++;
-        return logLine(label, prefix2, nameColLength2, duration);
+      if (args2.endLabel)
+        this.end(...[args2.endLabel].flat());
+      if (args2.startLabel)
+        this.start(...[args2.startLabel].flat());
+    },
+    getTable(prefix, customEntries) {
+      const args2 = {
+        prefix: safe.str(prefix),
+        customEntries: customEntries instanceof Array ? safe.arrOf.func(customEntries) : safe.obj(customEntries)
+      };
+      const output = [];
+      const addOutput = (...args3) => {
+        output.push(args3.join(" "));
+      };
+      const addLogLine = (label, prefix2, nameColLength2, duration) => {
+        const result = getLogLine(label, prefix2, nameColLength2, duration);
+        addOutput(result.line);
+        return result.width;
       };
       const labels = Object.keys(startTimes);
-      log("");
-      log(wrapperFn(chalk.bold([prefix, name, "Times:"].filter((x) => x && x.trim()).join(" "))));
+      addOutput("");
+      addOutput(args.wrapperFn(args.chalk.bold([args2.prefix, args.name, "Times:"].filter((x) => x && x.trim()).join(" "))));
       const displayNames2 = [...labels, ...Object.keys(names)].map((label) => dispNames[label] || label);
       const nameColLength = Math.max(...displayNames2.map((text) => `${text}: `.length));
       let longest = 0;
       for (let label of labels) {
         if (label !== "TOTAL") {
-          longest = Math.max(longest, logLine2(label, "	", nameColLength));
+          longest = Math.max(longest, addLogLine(label, "	", nameColLength));
         }
       }
-      if (customEntries) {
+      if (args2.customEntries) {
         const durations = Object.fromEntries(labels.map((label) => [label, getDuration(label)]));
         let cEntries = [];
-        if (customEntries instanceof Array) {
-          cEntries = customEntries.map((func) => func(durations)).map((obj) => ({ ...obj, duration: obj.duration || (obj.end || Date.now()) - (obj.start || Date.now()) }));
+        if (args2.customEntries instanceof Array) {
+          cEntries = args2.customEntries.map((func) => func(durations)).map((obj) => ({ ...obj, duration: obj.duration || (obj.end || Date.now()) - (obj.start || Date.now()) }));
         } else {
-          cEntries = Object.entries(customEntries).map(([label, func]) => ({ label, duration: (func || (() => 0))(durations) || 0 }));
+          cEntries = Object.entries(args2.customEntries).map(([label, func]) => ({ label, duration: (func || (() => 0))(durations) || 0 }));
         }
-        log(wrapperFn(chalk.dim("	" + "\u23AF".repeat(longest))));
-        for (let { label, duration } of cEntries) {
-          logLine2(label, "	", nameColLength, duration);
+        if (cEntries.length) {
+          addOutput(args.wrapperFn(args.chalk.dim("	" + "\u23AF".repeat(longest))));
+          for (let { label, duration } of cEntries) {
+            addLogLine(label, "	", nameColLength, duration);
+          }
         }
       }
-      log(wrapperFn(chalk.dim("	" + "\u23AF".repeat(longest))));
-      logLine2("TOTAL", "	", nameColLength);
-      log("");
+      addOutput(args.wrapperFn(args.chalk.dim("	" + "\u23AF".repeat(longest))));
+      addLogLine("TOTAL", "	", nameColLength);
+      addOutput("");
+      return output.join("\n");
+    },
+    log(prefix, customEntries) {
+      const args2 = {
+        prefix: safe.str(prefix),
+        customEntries: customEntries instanceof Array ? safe.arrOf.func(customEntries) : safe.obj(customEntries)
+      };
+      const table = this.getTable(args2.prefix, args2.customEntries);
+      console.log(table);
+      let lc = table.split("\n").length;
       return lc;
     },
     reset() {
-      startTimes = {};
-      endTimes = {};
+      Object.keys(startTimes).forEach((key) => {
+        delete startTimes[key];
+      });
+      Object.keys(endTimes).forEach((key) => {
+        delete endTimes[key];
+      });
+      startTimes.TOTAL = Date.now();
     },
+    getDuration,
     names,
-    displayNames: dispNames
+    displayNames: dispNames,
+    startTimes,
+    endTimes
   };
 };
 var timer = getTimer();
+
+// src/utils/optionUtils.ts
+var option = (value, deflt, safeFn) => value !== void 0 ? safeFn(value, deflt) : deflt;
 
 // src/tools/progressBar.ts
 var progressBar;
@@ -564,9 +991,9 @@ var progressBar;
       console.log(...text);
     }
   };
-  const print = (text, wrapperFn = fn.noact) => {
+  const printWrapped = (text, wrapperFn = fn.noact, printFn = progressBar2.printLn) => {
     const wrapped = wrapperFn(text || "");
-    progressBar2.printLn(wrapped);
+    printFn(wrapped);
   };
   const getCharWidth = (num, max, width) => Math.round(width * (Math.max(0, Math.min(num / max, 1)) / 1));
   const getBarString = (current, max, width, opts) => {
@@ -594,46 +1021,57 @@ var progressBar;
     const joined = items.filter((x) => x).join(" ");
     return joined.length ? " " + joined : "";
   };
-  const getFullOptions = (opts = {}) => {
+  progressBar2.getFullOptions = (opts = {}) => {
     var _a;
     return {
-      prefix: "",
-      prefixWidth: 1,
-      maxWidth: ((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.columns) ? process.stdout.columns : 100,
-      wrapperFn: fn.noact,
-      barWrapFn: fn.noact,
-      barProgWrapFn: fn.noact,
-      barCurrentWrapFn: fn.noact,
-      barEmptyWrapFn: fn.noact,
-      showCount: true,
-      showPercent: false,
-      countWidth: 0,
-      progChar: "\u2588",
-      emptyChar: " ",
-      startChar: "\u2595",
-      endChar: "\u258F",
-      showCurrent: false,
-      currentChar: "\u259E",
-      ...opts
+      prefix: option(opts.prefix, "", (v, dflt) => safe.str(v, true, dflt)),
+      prefixWidth: option(opts.prefixWidth, 0, (v, dflt) => safe.num(v, true, 0, void 0, dflt)),
+      maxWidth: option(
+        opts.maxWidth,
+        ((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.columns) !== void 0 ? process.stdout.columns : 100,
+        (v, dflt) => safe.num(v, true, 0, void 0, dflt)
+      ),
+      wrapperFn: option(opts.wrapperFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      barWrapFn: option(opts.barWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      barProgWrapFn: option(opts.barProgWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      barCurrentWrapFn: option(opts.barCurrentWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      barEmptyWrapFn: option(opts.barEmptyWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      showCount: option(opts.showCount, true, (v, dflt) => safe.bool(v, dflt)),
+      showPercent: option(opts.showPercent, false, (v, dflt) => safe.bool(v, dflt)),
+      countWidth: option(opts.countWidth, 0, (v, dflt) => safe.num(v, true, 0, void 0, dflt)),
+      progChar: option(opts.progChar, "\u2588", (v, dflt) => safe.str(v, false, dflt)),
+      emptyChar: option(opts.emptyChar, " ", (v, dflt) => safe.str(v, false, dflt)),
+      startChar: option(opts.startChar, "\u2595", (v, dflt) => safe.str(v, false, dflt)),
+      endChar: option(opts.endChar, "\u258F", (v, dflt) => safe.str(v, false, dflt)),
+      showCurrent: option(opts.showCurrent, false, (v, dflt) => safe.bool(v, dflt)),
+      currentChar: option(opts.currentChar, "\u259E", (v, dflt) => safe.str(v, false, dflt)),
+      print: option(opts.print, true, (v, dflt) => safe.bool(v, dflt)),
+      printFn: option(opts.printFn, progressBar2.printLn, (v, dflt) => safe.func(v, dflt))
     };
   };
   progressBar2.getProgressBar = (max, options = {}) => {
-    const opts = getFullOptions(options);
-    const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar } = opts;
+    const args = {
+      max: safe.num(max, true, -1, void 0, -1),
+      options: safe.obj(options, false, {})
+    };
+    const opts = progressBar2.getFullOptions(args.options);
+    const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar, print, printFn } = opts;
     let current = 0;
     let finished = false;
-    const maxNum = typeof max === "number" ? max : 1;
-    const isMaxKnown = typeof max === "number";
+    const isMaxKnown = args.max !== -1;
     const update = () => {
-      const suffix = getSuffix(current, maxNum, isMaxKnown, opts);
-      const fullPrefix = prefix.padEnd(prefixWidth);
+      const suffix = getSuffix(current, args.max, isMaxKnown, opts);
+      const idealMinBarWidth = Math.min(5, maxWidth - [suffix, startChar, endChar].join("").length);
+      const maxPrefixWidth = maxWidth - ([suffix, startChar, endChar].join("").length + idealMinBarWidth);
+      const fullPrefix = prefix.padEnd(prefixWidth).substring(0, maxPrefixWidth);
       const output = `${fullPrefix}${getBarString(
         current,
-        Math.max(1, maxNum),
+        Math.max(1, args.max),
         Math.max(0, maxWidth - [fullPrefix, suffix, startChar, endChar].join("").length),
         opts
       )}${suffix}`;
-      print(output, wrapperFn);
+      if (print)
+        printWrapped(output, wrapperFn, printFn);
       return output;
     };
     const next = () => {
@@ -643,22 +1081,27 @@ var progressBar;
       return update();
     };
     const set = (newCurrent) => {
+      const args2 = {
+        newCurrent: safe.num(newCurrent, true, 0, void 0)
+      };
       if (finished)
         return "";
-      current = newCurrent;
+      current = args2.newCurrent;
       return update();
     };
     const reset = () => {
       return set(0);
     };
     const start = () => {
-      progressBar2.printLn();
+      if (opts.print)
+        opts.printFn();
       return update();
     };
     const finish = () => {
       finished = true;
       const output = update();
-      progressBar2.printLn();
+      if (opts.print)
+        opts.printFn();
       return output;
     };
     return {
@@ -668,7 +1111,7 @@ var progressBar;
       update,
       start,
       finish,
-      max
+      max: args.max === -1 ? void 0 : args.max
     };
   };
 })(progressBar || (progressBar = {}));
@@ -678,28 +1121,105 @@ var getProgressBar = progressBar.getProgressBar;
 // src/tools/ObjectTools.ts
 var ObjectTools;
 ((ObjectTools2) => {
-  ObjectTools2.remodel = (obj, func) => Object.fromEntries(func(Object.entries(obj)) ?? Object.entries(obj));
-  ObjectTools2.remodelEach = (obj, func) => Object.fromEntries(Object.entries(obj).map((entry, index, entries2) => func(entry, index, entries2) ?? entry));
-  ObjectTools2.map = (obj, func) => ObjectTools2.remodel(obj, (entries2) => entries2.map(([key, value], index) => func(key, value, index)));
-  ObjectTools2.mapValues = (obj, func) => ObjectTools2.remodel(obj, (entries2) => entries2.map(([key, value], index) => [key, func(key, value, index)]));
-  ObjectTools2.mapKeys = (obj, func) => ObjectTools2.remodel(obj, (entries2) => entries2.map(([key, value], index) => [func(key, value, index), value]));
-  ObjectTools2.filter = (obj, func) => ObjectTools2.remodel(obj, (entries2) => entries2.filter(([key, value], index) => func(key, value, index)));
-  ObjectTools2.clean = (obj) => ObjectTools2.filter(obj, (key, value) => value !== void 0);
-  ObjectTools2.invert = (obj) => ObjectTools2.remodelEach(obj, ([key, value]) => {
-    var _a;
-    const newKey = ((_a = value == null ? void 0 : value.toString) == null ? void 0 : _a.call(value)) ?? value + "";
-    return [newKey, key];
-  });
+  ObjectTools2.remodel = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (entries2) => entries2)
+    };
+    return Object.fromEntries(args.func(Object.entries(args.obj)) ?? Object.entries(args.obj));
+  };
+  ObjectTools2.remodelEach = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (entry) => entry)
+    };
+    return Object.fromEntries(Object.entries(args.obj).map((entry, index, entries2) => args.func(entry, index, entries2) ?? entry));
+  };
+  ObjectTools2.map = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (key, value) => [key, value])
+    };
+    return ObjectTools2.remodel(args.obj, (entries2) => entries2.map(([key, value], index) => args.func(key, value, index)));
+  };
+  ObjectTools2.mapValues = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (key, value) => value)
+    };
+    return ObjectTools2.remodel(args.obj, (entries2) => entries2.map(([key, value], index) => [key, args.func(key, value, index)]));
+  };
+  ObjectTools2.mapKeys = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (key) => key)
+    };
+    return ObjectTools2.remodel(args.obj, (entries2) => entries2.map(([key, value], index) => [args.func(key, value, index), value]));
+  };
+  ObjectTools2.filter = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, () => true)
+    };
+    return ObjectTools2.remodel(args.obj, (entries2) => entries2.filter(([key, value], index) => args.func(key, value, index)));
+  };
+  ObjectTools2.clean = (obj) => {
+    const args = {
+      obj: safe.obj(obj)
+    };
+    return ObjectTools2.filter(args.obj, (key, value) => value !== void 0);
+  };
+  ObjectTools2.invert = (obj) => {
+    const args = {
+      obj: safe.obj(obj)
+    };
+    return ObjectTools2.remodelEach(args.obj, ([key, value]) => {
+      var _a;
+      const newKey = ((_a = value == null ? void 0 : value.toString) == null ? void 0 : _a.call(value)) ?? value + "";
+      return [newKey, key];
+    });
+  };
 })(ObjectTools || (ObjectTools = {}));
 
 // src/tools/StringTools.ts
 var StringTools;
 ((StringTools2) => {
-  StringTools2.capitalise = (input = "") => (input || "").split(/\s/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
-  StringTools2.angloise = (input) => input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  StringTools2.clean = (input = "") => StringTools2.angloise([input].flat().join(" ")).replace(/\s{1,}/g, " ").replace(/[^A-Za-z0-9 ]/gi, "");
-  StringTools2.repeat = (maxLength, repeated) => (repeated && typeof repeated === "string" ? repeated : "").repeat(Math.max(0, maxLength));
+  StringTools2.capitalise = (input = "") => {
+    const inp = safe.str(input);
+    return inp.split(/\s/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+  };
+  StringTools2.angloise = (input) => {
+    const inp = safe.str(input);
+    return inp.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+  StringTools2.clean = (input = "") => {
+    const inp = safe.str(input);
+    return StringTools2.angloise([inp].flat().join(" ")).replace(/\s{1,}/g, " ").replace(/[^A-Za-z0-9 ]/gi, "");
+  };
+  StringTools2.repeat = (maxLength, repeated) => {
+    const args = {
+      maxLength: safe.num(maxLength, true),
+      repeated: safe.str(repeated)
+    };
+    return args.repeated.repeat(Math.max(0, args.maxLength));
+  };
+  const processClxArray = (arr) => arr.filter(fn.exists).map((item) => {
+    if (typeof item === "string")
+      return item;
+    if (item instanceof Array) {
+      return processClxArray(item);
+    }
+    if (typeof item === "object") {
+      return Object.keys(item).filter((key) => item[key]).join(" ");
+    }
+    return void 0;
+  }).filter(fn.exists).flat();
   StringTools2.clx = (...args) => processClxArray(args).join(" ");
+  const safeInput = (v) => {
+    if (v instanceof Array)
+      return safe.arrOf.str(v);
+    return safe.str(v, false, "");
+  };
   const caseHandler = (overrideSplitter) => {
     const getSplit = (input = "") => {
       if (overrideSplitter)
@@ -708,25 +1228,52 @@ var StringTools;
       return arr.map((s) => StringTools2.clean(s.replace(/-|_/g, " ")).split(" ")).flat().filter((s) => s.length);
     };
     const toCamelCase2 = (input, capitaliseFirst = false) => {
-      const split = getSplit(input);
-      return split.map((word, index) => index === 0 && !capitaliseFirst ? word.toLowerCase() : StringTools2.capitalise(word)).join("");
+      const args = {
+        input: safeInput(input),
+        capitaliseFirst: safe.bool(capitaliseFirst)
+      };
+      const split = getSplit(args.input);
+      return split.map((word, index) => index === 0 && !args.capitaliseFirst ? word.toLowerCase() : StringTools2.capitalise(word)).join("");
     };
-    const toLowerCamelCase2 = (input) => toCamelCase2(input, false);
-    const toUpperCamelCase2 = (input) => toCamelCase2(input, true);
-    const toCharacterSeparated2 = (input, char, toUpper = false) => {
-      const split = getSplit(input);
-      return split.map((word, index) => toUpper ? word.toUpperCase() : word.toLowerCase()).join(char);
+    const toLowerCamelCase2 = (input) => toCamelCase2(safeInput(input), false);
+    const toUpperCamelCase2 = (input) => toCamelCase2(safeInput(input), true);
+    const toCharacterSeparated2 = (input, char = ",", toUpper = false) => {
+      const args = {
+        input: safeInput(input),
+        char: safe.str(char),
+        toUpper: safe.bool(toUpper, false)
+      };
+      const split = getSplit(args.input);
+      return split.map((word, index) => args.toUpper ? word.toUpperCase() : word.toLowerCase()).join(args.char);
     };
-    const toSlugCase2 = (input, toUpper = false) => toCharacterSeparated2(input, "-", toUpper);
-    const toLowerSlugCase2 = (input) => toSlugCase2(input, false);
-    const toUpperSlugCase2 = (input) => toSlugCase2(input, true);
-    const toSnakeCase2 = (input, toUpper = false) => toCharacterSeparated2(input, "_", toUpper);
-    const toLowerSnakeCase2 = (input) => toSnakeCase2(input, false);
-    const toUpperSnakeCase2 = (input) => toSnakeCase2(input, true);
-    const toSpaced2 = (input, toUpper = false) => toCharacterSeparated2(input, " ", toUpper);
-    const toLowerSpaced2 = (input) => toSpaced2(input, false);
-    const toUpperSpaced2 = (input) => toSpaced2(input, true);
-    const toCapitalisedSpaced2 = (input) => StringTools2.capitalise(toSpaced2(input, false));
+    const toSlugCase2 = (input, toUpper = false) => {
+      const args = {
+        input: safeInput(input),
+        toUpper: safe.bool(toUpper)
+      };
+      return toCharacterSeparated2(args.input, "-", args.toUpper);
+    };
+    const toLowerSlugCase2 = (input) => toSlugCase2(safeInput(input), false);
+    const toUpperSlugCase2 = (input) => toSlugCase2(safeInput(input), true);
+    const toSnakeCase2 = (input, toUpper = false) => {
+      const args = {
+        input: safeInput(input),
+        toUpper: safe.bool(toUpper)
+      };
+      return toCharacterSeparated2(args.input, "_", args.toUpper);
+    };
+    const toLowerSnakeCase2 = (input) => toSnakeCase2(safeInput(input), false);
+    const toUpperSnakeCase2 = (input) => toSnakeCase2(safeInput(input), true);
+    const toSpaced2 = (input, toUpper = false) => {
+      const args = {
+        input: safeInput(input),
+        toUpper: safe.bool(toUpper)
+      };
+      return toCharacterSeparated2(args.input, " ", args.toUpper);
+    };
+    const toLowerSpaced2 = (input) => toSpaced2(safeInput(input), false);
+    const toUpperSpaced2 = (input) => toSpaced2(safeInput(input), true);
+    const toCapitalisedSpaced2 = (input) => StringTools2.capitalise(toSpaced2(safeInput(input), false));
     return {
       toLowerCamelCase: toLowerCamelCase2,
       toUpperCamelCase: toUpperCamelCase2,
@@ -769,16 +1316,6 @@ var StringTools;
       (s) => s.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").trim()
     ).map((s) => s.split(" ")).flat()
   );
-  const processClxArray = (arr) => arr.filter(Boolean).map((item) => {
-    if (typeof item === "string")
-      return item;
-    if (item instanceof Array) {
-      return processClxArray(item);
-    }
-    if (typeof item === "object") {
-      return Object.keys(item).filter((key) => item[key]).join(" ");
-    }
-  }).flat();
   let matchBrackets;
   ((matchBrackets2) => {
     const defaultReplaceSymbols = {
@@ -792,6 +1329,15 @@ var StringTools;
       "<": "\u2770",
       ">": "\u2771"
     };
+    const safeSymbols = (symbols2) => ObjectTools.filter(safe.obj(symbols2), (k) => Object.keys(defaultReplaceSymbols).includes(k));
+    const safeBracketType = (bracketType) => {
+      const safed = safe.str(bracketType);
+      if (["()", "[]", "{}", "<>", "round", "square", "curly", "angle"].includes(safed)) {
+        return safed;
+      }
+      return "round";
+    };
+    const escapePCRE = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const runReplace = (input, replaceSymbols = {}, outputDepth = false) => {
       const fullSyms = matchBrackets2.getReplaceSymbols(replaceSymbols);
       let infos = {
@@ -842,15 +1388,30 @@ var StringTools;
         return fullSyms[br] + (id || "0") + fullSyms.END;
       });
     };
-    matchBrackets2.unique = (input, replaceSymbols = {}) => runReplace(input, replaceSymbols, false);
-    matchBrackets2.depth = (input, replaceSymbols = {}) => runReplace(input, replaceSymbols, true);
+    matchBrackets2.unique = (input, replaceSymbols = {}) => {
+      const args = {
+        input: safe.str(input),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      return runReplace(args.input, args.replaceSymbols, false);
+    };
+    matchBrackets2.depth = (input, replaceSymbols = {}) => {
+      const args = {
+        input: safe.str(input),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      return runReplace(args.input, args.replaceSymbols, true);
+    };
     matchBrackets2.clean = (input, replaceSymbols = {}) => {
-      const fullSyms = matchBrackets2.getReplaceSymbols(replaceSymbols);
-      const invertedSyms = ObjectTools.invert(fullSyms);
-      const { END, ...withoutEND } = fullSyms;
+      const args = {
+        input: safe.str(input),
+        replaceSymbols: matchBrackets2.getReplaceSymbols(replaceSymbols)
+      };
+      const invertedSyms = ObjectTools.invert(args.replaceSymbols);
+      const { END, ...withoutEND } = args.replaceSymbols;
       const startSyms = Object.values(withoutEND);
-      const regex = new RegExp(`(${startSyms.map((s) => `\\${s}`).join("|")})[0-9]+${fullSyms.END}`, "g");
-      return input.replaceAll(regex, (m, startSym) => invertedSyms[startSym] || "");
+      const regex = new RegExp(`(${startSyms.map(escapePCRE).join("|")})[0-9]+${escapePCRE(args.replaceSymbols.END)}`, "g");
+      return args.input.replaceAll(regex, (m, startSym) => invertedSyms[startSym] || "");
     };
     const getBracketSymsForMatch = (bracketType, replaceSymbols) => {
       const fullSyms = matchBrackets2.getReplaceSymbols(replaceSymbols);
@@ -868,40 +1429,60 @@ var StringTools;
       return [openSym, closeSym, endSym];
     };
     const runGrabSearch = (fullDirty, [openSym, closeSym, endSym], findID, replaceSymbols) => {
-      const regex = new RegExp(`${openSym}${findID}${endSym}(.|
-)*?${closeSym}${findID}${endSym}`, "g");
+      const regex = new RegExp(
+        `${escapePCRE(openSym)}${findID}${escapePCRE(endSym)}(.|
+)*?${escapePCRE(closeSym)}${findID}${escapePCRE(endSym)}`,
+        "g"
+      );
       const foundDirty = Array.from(fullDirty.matchAll(regex) || []).map((match) => match[0]);
       const found = foundDirty.map((str) => matchBrackets2.clean(str, replaceSymbols));
       return found;
     };
     matchBrackets2.grabDepth = (input, bracketType = "round", depthID = 0, replaceSymbols = {}) => {
-      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
-      const fullDirty = matchBrackets2.depth(input, replaceSymbols);
-      return runGrabSearch(fullDirty, syms, depthID !== void 0 ? depthID + "" : "", replaceSymbols);
+      const args = {
+        input: safe.str(input),
+        bracketType: safeBracketType(bracketType),
+        depthID: safe.num(depthID, true, 0),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      const syms = getBracketSymsForMatch(args.bracketType, args.replaceSymbols);
+      const fullDirty = matchBrackets2.depth(args.input, args.replaceSymbols);
+      return runGrabSearch(fullDirty, syms, args.depthID + "", args.replaceSymbols);
     };
     matchBrackets2.grabUnique = (input, bracketType = "round", uniqueID = 0, replaceSymbols = {}) => {
       var _a;
-      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
-      const fullDirty = matchBrackets2.unique(input, replaceSymbols);
-      return (_a = runGrabSearch(fullDirty, syms, uniqueID !== void 0 ? uniqueID + "" : "", replaceSymbols)) == null ? void 0 : _a[0];
+      const args = {
+        input: safe.str(input),
+        bracketType: safeBracketType(bracketType),
+        uniqueID: safe.num(uniqueID, true, 0),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      const syms = getBracketSymsForMatch(args.bracketType, args.replaceSymbols);
+      const fullDirty = matchBrackets2.unique(args.input, args.replaceSymbols);
+      return (_a = runGrabSearch(fullDirty, syms, args.uniqueID + "", args.replaceSymbols)) == null ? void 0 : _a[0];
     };
     matchBrackets2.grab = (input, bracketType = "round", replaceSymbols = {}) => {
-      const syms = getBracketSymsForMatch(bracketType, replaceSymbols);
-      const fullDirty = matchBrackets2.unique(input, replaceSymbols);
+      const args = {
+        input: safe.str(input),
+        bracketType: safeBracketType(bracketType),
+        replaceSymbols: safeSymbols(replaceSymbols)
+      };
+      const syms = getBracketSymsForMatch(args.bracketType, args.replaceSymbols);
+      const fullDirty = matchBrackets2.unique(args.input, args.replaceSymbols);
       const [openSym, closeSym, endSym] = syms;
-      const regex = new RegExp(`(?:${openSym}|${closeSym})([0-9]+)${endSym}`, "g");
+      const regex = new RegExp(`(?:${escapePCRE(openSym)}|${escapePCRE(closeSym)})([0-9]+)${escapePCRE(endSym)}`, "g");
       const allIDs = Array.from(fullDirty.matchAll(regex) || []).map((match) => Number(match[1])).filter(fn.dedupe);
       const found = allIDs.map((uniqueID) => {
         var _a;
-        return (_a = runGrabSearch(fullDirty, syms, uniqueID + "", replaceSymbols)) == null ? void 0 : _a[0];
+        return (_a = runGrabSearch(fullDirty, syms, uniqueID + "", args.replaceSymbols)) == null ? void 0 : _a[0];
       });
       return found;
     };
     matchBrackets2.getReplaceSymbols = (replaceSymbols = {}) => {
-      return {
+      return safeSymbols({
         ...defaultReplaceSymbols,
         ...replaceSymbols
-      };
+      });
     };
   })(matchBrackets = StringTools2.matchBrackets || (StringTools2.matchBrackets = {}));
 })(StringTools || (StringTools = {}));
@@ -928,27 +1509,35 @@ var PromiseTools;
       promise
     };
   };
-  PromiseTools2.all = async (promises) => {
-    await Promise.all(promises);
+  PromiseTools2.all = async (items) => {
+    const args = {
+      items: safe.arr(items).map(functionifyPromiseItem)
+    };
+    return await Promise.all(args.items.map((item) => item()));
   };
   PromiseTools2.allLimit = (limit, items, noThrow = false) => {
+    const args = {
+      limit: safe.num(limit, true, 1, void 0, 1),
+      items: safe.arr(items).map(functionifyPromiseItem),
+      noThrow: safe.bool(noThrow, false)
+    };
     let runningCount = 0;
     let errors = [];
-    let remaining = [...items];
+    let remaining = [...args.items];
     const result = [];
     const deferred = PromiseTools2.getDeferred();
     const update = () => {
       if (remaining.length === 0 && runningCount === 0) {
-        if (errors.length && !noThrow) {
+        if (errors.length && !args.noThrow) {
           deferred.reject(errors);
           return;
         }
         deferred.resolve(result);
         return;
       }
-      if (runningCount < limit && remaining.length) {
+      if (runningCount < args.limit && remaining.length) {
         const next = remaining.shift();
-        const index = items.indexOf(next);
+        const index = args.items.indexOf(next);
         run(next, index);
       }
     };
@@ -962,52 +1551,87 @@ var PromiseTools;
       runningCount--;
       update();
     };
-    for (let i = 0; i < Math.min(limit, items.length); i++) {
+    for (let i = 0; i < Math.min(args.limit, args.items.length); i++) {
       update();
     }
-    if (!items || items.length === 0) {
+    if (!args.items || args.items.length === 0) {
       deferred.resolve(result);
     }
     return deferred.promise;
   };
   PromiseTools2.each = async (items, func) => {
-    await Promise.all(items.map((item, index, array) => func(item, index, array)));
+    const args = {
+      items: safe.arr(items, []),
+      func: safe.func(func, () => Promise.resolve())
+    };
+    await PromiseTools2.all(args.items.map((item, index, array) => args.func(item, index, array)));
   };
   PromiseTools2.eachLimit = async (limit, items, func) => {
+    const args = {
+      limit: safe.num(limit, true, 1, void 0, 1),
+      items: safe.arr(items, []),
+      func: safe.func(func, () => Promise.resolve())
+    };
     await PromiseTools2.allLimit(
-      limit,
-      items.map((item, index, array) => () => func(item, index, array))
+      args.limit,
+      args.items.map((item, index, array) => () => args.func(item, index, array))
     );
   };
   PromiseTools2.map = async (items, func) => {
+    const args = {
+      items: safe.arr(items, []),
+      func: safe.func(func, (v) => Promise.resolve(v))
+    };
     const result = [];
-    await Promise.all(
-      items.map(async (item, index, array) => {
-        const res = await func(item, index, array);
+    await PromiseTools2.all(
+      args.items.map(async (item, index, array) => {
+        const res = await args.func(item, index, array);
         result[index] = res;
       })
     );
     return result;
   };
-  PromiseTools2.mapLimit = async (limit, items, func) => await PromiseTools2.allLimit(
-    limit,
-    items.map((item, index, array) => () => {
-      const res = func(item, index, array);
-      return res;
-    })
-  );
-  const objectify = async (func, input) => {
+  PromiseTools2.mapLimit = async (limit, items, func) => {
+    const args = {
+      limit: safe.num(limit, true, 1, void 0, 1),
+      items: safe.arr(items, []),
+      func: safe.func(func, (v) => Promise.resolve(v))
+    };
+    return await PromiseTools2.allLimit(
+      args.limit,
+      args.items.map((item, index, array) => () => {
+        const res = args.func(item, index, array);
+        return res;
+      })
+    );
+  };
+  const objectify = async (operate, input) => {
     const keys = Object.keys(input);
-    const results = await func(Object.values(input));
+    const values = Object.values(input);
+    const promFuncs = values.map(functionifyPromiseItem);
+    const results = await operate(promFuncs);
     return Object.fromEntries(keys.map((key, index) => [key, results[index]]));
   };
   PromiseTools2.allObj = async (input) => {
-    return objectify((arr) => Promise.all(arr), input);
+    const args = {
+      input: safe.obj(input, false, {})
+    };
+    return objectify((arr) => PromiseTools2.all(arr), args.input);
   };
   PromiseTools2.allLimitObj = async (limit, input, noThrow = false) => {
+    const args = {
+      limit: safe.num(limit, true, 1, void 0, 1),
+      input: safe.obj(input, false, {}),
+      noThrow: safe.bool(noThrow, false)
+    };
     return objectify((items) => {
-      return PromiseTools2.allLimit(limit, items, noThrow);
-    }, input);
+      return PromiseTools2.allLimit(args.limit, items, args.noThrow);
+    }, args.input);
+  };
+  const functionifyPromiseItem = (item) => {
+    if (typeof item === "function")
+      return item;
+    return async () => item;
   };
 })(PromiseTools || (PromiseTools = {}));
 var getDeferred = PromiseTools.getDeferred;
@@ -1031,30 +1655,46 @@ var ErrorTools;
     }
   };
   ErrorTools2.retry = async (maxTries = 10, delay = 0, suppress = true, run = fn.result(void 0)) => {
+    const args = {
+      maxTries: safe.num(maxTries, true, 1, void 0, 10),
+      delay: safe.num(delay, true, 0),
+      suppress: safe.bool(suppress, true),
+      run: safe.func(run, fn.result(void 0))
+    };
     const loop = async (attempt, lastErr) => {
-      if (attempt >= maxTries) {
-        if (!suppress)
+      if (attempt >= args.maxTries) {
+        if (!args.suppress)
           throw lastErr;
         return void 0;
       }
       try {
-        const result = await run(attempt);
+        const result = await args.run(attempt);
         return result;
       } catch (err) {
-        if (delay)
-          await wait(delay);
+        if (args.delay)
+          await wait(args.delay);
         return await loop(attempt + 1, err);
       }
     };
     return await loop(0);
   };
-  ErrorTools2.retryOr = async (orValue, maxTries = 10, delay = 0, suppress = true, run = fn.result(orValue)) => ErrorTools2.tryOr(orValue, () => ErrorTools2.retry(maxTries, delay, suppress, run));
+  ErrorTools2.retryOr = async (orValue, maxTries = 10, delay = 0, run = fn.result(orValue)) => {
+    const args = {
+      orValue,
+      maxTries: safe.num(maxTries, true, 1),
+      delay: safe.num(delay, true, 0),
+      run: safe.func(run, fn.result(orValue))
+    };
+    return ErrorTools2.tryOr(args.orValue, () => ErrorTools2.retry(args.maxTries, args.delay, false, args.run));
+  };
 })(ErrorTools || (ErrorTools = {}));
 var tryOr = ErrorTools.tryOr;
 var retry = ErrorTools.retry;
 var retryOr = ErrorTools.retryOr;
 
 // src/tools/ColourTools.ts
+var safeRGB = (rgb) => safe.arrOf.num(rgb, true, 0, 255, 0, [0, 0, 0], 3, 3);
+var safeHSL = (hsl) => safe.arrOf.num(hsl, true, 0, 360, 0, [0, 0, 0], 3, 3).map((v, i) => safe.num(v, true, 0, [360, 100, 100][i], 0));
 var ColourTools;
 ((ColourTools2) => {
   ColourTools2.namedColours = {
@@ -1312,7 +1952,10 @@ var ColourTools;
   const limitValue = (val) => Math.max(0, Math.min(255, val));
   const roundMinMax = (value, min = 0, max = 255) => Math.min(max, Math.max(min, Math.round(value)));
   ColourTools2.parse = (input) => {
-    const trimmed = (input + "").trim();
+    const args = {
+      input: safe.str(input, true)
+    };
+    const trimmed = args.input.trim();
     if (ColourTools2.namedColours[trimmed]) {
       return ColourTools2.namedColours[trimmed];
     }
@@ -1337,24 +1980,37 @@ var ColourTools;
     return [0, 0, 0];
   };
   ColourTools2.toHex = (colour) => {
-    const hexs = colour.map((val) => (val ?? 0).toString(16).padStart(2, "0"));
+    const args = {
+      colour: safeRGB(colour)
+    };
+    const hexs = args.colour.map((val) => (val ?? 0).toString(16).padStart(2, "0"));
     return `#${hexs.join("")}`;
   };
   ColourTools2.getLuminance = (rgb) => {
-    const [y, u, v] = ColourTools2.toYUV(rgb);
+    const args = {
+      rgb: safeRGB(rgb)
+    };
+    const [y, u, v] = ColourTools2.toYUV(args.rgb);
     return y;
   };
   ColourTools2.toYUV = (rgb) => {
-    const [r, g, b] = rgb;
+    const args = {
+      rgb: safeRGB(rgb)
+    };
+    const [r, g, b] = args.rgb;
     const y = MathsTools.fixFloat(0.299 * (r ?? 0) + 0.587 * (g ?? 0) + 0.114 * (b ?? 0));
     const u = MathsTools.fixFloat(-0.14713 * (r ?? 0) - 0.28886 * (g ?? 0) + 0.436 * (b ?? 0));
     const v = MathsTools.fixFloat(0.615 * (r ?? 0) - 0.51499 * (g ?? 0) - 0.10001 * (b ?? 0));
     return [y, u, v];
   };
   ColourTools2.toHSL = (colour, round = true) => {
-    const r = colour[0] / 255;
-    const g = colour[1] / 255;
-    const b = colour[2] / 255;
+    const args = {
+      colour: safeRGB(colour),
+      round: safe.bool(round, true)
+    };
+    const r = args.colour[0] / 255;
+    const g = args.colour[1] / 255;
+    const b = args.colour[2] / 255;
     const M = Math.max(r, g, b);
     const m = M - Math.min(r, g, b);
     let d = 0;
@@ -1374,46 +2030,63 @@ var ColourTools;
       100 * (m ? M <= 0.5 ? m / (2 * M - m) : m / (2 - (2 * M - m)) : 0),
       100 * (2 * M - m) / 2
     ];
-    if (round) {
+    if (args.round) {
       return [roundMinMax(result[0], 0, 360), roundMinMax(result[1], 0, 100), roundMinMax(result[2], 0, 100)];
     }
     return result;
   };
   ColourTools2.fromHSL = (hsl, round = true) => {
-    const h = hsl[0];
-    const s = hsl[1] / 100;
-    const l = hsl[2] / 100;
+    const args = {
+      hsl: safeHSL(hsl),
+      round: safe.bool(round, true)
+    };
+    const h = args.hsl[0];
+    const s = args.hsl[1] / 100;
+    const l = args.hsl[2] / 100;
     const k = (n) => (n + h / 30) % 12;
     const a = s * Math.min(l, 1 - l);
     const f = (n) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
     const result = [255 * f(0), 255 * f(8), 255 * f(4)];
-    if (round) {
+    if (args.round) {
       return [roundMinMax(result[0], 0, 255), roundMinMax(result[1], 0, 255), roundMinMax(result[2], 0, 255)];
     }
     return result;
   };
   ColourTools2.invertColour = (rgb) => {
-    const [r, g, b] = rgb;
+    const args = {
+      rgb: safeRGB(rgb)
+    };
+    const [r, g, b] = args.rgb;
     return [255 - r, 255 - g, 255 - b];
   };
   const white = [255, 255, 255];
   const black = [0, 0, 0];
-  ColourTools2.getContrastedColour = (colour) => ColourTools2.getLuminance(colour) > 186 ? black : white;
+  ColourTools2.getContrastedColour = (colour) => {
+    const args = {
+      colour: safeRGB(colour)
+    };
+    return ColourTools2.getLuminance(args.colour) > 186 ? black : white;
+  };
   ColourTools2.getLimitedColour = (colour, checkFn, adjustFn) => {
-    const hsl = ColourTools2.toHSL(colour);
-    if (checkFn(hsl)) {
-      const adjusted = adjustFn(hsl);
-      const out = ColourTools2.fromHSL(adjusted);
+    const args = {
+      colour: safeRGB(colour),
+      checkFn: safe.func(checkFn, () => true),
+      adjustFn: safe.func(adjustFn, (hsl2) => [...hsl2])
+    };
+    const hsl = ColourTools2.toHSL(args.colour);
+    if (args.checkFn(hsl)) {
+      const adjustedHSL = args.adjustFn(hsl);
+      const safeAdjustedHSL = safeHSL(adjustedHSL);
+      const out = ColourTools2.fromHSL(safeAdjustedHSL);
       return out;
     }
-    return colour;
+    return args.colour;
   };
 })(ColourTools || (ColourTools = {}));
 
 // src/tools/symbols.ts
 var symbols = {
   TAB: "	",
-  NBSP: " ",
   TICK: "\u2714",
   CROSS: "\u2716",
   PLUS: "+",
@@ -1485,36 +2158,61 @@ var QueueManager = class {
     this.promises = /* @__PURE__ */ new Map();
     this.pauseTimes = /* @__PURE__ */ new Map();
     this.defaultPauseTime = 0;
-    if (defaultPauseTime)
-      this.setDefaultPauseTime(defaultPauseTime);
+    const args = {
+      defaultPauseTime: safe.num(defaultPauseTime, true, 0)
+    };
+    this.setDefaultPauseTime(args.defaultPauseTime);
   }
   getPromise(id) {
-    const existing = this.promises.get(id);
+    const args = {
+      id: safe.str(id, false, Math.random().toString(36).slice(2))
+    };
+    const existing = this.promises.get(args.id);
     if (existing)
       return existing;
     const promise = Promise.resolve();
-    this.promises.set(id, promise);
+    this.promises.set(args.id, promise);
     return promise;
   }
   setDefaultPauseTime(time) {
-    this.defaultPauseTime = time;
+    const args = {
+      time: safe.num(time, true, 0)
+    };
+    this.defaultPauseTime = args.time;
   }
   setPauseTime(id, time) {
-    this.pauseTimes.set(id, time);
+    const args = {
+      id: safe.str(id, false, Math.random().toString(36).slice(2)),
+      time: safe.num(time, true, 0)
+    };
+    this.pauseTimes.set(args.id, args.time);
   }
-  add(id, fn2) {
-    const promise = this.getPromise(id).then(async () => {
-      const result = await fn2();
-      const pauseTime = this.pauseTimes.get(id) ?? -1;
+  add(id, promiseItem) {
+    const args = {
+      id: safe.str(id, false, Math.random().toString(36).slice(2)),
+      promiseItem: safe.func(promiseItem, async () => promiseItem)
+    };
+    const promise = this.getPromise(args.id).then(async () => {
+      const result = await args.promiseItem();
+      const pauseTime = this.pauseTimes.get(args.id) ?? this.defaultPauseTime;
       if (pauseTime >= 0)
         await wait(pauseTime);
       return result;
     });
-    this.promises.set(id, promise);
+    this.promises.set(args.id, promise);
     return promise;
   }
-  new(defaultPauseTime) {
-    return new QueueManager(defaultPauseTime);
+  new(defaultPauseTime = 0) {
+    const args = {
+      defaultPauseTime: safe.num(defaultPauseTime, true, 0)
+    };
+    return new QueueManager(args.defaultPauseTime);
+  }
+  static new(defaultPauseTime = 0) {
+    const args = {
+      defaultPauseTime: safe.num(defaultPauseTime, true, 0)
+    };
+    return new QueueManager(args.defaultPauseTime);
   }
 };
 var queue = new QueueManager();
@@ -1582,6 +2280,7 @@ export {
   retryOr,
   reverse,
   roll,
+  safe,
   seconds,
   sortByMapped,
   sortNumberedText,
