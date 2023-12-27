@@ -4031,8 +4031,8 @@ A progress bar that can be used in the terminal.
       - [update](#update)
       - [next](#next)
       - [set](#set)
-      - [reset](#reset)
-      - [start](#start)
+      - [reset](#progressbar_reset)
+      - [start](#progressbar_start)
       - [finish](#finish)
       - [max](#max)
 
@@ -4203,7 +4203,7 @@ Set the progress bar to a specific value
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 
-#### reset
+#### <span id="progressbar_reset">reset</span>
 
 ```typescript
 getProgressBar().reset(undefined): string
@@ -4217,7 +4217,7 @@ Set the progress bar to 0
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 
-#### start
+#### <span id="progressbar_start">start</span>
 
 ```typescript
 getProgressBar().start(undefined): string
@@ -4508,10 +4508,197 @@ See QueueManager for more information.
 A debug tool for measuring the duration of code blocks.
 
   - [**timer**](#timer)
+    - [**Timer Instance**](#timer-instance)
+      - [start](#itimer_start)
+      - [end](#end)
+      - [switch](#switch)
+      - [getTable](#gettable)
+      - [log](#log)
+      - [reset](#itimer_reset)
+      - [getDuration](#getduration)
+      - [names](#names)
+      - [displayNames](#displaynames)
+      - [startTimes](#starttimes)
+      - [endTimes](#endtimes)
     - [getTimer](#gettimer)
     - [timer](#timer_timer)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+### Timer Instance
+
+#### <span id="itimer_start">start</span>
+
+```typescript
+timer.start(...labels: string[]): void
+getTimer().start(...labels: string[]): void
+```
+
+Start a timer
+
+|  #   | Parameter Name | Required | Type       |
+|:----:|:---------------|:---------|:-----------|
+| *0…* | `labels`       | **Yes**  | `string[]` |
+
+| Return Type |
+|-------------|
+| `void`      |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### end
+
+```typescript
+timer.end(...labels: string[]): void
+getTimer().end(...labels: string[]): void
+```
+
+End a given timer
+
+|  #   | Parameter Name | Required | Type       |
+|:----:|:---------------|:---------|:-----------|
+| *0…* | `labels`       | **Yes**  | `string[]` |
+
+| Return Type |
+|-------------|
+| `void`      |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### switch
+
+```typescript
+timer.switch(endLabel: string | string[], startLabel: string | string[]): void
+getTimer().switch(endLabel: string | string[], startLabel: string | string[]): void
+```
+
+Switch the timer
+The same as calling timer.end(endLabel) and timer.start(startLabel)
+
+|  #  | Parameter Name | Required | Type                 |
+|:---:|:---------------|:---------|:---------------------|
+| *0* | `endLabel`     | **Yes**  | `string \| string[]` |
+| *1* | `startLabel`   | **Yes**  | `string \| string[]` |
+
+| Return Type |
+|-------------|
+| `void`      |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### getTable
+
+```typescript
+timer.getTable(prefix: string, customEntries: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): string
+getTimer().getTable(prefix: string, customEntries: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): string
+```
+
+Get the timing table as a string
+
+|  #  | Parameter Name  | Required | Type                                                                                                        |
+|:---:|:----------------|:---------|:------------------------------------------------------------------------------------------------------------|
+| *0* | `prefix`        | *No*     | `string`                                                                                                    |
+| *1* | `customEntries` | *No*     | `((durations: TimerDurations<TName>) => CustomEntryObj)[] \| CustomEntryDict<TimerDurations<TName>, TName>` |
+
+| Return Type |                  |
+|-------------|------------------|
+| `string`    | the timing table |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### log
+
+```typescript
+timer.log(prefix: string, customEntries: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): number
+getTimer().log(prefix: string, customEntries: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): number
+```
+
+Log the timing table
+
+|  #  | Parameter Name  | Required | Type                                                                                                        |
+|:---:|:----------------|:---------|:------------------------------------------------------------------------------------------------------------|
+| *0* | `prefix`        | *No*     | `string`                                                                                                    |
+| *1* | `customEntries` | *No*     | `((durations: TimerDurations<TName>) => CustomEntryObj)[] \| CustomEntryDict<TimerDurations<TName>, TName>` |
+
+| Return Type |                            |
+|-------------|----------------------------|
+| `number`    | the number of lines logged |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### <span id="itimer_reset">reset</span>
+
+```typescript
+timer.reset(undefined): void
+getTimer().reset(undefined): void
+```
+
+Reset the timer
+
+| Return Type |
+|-------------|
+| `void`      |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### getDuration
+
+```typescript
+timer.getDuration(undefined): ms
+getTimer().getDuration(undefined): ms
+```
+
+Get the duration of a given timer
+
+| Return Type |
+|-------------|
+| `ms`        |
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### names
+
+```typescript
+timer.names;
+getTimer().names;
+```
+
+The names of the timers
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### displayNames
+
+```typescript
+timer.displayNames;
+getTimer().displayNames;
+```
+
+The display names of the timers
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### startTimes
+
+```typescript
+timer.startTimes;
+getTimer().startTimes;
+```
+
+The start times of the timers
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
+
+#### endTimes
+
+```typescript
+timer.endTimes;
+getTimer().endTimes;
+```
+
+The end times of the timers
+
+<p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
 
 ### getTimer
 
@@ -4567,7 +4754,28 @@ Example Times:
 timer;
 ```
 
-Global timer
+Usage:
+```typescript
+timer.start('TOTAL', 'Intro');
+
+await wait(seconds(4)); // do something async
+
+timer.switch('Intro', 'Ending'); // same as calling timer.end('Intro') and timer.start('Ending')
+
+await wait(seconds(6)); // do something async
+
+timer.end('TOTAL', 'Ending');
+timer.log();
+```
+
+Output:
+```
+Times:
+	Intro:   4s
+	Ending:  6s
+	⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+	TOTAL:   10s
+ * ```
 
 <p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
 
@@ -4582,6 +4790,7 @@ Used internally for input validation.
     - [bool](#safe_bool)
     - [func](#safe_func)
     - [obj](#safe_obj)
+    - [objWith](#safe_objwith)
     - [arr](#safe_arr)
     - [prop](#safe_prop)
     - [**arrOf**](#arrof)
@@ -4590,8 +4799,11 @@ Used internally for input validation.
       - [bool](#safe_arrof_bool)
       - [func](#safe_arrof_func)
       - [obj](#safe_arrof_obj)
+      - [objWith](#safe_arrof_objwith)
       - [arr](#safe_arrof_arr)
       - [prop](#safe_arrof_prop)
+    - [**ObjWithConfig<O>**](#objwithconfigo)
+      - [ObjWithPropConfig<O>](#objwithpropconfigo)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -4769,7 +4981,7 @@ safe.func(undefined, (q: number) => 456); // (q: number) => 456
 ### <span id="safe_obj">obj</span>
 
 ```typescript
-safe.obj<T>(input: T, fallback: T): T
+safe.obj<T>(input: T, allowArrays: boolean, fallback: T): T
 ```
 
 Process an object value, ensuring that it is safe to use.
@@ -4784,20 +4996,80 @@ safe.obj('foobar'); // {}
 safe.obj(null); // {}
 safe.obj(undefined); // {}
 
-safe.obj({foo: 'bar'}, {baz: 123}); // {foo: 'bar'}
-safe.obj([1, 2, 3], {baz: 123}); // [1, 2, 3]
-safe.obj(true, {baz: 123}); // {baz: 123}
-safe.obj(false, {baz: 123}); // {baz: 123}
-safe.obj(123, {baz: 123}); // {baz: 123}
-safe.obj('foobar', {baz: 123}); // {baz: 123}
-safe.obj(null, {baz: 123}); // {baz: 123}
-safe.obj(undefined, {baz: 123}); // {baz: 123}
+safe.obj({foo: 'bar'}, true, {baz: 123}); // {foo: 'bar'}
+safe.obj([1, 2, 3], true, {baz: 123}); // [1, 2, 3]
+safe.obj(true, true, {baz: 123}); // {baz: 123}
+safe.obj(false, true, {baz: 123}); // {baz: 123}
+safe.obj(123, true, {baz: 123}); // {baz: 123}
+safe.obj('foobar', true, {baz: 123}); // {baz: 123}
+safe.obj(null, true, {baz: 123}); // {baz: 123}
+safe.obj(undefined, true, {baz: 123}); // {baz: 123}
 ```
 
-|  #  | Parameter Name | Required | Type | Default   |
-|:---:|:---------------|:---------|:-----|:----------|
-| *0* | `input`        | **Yes**  | `T`  |           |
-| *1* | `fallback`     | *No*     | `T`  | `{} as T` |
+|  #  | Parameter Name | Required | Type      | Default   |
+|:---:|:---------------|:---------|:----------|:----------|
+| *0* | `input`        | **Yes**  | `T`       |           |
+| *1* | `allowArrays`  | *No*     | `boolean` | `false`   |
+| *2* | `fallback`     | *No*     | `T`       | `{} as T` |
+
+| Return Type |
+|-------------|
+| `T`         |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+### <span id="safe_objwith">objWith</span>
+
+```typescript
+safe.objWith<T>(input: T, objConfig: ObjWithConfig<T>, allowComposition: boolean): T
+```
+
+Process an object value, ensuring that it is safe to use, and has the neccesary properties.
+
+You must provide a config object that defines the properties that are required, and how to process them.
+Each required property must have a fallback value, and can have an optional `checkFn` and `safeFn`.
+ - fallback - the value to use if the property is missing or invalid
+ - checkFn - a function that returns true if the property is missing or invalid (defaults to `(v) => v === undefined`)
+- safeFn - a function that returns the safe value to use (defaults to `(v, f) => f`)
+
+```typescript
+const config1: ObjWithConfig<{ foo: string }> = {
+  foo: {
+    fallback: 'a',
+    safeFn: (v, f) => safe.str(v, false, f),
+  },
+};
+safe.objWith({foo: 'bar'}, config1); // { foo: 'bar' }
+safe.objWith([1, 2, 3], config1); // { '0': 1, '1': 2, '2': 3, foo: 'a' }
+safe.objWith(true, config1); // { foo: 'a' }
+safe.objWith(false, config1); // { foo: 'a' }
+safe.objWith(123, config1); // { foo: 'a' }
+safe.objWith('foobar', config1); // { foo: 'a' }
+safe.objWith(null, config1); // { foo: 'a' }
+safe.objWith(undefined, config1); // { foo: 'a' }
+
+const config2: ObjWithConfig<{ foo: string; bar: number }> = {
+  ...config1,
+  bar: {
+    fallback: 78,
+    safeFn: (v, f) => safe.num(v, true, 0, 100, f),
+  },
+};
+safe.objWith({foo: 'bar', bar: 45}, config2); // { foo: 'bar', bar: 45 }
+safe.objWith([1, 2, 3], config2); // { '0': 1, '1': 2, '2': 3, foo: 'a', bar: 78 }
+safe.objWith(true, config2); // { foo: 'a', bar: 78 }
+safe.objWith(false, config2); // { foo: 'a', bar: 78 }
+safe.objWith(123, config2); // { foo: 'a', bar: 78 }
+safe.objWith('foobar', config2); // { foo: 'a', bar: 78 }
+safe.objWith(null, config2); // { foo: 'a', bar: 78 }
+safe.objWith(undefined, config2); // { foo: 'a', bar: 78 }
+```
+
+|  #  | Parameter Name     | Required | Type               | Default |
+|:---:|:-------------------|:---------|:-------------------|:--------|
+| *0* | `input`            | **Yes**  | `T`                |         |
+| *1* | `objConfig`        | **Yes**  | `ObjWithConfig<T>` |         |
+| *2* | `allowComposition` | *No*     | `boolean`          | `true`  |
 
 | Return Type |
 |-------------|
@@ -5075,7 +5347,7 @@ safe.arrOf.func(undefined, (q) => 2, [(r) => 3]); //  [(r) => 3]
 #### <span id="safe_arrof_obj">obj</span>
 
 ```typescript
-safe.arrOf.obj<T>(input: T[], fallback: T, fallbackArr: T[], arrMinLength: number, arrMaxLength: number): T[]
+safe.arrOf.obj<T>(input: T[], allowArrays: boolean, fallback: T, fallbackArr: T[], arrMinLength: number, arrMaxLength: number): T[]
 ```
 
 Process an array of objects, ensuring that they are safe to use.
@@ -5091,24 +5363,81 @@ safe.arrOf.obj({foo: 'bar'}); // []
 safe.arrOf.obj(null); // []
 safe.arrOf.obj(undefined); // []
 
-safe.arrOf.obj([{foo: 1}, {bar: 2}], {l: 3}, [{i: 4}]); // [ { foo: 1 }, { bar: 2 } ]
-safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}], {l: 3}, [{i: 4}]); // [ { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { } ]
-safe.arrOf.obj(true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-safe.arrOf.obj(false, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-safe.arrOf.obj(123, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-safe.arrOf.obj('foobar', {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-safe.arrOf.obj({foo: 'bar'}, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-safe.arrOf.obj(null, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-safe.arrOf.obj(undefined, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj([{foo: 1}, {bar: 2}], true, {l: 3}, [{i: 4}]); // [ { foo: 1 }, { bar: 2 } ]
+safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}], true, {l: 3}, [{i: 4}]); // [ { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { } ]
+safe.arrOf.obj(true, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj(false, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj(123, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj('foobar', true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj({foo: 'bar'}, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj(null, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+safe.arrOf.obj(undefined, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
 ```
 
-|  #  | Parameter Name | Required | Type     | Default    |
-|:---:|:---------------|:---------|:---------|:-----------|
-| *0* | `input`        | **Yes**  | `T[]`    |            |
-| *1* | `fallback`     | *No*     | `T`      |            |
-| *2* | `fallbackArr`  | *No*     | `T[]`    | `[]`       |
-| *3* | `arrMinLength` | *No*     | `number` | `0`        |
-| *4* | `arrMaxLength` | *No*     | `number` | `Infinity` |
+|  #  | Parameter Name | Required | Type      | Default    |
+|:---:|:---------------|:---------|:----------|:-----------|
+| *0* | `input`        | **Yes**  | `T[]`     |            |
+| *1* | `allowArrays`  | *No*     | `boolean` | `false`    |
+| *2* | `fallback`     | *No*     | `T`       |            |
+| *3* | `fallbackArr`  | *No*     | `T[]`     | `[]`       |
+| *4* | `arrMinLength` | *No*     | `number`  | `0`        |
+| *5* | `arrMaxLength` | *No*     | `number`  | `Infinity` |
+
+| Return Type |
+|-------------|
+| `T[]`       |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+#### <span id="safe_arrof_objwith">objWith</span>
+
+```typescript
+safe.arrOf.objWith<T>(input: T[], objConfig: ObjWithConfig<T>, allowComposition: boolean, fallbackArr: T[], arrMinLength: number, arrMaxLength: number): T[]
+```
+
+Process an array of objects, ensuring that they are safe to use, and have the neccesary properties.
+
+```typescript
+const config1: ObjWithConfig<{ foo: string }> = {
+  foo: {
+    fallback: 'a',
+    safeFn: (v, f) => safe.str(v, false, f)
+  }
+};
+safe.arrOf.objWith([{ foo: 1 }, { bar: 2 }], config1); // [ { foo: 'a' }, { bar: 2, foo: 'a' } ]
+safe.arrOf.objWith(['foo', 1, true, null, undefined, [], {}], config1); // [{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' }]
+safe.arrOf.objWith(true, config1); // []
+safe.arrOf.objWith(false, config1); // []
+safe.arrOf.objWith(123, config1); // []
+safe.arrOf.objWith('foobar', config1); // []
+safe.arrOf.objWith({ foo: 'bar' }, config1); // []
+safe.arrOf.objWith(null, config1); // []
+
+const config2: ObjWithConfig<{ foo: string, bar: number }> = {
+  ...config1,
+  bar: {
+    fallback: 78,
+    safeFn: (v, f) => safe.num(v, true, 0, 100, f)
+  }
+};
+safe.arrOf.objWith([{ foo: 1 }, { bar: 2 }], config2); // [ { foo: 'a', bar: 78 }, { bar: 2, foo: 'a' } ]
+safe.arrOf.objWith(['foo', 1, true, null, undefined, [], {}], config2); // [{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 }]
+safe.arrOf.objWith(true, config2); // []
+safe.arrOf.objWith(false, config2); // []
+safe.arrOf.objWith(123, config2); // []
+safe.arrOf.objWith('foobar', config2); // []
+safe.arrOf.objWith({ foo: 'bar' }, config2); // []
+safe.arrOf.objWith(null, config2); // []
+```
+
+|  #  | Parameter Name     | Required | Type               | Default    |
+|:---:|:-------------------|:---------|:-------------------|:-----------|
+| *0* | `input`            | **Yes**  | `T[]`              |            |
+| *1* | `objConfig`        | **Yes**  | `ObjWithConfig<T>` |            |
+| *2* | `allowComposition` | *No*     | `boolean`          | `true`     |
+| *3* | `fallbackArr`      | *No*     | `T[]`              | `[]`       |
+| *4* | `arrMinLength`     | *No*     | `number`           | `0`        |
+| *5* | `arrMaxLength`     | *No*     | `number`           | `Infinity` |
 
 | Return Type |
 |-------------|
@@ -5201,6 +5530,26 @@ safe.arrOf.prop(undefined, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
 | Return Type            |
 |------------------------|
 | `(string \| number)[]` |
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+### ObjWithConfig<O>
+
+```typescript
+safe.ObjWithConfig;
+```
+
+A type for defining the configuration of an object when using `safe.objWith`.
+
+<p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
+
+#### ObjWithPropConfig<O>
+
+```typescript
+safe.ObjWithPropConfig;
+```
+
+A type for defining what is required for a property of an object when using `safe.objWith`.
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 

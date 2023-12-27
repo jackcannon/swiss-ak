@@ -462,7 +462,7 @@ describe('PromiseTools', () => {
           expect(diff).toBeLessThanOrEqual(timingErrorRange);
         });
 
-        kitchenSink.toEqual('input', async (v: any) => await allObj(v), kitchenSink.safe.obj(undefined, {}), kitchenSink.general);
+        kitchenSink.toEqual('input', async (v: any) => await allObj(v), kitchenSink.safe.obj(undefined, false, {}), kitchenSink.general);
       }
     );
   });
@@ -625,7 +625,7 @@ describe('PromiseTools', () => {
           kitchenSink.safe.num(undefined, true, 1, undefined, 1),
           kitchenSink.num
         );
-        kitchenSink.toEqual('input', async (v: any) => await allLimitObj(1, v), kitchenSink.safe.obj(undefined, {}), kitchenSink.general);
+        kitchenSink.toEqual('input', async (v: any) => await allLimitObj(1, v), kitchenSink.safe.obj(undefined, false, {}), kitchenSink.general);
         kitchenSink.toEqual('noThrow', async (v: any) => await allLimitObj(1, {}, v), kitchenSink.safe.bool(false, false), kitchenSink.general);
       }
     );

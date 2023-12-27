@@ -157,7 +157,7 @@ describe('progress bar', () => {
             bar.update();
             return printCalls.at(-1);
           },
-          kitchenSink.safe.obj({}, {}),
+          kitchenSink.safe.obj({}, false, {}),
           kitchenSink.general
         );
       }

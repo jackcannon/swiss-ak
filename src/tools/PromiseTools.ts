@@ -401,7 +401,7 @@ export namespace PromiseTools {
    */
   export const allObj = async <T extends Object>(input: T): Promise<UnWrapPromiseObject<T>> => {
     const args = {
-      input: safe.obj(input, {} as T)
+      input: safe.obj(input, false, {} as T)
     };
     return objectify((arr: PromiseFunc<any>[]) => all(arr), args.input);
   };
@@ -454,7 +454,7 @@ export namespace PromiseTools {
   export const allLimitObj = async <T extends Object>(limit: number, input: T, noThrow: boolean = false): Promise<UnWrapPromiseObject<T>> => {
     const args = {
       limit: safe.num(limit, true, 1, undefined, 1),
-      input: safe.obj(input, {} as T),
+      input: safe.obj(input, false, {} as T),
       noThrow: safe.bool(noThrow, false)
     };
     return objectify((items: PromiseFunc<any>[]) => {

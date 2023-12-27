@@ -113,8 +113,6 @@ export class QueueManager {
     this.pauseTimes.set(args.id, args.time);
   }
 
-  // TODO - accept PromiseItem like PromiseTools.all, etc
-
   /**<!-- DOCS: queue.add #### @ -->
    * add
    *

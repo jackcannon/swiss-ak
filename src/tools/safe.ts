@@ -216,23 +216,102 @@ export namespace safe {
    * safe.obj(null); // {}
    * safe.obj(undefined); // {}
    *
-   * safe.obj({foo: 'bar'}, {baz: 123}); // {foo: 'bar'}
-   * safe.obj([1, 2, 3], {baz: 123}); // [1, 2, 3]
-   * safe.obj(true, {baz: 123}); // {baz: 123}
-   * safe.obj(false, {baz: 123}); // {baz: 123}
-   * safe.obj(123, {baz: 123}); // {baz: 123}
-   * safe.obj('foobar', {baz: 123}); // {baz: 123}
-   * safe.obj(null, {baz: 123}); // {baz: 123}
-   * safe.obj(undefined, {baz: 123}); // {baz: 123}
+   * safe.obj({foo: 'bar'}, true, {baz: 123}); // {foo: 'bar'}
+   * safe.obj([1, 2, 3], true, {baz: 123}); // [1, 2, 3]
+   * safe.obj(true, true, {baz: 123}); // {baz: 123}
+   * safe.obj(false, true, {baz: 123}); // {baz: 123}
+   * safe.obj(123, true, {baz: 123}); // {baz: 123}
+   * safe.obj('foobar', true, {baz: 123}); // {baz: 123}
+   * safe.obj(null, true, {baz: 123}); // {baz: 123}
+   * safe.obj(undefined, true, {baz: 123}); // {baz: 123}
    * ```
    * @param {T} input
+   * @param {boolean} [allowArrays=false]
    * @param {T} [fallback={} as T]
    * @returns {T}
    */
-  export const obj = <T extends unknown>(input: T, fallback: T = {} as T): T => {
+  export const obj = <T extends unknown>(input: T, allowArrays: boolean = false, fallback: T = {} as T): T => {
     let result = input;
     if (typeof result !== 'object' || result === undefined || result === null) result = fallback;
+    if (!allowArrays && Array.isArray(result)) result = fallback;
     return result;
+  };
+
+  /**<!-- DOCS: safe.objWith ### @ -->
+   * objWith
+   *
+   * - `safe.objWith<T>`
+   *
+   * Process an object value, ensuring that it is safe to use, and has the neccesary properties.
+   *
+   * You must provide a config object that defines the properties that are required, and how to process them.
+   * Each required property must have a fallback value, and can have an optional `checkFn` and `safeFn`.
+   *  - fallback - the value to use if the property is missing or invalid
+   *  - checkFn - a function that returns true if the property is missing or invalid (defaults to `(v) => v === undefined`)
+   * - safeFn - a function that returns the safe value to use (defaults to `(v, f) => f`)
+   *
+   * ```typescript
+   * const config1: ObjWithConfig<{ foo: string }> = {
+   *   foo: {
+   *     fallback: 'a',
+   *     safeFn: (v, f) => safe.str(v, false, f),
+   *   },
+   * };
+   * safe.objWith({foo: 'bar'}, config1); // { foo: 'bar' }
+   * safe.objWith([1, 2, 3], config1); // { '0': 1, '1': 2, '2': 3, foo: 'a' }
+   * safe.objWith(true, config1); // { foo: 'a' }
+   * safe.objWith(false, config1); // { foo: 'a' }
+   * safe.objWith(123, config1); // { foo: 'a' }
+   * safe.objWith('foobar', config1); // { foo: 'a' }
+   * safe.objWith(null, config1); // { foo: 'a' }
+   * safe.objWith(undefined, config1); // { foo: 'a' }
+   *
+   * const config2: ObjWithConfig<{ foo: string; bar: number }> = {
+   *   ...config1,
+   *   bar: {
+   *     fallback: 78,
+   *     safeFn: (v, f) => safe.num(v, true, 0, 100, f),
+   *   },
+   * };
+   * safe.objWith({foo: 'bar', bar: 45}, config2); // { foo: 'bar', bar: 45 }
+   * safe.objWith([1, 2, 3], config2); // { '0': 1, '1': 2, '2': 3, foo: 'a', bar: 78 }
+   * safe.objWith(true, config2); // { foo: 'a', bar: 78 }
+   * safe.objWith(false, config2); // { foo: 'a', bar: 78 }
+   * safe.objWith(123, config2); // { foo: 'a', bar: 78 }
+   * safe.objWith('foobar', config2); // { foo: 'a', bar: 78 }
+   * safe.objWith(null, config2); // { foo: 'a', bar: 78 }
+   * safe.objWith(undefined, config2); // { foo: 'a', bar: 78 }
+   * ```
+   * @param {T} input
+   * @param {ObjWithConfig<T>} objConfig
+   * @param {boolean} [allowComposition=true]
+   * @returns {T}
+   */
+  export const objWith = <T extends unknown>(input: T, objConfig: ObjWithConfig<T>, allowComposition: boolean = true): T => {
+    type TO = T & Object;
+    const inputObj = safe.obj(input, true, {}) as TO;
+    const result: TO = allowComposition ? ({ ...inputObj } as TO) : inputObj;
+    let isBroken = false;
+
+    Object.entries(objConfig).forEach(([key, propConfig]: [string, ObjWithPropConfig<any>]) => {
+      const { fallback, checkFn, safeFn } = propConfig;
+      const origValue = inputObj[key];
+
+      let safeValue = origValue ?? fallback;
+
+      if (safeFn) {
+        // overwrite the safeValue that may later be added to the composeObj
+        safeValue = safeFn(origValue, fallback);
+        result[key] = safeValue;
+      }
+
+      if ((checkFn || ((v) => v === undefined))(origValue, fallback)) {
+        isBroken = true;
+        result[key] = safeValue;
+      }
+    });
+
+    return result as T;
   };
 
   /**<!-- DOCS: safe.arr ### @ -->
@@ -540,17 +619,18 @@ export namespace safe {
      * safe.arrOf.obj(null); // []
      * safe.arrOf.obj(undefined); // []
      *
-     * safe.arrOf.obj([{foo: 1}, {bar: 2}], {l: 3}, [{i: 4}]); // [ { foo: 1 }, { bar: 2 } ]
-     * safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}], {l: 3}, [{i: 4}]); // [ { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { } ]
-     * safe.arrOf.obj(true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-     * safe.arrOf.obj(false, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-     * safe.arrOf.obj(123, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-     * safe.arrOf.obj('foobar', {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-     * safe.arrOf.obj({foo: 'bar'}, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-     * safe.arrOf.obj(null, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-     * safe.arrOf.obj(undefined, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+     * safe.arrOf.obj([{foo: 1}, {bar: 2}], true, {l: 3}, [{i: 4}]); // [ { foo: 1 }, { bar: 2 } ]
+     * safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}], true, {l: 3}, [{i: 4}]); // [ { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { } ]
+     * safe.arrOf.obj(true, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+     * safe.arrOf.obj(false, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+     * safe.arrOf.obj(123, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+     * safe.arrOf.obj('foobar', true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+     * safe.arrOf.obj({foo: 'bar'}, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+     * safe.arrOf.obj(null, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+     * safe.arrOf.obj(undefined, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
      * ```
      * @param {T[]} input
+     * @param {boolean} [allowArrays=false]
      * @param {T} [fallback]
      * @param {T[]} [fallbackArr=[]]
      * @param {number} [arrMinLength=0]
@@ -559,13 +639,73 @@ export namespace safe {
      */
     export const obj = <T extends unknown>(
       input: T[],
+      allowArrays: boolean = false,
       fallback?: T,
       fallbackArr: T[] = [],
       arrMinLength: number = 0,
       arrMaxLength: number = Infinity
     ): T[] => {
       const result = safe.arr(input, fallbackArr, arrMinLength, arrMaxLength);
-      return result.map((item) => safe.obj(item, fallback));
+      return result.map((item) => safe.obj(item, allowArrays, fallback));
+    };
+
+    /**<!-- DOCS: safe.arrOf.objWith #### @ -->
+     * objWith
+     *
+     * - `safe.arrOf.objWith<T>`
+     *
+     * Process an array of objects, ensuring that they are safe to use, and have the neccesary properties.
+     *
+     * ```typescript
+     * const config1: ObjWithConfig<{ foo: string }> = {
+     *   foo: {
+     *     fallback: 'a',
+     *     safeFn: (v, f) => safe.str(v, false, f)
+     *   }
+     * };
+     * safe.arrOf.objWith([{ foo: 1 }, { bar: 2 }], config1); // [ { foo: 'a' }, { bar: 2, foo: 'a' } ]
+     * safe.arrOf.objWith(['foo', 1, true, null, undefined, [], {}], config1); // [{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' }]
+     * safe.arrOf.objWith(true, config1); // []
+     * safe.arrOf.objWith(false, config1); // []
+     * safe.arrOf.objWith(123, config1); // []
+     * safe.arrOf.objWith('foobar', config1); // []
+     * safe.arrOf.objWith({ foo: 'bar' }, config1); // []
+     * safe.arrOf.objWith(null, config1); // []
+     *
+     * const config2: ObjWithConfig<{ foo: string, bar: number }> = {
+     *   ...config1,
+     *   bar: {
+     *     fallback: 78,
+     *     safeFn: (v, f) => safe.num(v, true, 0, 100, f)
+     *   }
+     * };
+     * safe.arrOf.objWith([{ foo: 1 }, { bar: 2 }], config2); // [ { foo: 'a', bar: 78 }, { bar: 2, foo: 'a' } ]
+     * safe.arrOf.objWith(['foo', 1, true, null, undefined, [], {}], config2); // [{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 }]
+     * safe.arrOf.objWith(true, config2); // []
+     * safe.arrOf.objWith(false, config2); // []
+     * safe.arrOf.objWith(123, config2); // []
+     * safe.arrOf.objWith('foobar', config2); // []
+     * safe.arrOf.objWith({ foo: 'bar' }, config2); // []
+     * safe.arrOf.objWith(null, config2); // []
+     * ```
+     * @param {T[]} input
+     * @param {ObjWithConfig<T>} objConfig
+     * @param {boolean} [allowComposition=true]
+     * @param {T[]} [fallbackArr=[]]
+     * @param {number} [arrMinLength=0]
+     * @param {number} [arrMaxLength=Infinity]
+     * @returns {T[]}
+     */
+    export const objWith = <T extends unknown>(
+      input: T[],
+      objConfig: ObjWithConfig<T>,
+      allowComposition: boolean = true,
+      fallbackArr: T[] = [],
+      arrMinLength: number = 0,
+      arrMaxLength: number = Infinity
+    ): T[] => {
+      const result = safe.arr(input, fallbackArr, arrMinLength, arrMaxLength);
+      return result.map((item) => safe.objWith<T>(item, objConfig, allowComposition));
     };
 
     /**<!-- DOCS: safe.arrOf.arr #### @ -->
@@ -660,4 +800,27 @@ export namespace safe {
       return result.map((item) => safe.prop(item, fallback));
     };
   } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
+
+  /**<!-- DOCS: safe.ObjWithConfig ### -->
+   * ObjWithConfig<O>
+   *
+   * - `safe.ObjWithConfig`
+   *
+   * A type for defining the configuration of an object when using `safe.objWith`.
+   */
+  export type ObjWithConfig<O> = {
+    [K in keyof O]?: ObjWithPropConfig<O[K]>;
+  };
+  /**<!-- DOCS: safe.ObjWithPropConfig #### -->
+   * ObjWithPropConfig<O>
+   *
+   * - `safe.ObjWithPropConfig`
+   *
+   * A type for defining what is required for a property of an object when using `safe.objWith`.
+   */
+  export interface ObjWithPropConfig<T> {
+    fallback: T;
+    checkFn?: (value?: T, fallback?: T) => boolean;
+    safeFn?: (value?: T, fallback?: T) => T;
+  }
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE

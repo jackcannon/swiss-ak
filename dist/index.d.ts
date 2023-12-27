@@ -2341,14 +2341,130 @@ interface CustomEntryObj {
     end?: number;
     duration?: number;
 }
+/**<!-- DOCS: ITimer ### -->
+ * Timer Instance
+ */
 interface ITimer<TName> {
-    start(...labelArr: string[]): void;
-    end(...labelArr: string[]): void;
+    /**<!-- DOCS: ITimer.start #### -->
+     * start
+     *
+     * - `timer.start`
+     * - `getTimer().start`
+     *
+     * Start a timer
+     * @param {...string} labels
+     * @returns {void}
+     */
+    start(...labels: string[]): void;
+    /**<!-- DOCS: ITimer.end #### -->
+     * end
+     *
+     * - `timer.end`
+     * - `getTimer().end`
+     *
+     * End a given timer
+     * @param {...string} labels
+     * @returns {void}
+     */
+    end(...labels: string[]): void;
+    /**<!-- DOCS: ITimer.switch #### -->
+     * switch
+     *
+     * - `timer.switch`
+     * - `getTimer().switch`
+     *
+     * Switch the timer
+     * The same as calling timer.end(endLabel) and timer.start(startLabel)
+     *
+     * @param {string | string[]} endLabel
+     * @param {string | string[]} startLabel
+     * @returns {void}
+     */
     switch(endLabel: string | string[], startLabel: string | string[]): void;
+    /**<!-- DOCS: ITimer.getTable #### -->
+     * getTable
+     *
+     * - `timer.getTable`
+     * - `getTimer().getTable`
+     *
+     * Get the timing table as a string
+     *
+     * @param {string} [prefix]
+     * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries]
+     * @returns {string} - the timing table
+     */
+    getTable(prefix?: string, customEntries?: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): string;
+    /**<!-- DOCS: ITimer.log #### -->
+     * log
+     *
+     * - `timer.log`
+     * - `getTimer().log`
+     *
+     * Log the timing table
+     *
+     * @param {string} [prefix]
+     * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries]
+     * @returns {number} - the number of lines logged
+     */
     log(prefix?: string, customEntries?: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): number;
+    /**<!-- DOCS: ITimer.reset #### -->
+     * reset
+     *
+     * - `timer.reset`
+     * - `getTimer().reset`
+     *
+     * Reset the timer
+     *
+     * @returns {void}
+     */
     reset(): void;
+    /**<!-- DOCS: ITimer.getDuration #### -->
+     * getDuration
+     *
+     * - `timer.getDuration`
+     * - `getTimer().getDuration`
+     *
+     * Get the duration of a given timer
+     *
+     * @returns {ms}
+     */
+    getDuration(label: string): ms;
+    /**<!-- DOCS: ITimer.names #### -->
+     * names
+     *
+     * - `timer.names`
+     * - `getTimer().names`
+     *
+     * The names of the timers
+     */
     names: KeysOnly<TName>;
+    /**<!-- DOCS: ITimer.displayNames #### -->
+     * displayNames
+     *
+     * - `timer.displayNames`
+     * - `getTimer().displayNames`
+     *
+     * The display names of the timers
+     */
     displayNames: TName;
+    /**<!-- DOCS: ITimer.startTimes #### -->
+     * startTimes
+     *
+     * - `timer.startTimes`
+     * - `getTimer().startTimes`
+     *
+     * The start times of the timers
+     */
+    startTimes: Partial<OfType<TName, ms>>;
+    /**<!-- DOCS: ITimer.endTimes #### -->
+     * endTimes
+     *
+     * - `timer.endTimes`
+     * - `getTimer().endTimes`
+     *
+     * The end times of the timers
+     */
+    endTimes: Partial<OfType<TName, ms>>;
 }
 /**<!-- DOCS: timer.getTimer ### @ -->
  * getTimer
@@ -2395,7 +2511,28 @@ declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean,
  *
  * - `timer`
  *
- * Global timer
+ * Usage:
+ * ```typescript
+ * timer.start('TOTAL', 'Intro');
+ *
+ * await wait(seconds(4)); // do something async
+ *
+ * timer.switch('Intro', 'Ending'); // same as calling timer.end('Intro') and timer.start('Ending')
+ *
+ * await wait(seconds(6)); // do something async
+ *
+ * timer.end('TOTAL', 'Ending');
+ * timer.log();
+ * ```
+ *
+ * Output:
+ * ```
+ * Times:
+ * 	Intro:   4s
+ * 	Ending:  6s
+ * 	⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+ * 	TOTAL:   10s
+ *  * ```
  */
 declare const timer: ITimer<INames> & KeysOnly<INames>;
 
@@ -6557,20 +6694,72 @@ declare namespace safe {
      * safe.obj(null); // {}
      * safe.obj(undefined); // {}
      *
-     * safe.obj({foo: 'bar'}, {baz: 123}); // {foo: 'bar'}
-     * safe.obj([1, 2, 3], {baz: 123}); // [1, 2, 3]
-     * safe.obj(true, {baz: 123}); // {baz: 123}
-     * safe.obj(false, {baz: 123}); // {baz: 123}
-     * safe.obj(123, {baz: 123}); // {baz: 123}
-     * safe.obj('foobar', {baz: 123}); // {baz: 123}
-     * safe.obj(null, {baz: 123}); // {baz: 123}
-     * safe.obj(undefined, {baz: 123}); // {baz: 123}
+     * safe.obj({foo: 'bar'}, true, {baz: 123}); // {foo: 'bar'}
+     * safe.obj([1, 2, 3], true, {baz: 123}); // [1, 2, 3]
+     * safe.obj(true, true, {baz: 123}); // {baz: 123}
+     * safe.obj(false, true, {baz: 123}); // {baz: 123}
+     * safe.obj(123, true, {baz: 123}); // {baz: 123}
+     * safe.obj('foobar', true, {baz: 123}); // {baz: 123}
+     * safe.obj(null, true, {baz: 123}); // {baz: 123}
+     * safe.obj(undefined, true, {baz: 123}); // {baz: 123}
      * ```
      * @param {T} input
+     * @param {boolean} [allowArrays=false]
      * @param {T} [fallback={} as T]
      * @returns {T}
      */
-    const obj: <T extends unknown>(input: T, fallback?: T) => T;
+    const obj: <T extends unknown>(input: T, allowArrays?: boolean, fallback?: T) => T;
+    /**<!-- DOCS: safe.objWith ### @ -->
+     * objWith
+     *
+     * - `safe.objWith<T>`
+     *
+     * Process an object value, ensuring that it is safe to use, and has the neccesary properties.
+     *
+     * You must provide a config object that defines the properties that are required, and how to process them.
+     * Each required property must have a fallback value, and can have an optional `checkFn` and `safeFn`.
+     *  - fallback - the value to use if the property is missing or invalid
+     *  - checkFn - a function that returns true if the property is missing or invalid (defaults to `(v) => v === undefined`)
+     * - safeFn - a function that returns the safe value to use (defaults to `(v, f) => f`)
+     *
+     * ```typescript
+     * const config1: ObjWithConfig<{ foo: string }> = {
+     *   foo: {
+     *     fallback: 'a',
+     *     safeFn: (v, f) => safe.str(v, false, f),
+     *   },
+     * };
+     * safe.objWith({foo: 'bar'}, config1); // { foo: 'bar' }
+     * safe.objWith([1, 2, 3], config1); // { '0': 1, '1': 2, '2': 3, foo: 'a' }
+     * safe.objWith(true, config1); // { foo: 'a' }
+     * safe.objWith(false, config1); // { foo: 'a' }
+     * safe.objWith(123, config1); // { foo: 'a' }
+     * safe.objWith('foobar', config1); // { foo: 'a' }
+     * safe.objWith(null, config1); // { foo: 'a' }
+     * safe.objWith(undefined, config1); // { foo: 'a' }
+     *
+     * const config2: ObjWithConfig<{ foo: string; bar: number }> = {
+     *   ...config1,
+     *   bar: {
+     *     fallback: 78,
+     *     safeFn: (v, f) => safe.num(v, true, 0, 100, f),
+     *   },
+     * };
+     * safe.objWith({foo: 'bar', bar: 45}, config2); // { foo: 'bar', bar: 45 }
+     * safe.objWith([1, 2, 3], config2); // { '0': 1, '1': 2, '2': 3, foo: 'a', bar: 78 }
+     * safe.objWith(true, config2); // { foo: 'a', bar: 78 }
+     * safe.objWith(false, config2); // { foo: 'a', bar: 78 }
+     * safe.objWith(123, config2); // { foo: 'a', bar: 78 }
+     * safe.objWith('foobar', config2); // { foo: 'a', bar: 78 }
+     * safe.objWith(null, config2); // { foo: 'a', bar: 78 }
+     * safe.objWith(undefined, config2); // { foo: 'a', bar: 78 }
+     * ```
+     * @param {T} input
+     * @param {ObjWithConfig<T>} objConfig
+     * @param {boolean} [allowComposition=true]
+     * @returns {T}
+     */
+    const objWith: <T extends unknown>(input: T, objConfig: ObjWithConfig<T>, allowComposition?: boolean) => T;
     /**<!-- DOCS: safe.arr ### @ -->
      * arr
      *
@@ -6809,24 +6998,73 @@ declare namespace safe {
          * safe.arrOf.obj(null); // []
          * safe.arrOf.obj(undefined); // []
          *
-         * safe.arrOf.obj([{foo: 1}, {bar: 2}], {l: 3}, [{i: 4}]); // [ { foo: 1 }, { bar: 2 } ]
-         * safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}], {l: 3}, [{i: 4}]); // [ { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { } ]
-         * safe.arrOf.obj(true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-         * safe.arrOf.obj(false, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-         * safe.arrOf.obj(123, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-         * safe.arrOf.obj('foobar', {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-         * safe.arrOf.obj({foo: 'bar'}, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-         * safe.arrOf.obj(null, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
-         * safe.arrOf.obj(undefined, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj([{foo: 1}, {bar: 2}], true, {l: 3}, [{i: 4}]); // [ { foo: 1 }, { bar: 2 } ]
+         * safe.arrOf.obj(['foo', 1, true, null, undefined, [], {}], true, {l: 3}, [{i: 4}]); // [ { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], { } ]
+         * safe.arrOf.obj(true, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj(false, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj(123, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj('foobar', true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj({foo: 'bar'}, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj(null, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
+         * safe.arrOf.obj(undefined, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
          * ```
          * @param {T[]} input
+         * @param {boolean} [allowArrays=false]
          * @param {T} [fallback]
          * @param {T[]} [fallbackArr=[]]
          * @param {number} [arrMinLength=0]
          * @param {number} [arrMaxLength=Infinity]
          * @returns {T[]}
          */
-        const obj: <T extends unknown>(input: T[], fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
+        const obj: <T extends unknown>(input: T[], allowArrays?: boolean, fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
+        /**<!-- DOCS: safe.arrOf.objWith #### @ -->
+         * objWith
+         *
+         * - `safe.arrOf.objWith<T>`
+         *
+         * Process an array of objects, ensuring that they are safe to use, and have the neccesary properties.
+         *
+         * ```typescript
+         * const config1: ObjWithConfig<{ foo: string }> = {
+         *   foo: {
+         *     fallback: 'a',
+         *     safeFn: (v, f) => safe.str(v, false, f)
+         *   }
+         * };
+         * safe.arrOf.objWith([{ foo: 1 }, { bar: 2 }], config1); // [ { foo: 'a' }, { bar: 2, foo: 'a' } ]
+         * safe.arrOf.objWith(['foo', 1, true, null, undefined, [], {}], config1); // [{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' },{ foo: 'a' }]
+         * safe.arrOf.objWith(true, config1); // []
+         * safe.arrOf.objWith(false, config1); // []
+         * safe.arrOf.objWith(123, config1); // []
+         * safe.arrOf.objWith('foobar', config1); // []
+         * safe.arrOf.objWith({ foo: 'bar' }, config1); // []
+         * safe.arrOf.objWith(null, config1); // []
+         *
+         * const config2: ObjWithConfig<{ foo: string, bar: number }> = {
+         *   ...config1,
+         *   bar: {
+         *     fallback: 78,
+         *     safeFn: (v, f) => safe.num(v, true, 0, 100, f)
+         *   }
+         * };
+         * safe.arrOf.objWith([{ foo: 1 }, { bar: 2 }], config2); // [ { foo: 'a', bar: 78 }, { bar: 2, foo: 'a' } ]
+         * safe.arrOf.objWith(['foo', 1, true, null, undefined, [], {}], config2); // [{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 },{ foo: 'a', bar: 78 }]
+         * safe.arrOf.objWith(true, config2); // []
+         * safe.arrOf.objWith(false, config2); // []
+         * safe.arrOf.objWith(123, config2); // []
+         * safe.arrOf.objWith('foobar', config2); // []
+         * safe.arrOf.objWith({ foo: 'bar' }, config2); // []
+         * safe.arrOf.objWith(null, config2); // []
+         * ```
+         * @param {T[]} input
+         * @param {ObjWithConfig<T>} objConfig
+         * @param {boolean} [allowComposition=true]
+         * @param {T[]} [fallbackArr=[]]
+         * @param {number} [arrMinLength=0]
+         * @param {number} [arrMaxLength=Infinity]
+         * @returns {T[]}
+         */
+        const objWith: <T extends unknown>(input: T[], objConfig: ObjWithConfig<T>, allowComposition?: boolean, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
         /**<!-- DOCS: safe.arrOf.arr #### @ -->
          * arr
          *
@@ -6899,6 +7137,28 @@ declare namespace safe {
          * @returns {(string | number)[]}
          */
         const prop: (input: (string | number)[], fallback?: string | number, fallbackArr?: (string | number)[], arrMinLength?: number, arrMaxLength?: number) => (string | number)[];
+    }
+    /**<!-- DOCS: safe.ObjWithConfig ### -->
+     * ObjWithConfig<O>
+     *
+     * - `safe.ObjWithConfig`
+     *
+     * A type for defining the configuration of an object when using `safe.objWith`.
+     */
+    type ObjWithConfig<O> = {
+        [K in keyof O]?: ObjWithPropConfig<O[K]>;
+    };
+    /**<!-- DOCS: safe.ObjWithPropConfig #### -->
+     * ObjWithPropConfig<O>
+     *
+     * - `safe.ObjWithPropConfig`
+     *
+     * A type for defining what is required for a property of an object when using `safe.objWith`.
+     */
+    interface ObjWithPropConfig<T> {
+        fallback: T;
+        checkFn?: (value?: T, fallback?: T) => boolean;
+        safeFn?: (value?: T, fallback?: T) => T;
     }
 }
 

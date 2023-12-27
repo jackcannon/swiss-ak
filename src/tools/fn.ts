@@ -351,7 +351,7 @@ export namespace fn {
     };
     return (item: O): P => {
       const args = {
-        item: safe.obj(item),
+        item: safe.obj(item, true),
         ...args1
       };
       return args.item && args.item[args.prop];

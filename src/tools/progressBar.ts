@@ -232,7 +232,7 @@ export namespace progressBar {
   export const getProgressBar = (max?: number, options: ProgressBarOptions = {}): ProgressBar => {
     const args = {
       max: safe.num(max, true, -1, undefined, -1),
-      options: safe.obj(options, {})
+      options: safe.obj(options, false, {})
     };
     const opts = getFullOptions(args.options);
     const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar, print, printFn } = opts;

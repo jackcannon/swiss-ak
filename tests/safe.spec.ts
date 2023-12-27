@@ -390,9 +390,17 @@ describe('safe', () => {
         const result = obj({ foo: 'bar' } as any);
         expect(result).toEqual({ foo: 'bar' });
       });
-      it(should` take [1, 2, 3]`, () => {
+      it(should` take [1, 2, 3] - with default allowArrays`, () => {
         const result = obj([1, 2, 3] as any);
+        expect(result).toEqual({});
+      });
+      it(should` take [1, 2, 3] - with allowArrays = true`, () => {
+        const result = obj([1, 2, 3] as any, true);
         expect(result).toEqual([1, 2, 3]);
+      });
+      it(should` take [1, 2, 3] - with allowArrays = false`, () => {
+        const result = obj([1, 2, 3] as any, false);
+        expect(result).toEqual({});
       });
       it(should` take true`, () => {
         const result = obj(true as any);
@@ -419,36 +427,156 @@ describe('safe', () => {
         expect(result).toEqual({});
       });
       it(should` take {foo: 'bar'} with other params`, () => {
-        const result = obj({ foo: 'bar' } as any, { baz: 123 });
+        const result = obj({ foo: 'bar' } as any, true, { baz: 123 });
         expect(result).toEqual({ foo: 'bar' });
       });
-      it(should` take [1, 2, 3] with other params`, () => {
-        const result = obj([1, 2, 3] as any, { baz: 123 });
+      it(should` take [1, 2, 3] with other params - with default allowArrays`, () => {
+        const result = obj([1, 2, 3] as any, undefined, { baz: 123 });
+        expect(result).toEqual({ baz: 123 });
+      });
+      it(should` take [1, 2, 3] with other params - with allowArrays = true`, () => {
+        const result = obj([1, 2, 3] as any, true, { baz: 123 });
         expect(result).toEqual([1, 2, 3]);
       });
+      it(should` take [1, 2, 3] with other params - with allowArrays = false`, () => {
+        const result = obj([1, 2, 3] as any, false, { baz: 123 });
+        expect(result).toEqual({ baz: 123 });
+      });
       it(should` take true with other params`, () => {
-        const result = obj(true as any, { baz: 123 });
+        const result = obj(true as any, true, { baz: 123 });
         expect(result).toEqual({ baz: 123 });
       });
       it(should` take false with other params`, () => {
-        const result = obj(false as any, { baz: 123 });
+        const result = obj(false as any, true, { baz: 123 });
         expect(result).toEqual({ baz: 123 });
       });
       it(should` take 123 with other params`, () => {
-        const result = obj(123 as any, { baz: 123 });
+        const result = obj(123 as any, true, { baz: 123 });
         expect(result).toEqual({ baz: 123 });
       });
       it(should` take 'foobar' with other params`, () => {
-        const result = obj('foobar' as any, { baz: 123 });
+        const result = obj('foobar' as any, true, { baz: 123 });
         expect(result).toEqual({ baz: 123 });
       });
       it(should` take null with other params`, () => {
-        const result = obj(null as any, { baz: 123 });
+        const result = obj(null as any, true, { baz: 123 });
         expect(result).toEqual({ baz: 123 });
       });
       it(should` take undefined with other params`, () => {
-        const result = obj(undefined as any, { baz: 123 });
+        const result = obj(undefined as any, true, { baz: 123 });
         expect(result).toEqual({ baz: 123 });
+      });
+    });
+  });
+
+  describe('safe.objWith', () => {
+    singleTest(swissak.safe.objWith, 'safe.objWith', (objWith, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(objWith).toBeDefined();
+      });
+
+      const config1: swissak.safe.ObjWithConfig<{ foo: string }> = {
+        foo: {
+          fallback: 'a',
+          safeFn: (v, f) => swissak.safe.str(v, false, f)
+        }
+      };
+
+      const config2: swissak.safe.ObjWithConfig<{ foo: string; bar: number }> = {
+        ...config1,
+        bar: {
+          fallback: 78,
+          safeFn: (v, f) => swissak.safe.num(v, true, 0, 100, f)
+        }
+      };
+
+      it(should` take {foo: 'bar'} with config1`, () => {
+        const result = objWith({ foo: 'bar' } as any, config1);
+        expect(result).toEqual({ foo: 'bar' });
+      });
+      it(should` take [1, 2, 3] with config1`, () => {
+        const result = objWith([1, 2, 3] as any, config1);
+        expect(result).toEqual({ '0': 1, '1': 2, '2': 3, foo: 'a' });
+      });
+      it(should` take true with config1`, () => {
+        const result = objWith(true as any, config1);
+        expect(result).toEqual({ foo: 'a' });
+      });
+      it(should` take false with config1`, () => {
+        const result = objWith(false as any, config1);
+        expect(result).toEqual({ foo: 'a' });
+      });
+      it(should` take 123 with config1`, () => {
+        const result = objWith(123 as any, config1);
+        expect(result).toEqual({ foo: 'a' });
+      });
+      it(should` take 'foobar' with config1`, () => {
+        const result = objWith('foobar' as any, config1);
+        expect(result).toEqual({ foo: 'a' });
+      });
+      it(should` take null with config1`, () => {
+        const result = objWith(null as any, config1);
+        expect(result).toEqual({ foo: 'a' });
+      });
+      it(should` take undefined with config1`, () => {
+        const result = objWith(undefined as any, config1);
+        expect(result).toEqual({ foo: 'a' });
+      });
+
+      it(should` take {foo: 'bar'} with config2`, () => {
+        const result = objWith({ foo: 'bar' } as any, config2);
+        expect(result).toEqual({ foo: 'bar', bar: 78 });
+      });
+      it(should` take {foo: 'bar', bar: 45} with config2`, () => {
+        const result = objWith({ foo: 'bar', bar: 45 } as any, config2);
+        expect(result).toEqual({ foo: 'bar', bar: 45 });
+      });
+      it(should` take [1, 2, 3] with config2`, () => {
+        const result = objWith([1, 2, 3] as any, config2);
+        expect(result).toEqual({ '0': 1, '1': 2, '2': 3, foo: 'a', bar: 78 });
+      });
+      it(should` take true with config2`, () => {
+        const result = objWith(true as any, config2);
+        expect(result).toEqual({ foo: 'a', bar: 78 });
+      });
+      it(should` take false with config2`, () => {
+        const result = objWith(false as any, config2);
+        expect(result).toEqual({ foo: 'a', bar: 78 });
+      });
+      it(should` take 123 with config2`, () => {
+        const result = objWith(123 as any, config2);
+        expect(result).toEqual({ foo: 'a', bar: 78 });
+      });
+      it(should` take 'foobar' with config2`, () => {
+        const result = objWith('foobar' as any, config2);
+        expect(result).toEqual({ foo: 'a', bar: 78 });
+      });
+      it(should` take null with config2`, () => {
+        const result = objWith(null as any, config2);
+        expect(result).toEqual({ foo: 'a', bar: 78 });
+      });
+      it(should` take undefined with config2`, () => {
+        const result = objWith(undefined as any, config2);
+        expect(result).toEqual({ foo: 'a', bar: 78 });
+      });
+
+      it(should` not be the same obj as the input - by default`, () => {
+        const input = { foo: 'bar' };
+        const result = objWith(input, config2);
+        expect(result).toEqual({ foo: 'bar', bar: 78 });
+        expect(result).not.toBe(input);
+      });
+      it(should` not be the same obj as the input - when allowComposition = true`, () => {
+        const input = { foo: 'bar' };
+        const result = objWith(input, config2, true);
+        expect(result).toEqual({ foo: 'bar', bar: 78 });
+        expect(result).not.toBe(input);
+      });
+      it(should` be the same obj as the input - when allowComposition = false`, () => {
+        const input = { foo: 'bar' };
+        const result = objWith(input, config2, false);
+        expect(result).toEqual({ foo: 'bar', bar: 78 });
+        expect(result).toBe(input);
       });
     });
   });
@@ -956,9 +1084,17 @@ describe('safe', () => {
         const result = arrOfObj([{ foo: 1 }, { bar: 2 }] as any);
         expect(result).toEqual([{ foo: 1 }, { bar: 2 }]);
       });
-      it(should` take ['foo', 1, true, null, undefined, [], {}]`, () => {
+      it(should` take ['foo', 1, true, null, undefined, [], {}] - with default allowArrays`, () => {
         const result = arrOfObj(['foo', 1, true, null, undefined, [], {}] as any);
+        expect(result).toEqual([{}, {}, {}, {}, {}, {}, {}]);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}] - with allowArrays = true`, () => {
+        const result = arrOfObj(['foo', 1, true, null, undefined, [], {}] as any, true);
         expect(result).toEqual([{}, {}, {}, {}, {}, [], {}]);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}] - with allowArrays = false`, () => {
+        const result = arrOfObj(['foo', 1, true, null, undefined, [], {}] as any, false);
+        expect(result).toEqual([{}, {}, {}, {}, {}, {}, {}]);
       });
       it(should` take true`, () => {
         const result = arrOfObj(true as any);
@@ -989,40 +1125,156 @@ describe('safe', () => {
         expect(result).toEqual([]);
       });
       it(should` take [{foo: 1}, {bar: 2}] with other params`, () => {
-        const result = arrOfObj([{ foo: 1 }, { bar: 2 }] as any, { l: 3 }, [{ i: 4 }]);
+        const result = arrOfObj([{ foo: 1 }, { bar: 2 }] as any, true, { l: 3 }, [{ i: 4 }]);
         expect(result).toEqual([{ foo: 1 }, { bar: 2 }]);
       });
-      it(should` take ['foo', 1, true, null, undefined, [], {}] with other params`, () => {
-        const result = arrOfObj(['foo', 1, true, null, undefined, [], {}] as any, { l: 3 }, [{ i: 4 }]);
+      it(should` take ['foo', 1, true, null, undefined, [], {}] with other params - with default allowArrays`, () => {
+        const result = arrOfObj(['foo', 1, true, null, undefined, [], {}] as any, undefined, { l: 3 }, [{ i: 4 }]);
+        expect(result).toEqual([{ l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, {}]);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}] with other params - with allowArrays = true`, () => {
+        const result = arrOfObj(['foo', 1, true, null, undefined, [], {}] as any, true, { l: 3 }, [{ i: 4 }]);
         expect(result).toEqual([{ l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, [], {}]);
       });
+      it(should` take ['foo', 1, true, null, undefined, [], {}] with other params - with allowArrays = false`, () => {
+        const result = arrOfObj(['foo', 1, true, null, undefined, [], {}] as any, false, { l: 3 }, [{ i: 4 }]);
+        expect(result).toEqual([{ l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, { l: 3 }, {}]);
+      });
       it(should` take true with other params`, () => {
-        const result = arrOfObj(true as any, { l: 3 }, [{ i: 4 }]);
+        const result = arrOfObj(true as any, true, { l: 3 }, [{ i: 4 }]);
         expect(result).toEqual([{ i: 4 }]);
       });
       it(should` take false with other params`, () => {
-        const result = arrOfObj(false as any, { l: 3 }, [{ i: 4 }]);
+        const result = arrOfObj(false as any, true, { l: 3 }, [{ i: 4 }]);
         expect(result).toEqual([{ i: 4 }]);
       });
       it(should` take 123 with other params`, () => {
-        const result = arrOfObj(123 as any, { l: 3 }, [{ i: 4 }]);
+        const result = arrOfObj(123 as any, true, { l: 3 }, [{ i: 4 }]);
         expect(result).toEqual([{ i: 4 }]);
       });
       it(should` take 'foobar' with other params`, () => {
-        const result = arrOfObj('foobar' as any, { l: 3 }, [{ i: 4 }]);
+        const result = arrOfObj('foobar' as any, true, { l: 3 }, [{ i: 4 }]);
         expect(result).toEqual([{ i: 4 }]);
       });
       it(should` take {foo: 'bar'} with other params`, () => {
-        const result = arrOfObj({ foo: 'bar' } as any, { l: 3 }, [{ i: 4 }]);
+        const result = arrOfObj({ foo: 'bar' } as any, true, { l: 3 }, [{ i: 4 }]);
         expect(result).toEqual([{ i: 4 }]);
       });
       it(should` take null with other params`, () => {
-        const result = arrOfObj(null as any, { l: 3 }, [{ i: 4 }]);
+        const result = arrOfObj(null as any, true, { l: 3 }, [{ i: 4 }]);
         expect(result).toEqual([{ i: 4 }]);
       });
       it(should` take undefined with other params`, () => {
-        const result = arrOfObj(undefined as any, { l: 3 }, [{ i: 4 }]);
+        const result = arrOfObj(undefined as any, true, { l: 3 }, [{ i: 4 }]);
         expect(result).toEqual([{ i: 4 }]);
+      });
+    });
+  });
+
+  describe('safe.arrOf.objWith', () => {
+    singleTest(swissak.safe.arrOf.objWith, 'safe.arrOf.objWith', (arrOfObjWith, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(arrOfObjWith).toBeDefined();
+      });
+
+      const config1: swissak.safe.ObjWithConfig<{ foo: string }> = {
+        foo: {
+          fallback: 'a',
+          safeFn: (v, f) => swissak.safe.str(v, false, f)
+        }
+      };
+
+      const config2: swissak.safe.ObjWithConfig<{ foo: string; bar: number }> = {
+        ...config1,
+        bar: {
+          fallback: 78,
+          safeFn: (v, f) => swissak.safe.num(v, true, 0, 100, f)
+        }
+      };
+
+      it(should` take [{foo: 1}, {bar: 2}] with config1`, () => {
+        const result = arrOfObjWith([{ foo: 1 }, { bar: 2 }] as any, config1);
+        expect(result).toEqual([{ foo: 'a' }, { foo: 'a', bar: 2 }]);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}] with config1`, () => {
+        const result = arrOfObjWith(['foo', 1, true, null, undefined, [], {}] as any, config1);
+        expect(result).toEqual([{ foo: 'a' }, { foo: 'a' }, { foo: 'a' }, { foo: 'a' }, { foo: 'a' }, { foo: 'a' }, { foo: 'a' }]);
+      });
+      it(should` take true with config1`, () => {
+        const result = arrOfObjWith(true as any, config1);
+        expect(result).toEqual([]);
+      });
+      it(should` take false with config1`, () => {
+        const result = arrOfObjWith(false as any, config1);
+        expect(result).toEqual([]);
+      });
+      it(should` take 123 with config1`, () => {
+        const result = arrOfObjWith(123 as any, config1);
+        expect(result).toEqual([]);
+      });
+      it(should` take 'foobar' with config1`, () => {
+        const result = arrOfObjWith('foobar' as any, config1);
+        expect(result).toEqual([]);
+      });
+      it(should` take {foo: 'bar'} with config1`, () => {
+        const result = arrOfObjWith({ foo: 'bar' } as any, config1);
+        expect(result).toEqual([]);
+      });
+      it(should` take null with config1`, () => {
+        const result = arrOfObjWith(null as any, config1);
+        expect(result).toEqual([]);
+      });
+      it(should` take undefined with config1`, () => {
+        const result = arrOfObjWith(undefined as any, config1);
+        expect(result).toEqual([]);
+      });
+
+      it(should` take [{foo: 1}, {bar: 2}] with config2`, () => {
+        const result = arrOfObjWith([{ foo: 1 }, { bar: 2 }] as any, config2);
+        expect(result).toEqual([
+          { foo: 'a', bar: 78 },
+          { foo: 'a', bar: 2 }
+        ]);
+      });
+      it(should` take ['foo', 1, true, null, undefined, [], {}] with config2`, () => {
+        const result = arrOfObjWith(['foo', 1, true, null, undefined, [], {}] as any, config2);
+        expect(result).toEqual([
+          { foo: 'a', bar: 78 },
+          { foo: 'a', bar: 78 },
+          { foo: 'a', bar: 78 },
+          { foo: 'a', bar: 78 },
+          { foo: 'a', bar: 78 },
+          { foo: 'a', bar: 78 },
+          { foo: 'a', bar: 78 }
+        ]);
+      });
+      it(should` take true with config2`, () => {
+        const result = arrOfObjWith(true as any, config2);
+        expect(result).toEqual([]);
+      });
+      it(should` take false with config2`, () => {
+        const result = arrOfObjWith(false as any, config2);
+        expect(result).toEqual([]);
+      });
+      it(should` take 123 with config2`, () => {
+        const result = arrOfObjWith(123 as any, config2);
+        expect(result).toEqual([]);
+      });
+      it(should` take 'foobar' with config2`, () => {
+        const result = arrOfObjWith('foobar' as any, config2);
+        expect(result).toEqual([]);
+      });
+      it(should` take {foo: 'bar'} with config2`, () => {
+        const result = arrOfObjWith({ foo: 'bar' } as any, config2);
+        expect(result).toEqual([]);
+      });
+      it(should` take null with config2`, () => {
+        const result = arrOfObjWith(null as any, config2);
+        expect(result).toEqual([]);
+      });
+      it(should` take undefined with config2`, () => {
+        const result = arrOfObjWith(undefined as any, config2);
+        expect(result).toEqual([]);
       });
     });
   });

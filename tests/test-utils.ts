@@ -156,9 +156,13 @@ const kitchenSinkSafe = {
       (input: T = defaultValue): T =>
         safeOriginal.func(input, fallback),
     obj:
-      <T extends unknown>(defaultValue: T, fallback: T = {} as T) =>
+      <T extends unknown>(defaultValue: T, allowArrays: boolean = false, fallback: T = {} as T) =>
       (input: T = defaultValue): T =>
-        safeOriginal.obj(input, fallback),
+        safeOriginal.obj(input, allowArrays, fallback),
+    objWith:
+      <T extends unknown>(defaultValue: T, objConfig: safeOriginal.ObjWithConfig<T>, allowComposition: boolean = true) =>
+      (input: T = defaultValue): T =>
+        safeOriginal.objWith(input, objConfig, allowComposition),
     arr:
       <T extends unknown>(defaultValue: T[], fallback: T[] = []) =>
       (input: T[] = defaultValue): T[] =>
@@ -181,7 +185,7 @@ const kitchenSinkSafe = {
           arrMaxLength: number = Infinity
         ) =>
         (input: number[] = defaultValue): number[] =>
-          safeOriginal.arrOf.num(input, isInt, min, max, fallback, fallbackArr),
+          safeOriginal.arrOf.num(input, isInt, min, max, fallback, fallbackArr, arrMinLength, arrMaxLength),
       str:
         (
           defaultValue: string[],
@@ -192,19 +196,37 @@ const kitchenSinkSafe = {
           arrMaxLength: number = Infinity
         ) =>
         (input: string[] = defaultValue): string[] =>
-          safeOriginal.arrOf.str(input, allowStringify, fallback, fallbackArr),
+          safeOriginal.arrOf.str(input, allowStringify, fallback, fallbackArr, arrMinLength, arrMaxLength),
       bool:
         (defaultValue: boolean[], fallback?: boolean, fallbackArr: boolean[] = [], arrMinLength: number = 0, arrMaxLength: number = Infinity) =>
         (input: boolean[] = defaultValue): boolean[] =>
-          safeOriginal.arrOf.bool(input, fallback, fallbackArr),
+          safeOriginal.arrOf.bool(input, fallback, fallbackArr, arrMinLength, arrMaxLength),
       func:
         <T extends Function>(defaultValue: T[], fallback?: T, fallbackArr: T[] = [], arrMinLength: number = 0, arrMaxLength: number = Infinity) =>
         (input: T[] = defaultValue): T[] =>
-          safeOriginal.arrOf.func(input, fallback, fallbackArr),
+          safeOriginal.arrOf.func(input, fallback, fallbackArr, arrMinLength, arrMaxLength),
       obj:
-        <T extends unknown>(defaultValue: T[], fallback?: T, fallbackArr: T[] = [], arrMinLength: number = 0, arrMaxLength: number = Infinity) =>
+        <T extends unknown>(
+          defaultValue: T[],
+          allowArrays: boolean = false,
+          fallback?: T,
+          fallbackArr: T[] = [],
+          arrMinLength: number = 0,
+          arrMaxLength: number = Infinity
+        ) =>
         (input: T[] = defaultValue): T[] =>
-          safeOriginal.arrOf.obj(input, fallback, fallbackArr),
+          safeOriginal.arrOf.obj(input, allowArrays, fallback, fallbackArr, arrMinLength, arrMaxLength),
+      objWith:
+        <T extends unknown>(
+          defaultValue: T[],
+          objConfig: safeOriginal.ObjWithConfig<T>,
+          allowComposition: boolean = true,
+          fallbackArr: T[] = [],
+          arrMinLength: number = 0,
+          arrMaxLength: number = Infinity
+        ) =>
+        (input: T[] = defaultValue): T[] =>
+          safeOriginal.arrOf.objWith(input, objConfig, allowComposition, fallbackArr, arrMinLength, arrMaxLength),
       arr:
         <T extends unknown>(
           defaultValue: T[][],
@@ -214,7 +236,7 @@ const kitchenSinkSafe = {
           arrMaxLength: number = Infinity
         ) =>
         (input: T[][] = defaultValue): T[][] =>
-          safeOriginal.arrOf.arr(input, fallback, fallbackArr),
+          safeOriginal.arrOf.arr(input, fallback, fallbackArr, arrMinLength, arrMaxLength),
       prop:
         (
           defaultValue: (string | number)[],
@@ -224,7 +246,7 @@ const kitchenSinkSafe = {
           arrMaxLength: number = Infinity
         ) =>
         (input: (string | number)[] = defaultValue): (string | number)[] =>
-          safeOriginal.arrOf.prop(input, fallback, fallbackArr)
+          safeOriginal.arrOf.prop(input, fallback, fallbackArr, arrMinLength, arrMaxLength)
     }
   }
 };

@@ -63,10 +63,31 @@ var safe;
       result = fallback;
     return result;
   };
-  safe2.obj = (input, fallback = {}) => {
+  safe2.obj = (input, allowArrays = false, fallback = {}) => {
     let result = input;
     if (typeof result !== "object" || result === void 0 || result === null)
       result = fallback;
+    if (!allowArrays && Array.isArray(result))
+      result = fallback;
+    return result;
+  };
+  safe2.objWith = (input, objConfig, allowComposition = true) => {
+    const inputObj = safe2.obj(input, true, {});
+    const result = allowComposition ? { ...inputObj } : inputObj;
+    let isBroken = false;
+    Object.entries(objConfig).forEach(([key, propConfig]) => {
+      const { fallback, checkFn, safeFn } = propConfig;
+      const origValue = inputObj[key];
+      let safeValue = origValue ?? fallback;
+      if (safeFn) {
+        safeValue = safeFn(origValue, fallback);
+        result[key] = safeValue;
+      }
+      if ((checkFn || ((v) => v === void 0))(origValue, fallback)) {
+        isBroken = true;
+        result[key] = safeValue;
+      }
+    });
     return result;
   };
   safe2.arr = (input, fallback = [], minLength = 0, maxLength = Infinity) => {
@@ -111,9 +132,13 @@ var safe;
       const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
       return result.map((item) => safe2.func(item, fallback));
     };
-    arrOf2.obj = (input, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+    arrOf2.obj = (input, allowArrays = false, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
       const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
-      return result.map((item) => safe2.obj(item, fallback));
+      return result.map((item) => safe2.obj(item, allowArrays, fallback));
+    };
+    arrOf2.objWith = (input, objConfig, allowComposition = true, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
+      const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
+      return result.map((item) => safe2.objWith(item, objConfig, allowComposition));
     };
     arrOf2.arr = (input, fallback, fallbackArr = [], arrMinLength = 0, arrMaxLength = Infinity) => {
       const result = safe2.arr(input, fallbackArr, arrMinLength, arrMaxLength);
@@ -565,7 +590,7 @@ var fn;
     };
     return (item) => {
       const args = {
-        item: safe.obj(item),
+        item: safe.obj(item, true),
         ...args1
       };
       return args.item && args.item[args.prop];
@@ -790,92 +815,149 @@ var TimeTools;
 
 // src/tools/timer.ts
 var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, displayNames) => {
+  const args = {
+    name: safe.str(name),
+    verbose: safe.bool(verbose, false),
+    wrapperFn: safe.func(wrapperFn, noWrap),
+    chalk: safe.objWith(
+      chalk,
+      {
+        bold: {
+          fallback: noWrap,
+          safeFn: (v, f) => safe.func(v, f)
+        },
+        dim: {
+          fallback: noWrap,
+          safeFn: (v, f) => safe.func(v, f)
+        }
+      },
+      false
+    ),
+    displayNames: safe.obj(displayNames)
+  };
   let startTimes = {};
   let endTimes = {};
   let dispNames = {
-    ...displayNames || {}
+    ...args.displayNames || {}
   };
   const names = Object.fromEntries(Object.keys(dispNames).map((key) => [key, key]));
   const getDuration = (label) => {
+    if (!startTimes[label])
+      return 0;
     const start = startTimes[label];
     const end = endTimes[label] || Date.now();
     return end - start;
   };
-  const logLine = (label, prefix = "", nameColLength = 0, duration = getDuration(label)) => {
+  const getLogLine = (label, prefix = "", nameColLength = 0, duration = getDuration(label)) => {
     const lineStart = `${dispNames[label] || label}: `.padEnd(nameColLength + 1, " ");
     const lineEnd = `${TimeTools.toReadableDuration(duration, false, 4)}`;
-    const line = chalk.bold(prefix + lineStart) + lineEnd;
-    console.log(wrapperFn(line));
-    return (prefix + lineStart + lineEnd).replace("	", "").length;
+    const line = args.chalk.bold(prefix + lineStart) + lineEnd;
+    return {
+      line: args.wrapperFn(line),
+      width: (prefix + lineStart + lineEnd).replace("	", "").length
+    };
   };
   startTimes.TOTAL = Date.now();
   return {
     ...names,
-    start(...labelArr) {
-      for (let label of labelArr) {
+    start(...labels) {
+      const args2 = {
+        labels: safe.arrOf.str(labels)
+      };
+      for (let label of args2.labels) {
         startTimes[label] = Date.now();
       }
     },
-    end(...labelArr) {
-      for (let label of labelArr) {
+    end(...labels) {
+      const args2 = {
+        labels: safe.arrOf.str(labels)
+      };
+      for (let label of args2.labels) {
         endTimes[label] = Date.now();
-        if (verbose) {
-          logLine(label);
-          console.log("");
+        if (args.verbose) {
+          console.log(getLogLine(label) + "\n");
         }
       }
     },
     switch(endLabel, startLabel) {
-      if (endLabel)
-        this.end(...[endLabel].flat());
-      if (startLabel)
-        this.start(...[startLabel].flat());
-    },
-    log(prefix, customEntries) {
-      let lc = 0;
-      const log = (...args) => {
-        lc++;
-        console.log(...args);
+      const args2 = {
+        endLabel: endLabel instanceof Array ? safe.arrOf.str(endLabel) : safe.str(endLabel),
+        startLabel: startLabel instanceof Array ? safe.arrOf.str(startLabel) : safe.str(startLabel)
       };
-      const logLine2 = (label, prefix2, nameColLength2, duration) => {
-        lc++;
-        return logLine(label, prefix2, nameColLength2, duration);
+      if (args2.endLabel)
+        this.end(...[args2.endLabel].flat());
+      if (args2.startLabel)
+        this.start(...[args2.startLabel].flat());
+    },
+    getTable(prefix, customEntries) {
+      const args2 = {
+        prefix: safe.str(prefix),
+        customEntries: customEntries instanceof Array ? safe.arrOf.func(customEntries) : safe.obj(customEntries)
+      };
+      const output = [];
+      const addOutput = (...args3) => {
+        output.push(args3.join(" "));
+      };
+      const addLogLine = (label, prefix2, nameColLength2, duration) => {
+        const result = getLogLine(label, prefix2, nameColLength2, duration);
+        addOutput(result.line);
+        return result.width;
       };
       const labels = Object.keys(startTimes);
-      log("");
-      log(wrapperFn(chalk.bold([prefix, name, "Times:"].filter((x) => x && x.trim()).join(" "))));
+      addOutput("");
+      addOutput(args.wrapperFn(args.chalk.bold([args2.prefix, args.name, "Times:"].filter((x) => x && x.trim()).join(" "))));
       const displayNames2 = [...labels, ...Object.keys(names)].map((label) => dispNames[label] || label);
       const nameColLength = Math.max(...displayNames2.map((text) => `${text}: `.length));
       let longest = 0;
       for (let label of labels) {
         if (label !== "TOTAL") {
-          longest = Math.max(longest, logLine2(label, "	", nameColLength));
+          longest = Math.max(longest, addLogLine(label, "	", nameColLength));
         }
       }
-      if (customEntries) {
+      if (args2.customEntries) {
         const durations = Object.fromEntries(labels.map((label) => [label, getDuration(label)]));
         let cEntries = [];
-        if (customEntries instanceof Array) {
-          cEntries = customEntries.map((func) => func(durations)).map((obj) => ({ ...obj, duration: obj.duration || (obj.end || Date.now()) - (obj.start || Date.now()) }));
+        if (args2.customEntries instanceof Array) {
+          cEntries = args2.customEntries.map((func) => func(durations)).map((obj) => ({ ...obj, duration: obj.duration || (obj.end || Date.now()) - (obj.start || Date.now()) }));
         } else {
-          cEntries = Object.entries(customEntries).map(([label, func]) => ({ label, duration: (func || (() => 0))(durations) || 0 }));
+          cEntries = Object.entries(args2.customEntries).map(([label, func]) => ({ label, duration: (func || (() => 0))(durations) || 0 }));
         }
-        log(wrapperFn(chalk.dim("	" + "\u23AF".repeat(longest))));
-        for (let { label, duration } of cEntries) {
-          logLine2(label, "	", nameColLength, duration);
+        if (cEntries.length) {
+          addOutput(args.wrapperFn(args.chalk.dim("	" + "\u23AF".repeat(longest))));
+          for (let { label, duration } of cEntries) {
+            addLogLine(label, "	", nameColLength, duration);
+          }
         }
       }
-      log(wrapperFn(chalk.dim("	" + "\u23AF".repeat(longest))));
-      logLine2("TOTAL", "	", nameColLength);
-      log("");
+      addOutput(args.wrapperFn(args.chalk.dim("	" + "\u23AF".repeat(longest))));
+      addLogLine("TOTAL", "	", nameColLength);
+      addOutput("");
+      return output.join("\n");
+    },
+    log(prefix, customEntries) {
+      const args2 = {
+        prefix: safe.str(prefix),
+        customEntries: customEntries instanceof Array ? safe.arrOf.func(customEntries) : safe.obj(customEntries)
+      };
+      const table = this.getTable(args2.prefix, args2.customEntries);
+      console.log(table);
+      let lc = table.split("\n").length;
       return lc;
     },
     reset() {
-      startTimes = {};
-      endTimes = {};
+      Object.keys(startTimes).forEach((key) => {
+        delete startTimes[key];
+      });
+      Object.keys(endTimes).forEach((key) => {
+        delete endTimes[key];
+      });
+      startTimes.TOTAL = Date.now();
     },
+    getDuration,
     names,
-    displayNames: dispNames
+    displayNames: dispNames,
+    startTimes,
+    endTimes
   };
 };
 var timer = getTimer();
@@ -965,7 +1047,7 @@ var progressBar;
   progressBar2.getProgressBar = (max, options = {}) => {
     const args = {
       max: safe.num(max, true, -1, void 0, -1),
-      options: safe.obj(options, {})
+      options: safe.obj(options, false, {})
     };
     const opts = progressBar2.getFullOptions(args.options);
     const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar, print, printFn } = opts;
@@ -1527,14 +1609,14 @@ var PromiseTools;
   };
   PromiseTools2.allObj = async (input) => {
     const args = {
-      input: safe.obj(input, {})
+      input: safe.obj(input, false, {})
     };
     return objectify((arr) => PromiseTools2.all(arr), args.input);
   };
   PromiseTools2.allLimitObj = async (limit, input, noThrow = false) => {
     const args = {
       limit: safe.num(limit, true, 1, void 0, 1),
-      input: safe.obj(input, {}),
+      input: safe.obj(input, false, {}),
       noThrow: safe.bool(noThrow, false)
     };
     return objectify((items) => {
