@@ -2194,7 +2194,6 @@ var ColourTools;
 // src/tools/symbols.ts
 var symbols = {
   TAB: "	",
-  NBSP: " ",
   TICK: "\u2714",
   CROSS: "\u2716",
   PLUS: "+",

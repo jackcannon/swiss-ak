@@ -6274,8 +6274,12 @@ declare namespace TimeTools {
  * | EJECT                   | `symbols.EJECT`                   |   ⏏    |
  * | TILDE                   | `symbols.TILDE`                   |   ~    |
  * | HOME                    | `symbols.HOME`                    |   ~    |
+ * | RADIO_EMPTY             | `symbols.RADIO_EMPTY`             |   ◯    |
+ * | RADIO_FULL              | `symbols.RADIO_FULL`              |   ◉    |
+ * | CURSOR                  | `symbols.CURSOR`                  |   ❯    |
  * | CHEV_LFT                | `symbols.CHEV_LFT`                |   ‹    |
  * | CHEV_RGT                | `symbols.CHEV_RGT`                |   ›    |
+ * | CHAIN                   | `symbols.CHAIN`                   |   ⫘    |
  * | TRI_UPP                 | `symbols.TRI_UPP`                 |   ▲    |
  * | TRI_DWN                 | `symbols.TRI_DWN`                 |   ▼    |
  * | TRI_RGT                 | `symbols.TRI_RGT`                 |   ▶    |
@@ -6322,7 +6326,6 @@ declare namespace TimeTools {
  */
 declare const symbols: {
     TAB: string;
-    NBSP: string;
     TICK: string;
     CROSS: string;
     PLUS: string;
