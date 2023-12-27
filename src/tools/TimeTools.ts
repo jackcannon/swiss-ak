@@ -1,3 +1,4 @@
+import { safe } from './safe';
 import { ms, MILLISECOND, SECOND, MINUTE, HOUR, DAY, MONTH, YEAR, CENTURY, MILLENNIUM } from './times';
 
 //<!-- DOCS: 160 -->
@@ -101,23 +102,29 @@ export namespace TimeTools {
    * @returns {string}
    */
   export const toReadableDuration = (duration: ms, longNames: boolean = false, maxUnits: number = 3): string => {
-    if (duration === 0) return '';
+    const args = {
+      duration: safe.num(duration, true),
+      longNames: safe.bool(longNames, false),
+      maxUnits: safe.num(maxUnits, true, 1, undefined, 3)
+    };
+
+    if (args.duration === 0) return '';
 
     const allUnitValues = units
       .map((unit, index) => {
         const previousUnitValue = units[index - 1]?.value ?? Infinity;
-        const amount = Math.floor((Math.abs(duration) % previousUnitValue) / unit.value);
+        const amount = Math.floor((Math.abs(args.duration) % previousUnitValue) / unit.value);
         return { amount, unit };
       })
       .filter(({ amount }) => amount > 0);
 
-    const results: string[] = allUnitValues.slice(0, maxUnits).map(({ amount, unit }) => {
-      const labelObj = longNames ? unit.long : unit.short;
+    const results: string[] = allUnitValues.slice(0, args.maxUnits).map(({ amount, unit }) => {
+      const labelObj = args.longNames ? unit.long : unit.short;
       const label = amount > 1 ? labelObj.plural : labelObj.singular;
       return `${amount}${label}`;
     });
 
-    if (longNames) {
+    if (args.longNames) {
       if (results.length <= 1) {
         return results.join('');
       }

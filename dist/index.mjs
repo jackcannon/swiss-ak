@@ -790,20 +790,25 @@ var units = [
 var TimeTools;
 ((TimeTools2) => {
   TimeTools2.toReadableDuration = (duration, longNames = false, maxUnits = 3) => {
-    if (duration === 0)
+    const args = {
+      duration: safe.num(duration, true),
+      longNames: safe.bool(longNames, false),
+      maxUnits: safe.num(maxUnits, true, 1, void 0, 3)
+    };
+    if (args.duration === 0)
       return "";
     const allUnitValues = units.map((unit, index) => {
       var _a;
       const previousUnitValue = ((_a = units[index - 1]) == null ? void 0 : _a.value) ?? Infinity;
-      const amount = Math.floor(Math.abs(duration) % previousUnitValue / unit.value);
+      const amount = Math.floor(Math.abs(args.duration) % previousUnitValue / unit.value);
       return { amount, unit };
     }).filter(({ amount }) => amount > 0);
-    const results = allUnitValues.slice(0, maxUnits).map(({ amount, unit }) => {
-      const labelObj = longNames ? unit.long : unit.short;
+    const results = allUnitValues.slice(0, args.maxUnits).map(({ amount, unit }) => {
+      const labelObj = args.longNames ? unit.long : unit.short;
       const label = amount > 1 ? labelObj.plural : labelObj.singular;
       return `${amount}${label}`;
     });
-    if (longNames) {
+    if (args.longNames) {
       if (results.length <= 1) {
         return results.join("");
       }
