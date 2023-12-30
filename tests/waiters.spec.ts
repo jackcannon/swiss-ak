@@ -3,8 +3,8 @@ import { register, should, singleTest, multiTest, kitchenSink, testTimer } from 
 
 register({ describe, it, expect });
 
-const timingUnit = 10; // milliseconds
-const timingErrorRange = 8; // milliseconds
+const timingUnit = 100; // milliseconds
+const timingErrorRange = 50; // milliseconds
 
 describe('waiters', () => {
   describe('wait', () => {

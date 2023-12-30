@@ -3,9 +3,9 @@ import { register, should, singleTest, multiTest, kitchenSink, testTimer } from 
 
 register({ describe, it, expect });
 
-const timingUnit = 10; // milliseconds
-const timingErrorRange = 10; // milliseconds
-const timingErrorRangeSmall = 6; // milliseconds
+const timingUnit = 100; // milliseconds
+const timingErrorRange = 30; // milliseconds
+const timingErrorRangeSmall = 20; // milliseconds
 
 describe('timer', () => {
   describe('timer', () => {

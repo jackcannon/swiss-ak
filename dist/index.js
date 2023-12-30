@@ -57,6 +57,7 @@ __export(src_exports, {
   filters: () => filters,
   fn: () => fn,
   getDeferred: () => getDeferred,
+  getMultiBarManager: () => getMultiBarManager,
   getProgressBar: () => getProgressBar,
   getTimer: () => getTimer,
   group: () => group,
@@ -71,7 +72,6 @@ __export(src_exports, {
   minutes: () => minutes,
   months: () => months,
   partition: () => partition,
-  printLn: () => printLn,
   progressBar: () => progressBar,
   queue: () => queue,
   randomise: () => randomise,
@@ -272,17 +272,17 @@ var times;
   times2.DECADE = 10 * times2.YEAR;
   times2.CENTURY = 100 * times2.YEAR;
   times2.MILLENNIUM = 1e3 * times2.YEAR;
-  times2.milliseconds = (x = 1) => safe.num(x);
-  times2.seconds = (x = 1) => safe.num(x) * times2.SECOND;
-  times2.minutes = (x = 1) => safe.num(x) * times2.MINUTE;
-  times2.hours = (x = 1) => safe.num(x) * times2.HOUR;
-  times2.days = (x = 1) => safe.num(x) * times2.DAY;
-  times2.weeks = (x = 1) => safe.num(x) * times2.WEEK;
-  times2.months = (x = 1) => safe.num(x) * times2.MONTH;
-  times2.years = (x = 1) => safe.num(x) * times2.YEAR;
-  times2.decades = (x = 1) => safe.num(x) * times2.DECADE;
-  times2.centuries = (x = 1) => safe.num(x) * times2.CENTURY;
-  times2.millenniums = (x = 1) => safe.num(x) * times2.MILLENNIUM;
+  times2.milliseconds = (x = 1) => safe.num(x, true);
+  times2.seconds = (x = 1) => Math.round(safe.num(x) * times2.SECOND);
+  times2.minutes = (x = 1) => Math.round(safe.num(x) * times2.MINUTE);
+  times2.hours = (x = 1) => Math.round(safe.num(x) * times2.HOUR);
+  times2.days = (x = 1) => Math.round(safe.num(x) * times2.DAY);
+  times2.weeks = (x = 1) => Math.round(safe.num(x) * times2.WEEK);
+  times2.months = (x = 1) => Math.round(safe.num(x) * times2.MONTH);
+  times2.years = (x = 1) => Math.round(safe.num(x) * times2.YEAR);
+  times2.decades = (x = 1) => Math.round(safe.num(x) * times2.DECADE);
+  times2.centuries = (x = 1) => Math.round(safe.num(x) * times2.CENTURY);
+  times2.millenniums = (x = 1) => Math.round(safe.num(x) * times2.MILLENNIUM);
 })(times || (times = {}));
 var MILLISECOND = times.MILLISECOND;
 var SECOND = times.SECOND;
@@ -1076,32 +1076,11 @@ var timer = getTimer();
 
 // src/utils/optionUtils.ts
 var option = (value, deflt, safeFn) => value !== void 0 ? safeFn(value, deflt) : deflt;
+var optionalOption = (value, deflt, safeFn) => value !== void 0 ? safeFn(value, deflt) : void 0;
 
 // src/tools/progressBar.ts
 var progressBar;
 ((progressBar2) => {
-  progressBar2.printLn = (...text) => {
-    var _a, _b;
-    if (((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.clearLine) && ((_b = process == null ? void 0 : process.stdout) == null ? void 0 : _b.cursorTo)) {
-      if (!text.length) {
-        process.stdout.write("\n");
-      } else {
-        const output = text.map((item) => item.toString()).join(" ");
-        process.stdout.clearLine(0);
-        process.stdout.cursorTo(0);
-        process.stdout.moveCursor(0, -1);
-        process.stdout.clearLine(0);
-        process.stdout.write(output);
-        process.stdout.write("\n");
-      }
-    } else {
-      console.log(...text);
-    }
-  };
-  const printWrapped = (text, wrapperFn = fn.noact, printFn = progressBar2.printLn) => {
-    const wrapped = wrapperFn(text || "");
-    printFn(wrapped);
-  };
   const getCharWidth = (num, max, width) => Math.round(width * (Math.max(0, Math.min(num / max, 1)) / 1));
   const getBarString = (current, max, width, opts) => {
     const { progChar, emptyChar, startChar, endChar, showCurrent, currentChar } = opts;
@@ -1128,11 +1107,122 @@ var progressBar;
     const joined = items.filter((x) => x).join(" ");
     return joined.length ? " " + joined : "";
   };
+  progressBar2.getProgressBar = (max, options = {}) => {
+    const args = {
+      max: safe.num(max, true, -1, void 0, -1),
+      options: safe.obj(options, false, {})
+    };
+    const originalOpts = progressBar2.getFullOptions(args.options);
+    let opts = originalOpts;
+    let managerPackage = void 0;
+    let current = 0;
+    let finished = false;
+    const isMaxKnown = args.max !== -1;
+    const getBar = (applyWrap = false) => {
+      const suffix = getSuffix(current, args.max, isMaxKnown, opts);
+      const idealMinBarWidth = Math.min(5, opts.maxWidth - [suffix, opts.startChar, opts.endChar].join("").length);
+      const maxPrefixWidth = opts.maxPrefixWidth !== Infinity ? opts.maxPrefixWidth : opts.maxWidth - ([suffix, opts.startChar, opts.endChar].join("").length + idealMinBarWidth);
+      const fullPrefix = opts.prefix.padEnd(opts.prefixWidth).substring(0, maxPrefixWidth);
+      const barString = getBarString(
+        current,
+        Math.max(1, args.max),
+        Math.max(0, opts.maxWidth - [fullPrefix, suffix, opts.startChar, opts.endChar].join("").length),
+        opts
+      );
+      const output = `${fullPrefix}${barString}${suffix}`;
+      if (applyWrap)
+        return opts.wrapperFn(output);
+      return output;
+    };
+    const update = () => {
+      const output = getBar(true);
+      if (managerPackage) {
+        managerPackage.onUpdate(output);
+      } else {
+        if (opts.print)
+          opts.printFn(output);
+      }
+      return output;
+    };
+    const next = () => {
+      if (finished)
+        return "";
+      current++;
+      if (managerPackage) {
+        managerPackage.onNext(current);
+      }
+      return update();
+    };
+    const set = (newCurrent) => {
+      const args2 = {
+        newCurrent: safe.num(newCurrent, true, 0, void 0)
+      };
+      if (finished)
+        return "";
+      current = args2.newCurrent;
+      if (managerPackage) {
+        managerPackage.onSet(args2.newCurrent);
+      }
+      return update();
+    };
+    const reset = () => {
+      return set(0);
+    };
+    const start = () => {
+      if (finished)
+        return "";
+      if (managerPackage) {
+        managerPackage.onStart();
+      } else {
+        if (opts.print)
+          opts.printFn();
+      }
+      return update();
+    };
+    const finish = () => {
+      finished = true;
+      const output = update();
+      if (managerPackage) {
+        managerPackage.onFinish();
+      } else {
+        if (opts.print)
+          opts.printFn();
+      }
+      return output;
+    };
+    const _registerManager = (pack, overrideOptions) => {
+      managerPackage = pack;
+      if (Object.keys(overrideOptions).length) {
+        opts = progressBar2.getFullOptions({
+          ...originalOpts,
+          ...overrideOptions
+        });
+      }
+      return opts;
+    };
+    const _unregisterManager = (pack) => {
+      managerPackage = void 0;
+      opts = originalOpts;
+    };
+    return {
+      next,
+      set,
+      reset,
+      getBar,
+      update,
+      start,
+      finish,
+      max: args.max === -1 ? void 0 : args.max,
+      _registerManager,
+      _unregisterManager
+    };
+  };
   progressBar2.getFullOptions = (opts = {}) => {
     var _a;
     return {
       prefix: option(opts.prefix, "", (v, dflt) => safe.str(v, true, dflt)),
       prefixWidth: option(opts.prefixWidth, 0, (v, dflt) => safe.num(v, true, 0, void 0, dflt)),
+      maxPrefixWidth: option(opts.maxPrefixWidth, Infinity, (v, dflt) => safe.num(v, true, 0, void 0, dflt)),
       maxWidth: option(
         opts.maxWidth,
         ((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.columns) !== void 0 ? process.stdout.columns : 100,
@@ -1153,77 +1243,205 @@ var progressBar;
       showCurrent: option(opts.showCurrent, false, (v, dflt) => safe.bool(v, dflt)),
       currentChar: option(opts.currentChar, "\u259E", (v, dflt) => safe.str(v, false, dflt)),
       print: option(opts.print, true, (v, dflt) => safe.bool(v, dflt)),
-      printFn: option(opts.printFn, progressBar2.printLn, (v, dflt) => safe.func(v, dflt))
+      printFn: option(opts.printFn, progressBar2.utils.printLn, (v, dflt) => safe.func(v, dflt))
     };
   };
-  progressBar2.getProgressBar = (max, options = {}) => {
+  progressBar2.getMultiBarManager = (options = {}) => {
     const args = {
-      max: safe.num(max, true, -1, void 0, -1),
       options: safe.obj(options, false, {})
     };
-    const opts = progressBar2.getFullOptions(args.options);
-    const { prefix, prefixWidth, maxWidth, wrapperFn, startChar, endChar, print, printFn } = opts;
-    let current = 0;
-    let finished = false;
-    const isMaxKnown = args.max !== -1;
-    const update = () => {
-      const suffix = getSuffix(current, args.max, isMaxKnown, opts);
-      const idealMinBarWidth = Math.min(5, maxWidth - [suffix, startChar, endChar].join("").length);
-      const maxPrefixWidth = maxWidth - ([suffix, startChar, endChar].join("").length + idealMinBarWidth);
-      const fullPrefix = prefix.padEnd(prefixWidth).substring(0, maxPrefixWidth);
-      const output = `${fullPrefix}${getBarString(
-        current,
-        Math.max(1, args.max),
-        Math.max(0, maxWidth - [fullPrefix, suffix, startChar, endChar].join("").length),
-        opts
-      )}${suffix}`;
-      if (print)
-        printWrapped(output, wrapperFn, printFn);
-      return output;
-    };
-    const next = () => {
-      if (finished)
-        return "";
-      current++;
-      return update();
-    };
-    const set = (newCurrent) => {
+    const opts = progressBar2.getFullMultiBarManagerOptions(args.options);
+    const { minSlots, maxSlots } = opts;
+    const barPacks = [];
+    let totalCount = 0;
+    let previousDrawnLines = 0;
+    let bumpLines = 0;
+    const add = (bar, removeWhenFinished = opts.removeFinished) => {
       const args2 = {
-        newCurrent: safe.num(newCurrent, true, 0, void 0)
+        bar: safe.obj(bar),
+        removeWhenFinished: safe.bool(removeWhenFinished, false)
       };
-      if (finished)
-        return "";
-      current = args2.newCurrent;
-      return update();
+      if (!args2.bar._registerManager)
+        return;
+      const barIndex = totalCount;
+      totalCount += 1;
+      const overrideOpts = {
+        ...opts.overrideOptions,
+        ...Object.fromEntries(
+          ["wrapperFns", "barWrapFns", "barProgWrapFns", "barCurrentWrapFns", "barEmptyWrapFns"].filter((id) => opts[id]).map((id) => [
+            {
+              wrapperFns: "wrapperFn",
+              barWrapFns: "barWrapFn",
+              barProgWrapFns: "barProgWrapFn",
+              barCurrentWrapFns: "barCurrentWrapFn",
+              barEmptyWrapFns: "barEmptyWrapFn"
+            }[id],
+            opts[id][barIndex % opts[id].length]
+          ])
+        )
+      };
+      const barPack = {
+        bar: args2.bar,
+        isFinished: false,
+        lastOutput: "",
+        fullOptions: overrideOpts,
+        onUpdate: (outputString) => {
+          barPack.lastOutput = outputString;
+          update();
+        },
+        onStart: () => {
+        },
+        onFinish: () => {
+          barPack.isFinished = true;
+          if (args2.removeWhenFinished) {
+            remove(args2.bar);
+          }
+        },
+        onSet: () => {
+        },
+        onNext: () => {
+        }
+      };
+      barPacks.push(barPack);
+      barPack.fullOptions = args2.bar._registerManager(barPack, overrideOpts);
+      bumpLines = Math.max(0, bumpLines - 1);
+      barPack.lastOutput = barPack.bar.getBar(true);
+      update();
     };
-    const reset = () => {
-      return set(0);
+    const addNew = (max, options2 = {}) => {
+      const args2 = {
+        max: safe.num(max, true, -1, void 0, -1),
+        options: safe.obj(options2, false, {})
+      };
+      const bar = progressBar2.getProgressBar(args2.max, args2.options);
+      add(bar);
+      return bar;
     };
-    const start = () => {
+    const remove = (bar) => {
+      const args2 = {
+        bar: safe.obj(bar)
+      };
+      if (!args2.bar._registerManager)
+        return;
+      const index = barPacks.findIndex((pack) => pack.bar === args2.bar);
+      if (index === -1)
+        return;
+      barPacks.splice(index, 1);
+      bumpLines += 1;
+      update();
+    };
+    const update = () => {
+      const result = [];
+      let count = 0;
+      barPacks.slice(0, maxSlots).forEach((pack, index) => {
+        const wrappedBar = pack.lastOutput || pack.bar.getBar(true);
+        result.push(wrappedBar);
+        count++;
+      });
+      if (count < minSlots) {
+        const emptySlots = minSlots - barPacks.length;
+        result.push(...ArrayTools.repeat(emptySlots, ""));
+        count += emptySlots;
+      }
+      if (!opts.alignBottom) {
+        bumpLines = 0;
+      }
+      count += bumpLines;
       if (opts.print)
-        opts.printFn();
-      return update();
+        opts.printFn(previousDrawnLines, `
+`.repeat(bumpLines) + result.join("\n"));
+      previousDrawnLines = count;
     };
-    const finish = () => {
-      finished = true;
-      const output = update();
-      if (opts.print)
-        opts.printFn();
-      return output;
+    const getBars = () => {
+      return barPacks.map((pack) => pack.bar);
     };
     return {
-      next,
-      set,
-      reset,
+      add,
+      addNew,
+      remove,
       update,
-      start,
-      finish,
-      max: args.max === -1 ? void 0 : args.max
+      getBars
     };
   };
+  progressBar2.getFullMultiBarManagerOptions = (opts) => {
+    const numSlots = optionalOption(opts.numSlots, void 0, (v, d) => safe.num(v, true, 0, void 0, d));
+    let minSlots = optionalOption(opts.minSlots, void 0, (v, d) => safe.num(v, true, 0, void 0, d));
+    let maxSlots = optionalOption(opts.maxSlots, void 0, (v, d) => v === Infinity ? Infinity : safe.num(v, true, 0, void 0, d));
+    if (minSlots !== void 0 && maxSlots !== void 0 && minSlots > maxSlots) {
+      let temp = minSlots;
+      minSlots = maxSlots;
+      maxSlots = temp;
+    }
+    const result = {
+      numSlots: option(numSlots, null, (v, d) => safe.num(v, true, 0, void 0, d)),
+      minSlots: option(minSlots, numSlots ?? 0, (v, d) => safe.num(v, true, 0, maxSlots, d)),
+      maxSlots: option(maxSlots, numSlots ?? Infinity, (v, d) => v === Infinity ? Infinity : safe.num(v, true, minSlots, void 0, d)),
+      removeFinished: option(opts.removeFinished, false, (v, d) => safe.bool(v, d)),
+      alignBottom: option(opts.alignBottom, false, (v, d) => safe.bool(v, d)),
+      overrideOptions: option(opts.overrideOptions, {}, (v, d) => safe.obj(v, false, d)),
+      wrapperFns: optionalOption(opts.wrapperFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
+      barWrapFns: optionalOption(opts.barWrapFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
+      barProgWrapFns: optionalOption(opts.barProgWrapFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
+      barCurrentWrapFns: optionalOption(opts.barCurrentWrapFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
+      barEmptyWrapFns: optionalOption(opts.barEmptyWrapFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
+      print: option(opts.print, true, (v, d) => safe.bool(v, d)),
+      printFn: option(opts.printFn, progressBar2.utils.multiPrintFn, (v, d) => safe.func(v, d))
+    };
+    return result;
+  };
+  let utils;
+  ((utils2) => {
+    utils2.printLn = (...text) => {
+      var _a, _b;
+      const args = {
+        text: safe.arrOf.str(text)
+      };
+      if (((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.clearLine) && ((_b = process == null ? void 0 : process.stdout) == null ? void 0 : _b.cursorTo)) {
+        if (!args.text.length) {
+          process.stdout.write("\n");
+        } else {
+          const output = args.text.map((item) => item.toString()).join(" ");
+          process.stdout.clearLine(0);
+          process.stdout.cursorTo(0);
+          process.stdout.moveCursor(0, -1);
+          process.stdout.clearLine(0);
+          process.stdout.write(output);
+          process.stdout.write("\n");
+        }
+      } else {
+        console.log(...args.text);
+      }
+    };
+    utils2.multiPrintFn = (previousDrawnLines, output) => {
+      var _a, _b, _c;
+      const args = {
+        previousDrawnLines: safe.num(previousDrawnLines, true, 0),
+        output: safe.str(output, true, "")
+      };
+      const hasProcessFns = ((_a = process == null ? void 0 : process.stdout) == null ? void 0 : _a.clearLine) && ((_b = process == null ? void 0 : process.stdout) == null ? void 0 : _b.cursorTo) && ((_c = process == null ? void 0 : process.stdout) == null ? void 0 : _c.moveCursor);
+      if (hasProcessFns) {
+        let removeLines = args.previousDrawnLines;
+        const outputLines = args.output.split("\n").length;
+        if (outputLines > args.previousDrawnLines) {
+          const extraLines = outputLines - args.previousDrawnLines;
+          process.stdout.write("=========\n".repeat(extraLines));
+          removeLines += extraLines;
+        }
+        for (let i = 0; i < removeLines; i++) {
+          process.stdout.clearLine(0);
+          process.stdout.cursorTo(0);
+          process.stdout.moveCursor(0, -1);
+          process.stdout.clearLine(0);
+        }
+        process.stdout.write(args.output + "\n");
+      } else {
+        console.log(args.output);
+      }
+    };
+  })(utils = progressBar2.utils || (progressBar2.utils = {}));
 })(progressBar || (progressBar = {}));
-var printLn = progressBar.printLn;
 var getProgressBar = progressBar.getProgressBar;
+var getMultiBarManager = progressBar.getMultiBarManager;
 
 // src/tools/ObjectTools.ts
 var ObjectTools;
@@ -2363,6 +2581,7 @@ var queue = new QueueManager();
   filters,
   fn,
   getDeferred,
+  getMultiBarManager,
   getProgressBar,
   getTimer,
   group,
@@ -2377,7 +2596,6 @@ var queue = new QueueManager();
   minutes,
   months,
   partition,
-  printLn,
   progressBar,
   queue,
   randomise,

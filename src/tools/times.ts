@@ -273,6 +273,8 @@ export namespace times {
    *
    * Function that returns the number of milliseconds equal to a multiple of milliseconds
    *
+   * Note: Rounds to nearest millisecond
+   *
    * ```typescript
    * milliseconds(); // 1 (1 milliseconds)
    * milliseconds(1); // 1 (1 milliseconds)
@@ -282,7 +284,7 @@ export namespace times {
    * @param {ms} [x=1]
    * @returns {number}
    */
-  export const milliseconds = (x: ms = 1): ms => safe.num(x);
+  export const milliseconds = (x: ms = 1): ms => safe.num(x, true);
 
   /**<!-- DOCS: times.seconds ### -1 @ -->
    * seconds
@@ -291,6 +293,8 @@ export namespace times {
    * - `times.seconds`
    *
    * Function that returns the number of milliseconds equal to a multiple of seconds
+   *
+   * Note: Rounds to nearest millisecond
    *
    * ```typescript
    * seconds(); // 1_000 (1 second)
@@ -301,7 +305,7 @@ export namespace times {
    * @param {second} [x=1]
    * @returns {number}
    */
-  export const seconds = (x: second = 1): ms => safe.num(x) * SECOND;
+  export const seconds = (x: second = 1): ms => Math.round(safe.num(x) * SECOND);
 
   /**<!-- DOCS: times.minutes ### -1 @ -->
    * minutes
@@ -310,6 +314,8 @@ export namespace times {
    * - `times.minutes`
    *
    * Function that returns the number of milliseconds equal to a multiple of minutes
+   *
+   * Note: Rounds to nearest millisecond
    *
    * ```typescript
    * minutes(); // 60_000 (60 seconds)
@@ -320,7 +326,7 @@ export namespace times {
    * @param {minute} [x=1]
    * @returns {number}
    */
-  export const minutes = (x: minute = 1): ms => safe.num(x) * MINUTE;
+  export const minutes = (x: minute = 1): ms => Math.round(safe.num(x) * MINUTE);
 
   /**<!-- DOCS: times.hours ### -1 @ -->
    * hours
@@ -329,6 +335,8 @@ export namespace times {
    * - `times.hours`
    *
    * Function that returns the number of milliseconds equal to a multiple of hours
+   *
+   * Note: Rounds to nearest millisecond
    *
    * ```typescript
    * hours(); // 3_600_000 (1 hour / 60 minutes)
@@ -339,7 +347,7 @@ export namespace times {
    * @param {hour} [x=1]
    * @returns {number}
    */
-  export const hours = (x: hour = 1): ms => safe.num(x) * HOUR;
+  export const hours = (x: hour = 1): ms => Math.round(safe.num(x) * HOUR);
 
   /**<!-- DOCS: times.days ### -1 @ -->
    * days
@@ -348,6 +356,8 @@ export namespace times {
    * - `times.days`
    *
    * Function that returns the number of milliseconds equal to a multiple of days
+   *
+   * Note: Rounds to nearest millisecond
    *
    * ```typescript
    * days(); // 86_400_000 (1 day / 24 hours)
@@ -358,7 +368,7 @@ export namespace times {
    * @param {day} [x=1]
    * @returns {number}
    */
-  export const days = (x: day = 1): ms => safe.num(x) * DAY;
+  export const days = (x: day = 1): ms => Math.round(safe.num(x) * DAY);
 
   /**<!-- DOCS: times.weeks ### -1 @ -->
    * weeks
@@ -367,6 +377,8 @@ export namespace times {
    * - `times.weeks`
    *
    * Function that returns the number of milliseconds equal to a multiple of weeks
+   *
+   * Note: Rounds to nearest millisecond
    *
    * ```typescript
    * weeks(); // 604_800_000 (7 days / 168 hours)
@@ -377,7 +389,7 @@ export namespace times {
    * @param {week} [x=1]
    * @returns {number}
    */
-  export const weeks = (x: week = 1): ms => safe.num(x) * WEEK;
+  export const weeks = (x: week = 1): ms => Math.round(safe.num(x) * WEEK);
 
   /**<!-- DOCS: times.months ### -1 @ -->
    * months
@@ -386,6 +398,8 @@ export namespace times {
    * - `times.months`
    *
    * Function that returns the number of milliseconds equal to a multiple of months
+   *
+   * Note: Rounds to nearest millisecond
    *
    * ```typescript
    * months(); // 2_592_000_000 (30 days)
@@ -396,7 +410,7 @@ export namespace times {
    * @param {month} [x=1]
    * @returns {number}
    */
-  export const months = (x: month = 1): ms => safe.num(x) * MONTH;
+  export const months = (x: month = 1): ms => Math.round(safe.num(x) * MONTH);
 
   /**<!-- DOCS: times.years ### -1 @ -->
    * years
@@ -405,6 +419,8 @@ export namespace times {
    * - `times.years`
    *
    * Function that returns the number of milliseconds equal to a multiple of years
+   *
+   * Note: Rounds to nearest millisecond
    *
    * ```typescript
    * years(); // 31_557_600_000 (1 year / 365.25 days)
@@ -415,7 +431,7 @@ export namespace times {
    * @param {year} [x=1]
    * @returns {number}
    */
-  export const years = (x: year = 1): ms => safe.num(x) * YEAR;
+  export const years = (x: year = 1): ms => Math.round(safe.num(x) * YEAR);
 
   /**<!-- DOCS: times.decades ### -1 @ -->
    * decades
@@ -424,6 +440,8 @@ export namespace times {
    * - `times.decades`
    *
    * Function that returns the number of milliseconds equal to a multiple of decades
+   *
+   * Note: Rounds to nearest millisecond
    *
    * ```typescript
    * decades(); // 315_576_000_000 (10 years / 3,652.5 days)
@@ -434,7 +452,7 @@ export namespace times {
    * @param {decade} [x=1]
    * @returns {number}
    */
-  export const decades = (x: decade = 1): ms => safe.num(x) * DECADE;
+  export const decades = (x: decade = 1): ms => Math.round(safe.num(x) * DECADE);
 
   /**<!-- DOCS: times.centuries ### -1 @ -->
    * centuries
@@ -443,6 +461,8 @@ export namespace times {
    * - `times.centuries`
    *
    * Function that returns the number of milliseconds equal to a multiple of centuries
+   *
+   * Note: Rounds to nearest millisecond
    *
    * ```typescript
    * centuries(); // 3_155_760_000_000 (100 years / 36,525 days)
@@ -453,7 +473,7 @@ export namespace times {
    * @param {century} [x=1]
    * @returns {number}
    */
-  export const centuries = (x: century = 1): ms => safe.num(x) * CENTURY;
+  export const centuries = (x: century = 1): ms => Math.round(safe.num(x) * CENTURY);
 
   /**<!-- DOCS: times.millenniums ### -1 @ -->
    * millenniums
@@ -462,6 +482,8 @@ export namespace times {
    * - `times.millenniums`
    *
    * Function that returns the number of milliseconds equal to a multiple of millenniums
+   *
+   * Note: Rounds to nearest millisecond
    *
    * ```typescript
    * millenniums(); // 31_557_600_000_000 (1000 years / 365,250 days)
@@ -472,7 +494,7 @@ export namespace times {
    * @param {millennium} [x=1]
    * @returns {number}
    */
-  export const millenniums = (x: millennium = 1): ms => safe.num(x) * MILLENNIUM;
+  export const millenniums = (x: millennium = 1): ms => Math.round(safe.num(x) * MILLENNIUM);
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: times.ms  --> */

@@ -27,9 +27,9 @@ const printSpies = (isStdOut: boolean = true, isConsole: boolean = true) => ({
 });
 
 const testProgressBar = (
-  opts: swissak.ProgressBarOptions,
+  opts: swissak.progressBar.ProgressBarOptions,
   max: number,
-  fn: (max: number, options?: swissak.ProgressBarOptions) => swissak.ProgressBar = swissak.getProgressBar
+  fn: (max: number, options?: swissak.progressBar.ProgressBarOptions) => swissak.ProgressBar = swissak.getProgressBar
 ) => {
   const printFn = jest.fn((line, ...args: any) => {
     if (IS_DEBUG) console.log('PRINTED:', '`' + line + '`', ...args);
@@ -46,50 +46,29 @@ const testProgressBar = (
   };
 };
 
-describe('progress bar', () => {
-  describe('printLn', () => {
-    multiTest(
-      [
-        [swissak.printLn, 'printLn'],
-        [swissak.progressBar.printLn, 'progressBar.printLn']
-      ],
-      (printLn, name) => {
-        it(should` exist as ${name}`, () => {
-          expect(printLn).toBeDefined();
-        });
-
-        if (process?.stdout?.clearLine) {
-          // when jest runs all the tests, these functions aren't available
-
-          it(should` print a string to stdout`, () => {
-            const { stdout, cnsle } = printSpies();
-            printLn('test');
-            expect(stdout.clearLine).toHaveBeenCalledWith(0);
-            expect(stdout.cursorTo).toHaveBeenCalledWith(0);
-            expect(stdout.moveCursor).toHaveBeenCalledWith(0, -1);
-            expect(stdout.clearLine).toHaveBeenCalledWith(0);
-            expect(stdout.write).toHaveBeenCalledWith('test');
-            expect(stdout.write).toHaveBeenCalledWith('\n');
-          });
-
-          it(should` print an empty line to stdout if given string is empty`, () => {
-            const { stdout, cnsle } = printSpies();
-            printLn('');
-            expect(stdout.write).toHaveBeenCalledWith('\n');
-          });
-        }
-        it(should` use console.log when stdout.clearLine isn't available`, () => {
-          const { cnsle } = printSpies(false);
-          const clearLine = process.stdout.clearLine;
-          process.stdout.clearLine = undefined;
-          printLn('test');
-          expect(cnsle.log).toHaveBeenCalled();
-          process.stdout.clearLine = clearLine;
-        });
-      }
-    );
+const testMultiBarManager = (
+  opts: swissak.progressBar.MultiBarManagerOptions,
+  fn: (options?: swissak.progressBar.MultiBarManagerOptions) => swissak.MultiBarManager = swissak.getMultiBarManager
+) => {
+  const printFn = jest.fn((line, ...args: any) => {
+    if (IS_DEBUG) console.log('PRINTED:', '`' + line + '`', ...args);
   });
+  const manager = fn({
+    printFn,
+    ...opts,
+    overrideOptions: {
+      maxWidth: 50,
+      ...(opts?.overrideOptions || {})
+    }
+  });
+  return {
+    manager,
+    printFn,
+    printCalls: printFn.mock.calls
+  };
+};
 
+describe('Progress Bar', () => {
   describe('getProgressBar', () => {
     multiTest(
       [
@@ -407,6 +386,32 @@ describe('progress bar', () => {
 
         bar.set(50);
         expect(printCalls.at(-1)).toEqual(['Example             ▕████████        ▏ [ 50 / 100]']);
+      });
+    });
+    describe('maxPrefixWidth', () => {
+      // description: Max width of prefix
+      // default: Infinity
+      // safeFn: safe.num(v, true, 0, undefined, dflt)
+
+      it(should` set the max width of the prefix to default`, () => {
+        const { bar, printCalls } = testProgressBar({ prefix: 'Example', maxPrefixWidth: undefined }, 100);
+
+        bar.set(50);
+        expect(printCalls.at(-1)).toEqual(['Example▕███████████████              ▏ [ 50 / 100]']);
+      });
+
+      it(should` set the max width of the prefix to 5`, () => {
+        const { bar, printCalls } = testProgressBar({ prefix: 'Example', maxPrefixWidth: 5 }, 100);
+
+        bar.set(50);
+        expect(printCalls.at(-1)).toEqual(['Examp▕████████████████               ▏ [ 50 / 100]']);
+      });
+
+      it(should` set the max width of the prefix to 2`, () => {
+        const { bar, printCalls } = testProgressBar({ prefix: 'Example', maxPrefixWidth: 2 }, 100);
+
+        bar.set(50);
+        expect(printCalls.at(-1)).toEqual(['Ex▕█████████████████                 ▏ [ 50 / 100]']);
       });
     });
     describe('maxWidth', () => {
@@ -851,343 +856,1620 @@ describe('progress bar', () => {
   });
 
   describe('getFullOptions', () => {
-    it(should` produce a full options object`, () => {
-      const opts = swissak.progressBar.getFullOptions({});
+    singleTest(swissak.progressBar.getFullOptions, 'getFullOptions', (getFullOptions, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(getFullOptions).toBeDefined();
+      });
 
-      process.stdout.columns = 120;
+      it(should` produce a full options object`, () => {
+        const opts = getFullOptions({});
 
-      expect(opts).toEqual({
-        prefix: '',
-        prefixWidth: 0,
-        maxWidth: 120,
-        wrapperFn: swissak.fn.noact,
-        barWrapFn: swissak.fn.noact,
-        barProgWrapFn: swissak.fn.noact,
-        barCurrentWrapFn: swissak.fn.noact,
-        barEmptyWrapFn: swissak.fn.noact,
-        showCount: true,
-        showPercent: false,
-        countWidth: 0,
-        progChar: '█',
-        emptyChar: ' ',
-        startChar: '▕',
-        endChar: '▏',
-        showCurrent: false,
-        currentChar: '▞',
-        print: true,
-        printFn: swissak.progressBar.printLn
-      });
-    });
+        process.stdout.columns = 120;
 
-    describe('prefix', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.prefix).toEqual('');
+        expect(opts).toEqual({
+          prefix: '',
+          prefixWidth: 0,
+          maxPrefixWidth: Infinity,
+          maxWidth: 120,
+          wrapperFn: swissak.fn.noact,
+          barWrapFn: swissak.fn.noact,
+          barProgWrapFn: swissak.fn.noact,
+          barCurrentWrapFn: swissak.fn.noact,
+          barEmptyWrapFn: swissak.fn.noact,
+          showCount: true,
+          showPercent: false,
+          countWidth: 0,
+          progChar: '█',
+          emptyChar: ' ',
+          startChar: '▕',
+          endChar: '▏',
+          showCurrent: false,
+          currentChar: '▞',
+          print: true,
+          printFn: swissak.progressBar.utils.printLn
+        });
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ prefix: 'test' });
-        expect(opts.prefix).toEqual('test');
-      });
-      kitchenSink.toEqual(
-        'prefix',
-        (v) => swissak.progressBar.getFullOptions({ prefix: v as any }).prefix,
-        kitchenSink.safe.str('', true, ''),
-        kitchenSink.general
-      );
-    });
-    describe('prefixWidth', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.prefixWidth).toEqual(0);
-      });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ prefixWidth: 10 });
-        expect(opts.prefixWidth).toEqual(10);
-      });
-      kitchenSink.toEqual(
-        'prefixWidth',
-        (v) => swissak.progressBar.getFullOptions({ prefixWidth: v as any }).prefixWidth,
-        kitchenSink.safe.num(0, true, 0, undefined, 0),
-        kitchenSink.num
-      );
-    });
-    describe('maxWidth', () => {
-      process.stdout.columns = 120;
 
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.maxWidth).toEqual(120);
+      describe('prefix', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.prefix).toEqual('');
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ prefix: 'test' });
+          expect(opts.prefix).toEqual('test');
+        });
+        kitchenSink.toEqual('prefix', (v) => getFullOptions({ prefix: v as any }).prefix, kitchenSink.safe.str('', true, ''), kitchenSink.general);
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ maxWidth: 10 });
-        expect(opts.maxWidth).toEqual(10);
+      describe('prefixWidth', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.prefixWidth).toEqual(0);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ prefixWidth: 10 });
+          expect(opts.prefixWidth).toEqual(10);
+        });
+        kitchenSink.toEqual(
+          'prefixWidth',
+          (v) => getFullOptions({ prefixWidth: v as any }).prefixWidth,
+          kitchenSink.safe.num(0, true, 0, undefined, 0),
+          kitchenSink.num
+        );
       });
-      kitchenSink.toEqual(
-        'maxWidth',
-        (v) => swissak.progressBar.getFullOptions({ maxWidth: v as any }).maxWidth,
-        kitchenSink.safe.num(120, true, 0, undefined, 120),
-        kitchenSink.num
-      );
-    });
-    describe('wrapperFn', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.wrapperFn).toEqual(swissak.fn.noact);
+      describe('maxPrefixWidth', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.maxPrefixWidth).toEqual(Infinity);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ maxPrefixWidth: 10 });
+          expect(opts.maxPrefixWidth).toEqual(10);
+        });
+        kitchenSink.toEqual(
+          'maxPrefixWidth',
+          (v) => getFullOptions({ maxPrefixWidth: v as any }).maxPrefixWidth,
+          kitchenSink.safe.num(Infinity, true, 0, undefined, Infinity),
+          kitchenSink.num
+        );
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ wrapperFn: swissak.fn.noact });
-        expect(opts.wrapperFn).toEqual(swissak.fn.noact);
-      });
-      kitchenSink.toEqual(
-        'wrapperFn',
-        (v) => swissak.progressBar.getFullOptions({ wrapperFn: v as any }).wrapperFn,
-        kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-        kitchenSink.general
-      );
-    });
-    describe('barWrapFn', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.barWrapFn).toEqual(swissak.fn.noact);
-      });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ barWrapFn: swissak.fn.noact });
-        expect(opts.barWrapFn).toEqual(swissak.fn.noact);
-      });
-      kitchenSink.toEqual(
-        'barWrapFn',
-        (v) => swissak.progressBar.getFullOptions({ barWrapFn: v as any }).barWrapFn,
-        kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-        kitchenSink.general
-      );
-    });
-    describe('barProgWrapFn', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.barProgWrapFn).toEqual(swissak.fn.noact);
-      });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ barProgWrapFn: swissak.fn.noact });
-        expect(opts.barProgWrapFn).toEqual(swissak.fn.noact);
-      });
-      kitchenSink.toEqual(
-        'barProgWrapFn',
-        (v) => swissak.progressBar.getFullOptions({ barProgWrapFn: v as any }).barProgWrapFn,
-        kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-        kitchenSink.general
-      );
-    });
-    describe('barCurrentWrapFn', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.barCurrentWrapFn).toEqual(swissak.fn.noact);
-      });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ barCurrentWrapFn: swissak.fn.noact });
-        expect(opts.barCurrentWrapFn).toEqual(swissak.fn.noact);
-      });
-      kitchenSink.toEqual(
-        'barCurrentWrapFn',
-        (v) => swissak.progressBar.getFullOptions({ barCurrentWrapFn: v as any }).barCurrentWrapFn,
-        kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-        kitchenSink.general
-      );
-    });
-    describe('barEmptyWrapFn', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.barEmptyWrapFn).toEqual(swissak.fn.noact);
-      });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ barEmptyWrapFn: swissak.fn.noact });
-        expect(opts.barEmptyWrapFn).toEqual(swissak.fn.noact);
-      });
-      kitchenSink.toEqual(
-        'barEmptyWrapFn',
-        (v) => swissak.progressBar.getFullOptions({ barEmptyWrapFn: v as any }).barEmptyWrapFn,
-        kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-        kitchenSink.general
-      );
-    });
-    describe('showCount', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.showCount).toEqual(true);
-      });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ showCount: false });
-        expect(opts.showCount).toEqual(false);
-      });
-      kitchenSink.toEqual(
-        'showCount',
-        (v) => swissak.progressBar.getFullOptions({ showCount: v as any }).showCount,
-        kitchenSink.safe.bool(true, true),
-        kitchenSink.general
-      );
-    });
-    describe('showPercent', () => {
-      // description: Show percentage completed - `( 69%)`
-      // default: false
-      // safeFn: safe.bool(v, dflt)
+      describe('maxWidth', () => {
+        process.stdout.columns = 120;
 
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.showPercent).toEqual(false);
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.maxWidth).toEqual(120);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ maxWidth: 10 });
+          expect(opts.maxWidth).toEqual(10);
+        });
+        kitchenSink.toEqual(
+          'maxWidth',
+          (v) => getFullOptions({ maxWidth: v as any }).maxWidth,
+          kitchenSink.safe.num(120, true, 0, undefined, 120),
+          kitchenSink.num
+        );
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ showPercent: true });
-        expect(opts.showPercent).toEqual(true);
+      describe('wrapperFn', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.wrapperFn).toEqual(swissak.fn.noact);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ wrapperFn: swissak.fn.noact });
+          expect(opts.wrapperFn).toEqual(swissak.fn.noact);
+        });
+        kitchenSink.toEqual(
+          'wrapperFn',
+          (v) => getFullOptions({ wrapperFn: v as any }).wrapperFn,
+          kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
+          kitchenSink.general
+        );
       });
+      describe('barWrapFn', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.barWrapFn).toEqual(swissak.fn.noact);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ barWrapFn: swissak.fn.noact });
+          expect(opts.barWrapFn).toEqual(swissak.fn.noact);
+        });
+        kitchenSink.toEqual(
+          'barWrapFn',
+          (v) => getFullOptions({ barWrapFn: v as any }).barWrapFn,
+          kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
+          kitchenSink.general
+        );
+      });
+      describe('barProgWrapFn', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.barProgWrapFn).toEqual(swissak.fn.noact);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ barProgWrapFn: swissak.fn.noact });
+          expect(opts.barProgWrapFn).toEqual(swissak.fn.noact);
+        });
+        kitchenSink.toEqual(
+          'barProgWrapFn',
+          (v) => getFullOptions({ barProgWrapFn: v as any }).barProgWrapFn,
+          kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
+          kitchenSink.general
+        );
+      });
+      describe('barCurrentWrapFn', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.barCurrentWrapFn).toEqual(swissak.fn.noact);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ barCurrentWrapFn: swissak.fn.noact });
+          expect(opts.barCurrentWrapFn).toEqual(swissak.fn.noact);
+        });
+        kitchenSink.toEqual(
+          'barCurrentWrapFn',
+          (v) => getFullOptions({ barCurrentWrapFn: v as any }).barCurrentWrapFn,
+          kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
+          kitchenSink.general
+        );
+      });
+      describe('barEmptyWrapFn', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.barEmptyWrapFn).toEqual(swissak.fn.noact);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ barEmptyWrapFn: swissak.fn.noact });
+          expect(opts.barEmptyWrapFn).toEqual(swissak.fn.noact);
+        });
+        kitchenSink.toEqual(
+          'barEmptyWrapFn',
+          (v) => getFullOptions({ barEmptyWrapFn: v as any }).barEmptyWrapFn,
+          kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
+          kitchenSink.general
+        );
+      });
+      describe('showCount', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.showCount).toEqual(true);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ showCount: false });
+          expect(opts.showCount).toEqual(false);
+        });
+        kitchenSink.toEqual(
+          'showCount',
+          (v) => getFullOptions({ showCount: v as any }).showCount,
+          kitchenSink.safe.bool(true, true),
+          kitchenSink.general
+        );
+      });
+      describe('showPercent', () => {
+        // description: Show percentage completed - `( 69%)`
+        // default: false
+        // safeFn: safe.bool(v, dflt)
+
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.showPercent).toEqual(false);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ showPercent: true });
+          expect(opts.showPercent).toEqual(true);
+        });
+        kitchenSink.toEqual(
+          'showPercent',
+          (v) => getFullOptions({ showPercent: v as any }).showPercent,
+          kitchenSink.safe.bool(false, false),
+          kitchenSink.general
+        );
+      });
+      describe('countWidth', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.countWidth).toEqual(0);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ countWidth: 10 });
+          expect(opts.countWidth).toEqual(10);
+        });
+        kitchenSink.toEqual(
+          'countWidth',
+          (v) => getFullOptions({ countWidth: v as any }).countWidth,
+          kitchenSink.safe.num(0, true, 0, undefined, 0),
+          kitchenSink.num
+        );
+      });
+      describe('progChar', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.progChar).toEqual('█');
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ progChar: 'test' });
+          expect(opts.progChar).toEqual('test');
+        });
+        kitchenSink.toEqual(
+          'progChar',
+          (v) => getFullOptions({ progChar: v as any }).progChar,
+          kitchenSink.safe.str('█', false, '█'),
+          kitchenSink.general
+        );
+      });
+      describe('emptyChar', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.emptyChar).toEqual(' ');
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ emptyChar: 'test' });
+          expect(opts.emptyChar).toEqual('test');
+        });
+        kitchenSink.toEqual(
+          'emptyChar',
+          (v) => getFullOptions({ emptyChar: v as any }).emptyChar,
+          kitchenSink.safe.str(' ', false, ' '),
+          kitchenSink.general
+        );
+      });
+      describe('startChar', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.startChar).toEqual('▕');
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ startChar: 'test' });
+          expect(opts.startChar).toEqual('test');
+        });
+        kitchenSink.toEqual(
+          'startChar',
+          (v) => getFullOptions({ startChar: v as any }).startChar,
+          kitchenSink.safe.str('▕', false, '▕'),
+          kitchenSink.general
+        );
+      });
+      describe('endChar', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.endChar).toEqual('▏');
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ endChar: 'test' });
+          expect(opts.endChar).toEqual('test');
+        });
+        kitchenSink.toEqual(
+          'endChar',
+          (v) => getFullOptions({ endChar: v as any }).endChar,
+          kitchenSink.safe.str('▏', false, '▏'),
+          kitchenSink.general
+        );
+      });
+      describe('showCurrent', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.showCurrent).toEqual(false);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ showCurrent: true });
+          expect(opts.showCurrent).toEqual(true);
+        });
+        kitchenSink.toEqual(
+          'showCurrent',
+          (v) => getFullOptions({ showCurrent: v as any }).showCurrent,
+          kitchenSink.safe.bool(false, false),
+          kitchenSink.general
+        );
+      });
+      describe('currentChar', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.currentChar).toEqual('▞');
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ currentChar: 'test' });
+          expect(opts.currentChar).toEqual('test');
+        });
+        kitchenSink.toEqual(
+          'currentChar',
+          (v) => getFullOptions({ currentChar: v as any }).currentChar,
+          kitchenSink.safe.str('▞', false, '▞'),
+          kitchenSink.general
+        );
+      });
+      describe('print', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.print).toEqual(true);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ print: false });
+          expect(opts.print).toEqual(false);
+        });
+        kitchenSink.toEqual('print', (v) => getFullOptions({ print: v as any }).print, kitchenSink.safe.bool(true, true), kitchenSink.general);
+      });
+      describe('printFn', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.printFn).toEqual(swissak.progressBar.utils.printLn);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ printFn: swissak.fn.noact });
+          expect(opts.printFn).toEqual(swissak.fn.noact);
+        });
+        kitchenSink.toEqual(
+          'printFn',
+          (v) => getFullOptions({ printFn: v as any }).printFn,
+          kitchenSink.safe.func(swissak.progressBar.utils.printLn, swissak.progressBar.utils.printLn),
+          kitchenSink.general
+        );
+      });
+    });
+  });
+
+  describe('printLn', () => {
+    singleTest(swissak.progressBar.utils.printLn, 'progressBar.printLn', (printLn, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(printLn).toBeDefined();
+      });
+
+      if (process?.stdout?.clearLine) {
+        // when jest runs all the tests, these functions aren't available
+
+        it(should` print a string to stdout`, () => {
+          const { stdout, cnsle } = printSpies();
+          printLn('test');
+          expect(stdout.clearLine).toHaveBeenCalledWith(0);
+          expect(stdout.cursorTo).toHaveBeenCalledWith(0);
+          expect(stdout.moveCursor).toHaveBeenCalledWith(0, -1);
+          expect(stdout.clearLine).toHaveBeenCalledWith(0);
+          expect(stdout.write).toHaveBeenCalledWith('test');
+          expect(stdout.write).toHaveBeenCalledWith('\n');
+        });
+
+        it(should` print an empty line to stdout if given string is empty`, () => {
+          const { stdout, cnsle } = printSpies();
+          printLn('');
+          expect(stdout.write).toHaveBeenCalledWith('\n');
+        });
+      }
+      it(should` use console.log when stdout.clearLine isn't available`, () => {
+        const { cnsle } = printSpies(false);
+        const clearLine = process.stdout.clearLine;
+        process.stdout.clearLine = undefined;
+        printLn('test');
+        expect(cnsle.log).toHaveBeenCalled();
+        process.stdout.clearLine = clearLine;
+      });
+    });
+  });
+});
+
+describe('Multibar Manager', () => {
+  describe('getMultiBarManager', () => {
+    singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(getMultiBarManager).toBeDefined();
+      });
+
+      it(should` have the correct functions`, () => {
+        const { manager } = testMultiBarManager({}, getMultiBarManager);
+
+        expect(manager.add).toBeDefined();
+        expect(typeof manager.add).toBe('function');
+
+        expect(manager.remove).toBeDefined();
+        expect(typeof manager.remove).toBe('function');
+
+        expect(manager.update).toBeDefined();
+        expect(typeof manager.update).toBe('function');
+      });
+
       kitchenSink.toEqual(
-        'showPercent',
-        (v) => swissak.progressBar.getFullOptions({ showPercent: v as any }).showPercent,
-        kitchenSink.safe.bool(false, false),
+        'options',
+        (v) => {
+          const { manager, printCalls } = testMultiBarManager(v);
+          manager.addNew(100, {}).set(50);
+          return printCalls.at(-1);
+        },
+        kitchenSink.safe.obj({}, true),
         kitchenSink.general
       );
     });
-    describe('countWidth', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.countWidth).toEqual(0);
+  });
+
+  describe('MultiBarManager instance', () => {
+    describe('add', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        it(should` exist as ${name + '.add'}`, () => {
+          const instance = getMultiBarManager();
+          expect(instance.add).toBeDefined();
+          expect(typeof instance.add).toBe('function');
+        });
+
+        it(should` add a new progress bar`, () => {
+          const { manager } = testMultiBarManager({}, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = testProgressBar({}, 100).bar;
+          manager.add(bar1);
+
+          expect(manager.getBars().length).toBe(1);
+          expect(manager.getBars()[0]).toBe(bar1);
+        });
+        it(should` add multiple progress bars`, () => {
+          const { manager } = testMultiBarManager({}, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = testProgressBar({}, 100).bar;
+          manager.add(bar1);
+          const bar2 = testProgressBar({}, 100).bar;
+          manager.add(bar2);
+          const bar3 = testProgressBar({}, 100).bar;
+          manager.add(bar3);
+
+          expect(manager.getBars().length).toBe(3);
+          expect(manager.getBars()[0]).toBe(bar1);
+          expect(manager.getBars()[1]).toBe(bar2);
+          expect(manager.getBars()[2]).toBe(bar3);
+        });
+
+        kitchenSink.toEqual(
+          'bar',
+          (v) => {
+            const { manager, printCalls } = testMultiBarManager({});
+            manager.add(v as any);
+            return printCalls.at(-1);
+          },
+          kitchenSink.safe.obj({}),
+          kitchenSink.general
+        );
+        kitchenSink.toEqual(
+          'removeWhenFinished',
+          (v) => {
+            const { manager, printCalls } = testMultiBarManager({});
+            const { bar } = testProgressBar({}, 100);
+            manager.add(bar, v as any);
+            return printCalls.at(-1);
+          },
+          kitchenSink.safe.bool(false, false),
+          kitchenSink.general
+        );
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ countWidth: 10 });
-        expect(opts.countWidth).toEqual(10);
-      });
-      kitchenSink.toEqual(
-        'countWidth',
-        (v) => swissak.progressBar.getFullOptions({ countWidth: v as any }).countWidth,
-        kitchenSink.safe.num(0, true, 0, undefined, 0),
-        kitchenSink.num
-      );
     });
-    describe('progChar', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.progChar).toEqual('█');
+    describe('addNew', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        it(should` exist as ${name + '.addNew'}`, () => {
+          const instance = getMultiBarManager();
+          expect(instance.addNew).toBeDefined();
+          expect(typeof instance.addNew).toBe('function');
+        });
+
+        it(should` add a new progress bar`, () => {
+          const { manager } = testMultiBarManager({}, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          manager.addNew(100, {});
+
+          expect(manager.getBars().length).toBe(1);
+        });
+        it(should` add multiple progress bars`, () => {
+          const { manager } = testMultiBarManager({}, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          manager.addNew(100, {});
+          manager.addNew(100, {});
+          manager.addNew(100, {});
+
+          expect(manager.getBars().length).toBe(3);
+        });
+
+        kitchenSink.toEqual(
+          'max',
+          (v) => {
+            const { manager, printCalls } = testMultiBarManager({});
+            manager.addNew(v as any);
+            return printCalls.at(-1);
+          },
+          kitchenSink.safe.num(undefined, true, -1, undefined, -1),
+          kitchenSink.general
+        );
+        kitchenSink.toEqual(
+          'options',
+          (v) => {
+            const { manager, printCalls } = testMultiBarManager({});
+            manager.addNew(100, v as any);
+            return printCalls.at(-1);
+          },
+          kitchenSink.safe.obj({}, false, {}),
+          kitchenSink.general
+        );
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ progChar: 'test' });
-        expect(opts.progChar).toEqual('test');
-      });
-      kitchenSink.toEqual(
-        'progChar',
-        (v) => swissak.progressBar.getFullOptions({ progChar: v as any }).progChar,
-        kitchenSink.safe.str('█', false, '█'),
-        kitchenSink.general
-      );
     });
-    describe('emptyChar', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.emptyChar).toEqual(' ');
+    describe('remove', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        it(should` exist as ${name + '.remove'}`, () => {
+          const instance = getMultiBarManager();
+          expect(instance.remove).toBeDefined();
+          expect(typeof instance.remove).toBe('function');
+        });
+
+        it(should` remove the bars`, () => {
+          const { manager } = testMultiBarManager({}, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = testProgressBar({}, 100).bar;
+          manager.add(bar1);
+          const bar2 = testProgressBar({}, 100).bar;
+          manager.add(bar2);
+          const bar3 = testProgressBar({}, 100).bar;
+          manager.add(bar3);
+
+          expect(manager.getBars().length).toBe(3);
+
+          manager.remove(bar2);
+          expect(manager.getBars().length).toBe(2);
+          expect(manager.getBars()[0]).toBe(bar1);
+          expect(manager.getBars()[1]).toBe(bar3);
+
+          manager.remove(bar1);
+          expect(manager.getBars().length).toBe(1);
+          expect(manager.getBars()[0]).toBe(bar3);
+
+          manager.remove(bar3);
+          expect(manager.getBars().length).toBe(0);
+        });
+
+        kitchenSink.toEqual(
+          'bar',
+          (v) => {
+            const { manager, printCalls } = testMultiBarManager({});
+            const { bar } = testProgressBar({}, 100);
+            manager.add(bar);
+            manager.remove(v as any);
+            return printCalls.at(-1);
+          },
+          kitchenSink.safe.obj({}),
+          kitchenSink.general
+        );
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ emptyChar: 'test' });
-        expect(opts.emptyChar).toEqual('test');
-      });
-      kitchenSink.toEqual(
-        'emptyChar',
-        (v) => swissak.progressBar.getFullOptions({ emptyChar: v as any }).emptyChar,
-        kitchenSink.safe.str(' ', false, ' '),
-        kitchenSink.general
-      );
     });
-    describe('startChar', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.startChar).toEqual('▕');
+    describe('update', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        it(should` exist as ${name + '.update'}`, () => {
+          const instance = getMultiBarManager();
+          expect(instance.update).toBeDefined();
+          expect(typeof instance.update).toBe('function');
+        });
+
+        it(should` render a print`, () => {
+          const { manager, printCalls } = testMultiBarManager({}, getMultiBarManager);
+
+          manager.addNew(100, {});
+
+          const numCallsBefore = printCalls.length;
+          manager.update();
+          const numCallsAfter = printCalls.length;
+
+          expect(numCallsAfter).toBe(numCallsBefore + 1);
+
+          expect(printCalls.at(-1)).toEqual([1, '▕                                    ▏ [  0 / 100]']);
+        });
+        it(should` render a print with multiple `, () => {
+          const { manager, printCalls } = testMultiBarManager({}, getMultiBarManager);
+
+          expect(printCalls.length).toBe(0);
+          const bar1 = manager.addNew(99, {});
+          expect(printCalls.length).toBe(1);
+          const bar2 = manager.addNew(50, {});
+          expect(printCalls.length).toBe(2);
+          const bar3 = manager.addNew(10, {});
+          expect(printCalls.length).toBe(3);
+
+          bar1.set(25);
+          expect(printCalls.length).toBe(4);
+          bar2.set(25);
+          expect(printCalls.length).toBe(5);
+          bar3.set(8);
+          expect(printCalls.length).toBe(6);
+
+          manager.update();
+          expect(printCalls.length).toBe(7);
+
+          expect(printCalls.at(-1)).toEqual([
+            3,
+            [
+              '▕██████████                            ▏ [25 / 99]',
+              '▕███████████████████                   ▏ [25 / 50]',
+              '▕██████████████████████████████        ▏ [ 8 / 10]'
+            ].join('\n')
+          ]);
+        });
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ startChar: 'test' });
-        expect(opts.startChar).toEqual('test');
-      });
-      kitchenSink.toEqual(
-        'startChar',
-        (v) => swissak.progressBar.getFullOptions({ startChar: v as any }).startChar,
-        kitchenSink.safe.str('▕', false, '▕'),
-        kitchenSink.general
-      );
     });
-    describe('endChar', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.endChar).toEqual('▏');
+    describe('getBars', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        it(should` exist as ${name + '.getBars'}`, () => {
+          const instance = getMultiBarManager();
+          expect(instance.getBars).toBeDefined();
+          expect(typeof instance.getBars).toBe('function');
+        });
+
+        it(should` get the bar`, () => {
+          const { manager } = testMultiBarManager({}, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          manager.addNew(100, {});
+
+          const result = manager.getBars();
+
+          expect(result).toBeInstanceOf(Array);
+          expect(result.length).toBe(1);
+        });
+        it(should` get the bars`, () => {
+          const { manager } = testMultiBarManager({}, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          manager.addNew(100, {});
+          manager.addNew(100, {});
+          manager.addNew(100, {});
+
+          const result = manager.getBars();
+
+          expect(result).toBeInstanceOf(Array);
+          expect(result.length).toBe(3);
+        });
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ endChar: 'test' });
-        expect(opts.endChar).toEqual('test');
-      });
-      kitchenSink.toEqual(
-        'endChar',
-        (v) => swissak.progressBar.getFullOptions({ endChar: v as any }).endChar,
-        kitchenSink.safe.str('▏', false, '▏'),
-        kitchenSink.general
-      );
     });
-    describe('showCurrent', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.showCurrent).toEqual(false);
+  });
+
+  describe('MultiBarManager options', () => {
+    describe('numSlots', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: number;
+        // Description: Shorthand for setting both minSlots and maxSlots
+        // Default: `undefined`
+
+        it(should` mean the output always has 3 lines`, () => {
+          const numSlots = 3;
+          const { manager, printCalls } = testMultiBarManager({ numSlots }, getMultiBarManager);
+
+          manager.addNew(99, {}).set(25); // 1
+          expect(printCalls.at(-1)[1].split('\n').length).toEqual(numSlots);
+
+          manager.addNew(50, {}).set(25); // 2
+          manager.addNew(10, {}).set(8); // 3
+          expect(printCalls.at(-1)[1].split('\n').length).toEqual(numSlots);
+
+          manager.addNew(50, {}).set(25); // 4
+          manager.addNew(10, {}).set(8); // 5
+          expect(printCalls.at(-1)[1].split('\n').length).toEqual(numSlots);
+        });
+
+        it(should` mean the output always has 5 lines`, () => {
+          const numSlots = 5;
+          const { manager, printCalls } = testMultiBarManager({ numSlots }, getMultiBarManager);
+
+          manager.addNew(99, {}).set(25); // 1
+          expect(printCalls.at(-1)[1].split('\n').length).toEqual(numSlots);
+
+          manager.addNew(50, {}).set(25); // 2
+          manager.addNew(10, {}).set(8); // 3
+          expect(printCalls.at(-1)[1].split('\n').length).toEqual(numSlots);
+
+          manager.addNew(50, {}).set(25); // 4
+          manager.addNew(10, {}).set(8); // 5
+          expect(printCalls.at(-1)[1].split('\n').length).toEqual(numSlots);
+
+          manager.addNew(99, {}).set(25); // 6
+          manager.addNew(50, {}).set(25); // 7
+          manager.addNew(10, {}).set(8); // 8
+          expect(printCalls.at(-1)[1].split('\n').length).toEqual(numSlots);
+        });
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ showCurrent: true });
-        expect(opts.showCurrent).toEqual(true);
-      });
-      kitchenSink.toEqual(
-        'showCurrent',
-        (v) => swissak.progressBar.getFullOptions({ showCurrent: v as any }).showCurrent,
-        kitchenSink.safe.bool(false, false),
-        kitchenSink.general
-      );
     });
-    describe('currentChar', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.currentChar).toEqual('▞');
+    describe('minSlots', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: number;
+        // Description: The min number of lines to print at a time
+        // Default: `0`
+
+        it(should` mean the output always has at least 3 lines`, () => {
+          const minSlots = 3;
+          const { manager, printCalls } = testMultiBarManager({ minSlots }, getMultiBarManager);
+
+          manager.addNew(99, {}).set(25); // 1
+          expect(printCalls.at(-1)[1].split('\n').length).toBeGreaterThanOrEqual(minSlots);
+
+          manager.addNew(50, {}).set(25); // 2
+          manager.addNew(10, {}).set(8); // 3
+          expect(printCalls.at(-1)[1].split('\n').length).toBeGreaterThanOrEqual(minSlots);
+
+          manager.addNew(50, {}).set(25); // 4
+          manager.addNew(10, {}).set(8); // 5
+          expect(printCalls.at(-1)[1].split('\n').length).toBeGreaterThanOrEqual(minSlots);
+        });
+
+        it(should` mean the output always has at least 5 lines`, () => {
+          const minSlots = 5;
+          const { manager, printCalls } = testMultiBarManager({ minSlots }, getMultiBarManager);
+
+          manager.addNew(99, {}).set(25); // 1
+          expect(printCalls.at(-1)[1].split('\n').length).toBeGreaterThanOrEqual(minSlots);
+
+          manager.addNew(50, {}).set(25); // 2
+          manager.addNew(10, {}).set(8); // 3
+          expect(printCalls.at(-1)[1].split('\n').length).toBeGreaterThanOrEqual(minSlots);
+
+          manager.addNew(50, {}).set(25); // 4
+          manager.addNew(10, {}).set(8); // 5
+          expect(printCalls.at(-1)[1].split('\n').length).toBeGreaterThanOrEqual(minSlots);
+
+          manager.addNew(99, {}).set(25); // 6
+          manager.addNew(50, {}).set(25); // 7
+          manager.addNew(10, {}).set(8); // 8
+          expect(printCalls.at(-1)[1].split('\n').length).toBeGreaterThanOrEqual(minSlots);
+        });
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ currentChar: 'test' });
-        expect(opts.currentChar).toEqual('test');
+    });
+    describe('maxSlots', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: number;
+        // Description: The max number of lines to print at a time
+        // Default: `Infinity`
+
+        it(should` mean the output always has no more than 3 lines`, () => {
+          const maxSlots = 3;
+          const { manager, printCalls } = testMultiBarManager({ maxSlots }, getMultiBarManager);
+
+          manager.addNew(99, {}).set(25); // 1
+          expect(printCalls.at(-1)[1].split('\n').length).toBeLessThanOrEqual(maxSlots);
+
+          manager.addNew(50, {}).set(25); // 2
+          manager.addNew(10, {}).set(8); // 3
+          expect(printCalls.at(-1)[1].split('\n').length).toBeLessThanOrEqual(maxSlots);
+
+          manager.addNew(50, {}).set(25); // 4
+          manager.addNew(10, {}).set(8); // 5
+          expect(printCalls.at(-1)[1].split('\n').length).toBeLessThanOrEqual(maxSlots);
+        });
+
+        it(should` mean the output always has no more than 5 lines`, () => {
+          const maxSlots = 5;
+          const { manager, printCalls } = testMultiBarManager({ maxSlots }, getMultiBarManager);
+
+          manager.addNew(99, {}).set(25); // 1
+          expect(printCalls.at(-1)[1].split('\n').length).toBeLessThanOrEqual(maxSlots);
+
+          manager.addNew(50, {}).set(25); // 2
+          manager.addNew(10, {}).set(8); // 3
+          expect(printCalls.at(-1)[1].split('\n').length).toBeLessThanOrEqual(maxSlots);
+
+          manager.addNew(50, {}).set(25); // 4
+          manager.addNew(10, {}).set(8); // 5
+          expect(printCalls.at(-1)[1].split('\n').length).toBeLessThanOrEqual(maxSlots);
+
+          manager.addNew(99, {}).set(25); // 6
+          manager.addNew(50, {}).set(25); // 7
+          manager.addNew(10, {}).set(8); // 8
+          expect(printCalls.at(-1)[1].split('\n').length).toBeLessThanOrEqual(maxSlots);
+        });
       });
-      kitchenSink.toEqual(
-        'currentChar',
-        (v) => swissak.progressBar.getFullOptions({ currentChar: v as any }).currentChar,
-        kitchenSink.safe.str('▞', false, '▞'),
-        kitchenSink.general
-      );
+    });
+    describe('removeFinished', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: boolean;
+        // Description: Remove progress bars from the manager when they finish
+        // Default: `false`
+
+        it(should` not remove the bars by default`, () => {
+          const { manager } = testMultiBarManager({}, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+
+          expect(manager.getBars().length).toBe(3);
+
+          bar2.finish();
+          expect(manager.getBars().length).toBe(3);
+          expect(manager.getBars()[0]).toBe(bar1);
+          expect(manager.getBars()[1]).toBe(bar2);
+          expect(manager.getBars()[2]).toBe(bar3);
+
+          bar1.finish();
+          expect(manager.getBars().length).toBe(3);
+          expect(manager.getBars()[0]).toBe(bar1);
+          expect(manager.getBars()[1]).toBe(bar2);
+          expect(manager.getBars()[2]).toBe(bar3);
+
+          bar3.finish();
+          expect(manager.getBars().length).toBe(3);
+          expect(manager.getBars()[0]).toBe(bar1);
+          expect(manager.getBars()[1]).toBe(bar2);
+          expect(manager.getBars()[2]).toBe(bar3);
+        });
+        it(should` remove the bars when true`, () => {
+          const { manager } = testMultiBarManager({ removeFinished: true }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+
+          expect(manager.getBars().length).toBe(3);
+
+          bar2.finish();
+          expect(manager.getBars().length).toBe(2);
+          expect(manager.getBars()[0]).toBe(bar1);
+          expect(manager.getBars()[1]).toBe(bar3);
+
+          bar1.finish();
+          expect(manager.getBars().length).toBe(1);
+          expect(manager.getBars()[0]).toBe(bar3);
+
+          bar3.finish();
+          expect(manager.getBars().length).toBe(0);
+        });
+        it(should` not remove the bars when false`, () => {
+          const { manager } = testMultiBarManager({ removeFinished: false }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+
+          expect(manager.getBars().length).toBe(3);
+
+          bar2.finish();
+          expect(manager.getBars().length).toBe(3);
+          expect(manager.getBars()[0]).toBe(bar1);
+          expect(manager.getBars()[1]).toBe(bar2);
+          expect(manager.getBars()[2]).toBe(bar3);
+
+          bar1.finish();
+          expect(manager.getBars().length).toBe(3);
+          expect(manager.getBars()[0]).toBe(bar1);
+          expect(manager.getBars()[1]).toBe(bar2);
+          expect(manager.getBars()[2]).toBe(bar3);
+
+          bar3.finish();
+          expect(manager.getBars().length).toBe(3);
+          expect(manager.getBars()[0]).toBe(bar1);
+          expect(manager.getBars()[1]).toBe(bar2);
+          expect(manager.getBars()[2]).toBe(bar3);
+        });
+      });
+    });
+    describe('alignBottom', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: boolean;
+        // Description: Align the bars to the bottom of the print space
+        // Default: `false`
+
+        it(should` align the bars to the top by default`, () => {
+          const { manager, printCalls } = testMultiBarManager({}, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+
+          expect(manager.getBars().length).toBe(3);
+
+          manager.remove(bar2);
+          expect(manager.getBars().length).toBe(2);
+          expect(manager.getBars()[0]).toBe(bar1);
+          expect(manager.getBars()[1]).toBe(bar3);
+
+          manager.remove(bar1);
+          expect(manager.getBars().length).toBe(1);
+          expect(manager.getBars()[0]).toBe(bar3);
+
+          expect(printCalls.at(-1)).toEqual([2, '▕███████████████████████████         ▏ [ 75 / 100]']);
+        });
+        it(should` align the bars to the bottom when true`, () => {
+          const { manager, printCalls } = testMultiBarManager({ alignBottom: true }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+
+          expect(manager.getBars().length).toBe(3);
+
+          manager.remove(bar2);
+          expect(manager.getBars().length).toBe(2);
+          expect(manager.getBars()[0]).toBe(bar1);
+          expect(manager.getBars()[1]).toBe(bar3);
+
+          manager.remove(bar1);
+          expect(manager.getBars().length).toBe(1);
+          expect(manager.getBars()[0]).toBe(bar3);
+
+          expect(printCalls.at(-1)).toEqual([
+            3,
+            [
+              // 3 lines
+              '',
+              '',
+              '▕███████████████████████████         ▏ [ 75 / 100]'
+            ].join('\n')
+          ]);
+        });
+        it(should` align the bars to the top when false`, () => {
+          const { manager, printCalls } = testMultiBarManager({ alignBottom: false }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+
+          expect(manager.getBars().length).toBe(3);
+
+          manager.remove(bar2);
+          expect(manager.getBars().length).toBe(2);
+          expect(manager.getBars()[0]).toBe(bar1);
+          expect(manager.getBars()[1]).toBe(bar3);
+
+          manager.remove(bar1);
+          expect(manager.getBars().length).toBe(1);
+          expect(manager.getBars()[0]).toBe(bar3);
+
+          expect(printCalls.at(-1)).toEqual([2, '▕███████████████████████████         ▏ [ 75 / 100]']);
+        });
+      });
+    });
+    describe('overrideOptions', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: progressBar.ProgressBarOptions;
+        // Description: Override the options of the progress bars
+        // Default: `{}` (No overrides)
+
+        it(should` override the progChar option`, () => {
+          const { manager, printCalls } = testMultiBarManager({ overrideOptions: { progChar: 'X' } }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+
+          expect(printCalls.at(-1)).toEqual([
+            3,
+            [
+              // 3 lines
+              '▕XXXXXXXXX                           ▏ [ 25 / 100]',
+              '▕XXXXXXXXXXXXXXXXXX                  ▏ [ 50 / 100]',
+              '▕XXXXXXXXXXXXXXXXXXXXXXXXXXX         ▏ [ 75 / 100]'
+            ].join('\n')
+          ]);
+        });
+        it(should` override the showPercent option`, () => {
+          const { manager, printCalls } = testMultiBarManager({ overrideOptions: { showPercent: true } }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+
+          expect(printCalls.at(-1)).toEqual([
+            3,
+            [
+              // 3 lines
+              '▕███████                      ▏ [ 25 / 100] ( 25%)',
+              '▕███████████████              ▏ [ 50 / 100] ( 50%)',
+              '▕██████████████████████       ▏ [ 75 / 100] ( 75%)'
+            ].join('\n')
+          ]);
+        });
+      });
+    });
+    describe('wrapperFns', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: Function[];
+        // Description: Rotate given `wrapperFn`s between the bars
+        // Default: `undefined`
+
+        it(should` rotate the wrapperFns`, () => {
+          const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
+          const { manager, printCalls } = testMultiBarManager({ wrapperFns: wraps }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+          const bar4 = manager.addNew(100, {});
+          const bar5 = manager.addNew(100, {});
+          const bar6 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+          bar4.set(10);
+          bar5.set(60);
+          bar6.set(90);
+
+          expect(printCalls.at(-1)).toEqual([
+            6,
+            [
+              // 6 lines
+              '(1)▕█████████                           ▏ [ 25 / 100](1)',
+              '(2)▕██████████████████                  ▏ [ 50 / 100](2)',
+              '(3)▕███████████████████████████         ▏ [ 75 / 100](3)',
+              '(1)▕████                                ▏ [ 10 / 100](1)',
+              '(2)▕██████████████████████              ▏ [ 60 / 100](2)',
+              '(3)▕████████████████████████████████    ▏ [ 90 / 100](3)'
+            ].join('\n')
+          ]);
+        });
+      });
+    });
+    describe('barWrapFns', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: Function[];
+        // Description: Rotate given `barWrapFn`s between the bars
+        // Default: `undefined`
+
+        it(should` rotate the barWrapFns`, () => {
+          const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
+          const { manager, printCalls } = testMultiBarManager({ barWrapFns: wraps }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+          const bar4 = manager.addNew(100, {});
+          const bar5 = manager.addNew(100, {});
+          const bar6 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+          bar4.set(10);
+          bar5.set(60);
+          bar6.set(90);
+
+          expect(printCalls.at(-1)).toEqual([
+            6,
+            [
+              // 6 lines
+              '▕(1)█████████                           (1)▏ [ 25 / 100]',
+              '▕(2)██████████████████                  (2)▏ [ 50 / 100]',
+              '▕(3)███████████████████████████         (3)▏ [ 75 / 100]',
+              '▕(1)████                                (1)▏ [ 10 / 100]',
+              '▕(2)██████████████████████              (2)▏ [ 60 / 100]',
+              '▕(3)████████████████████████████████    (3)▏ [ 90 / 100]'
+            ].join('\n')
+          ]);
+        });
+      });
+    });
+    describe('barProgWrapFns', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: Function[];
+        // Description: Rotate given `barProgWrapFn`s between the bars
+        // Default: `undefined`
+
+        it(should` rotate the barProgWrapFns`, () => {
+          const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
+          const { manager, printCalls } = testMultiBarManager({ barProgWrapFns: wraps }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+          const bar4 = manager.addNew(100, {});
+          const bar5 = manager.addNew(100, {});
+          const bar6 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+          bar4.set(10);
+          bar5.set(60);
+          bar6.set(90);
+
+          expect(printCalls.at(-1)).toEqual([
+            6,
+            [
+              // 6 lines
+              '▕(1)█████████(1)                           ▏ [ 25 / 100]',
+              '▕(2)██████████████████(2)                  ▏ [ 50 / 100]',
+              '▕(3)███████████████████████████(3)         ▏ [ 75 / 100]',
+              '▕(1)████(1)                                ▏ [ 10 / 100]',
+              '▕(2)██████████████████████(2)              ▏ [ 60 / 100]',
+              '▕(3)████████████████████████████████(3)    ▏ [ 90 / 100]'
+            ].join('\n')
+          ]);
+        });
+      });
+    });
+    describe('barCurrentWrapFns', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: Function[];
+        // Description: Rotate given `barCurrentWrapFn`s between the bars
+        // Default: `undefined`
+
+        it(should` rotate the barCurrentWrapFns`, () => {
+          const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
+          const { manager, printCalls } = testMultiBarManager(
+            { barCurrentWrapFns: wraps, overrideOptions: { showCurrent: true } },
+            getMultiBarManager
+          );
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(5, {});
+          const bar2 = manager.addNew(5, {});
+          const bar3 = manager.addNew(5, {});
+          const bar4 = manager.addNew(5, {});
+          const bar5 = manager.addNew(5, {});
+          const bar6 = manager.addNew(5, {});
+
+          bar1.set(2);
+          bar2.set(3);
+          bar3.set(4);
+          bar4.set(1);
+          bar5.set(5);
+          bar6.set(3);
+
+          expect(printCalls.at(-1)).toEqual([
+            6,
+            [
+              // 6 lines
+              '▕████████████████(1)▞▞▞▞▞▞▞▞(1)                ▏ [2 / 5]',
+              '▕████████████████████████(2)▞▞▞▞▞▞▞▞(2)        ▏ [3 / 5]',
+              '▕████████████████████████████████(3)▞▞▞▞▞▞▞▞(3)▏ [4 / 5]',
+              '▕████████(1)▞▞▞▞▞▞▞▞(1)                        ▏ [1 / 5]',
+              '▕████████████████████████████████████████(2)(2)▏ [5 / 5]',
+              '▕████████████████████████(3)▞▞▞▞▞▞▞▞(3)        ▏ [3 / 5]'
+            ].join('\n')
+          ]);
+        });
+      });
+    });
+    describe('barEmptyWrapFns', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: Function[];
+        // Description: Rotate given `barEmptyWrapFn`s between the bars
+        // Default: `undefined`
+
+        it(should` rotate the barEmptyWrapFns`, () => {
+          const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
+          const { manager, printCalls } = testMultiBarManager({ barEmptyWrapFns: wraps }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+          const bar4 = manager.addNew(100, {});
+          const bar5 = manager.addNew(100, {});
+          const bar6 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+          bar4.set(10);
+          bar5.set(60);
+          bar6.set(90);
+
+          expect(printCalls.at(-1)).toEqual([
+            6,
+            [
+              // 6 lines
+              '▕█████████(1)                           (1)▏ [ 25 / 100]',
+              '▕██████████████████(2)                  (2)▏ [ 50 / 100]',
+              '▕███████████████████████████(3)         (3)▏ [ 75 / 100]',
+              '▕████(1)                                (1)▏ [ 10 / 100]',
+              '▕██████████████████████(2)              (2)▏ [ 60 / 100]',
+              '▕████████████████████████████████(3)    (3)▏ [ 90 / 100]'
+            ].join('\n')
+          ]);
+        });
+      });
     });
     describe('print', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.print).toEqual(true);
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: boolean;
+        // Description: Whether or not to print the bars
+        // Default: `true`
+
+        it(should` print by default`, () => {
+          const { manager, printCalls } = testMultiBarManager({}, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+
+          expect(printCalls.length).toEqual(6);
+        });
+        it(should` print when true`, () => {
+          const { manager, printCalls } = testMultiBarManager({ print: true }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+
+          expect(printCalls.length).toEqual(6);
+        });
+        it(should` not print when false`, () => {
+          const { manager, printCalls } = testMultiBarManager({ print: false }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+
+          expect(printCalls.length).toEqual(0);
+        });
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ print: false });
-        expect(opts.print).toEqual(false);
-      });
-      kitchenSink.toEqual(
-        'print',
-        (v) => swissak.progressBar.getFullOptions({ print: v as any }).print,
-        kitchenSink.safe.bool(true, true),
-        kitchenSink.general
-      );
     });
     describe('printFn', () => {
-      it(should` default correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({});
-        expect(opts.printFn).toEqual(swissak.progressBar.printLn);
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        // Type: (previousDrawnLines: number, output: string) => void;
+        // Description: The function to use to print the bars
+        // Default: progressBar.utils.multiPrintFn
+        // no tests as it's covered by all the tests that use testMultiBarManager
       });
-      it(should` set correctly`, () => {
-        const opts = swissak.progressBar.getFullOptions({ printFn: swissak.fn.noact });
-        expect(opts.printFn).toEqual(swissak.fn.noact);
+    });
+  });
+
+  describe('getFullMultiBarManagerOptions', () => {
+    singleTest(swissak.progressBar.getFullMultiBarManagerOptions, 'progressBar.getFullMultiBarManagerOptions', (getOptions, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(getOptions).toBeDefined();
       });
-      kitchenSink.toEqual(
-        'printFn',
-        (v) => swissak.progressBar.getFullOptions({ printFn: v as any }).printFn,
-        kitchenSink.safe.func(swissak.progressBar.printLn, swissak.progressBar.printLn),
-        kitchenSink.general
-      );
+
+      it(should` produce a full options object`, () => {
+        const opts = getOptions({});
+
+        process.stdout.columns = 120;
+
+        expect(opts).toEqual({
+          alignBottom: false,
+          barCurrentWrapFns: undefined,
+          barEmptyWrapFns: undefined,
+          barProgWrapFns: undefined,
+          barWrapFns: undefined,
+          maxSlots: Infinity,
+          minSlots: 0,
+          numSlots: null,
+          overrideOptions: {},
+          print: true,
+          printFn: swissak.progressBar.utils.multiPrintFn,
+          removeFinished: false,
+          wrapperFns: undefined
+        });
+      });
+
+      describe('numSlots', () => {
+        // Type: number;
+        // Description: Shorthand for setting both minSlots and maxSlots
+        // Default: `undefined`
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.numSlots).toEqual(null);
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ numSlots: 12 });
+          expect(opts.numSlots).toEqual(12);
+        });
+        kitchenSink.toEqual(
+          'numSlots',
+          (v) => getOptions({ numSlots: v as any }).numSlots,
+          (v) => (v === undefined ? undefined : kitchenSink.safe.num(undefined, true, 0, undefined, null)(v)),
+          kitchenSink.general
+        );
+      });
+
+      describe('minSlots', () => {
+        // Type: number;
+        // Description: The min number of lines to print at a time
+        // Default: `0`
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.minSlots).toEqual(0);
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ minSlots: 12 });
+          expect(opts.minSlots).toEqual(12);
+        });
+        kitchenSink.toEqual(
+          'minSlots',
+          (v) => getOptions({ minSlots: v as any }).minSlots,
+          kitchenSink.safe.num(0, true, 0, undefined, 0),
+          kitchenSink.num
+        );
+      });
+      describe('maxSlots', () => {
+        // Type: number;
+        // Description: The max number of lines to print at a time
+        // Default: `Infinity`
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.maxSlots).toEqual(Infinity);
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ maxSlots: 12 });
+          expect(opts.maxSlots).toEqual(12);
+        });
+        kitchenSink.toEqual(
+          'maxSlots',
+          (v) => getOptions({ maxSlots: v as any }).maxSlots,
+          (v) => {
+            if (v === Infinity) return Infinity;
+            if (v === undefined) return Infinity;
+            return kitchenSink.safe.num(undefined, true, 0, undefined, undefined)(v);
+          },
+          kitchenSink.num
+        );
+      });
+      describe('removeFinished', () => {
+        // Type: boolean;
+        // Description: Remove progress bars from the manager when they finish
+        // Default: `false`
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.removeFinished).toEqual(false);
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ removeFinished: true });
+          expect(opts.removeFinished).toEqual(true);
+        });
+        kitchenSink.toEqual(
+          'removeFinished',
+          (v) => getOptions({ removeFinished: v as any }).removeFinished,
+          kitchenSink.safe.bool(false, false),
+          kitchenSink.general
+        );
+      });
+      describe('alignBottom', () => {
+        // Type: boolean;
+        // Description: Align the bars to the bottom of the print space
+        // Default: `false`
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.alignBottom).toEqual(false);
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ alignBottom: true });
+          expect(opts.alignBottom).toEqual(true);
+        });
+        kitchenSink.toEqual(
+          'alignBottom',
+          (v) => getOptions({ alignBottom: v as any }).alignBottom,
+          kitchenSink.safe.bool(false, false),
+          kitchenSink.general
+        );
+      });
+      describe('overrideOptions', () => {
+        // Type: progressBar.ProgressBarOptions;
+        // Description: Override the options of the progress bars
+        // Default: `{}` (No overrides)
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.overrideOptions).toEqual({});
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ overrideOptions: { showPercent: true } });
+          expect(opts.overrideOptions).toEqual({ showPercent: true });
+        });
+        kitchenSink.toEqual(
+          'overrideOptions',
+          (v) => getOptions({ overrideOptions: v as any }).overrideOptions,
+          kitchenSink.safe.obj({}, true, {}),
+          kitchenSink.general
+        );
+      });
+      describe('wrapperFns', () => {
+        // Type: Function[];
+        // Description: Rotate given `wrapperFn`s between the bars
+        // Default: `undefined`
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.wrapperFns).toEqual(undefined);
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ wrapperFns: [swissak.fn.noact] });
+          expect(opts.wrapperFns).toEqual([swissak.fn.noact]);
+        });
+        kitchenSink.toEqual(
+          'wrapperFns',
+          (v) => getOptions({ wrapperFns: v as any }).wrapperFns,
+          (v) => (v === undefined ? undefined : kitchenSink.safe.arrOf.func(v, swissak.fn.noact, [])(v)),
+          kitchenSink.general
+        );
+      });
+      describe('barWrapFns', () => {
+        // Type: Function[];
+        // Description: Rotate given `barWrapFn`s between the bars
+        // Default: `undefined`
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.barWrapFns).toEqual(undefined);
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ barWrapFns: [swissak.fn.noact] });
+          expect(opts.barWrapFns).toEqual([swissak.fn.noact]);
+        });
+        kitchenSink.toEqual(
+          'barWrapFns',
+          (v) => getOptions({ barWrapFns: v as any }).barWrapFns,
+          (v) => (v === undefined ? undefined : kitchenSink.safe.arrOf.func(v, swissak.fn.noact, [])(v)),
+          kitchenSink.general
+        );
+      });
+      describe('barProgWrapFns', () => {
+        // Type: Function[];
+        // Description: Rotate given `barProgWrapFn`s between the bars
+        // Default: `undefined`
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.barProgWrapFns).toEqual(undefined);
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ barProgWrapFns: [swissak.fn.noact] });
+          expect(opts.barProgWrapFns).toEqual([swissak.fn.noact]);
+        });
+        kitchenSink.toEqual(
+          'barProgWrapFns',
+          (v) => getOptions({ barProgWrapFns: v as any }).barProgWrapFns,
+          (v) => (v === undefined ? undefined : kitchenSink.safe.arrOf.func(v, swissak.fn.noact, [])(v)),
+          kitchenSink.general
+        );
+      });
+      describe('barCurrentWrapFns', () => {
+        // Type: Function[];
+        // Description: Rotate given `barCurrentWrapFn`s between the bars
+        // Default: `undefined`
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.barCurrentWrapFns).toEqual(undefined);
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ barCurrentWrapFns: [swissak.fn.noact] });
+          expect(opts.barCurrentWrapFns).toEqual([swissak.fn.noact]);
+        });
+        kitchenSink.toEqual(
+          'barCurrentWrapFns',
+          (v) => getOptions({ barCurrentWrapFns: v as any }).barCurrentWrapFns,
+          (v) => (v === undefined ? undefined : kitchenSink.safe.arrOf.func(v, swissak.fn.noact, [])(v)),
+          kitchenSink.general
+        );
+      });
+      describe('barEmptyWrapFns', () => {
+        // Type: Function[];
+        // Description: Rotate given `barEmptyWrapFn`s between the bars
+        // Default: `undefined`
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.barEmptyWrapFns).toEqual(undefined);
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ barEmptyWrapFns: [swissak.fn.noact] });
+          expect(opts.barEmptyWrapFns).toEqual([swissak.fn.noact]);
+        });
+        kitchenSink.toEqual(
+          'barEmptyWrapFns',
+          (v) => getOptions({ barEmptyWrapFns: v as any }).barEmptyWrapFns,
+          (v) => (v === undefined ? undefined : kitchenSink.safe.arrOf.func(v, swissak.fn.noact, [])(v)),
+          kitchenSink.general
+        );
+      });
+      describe('print', () => {
+        // Type: boolean;
+        // Description: Whether or not to print the bars
+        // Default: `true`
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.print).toEqual(true);
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ print: false });
+          expect(opts.print).toEqual(false);
+        });
+        kitchenSink.toEqual('print', (v) => getOptions({ print: v as any }).print, kitchenSink.safe.bool(true, true), kitchenSink.general);
+      });
+      describe('printFn', () => {
+        // Type: (previousDrawnLines: number, output: string) => void;
+        // Description: The function to use to print the bars
+        // Default: progressBar.utils.multiPrintFn
+
+        it(should` default correctly`, () => {
+          const opts = getOptions({});
+          expect(opts.printFn).toEqual(swissak.progressBar.utils.multiPrintFn);
+        });
+        it(should` set correctly`, () => {
+          const opts = getOptions({ printFn: swissak.fn.noact });
+          expect(opts.printFn).toEqual(swissak.fn.noact);
+        });
+        kitchenSink.toEqual(
+          'printFn',
+          (v) => getOptions({ printFn: v as any }).printFn,
+          kitchenSink.safe.func(swissak.progressBar.utils.multiPrintFn, swissak.progressBar.utils.multiPrintFn),
+          kitchenSink.general
+        );
+      });
+    });
+  });
+  describe('multiPrintFn', () => {
+    singleTest(swissak.progressBar.utils.multiPrintFn, 'progressBar.multiPrintFn', (multiPrintFn, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(multiPrintFn).toBeDefined();
+      });
+
+      // no tests
     });
   });
 });

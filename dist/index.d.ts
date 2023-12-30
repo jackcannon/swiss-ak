@@ -362,6 +362,8 @@ declare namespace times {
      *
      * Function that returns the number of milliseconds equal to a multiple of milliseconds
      *
+     * Note: Rounds to nearest millisecond
+     *
      * ```typescript
      * milliseconds(); // 1 (1 milliseconds)
      * milliseconds(1); // 1 (1 milliseconds)
@@ -379,6 +381,8 @@ declare namespace times {
      * - `times.seconds`
      *
      * Function that returns the number of milliseconds equal to a multiple of seconds
+     *
+     * Note: Rounds to nearest millisecond
      *
      * ```typescript
      * seconds(); // 1_000 (1 second)
@@ -398,6 +402,8 @@ declare namespace times {
      *
      * Function that returns the number of milliseconds equal to a multiple of minutes
      *
+     * Note: Rounds to nearest millisecond
+     *
      * ```typescript
      * minutes(); // 60_000 (60 seconds)
      * minutes(1); // 60_000 (60 seconds)
@@ -415,6 +421,8 @@ declare namespace times {
      * - `times.hours`
      *
      * Function that returns the number of milliseconds equal to a multiple of hours
+     *
+     * Note: Rounds to nearest millisecond
      *
      * ```typescript
      * hours(); // 3_600_000 (1 hour / 60 minutes)
@@ -434,6 +442,8 @@ declare namespace times {
      *
      * Function that returns the number of milliseconds equal to a multiple of days
      *
+     * Note: Rounds to nearest millisecond
+     *
      * ```typescript
      * days(); // 86_400_000 (1 day / 24 hours)
      * days(1); // 86_400_000 (1 day / 24 hours)
@@ -451,6 +461,8 @@ declare namespace times {
      * - `times.weeks`
      *
      * Function that returns the number of milliseconds equal to a multiple of weeks
+     *
+     * Note: Rounds to nearest millisecond
      *
      * ```typescript
      * weeks(); // 604_800_000 (7 days / 168 hours)
@@ -470,6 +482,8 @@ declare namespace times {
      *
      * Function that returns the number of milliseconds equal to a multiple of months
      *
+     * Note: Rounds to nearest millisecond
+     *
      * ```typescript
      * months(); // 2_592_000_000 (30 days)
      * months(1); // 2_592_000_000 (30 days)
@@ -487,6 +501,8 @@ declare namespace times {
      * - `times.years`
      *
      * Function that returns the number of milliseconds equal to a multiple of years
+     *
+     * Note: Rounds to nearest millisecond
      *
      * ```typescript
      * years(); // 31_557_600_000 (1 year / 365.25 days)
@@ -506,6 +522,8 @@ declare namespace times {
      *
      * Function that returns the number of milliseconds equal to a multiple of decades
      *
+     * Note: Rounds to nearest millisecond
+     *
      * ```typescript
      * decades(); // 315_576_000_000 (10 years / 3,652.5 days)
      * decades(1); // 315_576_000_000 (10 years / 3,652.5 days)
@@ -524,6 +542,8 @@ declare namespace times {
      *
      * Function that returns the number of milliseconds equal to a multiple of centuries
      *
+     * Note: Rounds to nearest millisecond
+     *
      * ```typescript
      * centuries(); // 3_155_760_000_000 (100 years / 36,525 days)
      * centuries(1); // 3_155_760_000_000 (100 years / 36,525 days)
@@ -541,6 +561,8 @@ declare namespace times {
      * - `times.millenniums`
      *
      * Function that returns the number of milliseconds equal to a multiple of millenniums
+     *
+     * Note: Rounds to nearest millisecond
      *
      * ```typescript
      * millenniums(); // 31_557_600_000_000 (1000 years / 365,250 days)
@@ -781,6 +803,8 @@ declare const MILLENNIUM: number;
  * 
  * Function that returns the number of milliseconds equal to a multiple of milliseconds
  * 
+ * Note: Rounds to nearest millisecond
+ * 
  * ```typescript
  * milliseconds(); // 1 (1 milliseconds)
  * milliseconds(1); // 1 (1 milliseconds)
@@ -798,6 +822,8 @@ declare const milliseconds: (x?: ms) => ms;
  * - `times.seconds`
  * 
  * Function that returns the number of milliseconds equal to a multiple of seconds
+ * 
+ * Note: Rounds to nearest millisecond
  * 
  * ```typescript
  * seconds(); // 1_000 (1 second)
@@ -817,6 +843,8 @@ declare const seconds: (x?: second) => ms;
  * 
  * Function that returns the number of milliseconds equal to a multiple of minutes
  * 
+ * Note: Rounds to nearest millisecond
+ * 
  * ```typescript
  * minutes(); // 60_000 (60 seconds)
  * minutes(1); // 60_000 (60 seconds)
@@ -834,6 +862,8 @@ declare const minutes: (x?: minute) => ms;
  * - `times.hours`
  * 
  * Function that returns the number of milliseconds equal to a multiple of hours
+ * 
+ * Note: Rounds to nearest millisecond
  * 
  * ```typescript
  * hours(); // 3_600_000 (1 hour / 60 minutes)
@@ -853,6 +883,8 @@ declare const hours: (x?: hour) => ms;
  * 
  * Function that returns the number of milliseconds equal to a multiple of days
  * 
+ * Note: Rounds to nearest millisecond
+ * 
  * ```typescript
  * days(); // 86_400_000 (1 day / 24 hours)
  * days(1); // 86_400_000 (1 day / 24 hours)
@@ -870,6 +902,8 @@ declare const days: (x?: day) => ms;
  * - `times.weeks`
  * 
  * Function that returns the number of milliseconds equal to a multiple of weeks
+ * 
+ * Note: Rounds to nearest millisecond
  * 
  * ```typescript
  * weeks(); // 604_800_000 (7 days / 168 hours)
@@ -889,6 +923,8 @@ declare const weeks: (x?: week) => ms;
  * 
  * Function that returns the number of milliseconds equal to a multiple of months
  * 
+ * Note: Rounds to nearest millisecond
+ * 
  * ```typescript
  * months(); // 2_592_000_000 (30 days)
  * months(1); // 2_592_000_000 (30 days)
@@ -906,6 +942,8 @@ declare const months: (x?: month) => ms;
  * - `times.years`
  * 
  * Function that returns the number of milliseconds equal to a multiple of years
+ * 
+ * Note: Rounds to nearest millisecond
  * 
  * ```typescript
  * years(); // 31_557_600_000 (1 year / 365.25 days)
@@ -925,6 +963,8 @@ declare const years: (x?: year) => ms;
  * 
  * Function that returns the number of milliseconds equal to a multiple of decades
  * 
+ * Note: Rounds to nearest millisecond
+ * 
  * ```typescript
  * decades(); // 315_576_000_000 (10 years / 3,652.5 days)
  * decades(1); // 315_576_000_000 (10 years / 3,652.5 days)
@@ -943,6 +983,8 @@ declare const decades: (x?: decade) => ms;
  * 
  * Function that returns the number of milliseconds equal to a multiple of centuries
  * 
+ * Note: Rounds to nearest millisecond
+ * 
  * ```typescript
  * centuries(); // 3_155_760_000_000 (100 years / 36,525 days)
  * centuries(1); // 3_155_760_000_000 (100 years / 36,525 days)
@@ -960,6 +1002,8 @@ declare const centuries: (x?: century) => ms;
  * - `times.millenniums`
  * 
  * Function that returns the number of milliseconds equal to a multiple of millenniums
+ * 
+ * Note: Rounds to nearest millisecond
  * 
  * ```typescript
  * millenniums(); // 31_557_600_000_000 (1000 years / 365,250 days)
@@ -2536,8 +2580,11 @@ declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean,
  */
 declare const timer: ITimer<INames> & KeysOnly<INames>;
 
+/**
+ * Returned by `getProgressBar`
+ */
 interface ProgressBar {
-    /**<!-- DOCS-ALIAS: progressBar.next -->
+    /**<!-- DOCS-ALIAS: progressBar.progressBar.next -->
      * next
      * 
      * - `getProgressBar().next`
@@ -2546,7 +2593,7 @@ interface ProgressBar {
      * @returns {string} The output string
      */
     next: () => string;
-    /**<!-- DOCS-ALIAS: progressBar.set -->
+    /**<!-- DOCS-ALIAS: progressBar.progressBar.set -->
      * set
      * 
      * - `getProgressBar().set`
@@ -2556,7 +2603,7 @@ interface ProgressBar {
      * @returns {string} The output string
      */
     set: (newCurrent: number) => string;
-    /**<!-- DOCS-ALIAS: progressBar.reset -->
+    /**<!-- DOCS-ALIAS: progressBar.progressBar.reset -->
      * reset
      * 
      * - `getProgressBar().reset`
@@ -2565,7 +2612,17 @@ interface ProgressBar {
      * @returns {string} The output string
      */
     reset: () => string;
-    /**<!-- DOCS-ALIAS: progressBar.update -->
+    /**<!-- DOCS-ALIAS: progressBar.progressBar.getBar -->
+     * getBar
+     * 
+     * - `getProgressBar().getBar`
+     * 
+     * Get the output string of the progress bar
+     * @param {boolean} [applyWrap=false] Whether or not to apply the wrapperFn to the output
+     * @returns {string} The output string
+     */
+    getBar: (applyWrap?: boolean) => string;
+    /**<!-- DOCS-ALIAS: progressBar.progressBar.update -->
      * update
      * 
      * - `getProgressBar().update`
@@ -2574,7 +2631,7 @@ interface ProgressBar {
      * @returns {string} The output string
      */
     update: () => string;
-    /**<!-- DOCS-ALIAS: progressBar.start -->
+    /**<!-- DOCS-ALIAS: progressBar.progressBar.start -->
      * start
      * 
      * - `getProgressBar().start`
@@ -2583,7 +2640,7 @@ interface ProgressBar {
      * @returns {string} The output string
      */
     start: () => string;
-    /**<!-- DOCS-ALIAS: progressBar.finish -->
+    /**<!-- DOCS-ALIAS: progressBar.progressBar.finish -->
      * finish
      * 
      * - `getProgressBar().finish`
@@ -2592,7 +2649,7 @@ interface ProgressBar {
      * @returns {string} The output string
      */
     finish: () => string;
-    /**<!-- DOCS-ALIAS: progressBar.max -->
+    /**<!-- DOCS-ALIAS: progressBar.progressBar.max -->
      * max
      * 
      * - `getProgressBar().max`
@@ -2600,6 +2657,146 @@ interface ProgressBar {
      * Readonly number value of the max value (provided to getProgressBar as first argument)
      */
     readonly max: number;
+}
+/**
+ * Returned by `getMultiBarManager`
+ */
+interface MultiBarManager {
+    /**<!-- DOCS-ALIAS: progressBar.MultiBarManager.add -->
+     * add
+     * 
+     * - `getMultiBarManager().add`
+     * 
+     * Add a given progress bar to the manager
+     * 
+     * ```typescript
+     * const manager = getMultiBarManager({ overrideOptions: { maxWidth: 75 } });
+     * 
+     * const bar1 = getProgressBar(100, { prefix: 'Bar 1' });
+     * manager.add(bar1);
+     * const bar2 = getProgressBar(100, { prefix: 'Bar 2' });
+     * manager.add(bar2);
+     * const bar3 = getProgressBar(100, { prefix: 'Bar 3' });
+     * manager.add(bar3);
+     * 
+     * bar1.set(25);
+     * bar2.set(50);
+     * bar3.set(75);
+     * 
+     * // Bar 1▕██████████████                                          ▏ [ 25 / 100]
+     * // Bar 2▕████████████████████████████                            ▏ [ 50 / 100]
+     * // Bar 3▕██████████████████████████████████████████              ▏ [ 75 / 100]
+     * ```
+     * @param {ProgressBar} bar
+     * @param {boolean} [removeWhenFinished=opts.removeFinished]
+     * @returns {void}
+     */
+    add: (bar: ProgressBar, removeWhenFinished?: boolean) => void;
+    /**<!-- DOCS-ALIAS: progressBar.MultiBarManager.addNew -->
+     * addNew
+     * 
+     * - `getMultiBarManager().addNew`
+     * 
+     * Create a new progress bar and add it to the manager
+     * 
+     * ```typescript
+     * const manager = getMultiBarManager({});
+     * 
+     * const bar1 = manager.addNew(100, { prefix: 'Bar 1' });
+     * const bar2 = manager.addNew(100, { prefix: 'Bar 2' });
+     * const bar3 = manager.addNew(100, { prefix: 'Bar 3' });
+     * 
+     * bar1.set(25);
+     * bar2.set(50);
+     * bar3.set(75);
+     * 
+     * // Bar 1▕██████████████                                          ▏ [ 25 / 100]
+     * // Bar 2▕████████████████████████████                            ▏ [ 50 / 100]
+     * // Bar 3▕██████████████████████████████████████████              ▏ [ 75 / 100]
+     * ```
+     * @param {number} [max]
+     * @param {progressBar.ProgressBarOptions} [options={}]
+     * @returns {ProgressBar}
+     */
+    addNew: (max?: number, options?: progressBar.ProgressBarOptions) => ProgressBar;
+    /**<!-- DOCS-ALIAS: progressBar.MultiBarManager.remove -->
+     * remove
+     * 
+     * - `getMultiBarManager().remove`
+     * 
+     * Remove a given progress bar from the manager
+     * 
+     * ```typescript
+     * const manager = getMultiBarManager({ overrideOptions: { maxWidth: 75 } });
+     * 
+     * const bar1 = manager.addNew(100, { prefix: 'Bar 1' });
+     * const bar2 = manager.addNew(100, { prefix: 'Bar 2' });
+     * const bar3 = manager.addNew(100, { prefix: 'Bar 3' });
+     * 
+     * bar1.set(25);
+     * bar2.set(50);
+     * bar3.set(75);
+     * 
+     * manager.remove(bar2);
+     * 
+     * // Bar 1▕██████████████                                          ▏ [ 25 / 100]
+     * // Bar 3▕██████████████████████████████████████████              ▏ [ 75 / 100]
+     * ```
+     * @param {ProgressBar} bar
+     * @returns {void}
+     */
+    remove: (bar: ProgressBar) => void;
+    /**<!-- DOCS-ALIAS: progressBar.MultiBarManager.update -->
+     * update
+     * 
+     * - `getMultiBarManager().update`
+     * 
+     * Re-render the progress bars
+     * 
+     * ```typescript
+     * const manager = getMultiBarManager({ overrideOptions: { maxWidth: 75 } });
+     * 
+     * const bar1 = manager.addNew(100, { prefix: 'Bar 1' });
+     * const bar2 = manager.addNew(100, { prefix: 'Bar 2' });
+     * 
+     * bar1.set(25);
+     * bar2.set(50);
+     * 
+     * manager.update();
+     * 
+     * // Bar 1▕██████████████                                          ▏ [ 25 / 100]
+     * // Bar 2▕████████████████████████████                            ▏ [ 50 / 100]
+     * ```
+     * @returns {void}
+     */
+    update: () => void;
+    /**<!-- DOCS-ALIAS: progressBar.MultiBarManager.getBars -->
+     * getBars
+     * 
+     * - `getMultiBarManager().getBars`
+     * 
+     * Get an array of all the progress bars currently managed by the manager
+     * 
+     * ```typescript
+     * const manager = getMultiBarManager({ overrideOptions: { maxWidth: 75 } });
+     * 
+     * const bar1 = manager.addNew(100, { prefix: 'Bar 1' });
+     * const bar2 = manager.addNew(100, { prefix: 'Bar 2' });
+     * const bar3 = manager.addNew(100, { prefix: 'Bar 3' });
+     * 
+     * bar1.set(25);
+     * bar2.set(50);
+     * bar3.set(75);
+     * 
+     * console.log(manager.getBars()); // [ bar1, bar2, bar3 ]
+     * 
+     * manager.remove(bar2);
+     * 
+     * console.log(manager.getBars()); // [ bar1, bar3 ]
+     * ```
+     * @returns {ProgressBar[]}
+     */
+    getBars: () => ProgressBar[];
 }
 /**<!-- DOCS: progressBar ##! -->
  * progressBar
@@ -2609,90 +2806,10 @@ interface ProgressBar {
  * > NOTE: This is eventually be moved to `swiss-node`
  */
 declare namespace progressBar {
-    /**<!-- DOCS: progressBar.printLn ### @ -->
-     * printLn
-     *
-     * - `printLn`
-     * - `progressBar.printLn`
-     *
-     * Can use instead of console.log
-     *
-     * Overwrites the previous line if possible (i.e. node);
-     *
-     * Usage
-     * ```javascript
-     * import { printLn } from 'swiss-ak';
-     *
-     * printLn('A');
-     * printLn('B'); // Replaces the 'A' line
-     * printLn('C'); // Replaces the 'B' line
-     * printLn(); // Jumps a line
-     * printLn('D'); // Replaces the empty line
-     * ```
-     *
-     * Output
-     * ```
-     * C
-     * D
-     * ```
-     * @param {...any} [text]
-     * @returns {void}
+    /**<!-- DOCS: progressBar.progressBarHeading ### -->
+     * Progress Bar
      */
-    export const printLn: (...text: any[]) => void;
-    interface ProgressBarOptionsFull {
-        prefix: string;
-        prefixWidth: number;
-        maxWidth: number;
-        wrapperFn: any;
-        barWrapFn: any;
-        barProgWrapFn: any;
-        barCurrentWrapFn: any;
-        barEmptyWrapFn: any;
-        showCount: boolean;
-        showPercent: boolean;
-        countWidth: number;
-        progChar: string;
-        emptyChar: string;
-        startChar: string;
-        endChar: string;
-        showCurrent: boolean;
-        currentChar: string;
-        print: boolean;
-        printFn: any;
-    }
-    /**<!-- DOCS: progressBar.ProgressBarOptions ### -->
-     * Options
-     *
-     * - `ProgressBarOptions`
-     * - `progressBar.ProgressBarOptions`
-     *
-     * All options are optional.
-     *
-     * | Property         | Default                           | Description                                            |
-     * | ---------------- | --------------------------------- | ------------------------------------------------------ |
-     * | prefix           | `''`                              | String to show to left of progress bar                 |
-     * | prefixWidth      | `0`                               | Min width of prefix - `10` => `Example˽˽˽`             |
-     * | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
-     * | wrapperFn        | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
-     * | barWrapFn        | nothing                           | function to wrap the bar                               |
-     * | barProgWrapFn    | nothing                           | function to wrap the 'complete' segment of the bar     |
-     * | barCurrentWrapFn | nothing                           | function to wrap the 'current' segment of the bar      |
-     * | barEmptyWrapFn   | nothing                           | function to wrap the empty/track part of the line      |
-     * | showCount        | `true`                            | Show numerical values of the count - `[11 / 15]`       |
-     * | showPercent      | `false`                           | Show percentage completed - `( 69%)`                   |
-     * | countWidth       | `0`                               | Min width of nums for showCount - `3` => `[˽˽1 / ˽15]` |
-     * | progChar         | `'█'`                             | Character to use for progress section of bar           |
-     * | emptyChar        | `' '`                             | Character to use for empty (rail) section of bar       |
-     * | startChar        | `'▕'`                             | Character to start the progress bar with               |
-     * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
-     * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
-     * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
-     * | print            | `true`                            | Whether or not to print/output/log the progress bar    |
-     * | printFn          | progressBar.printLn               | Function to use to print the progress bar              |
-     */
-    export type ProgressBarOptions = Partial<ProgressBarOptionsFull>;
-    export const getFullOptions: (opts?: ProgressBarOptions) => ProgressBarOptionsFull;
-    /**<!-- DOCS: progressBar.getProgressBar ### @ -->
+    /**<!-- DOCS: progressBar.getProgressBar #### @ -->
      * getProgressBar
      *
      * - `getProgressBar`
@@ -2728,73 +2845,428 @@ declare namespace progressBar {
      * ABC ▕██████▏ [5 / 5]
      * ```
      * @param {number} [max]
-     * @param {ProgressBarOptions} [options={}]
+     * @param {progressBar.ProgressBarOptions} [options={}]
      * @returns {ProgressBar}
      */
-    export const getProgressBar: (max?: number, options?: ProgressBarOptions) => ProgressBar;
-    export {};
+    const getProgressBar: (max?: number, options?: progressBar.ProgressBarOptions) => ProgressBar;
+    /**
+     * Same as `ProgressBarOptions` but with all properties required.
+     *
+     * Use `ProgressBarOptions` when possible.
+     */
+    interface ProgressBarOptionsFull {
+        /**
+         * String to show to left of progress bar
+         *
+         * Default: `''`
+         */
+        prefix: string;
+        /**
+         * Min width of prefix
+         *
+         * Default: `0`
+         */
+        prefixWidth: number;
+        /**
+         * Max width of prefix
+         *
+         * Default: `Infinity`
+         */
+        maxPrefixWidth: number;
+        /**
+         * The maximum width the entire string may extend
+         *
+         * Default: `process.stdout.columns` or `100`
+         */
+        maxWidth: number;
+        /**
+         * Function to wrap the printed string (eg `chalk.cyan)`
+         *
+         * Default: nothing
+         */
+        wrapperFn: Function;
+        /**
+         * Function to wrap the bar
+         *
+         * Default: nothing
+         */
+        barWrapFn: Function;
+        /**
+         * Function to wrap the 'complete' segment of the bar
+         *
+         * Default: nothing
+         */
+        barProgWrapFn: Function;
+        /**
+         * Function to wrap the 'current' segment of the bar
+         *
+         * Default: nothing
+         */
+        barCurrentWrapFn: Function;
+        /**
+         * Function to wrap the empty/track part of the line
+         *
+         * Default: nothing
+         */
+        barEmptyWrapFn: Function;
+        /**
+         * Show numerical values of the count
+         *
+         * Default: `true`
+         */
+        showCount: boolean;
+        /**
+         * Show percentage completed
+         *
+         * Default: `false`
+         */
+        showPercent: boolean;
+        /**
+         * Min width of nums for showCount
+         *
+         * Default: `0`
+         */
+        countWidth: number;
+        /**
+         * Character to use for progress section of bar
+         *
+         * Default: `'█'`
+         */
+        progChar: string;
+        /**
+         * Character to use for empty (rail) section of bar
+         *
+         * Default: `' '`
+         */
+        emptyChar: string;
+        /**
+         * Character to start the progress bar with
+         *
+         * Default: `'▕'`
+         */
+        startChar: string;
+        /**
+         * Character to end the progress bar with
+         *
+         * Default: `'▏'`
+         */
+        endChar: string;
+        /**
+         * Show the 'current' segment of the bar seperately
+         *
+         * Default: `'▏'`
+         */
+        showCurrent: boolean;
+        /**
+         * Character to use the the 'current' segment
+         *
+         * Default: `'▏'`
+         */
+        currentChar: string;
+        /**
+         * Whether or not to print/output/log the progress bar
+         *
+         * Default: `true`
+         */
+        print: boolean;
+        /**
+         * Function to use to print the progress bar
+         *
+         * Default: progressBar.utils.printLn
+         */
+        printFn: any;
+    }
+    /**<!-- DOCS: progressBar.ProgressBarOptions #### -->
+     * Options
+     *
+     * - `progressBar.ProgressBarOptions`
+     *
+     * All options are optional.
+     *
+     * | Property         | Default                           | Description                                            |
+     * | ---------------- | --------------------------------- | ------------------------------------------------------ |
+     * | prefix           | `''`                              | String to show to left of progress bar                 |
+     * | prefixWidth      | `0`                               | Min width of prefix - `10` => `Example˽˽˽`             |
+     * | maxPrefixWidth   | `Infinity`                        | Max width of prefix                                    |
+     * | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
+     * | wrapperFn        | nothing                           | Function to wrap the printed string (eg `chalk.cyan)`  |
+     * | barWrapFn        | nothing                           | Function to wrap the bar                               |
+     * | barProgWrapFn    | nothing                           | Function to wrap the 'complete' segment of the bar     |
+     * | barCurrentWrapFn | nothing                           | Function to wrap the 'current' segment of the bar      |
+     * | barEmptyWrapFn   | nothing                           | Function to wrap the empty/track part of the line      |
+     * | showCount        | `true`                            | Show numerical values of the count - `[11 / 15]`       |
+     * | showPercent      | `false`                           | Show percentage completed - `( 69%)`                   |
+     * | countWidth       | `0`                               | Min width of nums for showCount - `3` => `[˽˽1 / ˽15]` |
+     * | progChar         | `'█'`                             | Character to use for progress section of bar           |
+     * | emptyChar        | `' '`                             | Character to use for empty (rail) section of bar       |
+     * | startChar        | `'▕'`                             | Character to start the progress bar with               |
+     * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
+     * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
+     * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+     * | print            | `true`                            | Whether or not to print/output/log the progress bar    |
+     * | printFn          | progressBar.utils.printLn         | Function to use to print the progress bar              |
+     */
+    type ProgressBarOptions = Object & Partial<ProgressBarOptionsFull>;
+    /**<!-- DOCS: progressBar.getFullOptions ##### @ -->
+     * getFullOptions
+     *
+     * - `progressBar.getFullOptions`
+     *
+     * Fill in any missing Progress Bar options with defaults.
+     *
+     * Not needed for `getProgressBar` as it calls this internally.
+     *
+     * ```typescript
+     * progressBar.getFullOptions({});
+     * // {
+     * //   prefix: "",
+     * //   prefixWidth: 0,
+     * //   maxPrefixWidth: Infinity,
+     * //   maxWidth: 214,
+     * //   wrapperFn: [Function],
+     * //   barWrapFn: [Function],
+     * //   barProgWrapFn: [Function],
+     * //   barCurrentWrapFn: [Function],
+     * //   barEmptyWrapFn: [Function],
+     * //   showCount: true,
+     * //   showPercent: false,
+     * //   countWidth: 0,
+     * //   progChar: "█",
+     * //   emptyChar: " ",
+     * //   startChar: "▕",
+     * //   endChar: "▏",
+     * //   showCurrent: false,
+     * //   currentChar: "▞",
+     * //   print: true,
+     * //   printFn: [Function],
+     * // }
+     * ```
+     * @param {ProgressBarOptions} [opts={}]
+     * @returns {ProgressBarOptionsFull}
+     */
+    const getFullOptions: (opts?: ProgressBarOptions) => ProgressBarOptionsFull;
+    /**<!-- DOCS: progressBar.multiBarManagerHeading ### -->
+     * Multi-Bar Manager
+     */
+    /**<!-- DOCS: progressBar.getMultiBarManager #### @ -->
+     * getMultiBarManager
+     *
+     * - `getMultiBarManager`
+     * - `progressBar.getMultiBarManager`
+     *
+     * Returns a manager for multiple progress bars.
+     *
+     * ```typescript
+     * const manager = getMultiBarManager({});
+     *
+     * const bar1 = manager.addNew(100, { prefix: 'Bar 1' });
+     * const bar2 = manager.addNew(100, { prefix: 'Bar 2' });
+     * const bar3 = manager.addNew(100, { prefix: 'Bar 3' });
+     *
+     * bar1.set(25);
+     * bar2.set(50);
+     * bar3.set(75);
+     *
+     * // Bar 1▕██████████████                                          ▏ [ 25 / 100]
+     * // Bar 2▕████████████████████████████                            ▏ [ 50 / 100]
+     * // Bar 3▕██████████████████████████████████████████              ▏ [ 75 / 100]
+     * ```
+     * @param {progressBar.MultiBarManagerOptions} [options={}]
+     * @returns {MultiBarManager}
+     */
+    const getMultiBarManager: (options?: progressBar.MultiBarManagerOptions) => MultiBarManager;
+    /**
+     * Same as `MultiBarManagerOptions` but with all properties required.
+     *
+     * Use `MultiBarManagerOptions` when possible.
+     */
+    interface MultiBarManagerOptionsFull {
+        /**
+         * Shorthand for setting both minSlots and maxSlots
+         *
+         * Default: `undefined`
+         */
+        numSlots: number;
+        /**
+         * The min number of lines to print at a time
+         *
+         * Default: `0`
+         */
+        minSlots: number;
+        /**
+         * The max number of lines to print at a time
+         *
+         * Default: `Infinity`
+         */
+        maxSlots: number;
+        /**
+         * Remove progress bars from the manager when they finish
+         *
+         * Default: `false`
+         */
+        removeFinished: boolean;
+        /**
+         * Align the bars to the bottom of the print space
+         *
+         * Default: `false`
+         */
+        alignBottom: boolean;
+        /**
+         * Override the options of the progress bars
+         *
+         * Default: `{}` (No overrides)
+         */
+        overrideOptions: progressBar.ProgressBarOptions;
+        /**
+         * Rotate given `wrapperFn`s between the bars
+         *
+         * Default: `undefined`
+         */
+        wrapperFns?: Function[];
+        /**
+         * Rotate given `barWrapFn`s between the bars
+         *
+         * Default: `undefined`
+         */
+        barWrapFns?: Function[];
+        /**
+         * Rotate given `barProgWrapFn`s between the bars
+         *
+         * Default: `undefined`
+         */
+        barProgWrapFns?: Function[];
+        /**
+         * Rotate given `barCurrentWrapFn`s between the bars
+         *
+         * Default: `undefined`
+         */
+        barCurrentWrapFns?: Function[];
+        /**
+         * Rotate given `barEmptyWrapFn`s between the bars
+         *
+         * Default: `undefined`
+         */
+        barEmptyWrapFns?: Function[];
+        /**
+         * Whether or not to print the bars
+         *
+         * Default: `true`
+         */
+        print: boolean;
+        /**
+         * The function to use to print the bars
+         *
+         * Default: progressBar.utils.multiPrintFn
+         */
+        printFn: (previousDrawnLines: number, output: string) => void;
+    }
+    /**<!-- DOCS: progressBar.MultiBarManagerOptions #### -->
+     * Options
+     *
+     * - `progressBar.MultiBarManagerOptions`
+     *
+     * The options for MultiBar Managers
+     *
+     * All options are optional.
+     *
+     * | Property          | Default                        | Description                                            |
+     * | ----------------- | ------------------------------ | ------------------------------------------------------ |
+     * | numSlots          | `undefined`                    | Shorthand for setting both minSlots and maxSlots       |
+     * | minSlots          | `0`                            | The min number of lines to print at a time             |
+     * | maxSlots          | `Infinity`                     | The max number of lines to print at a time             |
+     * | removeFinished    | `false`                        | Remove progress bars from the manager when they finish |
+     * | alignBottom       | `false`                        | Align the bars to the bottom of the print space        |
+     * | overrideOptions   | `{}` (No overrides)            | Override the options of the progress bars              |
+     * | wrapperFns        | `undefined`                    | Rotate given `wrapperFn`s between the bars             |
+     * | barWrapFns        | `undefined`                    | Rotate given `barWrapFn`s between the bars             |
+     * | barProgWrapFns    | `undefined`                    | Rotate given `barProgWrapFn`s between the bars         |
+     * | barCurrentWrapFns | `undefined`                    | Rotate given `barCurrentWrapFn`s between the bars      |
+     * | barEmptyWrapFns   | `undefined`                    | Rotate given `barEmptyWrapFn`s between the bars        |
+     * | print             | `true`                         | Whether or not to print the bars                       |
+     * | printFn           | progressBar.utils.multiPrintFn | The function to use to print the bars                  |
+     */
+    type MultiBarManagerOptions = Object & Partial<MultiBarManagerOptionsFull>;
+    /**<!-- DOCS: progressBar.getFullMultiBarManagerOptions ##### @ -->
+     * getFullMultiBarManagerOptions
+     *
+     * - `progressBar.getFullMultiBarManagerOptions`
+     *
+     * Fill in any missing MultiBar Manager options with defaults.
+     *
+     * Not needed for `getMultiBarManager` as it calls this internally.
+     *
+     * ```typescript
+     * progressBar.getFullMultiBarManagerOptions({});
+     * // {
+     * //   numSlots: null,
+     * //   minSlots: 0,
+     * //   maxSlots: Infinity,
+     * //   removeFinished: false,
+     * //   alignBottom: false,
+     * //   overrideOptions: {},
+     * //   wrapperFns: undefined,
+     * //   barWrapFns: undefined,
+     * //   barProgWrapFns: undefined,
+     * //   barCurrentWrapFns: undefined,
+     * //   barEmptyWrapFns: undefined,
+     * //   print: true,
+     * //   printFn: [Function],
+     * // }
+     * ```
+     * @param {MultiBarManagerOptions} opts
+     * @returns {MultiBarManagerOptionsFull}
+     */
+    const getFullMultiBarManagerOptions: (opts: MultiBarManagerOptions) => MultiBarManagerOptionsFull;
+    /**<!-- DOCS: progressBar.utils ### -->
+     * utils
+     *
+     * - `progressBar.utils`
+     *
+     * Small helper functions may help when using progress bars
+     */
+    namespace utils {
+        /**<!-- DOCS: progressBar.printLn #### @ -->
+         * printLn
+         *
+         * - `progressBar.printLn`
+         *
+         * Can use instead of console.log
+         *
+         * Overwrites the previous line if possible (i.e. node);
+         *
+         * Usage
+         * ```javascript
+         * import { printLn } from 'swiss-ak';
+         *
+         * printLn('A');
+         * printLn('B'); // Replaces the 'A' line
+         * printLn('C'); // Replaces the 'B' line
+         * printLn(); // Jumps a line
+         * printLn('D'); // Replaces the empty line
+         * ```
+         *
+         * Output
+         * ```
+         * C
+         * D
+         * ```
+         * @param {...any} [text]
+         * @returns {void}
+         */
+        const printLn: (...text: any[]) => void;
+        /**<!-- DOCS: progressBar.multiPrintFn #### @ -->
+         * multiPrintFn
+         *
+         * The default printFn for MultiBarManagers
+         *
+         * Clears previously printed lines and prints the output in their place
+         * @param {number} previousDrawnLines
+         * @param {string} output
+         * @returns {void}
+         */
+        const multiPrintFn: (previousDrawnLines: number, output: string) => void;
+    }
 }
-/**<!-- DOCS-ALIAS: progressBar.ProgressBarOptions -->
- * Options
- * 
- * - `ProgressBarOptions`
- * - `progressBar.ProgressBarOptions`
- * 
- * All options are optional.
- * 
- * | Property         | Default                           | Description                                            |
- * | ---------------- | --------------------------------- | ------------------------------------------------------ |
- * | prefix           | `''`                              | String to show to left of progress bar                 |
- * | prefixWidth      | `0`                               | Min width of prefix - `10` => `Example˽˽˽`             |
- * | maxWidth         | `process.stdout.columns` or `100` | The maximum width the entire string may extend         |
- * | wrapperFn        | nothing                           | function to wrap the printed string (eg `chalk.cyan)`  |
- * | barWrapFn        | nothing                           | function to wrap the bar                               |
- * | barProgWrapFn    | nothing                           | function to wrap the 'complete' segment of the bar     |
- * | barCurrentWrapFn | nothing                           | function to wrap the 'current' segment of the bar      |
- * | barEmptyWrapFn   | nothing                           | function to wrap the empty/track part of the line      |
- * | showCount        | `true`                            | Show numerical values of the count - `[11 / 15]`       |
- * | showPercent      | `false`                           | Show percentage completed - `( 69%)`                   |
- * | countWidth       | `0`                               | Min width of nums for showCount - `3` => `[˽˽1 / ˽15]` |
- * | progChar         | `'█'`                             | Character to use for progress section of bar           |
- * | emptyChar        | `' '`                             | Character to use for empty (rail) section of bar       |
- * | startChar        | `'▕'`                             | Character to start the progress bar with               |
- * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
- * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
- * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
- * | print            | `true`                            | Whether or not to print/output/log the progress bar    |
- * | printFn          | progressBar.printLn               | Function to use to print the progress bar              |
- */
-declare type ProgressBarOptions = progressBar.ProgressBarOptions;
-/**<!-- DOCS-ALIAS: progressBar.printLn -->
- * printLn
- * 
- * - `printLn`
- * - `progressBar.printLn`
- * 
- * Can use instead of console.log
- * 
- * Overwrites the previous line if possible (i.e. node);
- * 
- * Usage
- * ```javascript
- * import { printLn } from 'swiss-ak';
- * 
- * printLn('A');
- * printLn('B'); // Replaces the 'A' line
- * printLn('C'); // Replaces the 'B' line
- * printLn(); // Jumps a line
- * printLn('D'); // Replaces the empty line
- * ```
- * 
- * Output
- * ```
- * C
- * D
- * ```
- * @param {...any} [text]
- * @returns {void}
- */
-declare const printLn: (...text: any[]) => void;
 /**<!-- DOCS-ALIAS: progressBar.getProgressBar -->
  * getProgressBar
  * 
@@ -2831,10 +3303,37 @@ declare const printLn: (...text: any[]) => void;
  * ABC ▕██████▏ [5 / 5]
  * ```
  * @param {number} [max]
- * @param {ProgressBarOptions} [options={}]
+ * @param {progressBar.ProgressBarOptions} [options={}]
  * @returns {ProgressBar}
  */
-declare const getProgressBar: (max?: number, options?: ProgressBarOptions) => ProgressBar;
+declare const getProgressBar: (max?: number, options?: progressBar.ProgressBarOptions) => ProgressBar;
+/**<!-- DOCS-ALIAS: progressBar.getMultiBarManager -->
+ * getMultiBarManager
+ * 
+ * - `getMultiBarManager`
+ * - `progressBar.getMultiBarManager`
+ * 
+ * Returns a manager for multiple progress bars.
+ * 
+ * ```typescript
+ * const manager = getMultiBarManager({});
+ * 
+ * const bar1 = manager.addNew(100, { prefix: 'Bar 1' });
+ * const bar2 = manager.addNew(100, { prefix: 'Bar 2' });
+ * const bar3 = manager.addNew(100, { prefix: 'Bar 3' });
+ * 
+ * bar1.set(25);
+ * bar2.set(50);
+ * bar3.set(75);
+ * 
+ * // Bar 1▕██████████████                                          ▏ [ 25 / 100]
+ * // Bar 2▕████████████████████████████                            ▏ [ 50 / 100]
+ * // Bar 3▕██████████████████████████████████████████              ▏ [ 75 / 100]
+ * ```
+ * @param {progressBar.MultiBarManagerOptions} [options={}]
+ * @returns {MultiBarManager}
+ */
+declare const getMultiBarManager: (options?: progressBar.MultiBarManagerOptions) => MultiBarManager;
 
 /**<!-- DOCS: ArrayTools ##! -->
  * ArrayTools
@@ -7165,4 +7664,4 @@ declare namespace safe {
     }
 }
 
-export { ArrayTools, CENTURY, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, ProgressBarOptions, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, printLn, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayTools, CENTURY, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, MultiBarManager, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getMultiBarManager, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
