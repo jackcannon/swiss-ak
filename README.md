@@ -4521,11 +4521,7 @@ All options are optional.
 | removeFinished    | `false`                        | Remove progress bars from the manager when they finish |
 | alignBottom       | `false`                        | Align the bars to the bottom of the print space        |
 | overrideOptions   | `{}` (No overrides)            | Override the options of the progress bars              |
-| wrapperFns        | `undefined`                    | Rotate given `wrapperFn`s between the bars             |
-| barWrapFns        | `undefined`                    | Rotate given `barWrapFn`s between the bars             |
-| barProgWrapFns    | `undefined`                    | Rotate given `barProgWrapFn`s between the bars         |
-| barCurrentWrapFns | `undefined`                    | Rotate given `barCurrentWrapFn`s between the bars      |
-| barEmptyWrapFns   | `undefined`                    | Rotate given `barEmptyWrapFn`s between the bars        |
+| variableOptions   | `{}` (No variable options)     | Override options differently for each bar              |
 | print             | `true`                         | Whether or not to print the bars                       |
 | printFn           | progressBar.utils.multiPrintFn | The function to use to print the bars                  |
 
@@ -4550,11 +4546,7 @@ progressBar.getFullMultiBarManagerOptions({});
 //   removeFinished: false,
 //   alignBottom: false,
 //   overrideOptions: {},
-//   wrapperFns: undefined,
-//   barWrapFns: undefined,
-//   barProgWrapFns: undefined,
-//   barCurrentWrapFns: undefined,
-//   barEmptyWrapFns: undefined,
+//   variableOptions: {},
 //   print: true,
 //   printFn: [Function],
 // }

@@ -1,7 +1,9 @@
 import { option, optionalOption } from '../utils/optionUtils';
 import { ArrayTools } from './ArrayTools';
+import { ObjectTools } from './ObjectTools';
 import { fn } from './fn';
 import { safe } from './safe';
+import { OfType } from './types';
 
 //<!-- DOCS: 600 -->
 
@@ -512,7 +514,7 @@ export namespace progressBar {
    * | print            | `true`                            | Whether or not to print/output/log the progress bar    |
    * | printFn          | progressBar.utils.printLn         | Function to use to print the progress bar              |
    */
-  export type ProgressBarOptions = Object & Partial<ProgressBarOptionsFull>;
+  export interface ProgressBarOptions extends Partial<ProgressBarOptionsFull> {}
 
   /**<!-- DOCS: progressBar.getFullOptions ##### @ -->
    * getFullOptions
@@ -675,23 +677,24 @@ export namespace progressBar {
       const barIndex = totalCount;
       totalCount += 1;
 
+      const varOpts: ProgressBarOptions = ObjectTools.mapValues(
+        opts.variableOptions,
+        (key, value: any[] | ((bar?: ProgressBar, uniqueBarIndex?: number, currentIndex?: number, bars?: ProgressBar[]) => any)) => {
+          if (!value) return undefined;
+          if (Array.isArray(value)) {
+            return value[barIndex % value.length];
+          }
+          if (typeof value === 'function') {
+            const currentBars = [...getBars(), args2.bar];
+            return value(args2.bar, barIndex, currentBars.indexOf(args2.bar), currentBars);
+          }
+          return undefined;
+        }
+      );
+
       const overrideOpts: progressBar.ProgressBarOptions = {
         ...opts.overrideOptions,
-        // adds the appropriate wrapper funcs if rotation arrays have been provided
-        ...Object.fromEntries(
-          ['wrapperFns', 'barWrapFns', 'barProgWrapFns', 'barCurrentWrapFns', 'barEmptyWrapFns']
-            .filter((id) => opts[id])
-            .map((id) => [
-              {
-                wrapperFns: 'wrapperFn',
-                barWrapFns: 'barWrapFn',
-                barProgWrapFns: 'barProgWrapFn',
-                barCurrentWrapFns: 'barCurrentWrapFn',
-                barEmptyWrapFns: 'barEmptyWrapFn'
-              }[id],
-              opts[id][barIndex % opts[id].length]
-            ])
-        )
+        ...varOpts
       };
 
       const barPack: ProgressBarManagerPackage = {
@@ -886,6 +889,11 @@ export namespace progressBar {
     };
   };
 
+  // type MultiBarVariableOptionsConfigEntry<T> = T[] | ((bar?: ProgressBar, uniqueBarIndex?: number, currentIndex?: number, bars?: ProgressBar[]) => T);
+  type MultiBarVariableOptionsConfig<T = progressBar.ProgressBarOptions> = {
+    [K in keyof T]?: T[K][] | ((bar?: ProgressBar, uniqueBarIndex?: number, currentIndex?: number, bars?: ProgressBar[]) => T[K]);
+  };
+
   /**
    * Same as `MultiBarManagerOptions` but with all properties required.
    *
@@ -931,35 +939,15 @@ export namespace progressBar {
     overrideOptions: progressBar.ProgressBarOptions;
 
     /**
-     * Rotate given `wrapperFn`s between the bars
+     * Override options differently for each bar
      *
-     * Default: `undefined`
-     */
-    wrapperFns?: Function[];
-    /**
-     * Rotate given `barWrapFn`s between the bars
+     * For a given option,
+     *  - if the value is an array, it will be rotated between the bars
+     *  - if the value is a function, it will be called with the bar, index, and array of bars
      *
-     * Default: `undefined`
+     * Default: `{}` (No variable options)
      */
-    barWrapFns?: Function[];
-    /**
-     * Rotate given `barProgWrapFn`s between the bars
-     *
-     * Default: `undefined`
-     */
-    barProgWrapFns?: Function[];
-    /**
-     * Rotate given `barCurrentWrapFn`s between the bars
-     *
-     * Default: `undefined`
-     */
-    barCurrentWrapFns?: Function[];
-    /**
-     * Rotate given `barEmptyWrapFn`s between the bars
-     *
-     * Default: `undefined`
-     */
-    barEmptyWrapFns?: Function[];
+    variableOptions: MultiBarVariableOptionsConfig;
 
     /**
      * Whether or not to print the bars
@@ -991,15 +979,11 @@ export namespace progressBar {
    * | removeFinished    | `false`                        | Remove progress bars from the manager when they finish |
    * | alignBottom       | `false`                        | Align the bars to the bottom of the print space        |
    * | overrideOptions   | `{}` (No overrides)            | Override the options of the progress bars              |
-   * | wrapperFns        | `undefined`                    | Rotate given `wrapperFn`s between the bars             |
-   * | barWrapFns        | `undefined`                    | Rotate given `barWrapFn`s between the bars             |
-   * | barProgWrapFns    | `undefined`                    | Rotate given `barProgWrapFn`s between the bars         |
-   * | barCurrentWrapFns | `undefined`                    | Rotate given `barCurrentWrapFn`s between the bars      |
-   * | barEmptyWrapFns   | `undefined`                    | Rotate given `barEmptyWrapFn`s between the bars        |
+   * | variableOptions   | `{}` (No variable options)     | Override options differently for each bar              |
    * | print             | `true`                         | Whether or not to print the bars                       |
    * | printFn           | progressBar.utils.multiPrintFn | The function to use to print the bars                  |
    */
-  export type MultiBarManagerOptions = Object & Partial<MultiBarManagerOptionsFull>;
+  export interface MultiBarManagerOptions extends Partial<MultiBarManagerOptionsFull> {}
 
   /**<!-- DOCS: progressBar.getFullMultiBarManagerOptions ##### @ -->
    * getFullMultiBarManagerOptions
@@ -1019,11 +1003,7 @@ export namespace progressBar {
    * //   removeFinished: false,
    * //   alignBottom: false,
    * //   overrideOptions: {},
-   * //   wrapperFns: undefined,
-   * //   barWrapFns: undefined,
-   * //   barProgWrapFns: undefined,
-   * //   barCurrentWrapFns: undefined,
-   * //   barEmptyWrapFns: undefined,
+   * //   variableOptions: {},
    * //   print: true,
    * //   printFn: [Function],
    * // }
@@ -1051,11 +1031,7 @@ export namespace progressBar {
       removeFinished: option(opts.removeFinished, false, (v, d) => safe.bool(v, d)),
       alignBottom: option(opts.alignBottom, false, (v, d) => safe.bool(v, d)),
       overrideOptions: option(opts.overrideOptions, {}, (v, d) => safe.obj(v, false, d)),
-      wrapperFns: optionalOption(opts.wrapperFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
-      barWrapFns: optionalOption(opts.barWrapFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
-      barProgWrapFns: optionalOption(opts.barProgWrapFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
-      barCurrentWrapFns: optionalOption(opts.barCurrentWrapFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
-      barEmptyWrapFns: optionalOption(opts.barEmptyWrapFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
+      variableOptions: option(opts.variableOptions, {}, (v, d) => safe.obj(v, false, d)),
       print: option(opts.print, true, (v, d) => safe.bool(v, d)),
       printFn: option(opts.printFn, progressBar.utils.multiPrintFn, (v, d) => safe.func(v, d))
     };

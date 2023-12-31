@@ -2848,13 +2848,13 @@ declare namespace progressBar {
      * @param {progressBar.ProgressBarOptions} [options={}]
      * @returns {ProgressBar}
      */
-    const getProgressBar: (max?: number, options?: progressBar.ProgressBarOptions) => ProgressBar;
+    export const getProgressBar: (max?: number, options?: progressBar.ProgressBarOptions) => ProgressBar;
     /**
      * Same as `ProgressBarOptions` but with all properties required.
      *
      * Use `ProgressBarOptions` when possible.
      */
-    interface ProgressBarOptionsFull {
+    export interface ProgressBarOptionsFull {
         /**
          * String to show to left of progress bar
          *
@@ -3006,7 +3006,8 @@ declare namespace progressBar {
      * | print            | `true`                            | Whether or not to print/output/log the progress bar    |
      * | printFn          | progressBar.utils.printLn         | Function to use to print the progress bar              |
      */
-    type ProgressBarOptions = Object & Partial<ProgressBarOptionsFull>;
+    export interface ProgressBarOptions extends Partial<ProgressBarOptionsFull> {
+    }
     /**<!-- DOCS: progressBar.getFullOptions ##### @ -->
      * getFullOptions
      *
@@ -3044,7 +3045,7 @@ declare namespace progressBar {
      * @param {ProgressBarOptions} [opts={}]
      * @returns {ProgressBarOptionsFull}
      */
-    const getFullOptions: (opts?: ProgressBarOptions) => ProgressBarOptionsFull;
+    export const getFullOptions: (opts?: ProgressBarOptions) => ProgressBarOptionsFull;
     /**<!-- DOCS: progressBar.multiBarManagerHeading ### -->
      * Multi-Bar Manager
      */
@@ -3074,13 +3075,16 @@ declare namespace progressBar {
      * @param {progressBar.MultiBarManagerOptions} [options={}]
      * @returns {MultiBarManager}
      */
-    const getMultiBarManager: (options?: progressBar.MultiBarManagerOptions) => MultiBarManager;
+    export const getMultiBarManager: (options?: progressBar.MultiBarManagerOptions) => MultiBarManager;
+    type MultiBarVariableOptionsConfig<T = progressBar.ProgressBarOptions> = {
+        [K in keyof T]?: T[K][] | ((bar?: ProgressBar, uniqueBarIndex?: number, currentIndex?: number, bars?: ProgressBar[]) => T[K]);
+    };
     /**
      * Same as `MultiBarManagerOptions` but with all properties required.
      *
      * Use `MultiBarManagerOptions` when possible.
      */
-    interface MultiBarManagerOptionsFull {
+    export interface MultiBarManagerOptionsFull {
         /**
          * Shorthand for setting both minSlots and maxSlots
          *
@@ -3118,35 +3122,15 @@ declare namespace progressBar {
          */
         overrideOptions: progressBar.ProgressBarOptions;
         /**
-         * Rotate given `wrapperFn`s between the bars
+         * Override options differently for each bar
          *
-         * Default: `undefined`
-         */
-        wrapperFns?: Function[];
-        /**
-         * Rotate given `barWrapFn`s between the bars
+         * For a given option,
+         *  - if the value is an array, it will be rotated between the bars
+         *  - if the value is a function, it will be called with the bar, index, and array of bars
          *
-         * Default: `undefined`
+         * Default: `{}` (No variable options)
          */
-        barWrapFns?: Function[];
-        /**
-         * Rotate given `barProgWrapFn`s between the bars
-         *
-         * Default: `undefined`
-         */
-        barProgWrapFns?: Function[];
-        /**
-         * Rotate given `barCurrentWrapFn`s between the bars
-         *
-         * Default: `undefined`
-         */
-        barCurrentWrapFns?: Function[];
-        /**
-         * Rotate given `barEmptyWrapFn`s between the bars
-         *
-         * Default: `undefined`
-         */
-        barEmptyWrapFns?: Function[];
+        variableOptions: MultiBarVariableOptionsConfig;
         /**
          * Whether or not to print the bars
          *
@@ -3177,15 +3161,12 @@ declare namespace progressBar {
      * | removeFinished    | `false`                        | Remove progress bars from the manager when they finish |
      * | alignBottom       | `false`                        | Align the bars to the bottom of the print space        |
      * | overrideOptions   | `{}` (No overrides)            | Override the options of the progress bars              |
-     * | wrapperFns        | `undefined`                    | Rotate given `wrapperFn`s between the bars             |
-     * | barWrapFns        | `undefined`                    | Rotate given `barWrapFn`s between the bars             |
-     * | barProgWrapFns    | `undefined`                    | Rotate given `barProgWrapFn`s between the bars         |
-     * | barCurrentWrapFns | `undefined`                    | Rotate given `barCurrentWrapFn`s between the bars      |
-     * | barEmptyWrapFns   | `undefined`                    | Rotate given `barEmptyWrapFn`s between the bars        |
+     * | variableOptions   | `{}` (No variable options)     | Override options differently for each bar              |
      * | print             | `true`                         | Whether or not to print the bars                       |
      * | printFn           | progressBar.utils.multiPrintFn | The function to use to print the bars                  |
      */
-    type MultiBarManagerOptions = Object & Partial<MultiBarManagerOptionsFull>;
+    export interface MultiBarManagerOptions extends Partial<MultiBarManagerOptionsFull> {
+    }
     /**<!-- DOCS: progressBar.getFullMultiBarManagerOptions ##### @ -->
      * getFullMultiBarManagerOptions
      *
@@ -3204,11 +3185,7 @@ declare namespace progressBar {
      * //   removeFinished: false,
      * //   alignBottom: false,
      * //   overrideOptions: {},
-     * //   wrapperFns: undefined,
-     * //   barWrapFns: undefined,
-     * //   barProgWrapFns: undefined,
-     * //   barCurrentWrapFns: undefined,
-     * //   barEmptyWrapFns: undefined,
+     * //   variableOptions: {},
      * //   print: true,
      * //   printFn: [Function],
      * // }
@@ -3216,7 +3193,7 @@ declare namespace progressBar {
      * @param {MultiBarManagerOptions} opts
      * @returns {MultiBarManagerOptionsFull}
      */
-    const getFullMultiBarManagerOptions: (opts: MultiBarManagerOptions) => MultiBarManagerOptionsFull;
+    export const getFullMultiBarManagerOptions: (opts: MultiBarManagerOptions) => MultiBarManagerOptionsFull;
     /**<!-- DOCS: progressBar.utils ### -->
      * utils
      *
@@ -3224,7 +3201,7 @@ declare namespace progressBar {
      *
      * Small helper functions may help when using progress bars
      */
-    namespace utils {
+    export namespace utils {
         /**<!-- DOCS: progressBar.printLn #### @ -->
          * printLn
          *
@@ -3266,6 +3243,7 @@ declare namespace progressBar {
          */
         const multiPrintFn: (previousDrawnLines: number, output: string) => void;
     }
+    export {};
 }
 /**<!-- DOCS-ALIAS: progressBar.getProgressBar -->
  * getProgressBar
@@ -4025,7 +4003,7 @@ declare namespace ObjectTools {
      * @param {(entries: [string, V][]) => [string, W][]} func
      * @returns {O}
      */
-    const remodel: <T extends Object = Object, V extends unknown = any, W extends unknown = any, O extends unknown = OfType<T, W>>(obj: T, func: (entries: [string, V][]) => [string, W][]) => O;
+    const remodel: <T extends unknown = Object, V extends unknown = any, W extends unknown = any, O extends unknown = OfType<T, W>>(obj: T, func: (entries: [string, V][]) => [string, W][]) => O;
     /**<!-- DOCS: ObjectTools.remodelEach ### @ -->
      * remodelEach
      *
@@ -4043,7 +4021,7 @@ declare namespace ObjectTools {
      * @param {(entry: [string, V], index: number, entries: [string, V][]) => [string, W]} func
      * @returns {O}
      */
-    const remodelEach: <T extends Object = Object, V extends unknown = any, W extends unknown = any, O extends unknown = OfType<T, W>>(obj: T, func: (entry: [string, V], index: number, entries: [string, V][]) => [string, W]) => O;
+    const remodelEach: <T extends unknown = Object, V extends unknown = any, W extends unknown = any, O extends unknown = OfType<T, W>>(obj: T, func: (entry: [string, V], index: number, entries: [string, V][]) => [string, W]) => O;
     /**<!-- DOCS: ObjectTools.map ### @ -->
      * map
      *
@@ -4058,7 +4036,7 @@ declare namespace ObjectTools {
      * @param {(key: string, value: V, index: number) => [string, W]} func
      * @returns {any}
      */
-    const map: <T extends Object, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V, index: number) => [string, W]) => OfType<T, W>;
+    const map: <T extends unknown, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V, index: number) => [string, W]) => OfType<T, W>;
     /**<!-- DOCS: ObjectTools.mapValues ### @ -->
      * mapValues
      *
@@ -4073,7 +4051,7 @@ declare namespace ObjectTools {
      * @param {(key: string, value: V, index: number) => W} func
      * @returns {any}
      */
-    const mapValues: <T extends Object, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V, index: number) => W) => OfType<T, W>;
+    const mapValues: <T extends unknown, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V, index: number) => W) => OfType<T, W>;
     /**<!-- DOCS: ObjectTools.mapKeys ### @ -->
      * mapKeys
      *
@@ -4088,7 +4066,7 @@ declare namespace ObjectTools {
      * @param {(key: string, value: V, index: number) => string} func
      * @returns {T}
      */
-    const mapKeys: <T extends Object, V extends unknown>(obj: T, func: (key: string, value: V, index: number) => string) => T;
+    const mapKeys: <T extends unknown, V extends unknown>(obj: T, func: (key: string, value: V, index: number) => string) => T;
     /**<!-- DOCS: ObjectTools.filter ### @ -->
      * filter
      *
@@ -4103,7 +4081,7 @@ declare namespace ObjectTools {
      * @param {(key: string, value: V, index: number) => boolean} func
      * @returns {O}
      */
-    const filter: <T extends Object, V extends unknown, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean) => O;
+    const filter: <T extends unknown, V extends unknown, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean) => O;
     /**<!-- DOCS: ObjectTools.clean ### @ -->
      * clean
      *
@@ -4117,7 +4095,7 @@ declare namespace ObjectTools {
      * @param {T} obj
      * @returns {O}
      */
-    const clean: <T extends Object, O extends Partial<T>>(obj: T) => O;
+    const clean: <T extends unknown, O extends Partial<T>>(obj: T) => O;
     /**<!-- DOCS: ObjectTools.invert ### @ -->
      * invert
      *
@@ -4131,7 +4109,7 @@ declare namespace ObjectTools {
      * @param {Ti} obj
      * @returns {To}
      */
-    const invert: <Ti extends Object, To extends ObjOfType<string>>(obj: Ti) => To;
+    const invert: <Ti extends unknown, To extends ObjOfType<string>>(obj: Ti) => To;
 }
 
 declare type ClxType = string | boolean | {

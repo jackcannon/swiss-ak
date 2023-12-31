@@ -1902,15 +1902,12 @@ describe('Multibar Manager', () => {
         });
       });
     });
-    describe('wrapperFns', () => {
-      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
-        // Type: Function[];
-        // Description: Rotate given `wrapperFn`s between the bars
-        // Default: `undefined`
 
-        it(should` rotate the wrapperFns`, () => {
+    describe('variableOptions', () => {
+      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
+        it(should` rotate the wrapperFns - using array`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
-          const { manager, printCalls } = testMultiBarManager({ wrapperFns: wraps }, getMultiBarManager);
+          const { manager, printCalls } = testMultiBarManager({ variableOptions: { wrapperFn: wraps } }, getMultiBarManager);
 
           expect(manager.getBars().length).toBe(0);
 
@@ -1941,17 +1938,46 @@ describe('Multibar Manager', () => {
             ].join('\n')
           ]);
         });
-      });
-    });
-    describe('barWrapFns', () => {
-      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
-        // Type: Function[];
-        // Description: Rotate given `barWrapFn`s between the bars
-        // Default: `undefined`
-
-        it(should` rotate the barWrapFns`, () => {
+        it(should` rotate the wrapperFns - using function`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
-          const { manager, printCalls } = testMultiBarManager({ barWrapFns: wraps }, getMultiBarManager);
+          const { manager, printCalls } = testMultiBarManager(
+            { variableOptions: { wrapperFn: (bar, i) => wraps[i % wraps.length] } },
+            getMultiBarManager
+          );
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+          const bar4 = manager.addNew(100, {});
+          const bar5 = manager.addNew(100, {});
+          const bar6 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+          bar4.set(10);
+          bar5.set(60);
+          bar6.set(90);
+
+          expect(printCalls.at(-1)).toEqual([
+            6,
+            [
+              // 6 lines
+              '(1)▕█████████                           ▏ [ 25 / 100](1)',
+              '(2)▕██████████████████                  ▏ [ 50 / 100](2)',
+              '(3)▕███████████████████████████         ▏ [ 75 / 100](3)',
+              '(1)▕████                                ▏ [ 10 / 100](1)',
+              '(2)▕██████████████████████              ▏ [ 60 / 100](2)',
+              '(3)▕████████████████████████████████    ▏ [ 90 / 100](3)'
+            ].join('\n')
+          ]);
+        });
+
+        it(should` rotate the barWrapFns - using array`, () => {
+          const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
+          const { manager, printCalls } = testMultiBarManager({ variableOptions: { barWrapFn: wraps } }, getMultiBarManager);
 
           expect(manager.getBars().length).toBe(0);
 
@@ -1982,17 +2008,46 @@ describe('Multibar Manager', () => {
             ].join('\n')
           ]);
         });
-      });
-    });
-    describe('barProgWrapFns', () => {
-      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
-        // Type: Function[];
-        // Description: Rotate given `barProgWrapFn`s between the bars
-        // Default: `undefined`
-
-        it(should` rotate the barProgWrapFns`, () => {
+        it(should` rotate the barWrapFns - using function`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
-          const { manager, printCalls } = testMultiBarManager({ barProgWrapFns: wraps }, getMultiBarManager);
+          const { manager, printCalls } = testMultiBarManager(
+            { variableOptions: { barWrapFn: (bar, i) => wraps[i % wraps.length] } },
+            getMultiBarManager
+          );
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+          const bar4 = manager.addNew(100, {});
+          const bar5 = manager.addNew(100, {});
+          const bar6 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+          bar4.set(10);
+          bar5.set(60);
+          bar6.set(90);
+
+          expect(printCalls.at(-1)).toEqual([
+            6,
+            [
+              // 6 lines
+              '▕(1)█████████                           (1)▏ [ 25 / 100]',
+              '▕(2)██████████████████                  (2)▏ [ 50 / 100]',
+              '▕(3)███████████████████████████         (3)▏ [ 75 / 100]',
+              '▕(1)████                                (1)▏ [ 10 / 100]',
+              '▕(2)██████████████████████              (2)▏ [ 60 / 100]',
+              '▕(3)████████████████████████████████    (3)▏ [ 90 / 100]'
+            ].join('\n')
+          ]);
+        });
+
+        it(should` rotate the barProgWrapFns - using array`, () => {
+          const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
+          const { manager, printCalls } = testMultiBarManager({ variableOptions: { barProgWrapFn: wraps } }, getMultiBarManager);
 
           expect(manager.getBars().length).toBe(0);
 
@@ -2023,18 +2078,47 @@ describe('Multibar Manager', () => {
             ].join('\n')
           ]);
         });
-      });
-    });
-    describe('barCurrentWrapFns', () => {
-      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
-        // Type: Function[];
-        // Description: Rotate given `barCurrentWrapFn`s between the bars
-        // Default: `undefined`
-
-        it(should` rotate the barCurrentWrapFns`, () => {
+        it(should` rotate the barProgWrapFns - using function`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
           const { manager, printCalls } = testMultiBarManager(
-            { barCurrentWrapFns: wraps, overrideOptions: { showCurrent: true } },
+            { variableOptions: { barProgWrapFn: (bar, i) => wraps[i % wraps.length] } },
+            getMultiBarManager
+          );
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+          const bar4 = manager.addNew(100, {});
+          const bar5 = manager.addNew(100, {});
+          const bar6 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+          bar4.set(10);
+          bar5.set(60);
+          bar6.set(90);
+
+          expect(printCalls.at(-1)).toEqual([
+            6,
+            [
+              // 6 lines
+              '▕(1)█████████(1)                           ▏ [ 25 / 100]',
+              '▕(2)██████████████████(2)                  ▏ [ 50 / 100]',
+              '▕(3)███████████████████████████(3)         ▏ [ 75 / 100]',
+              '▕(1)████(1)                                ▏ [ 10 / 100]',
+              '▕(2)██████████████████████(2)              ▏ [ 60 / 100]',
+              '▕(3)████████████████████████████████(3)    ▏ [ 90 / 100]'
+            ].join('\n')
+          ]);
+        });
+
+        it(should` rotate the barCurrentWrapFns - using array`, () => {
+          const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
+          const { manager, printCalls } = testMultiBarManager(
+            { variableOptions: { barCurrentWrapFn: wraps }, overrideOptions: { showCurrent: true } },
             getMultiBarManager
           );
 
@@ -2067,17 +2151,82 @@ describe('Multibar Manager', () => {
             ].join('\n')
           ]);
         });
-      });
-    });
-    describe('barEmptyWrapFns', () => {
-      singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
-        // Type: Function[];
-        // Description: Rotate given `barEmptyWrapFn`s between the bars
-        // Default: `undefined`
-
-        it(should` rotate the barEmptyWrapFns`, () => {
+        it(should` rotate the barCurrentWrapFns - using function`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
-          const { manager, printCalls } = testMultiBarManager({ barEmptyWrapFns: wraps }, getMultiBarManager);
+          const { manager, printCalls } = testMultiBarManager(
+            { variableOptions: { barCurrentWrapFn: (bar, i) => wraps[i % wraps.length] }, overrideOptions: { showCurrent: true } },
+            getMultiBarManager
+          );
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(5, {});
+          const bar2 = manager.addNew(5, {});
+          const bar3 = manager.addNew(5, {});
+          const bar4 = manager.addNew(5, {});
+          const bar5 = manager.addNew(5, {});
+          const bar6 = manager.addNew(5, {});
+
+          bar1.set(2);
+          bar2.set(3);
+          bar3.set(4);
+          bar4.set(1);
+          bar5.set(5);
+          bar6.set(3);
+
+          expect(printCalls.at(-1)).toEqual([
+            6,
+            [
+              // 6 lines
+              '▕████████████████(1)▞▞▞▞▞▞▞▞(1)                ▏ [2 / 5]',
+              '▕████████████████████████(2)▞▞▞▞▞▞▞▞(2)        ▏ [3 / 5]',
+              '▕████████████████████████████████(3)▞▞▞▞▞▞▞▞(3)▏ [4 / 5]',
+              '▕████████(1)▞▞▞▞▞▞▞▞(1)                        ▏ [1 / 5]',
+              '▕████████████████████████████████████████(2)(2)▏ [5 / 5]',
+              '▕████████████████████████(3)▞▞▞▞▞▞▞▞(3)        ▏ [3 / 5]'
+            ].join('\n')
+          ]);
+        });
+
+        it(should` rotate the barEmptyWrapFns - using array`, () => {
+          const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
+          const { manager, printCalls } = testMultiBarManager({ variableOptions: { barEmptyWrapFn: wraps } }, getMultiBarManager);
+
+          expect(manager.getBars().length).toBe(0);
+
+          const bar1 = manager.addNew(100, {});
+          const bar2 = manager.addNew(100, {});
+          const bar3 = manager.addNew(100, {});
+          const bar4 = manager.addNew(100, {});
+          const bar5 = manager.addNew(100, {});
+          const bar6 = manager.addNew(100, {});
+
+          bar1.set(25);
+          bar2.set(50);
+          bar3.set(75);
+          bar4.set(10);
+          bar5.set(60);
+          bar6.set(90);
+
+          expect(printCalls.at(-1)).toEqual([
+            6,
+            [
+              // 6 lines
+              '▕█████████(1)                           (1)▏ [ 25 / 100]',
+              '▕██████████████████(2)                  (2)▏ [ 50 / 100]',
+              '▕███████████████████████████(3)         (3)▏ [ 75 / 100]',
+              '▕████(1)                                (1)▏ [ 10 / 100]',
+              '▕██████████████████████(2)              (2)▏ [ 60 / 100]',
+              '▕████████████████████████████████(3)    (3)▏ [ 90 / 100]'
+            ].join('\n')
+          ]);
+        });
+        it(should` rotate the barEmptyWrapFns - using function`, () => {
+          const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
+          const { manager, printCalls } = testMultiBarManager(
+            { variableOptions: { barEmptyWrapFn: (bar, i) => wraps[i % wraps.length] } },
+            getMultiBarManager
+          );
 
           expect(manager.getBars().length).toBe(0);
 
@@ -2110,6 +2259,7 @@ describe('Multibar Manager', () => {
         });
       });
     });
+
     describe('print', () => {
       singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
         // Type: boolean;
@@ -2186,10 +2336,6 @@ describe('Multibar Manager', () => {
 
         expect(opts).toEqual({
           alignBottom: false,
-          barCurrentWrapFns: undefined,
-          barEmptyWrapFns: undefined,
-          barProgWrapFns: undefined,
-          barWrapFns: undefined,
           maxSlots: Infinity,
           minSlots: 0,
           numSlots: null,
@@ -2197,6 +2343,7 @@ describe('Multibar Manager', () => {
           print: true,
           printFn: swissak.progressBar.utils.multiPrintFn,
           removeFinished: false,
+          variableOptions: {},
           wrapperFns: undefined
         });
       });
@@ -2326,103 +2473,23 @@ describe('Multibar Manager', () => {
           kitchenSink.general
         );
       });
-      describe('wrapperFns', () => {
-        // Type: Function[];
-        // Description: Rotate given `wrapperFn`s between the bars
-        // Default: `undefined`
+      describe('variableOptions', () => {
+        // Type: MultiBarVariableOptionsConfig;
+        // Description: Override options differently for each bar
+        // Default: `{}` (No variable options)
 
         it(should` default correctly`, () => {
           const opts = getOptions({});
-          expect(opts.wrapperFns).toEqual(undefined);
+          expect(opts.variableOptions).toEqual({});
         });
         it(should` set correctly`, () => {
-          const opts = getOptions({ wrapperFns: [swissak.fn.noact] });
-          expect(opts.wrapperFns).toEqual([swissak.fn.noact]);
+          const opts = getOptions({ variableOptions: { showPercent: [true, false, false, true] } });
+          expect(opts.variableOptions).toEqual({ showPercent: [true, false, false, true] });
         });
         kitchenSink.toEqual(
-          'wrapperFns',
-          (v) => getOptions({ wrapperFns: v as any }).wrapperFns,
-          (v) => (v === undefined ? undefined : kitchenSink.safe.arrOf.func(v, swissak.fn.noact, [])(v)),
-          kitchenSink.general
-        );
-      });
-      describe('barWrapFns', () => {
-        // Type: Function[];
-        // Description: Rotate given `barWrapFn`s between the bars
-        // Default: `undefined`
-
-        it(should` default correctly`, () => {
-          const opts = getOptions({});
-          expect(opts.barWrapFns).toEqual(undefined);
-        });
-        it(should` set correctly`, () => {
-          const opts = getOptions({ barWrapFns: [swissak.fn.noact] });
-          expect(opts.barWrapFns).toEqual([swissak.fn.noact]);
-        });
-        kitchenSink.toEqual(
-          'barWrapFns',
-          (v) => getOptions({ barWrapFns: v as any }).barWrapFns,
-          (v) => (v === undefined ? undefined : kitchenSink.safe.arrOf.func(v, swissak.fn.noact, [])(v)),
-          kitchenSink.general
-        );
-      });
-      describe('barProgWrapFns', () => {
-        // Type: Function[];
-        // Description: Rotate given `barProgWrapFn`s between the bars
-        // Default: `undefined`
-
-        it(should` default correctly`, () => {
-          const opts = getOptions({});
-          expect(opts.barProgWrapFns).toEqual(undefined);
-        });
-        it(should` set correctly`, () => {
-          const opts = getOptions({ barProgWrapFns: [swissak.fn.noact] });
-          expect(opts.barProgWrapFns).toEqual([swissak.fn.noact]);
-        });
-        kitchenSink.toEqual(
-          'barProgWrapFns',
-          (v) => getOptions({ barProgWrapFns: v as any }).barProgWrapFns,
-          (v) => (v === undefined ? undefined : kitchenSink.safe.arrOf.func(v, swissak.fn.noact, [])(v)),
-          kitchenSink.general
-        );
-      });
-      describe('barCurrentWrapFns', () => {
-        // Type: Function[];
-        // Description: Rotate given `barCurrentWrapFn`s between the bars
-        // Default: `undefined`
-
-        it(should` default correctly`, () => {
-          const opts = getOptions({});
-          expect(opts.barCurrentWrapFns).toEqual(undefined);
-        });
-        it(should` set correctly`, () => {
-          const opts = getOptions({ barCurrentWrapFns: [swissak.fn.noact] });
-          expect(opts.barCurrentWrapFns).toEqual([swissak.fn.noact]);
-        });
-        kitchenSink.toEqual(
-          'barCurrentWrapFns',
-          (v) => getOptions({ barCurrentWrapFns: v as any }).barCurrentWrapFns,
-          (v) => (v === undefined ? undefined : kitchenSink.safe.arrOf.func(v, swissak.fn.noact, [])(v)),
-          kitchenSink.general
-        );
-      });
-      describe('barEmptyWrapFns', () => {
-        // Type: Function[];
-        // Description: Rotate given `barEmptyWrapFn`s between the bars
-        // Default: `undefined`
-
-        it(should` default correctly`, () => {
-          const opts = getOptions({});
-          expect(opts.barEmptyWrapFns).toEqual(undefined);
-        });
-        it(should` set correctly`, () => {
-          const opts = getOptions({ barEmptyWrapFns: [swissak.fn.noact] });
-          expect(opts.barEmptyWrapFns).toEqual([swissak.fn.noact]);
-        });
-        kitchenSink.toEqual(
-          'barEmptyWrapFns',
-          (v) => getOptions({ barEmptyWrapFns: v as any }).barEmptyWrapFns,
-          (v) => (v === undefined ? undefined : kitchenSink.safe.arrOf.func(v, swissak.fn.noact, [])(v)),
+          'variableOptions',
+          (v) => getOptions({ variableOptions: v as any }).variableOptions,
+          kitchenSink.safe.obj({}, true, {}),
           kitchenSink.general
         );
       });

@@ -25,7 +25,7 @@ export namespace ObjectTools {
    * @param {(entries: [string, V][]) => [string, W][]} func
    * @returns {O}
    */
-  export const remodel = <T extends Object = Object, V extends any = any, W extends any = any, O extends any = OfType<T, W>>(
+  export const remodel = <T extends unknown = Object, V extends any = any, W extends any = any, O extends any = OfType<T, W>>(
     obj: T,
     func: (entries: [string, V][]) => [string, W][]
   ): O => {
@@ -53,7 +53,7 @@ export namespace ObjectTools {
    * @param {(entry: [string, V], index: number, entries: [string, V][]) => [string, W]} func
    * @returns {O}
    */
-  export const remodelEach = <T extends Object = Object, V extends any = any, W extends any = any, O extends any = OfType<T, W>>(
+  export const remodelEach = <T extends unknown = Object, V extends any = any, W extends any = any, O extends any = OfType<T, W>>(
     obj: T,
     func: (entry: [string, V], index: number, entries: [string, V][]) => [string, W]
   ): O => {
@@ -78,7 +78,7 @@ export namespace ObjectTools {
    * @param {(key: string, value: V, index: number) => [string, W]} func
    * @returns {any}
    */
-  export const map = <T extends Object, V extends any, W extends any>(
+  export const map = <T extends unknown, V extends any, W extends any>(
     obj: T,
     func: (key: string, value: V, index: number) => [string, W]
   ): OfType<T, W> => {
@@ -103,7 +103,7 @@ export namespace ObjectTools {
    * @param {(key: string, value: V, index: number) => W} func
    * @returns {any}
    */
-  export const mapValues = <T extends Object, V extends any, W extends any>(
+  export const mapValues = <T extends unknown, V extends any, W extends any>(
     obj: T,
     func: (key: string, value: V, index: number) => W
   ): OfType<T, W> => {
@@ -128,7 +128,7 @@ export namespace ObjectTools {
    * @param {(key: string, value: V, index: number) => string} func
    * @returns {T}
    */
-  export const mapKeys = <T extends Object, V extends any>(obj: T, func: (key: string, value: V, index: number) => string): T => {
+  export const mapKeys = <T extends unknown, V extends any>(obj: T, func: (key: string, value: V, index: number) => string): T => {
     const args = {
       obj: safe.obj(obj),
       func: safe.func(func, (key) => key)
@@ -150,7 +150,7 @@ export namespace ObjectTools {
    * @param {(key: string, value: V, index: number) => boolean} func
    * @returns {O}
    */
-  export const filter = <T extends Object, V extends any, O extends Partial<T>>(
+  export const filter = <T extends unknown, V extends any, O extends Partial<T>>(
     obj: T,
     func: (key: string, value: V, index: number) => boolean
   ): O => {
@@ -174,7 +174,7 @@ export namespace ObjectTools {
    * @param {T} obj
    * @returns {O}
    */
-  export const clean = <T extends Object, O extends Partial<T>>(obj: T): O => {
+  export const clean = <T extends unknown, O extends Partial<T>>(obj: T): O => {
     const args = {
       obj: safe.obj(obj)
     };
@@ -194,7 +194,7 @@ export namespace ObjectTools {
    * @param {Ti} obj
    * @returns {To}
    */
-  export const invert = <Ti extends Object, To extends ObjOfType<string>>(obj: Ti): To => {
+  export const invert = <Ti extends unknown, To extends ObjOfType<string>>(obj: Ti): To => {
     const args = {
       obj: safe.obj(obj)
     };

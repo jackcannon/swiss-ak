@@ -1078,6 +1078,69 @@ var timer = getTimer();
 var option = (value, deflt, safeFn) => value !== void 0 ? safeFn(value, deflt) : deflt;
 var optionalOption = (value, deflt, safeFn) => value !== void 0 ? safeFn(value, deflt) : void 0;
 
+// src/tools/ObjectTools.ts
+var ObjectTools;
+((ObjectTools2) => {
+  ObjectTools2.remodel = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (entries2) => entries2)
+    };
+    return Object.fromEntries(args.func(Object.entries(args.obj)) ?? Object.entries(args.obj));
+  };
+  ObjectTools2.remodelEach = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (entry) => entry)
+    };
+    return Object.fromEntries(Object.entries(args.obj).map((entry, index, entries2) => args.func(entry, index, entries2) ?? entry));
+  };
+  ObjectTools2.map = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (key, value) => [key, value])
+    };
+    return ObjectTools2.remodel(args.obj, (entries2) => entries2.map(([key, value], index) => args.func(key, value, index)));
+  };
+  ObjectTools2.mapValues = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (key, value) => value)
+    };
+    return ObjectTools2.remodel(args.obj, (entries2) => entries2.map(([key, value], index) => [key, args.func(key, value, index)]));
+  };
+  ObjectTools2.mapKeys = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, (key) => key)
+    };
+    return ObjectTools2.remodel(args.obj, (entries2) => entries2.map(([key, value], index) => [args.func(key, value, index), value]));
+  };
+  ObjectTools2.filter = (obj, func) => {
+    const args = {
+      obj: safe.obj(obj),
+      func: safe.func(func, () => true)
+    };
+    return ObjectTools2.remodel(args.obj, (entries2) => entries2.filter(([key, value], index) => args.func(key, value, index)));
+  };
+  ObjectTools2.clean = (obj) => {
+    const args = {
+      obj: safe.obj(obj)
+    };
+    return ObjectTools2.filter(args.obj, (key, value) => value !== void 0);
+  };
+  ObjectTools2.invert = (obj) => {
+    const args = {
+      obj: safe.obj(obj)
+    };
+    return ObjectTools2.remodelEach(args.obj, ([key, value]) => {
+      var _a;
+      const newKey = ((_a = value == null ? void 0 : value.toString) == null ? void 0 : _a.call(value)) ?? value + "";
+      return [newKey, key];
+    });
+  };
+})(ObjectTools || (ObjectTools = {}));
+
 // src/tools/progressBar.ts
 var progressBar;
 ((progressBar2) => {
@@ -1265,20 +1328,24 @@ var progressBar;
         return;
       const barIndex = totalCount;
       totalCount += 1;
+      const varOpts = ObjectTools.mapValues(
+        opts.variableOptions,
+        (key, value) => {
+          if (!value)
+            return void 0;
+          if (Array.isArray(value)) {
+            return value[barIndex % value.length];
+          }
+          if (typeof value === "function") {
+            const currentBars = [...getBars(), args2.bar];
+            return value(args2.bar, barIndex, currentBars.indexOf(args2.bar), currentBars);
+          }
+          return void 0;
+        }
+      );
       const overrideOpts = {
         ...opts.overrideOptions,
-        ...Object.fromEntries(
-          ["wrapperFns", "barWrapFns", "barProgWrapFns", "barCurrentWrapFns", "barEmptyWrapFns"].filter((id) => opts[id]).map((id) => [
-            {
-              wrapperFns: "wrapperFn",
-              barWrapFns: "barWrapFn",
-              barProgWrapFns: "barProgWrapFn",
-              barCurrentWrapFns: "barCurrentWrapFn",
-              barEmptyWrapFns: "barEmptyWrapFn"
-            }[id],
-            opts[id][barIndex % opts[id].length]
-          ])
-        )
+        ...varOpts
       };
       const barPack = {
         bar: args2.bar,
@@ -1379,11 +1446,7 @@ var progressBar;
       removeFinished: option(opts.removeFinished, false, (v, d) => safe.bool(v, d)),
       alignBottom: option(opts.alignBottom, false, (v, d) => safe.bool(v, d)),
       overrideOptions: option(opts.overrideOptions, {}, (v, d) => safe.obj(v, false, d)),
-      wrapperFns: optionalOption(opts.wrapperFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
-      barWrapFns: optionalOption(opts.barWrapFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
-      barProgWrapFns: optionalOption(opts.barProgWrapFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
-      barCurrentWrapFns: optionalOption(opts.barCurrentWrapFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
-      barEmptyWrapFns: optionalOption(opts.barEmptyWrapFns, [], (v, d) => safe.arrOf.func(v, fn.noact, [])),
+      variableOptions: option(opts.variableOptions, {}, (v, d) => safe.obj(v, false, d)),
       print: option(opts.print, true, (v, d) => safe.bool(v, d)),
       printFn: option(opts.printFn, progressBar2.utils.multiPrintFn, (v, d) => safe.func(v, d))
     };
@@ -1442,69 +1505,6 @@ var progressBar;
 })(progressBar || (progressBar = {}));
 var getProgressBar = progressBar.getProgressBar;
 var getMultiBarManager = progressBar.getMultiBarManager;
-
-// src/tools/ObjectTools.ts
-var ObjectTools;
-((ObjectTools2) => {
-  ObjectTools2.remodel = (obj, func) => {
-    const args = {
-      obj: safe.obj(obj),
-      func: safe.func(func, (entries2) => entries2)
-    };
-    return Object.fromEntries(args.func(Object.entries(args.obj)) ?? Object.entries(args.obj));
-  };
-  ObjectTools2.remodelEach = (obj, func) => {
-    const args = {
-      obj: safe.obj(obj),
-      func: safe.func(func, (entry) => entry)
-    };
-    return Object.fromEntries(Object.entries(args.obj).map((entry, index, entries2) => args.func(entry, index, entries2) ?? entry));
-  };
-  ObjectTools2.map = (obj, func) => {
-    const args = {
-      obj: safe.obj(obj),
-      func: safe.func(func, (key, value) => [key, value])
-    };
-    return ObjectTools2.remodel(args.obj, (entries2) => entries2.map(([key, value], index) => args.func(key, value, index)));
-  };
-  ObjectTools2.mapValues = (obj, func) => {
-    const args = {
-      obj: safe.obj(obj),
-      func: safe.func(func, (key, value) => value)
-    };
-    return ObjectTools2.remodel(args.obj, (entries2) => entries2.map(([key, value], index) => [key, args.func(key, value, index)]));
-  };
-  ObjectTools2.mapKeys = (obj, func) => {
-    const args = {
-      obj: safe.obj(obj),
-      func: safe.func(func, (key) => key)
-    };
-    return ObjectTools2.remodel(args.obj, (entries2) => entries2.map(([key, value], index) => [args.func(key, value, index), value]));
-  };
-  ObjectTools2.filter = (obj, func) => {
-    const args = {
-      obj: safe.obj(obj),
-      func: safe.func(func, () => true)
-    };
-    return ObjectTools2.remodel(args.obj, (entries2) => entries2.filter(([key, value], index) => args.func(key, value, index)));
-  };
-  ObjectTools2.clean = (obj) => {
-    const args = {
-      obj: safe.obj(obj)
-    };
-    return ObjectTools2.filter(args.obj, (key, value) => value !== void 0);
-  };
-  ObjectTools2.invert = (obj) => {
-    const args = {
-      obj: safe.obj(obj)
-    };
-    return ObjectTools2.remodelEach(args.obj, ([key, value]) => {
-      var _a;
-      const newKey = ((_a = value == null ? void 0 : value.toString) == null ? void 0 : _a.call(value)) ?? value + "";
-      return [newKey, key];
-    });
-  };
-})(ObjectTools || (ObjectTools = {}));
 
 // src/tools/StringTools.ts
 var StringTools;
