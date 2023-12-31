@@ -92,17 +92,23 @@ export namespace progressBar {
   };
 
   const getSuffix = (current: number, maxNum: number, isMaxKnown: boolean, opts: ProgressBarOptionsFull) => {
-    let items = [''];
+    let plainItems: string[] = [];
+    let wrappedItems: string[] = [];
     if (opts.showCount) {
       const pad = Math.max(maxNum.toString().length, opts.countWidth);
-      items.push(`[${current.toString().padStart(pad, ' ')} / ${(isMaxKnown ? maxNum.toString() : '?').padStart(pad, ' ')}]`);
+      const countSuff = `[${current.toString().padStart(pad, ' ')} / ${(isMaxKnown ? maxNum.toString() : '?').padStart(pad, ' ')}]`;
+      plainItems.push(countSuff);
+      wrappedItems.push(opts.countWrapFn(countSuff));
     }
     if (opts.showPercent) {
       const percent = Math.round((current / Math.max(1, maxNum)) * 100);
-      items.push(`(${percent.toString().padStart('100'.toString().length, ' ')}%)`);
+      const percentSuff = `(${percent.toString().padStart('100'.toString().length, ' ')}%)`;
+      plainItems.push(percentSuff);
+      wrappedItems.push(opts.percentWrapFn(percentSuff));
     }
-    const joined = items.filter((x) => x).join(' ');
-    return joined.length ? ' ' + joined : '';
+    const plain = plainItems.filter((x) => x).join(' ');
+    const wrapped = wrappedItems.filter((x) => x).join(' ');
+    return [plain.length ? ' ' + plain : '', wrapped.length ? ' ' + wrapped : ''];
   };
 
   /**<!-- DOCS: progressBar.progressBarHeading ### -->
@@ -172,7 +178,7 @@ export namespace progressBar {
      * @returns {string} The output string
      */
     const getBar = (applyWrap: boolean = false): string => {
-      const suffix = getSuffix(current, args.max, isMaxKnown, opts);
+      const [suffix, suffixWrapped] = getSuffix(current, args.max, isMaxKnown, opts);
 
       const idealMinBarWidth = Math.min(5, opts.maxWidth - [suffix, opts.startChar, opts.endChar].join('').length);
       const maxPrefixWidth =
@@ -188,7 +194,7 @@ export namespace progressBar {
         Math.max(0, opts.maxWidth - [fullPrefix, suffix, opts.startChar, opts.endChar].join('').length),
         opts
       );
-      const output = `${fullPrefix}${barString}${suffix}`;
+      const output = `${opts.prefixWrapFn(fullPrefix)}${barString}${suffixWrapped}`;
 
       if (applyWrap) return opts.wrapperFn(output);
       return output;
@@ -418,6 +424,24 @@ export namespace progressBar {
      */
     barEmptyWrapFn: Function;
     /**
+     * Function to wrap the prefix
+     *
+     * Default: nothing
+     */
+    prefixWrapFn: Function;
+    /**
+     * Function to wrap the count
+     *
+     * Default: nothing
+     */
+    countWrapFn: Function;
+    /**
+     * Function to wrap the percent
+     *
+     * Default: nothing
+     */
+    percentWrapFn: Function;
+    /**
      * Show numerical values of the count
      *
      * Default: `true`
@@ -502,6 +526,9 @@ export namespace progressBar {
    * | barProgWrapFn    | nothing                           | Function to wrap the 'complete' segment of the bar     |
    * | barCurrentWrapFn | nothing                           | Function to wrap the 'current' segment of the bar      |
    * | barEmptyWrapFn   | nothing                           | Function to wrap the empty/track part of the line      |
+   * | prefixWrapFn     | nothing                           | Function to wrap the prefix                            |
+   * | countWrapFn      | nothing                           | Function to wrap the count                             |
+   * | percentWrapFn    | nothing                           | Function to wrap the percent                           |
    * | showCount        | `true`                            | Show numerical values of the count - `[11 / 15]`       |
    * | showPercent      | `false`                           | Show percentage completed - `( 69%)`                   |
    * | countWidth       | `0`                               | Min width of nums for showCount - `3` => `[˽˽1 / ˽15]` |
@@ -537,6 +564,9 @@ export namespace progressBar {
    * //   barProgWrapFn: [Function],
    * //   barCurrentWrapFn: [Function],
    * //   barEmptyWrapFn: [Function],
+   * //   prefixWrapFn: [Function],
+   * //   countWrapFn: [Function],
+   * //   percentWrapFn: [Function],
    * //   showCount: true,
    * //   showPercent: false,
    * //   countWidth: 0,
@@ -565,6 +595,9 @@ export namespace progressBar {
     barProgWrapFn: option(opts.barProgWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
     barCurrentWrapFn: option(opts.barCurrentWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
     barEmptyWrapFn: option(opts.barEmptyWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+    prefixWrapFn: option(opts.prefixWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+    countWrapFn: option(opts.countWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+    percentWrapFn: option(opts.percentWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
     showCount: option(opts.showCount, true, (v, dflt) => safe.bool(v, dflt)),
     showPercent: option(opts.showPercent, false, (v, dflt) => safe.bool(v, dflt)),
     countWidth: option(opts.countWidth, 0, (v, dflt) => safe.num(v, true, 0, undefined, dflt)),

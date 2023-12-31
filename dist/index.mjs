@@ -1051,17 +1051,23 @@ var progressBar;
     return `${startChar}${body}${endChar}`;
   };
   const getSuffix = (current, maxNum, isMaxKnown, opts) => {
-    let items = [""];
+    let plainItems = [];
+    let wrappedItems = [];
     if (opts.showCount) {
       const pad = Math.max(maxNum.toString().length, opts.countWidth);
-      items.push(`[${current.toString().padStart(pad, " ")} / ${(isMaxKnown ? maxNum.toString() : "?").padStart(pad, " ")}]`);
+      const countSuff = `[${current.toString().padStart(pad, " ")} / ${(isMaxKnown ? maxNum.toString() : "?").padStart(pad, " ")}]`;
+      plainItems.push(countSuff);
+      wrappedItems.push(opts.countWrapFn(countSuff));
     }
     if (opts.showPercent) {
       const percent = Math.round(current / Math.max(1, maxNum) * 100);
-      items.push(`(${percent.toString().padStart("100".toString().length, " ")}%)`);
+      const percentSuff = `(${percent.toString().padStart("100".toString().length, " ")}%)`;
+      plainItems.push(percentSuff);
+      wrappedItems.push(opts.percentWrapFn(percentSuff));
     }
-    const joined = items.filter((x) => x).join(" ");
-    return joined.length ? " " + joined : "";
+    const plain = plainItems.filter((x) => x).join(" ");
+    const wrapped = wrappedItems.filter((x) => x).join(" ");
+    return [plain.length ? " " + plain : "", wrapped.length ? " " + wrapped : ""];
   };
   progressBar2.getProgressBar = (max, options = {}) => {
     const args = {
@@ -1075,7 +1081,7 @@ var progressBar;
     let finished = false;
     const isMaxKnown = args.max !== -1;
     const getBar = (applyWrap = false) => {
-      const suffix = getSuffix(current, args.max, isMaxKnown, opts);
+      const [suffix, suffixWrapped] = getSuffix(current, args.max, isMaxKnown, opts);
       const idealMinBarWidth = Math.min(5, opts.maxWidth - [suffix, opts.startChar, opts.endChar].join("").length);
       const maxPrefixWidth = opts.maxPrefixWidth !== Infinity ? opts.maxPrefixWidth : opts.maxWidth - ([suffix, opts.startChar, opts.endChar].join("").length + idealMinBarWidth);
       const fullPrefix = opts.prefix.padEnd(opts.prefixWidth).substring(0, maxPrefixWidth);
@@ -1085,7 +1091,7 @@ var progressBar;
         Math.max(0, opts.maxWidth - [fullPrefix, suffix, opts.startChar, opts.endChar].join("").length),
         opts
       );
-      const output = `${fullPrefix}${barString}${suffix}`;
+      const output = `${opts.prefixWrapFn(fullPrefix)}${barString}${suffixWrapped}`;
       if (applyWrap)
         return opts.wrapperFn(output);
       return output;
@@ -1189,6 +1195,9 @@ var progressBar;
       barProgWrapFn: option(opts.barProgWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
       barCurrentWrapFn: option(opts.barCurrentWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
       barEmptyWrapFn: option(opts.barEmptyWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      prefixWrapFn: option(opts.prefixWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      countWrapFn: option(opts.countWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
+      percentWrapFn: option(opts.percentWrapFn, fn.noact, (v, dflt) => safe.func(v, dflt)),
       showCount: option(opts.showCount, true, (v, dflt) => safe.bool(v, dflt)),
       showPercent: option(opts.showPercent, false, (v, dflt) => safe.bool(v, dflt)),
       countWidth: option(opts.countWidth, 0, (v, dflt) => safe.num(v, true, 0, void 0, dflt)),

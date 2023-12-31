@@ -563,6 +563,71 @@ describe('Progress Bar', () => {
         expect(printCalls.at(-1)).toEqual(['▕██████████████████_                  _▏ [ 50 / 100]']);
       });
     });
+
+    describe('prefixWrapFn', () => {
+      // description: function to wrap the prefix
+      // default: fn.noact
+      // safeFn: safe.func(v, dflt)
+
+      it(should` do nothing when nothing given`, () => {
+        const { bar, printCalls } = testProgressBar({ prefix: 'Example', prefixWrapFn: undefined }, 100);
+        bar.set(50);
+        expect(printCalls.at(-1)).toEqual(['Example▕███████████████              ▏ [ 50 / 100]']);
+      });
+      it(should` wrap the empty/track part of the line with double curly brackets`, () => {
+        const { bar, printCalls } = testProgressBar({ prefix: 'Example', prefixWrapFn: (str) => `{{${str}}}` }, 100);
+        bar.set(50);
+        expect(printCalls.at(-1)).toEqual(['{{Example}}▕███████████████              ▏ [ 50 / 100]']);
+      });
+      it(should` wrap the empty/track part of the line with underscores`, () => {
+        const { bar, printCalls } = testProgressBar({ prefix: 'Example', prefixWrapFn: (str) => `_${str}_` }, 100);
+        bar.set(50);
+        expect(printCalls.at(-1)).toEqual(['_Example_▕███████████████              ▏ [ 50 / 100]']);
+      });
+    });
+    describe('countWrapFn', () => {
+      // description: function to wrap the count
+      // default: fn.noact
+      // safeFn: safe.func(v, dflt)
+
+      it(should` do nothing when nothing given`, () => {
+        const { bar, printCalls } = testProgressBar({ countWrapFn: undefined }, 100);
+        bar.set(50);
+        expect(printCalls.at(-1)).toEqual(['▕██████████████████                  ▏ [ 50 / 100]']);
+      });
+      it(should` wrap the empty/track part of the line with double curly brackets`, () => {
+        const { bar, printCalls } = testProgressBar({ countWrapFn: (str) => `{{${str}}}` }, 100);
+        bar.set(50);
+        expect(printCalls.at(-1)).toEqual(['▕██████████████████                  ▏ {{[ 50 / 100]}}']);
+      });
+      it(should` wrap the empty/track part of the line with underscores`, () => {
+        const { bar, printCalls } = testProgressBar({ countWrapFn: (str) => `_${str}_` }, 100);
+        bar.set(50);
+        expect(printCalls.at(-1)).toEqual(['▕██████████████████                  ▏ _[ 50 / 100]_']);
+      });
+    });
+    describe('percentWrapFn', () => {
+      // description: function to wrap the percent
+      // default: fn.noact
+      // safeFn: safe.func(v, dflt)
+
+      it(should` do nothing when nothing given`, () => {
+        const { bar, printCalls } = testProgressBar({ showPercent: true, percentWrapFn: undefined }, 100);
+        bar.set(50);
+        expect(printCalls.at(-1)).toEqual(['▕███████████████              ▏ [ 50 / 100] ( 50%)']);
+      });
+      it(should` wrap the empty/track part of the line with double curly brackets`, () => {
+        const { bar, printCalls } = testProgressBar({ showPercent: true, percentWrapFn: (str) => `{{${str}}}` }, 100);
+        bar.set(50);
+        expect(printCalls.at(-1)).toEqual(['▕███████████████              ▏ [ 50 / 100] {{( 50%)}}']);
+      });
+      it(should` wrap the empty/track part of the line with underscores`, () => {
+        const { bar, printCalls } = testProgressBar({ showPercent: true, percentWrapFn: (str) => `_${str}_` }, 100);
+        bar.set(50);
+        expect(printCalls.at(-1)).toEqual(['▕███████████████              ▏ [ 50 / 100] _( 50%)_']);
+      });
+    });
+
     describe('showCount', () => {
       // description: Show numerical values of the count - `[11 / 15]`
       // default: true
@@ -876,6 +941,9 @@ describe('Progress Bar', () => {
           barProgWrapFn: swissak.fn.noact,
           barCurrentWrapFn: swissak.fn.noact,
           barEmptyWrapFn: swissak.fn.noact,
+          prefixWrapFn: swissak.fn.noact,
+          countWrapFn: swissak.fn.noact,
+          percentWrapFn: swissak.fn.noact,
           showCount: true,
           showPercent: false,
           countWidth: 0,
@@ -1027,6 +1095,54 @@ describe('Progress Bar', () => {
         kitchenSink.toEqual(
           'barEmptyWrapFn',
           (v) => getFullOptions({ barEmptyWrapFn: v as any }).barEmptyWrapFn,
+          kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
+          kitchenSink.general
+        );
+      });
+      describe('prefixWrapFn', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.prefixWrapFn).toEqual(swissak.fn.noact);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ prefixWrapFn: swissak.fn.noact });
+          expect(opts.prefixWrapFn).toEqual(swissak.fn.noact);
+        });
+        kitchenSink.toEqual(
+          'prefixWrapFn',
+          (v) => getFullOptions({ prefixWrapFn: v as any }).prefixWrapFn,
+          kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
+          kitchenSink.general
+        );
+      });
+      describe('countWrapFn', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.countWrapFn).toEqual(swissak.fn.noact);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ countWrapFn: swissak.fn.noact });
+          expect(opts.countWrapFn).toEqual(swissak.fn.noact);
+        });
+        kitchenSink.toEqual(
+          'countWrapFn',
+          (v) => getFullOptions({ countWrapFn: v as any }).countWrapFn,
+          kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
+          kitchenSink.general
+        );
+      });
+      describe('percentWrapFn', () => {
+        it(should` default correctly`, () => {
+          const opts = getFullOptions({});
+          expect(opts.percentWrapFn).toEqual(swissak.fn.noact);
+        });
+        it(should` set correctly`, () => {
+          const opts = getFullOptions({ percentWrapFn: swissak.fn.noact });
+          expect(opts.percentWrapFn).toEqual(swissak.fn.noact);
+        });
+        kitchenSink.toEqual(
+          'percentWrapFn',
+          (v) => getFullOptions({ percentWrapFn: v as any }).percentWrapFn,
           kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
           kitchenSink.general
         );
@@ -1905,7 +2021,7 @@ describe('Multibar Manager', () => {
 
     describe('variableOptions', () => {
       singleTest(swissak.progressBar.getMultiBarManager, 'progressBar.getMultiBarManager', (getMultiBarManager, name) => {
-        it(should` rotate the wrapperFns - using array`, () => {
+        it(should` rotate the wrapperFn values amongst the bars - using array`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
           const { manager, printCalls } = testMultiBarManager({ variableOptions: { wrapperFn: wraps } }, getMultiBarManager);
 
@@ -1938,7 +2054,7 @@ describe('Multibar Manager', () => {
             ].join('\n')
           ]);
         });
-        it(should` rotate the wrapperFns - using function`, () => {
+        it(should` rotate the wrapperFn values amongst the bars - using function`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
           const { manager, printCalls } = testMultiBarManager(
             { variableOptions: { wrapperFn: (bar, i) => wraps[i % wraps.length] } },
@@ -1975,7 +2091,7 @@ describe('Multibar Manager', () => {
           ]);
         });
 
-        it(should` rotate the barWrapFns - using array`, () => {
+        it(should` rotate the barWrapFn values amongst the bars - using array`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
           const { manager, printCalls } = testMultiBarManager({ variableOptions: { barWrapFn: wraps } }, getMultiBarManager);
 
@@ -2008,7 +2124,7 @@ describe('Multibar Manager', () => {
             ].join('\n')
           ]);
         });
-        it(should` rotate the barWrapFns - using function`, () => {
+        it(should` rotate the barWrapFn values amongst the bars - using function`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
           const { manager, printCalls } = testMultiBarManager(
             { variableOptions: { barWrapFn: (bar, i) => wraps[i % wraps.length] } },
@@ -2045,7 +2161,7 @@ describe('Multibar Manager', () => {
           ]);
         });
 
-        it(should` rotate the barProgWrapFns - using array`, () => {
+        it(should` rotate the barProgWrapFn values amongst the bars - using array`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
           const { manager, printCalls } = testMultiBarManager({ variableOptions: { barProgWrapFn: wraps } }, getMultiBarManager);
 
@@ -2078,7 +2194,7 @@ describe('Multibar Manager', () => {
             ].join('\n')
           ]);
         });
-        it(should` rotate the barProgWrapFns - using function`, () => {
+        it(should` rotate the barProgWrapFn values amongst the bars - using function`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
           const { manager, printCalls } = testMultiBarManager(
             { variableOptions: { barProgWrapFn: (bar, i) => wraps[i % wraps.length] } },
@@ -2115,7 +2231,7 @@ describe('Multibar Manager', () => {
           ]);
         });
 
-        it(should` rotate the barCurrentWrapFns - using array`, () => {
+        it(should` rotate the barCurrentWrapFn values amongst the bars - using array`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
           const { manager, printCalls } = testMultiBarManager(
             { variableOptions: { barCurrentWrapFn: wraps }, overrideOptions: { showCurrent: true } },
@@ -2151,7 +2267,7 @@ describe('Multibar Manager', () => {
             ].join('\n')
           ]);
         });
-        it(should` rotate the barCurrentWrapFns - using function`, () => {
+        it(should` rotate the barCurrentWrapFn values amongst the bars - using function`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
           const { manager, printCalls } = testMultiBarManager(
             { variableOptions: { barCurrentWrapFn: (bar, i) => wraps[i % wraps.length] }, overrideOptions: { showCurrent: true } },
@@ -2188,7 +2304,7 @@ describe('Multibar Manager', () => {
           ]);
         });
 
-        it(should` rotate the barEmptyWrapFns - using array`, () => {
+        it(should` rotate the barEmptyWrapFn values amongst the bars - using array`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
           const { manager, printCalls } = testMultiBarManager({ variableOptions: { barEmptyWrapFn: wraps } }, getMultiBarManager);
 
@@ -2221,7 +2337,7 @@ describe('Multibar Manager', () => {
             ].join('\n')
           ]);
         });
-        it(should` rotate the barEmptyWrapFns - using function`, () => {
+        it(should` rotate the barEmptyWrapFn values amongst the bars - using function`, () => {
           const wraps = [(s) => `(1)${s}(1)`, (s) => `(2)${s}(2)`, (s) => `(3)${s}(3)`];
           const { manager, printCalls } = testMultiBarManager(
             { variableOptions: { barEmptyWrapFn: (bar, i) => wraps[i % wraps.length] } },
@@ -2343,8 +2459,7 @@ describe('Multibar Manager', () => {
           print: true,
           printFn: swissak.progressBar.utils.multiPrintFn,
           removeFinished: false,
-          variableOptions: {},
-          wrapperFns: undefined
+          variableOptions: {}
         });
       });
 

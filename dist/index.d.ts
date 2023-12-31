@@ -2910,6 +2910,24 @@ declare namespace progressBar {
          */
         barEmptyWrapFn: Function;
         /**
+         * Function to wrap the prefix
+         *
+         * Default: nothing
+         */
+        prefixWrapFn: Function;
+        /**
+         * Function to wrap the count
+         *
+         * Default: nothing
+         */
+        countWrapFn: Function;
+        /**
+         * Function to wrap the percent
+         *
+         * Default: nothing
+         */
+        percentWrapFn: Function;
+        /**
          * Show numerical values of the count
          *
          * Default: `true`
@@ -2994,6 +3012,9 @@ declare namespace progressBar {
      * | barProgWrapFn    | nothing                           | Function to wrap the 'complete' segment of the bar     |
      * | barCurrentWrapFn | nothing                           | Function to wrap the 'current' segment of the bar      |
      * | barEmptyWrapFn   | nothing                           | Function to wrap the empty/track part of the line      |
+     * | prefixWrapFn     | nothing                           | Function to wrap the prefix                            |
+     * | countWrapFn      | nothing                           | Function to wrap the count                             |
+     * | percentWrapFn    | nothing                           | Function to wrap the percent                           |
      * | showCount        | `true`                            | Show numerical values of the count - `[11 / 15]`       |
      * | showPercent      | `false`                           | Show percentage completed - `( 69%)`                   |
      * | countWidth       | `0`                               | Min width of nums for showCount - `3` => `[˽˽1 / ˽15]` |
@@ -3029,6 +3050,9 @@ declare namespace progressBar {
      * //   barProgWrapFn: [Function],
      * //   barCurrentWrapFn: [Function],
      * //   barEmptyWrapFn: [Function],
+     * //   prefixWrapFn: [Function],
+     * //   countWrapFn: [Function],
+     * //   percentWrapFn: [Function],
      * //   showCount: true,
      * //   showPercent: false,
      * //   countWidth: 0,
