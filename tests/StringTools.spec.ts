@@ -28,7 +28,7 @@ describe('StringTools', () => {
         expect(capitalise('')).toEqual('');
       });
 
-      kitchenSink.toEqual('input', (v: any) => capitalise(v), kitchenSink.safe.str(''), kitchenSink.general);
+      kitchenSink.toEqual('input', (v: any) => capitalise(v), kitchenSink.safe.str(''), kitchenSink.samples.general);
     });
   });
   describe('angloise', () => {
@@ -44,7 +44,7 @@ describe('StringTools', () => {
         expect(angloise('AÀÁÂÄǍÃÅĀ EÈÉÊËĚẼĒĒĖĘ IÌÍÎÏǏĨĪĮI OÒÓÔÖǑÕŌ UÙÚÛÜǓŨŪŰŮ')).toEqual('AAAAAAAAA EEEEEEEEEEE IIIIIIIIII OOOOOOOO UUUUUUUUUU');
       });
 
-      kitchenSink.toEqual('input', (v: any) => angloise(v), kitchenSink.safe.str(undefined), kitchenSink.general);
+      kitchenSink.toEqual('input', (v: any) => angloise(v), kitchenSink.safe.str(undefined), kitchenSink.samples.general);
     });
   });
   describe('clean', () => {
@@ -65,7 +65,7 @@ describe('StringTools', () => {
         expect(clean(str)).toEqual(expctd);
       });
 
-      kitchenSink.toEqual('input', (v: any) => clean(v), kitchenSink.safe.str(''), kitchenSink.general);
+      kitchenSink.toEqual('input', (v: any) => clean(v), kitchenSink.safe.str(''), kitchenSink.samples.general);
     });
   });
   describe('repeat', () => {
@@ -94,8 +94,8 @@ describe('StringTools', () => {
         expect(repeat(3, 'hello ')).toEqual('hello hello hello ');
       });
 
-      kitchenSink.toEqual('maxLength', (v: any) => repeat(v, 'a'), kitchenSink.safe.num(undefined, true), kitchenSink.num);
-      kitchenSink.toEqual('input', (v: any) => repeat(5, v), kitchenSink.safe.str(undefined), kitchenSink.general);
+      kitchenSink.toEqual('maxLength', (v: any) => repeat(v, 'a'), kitchenSink.safe.num(undefined, true), kitchenSink.samples.num);
+      kitchenSink.toEqual('input', (v: any) => repeat(5, v), kitchenSink.safe.str(undefined), kitchenSink.samples.general);
     });
   });
 
@@ -280,7 +280,7 @@ describe('StringTools', () => {
             if (v instanceof Array) return kitchenSink.safe.arrOf.str(undefined)(v);
             return kitchenSink.safe.str(undefined, false, '')(v);
           },
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
     };
@@ -513,8 +513,8 @@ describe('StringTools', () => {
           expect(unique('')).toEqual('');
         });
 
-        kitchenSink.toEqual('input', (v: any) => unique(v), kitchenSink.safe.str(''), kitchenSink.general);
-        kitchenSink.toEqual('replaceSymbols', (v: any) => unique('[{}, {}]', v), safeSymbols({}), kitchenSink.general);
+        kitchenSink.toEqual('input', (v: any) => unique(v), kitchenSink.safe.str(''), kitchenSink.samples.general);
+        kitchenSink.toEqual('replaceSymbols', (v: any) => unique('[{}, {}]', v), safeSymbols({}), kitchenSink.samples.general);
       });
     });
     describe('depth', () => {
@@ -539,8 +539,8 @@ describe('StringTools', () => {
           expect(depth('')).toEqual('');
         });
 
-        kitchenSink.toEqual('input', (v: any) => depth(v), kitchenSink.safe.str(''), kitchenSink.general);
-        kitchenSink.toEqual('replaceSymbols', (v: any) => depth('[{}, {}]', v), safeSymbols({}), kitchenSink.general);
+        kitchenSink.toEqual('input', (v: any) => depth(v), kitchenSink.safe.str(''), kitchenSink.samples.general);
+        kitchenSink.toEqual('replaceSymbols', (v: any) => depth('[{}, {}]', v), safeSymbols({}), kitchenSink.samples.general);
       });
     });
     describe('clean', () => {
@@ -565,8 +565,8 @@ describe('StringTools', () => {
           expect(clean('')).toEqual('');
         });
 
-        kitchenSink.toEqual('input', (v: any) => clean(v), kitchenSink.safe.str(''), kitchenSink.general);
-        kitchenSink.toEqual('replaceSymbols', (v: any) => clean('[{}, {}]', v), safeSymbols({}), kitchenSink.general);
+        kitchenSink.toEqual('input', (v: any) => clean(v), kitchenSink.safe.str(''), kitchenSink.samples.general);
+        kitchenSink.toEqual('replaceSymbols', (v: any) => clean('[{}, {}]', v), safeSymbols({}), kitchenSink.samples.general);
       });
     });
     describe('grabDepth', () => {
@@ -609,10 +609,10 @@ describe('StringTools', () => {
           expect(grabDepth('', 'square', 2)).toEqual([]);
         });
 
-        kitchenSink.toEqual('input', (v: any) => grabDepth(v, 'square', 2), kitchenSink.safe.str(''), kitchenSink.general);
-        kitchenSink.toEqual('bracketType', (v: any) => grabDepth('[{}, {}]', v, 2), safeBracketType('round'), kitchenSink.general);
-        kitchenSink.toEqual('depthID', (v: any) => grabDepth('[{}, {}]', 'square', v), kitchenSink.safe.num(0, true, 0), kitchenSink.general);
-        kitchenSink.toEqual('replaceSymbols', (v: any) => grabDepth('[{}, {}]', 'square', 2, v), safeSymbols({}), kitchenSink.general);
+        kitchenSink.toEqual('input', (v: any) => grabDepth(v, 'square', 2), kitchenSink.safe.str(''), kitchenSink.samples.general);
+        kitchenSink.toEqual('bracketType', (v: any) => grabDepth('[{}, {}]', v, 2), safeBracketType('round'), kitchenSink.samples.general);
+        kitchenSink.toEqual('depthID', (v: any) => grabDepth('[{}, {}]', 'square', v), kitchenSink.safe.num(0, true, 0), kitchenSink.samples.general);
+        kitchenSink.toEqual('replaceSymbols', (v: any) => grabDepth('[{}, {}]', 'square', 2, v), safeSymbols({}), kitchenSink.samples.general);
       });
     });
     describe('grabUnique', () => {
@@ -655,10 +655,15 @@ describe('StringTools', () => {
           expect(grabUnique('', 'square', 3)).toEqual(undefined);
         });
 
-        kitchenSink.toEqual('input', (v: any) => grabUnique(v, 'square', 3), kitchenSink.safe.str(''), kitchenSink.general);
-        kitchenSink.toEqual('bracketType', (v: any) => grabUnique('[{}, {}]', v, 3), safeBracketType('round'), kitchenSink.general);
-        kitchenSink.toEqual('uniqueID', (v: any) => grabUnique('[{}, {}]', 'square', v), kitchenSink.safe.num(0, true, 0), kitchenSink.general);
-        kitchenSink.toEqual('replaceSymbols', (v: any) => grabUnique('[{}, {}]', 'square', 3, v), safeSymbols({}), kitchenSink.general);
+        kitchenSink.toEqual('input', (v: any) => grabUnique(v, 'square', 3), kitchenSink.safe.str(''), kitchenSink.samples.general);
+        kitchenSink.toEqual('bracketType', (v: any) => grabUnique('[{}, {}]', v, 3), safeBracketType('round'), kitchenSink.samples.general);
+        kitchenSink.toEqual(
+          'uniqueID',
+          (v: any) => grabUnique('[{}, {}]', 'square', v),
+          kitchenSink.safe.num(0, true, 0),
+          kitchenSink.samples.general
+        );
+        kitchenSink.toEqual('replaceSymbols', (v: any) => grabUnique('[{}, {}]', 'square', 3, v), safeSymbols({}), kitchenSink.samples.general);
       });
     });
     describe('grab', () => {
@@ -699,9 +704,9 @@ describe('StringTools', () => {
           expect(grab('')).toEqual([]);
         });
 
-        kitchenSink.toEqual('input', (v: any) => grab(v, 'square'), kitchenSink.safe.str(''), kitchenSink.general);
-        kitchenSink.toEqual('bracketType', (v: any) => grab('[{}, {}]', v), safeBracketType('round'), kitchenSink.general);
-        kitchenSink.toEqual('replaceSymbols', (v: any) => grab('[{}, {}]', 'square', v), safeSymbols({}), kitchenSink.general);
+        kitchenSink.toEqual('input', (v: any) => grab(v, 'square'), kitchenSink.safe.str(''), kitchenSink.samples.general);
+        kitchenSink.toEqual('bracketType', (v: any) => grab('[{}, {}]', v), safeBracketType('round'), kitchenSink.samples.general);
+        kitchenSink.toEqual('replaceSymbols', (v: any) => grab('[{}, {}]', 'square', v), safeSymbols({}), kitchenSink.samples.general);
       });
     });
     describe('getReplaceSymbols', () => {
@@ -756,7 +761,7 @@ describe('StringTools', () => {
           expect((output as any).END).toBeDefined();
         });
 
-        kitchenSink.toEqual('replaceSymbols', (v: any) => getReplaceSymbols(v), safeSymbols({}), kitchenSink.general);
+        kitchenSink.toEqual('replaceSymbols', (v: any) => getReplaceSymbols(v), safeSymbols({}), kitchenSink.samples.general);
       });
     });
   });

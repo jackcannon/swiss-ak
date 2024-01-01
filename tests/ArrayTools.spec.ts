@@ -73,9 +73,9 @@ describe('ArrayTools', () => {
           expect(array).toEqual([2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
         });
 
-        kitchenSink.toEqual('length', (v) => range(v), kitchenSink.safe.num(1, true, 0), kitchenSink.num);
-        kitchenSink.toEqual('multiplier', (v) => range(10, v), kitchenSink.safe.num(1), kitchenSink.num);
-        kitchenSink.toEqual('offset', (v) => range(10, 2, v), kitchenSink.safe.num(0), kitchenSink.num);
+        kitchenSink.toEqual('length', (v) => range(v), kitchenSink.safe.num(1, true, 0), kitchenSink.samples.num);
+        kitchenSink.toEqual('multiplier', (v) => range(10, v), kitchenSink.safe.num(1), kitchenSink.samples.num);
+        kitchenSink.toEqual('offset', (v) => range(10, 2, v), kitchenSink.safe.num(0), kitchenSink.samples.num);
       }
     );
   });

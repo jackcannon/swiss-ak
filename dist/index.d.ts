@@ -109,7 +109,7 @@ declare type ObjOfType<T = string> = {
  * RemapOf<IExample, number>; // { a: number; b: number; }
  * ```
  */
-declare type RemapOf<O = Object, T = string> = {
+declare type RemapOf<O = {}, T = string> = {
     [K in keyof O]: T;
 };
 

@@ -76,7 +76,7 @@ describe('queue', () => {
             return queue.defaultPauseTime;
           },
           kitchenSink.safe.num(undefined, true, 0),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
       }
     );
@@ -118,7 +118,7 @@ describe('queue', () => {
           'id',
           (v) => queue.setPauseTime(v, 123),
           kitchenSink.safe.str(undefined, false, Math.random().toString(36).slice(2)),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
         kitchenSink.toEqual(
           'time',
@@ -128,7 +128,7 @@ describe('queue', () => {
             return queue.pauseTimes.get(uniqueId);
           },
           kitchenSink.safe.num(undefined, true, 0),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
       }
     );
@@ -214,7 +214,7 @@ describe('queue', () => {
             return queue.add(v, () => Promise.resolve(123));
           },
           kitchenSink.safe.str(undefined, false, Math.random().toString(36).slice(2)),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
         kitchenSink.toEqual(
           'promiseItem',
@@ -225,7 +225,7 @@ describe('queue', () => {
             return queue.add(id, v);
           },
           (v) => kitchenSink.safe.func(undefined, async () => v)(v),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       }
     );
@@ -261,7 +261,7 @@ describe('queue', () => {
             return instance.defaultPauseTime;
           },
           kitchenSink.safe.num(0, true, 0),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
       }
     );

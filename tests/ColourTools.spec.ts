@@ -658,7 +658,7 @@ describe('ColourTools', () => {
         expect(parse).toBeDefined();
       });
 
-      kitchenSink.toEqual('input', (v) => parse(v), kitchenSink.safe.str(undefined, true), kitchenSink.general);
+      kitchenSink.toEqual('input', (v) => parse(v), kitchenSink.safe.str(undefined, true), kitchenSink.samples.general);
 
       testColours.forEach(({ rgb, hex, name, rgbStr, hslStr }) => {
         it(should` parse hex lowercase - ${hex.toLowerCase()}`, () => {
@@ -856,7 +856,7 @@ describe('ColourTools', () => {
       );
 
       const testValues = [
-        ...kitchenSink.general,
+        ...kitchenSink.samples.general,
         () => undefined,
         () => null,
         () => Infinity,

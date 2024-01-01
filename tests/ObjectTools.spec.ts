@@ -43,12 +43,12 @@ describe('ObjectTools', () => {
         expect(output).toEqual(expctd);
       });
 
-      kitchenSink.toEqual('obj', (v) => remodel(v, (entries) => entries), kitchenSink.safe.obj(undefined), kitchenSink.general);
+      kitchenSink.toEqual('obj', (v) => remodel(v, (entries) => entries), kitchenSink.safe.obj(undefined), kitchenSink.samples.general);
       kitchenSink.toEqual(
         'func',
         (v) => remodel({ a: 1 }, v as any),
         kitchenSink.safe.func(undefined, (entries) => entries),
-        kitchenSink.general
+        kitchenSink.samples.general
       );
     });
   });
@@ -91,12 +91,12 @@ describe('ObjectTools', () => {
         expect(output).toEqual(expctd);
       });
 
-      kitchenSink.toEqual('obj', (v) => remodelEach(v, (entries) => entries), kitchenSink.safe.obj(undefined), kitchenSink.general);
+      kitchenSink.toEqual('obj', (v) => remodelEach(v, (entries) => entries), kitchenSink.safe.obj(undefined), kitchenSink.samples.general);
       kitchenSink.toEqual(
         'func',
         (v) => remodelEach({ a: 1 }, v as any),
         kitchenSink.safe.func(undefined, (entries) => entries),
-        kitchenSink.general
+        kitchenSink.samples.general
       );
     });
   });
@@ -139,12 +139,12 @@ describe('ObjectTools', () => {
         expect(output).toEqual(expctd);
       });
 
-      kitchenSink.toEqual('obj', (v) => map(v, (key, value) => [key, value]), kitchenSink.safe.obj(undefined), kitchenSink.general);
+      kitchenSink.toEqual('obj', (v) => map(v, (key, value) => [key, value]), kitchenSink.safe.obj(undefined), kitchenSink.samples.general);
       kitchenSink.toEqual(
         'func',
         (v) => map({ a: 1 }, v as any),
         kitchenSink.safe.func(undefined, (key, value) => [key, value]),
-        kitchenSink.general
+        kitchenSink.samples.general
       );
     });
   });
@@ -174,12 +174,12 @@ describe('ObjectTools', () => {
         expect(output).toEqual(expctd);
       });
 
-      kitchenSink.toEqual('obj', (v) => mapValues(v, (key, value) => value), kitchenSink.safe.obj(undefined), kitchenSink.general);
+      kitchenSink.toEqual('obj', (v) => mapValues(v, (key, value) => value), kitchenSink.safe.obj(undefined), kitchenSink.samples.general);
       kitchenSink.toEqual(
         'func',
         (v) => mapValues({ a: 1 }, v as any),
         kitchenSink.safe.func(undefined, (key, value) => value),
-        kitchenSink.general
+        kitchenSink.samples.general
       );
     });
   });
@@ -209,12 +209,12 @@ describe('ObjectTools', () => {
         expect(output).toEqual(expctd);
       });
 
-      kitchenSink.toEqual('obj', (v) => mapKeys(v, (key, value) => key), kitchenSink.safe.obj(undefined), kitchenSink.general);
+      kitchenSink.toEqual('obj', (v) => mapKeys(v, (key, value) => key), kitchenSink.safe.obj(undefined), kitchenSink.samples.general);
       kitchenSink.toEqual(
         'func',
         (v) => mapKeys({ a: 1 }, v as any),
         kitchenSink.safe.func(undefined, (key, value) => key),
-        kitchenSink.general
+        kitchenSink.samples.general
       );
     });
   });
@@ -245,12 +245,12 @@ describe('ObjectTools', () => {
         expect(output).toEqual(expctd);
       });
 
-      kitchenSink.toEqual('obj', (v) => filter(v, () => true), kitchenSink.safe.obj(undefined), kitchenSink.general);
+      kitchenSink.toEqual('obj', (v) => filter(v, () => true), kitchenSink.safe.obj(undefined), kitchenSink.samples.general);
       kitchenSink.toEqual(
         'func',
         (v) => filter({ a: 1 }, v as any),
         kitchenSink.safe.func(undefined, (key, value) => true),
-        kitchenSink.general
+        kitchenSink.samples.general
       );
     });
   });
@@ -307,7 +307,7 @@ describe('ObjectTools', () => {
         expect(output).toEqual(expctd);
       });
 
-      kitchenSink.toEqual('obj', (v) => clean(v), kitchenSink.safe.obj(undefined), kitchenSink.general);
+      kitchenSink.toEqual('obj', (v) => clean(v), kitchenSink.safe.obj(undefined), kitchenSink.samples.general);
     });
   });
   describe('invert', () => {
@@ -384,7 +384,7 @@ describe('ObjectTools', () => {
         expect(output).toEqual(expctd);
       });
 
-      kitchenSink.toEqual('obj', (v) => invert(v), kitchenSink.safe.obj(undefined), kitchenSink.general);
+      kitchenSink.toEqual('obj', (v) => invert(v), kitchenSink.safe.obj(undefined), kitchenSink.samples.general);
     });
   });
 });

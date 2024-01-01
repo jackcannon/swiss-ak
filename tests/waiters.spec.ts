@@ -25,7 +25,7 @@ describe('waiters', () => {
           expect(diff).toBeLessThanOrEqual(timingErrorRange);
         });
 
-        kitchenSink.toEqual('time', (v) => wait(v as any).then(() => 123), kitchenSink.safe.num(undefined, true, 0), kitchenSink.num);
+        kitchenSink.toEqual('time', (v) => wait(v as any).then(() => 123), kitchenSink.safe.num(undefined, true, 0), kitchenSink.samples.num);
       }
     );
   });
@@ -47,7 +47,7 @@ describe('waiters', () => {
           expect(diff).toBeLessThanOrEqual(timingErrorRange);
         });
 
-        kitchenSink.toEqual('time', (v) => waitUntil(v as any).then(() => 123), kitchenSink.safe.num(undefined, true, 0), kitchenSink.num);
+        kitchenSink.toEqual('time', (v) => waitUntil(v as any).then(() => 123), kitchenSink.safe.num(undefined, true, 0), kitchenSink.samples.num);
       }
     );
   });
@@ -69,7 +69,7 @@ describe('waiters', () => {
           expect(diff).toBeLessThanOrEqual(timingErrorRange);
         });
 
-        kitchenSink.toEqual('time', (v) => waitFor(v as any).then(() => 123), kitchenSink.safe.num(undefined, true, 0), kitchenSink.num);
+        kitchenSink.toEqual('time', (v) => waitFor(v as any).then(() => 123), kitchenSink.safe.num(undefined, true, 0), kitchenSink.samples.num);
       }
     );
   });
@@ -101,8 +101,13 @@ describe('waiters', () => {
           expect(Math.abs(idealDuration - duration)).toBeLessThanOrEqual(timingErrorRange);
         });
 
-        kitchenSink.toEqual('time', (v) => waitEvery(v as any).then(() => 123), kitchenSink.safe.num(undefined, true, 0), kitchenSink.num);
-        kitchenSink.toEqual('offset', (v) => waitEvery(10, v as any).then(() => 123), kitchenSink.safe.num(undefined, true, 0), kitchenSink.num);
+        kitchenSink.toEqual('time', (v) => waitEvery(v as any).then(() => 123), kitchenSink.safe.num(undefined, true, 0), kitchenSink.samples.num);
+        kitchenSink.toEqual(
+          'offset',
+          (v) => waitEvery(10, v as any).then(() => 123),
+          kitchenSink.safe.num(undefined, true, 0),
+          kitchenSink.samples.num
+        );
       }
     );
   });
@@ -151,7 +156,7 @@ describe('waiters', () => {
             }
           },
           kitchenSink.safe.func(undefined),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
         kitchenSink.toEqual(
           'timing',
@@ -166,7 +171,7 @@ describe('waiters', () => {
             }
           },
           kitchenSink.safe.num(undefined, true, 1, undefined, 1),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
       }
     );
@@ -182,7 +187,7 @@ describe('waiters', () => {
           expect(stopInterval).toBeDefined();
         });
 
-        kitchenSink.toEqual('intID', (v) => stopInterval(v as any), kitchenSink.safe.num(undefined, true, 0), kitchenSink.num);
+        kitchenSink.toEqual('intID', (v) => stopInterval(v as any), kitchenSink.safe.num(undefined, true, 0), kitchenSink.samples.num);
       }
     );
   });

@@ -22,7 +22,7 @@ describe('fn', () => {
         expect(noact).toBeDefined();
       });
 
-      kitchenSink.general.forEach((value) => {
+      kitchenSink.samples.general.forEach((value) => {
         it(should` return ${value}`, () => {
           expect(noact(value)).toBe(value);
         });
@@ -35,7 +35,7 @@ describe('fn', () => {
         expect(result).toBeDefined();
       });
 
-      kitchenSink.general.forEach((value) => {
+      kitchenSink.samples.general.forEach((value) => {
         it(should` return a function that returns ${value}`, () => {
           expect(result(value)()).toBe(value);
         });
@@ -52,7 +52,7 @@ describe('fn', () => {
         expect(resolve(undefined)()).toBeInstanceOf(Promise);
       });
 
-      kitchenSink.general.forEach((value) => {
+      kitchenSink.samples.general.forEach((value) => {
         it(should` return a function that returns a promise that resolves to ${value}`, () => {
           expect(resolve(value)()).resolves.toBe(value);
         });
@@ -69,7 +69,7 @@ describe('fn', () => {
         expect(reject(undefined)()).rejects.toBe(undefined);
       });
 
-      kitchenSink.general.forEach((value) => {
+      kitchenSink.samples.general.forEach((value) => {
         it(should` return a function that returns a promise that rejects to ${value}`, () => {
           expect(reject(value)()).rejects.toBe(value);
         });
@@ -353,7 +353,7 @@ describe('fn', () => {
           'item',
           (v) => dedupeMapped(v as any)(undefined, 0, []),
           kitchenSink.safe.func(undefined, (v) => v),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       }
     );
@@ -499,8 +499,8 @@ describe('fn', () => {
           expect(input.map(toProp(1))).toEqual(expected);
         });
 
-        kitchenSink.toEqual('prop', (v) => toProp(v as any)({ name: 'Foo' }), kitchenSink.safe.prop(undefined, ''), kitchenSink.general);
-        kitchenSink.toEqual('item', (v) => toProp('item')(v), kitchenSink.safe.obj(undefined, true), kitchenSink.general);
+        kitchenSink.toEqual('prop', (v) => toProp(v as any)({ name: 'Foo' }), kitchenSink.safe.prop(undefined, ''), kitchenSink.samples.general);
+        kitchenSink.toEqual('item', (v) => toProp('item')(v), kitchenSink.safe.obj(undefined, true), kitchenSink.samples.general);
       }
     );
   });
@@ -532,8 +532,8 @@ describe('fn', () => {
           });
         });
 
-        kitchenSink.toEqual('precision', (v) => toFixed(v)(3.14159), kitchenSink.safe.num(undefined, true, 0), kitchenSink.general);
-        kitchenSink.toEqual('item', (v) => toFixed(3)(v as any), kitchenSink.safe.num(undefined, true), kitchenSink.general);
+        kitchenSink.toEqual('precision', (v) => toFixed(v)(3.14159), kitchenSink.safe.num(undefined, true, 0), kitchenSink.samples.general);
+        kitchenSink.toEqual('item', (v) => toFixed(3)(v as any), kitchenSink.safe.num(undefined, true), kitchenSink.samples.general);
       }
     );
   });
@@ -634,12 +634,17 @@ describe('fn', () => {
         });
 
         const input = [{ num: 5 }, { num: 3 }, { num: 6 }, { num: 2 }, { num: 4 }, { num: 1 }];
-        kitchenSink.toEqual('propName', (v) => byProp(v as any)(input[0], input[1]), kitchenSink.safe.prop(undefined, ''), kitchenSink.general);
+        kitchenSink.toEqual(
+          'propName',
+          (v) => byProp(v as any)(input[0], input[1]),
+          kitchenSink.safe.prop(undefined, ''),
+          kitchenSink.samples.general
+        );
         kitchenSink.toEqual(
           'sortFn',
           (v) => byProp('num', v as any)(input[0], input[1]),
           kitchenSink.safe.func(swissak.fn.asc, swissak.fn.asc),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       }
     );
@@ -1275,7 +1280,12 @@ describe('fn', () => {
           expect([...input].reduce(combineProp('name'))).toEqual(expct);
         });
 
-        kitchenSink.toEqual('propName', (v) => combineProp(v as any)(input[0], input[1]), kitchenSink.safe.prop(undefined, ''), kitchenSink.general);
+        kitchenSink.toEqual(
+          'propName',
+          (v) => combineProp(v as any)(input[0], input[1]),
+          kitchenSink.safe.prop(undefined, ''),
+          kitchenSink.samples.general
+        );
       }
     );
   });
@@ -1337,7 +1347,7 @@ describe('fn', () => {
           'mapFn',
           (v) => modeMapped(v as any)(input[0], input[1], 1, input),
           kitchenSink.safe.func(undefined, (v: any) => v),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       }
     );

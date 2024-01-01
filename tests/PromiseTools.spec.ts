@@ -103,7 +103,7 @@ describe('PromiseTools', () => {
           expect(diff).toBeLessThanOrEqual(timingErrorRange);
         });
 
-        kitchenSink.toEqual('promises', async (v: any) => await all(v), kitchenSink.safe.arr(undefined, []), kitchenSink.general);
+        kitchenSink.toEqual('promises', async (v: any) => await all(v), kitchenSink.safe.arr(undefined, []), kitchenSink.samples.general);
       }
     );
   });
@@ -232,7 +232,7 @@ describe('PromiseTools', () => {
           'limit',
           async (v: any) => await allLimit(v, [() => Promise.resolve(1)]),
           kitchenSink.safe.num(undefined, true, 1, undefined, 1),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
         kitchenSink.toEqual(
           'items',
@@ -241,13 +241,13 @@ describe('PromiseTools', () => {
             kitchenSink.safe
               .arr(undefined)(v)
               .map((item) => kitchenSink.safe.func(undefined, async () => item)(item as any)),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
         kitchenSink.toEqual(
           'noThrow',
           async (v: any) => await allLimit(1, [() => Promise.resolve(1)], v),
           kitchenSink.safe.bool(false, false),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       }
     );
@@ -277,13 +277,13 @@ describe('PromiseTools', () => {
           'items',
           async (v: any) => await each(v, (item) => Promise.resolve(item)),
           kitchenSink.safe.arr(undefined, []),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
         kitchenSink.toEqual(
           'func',
           async (v: any) => await each([1, 2, 3], v),
           kitchenSink.safe.func(undefined, () => Promise.resolve()),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       }
     );
@@ -313,19 +313,19 @@ describe('PromiseTools', () => {
           'limit',
           async (v: any) => await eachLimit(v, [1, 2, 3], (item) => Promise.resolve(item)),
           kitchenSink.safe.num(undefined, true, 1, undefined, 1),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
         kitchenSink.toEqual(
           'items',
           async (v: any) => await eachLimit(2, v, (item) => Promise.resolve(item)),
           kitchenSink.safe.arr(undefined, []),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
         kitchenSink.toEqual(
           'func',
           async (v: any) => await eachLimit(2, [1, 2, 3], v),
           kitchenSink.safe.func(undefined, () => Promise.resolve()),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       }
     );
@@ -355,13 +355,13 @@ describe('PromiseTools', () => {
           'items',
           async (v: any) => await map(v, (item) => Promise.resolve(item)),
           kitchenSink.safe.arr(undefined, []),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
         kitchenSink.toEqual(
           'func',
           async (v: any) => await map([1, 2, 3], v),
           kitchenSink.safe.func(undefined, (v) => Promise.resolve(v)),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       }
     );
@@ -391,19 +391,19 @@ describe('PromiseTools', () => {
           'limit',
           async (v: any) => await mapLimit(v, [1, 2, 3], (item) => Promise.resolve(item)),
           kitchenSink.safe.num(undefined, true, 1, undefined, 1),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
         kitchenSink.toEqual(
           'items',
           async (v: any) => await mapLimit(2, v, (item) => Promise.resolve(item)),
           kitchenSink.safe.arr(undefined, []),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
         kitchenSink.toEqual(
           'func',
           async (v: any) => await mapLimit(2, [1, 2, 3], v),
           kitchenSink.safe.func(undefined, (v) => Promise.resolve(v)),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       }
     );
@@ -462,7 +462,7 @@ describe('PromiseTools', () => {
           expect(diff).toBeLessThanOrEqual(timingErrorRange);
         });
 
-        kitchenSink.toEqual('input', async (v: any) => await allObj(v), kitchenSink.safe.obj(undefined, false, {}), kitchenSink.general);
+        kitchenSink.toEqual('input', async (v: any) => await allObj(v), kitchenSink.safe.obj(undefined, false, {}), kitchenSink.samples.general);
       }
     );
   });
@@ -623,10 +623,20 @@ describe('PromiseTools', () => {
           'limit',
           async (v: any) => await allLimitObj(v, {}),
           kitchenSink.safe.num(undefined, true, 1, undefined, 1),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
-        kitchenSink.toEqual('input', async (v: any) => await allLimitObj(1, v), kitchenSink.safe.obj(undefined, false, {}), kitchenSink.general);
-        kitchenSink.toEqual('noThrow', async (v: any) => await allLimitObj(1, {}, v), kitchenSink.safe.bool(false, false), kitchenSink.general);
+        kitchenSink.toEqual(
+          'input',
+          async (v: any) => await allLimitObj(1, v),
+          kitchenSink.safe.obj(undefined, false, {}),
+          kitchenSink.samples.general
+        );
+        kitchenSink.toEqual(
+          'noThrow',
+          async (v: any) => await allLimitObj(1, {}, v),
+          kitchenSink.safe.bool(false, false),
+          kitchenSink.samples.general
+        );
       }
     );
   });

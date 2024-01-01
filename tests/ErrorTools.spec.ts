@@ -136,7 +136,7 @@ describe('ErrorTools', () => {
             return count;
           },
           kitchenSink.safe.num(10, true, 1, undefined, 10),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
 
         // delay
@@ -149,7 +149,7 @@ describe('ErrorTools', () => {
             return retry(5, v, true, action);
           },
           kitchenSink.safe.num(0, true, 0),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
       }
     );
@@ -246,7 +246,7 @@ describe('ErrorTools', () => {
             return count;
           },
           kitchenSink.safe.num(10, true, 1),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
 
         kitchenSink.toBe(
@@ -263,7 +263,7 @@ describe('ErrorTools', () => {
             return count;
           },
           kitchenSink.safe.num(0, true, 0),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
       }
     );

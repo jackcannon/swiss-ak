@@ -23,7 +23,7 @@ const testMultipliers = (name: string, func: Function, baseValue: number, multip
       });
     });
 
-    kitchenSink.toEqual(name, (v) => func(v), kitchenSink.safe.num(1), kitchenSink.num);
+    kitchenSink.toEqual(name, (v) => func(v), kitchenSink.safe.num(1), kitchenSink.samples.num);
   });
 };
 

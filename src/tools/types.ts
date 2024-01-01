@@ -116,6 +116,6 @@ export type ObjOfType<T = string> = {
  * RemapOf<IExample, number>; // { a: number; b: number; }
  * ```
  */
-export type RemapOf<O = Object, T = string> = {
+export type RemapOf<O = {}, T = string> = {
   [K in keyof O]: T;
 };

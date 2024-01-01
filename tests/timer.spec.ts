@@ -57,13 +57,13 @@ describe('timer', () => {
         expect(typeof timer.reset).toBe('function');
       });
 
-      kitchenSink.toEqual('name', (v) => getTimer(v as any).names, kitchenSink.safe.str(undefined), kitchenSink.general);
-      kitchenSink.toEqual('verbose', (v) => getTimer(undefined, v as any).names, kitchenSink.safe.bool(false), kitchenSink.general);
+      kitchenSink.toEqual('name', (v) => getTimer(v as any).names, kitchenSink.safe.str(undefined), kitchenSink.samples.general);
+      kitchenSink.toEqual('verbose', (v) => getTimer(undefined, v as any).names, kitchenSink.safe.bool(false), kitchenSink.samples.general);
       kitchenSink.toEqual(
         'wrapperFn',
         (v) => getTimer(undefined, undefined, v as any).names,
         kitchenSink.safe.func(undefined, (x) => x),
-        kitchenSink.general
+        kitchenSink.samples.general
       );
       kitchenSink.toEqual(
         'chalk',
@@ -82,13 +82,13 @@ describe('timer', () => {
           },
           false
         ),
-        kitchenSink.general
+        kitchenSink.samples.general
       );
       kitchenSink.toEqual(
         'displayNames',
         (v) => getTimer(undefined, undefined, undefined, undefined, v as any).names,
         kitchenSink.safe.obj(undefined, false, {} as any),
-        kitchenSink.general
+        kitchenSink.samples.general
       );
     });
 
@@ -148,7 +148,7 @@ describe('timer', () => {
               return timer.names;
             },
             kitchenSink.safe.str(undefined),
-            kitchenSink.general
+            kitchenSink.samples.general
           );
           kitchenSink.toEqual(
             'labels - 1',
@@ -157,7 +157,7 @@ describe('timer', () => {
               return timer.names;
             },
             kitchenSink.safe.str(undefined),
-            kitchenSink.general
+            kitchenSink.samples.general
           );
         }
       );
@@ -218,7 +218,7 @@ describe('timer', () => {
               return timer.names;
             },
             kitchenSink.safe.str(undefined),
-            kitchenSink.general
+            kitchenSink.samples.general
           );
           kitchenSink.toEqual(
             'labels - 1',
@@ -227,7 +227,7 @@ describe('timer', () => {
               return timer.names;
             },
             kitchenSink.safe.str(undefined),
-            kitchenSink.general
+            kitchenSink.samples.general
           );
         }
       );
@@ -297,7 +297,7 @@ describe('timer', () => {
               return timer.names;
             },
             kitchenSink.safe.str(undefined),
-            kitchenSink.general
+            kitchenSink.samples.general
           );
           kitchenSink.toEqual(
             'startLabel',
@@ -306,7 +306,7 @@ describe('timer', () => {
               return timer.names;
             },
             kitchenSink.safe.str(undefined),
-            kitchenSink.general
+            kitchenSink.samples.general
           );
         }
       );
@@ -370,7 +370,7 @@ describe('timer', () => {
               return timer.getTable(v as any).substring(0, 10);
             },
             kitchenSink.safe.str(undefined),
-            kitchenSink.general
+            kitchenSink.samples.general
           );
           // skip customEntries
         }

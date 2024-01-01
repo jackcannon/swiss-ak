@@ -127,7 +127,7 @@ describe('Progress Bar', () => {
             return bar.max;
           },
           kitchenSink.safe.num(undefined, true, -1, undefined, -1),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
         kitchenSink.toEqual(
           'options',
@@ -137,7 +137,7 @@ describe('Progress Bar', () => {
             return printCalls.at(-1);
           },
           kitchenSink.safe.obj({}, false, {}),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       }
     );
@@ -237,7 +237,7 @@ describe('Progress Bar', () => {
           return printCalls.at(-1);
         },
         kitchenSink.safe.num(undefined, true, 0, undefined),
-        kitchenSink.num
+        kitchenSink.samples.num
       );
     });
     describe('reset', () => {
@@ -967,7 +967,12 @@ describe('Progress Bar', () => {
           const opts = getFullOptions({ prefix: 'test' });
           expect(opts.prefix).toEqual('test');
         });
-        kitchenSink.toEqual('prefix', (v) => getFullOptions({ prefix: v as any }).prefix, kitchenSink.safe.str('', true, ''), kitchenSink.general);
+        kitchenSink.toEqual(
+          'prefix',
+          (v) => getFullOptions({ prefix: v as any }).prefix,
+          kitchenSink.safe.str('', true, ''),
+          kitchenSink.samples.general
+        );
       });
       describe('prefixWidth', () => {
         it(should` default correctly`, () => {
@@ -982,7 +987,7 @@ describe('Progress Bar', () => {
           'prefixWidth',
           (v) => getFullOptions({ prefixWidth: v as any }).prefixWidth,
           kitchenSink.safe.num(0, true, 0, undefined, 0),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
       });
       describe('maxPrefixWidth', () => {
@@ -998,7 +1003,7 @@ describe('Progress Bar', () => {
           'maxPrefixWidth',
           (v) => getFullOptions({ maxPrefixWidth: v as any }).maxPrefixWidth,
           kitchenSink.safe.num(Infinity, true, 0, undefined, Infinity),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
       });
       describe('maxWidth', () => {
@@ -1016,7 +1021,7 @@ describe('Progress Bar', () => {
           'maxWidth',
           (v) => getFullOptions({ maxWidth: v as any }).maxWidth,
           kitchenSink.safe.num(120, true, 0, undefined, 120),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
       });
       describe('wrapperFn', () => {
@@ -1032,7 +1037,7 @@ describe('Progress Bar', () => {
           'wrapperFn',
           (v) => getFullOptions({ wrapperFn: v as any }).wrapperFn,
           kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('barWrapFn', () => {
@@ -1048,7 +1053,7 @@ describe('Progress Bar', () => {
           'barWrapFn',
           (v) => getFullOptions({ barWrapFn: v as any }).barWrapFn,
           kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('barProgWrapFn', () => {
@@ -1064,7 +1069,7 @@ describe('Progress Bar', () => {
           'barProgWrapFn',
           (v) => getFullOptions({ barProgWrapFn: v as any }).barProgWrapFn,
           kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('barCurrentWrapFn', () => {
@@ -1080,7 +1085,7 @@ describe('Progress Bar', () => {
           'barCurrentWrapFn',
           (v) => getFullOptions({ barCurrentWrapFn: v as any }).barCurrentWrapFn,
           kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('barEmptyWrapFn', () => {
@@ -1096,7 +1101,7 @@ describe('Progress Bar', () => {
           'barEmptyWrapFn',
           (v) => getFullOptions({ barEmptyWrapFn: v as any }).barEmptyWrapFn,
           kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('prefixWrapFn', () => {
@@ -1112,7 +1117,7 @@ describe('Progress Bar', () => {
           'prefixWrapFn',
           (v) => getFullOptions({ prefixWrapFn: v as any }).prefixWrapFn,
           kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('countWrapFn', () => {
@@ -1128,7 +1133,7 @@ describe('Progress Bar', () => {
           'countWrapFn',
           (v) => getFullOptions({ countWrapFn: v as any }).countWrapFn,
           kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('percentWrapFn', () => {
@@ -1144,7 +1149,7 @@ describe('Progress Bar', () => {
           'percentWrapFn',
           (v) => getFullOptions({ percentWrapFn: v as any }).percentWrapFn,
           kitchenSink.safe.func(swissak.fn.noact, swissak.fn.noact),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('showCount', () => {
@@ -1160,7 +1165,7 @@ describe('Progress Bar', () => {
           'showCount',
           (v) => getFullOptions({ showCount: v as any }).showCount,
           kitchenSink.safe.bool(true, true),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('showPercent', () => {
@@ -1180,7 +1185,7 @@ describe('Progress Bar', () => {
           'showPercent',
           (v) => getFullOptions({ showPercent: v as any }).showPercent,
           kitchenSink.safe.bool(false, false),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('countWidth', () => {
@@ -1196,7 +1201,7 @@ describe('Progress Bar', () => {
           'countWidth',
           (v) => getFullOptions({ countWidth: v as any }).countWidth,
           kitchenSink.safe.num(0, true, 0, undefined, 0),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
       });
       describe('progChar', () => {
@@ -1212,7 +1217,7 @@ describe('Progress Bar', () => {
           'progChar',
           (v) => getFullOptions({ progChar: v as any }).progChar,
           kitchenSink.safe.str('█', false, '█'),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('emptyChar', () => {
@@ -1228,7 +1233,7 @@ describe('Progress Bar', () => {
           'emptyChar',
           (v) => getFullOptions({ emptyChar: v as any }).emptyChar,
           kitchenSink.safe.str(' ', false, ' '),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('startChar', () => {
@@ -1244,7 +1249,7 @@ describe('Progress Bar', () => {
           'startChar',
           (v) => getFullOptions({ startChar: v as any }).startChar,
           kitchenSink.safe.str('▕', false, '▕'),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('endChar', () => {
@@ -1260,7 +1265,7 @@ describe('Progress Bar', () => {
           'endChar',
           (v) => getFullOptions({ endChar: v as any }).endChar,
           kitchenSink.safe.str('▏', false, '▏'),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('showCurrent', () => {
@@ -1276,7 +1281,7 @@ describe('Progress Bar', () => {
           'showCurrent',
           (v) => getFullOptions({ showCurrent: v as any }).showCurrent,
           kitchenSink.safe.bool(false, false),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('currentChar', () => {
@@ -1292,7 +1297,7 @@ describe('Progress Bar', () => {
           'currentChar',
           (v) => getFullOptions({ currentChar: v as any }).currentChar,
           kitchenSink.safe.str('▞', false, '▞'),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('print', () => {
@@ -1304,7 +1309,12 @@ describe('Progress Bar', () => {
           const opts = getFullOptions({ print: false });
           expect(opts.print).toEqual(false);
         });
-        kitchenSink.toEqual('print', (v) => getFullOptions({ print: v as any }).print, kitchenSink.safe.bool(true, true), kitchenSink.general);
+        kitchenSink.toEqual(
+          'print',
+          (v) => getFullOptions({ print: v as any }).print,
+          kitchenSink.safe.bool(true, true),
+          kitchenSink.samples.general
+        );
       });
       describe('printFn', () => {
         it(should` default correctly`, () => {
@@ -1319,7 +1329,7 @@ describe('Progress Bar', () => {
           'printFn',
           (v) => getFullOptions({ printFn: v as any }).printFn,
           kitchenSink.safe.func(swissak.progressBar.utils.printLn, swissak.progressBar.utils.printLn),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
     });
@@ -1391,7 +1401,7 @@ describe('Multibar Manager', () => {
           return printCalls.at(-1);
         },
         kitchenSink.safe.obj({}, true),
-        kitchenSink.general
+        kitchenSink.samples.general
       );
     });
   });
@@ -1442,7 +1452,7 @@ describe('Multibar Manager', () => {
             return printCalls.at(-1);
           },
           kitchenSink.safe.obj({}),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
         kitchenSink.toEqual(
           'removeWhenFinished',
@@ -1453,7 +1463,7 @@ describe('Multibar Manager', () => {
             return printCalls.at(-1);
           },
           kitchenSink.safe.bool(false, false),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
     });
@@ -1494,7 +1504,7 @@ describe('Multibar Manager', () => {
             return printCalls.at(-1);
           },
           kitchenSink.safe.num(undefined, true, -1, undefined, -1),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
         kitchenSink.toEqual(
           'options',
@@ -1504,7 +1514,7 @@ describe('Multibar Manager', () => {
             return printCalls.at(-1);
           },
           kitchenSink.safe.obj({}, false, {}),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
     });
@@ -1553,7 +1563,7 @@ describe('Multibar Manager', () => {
             return printCalls.at(-1);
           },
           kitchenSink.safe.obj({}),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
     });
@@ -2480,7 +2490,7 @@ describe('Multibar Manager', () => {
           'numSlots',
           (v) => getOptions({ numSlots: v as any }).numSlots,
           (v) => (v === undefined ? undefined : kitchenSink.safe.num(undefined, true, 0, undefined, null)(v)),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
 
@@ -2501,7 +2511,7 @@ describe('Multibar Manager', () => {
           'minSlots',
           (v) => getOptions({ minSlots: v as any }).minSlots,
           kitchenSink.safe.num(0, true, 0, undefined, 0),
-          kitchenSink.num
+          kitchenSink.samples.num
         );
       });
       describe('maxSlots', () => {
@@ -2525,7 +2535,7 @@ describe('Multibar Manager', () => {
             if (v === undefined) return Infinity;
             return kitchenSink.safe.num(undefined, true, 0, undefined, undefined)(v);
           },
-          kitchenSink.num
+          kitchenSink.samples.num
         );
       });
       describe('removeFinished', () => {
@@ -2545,7 +2555,7 @@ describe('Multibar Manager', () => {
           'removeFinished',
           (v) => getOptions({ removeFinished: v as any }).removeFinished,
           kitchenSink.safe.bool(false, false),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('alignBottom', () => {
@@ -2565,7 +2575,7 @@ describe('Multibar Manager', () => {
           'alignBottom',
           (v) => getOptions({ alignBottom: v as any }).alignBottom,
           kitchenSink.safe.bool(false, false),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('overrideOptions', () => {
@@ -2585,7 +2595,7 @@ describe('Multibar Manager', () => {
           'overrideOptions',
           (v) => getOptions({ overrideOptions: v as any }).overrideOptions,
           kitchenSink.safe.obj({}, true, {}),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('variableOptions', () => {
@@ -2605,7 +2615,7 @@ describe('Multibar Manager', () => {
           'variableOptions',
           (v) => getOptions({ variableOptions: v as any }).variableOptions,
           kitchenSink.safe.obj({}, true, {}),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
       describe('print', () => {
@@ -2621,7 +2631,7 @@ describe('Multibar Manager', () => {
           const opts = getOptions({ print: false });
           expect(opts.print).toEqual(false);
         });
-        kitchenSink.toEqual('print', (v) => getOptions({ print: v as any }).print, kitchenSink.safe.bool(true, true), kitchenSink.general);
+        kitchenSink.toEqual('print', (v) => getOptions({ print: v as any }).print, kitchenSink.safe.bool(true, true), kitchenSink.samples.general);
       });
       describe('printFn', () => {
         // Type: (previousDrawnLines: number, output: string) => void;
@@ -2640,7 +2650,7 @@ describe('Multibar Manager', () => {
           'printFn',
           (v) => getOptions({ printFn: v as any }).printFn,
           kitchenSink.safe.func(swissak.progressBar.utils.multiPrintFn, swissak.progressBar.utils.multiPrintFn),
-          kitchenSink.general
+          kitchenSink.samples.general
         );
       });
     });

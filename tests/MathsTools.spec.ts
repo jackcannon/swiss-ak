@@ -32,8 +32,8 @@ describe('MathsTools', () => {
           expect(ff(err)).toBe(0.3);
         });
 
-        kitchenSink.toEqual('num', (v) => ff(v), kitchenSink.safe.num(undefined, false), kitchenSink.num);
-        kitchenSink.toEqual('precision', (v) => ff(0.123, v), kitchenSink.safe.num(6, true, 0), kitchenSink.num);
+        kitchenSink.toEqual('num', (v) => ff(v), kitchenSink.safe.num(undefined, false), kitchenSink.samples.num);
+        kitchenSink.toEqual('precision', (v) => ff(0.123, v), kitchenSink.safe.num(6, true, 0), kitchenSink.samples.num);
       }
     );
   });
@@ -50,7 +50,7 @@ describe('MathsTools', () => {
         expect(addAll(1, 2, 3, 4, 5)).toBe(15);
       });
 
-      kitchenSink.toEqual('num', (v) => addAll(v as any), kitchenSink.safe.num(undefined, false, undefined, undefined, 0), kitchenSink.num);
+      kitchenSink.toEqual('num', (v) => addAll(v as any), kitchenSink.safe.num(undefined, false, undefined, undefined, 0), kitchenSink.samples.num);
     });
   });
   describe('floorTo', () => {
@@ -94,8 +94,8 @@ describe('MathsTools', () => {
           expect(floorTo(10, 110)).toBe(110);
         });
 
-        kitchenSink.toEqual('to', (v) => floorTo(v, 1), kitchenSink.safe.num(undefined), kitchenSink.num);
-        kitchenSink.toEqual('value', (v) => floorTo(1, v), kitchenSink.safe.num(undefined), kitchenSink.num);
+        kitchenSink.toEqual('to', (v) => floorTo(v, 1), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
+        kitchenSink.toEqual('value', (v) => floorTo(1, v), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
       }
     );
   });
@@ -141,8 +141,8 @@ describe('MathsTools', () => {
           expect(roundTo(10, 110)).toBe(110);
         });
 
-        kitchenSink.toEqual('to', (v) => roundTo(v, 1), kitchenSink.safe.num(undefined), kitchenSink.num);
-        kitchenSink.toEqual('value', (v) => roundTo(1, v), kitchenSink.safe.num(undefined), kitchenSink.num);
+        kitchenSink.toEqual('to', (v) => roundTo(v, 1), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
+        kitchenSink.toEqual('value', (v) => roundTo(1, v), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
       }
     );
   });
@@ -187,8 +187,8 @@ describe('MathsTools', () => {
           expect(ceilTo(10, 110)).toBe(110);
         });
 
-        kitchenSink.toEqual('to', (v) => ceilTo(v, 1), kitchenSink.safe.num(undefined), kitchenSink.num);
-        kitchenSink.toEqual('value', (v) => ceilTo(1, v), kitchenSink.safe.num(undefined), kitchenSink.num);
+        kitchenSink.toEqual('to', (v) => ceilTo(v, 1), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
+        kitchenSink.toEqual('value', (v) => ceilTo(1, v), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
       }
     );
   });
@@ -228,9 +228,9 @@ describe('MathsTools', () => {
         expect(lerp(1, 0, 100)).toBe(100);
       });
 
-      kitchenSink.toEqual('progress', (v) => lerp(v, 0, 100), kitchenSink.safe.num(undefined), kitchenSink.num);
-      kitchenSink.toEqual('fromVal', (v) => lerp(0.5, v, 100), kitchenSink.safe.num(undefined), kitchenSink.num);
-      kitchenSink.toEqual('toVal', (v) => lerp(0.5, 0, v), kitchenSink.safe.num(undefined), kitchenSink.num);
+      kitchenSink.toEqual('progress', (v) => lerp(v, 0, 100), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
+      kitchenSink.toEqual('fromVal', (v) => lerp(0.5, v, 100), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
+      kitchenSink.toEqual('toVal', (v) => lerp(0.5, 0, v), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
     });
   });
   describe('lerpArray', () => {
@@ -275,9 +275,9 @@ describe('MathsTools', () => {
         expect(lerpArray(1, [0], [100])).toEqual([100]);
       });
 
-      kitchenSink.toEqual('progress', (v) => lerpArray(v, [0], [100]), kitchenSink.safe.num(undefined), kitchenSink.num);
-      kitchenSink.toEqual('fromArr', (v) => lerpArray(0.5, v, [100]), kitchenSink.safe.arrOf.num(undefined), kitchenSink.num);
-      kitchenSink.toEqual('toArr', (v) => lerpArray(0.5, [0], v), kitchenSink.safe.arrOf.num(undefined), kitchenSink.num);
+      kitchenSink.toEqual('progress', (v) => lerpArray(v, [0], [100]), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
+      kitchenSink.toEqual('fromArr', (v) => lerpArray(0.5, v, [100]), kitchenSink.safe.arrOf.num(undefined), kitchenSink.samples.num);
+      kitchenSink.toEqual('toArr', (v) => lerpArray(0.5, [0], v), kitchenSink.safe.arrOf.num(undefined), kitchenSink.samples.num);
     });
   });
   describe('lerpObj', () => {
@@ -322,9 +322,9 @@ describe('MathsTools', () => {
         expect(lerpObj(1, { n: 0 }, { n: 100 })).toEqual({ n: 100 });
       });
 
-      kitchenSink.toEqual('progress', (v) => lerpObj(v, { n: 0 }, { n: 100 }), kitchenSink.safe.num(undefined), kitchenSink.num);
-      kitchenSink.toEqual('fromObj', (v) => lerpObj(0.5, v as any, { n: 100 }), kitchenSink.safe.obj(undefined), kitchenSink.num);
-      kitchenSink.toEqual('toObj', (v) => lerpObj(0.5, { n: 0 }, v as any), kitchenSink.safe.obj(undefined), kitchenSink.num);
+      kitchenSink.toEqual('progress', (v) => lerpObj(v, { n: 0 }, { n: 100 }), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
+      kitchenSink.toEqual('fromObj', (v) => lerpObj(0.5, v as any, { n: 100 }), kitchenSink.safe.obj(undefined), kitchenSink.samples.num);
+      kitchenSink.toEqual('toObj', (v) => lerpObj(0.5, { n: 0 }, v as any), kitchenSink.safe.obj(undefined), kitchenSink.samples.num);
     });
   });
   describe('clamp', () => {
@@ -365,9 +365,9 @@ describe('MathsTools', () => {
         expect(clamp(101, 0, 100)).toBe(100);
       });
 
-      kitchenSink.toEqual('value', (v) => clamp(v, 0, 100), kitchenSink.safe.num(undefined), kitchenSink.num);
-      kitchenSink.toEqual('min', (v) => clamp(50, v, 100), kitchenSink.safe.num(undefined), kitchenSink.num);
-      kitchenSink.toEqual('max', (v) => clamp(50, 0, v), kitchenSink.safe.num(undefined), kitchenSink.num);
+      kitchenSink.toEqual('value', (v) => clamp(v, 0, 100), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
+      kitchenSink.toEqual('min', (v) => clamp(50, v, 100), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
+      kitchenSink.toEqual('max', (v) => clamp(50, 0, v), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
     });
   });
   describe('getOrdinal', () => {
@@ -424,7 +424,7 @@ describe('MathsTools', () => {
         });
       });
 
-      kitchenSink.toEqual('num', (v) => getOrdinal(v), kitchenSink.safe.num(undefined), kitchenSink.num);
+      kitchenSink.toEqual('num', (v) => getOrdinal(v), kitchenSink.safe.num(undefined), kitchenSink.samples.num);
     });
   });
 });

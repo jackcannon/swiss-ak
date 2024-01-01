@@ -1610,7 +1610,7 @@ var StringTools;
         }
         return outputDepth ? depth2 : id;
       };
-      return input.replaceAll(/\(|\)|\[|\]|\{|\}|\<|\>/g, (br) => {
+      return input.replace(/\(|\)|\[|\]|\{|\}|\<|\>/g, (br) => {
         let id = updateInfo(infos.round, "(", ")", br) || updateInfo(infos.square, "[", "]", br) || updateInfo(infos.curly, "{", "}", br) || updateInfo(infos.angle, "<", ">", br);
         return fullSyms[br] + (id || "0") + fullSyms.END;
       });
@@ -1638,7 +1638,7 @@ var StringTools;
       const { END, ...withoutEND } = args.replaceSymbols;
       const startSyms = Object.values(withoutEND);
       const regex = new RegExp(`(${startSyms.map(escapePCRE).join("|")})[0-9]+${escapePCRE(args.replaceSymbols.END)}`, "g");
-      return args.input.replaceAll(regex, (m, startSym) => invertedSyms[startSym] || "");
+      return args.input.replace(regex, (m, startSym) => invertedSyms[startSym] || "");
     };
     const getBracketSymsForMatch = (bracketType, replaceSymbols) => {
       const fullSyms = matchBrackets2.getReplaceSymbols(replaceSymbols);

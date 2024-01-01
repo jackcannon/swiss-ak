@@ -464,9 +464,14 @@ describe('TimeTools', () => {
         });
       });
 
-      kitchenSink.toEqual('duration', (v) => toReadableDuration(v as any), kitchenSink.safe.num(undefined, true), kitchenSink.num);
-      kitchenSink.toEqual('longNames', (v) => toReadableDuration(0, v as any), kitchenSink.safe.bool(false, false), kitchenSink.general);
-      kitchenSink.toEqual('maxUnits', (v) => toReadableDuration(0, false, v as any), kitchenSink.safe.num(3, true, 1, undefined, 3), kitchenSink.num);
+      kitchenSink.toEqual('duration', (v) => toReadableDuration(v as any), kitchenSink.safe.num(undefined, true), kitchenSink.samples.num);
+      kitchenSink.toEqual('longNames', (v) => toReadableDuration(0, v as any), kitchenSink.safe.bool(false, false), kitchenSink.samples.general);
+      kitchenSink.toEqual(
+        'maxUnits',
+        (v) => toReadableDuration(0, false, v as any),
+        kitchenSink.safe.num(3, true, 1, undefined, 3),
+        kitchenSink.samples.num
+      );
     });
   });
 });

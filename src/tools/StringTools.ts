@@ -687,7 +687,7 @@ export namespace StringTools {
         return outputDepth ? depth : id;
       };
 
-      return input.replaceAll(/\(|\)|\[|\]|\{|\}|\<|\>/g, (br) => {
+      return input.replace(/\(|\)|\[|\]|\{|\}|\<|\>/g, (br) => {
         let id =
           updateInfo(infos.round, '(', ')', br) ||
           updateInfo(infos.square, '[', ']', br) ||
@@ -775,7 +775,7 @@ export namespace StringTools {
       const { END, ...withoutEND } = args.replaceSymbols;
       const startSyms = Object.values(withoutEND);
       const regex = new RegExp(`(${startSyms.map(escapePCRE).join('|')})[0-9]+${escapePCRE(args.replaceSymbols.END)}`, 'g');
-      return args.input.replaceAll(regex, (m, startSym) => invertedSyms[startSym] || '');
+      return args.input.replace(regex, (m, startSym) => invertedSyms[startSym] || '');
     };
 
     const getBracketSymsForMatch = (
