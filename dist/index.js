@@ -1537,6 +1537,20 @@ var StringTools;
     };
     return args.repeated.repeat(Math.max(0, args.maxLength));
   };
+  StringTools2.replaceAll = (text, searchValue, replacer) => {
+    const args = {
+      text: safe.str(text),
+      searchValue: searchValue instanceof RegExp ? searchValue : safe.str(searchValue),
+      replacer: typeof replacer === "function" ? safe.func(replacer) : safe.str(replacer)
+    };
+    let regex;
+    if (args.searchValue instanceof RegExp) {
+      regex = new RegExp(args.searchValue, "g" + args.searchValue.flags.replace(/g/g, ""));
+    } else {
+      regex = new RegExp(args.searchValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
+    }
+    return args.text.replace(regex, args.replacer);
+  };
   const processClxArray = (arr) => arr.filter(fn.exists).map((item) => {
     if (typeof item === "string")
       return item;

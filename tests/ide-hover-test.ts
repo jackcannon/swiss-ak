@@ -207,6 +207,8 @@ swissak.ObjectTools.clean;
 swissak.StringTools.capitalise;
 swissak.StringTools.angloise;
 swissak.StringTools.clean;
+swissak.StringTools.repeat;
+swissak.StringTools.replaceAll;
 swissak.StringTools.fromSlugCase;
 swissak.StringTools.fromSnakeCase;
 swissak.StringTools.fromSpaced;

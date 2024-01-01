@@ -4205,6 +4205,29 @@ declare namespace StringTools {
      * @returns {string}
      */
     const repeat: (maxLength: number, repeated: string) => string;
+    /**<!-- DOCS: StringTools.replaceAll ### @ -->
+     * replaceAll
+     *
+     * - `StringTools.replaceAll`
+     *
+     * 'Polyfill' replacement for String.prototype.replaceAll, but uses String.prototype.replace (better backwards compatibility)
+     *
+     * Accepts a string or RegExp as the searchValue, and a string or function as the replacer.
+     *
+     * ```typescript
+     * const input = 'the quick brown fox jumps over the lazy dog';
+     *
+     * StringTools.replaceAll(input, /A|E|I|O|U/i, (match) => match.toUpperCase()) // 'thE qUIck brOwn fOx jUmps OvEr thE lAzy dOg'
+     * StringTools.replaceAll(input, /A|E|I|O|U/i, '#') // 'th# q##ck br#wn f#x j#mps #v#r th# l#zy d#g'
+     * StringTools.replaceAll(input, 'o', (match) => match.toUpperCase()) // 'the quick brOwn fOx jumps Over the lazy dOg'
+     * StringTools.replaceAll(input, 'o', '#') // 'the quick br#wn f#x jumps #ver the lazy d#g'
+     * ```
+     * @param {string} text
+     * @param {string | RegExp} searchValue
+     * @param {string | ((substring: string, ...args: any[]) => string)} replacer
+     * @returns {string}
+     */
+    const replaceAll: (text: string, searchValue: string | RegExp, replacer: string | ((substring: string, ...args: any[]) => string)) => string;
     /**<!-- DOCS: StringTools.clx ### @ -->
      * clx
      *

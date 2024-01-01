@@ -1823,6 +1823,7 @@ A collection of string utilities
     - [angloise](#angloise)
     - [clean](#stringtools_clean)
     - [repeat](#stringtools_repeat)
+    - [replaceAll](#replaceall)
     - [clx](#clx)
     - [**Case Manipulators**](#case-manipulators)
       - [toCamelCase](#tocamelcase)
@@ -1940,6 +1941,37 @@ StringTools.repeat(-1, '-') // ''
 |:---:|:---------------|:---------|:---------|
 | *0* | `maxLength`    | **Yes**  | `number` |
 | *1* | `repeated`     | **Yes**  | `string` |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
+
+### replaceAll
+
+```typescript
+StringTools.replaceAll(text: string, searchValue: string | RegExp, replacer: string | ((substring: string, ...args: any[]) => string)): string
+```
+
+'Polyfill' replacement for String.prototype.replaceAll, but uses String.prototype.replace (better backwards compatibility)
+
+Accepts a string or RegExp as the searchValue, and a string or function as the replacer.
+
+```typescript
+const input = 'the quick brown fox jumps over the lazy dog';
+
+StringTools.replaceAll(input, /A|E|I|O|U/i, (match) => match.toUpperCase()) // 'thE qUIck brOwn fOx jUmps OvEr thE lAzy dOg'
+StringTools.replaceAll(input, /A|E|I|O|U/i, '#') // 'th# q##ck br#wn f#x j#mps #v#r th# l#zy d#g'
+StringTools.replaceAll(input, 'o', (match) => match.toUpperCase()) // 'the quick brOwn fOx jumps Over the lazy dOg'
+StringTools.replaceAll(input, 'o', '#') // 'the quick br#wn f#x jumps #ver the lazy d#g'
+```
+
+|  #  | Parameter Name | Required | Type                                                        |
+|:---:|:---------------|:---------|:------------------------------------------------------------|
+| *0* | `text`         | **Yes**  | `string`                                                    |
+| *1* | `searchValue`  | **Yes**  | `string \| RegExp`                                          |
+| *2* | `replacer`     | **Yes**  | `string \| ((substring: string, ...args: any[]) => string)` |
 
 | Return Type |
 |-------------|

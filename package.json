@@ -35,7 +35,8 @@
     "test": "yarn quickbuild && yarn test:bun && yarn test:node",
     "test:node": "jest --no-cache",
     "test:bun": "bun test",
-    "prepublishOnly": "yarn test"
+    "prepublishOnly": "yarn test",
+    "postpublish": "git push"
   },
   "dependencies": {
     "bun-types": "^0.8.1"

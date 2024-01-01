@@ -99,6 +99,56 @@ describe('StringTools', () => {
     });
   });
 
+  describe('replaceAll', () => {
+    singleTest(swissak.StringTools.replaceAll, 'StringTools.replaceAll', (replaceAll, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(replaceAll).toBeDefined();
+      });
+
+      it(should` replace all using a string and a string`, () => {
+        const input = 'the quick brown fox jumps over the lazy dog';
+        const result = replaceAll(input, 'o', '#');
+        const expctd = 'the quick br#wn f#x jumps #ver the lazy d#g';
+        expect(result).toBe(expctd);
+      });
+
+      it(should` replace all using string and a function`, () => {
+        const input = 'the quick brown fox jumps over the lazy dog';
+        const result = replaceAll(input, 'o', (match) => match.toUpperCase());
+        const expctd = 'the quick brOwn fOx jumps Over the lazy dOg';
+        expect(result).toBe(expctd);
+      });
+
+      it(should` replace all using a regexp and a string`, () => {
+        const input = 'the quick brown fox jumps over the lazy dog';
+        const result = replaceAll(input, /A|E|I|O|U/i, '#');
+        const expctd = 'th# q##ck br#wn f#x j#mps #v#r th# l#zy d#g';
+        expect(result).toBe(expctd);
+      });
+
+      it(should` replace all using a regexp and a function`, () => {
+        const input = 'the quick brown fox jumps over the lazy dog';
+        const result = replaceAll(input, /A|E|I|O|U/i, (match) => match.toUpperCase());
+        const expctd = 'thE qUIck brOwn fOx jUmps OvEr thE lAzy dOg';
+        expect(result).toBe(expctd);
+      });
+
+      kitchenSink.toEqual('text', (v: any) => replaceAll(v, 'o', '#'), kitchenSink.safe.str(undefined), kitchenSink.samples.general);
+      kitchenSink.toEqual(
+        'searchValue',
+        (v: any) => replaceAll('the quick brown fox jumps over the lazy dog', v, '#'),
+        (v) => (v instanceof RegExp ? v : kitchenSink.safe.str(undefined)(v)),
+        kitchenSink.samples.general
+      );
+      kitchenSink.toEqual(
+        'replacer',
+        (v: any) => replaceAll('the quick brown fox jumps over the lazy dog', 'o', v),
+        (v) => (typeof v === 'function' ? kitchenSink.safe.func(undefined)(v) : kitchenSink.safe.str(undefined)(v)),
+        kitchenSink.samples.general
+      );
+    });
+  });
+
   describe('case handlers', () => {
     interface TestValuesObj {
       array: string[];

@@ -98,6 +98,51 @@ export namespace StringTools {
     return args.repeated.repeat(Math.max(0, args.maxLength));
   };
 
+  /**<!-- DOCS: StringTools.replaceAll ### @ -->
+   * replaceAll
+   *
+   * - `StringTools.replaceAll`
+   *
+   * 'Polyfill' replacement for String.prototype.replaceAll, but uses String.prototype.replace (better backwards compatibility)
+   *
+   * Accepts a string or RegExp as the searchValue, and a string or function as the replacer.
+   *
+   * ```typescript
+   * const input = 'the quick brown fox jumps over the lazy dog';
+   *
+   * StringTools.replaceAll(input, /A|E|I|O|U/i, (match) => match.toUpperCase()) // 'thE qUIck brOwn fOx jUmps OvEr thE lAzy dOg'
+   * StringTools.replaceAll(input, /A|E|I|O|U/i, '#') // 'th# q##ck br#wn f#x j#mps #v#r th# l#zy d#g'
+   * StringTools.replaceAll(input, 'o', (match) => match.toUpperCase()) // 'the quick brOwn fOx jumps Over the lazy dOg'
+   * StringTools.replaceAll(input, 'o', '#') // 'the quick br#wn f#x jumps #ver the lazy d#g'
+   * ```
+   * @param {string} text
+   * @param {string | RegExp} searchValue
+   * @param {string | ((substring: string, ...args: any[]) => string)} replacer
+   * @returns {string}
+   */
+  export const replaceAll = (
+    text: string,
+    searchValue: string | RegExp,
+    replacer: string | ((substring: string, ...args: any[]) => string)
+  ): string => {
+    const args = {
+      text: safe.str(text),
+      searchValue: searchValue instanceof RegExp ? searchValue : safe.str(searchValue),
+      replacer: typeof replacer === 'function' ? safe.func(replacer) : safe.str(replacer)
+    };
+
+    let regex;
+
+    if (args.searchValue instanceof RegExp) {
+      regex = new RegExp(args.searchValue, 'g' + args.searchValue.flags.replace(/g/g, ''));
+    } else {
+      // many characters need to be properly escaped in order to be used in a RegExp
+      regex = new RegExp(args.searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+    }
+
+    return args.text.replace(regex, args.replacer as any);
+  };
+
   // clx
   const processClxArray = (arr: any): string[] =>
     arr
