@@ -4205,6 +4205,27 @@ declare namespace StringTools {
      * @returns {string}
      */
     const repeat: (maxLength: number, repeated: string) => string;
+    /**<!-- DOCS: StringTools.makeRegExpSafe ### @ -->
+     * makeRegExpSafe
+     *
+     * - `StringTools.makeRegExpSafe`
+     *
+     * Makes a string safe to use in a RegExp
+     *
+     * ```typescript
+     * const textWithSpecChars = '$^*+?.()|{}[]\\';
+     * const longText = `A long line with ${textWithSpecChars} in it`; // 'A long line with $^*+?.()|{}[]\ in it'
+     *
+     * const safeText = makeRegExpSafe(textWithSpecChars); // '\$\^\*\+\?\.\(\)\|\{\}\[\]\\'
+     * const regex = new RegExp(safeText);
+     * longText.replace(regex, 'foobar'); // 'A long line with foobar in it'
+     *
+     * longText.replace(new RegExp(makeRegExpSafe(textWithSpecChars)), 'foobar'); // 'A long line with foobar in it'
+     * ```
+     * @param {string} text
+     * @returns {string}
+     */
+    const makeRegExpSafe: (text: string) => string;
     /**<!-- DOCS: StringTools.replaceAll ### @ -->
      * replaceAll
      *

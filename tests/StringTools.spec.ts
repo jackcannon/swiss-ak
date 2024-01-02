@@ -99,6 +99,26 @@ describe('StringTools', () => {
     });
   });
 
+  describe('makeRegExpSafe', () => {
+    singleTest(swissak.StringTools.makeRegExpSafe, 'StringTools.makeRegExpSafe', (makeRegExpSafe, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(makeRegExpSafe).toBeDefined();
+      });
+      it(should` run the example code`, () => {
+        const textWithSpecChars = '$^*+?.()|{}[]\\';
+        const longText = `A long line with ${textWithSpecChars} in it`;
+
+        const safeText = makeRegExpSafe(textWithSpecChars);
+        const regex = new RegExp(safeText);
+        const result = longText.replace(regex, 'foobar');
+
+        expect(result).toEqual('A long line with foobar in it');
+      });
+
+      kitchenSink.toEqual('input', (v: any) => makeRegExpSafe(v), kitchenSink.safe.str(undefined), kitchenSink.samples.general);
+    });
+  });
+
   describe('replaceAll', () => {
     singleTest(swissak.StringTools.replaceAll, 'StringTools.replaceAll', (replaceAll, name) => {
       it(should` exist as ${name}`, () => {

@@ -1537,6 +1537,12 @@ var StringTools;
     };
     return args.repeated.repeat(Math.max(0, args.maxLength));
   };
+  StringTools2.makeRegExpSafe = (text) => {
+    const args = {
+      text: safe.str(text)
+    };
+    return args.text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+  };
   StringTools2.replaceAll = (text, searchValue, replacer) => {
     const args = {
       text: safe.str(text),
@@ -1547,7 +1553,7 @@ var StringTools;
     if (args.searchValue instanceof RegExp) {
       regex = new RegExp(args.searchValue, "g" + args.searchValue.flags.replace(/g/g, ""));
     } else {
-      regex = new RegExp(args.searchValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
+      regex = new RegExp(StringTools2.makeRegExpSafe(args.searchValue), "g");
     }
     return args.text.replace(regex, args.replacer);
   };

@@ -98,6 +98,33 @@ export namespace StringTools {
     return args.repeated.repeat(Math.max(0, args.maxLength));
   };
 
+  /**<!-- DOCS: StringTools.makeRegExpSafe ### @ -->
+   * makeRegExpSafe
+   *
+   * - `StringTools.makeRegExpSafe`
+   *
+   * Makes a string safe to use in a RegExp
+   *
+   * ```typescript
+   * const textWithSpecChars = '$^*+?.()|{}[]\\';
+   * const longText = `A long line with ${textWithSpecChars} in it`; // 'A long line with $^*+?.()|{}[]\ in it'
+   *
+   * const safeText = makeRegExpSafe(textWithSpecChars); // '\$\^\*\+\?\.\(\)\|\{\}\[\]\\'
+   * const regex = new RegExp(safeText);
+   * longText.replace(regex, 'foobar'); // 'A long line with foobar in it'
+   *
+   * longText.replace(new RegExp(makeRegExpSafe(textWithSpecChars)), 'foobar'); // 'A long line with foobar in it'
+   * ```
+   * @param {string} text
+   * @returns {string}
+   */
+  export const makeRegExpSafe = (text: string): string => {
+    const args = {
+      text: safe.str(text)
+    };
+    return args.text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+  };
+
   /**<!-- DOCS: StringTools.replaceAll ### @ -->
    * replaceAll
    *
@@ -137,7 +164,7 @@ export namespace StringTools {
       regex = new RegExp(args.searchValue, 'g' + args.searchValue.flags.replace(/g/g, ''));
     } else {
       // many characters need to be properly escaped in order to be used in a RegExp
-      regex = new RegExp(args.searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+      regex = new RegExp(makeRegExpSafe(args.searchValue), 'g');
     }
 
     return args.text.replace(regex, args.replacer as any);

@@ -1823,6 +1823,7 @@ A collection of string utilities
     - [angloise](#angloise)
     - [clean](#stringtools_clean)
     - [repeat](#stringtools_repeat)
+    - [makeRegExpSafe](#makeregexpsafe)
     - [replaceAll](#replaceall)
     - [clx](#clx)
     - [**Case Manipulators**](#case-manipulators)
@@ -1941,6 +1942,35 @@ StringTools.repeat(-1, '-') // ''
 |:---:|:---------------|:---------|:---------|
 | *0* | `maxLength`    | **Yes**  | `number` |
 | *1* | `repeated`     | **Yes**  | `string` |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
+
+### makeRegExpSafe
+
+```typescript
+StringTools.makeRegExpSafe(text: string): string
+```
+
+Makes a string safe to use in a RegExp
+
+```typescript
+const textWithSpecChars = '$^*+?.()|{}[]\\';
+const longText = `A long line with ${textWithSpecChars} in it`; // 'A long line with $^*+?.()|{}[]\ in it'
+
+const safeText = makeRegExpSafe(textWithSpecChars); // '\$\^\*\+\?\.\(\)\|\{\}\[\]\\'
+const regex = new RegExp(safeText);
+longText.replace(regex, 'foobar'); // 'A long line with foobar in it'
+
+longText.replace(new RegExp(makeRegExpSafe(textWithSpecChars)), 'foobar'); // 'A long line with foobar in it'
+```
+
+|  #  | Parameter Name | Required | Type     |
+|:---:|:---------------|:---------|:---------|
+| *0* | `text`         | **Yes**  | `string` |
 
 | Return Type |
 |-------------|
