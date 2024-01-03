@@ -1411,9 +1411,12 @@ var getMultiBarManager = progressBar.getMultiBarManager;
 // src/tools/StringTools.ts
 var StringTools;
 ((StringTools2) => {
-  StringTools2.capitalise = (input = "") => {
-    const inp = safe.str(input);
-    return inp.split(/\s/).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+  StringTools2.capitalise = (input = "", forceRestToLowerCase = true) => {
+    const args = {
+      input: safe.str(input),
+      forceRestToLowerCase: safe.bool(forceRestToLowerCase)
+    };
+    return args.input.split(/\s/).map((word) => word.charAt(0).toUpperCase() + (args.forceRestToLowerCase ? word.slice(1).toLowerCase() : word.slice(1))).join(" ");
   };
   StringTools2.angloise = (input) => {
     const inp = safe.str(input);
@@ -1480,7 +1483,7 @@ var StringTools;
         capitaliseFirst: safe.bool(capitaliseFirst)
       };
       const split = getSplit(args.input);
-      return split.map((word, index) => index === 0 && !args.capitaliseFirst ? word.toLowerCase() : StringTools2.capitalise(word)).join("");
+      return split.map((word, index) => index === 0 && !args.capitaliseFirst ? word.toLowerCase() : StringTools2.capitalise(word, true)).join("");
     };
     const toLowerCamelCase2 = (input) => toCamelCase2(safeInput(input), false);
     const toUpperCamelCase2 = (input) => toCamelCase2(safeInput(input), true);

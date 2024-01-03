@@ -17,11 +17,23 @@ describe('StringTools', () => {
         expect(capitalise('hello world')).toEqual('Hello World');
       });
 
-      it(should` uncapitalise the rest of the word`, () => {
+      it(should` uncapitalise the rest of the word - by default`, () => {
         expect(capitalise('HELLO')).toEqual('Hello');
       });
-      it(should` uncapitalise the rest of each word`, () => {
+      it(should` uncapitalise the rest of each word - by default`, () => {
         expect(capitalise('HELLO WORLD')).toEqual('Hello World');
+      });
+      it(should` leave the rest of the word capitalised - if forceRestToLowerCase is false`, () => {
+        expect(capitalise('HELLO', false)).toEqual('HELLO');
+      });
+      it(should` leave the rest of each word capitalised - if forceRestToLowerCase is false`, () => {
+        expect(capitalise('HELLO WORLD', false)).toEqual('HELLO WORLD');
+      });
+      it(should` uncapitalise the rest of the word - if forceRestToLowerCase is true`, () => {
+        expect(capitalise('HELLO', true)).toEqual('Hello');
+      });
+      it(should` uncapitalise the rest of each word - if forceRestToLowerCase is true`, () => {
+        expect(capitalise('HELLO WORLD', true)).toEqual('Hello World');
       });
 
       it(should` return an empty string if given an empty string`, () => {
@@ -29,6 +41,7 @@ describe('StringTools', () => {
       });
 
       kitchenSink.toEqual('input', (v: any) => capitalise(v), kitchenSink.safe.str(''), kitchenSink.samples.general);
+      kitchenSink.toEqual('forceRestToLowerCase', (v: any) => capitalise('hElLo WoRlD', v), kitchenSink.safe.bool(true), kitchenSink.samples.general);
     });
   });
   describe('angloise', () => {

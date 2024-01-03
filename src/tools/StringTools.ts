@@ -25,13 +25,17 @@ export namespace StringTools {
    * StringTools.capitalise('hello world'); // 'Hello World'
    * ```
    * @param {string} [input='']
+   * @param {boolean} [forceRestToLowerCase=true]
    * @returns {string}
    */
-  export const capitalise = (input: string = ''): string => {
-    const inp = safe.str(input);
-    return inp
+  export const capitalise = (input: string = '', forceRestToLowerCase: boolean = true): string => {
+    const args = {
+      input: safe.str(input),
+      forceRestToLowerCase: safe.bool(forceRestToLowerCase)
+    };
+    return args.input
       .split(/\s/)
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .map((word) => word.charAt(0).toUpperCase() + (args.forceRestToLowerCase ? word.slice(1).toLowerCase() : word.slice(1)))
       .join(' ');
   };
 
@@ -286,7 +290,7 @@ export namespace StringTools {
         capitaliseFirst: safe.bool(capitaliseFirst)
       };
       const split = getSplit(args.input);
-      return split.map((word, index) => (index === 0 && !args.capitaliseFirst ? word.toLowerCase() : capitalise(word))).join('');
+      return split.map((word, index) => (index === 0 && !args.capitaliseFirst ? word.toLowerCase() : capitalise(word, true))).join('');
     };
     /**<!-- DOCS: StringTools.toLowerCamelCase #### @ -->
      * toLowerCamelCase

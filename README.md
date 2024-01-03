@@ -1860,7 +1860,7 @@ A collection of string utilities
 ### capitalise
 
 ```typescript
-StringTools.capitalise(input: string): string
+StringTools.capitalise(input: string, forceRestToLowerCase: boolean): string
 ```
 
 Capitalises the first letter of each word in a string
@@ -1869,9 +1869,10 @@ Capitalises the first letter of each word in a string
 StringTools.capitalise('hello world'); // 'Hello World'
 ```
 
-|  #  | Parameter Name | Required | Type     | Default |
-|:---:|:---------------|:---------|:---------|:--------|
-| *0* | `input`        | *No*     | `string` | `''`    |
+|  #  | Parameter Name         | Required | Type      | Default |
+|:---:|:-----------------------|:---------|:----------|:--------|
+| *0* | `input`                | *No*     | `string`  | `''`    |
+| *1* | `forceRestToLowerCase` | *No*     | `boolean` | `true`  |
 
 | Return Type |
 |-------------|
@@ -4309,8 +4310,8 @@ All options are optional.
 | emptyChar        | `' '`                             | Character to use for empty (rail) section of bar       |
 | startChar        | `'▕'`                             | Character to start the progress bar with               |
 | endChar          | `'▏'`                             | Character to end the progress bar with                 |
-| showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
-| currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+| showCurrent      | `false`                           | Show the 'current' segment of the bar seperately       |
+| currentChar      | `'▞'`                             | Character to use the the 'current' segment             |
 | print            | `true`                            | Whether or not to print/output/log the progress bar    |
 | printFn          | progressBar.utils.printLn         | Function to use to print the progress bar              |
 
@@ -6121,10 +6122,6 @@ RemapOf<IExample, number>; // { a: number; b: number; }
 
 # Notes
 
-> These are used in non-vital personal projects and scripts.
-
-> Need to be better tested before being used in prod.
-
-> Failing/erroring/rejected promises may not behave as expected.
+> Over 9000 unit tests
 
 <p style="text-align: right" align="right"><a href="#swiss-ak-swiss-army-knife"> [↑ Back to top ↑] </a></p>

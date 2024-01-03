@@ -3022,8 +3022,8 @@ declare namespace progressBar {
      * | emptyChar        | `' '`                             | Character to use for empty (rail) section of bar       |
      * | startChar        | `'▕'`                             | Character to start the progress bar with               |
      * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
-     * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
-     * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+     * | showCurrent      | `false`                           | Show the 'current' segment of the bar seperately       |
+     * | currentChar      | `'▞'`                             | Character to use the the 'current' segment             |
      * | print            | `true`                            | Whether or not to print/output/log the progress bar    |
      * | printFn          | progressBar.utils.printLn         | Function to use to print the progress bar              |
      */
@@ -4156,9 +4156,10 @@ declare namespace StringTools {
      * StringTools.capitalise('hello world'); // 'Hello World'
      * ```
      * @param {string} [input='']
+     * @param {boolean} [forceRestToLowerCase=true]
      * @returns {string}
      */
-    const capitalise: (input?: string) => string;
+    const capitalise: (input?: string, forceRestToLowerCase?: boolean) => string;
     /**<!-- DOCS: StringTools.angloise ### @ -->
      * angloise
      *

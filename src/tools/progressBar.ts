@@ -536,8 +536,8 @@ export namespace progressBar {
    * | emptyChar        | `' '`                             | Character to use for empty (rail) section of bar       |
    * | startChar        | `'▕'`                             | Character to start the progress bar with               |
    * | endChar          | `'▏'`                             | Character to end the progress bar with                 |
-   * | showCurrent      | `'▏'`                             | Show the 'current' segment of the bar seperately       |
-   * | currentChar      | `'▏'`                             | Character to use the the 'current' segment             |
+   * | showCurrent      | `false`                           | Show the 'current' segment of the bar seperately       |
+   * | currentChar      | `'▞'`                             | Character to use the the 'current' segment             |
    * | print            | `true`                            | Whether or not to print/output/log the progress bar    |
    * | printFn          | progressBar.utils.printLn         | Function to use to print the progress bar              |
    */
