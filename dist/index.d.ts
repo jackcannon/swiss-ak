@@ -7711,4 +7711,34 @@ declare namespace safe {
     }
 }
 
-export { ArrayTools, CENTURY, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, MultiBarManager, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getMultiBarManager, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+/**
+ * TODO docs
+ */
+interface Cacher<T> {
+    /**
+     * get
+     */
+    get(id: string): T;
+    /**
+     * getOrSave
+     */
+    getOrSave(id: string, orFunc: (id?: string) => T): T;
+    /**
+     * save
+     */
+    save(id: string, item: T): T;
+    /**
+     * getAll
+     */
+    getAll(): ObjOfType<T>;
+    /**
+     * create
+     */
+    create<U>(): Cacher<U>;
+}
+/**
+ * TODO docs
+ */
+declare const cacher: Cacher<any>;
+
+export { ArrayTools, CENTURY, Cacher, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, MultiBarManager, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cacher, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getMultiBarManager, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

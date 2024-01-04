@@ -2466,6 +2466,38 @@ var QueueManager = class {
   }
 };
 var queue = new QueueManager();
+
+// src/tools/cacher.ts
+var cacherFactory = () => {
+  const storedItems = {};
+  const get = (id) => storedItems[id];
+  const getOrSave = (id, orFunc) => {
+    try {
+      const existing = storedItems[id];
+      if (existing !== void 0)
+        return existing;
+      const newItem = orFunc(id);
+      storedItems[id] = newItem;
+      return newItem;
+    } catch (err) {
+      return void 0;
+    }
+  };
+  const save = (id, item) => {
+    storedItems[id] = item;
+    return item;
+  };
+  const getAll = () => ({ ...storedItems });
+  const create2 = () => cacherFactory();
+  return {
+    get,
+    getOrSave,
+    save,
+    getAll,
+    create: create2
+  };
+};
+var cacher = cacherFactory();
 export {
   ArrayTools,
   CENTURY,
@@ -2491,6 +2523,7 @@ export {
   allLimit,
   allLimitObj,
   allObj,
+  cacher,
   centuries,
   clx,
   create,

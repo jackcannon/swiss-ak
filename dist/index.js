@@ -43,6 +43,7 @@ __export(src_exports, {
   allLimit: () => allLimit,
   allLimitObj: () => allLimitObj,
   allObj: () => allObj,
+  cacher: () => cacher,
   centuries: () => centuries,
   clx: () => clx,
   create: () => create,
@@ -2573,6 +2574,38 @@ var QueueManager = class {
   }
 };
 var queue = new QueueManager();
+
+// src/tools/cacher.ts
+var cacherFactory = () => {
+  const storedItems = {};
+  const get = (id) => storedItems[id];
+  const getOrSave = (id, orFunc) => {
+    try {
+      const existing = storedItems[id];
+      if (existing !== void 0)
+        return existing;
+      const newItem = orFunc(id);
+      storedItems[id] = newItem;
+      return newItem;
+    } catch (err) {
+      return void 0;
+    }
+  };
+  const save = (id, item) => {
+    storedItems[id] = item;
+    return item;
+  };
+  const getAll = () => ({ ...storedItems });
+  const create2 = () => cacherFactory();
+  return {
+    get,
+    getOrSave,
+    save,
+    getAll,
+    create: create2
+  };
+};
+var cacher = cacherFactory();
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ArrayTools,
@@ -2599,6 +2632,7 @@ var queue = new QueueManager();
   allLimit,
   allLimitObj,
   allObj,
+  cacher,
   centuries,
   clx,
   create,
