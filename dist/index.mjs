@@ -2467,37 +2467,77 @@ var QueueManager = class {
 };
 var queue = new QueueManager();
 
-// src/tools/cacher.ts
-var cacherFactory = () => {
-  const storedItems = {};
-  const get = (id) => storedItems[id];
-  const getOrSave = (id, orFunc) => {
+// src/tools/cachier.ts
+var cachierFactory = () => {
+  let storedItems = {};
+  const get = (id) => {
+    const args = {
+      id: safe.str(id, false, "NO-ID")
+    };
+    return storedItems[args.id];
+  };
+  const getOrSave = (id, orValue) => {
+    const args = {
+      id: safe.str(id, false, "NO-ID"),
+      orValue
+    };
     try {
-      const existing = storedItems[id];
+      const existing = storedItems[args.id];
       if (existing !== void 0)
         return existing;
-      const newItem = orFunc(id);
-      storedItems[id] = newItem;
+      storedItems[args.id] = args.orValue;
+      return args.orValue;
+    } catch (err) {
+      return void 0;
+    }
+  };
+  const getOrRun = (id, orFunc) => {
+    const args = {
+      id: safe.str(id, false, "NO-ID"),
+      orFunc: safe.func(orFunc)
+    };
+    try {
+      const existing = storedItems[args.id];
+      if (existing !== void 0)
+        return existing;
+      const newItem = args.orFunc(args.id);
+      storedItems[args.id] = newItem;
       return newItem;
     } catch (err) {
       return void 0;
     }
   };
   const save = (id, item) => {
-    storedItems[id] = item;
-    return item;
+    const args = {
+      id: safe.str(id, false, "NO-ID"),
+      item
+    };
+    storedItems[args.id] = args.item;
+    return args.item;
+  };
+  const remove = (id) => {
+    const args = {
+      id: safe.str(id, false, "NO-ID")
+    };
+    delete storedItems[args.id];
+  };
+  const clear = () => {
+    storedItems = {};
   };
   const getAll = () => ({ ...storedItems });
-  const create2 = () => cacherFactory();
+  const create2 = () => cachierFactory();
   return {
     get,
     getOrSave,
+    getOrRun,
     save,
+    remove,
+    clear,
     getAll,
     create: create2
   };
 };
-var cacher = cacherFactory();
+var cachier = cachierFactory();
 export {
   ArrayTools,
   CENTURY,
@@ -2523,7 +2563,7 @@ export {
   allLimit,
   allLimitObj,
   allObj,
-  cacher,
+  cachier,
   centuries,
   clx,
   create,

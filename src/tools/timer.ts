@@ -425,6 +425,6 @@ export const getTimer = <TName extends INames>(
  * 	Ending:  6s
  * 	⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
  * 	TOTAL:   10s
- *  * ```
+ * ```
  */
 export const timer = getTimer();

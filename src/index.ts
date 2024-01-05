@@ -15,4 +15,4 @@ export * from './tools/TimeTools';
 export * from './tools/symbols';
 export * from './tools/queue';
 export * from './tools/safe';
-export * from './tools/cacher';
+export * from './tools/cachier';

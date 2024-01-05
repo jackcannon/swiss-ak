@@ -379,6 +379,20 @@ type ProgressBarOptions1 = swissak.progressBar.ProgressBarOptions;
 type MultiBarManagerOptionsFull1 = swissak.progressBar.MultiBarManagerOptionsFull;
 type MultiBarManagerOptions1 = swissak.progressBar.MultiBarManagerOptions;
 
+// cachier
+
+swissak.cachier;
+swissak.cachier.get;
+swissak.cachier.getOrSave;
+swissak.cachier.getOrRun;
+swissak.cachier.save;
+swissak.cachier.remove;
+swissak.cachier.clear;
+swissak.cachier.getAll;
+swissak.cachier.create;
+
+type Cachier1 = swissak.Cachier<number>;
+
 // symbols
 
 swissak.symbols;

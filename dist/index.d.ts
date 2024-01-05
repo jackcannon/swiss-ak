@@ -2576,7 +2576,7 @@ declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean,
  * 	Ending:  6s
  * 	⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
  * 	TOTAL:   10s
- *  * ```
+ * ```
  */
 declare const timer: ITimer<INames> & KeysOnly<INames>;
 
@@ -7711,34 +7711,209 @@ declare namespace safe {
     }
 }
 
-/**
- * TODO docs
+/**<!-- DOCS: cachier.cachier ### -->
+ * cachier
+ *
+ * - `cachier`
+ *
+ * A generic cachier object for general purpose caching.
+ *
+ * Call `cachier.create<T>()` to create a new isolated cachier object with a specific type.
+ *
+ * ```typescript
+ * // Initial save
+ * cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
+ * cachier.get('foo'); // { "name": "foo" }
+ *
+ * // Overwrite
+ * cachier.save('foo', { name: 'bar' }); // { "name": "bar" }
+ * cachier.get('foo'); // { "name": "bar" }
+ *
+ * // Get if exists, otherwise save
+ * cachier.getOrSave('foo', { name: 'baz' }); // { "name": "bar" }
+ * cachier.get('foo'); // { "name": "bar" }
+ *
+ * // Get if exists, otherwise run function to create and save
+ * cachier.getOrRun('foo', () => ({ name: 'qux' })); // { "name": "bar" }
+ * cachier.get('foo'); // { "name": "bar" }
+ *
+ * // Remove
+ * cachier.remove('foo');
+ * cachier.get('foo'); // undefined
+ *
+ * // Populate
+ * cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
+ * cachier.save('bar', { name: 'bar' }); // { "name": "bar" }
+ * cachier.save('baz', { name: 'baz' }); // { "name": "baz" }
+ *
+ * // Get all
+ * cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz": { "name": "baz" } }
+ *
+ * // Clear
+ * cachier.clear();
+ * cachier.getAll(); // {}
+ * ```
  */
-interface Cacher<T> {
-    /**
+declare const cachier: Cachier<any>;
+/**<!-- DOCS: cachier.CachierType ### 615 -->
+ * Cachier<T>
+ *
+ * - `Cachier<T>`
+ *
+ * Type for a cachier object.
+ */
+interface Cachier<T> {
+    /**<!-- DOCS: cachier.Cachier.get #### -->
      * get
+     *
+     * - `cachier.get`
+     * - `cachier.create().get`
+     *
+     * Get a cached item by id.
+     *
+     * ```typescript
+     * cachier.save('foo', { name: 'foo' });
+     * cachier.get('foo'); // { "name": "foo" }
+     * ```
+     * @param {string} id
+     * @returns {T}
      */
     get(id: string): T;
-    /**
+    /**<!-- DOCS: cachier.Cachier.getOrSave #### -->
      * getOrSave
+     *
+     * - `cachier.getOrSave`
+     * - `cachier.create().getOrSave`
+     *
+     * Get a cached item by id, or save a new item if it doesn't exist.
+     *
+     * ```typescript
+     * cachier.getOrSave('foo', { name: 'lorem' }); // { "name": "lorem" }
+     * cachier.get('foo'); // { "name": "lorem" }
+     *
+     * cachier.getOrSave('foo', { name: 'SOMETHING DIFFERENT' }); // { "name": "lorem" }
+     * cachier.get('foo'); // { "name": "lorem" }
+     * ```
+     * @param {string} id
+     * @param {T} orValue
+     * @returns {T}
      */
-    getOrSave(id: string, orFunc: (id?: string) => T): T;
-    /**
+    getOrSave(id: string, orValue: T): T;
+    /**<!-- DOCS: cachier.Cachier.getOrRun #### -->
+     * getOrRun
+     *
+     * - `cachier.getOrRun`
+     * - `cachier.create().getOrRun`
+     *
+     * Get a cached item by id, or run a function to create a new item if it doesn't exist.
+     *
+     * The created item will be cached and returned.
+     *
+     * ```typescript
+     * cachier.getOrRun('foo', () => ({ name: 'lorem' })); // { "name": "lorem" }
+     * cachier.get('foo'); // { "name": "lorem" }
+     *
+     * cachier.getOrRun('foo', () => ({ name: 'SOMETHING DIFFERENT' })); // { "name": "lorem" }
+     * cachier.get('foo'); // { "name": "lorem" }
+     * ```
+     * @param {string} id
+     * @param {(id?: string) => T} orFunc
+     * @returns {T}
+     */
+    getOrRun(id: string, orFunc: (id?: string) => T): T;
+    /**<!-- DOCS: cachier.Cachier.save #### -->
      * save
+     *
+     * - `cachier.save`
+     * - `cachier.create().save`
+     *
+     * Save an item to the cache.
+     *
+     * ```typescript
+     * cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
+     * cachier.get('foo'); // { "name": "foo" }
+     * ```
+     * @param {string} id
+     * @param {T} item
+     * @returns {T}
      */
     save(id: string, item: T): T;
-    /**
+    /**<!-- DOCS: cachier.Cachier.remove #### -->
+     * remove
+     *
+     * - `cachier.remove`
+     * - `cachier.create().remove`
+     *
+     * Remove an item from the cache.
+     *
+     * ```typescript
+     * cachier.save('foo', { name: 'foo' });
+     * cachier.get('foo'); // { "name": "foo" }
+     *
+     * cachier.remove('foo');
+     * cachier.get('foo'); // undefined
+     * ```
+     * @param {string} id
+     * @returns {void}
+     */
+    remove(id: string): void;
+    /**<!-- DOCS: cachier.Cachier.clear #### -->
+     * clear
+     *
+     * - `cachier.clear`
+     * - `cachier.create().clear`
+     *
+     * Clear all items from the cache.
+     *
+     * ```typescript
+     * cachier.save('foo', { name: 'foo' });
+     * cachier.getAll(); // { foo: { "name": "foo" } }
+     *
+     * cachier.clear();
+     * cachier.getAll(); // {}
+     * ```
+     * @returns {void}
+     */
+    clear(): void;
+    /**<!-- DOCS: cachier.Cachier.getAll #### -->
      * getAll
+     *
+     * - `cachier.getAll`
+     * - `cachier.create().getAll`
+     *
+     * Get all items from the cache.
+     *
+     * ```typescript
+     * cachier.save('foo', { name: 'foo' });
+     * cachier.save('bar', { name: 'bar' });
+     * cachier.save('baz', { name: 'baz' });
+     *
+     * cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz": { "name": "baz" } }
+     * ```
+     * @returns {ObjOfType<T>}
      */
     getAll(): ObjOfType<T>;
-    /**
+    /**<!-- DOCS: cachier.Cachier.create #### -->
      * create
+     *
+     * - `cachier.create<T>`
+     * - `cachier.create().create<T>`
+     *
+     * Create a new isolated cachier object with a specific type.
+     *
+     * ```typescript
+     * const numCache = cachier.create<number>();
+     *
+     * numCache.save('bar', 123);
+     * cachier.save('foo', { name: 'foo' });
+     *
+     * numCache.getAll(); // { "bar": 123 }
+     * cachier.getAll(); // { "foo": { "name": "foo" } }
+     * ```
+     *
+     * @returns {Cachier<U>}
      */
-    create<U>(): Cacher<U>;
+    create<U>(): Cachier<U>;
 }
-/**
- * TODO docs
- */
-declare const cacher: Cacher<any>;
 
-export { ArrayTools, CENTURY, Cacher, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, MultiBarManager, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cacher, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getMultiBarManager, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayTools, CENTURY, Cachier, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, MultiBarManager, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cachier, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getMultiBarManager, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

@@ -17,6 +17,7 @@ A collection of useful little things that I like to reuse across projects
     - [**TimeTools**](#timetools)
     - [**ErrorTools**](#errortools)
     - [**progressBar**](#progressbar)
+    - [**Cachier**](#cachier_title)
     - [**symbols**](#symbols)
     - [**queue**](#queue)
     - [**timer**](#timer)
@@ -287,7 +288,7 @@ A collection of useful higher-order functions.
 ### noop
 
 ```typescript
-fn.noop(undefined): void
+fn.noop(): void
 ```
 
 No operation. Do nothing, return nothing.
@@ -1091,7 +1092,7 @@ Returns if all the items are equal to one another.
 A collection of useful array functions.
 
   - [**ArrayTools**](#arraytools)
-    - [create](#create)
+    - [create](#arraytools_create)
     - [range](#range)
     - [zip](#zip)
     - [zipMax](#zipmax)
@@ -1114,7 +1115,7 @@ A collection of useful array functions.
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
-### create
+### <span id="arraytools_create">create</span>
 
 ```typescript
 create(length: number, value: T): T[]
@@ -3017,8 +3018,8 @@ A collection of promise utilities
 ### getDeferred
 
 ```typescript
-getDeferred(undefined): DeferredPromise<T>
-PromiseTools.getDeferred(undefined): DeferredPromise<T>
+getDeferred(): DeferredPromise<T>
+PromiseTools.getDeferred(): DeferredPromise<T>
 ```
 
 A deferred promise
@@ -4104,7 +4105,7 @@ A progress bar that can be used in the terminal.
       - [**getMultiBarManager**](#getmultibarmanager)
         - [add](#progressbar_multibarmanager_add)
         - [addNew](#addnew)
-        - [remove](#remove)
+        - [remove](#progressbar_multibarmanager_remove)
         - [update](#progressbar_multibarmanager_update)
         - [getBars](#getbars)
       - [**Options**](#progressbar_multibarmanageroptions)
@@ -4186,7 +4187,7 @@ Get the output string of the progress bar
 ##### <span id="progressbar_progressbar_update">update</span>
 
 ```typescript
-getProgressBar().update(undefined): string
+getProgressBar().update(): string
 ```
 
 Trigger the progress bar to update/rerender
@@ -4200,7 +4201,7 @@ Trigger the progress bar to update/rerender
 ##### next
 
 ```typescript
-getProgressBar().next(undefined): string
+getProgressBar().next(): string
 ```
 
 Set the progress bar to the next value
@@ -4232,7 +4233,7 @@ Set the progress bar to a specific value
 ##### <span id="progressbar_progressbar_reset">reset</span>
 
 ```typescript
-getProgressBar().reset(undefined): string
+getProgressBar().reset(): string
 ```
 
 Set the progress bar to 0
@@ -4246,7 +4247,7 @@ Set the progress bar to 0
 ##### <span id="progressbar_progressbar_start">start</span>
 
 ```typescript
-getProgressBar().start(undefined): string
+getProgressBar().start(): string
 ```
 
 Start displaying the progress bar
@@ -4260,7 +4261,7 @@ Start displaying the progress bar
 ##### finish
 
 ```typescript
-getProgressBar().finish(undefined): string
+getProgressBar().finish(): string
 ```
 
 Stop displaying the progress bar
@@ -4476,7 +4477,7 @@ bar3.set(75);
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
 
-##### remove
+##### <span id="progressbar_multibarmanager_remove">remove</span>
 
 ```typescript
 getMultiBarManager().remove(bar: ProgressBar): void
@@ -4514,7 +4515,7 @@ manager.remove(bar2);
 ##### <span id="progressbar_multibarmanager_update">update</span>
 
 ```typescript
-getMultiBarManager().update(undefined): void
+getMultiBarManager().update(): void
 ```
 
 Re-render the progress bars
@@ -4543,7 +4544,7 @@ manager.update();
 ##### getBars
 
 ```typescript
-getMultiBarManager().getBars(undefined): ProgressBar[]
+getMultiBarManager().getBars(): ProgressBar[]
 ```
 
 Get an array of all the progress bars currently managed by the manager
@@ -4693,6 +4694,286 @@ Clears previously printed lines and prints the output in their place
 | `void`      |
 
 <p style="text-align: right" align="right"><a href="#progressbar"> [↑ Back to <b>progressBar</b> ↑] </a></p>
+
+## <span id="cachier_title">Cachier</span>
+A simple caching tool to store and retrieve values by id.
+
+Useful for storing values that are expensive to calculate, or that you want to reuse.
+
+  - [**Cachier**](#cachier_title)
+    - [**cachier**](#cachier_cachier)
+      - [get](#get)
+      - [getOrSave](#getorsave)
+      - [getOrRun](#getorrun)
+      - [save](#save)
+      - [remove](#cachier_cachier_remove)
+      - [clear](#clear)
+      - [getAll](#getall)
+      - [create](#cachier_cachier_create)
+    - [Cachier<T>](#cachiert)
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+### <span id="cachier_cachier">cachier</span>
+
+```typescript
+cachier;
+```
+
+A generic cachier object for general purpose caching.
+
+Call `cachier.create<T>()` to create a new isolated cachier object with a specific type.
+
+```typescript
+// Initial save
+cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
+cachier.get('foo'); // { "name": "foo" }
+
+// Overwrite
+cachier.save('foo', { name: 'bar' }); // { "name": "bar" }
+cachier.get('foo'); // { "name": "bar" }
+
+// Get if exists, otherwise save
+cachier.getOrSave('foo', { name: 'baz' }); // { "name": "bar" }
+cachier.get('foo'); // { "name": "bar" }
+
+// Get if exists, otherwise run function to create and save
+cachier.getOrRun('foo', () => ({ name: 'qux' })); // { "name": "bar" }
+cachier.get('foo'); // { "name": "bar" }
+
+// Remove
+cachier.remove('foo');
+cachier.get('foo'); // undefined
+
+// Populate
+cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
+cachier.save('bar', { name: 'bar' }); // { "name": "bar" }
+cachier.save('baz', { name: 'baz' }); // { "name": "baz" }
+
+// Get all
+cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz": { "name": "baz" } }
+
+// Clear
+cachier.clear();
+cachier.getAll(); // {}
+```
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+#### get
+
+```typescript
+cachier.get(id: string): T
+cachier.create().get(id: string): T
+```
+
+Get a cached item by id.
+
+```typescript
+cachier.save('foo', { name: 'foo' });
+cachier.get('foo'); // { "name": "foo" }
+```
+
+|  #  | Parameter Name | Required | Type     |
+|:---:|:---------------|:---------|:---------|
+| *0* | `id`           | **Yes**  | `string` |
+
+| Return Type |
+|-------------|
+| `T`         |
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+#### getOrSave
+
+```typescript
+cachier.getOrSave(id: string, orValue: T): T
+cachier.create().getOrSave(id: string, orValue: T): T
+```
+
+Get a cached item by id, or save a new item if it doesn't exist.
+
+```typescript
+cachier.getOrSave('foo', { name: 'lorem' }); // { "name": "lorem" }
+cachier.get('foo'); // { "name": "lorem" }
+
+cachier.getOrSave('foo', { name: 'SOMETHING DIFFERENT' }); // { "name": "lorem" }
+cachier.get('foo'); // { "name": "lorem" }
+```
+
+|  #  | Parameter Name | Required | Type     |
+|:---:|:---------------|:---------|:---------|
+| *0* | `id`           | **Yes**  | `string` |
+| *1* | `orValue`      | **Yes**  | `T`      |
+
+| Return Type |
+|-------------|
+| `T`         |
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+#### getOrRun
+
+```typescript
+cachier.getOrRun(id: string, orFunc: (id?: string) => T): T
+cachier.create().getOrRun(id: string, orFunc: (id?: string) => T): T
+```
+
+Get a cached item by id, or run a function to create a new item if it doesn't exist.
+
+The created item will be cached and returned.
+
+```typescript
+cachier.getOrRun('foo', () => ({ name: 'lorem' })); // { "name": "lorem" }
+cachier.get('foo'); // { "name": "lorem" }
+
+cachier.getOrRun('foo', () => ({ name: 'SOMETHING DIFFERENT' })); // { "name": "lorem" }
+cachier.get('foo'); // { "name": "lorem" }
+```
+
+|  #  | Parameter Name | Required | Type                 |
+|:---:|:---------------|:---------|:---------------------|
+| *0* | `id`           | **Yes**  | `string`             |
+| *1* | `orFunc`       | **Yes**  | `(id?: string) => T` |
+
+| Return Type |
+|-------------|
+| `T`         |
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+#### save
+
+```typescript
+cachier.save(id: string, item: T): T
+cachier.create().save(id: string, item: T): T
+```
+
+Save an item to the cache.
+
+```typescript
+cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
+cachier.get('foo'); // { "name": "foo" }
+```
+
+|  #  | Parameter Name | Required | Type     |
+|:---:|:---------------|:---------|:---------|
+| *0* | `id`           | **Yes**  | `string` |
+| *1* | `item`         | **Yes**  | `T`      |
+
+| Return Type |
+|-------------|
+| `T`         |
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+#### <span id="cachier_cachier_remove">remove</span>
+
+```typescript
+cachier.remove(id: string): void
+cachier.create().remove(id: string): void
+```
+
+Remove an item from the cache.
+
+```typescript
+cachier.save('foo', { name: 'foo' });
+cachier.get('foo'); // { "name": "foo" }
+
+cachier.remove('foo');
+cachier.get('foo'); // undefined
+```
+
+|  #  | Parameter Name | Required | Type     |
+|:---:|:---------------|:---------|:---------|
+| *0* | `id`           | **Yes**  | `string` |
+
+| Return Type |
+|-------------|
+| `void`      |
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+#### clear
+
+```typescript
+cachier.clear(): void
+cachier.create().clear(): void
+```
+
+Clear all items from the cache.
+
+```typescript
+cachier.save('foo', { name: 'foo' });
+cachier.getAll(); // { foo: { "name": "foo" } }
+
+cachier.clear();
+cachier.getAll(); // {}
+```
+
+| Return Type |
+|-------------|
+| `void`      |
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+#### getAll
+
+```typescript
+cachier.getAll(): ObjOfType<T>
+cachier.create().getAll(): ObjOfType<T>
+```
+
+Get all items from the cache.
+
+```typescript
+cachier.save('foo', { name: 'foo' });
+cachier.save('bar', { name: 'bar' });
+cachier.save('baz', { name: 'baz' });
+
+cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz": { "name": "baz" } }
+```
+
+| Return Type    |
+|----------------|
+| `ObjOfType<T>` |
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+#### <span id="cachier_cachier_create">create</span>
+
+```typescript
+cachier.create<T>(): Cachier<U>
+cachier.create().create<T>(): Cachier<U>
+```
+
+Create a new isolated cachier object with a specific type.
+
+```typescript
+const numCache = cachier.create<number>();
+
+numCache.save('bar', 123);
+cachier.save('foo', { name: 'foo' });
+
+numCache.getAll(); // { "bar": 123 }
+cachier.getAll(); // { "foo": { "name": "foo" } }
+```
+
+| Return Type  |
+|--------------|
+| `Cachier<U>` |
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+### Cachier<T>
+
+```typescript
+Cachier<T>;
+```
+
+Type for a cachier object.
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
 
 ## symbols
 
@@ -5072,8 +5353,8 @@ Log the timing table
 #### <span id="itimer_reset">reset</span>
 
 ```typescript
-timer.reset(undefined): void
-getTimer().reset(undefined): void
+timer.reset(): void
+getTimer().reset(): void
 ```
 
 Reset the timer
@@ -5087,8 +5368,8 @@ Reset the timer
 #### getDuration
 
 ```typescript
-timer.getDuration(undefined): ms
-getTimer().getDuration(undefined): ms
+timer.getDuration(): ms
+getTimer().getDuration(): ms
 ```
 
 Get the duration of a given timer
@@ -5218,7 +5499,7 @@ Times:
 	Ending:  6s
 	⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
 	TOTAL:   10s
- * ```
+```
 
 <p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
 
