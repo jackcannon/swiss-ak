@@ -840,13 +840,6 @@ var sorts = fn.sorts;
 var reduces = fn.reduces;
 var everys = fn.everys;
 
-// src/tools/fakeChalk.ts
-var noWrap = (x) => x;
-var noChalk = {
-  dim: noWrap,
-  bold: noWrap
-};
-
 // src/tools/TimeTools.ts
 var units = [
   {
@@ -927,25 +920,13 @@ var TimeTools;
 })(TimeTools || (TimeTools = {}));
 
 // src/tools/timer.ts
-var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, displayNames) => {
+var dim = (text) => `\x1B[2m${text}\x1B[22m`;
+var bold = (text) => `"\x1B[1m${text}\x1B[22m"`;
+var getTimer = (name, verbose = false, wrapperFn = fn.noact, displayNames) => {
   const args = {
     name: safe.str(name),
     verbose: safe.bool(verbose, false),
-    wrapperFn: safe.func(wrapperFn, noWrap),
-    chalk: safe.objWith(
-      chalk,
-      {
-        bold: {
-          fallback: noWrap,
-          safeFn: (v, f) => safe.func(v, f)
-        },
-        dim: {
-          fallback: noWrap,
-          safeFn: (v, f) => safe.func(v, f)
-        }
-      },
-      false
-    ),
+    wrapperFn: safe.func(wrapperFn, fn.noact),
     displayNames: safe.obj(displayNames)
   };
   let startTimes = {};
@@ -964,7 +945,7 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
   const getLogLine = (label, prefix = "", nameColLength = 0, duration = getDuration(label)) => {
     const lineStart = `${dispNames[label] || label}: `.padEnd(nameColLength + 1, " ");
     const lineEnd = `${TimeTools.toReadableDuration(duration, false, 4)}`;
-    const line = args.chalk.bold(prefix + lineStart) + lineEnd;
+    const line = bold(prefix + lineStart) + lineEnd;
     return {
       line: args.wrapperFn(line),
       width: (prefix + lineStart + lineEnd).replace("	", "").length
@@ -1018,7 +999,7 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
       };
       const labels = Object.keys(startTimes);
       addOutput("");
-      addOutput(args.wrapperFn(args.chalk.bold([args2.prefix, args.name, "Times:"].filter((x) => x && x.trim()).join(" "))));
+      addOutput(args.wrapperFn(bold([args2.prefix, args.name, "Times:"].filter((x) => x && x.trim()).join(" "))));
       const displayNames2 = [...labels, ...Object.keys(names)].map((label) => dispNames[label] || label);
       const nameColLength = Math.max(...displayNames2.map((text) => `${text}: `.length));
       let longest = 0;
@@ -1036,13 +1017,13 @@ var getTimer = (name, verbose = false, wrapperFn = noWrap, chalk = noChalk, disp
           cEntries = Object.entries(args2.customEntries).map(([label, func]) => ({ label, duration: (func || (() => 0))(durations) || 0 }));
         }
         if (cEntries.length) {
-          addOutput(args.wrapperFn(args.chalk.dim("	" + "\u23AF".repeat(longest))));
+          addOutput(args.wrapperFn(dim("	" + "\u23AF".repeat(longest))));
           for (let { label, duration } of cEntries) {
             addLogLine(label, "	", nameColLength, duration);
           }
         }
       }
-      addOutput(args.wrapperFn(args.chalk.dim("	" + "\u23AF".repeat(longest))));
+      addOutput(args.wrapperFn(dim("	" + "\u23AF".repeat(longest))));
       addLogLine("TOTAL", "	", nameColLength);
       addOutput("");
       return output.join("\n");

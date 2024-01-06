@@ -2517,7 +2517,7 @@ interface ITimer<TName> {
  *
  * Usage:
  * ```typescript
- * const timer = getTimer('Example', false, chalk.red, chalk, {
+ * const timer = getTimer('Example', false, colr.red, {
  *   TOTAL: 'TOTAL',
  *   INTRO: 'Action 1',
  *   ENDING: 'Action 2'
@@ -2544,12 +2544,11 @@ interface ITimer<TName> {
  * ```
  * @param {string} [name]
  * @param {boolean} [verbose=false]
- * @param {any} [wrapperFn=noWrap]
- * @param {any} [chalk=noChalk]
+ * @param {any} [wrapperFn=fn.noact]
  * @param {TName} [displayNames]
  * @returns {any}
  */
-declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean, wrapperFn?: any, chalk?: any, displayNames?: TName) => ITimer<TName> & KeysOnly<TName>;
+declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean, wrapperFn?: any, displayNames?: TName) => ITimer<TName> & KeysOnly<TName>;
 /**<!-- DOCS: timer.timer ### -->
  * timer
  *

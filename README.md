@@ -5427,12 +5427,12 @@ The end times of the timers
 ### getTimer
 
 ```typescript
-getTimer(name: string, verbose: boolean, wrapperFn: any, chalk: any, displayNames: TName): any
+getTimer(name: string, verbose: boolean, wrapperFn: any, displayNames: TName): any
 ```
 
 Usage:
 ```typescript
-const timer = getTimer('Example', false, chalk.red, chalk, {
+const timer = getTimer('Example', false, colr.red, {
   TOTAL: 'TOTAL',
   INTRO: 'Action 1',
   ENDING: 'Action 2'
@@ -5458,13 +5458,12 @@ Example Times:
 	TOTAL:    10s
 ```
 
-|  #  | Parameter Name | Required | Type      | Default   |
-|:---:|:---------------|:---------|:----------|:----------|
-| *0* | `name`         | *No*     | `string`  |           |
-| *1* | `verbose`      | *No*     | `boolean` | `false`   |
-| *2* | `wrapperFn`    | *No*     | `any`     | `noWrap`  |
-| *3* | `chalk`        | *No*     | `any`     | `noChalk` |
-| *4* | `displayNames` | *No*     | `TName`   |           |
+|  #  | Parameter Name | Required | Type      | Default    |
+|:---:|:---------------|:---------|:----------|:-----------|
+| *0* | `name`         | *No*     | `string`  |            |
+| *1* | `verbose`      | *No*     | `boolean` | `false`    |
+| *2* | `wrapperFn`    | *No*     | `any`     | `fn.noact` |
+| *3* | `displayNames` | *No*     | `TName`   |            |
 
 | Return Type |
 |-------------|

@@ -1,8 +1,12 @@
 import { ms } from './times';
 import { KeysOnly, Numbered, OfType } from './types';
-import { noChalk, noWrap } from './fakeChalk';
 import { TimeTools } from './TimeTools';
 import { safe } from './safe';
+import { fn } from './fn';
+
+// ANSI escape codes work in both the terminal and the browser console
+const dim = (text: string) => `\u001b[2m${text}\u001b[22m`;
+const bold = (text: string) => `"\u001b[1m${text}\u001b[22m"`;
 
 //<!-- DOCS: 900 -->
 /**<!-- DOCS: timer ##! -->
@@ -182,7 +186,7 @@ export interface ITimer<TName> {
  *
  * Usage:
  * ```typescript
- * const timer = getTimer('Example', false, chalk.red, chalk, {
+ * const timer = getTimer('Example', false, colr.red, {
  *   TOTAL: 'TOTAL',
  *   INTRO: 'Action 1',
  *   ENDING: 'Action 2'
@@ -209,36 +213,20 @@ export interface ITimer<TName> {
  * ```
  * @param {string} [name]
  * @param {boolean} [verbose=false]
- * @param {any} [wrapperFn=noWrap]
- * @param {any} [chalk=noChalk]
+ * @param {any} [wrapperFn=fn.noact]
  * @param {TName} [displayNames]
  * @returns {any}
  */
 export const getTimer = <TName extends INames>(
   name?: string,
   verbose: boolean = false,
-  wrapperFn: any = noWrap,
-  chalk: any = noChalk,
+  wrapperFn: any = fn.noact,
   displayNames?: TName
 ): ITimer<TName> & KeysOnly<TName> => {
   const args = {
     name: safe.str(name),
     verbose: safe.bool(verbose, false),
-    wrapperFn: safe.func(wrapperFn, noWrap),
-    chalk: safe.objWith(
-      chalk,
-      {
-        bold: {
-          fallback: noWrap,
-          safeFn: (v, f) => safe.func(v, f)
-        },
-        dim: {
-          fallback: noWrap,
-          safeFn: (v, f) => safe.func(v, f)
-        }
-      },
-      false
-    ),
+    wrapperFn: safe.func(wrapperFn, fn.noact),
     displayNames: safe.obj(displayNames)
   };
 
@@ -266,7 +254,7 @@ export const getTimer = <TName extends INames>(
     const lineStart = `${dispNames[label] || label}: `.padEnd(nameColLength + 1, ' ');
     const lineEnd = `${TimeTools.toReadableDuration(duration, false, 4)}`;
 
-    const line = args.chalk.bold(prefix + lineStart) + lineEnd;
+    const line = bold(prefix + lineStart) + lineEnd;
     return {
       line: args.wrapperFn(line),
       width: (prefix + lineStart + lineEnd).replace('	', '').length
@@ -327,7 +315,7 @@ export const getTimer = <TName extends INames>(
       const labels = Object.keys(startTimes);
 
       addOutput('');
-      addOutput(args.wrapperFn(args.chalk.bold([args2.prefix, args.name, 'Times:'].filter((x) => x && x.trim()).join(' '))));
+      addOutput(args.wrapperFn(bold([args2.prefix, args.name, 'Times:'].filter((x) => x && x.trim()).join(' '))));
 
       const displayNames = [...labels, ...Object.keys(names)].map((label) => dispNames[label] || label);
       const nameColLength = Math.max(...displayNames.map((text) => `${text}: `.length));
@@ -354,14 +342,14 @@ export const getTimer = <TName extends INames>(
         }
 
         if (cEntries.length) {
-          addOutput(args.wrapperFn(args.chalk.dim('	' + '⎯'.repeat(longest))));
+          addOutput(args.wrapperFn(dim('	' + '⎯'.repeat(longest))));
           for (let { label, duration } of cEntries) {
             addLogLine(label, '	', nameColLength, duration);
           }
         }
       }
 
-      addOutput(args.wrapperFn(args.chalk.dim('	' + '⎯'.repeat(longest))));
+      addOutput(args.wrapperFn(dim('	' + '⎯'.repeat(longest))));
       addLogLine('TOTAL', '	', nameColLength);
 
       addOutput('');

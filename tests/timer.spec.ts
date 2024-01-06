@@ -66,27 +66,8 @@ describe('timer', () => {
         kitchenSink.samples.general
       );
       kitchenSink.toEqual(
-        'chalk',
-        (v) => getTimer(undefined, undefined, undefined, v as any).names,
-        kitchenSink.safe.objWith(
-          undefined,
-          {
-            bold: {
-              fallback: (x) => x,
-              safeFn: (v, f) => kitchenSink.safe.func(undefined, f)(v)
-            },
-            dim: {
-              fallback: (x) => x,
-              safeFn: (v, f) => kitchenSink.safe.func(undefined, f)(v)
-            }
-          },
-          false
-        ),
-        kitchenSink.samples.general
-      );
-      kitchenSink.toEqual(
         'displayNames',
-        (v) => getTimer(undefined, undefined, undefined, undefined, v as any).names,
+        (v) => getTimer(undefined, undefined, undefined, v as any).names,
         kitchenSink.safe.obj(undefined, false, {} as any),
         kitchenSink.samples.general
       );
@@ -327,9 +308,9 @@ describe('timer', () => {
             timer.reset();
             const result = timer.getTable();
 
-            const normalised = result.substring(0, 6);
+            const normalised = result.substring(0, 12);
 
-            expect(JSON.stringify(normalised)).toEqual('"\\nTimes"');
+            expect(JSON.stringify(normalised)).toEqual('"\\n\\"\\u001b[1mTimes:"');
           });
 
           it('should contain the timer info', async () => {
