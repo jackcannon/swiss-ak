@@ -6,7 +6,15 @@ import { fn } from './fn';
 
 // ANSI escape codes work in both the terminal and the browser console
 const dim = (text: string) => `\u001b[2m${text}\u001b[22m`;
-const bold = (text: string) => `"\u001b[1m${text}\u001b[22m"`;
+const bold = (text: string) => `\u001b[1m${text}\u001b[22m`;
+
+// fake 'colr' to fool the JSDoc generator
+
+const colr = {
+  dark: {
+    white: (text: string) => `\u001b[37m${text}\u001b[39m`
+  }
+};
 
 //<!-- DOCS: 900 -->
 /**<!-- DOCS: timer ##! -->
@@ -213,25 +221,25 @@ export interface ITimer<TName> {
  * ```
  * @param {string} [name]
  * @param {boolean} [verbose=false]
- * @param {any} [wrapperFn=fn.noact]
+ * @param {any} [wrapperFn=colr.dark.white]
  * @param {TName} [displayNames]
  * @returns {any}
  */
 export const getTimer = <TName extends INames>(
   name?: string,
   verbose: boolean = false,
-  wrapperFn: any = fn.noact,
+  wrapperFn: any = colr.dark.white,
   displayNames?: TName
 ): ITimer<TName> & KeysOnly<TName> => {
   const args = {
     name: safe.str(name),
     verbose: safe.bool(verbose, false),
-    wrapperFn: safe.func(wrapperFn, fn.noact),
+    wrapperFn: safe.func(wrapperFn, colr.dark.white),
     displayNames: safe.obj(displayNames)
   };
 
-  let startTimes: { [label: string]: ms } = {};
-  let endTimes: { [label: string]: ms } = {};
+  const startTimes: { [label: string]: ms } = {};
+  const endTimes: { [label: string]: ms } = {};
 
   let dispNames = {
     ...(args.displayNames || {})

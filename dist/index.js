@@ -921,16 +921,21 @@ var TimeTools;
 
 // src/tools/timer.ts
 var dim = (text) => `\x1B[2m${text}\x1B[22m`;
-var bold = (text) => `"\x1B[1m${text}\x1B[22m"`;
-var getTimer = (name, verbose = false, wrapperFn = fn.noact, displayNames) => {
+var bold = (text) => `\x1B[1m${text}\x1B[22m`;
+var colr = {
+  dark: {
+    white: (text) => `\x1B[37m${text}\x1B[39m`
+  }
+};
+var getTimer = (name, verbose = false, wrapperFn = colr.dark.white, displayNames) => {
   const args = {
     name: safe.str(name),
     verbose: safe.bool(verbose, false),
-    wrapperFn: safe.func(wrapperFn, fn.noact),
+    wrapperFn: safe.func(wrapperFn, colr.dark.white),
     displayNames: safe.obj(displayNames)
   };
-  let startTimes = {};
-  let endTimes = {};
+  const startTimes = {};
+  const endTimes = {};
   let dispNames = {
     ...args.displayNames || {}
   };

@@ -5458,12 +5458,12 @@ Example Times:
 	TOTAL:    10s
 ```
 
-|  #  | Parameter Name | Required | Type      | Default    |
-|:---:|:---------------|:---------|:----------|:-----------|
-| *0* | `name`         | *No*     | `string`  |            |
-| *1* | `verbose`      | *No*     | `boolean` | `false`    |
-| *2* | `wrapperFn`    | *No*     | `any`     | `fn.noact` |
-| *3* | `displayNames` | *No*     | `TName`   |            |
+|  #  | Parameter Name | Required | Type      | Default           |
+|:---:|:---------------|:---------|:----------|:------------------|
+| *0* | `name`         | *No*     | `string`  |                   |
+| *1* | `verbose`      | *No*     | `boolean` | `false`           |
+| *2* | `wrapperFn`    | *No*     | `any`     | `colr.dark.white` |
+| *3* | `displayNames` | *No*     | `TName`   |                   |
 
 | Return Type |
 |-------------|

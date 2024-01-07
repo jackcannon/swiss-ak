@@ -306,11 +306,31 @@ describe('timer', () => {
 
           it('should return a table', async () => {
             timer.reset();
+
+            // Force times so the output will always be the same
+
+            timer.startTimes.TOTAL = swissak.days(1) + 0;
+            timer.endTimes.TOTAL = swissak.days(1) + 10;
+            timer.startTimes['foo'] = swissak.days(1) + 0;
+            timer.endTimes['foo'] = swissak.days(1) + 5;
+            timer.startTimes['bar'] = swissak.days(1) + 5;
+            timer.endTimes['bar'] = swissak.days(1) + 7;
+            timer.startTimes['baz'] = swissak.days(1) + 7;
+            timer.endTimes['baz'] = swissak.days(1) + 10;
+
             const result = timer.getTable();
+            const normalised = result;
+            expect(normalised).toEqual(
+              '\n\u001b[37m\u001b[1mTimes:\u001b[22m\u001b[39m\n\u001b[37m\u001b[1m\tfoo:    \u001b[22m5ms\u001b[39m\n\u001b[37m\u001b[1m\tbar:    \u001b[22m2ms\u001b[39m\n\u001b[37m\u001b[1m\tbaz:    \u001b[22m3ms\u001b[39m\n\u001b[37m\u001b[2m\t⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\u001b[22m\u001b[39m\n\u001b[37m\u001b[1m\tTOTAL:  \u001b[22m10ms\u001b[39m\n'
+            );
 
-            const normalised = result.substring(0, 12);
-
-            expect(JSON.stringify(normalised)).toEqual('"\\n\\"\\u001b[1mTimes:"');
+            // Displayed as (with colours debugged using colr.debug):
+            // (wht>)[bld>]Times:[<dim](<)
+            // (wht>)[bld>]	foo:    [<dim]5ms(<)
+            // (wht>)[bld>]	bar:    [<dim]2ms(<)
+            // (wht>)[bld>]	baz:    [<dim]3ms(<)
+            // (wht>)[dim>]	⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[<dim](<)
+            // (wht>)[bld>]	TOTAL:  [<dim]10ms(<)
           });
 
           it('should contain the timer info', async () => {

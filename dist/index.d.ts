@@ -2544,7 +2544,7 @@ interface ITimer<TName> {
  * ```
  * @param {string} [name]
  * @param {boolean} [verbose=false]
- * @param {any} [wrapperFn=fn.noact]
+ * @param {any} [wrapperFn=colr.dark.white]
  * @param {TName} [displayNames]
  * @returns {any}
  */
