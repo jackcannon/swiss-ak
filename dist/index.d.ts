@@ -3389,8 +3389,6 @@ declare namespace ArrayTools {
      *
      * - `create`
      * - `ArrayTools.create`
-     * - `filled`
-     * - `ArrayTools.filled`
      *
      * Create an array of the given length, where each value is the given value
      * @param {number} [length=1]
@@ -3398,20 +3396,18 @@ declare namespace ArrayTools {
      * @returns {T[]}
      */
     export const create: <T extends unknown = number>(length?: number, value?: T) => T[];
-    /**<!-- DOCS-ALIAS: ArrayTools.create -->
-     * create
-     * 
-     * - `create`
-     * - `ArrayTools.create`
+    /**<!-- DOCS: ArrayTools.filled ### @ -->
+     * filled
+     *
      * - `filled`
      * - `ArrayTools.filled`
-     * 
+     *
      * Create an array of the given length, where each value is the given value
      * @param {number} [length=1]
-     * @param {T} [value=1 as T]
+     * @param {T} value
      * @returns {T[]}
      */
-    export const filled: <T extends unknown = number>(length?: number, value?: T) => T[];
+    export const filled: <T extends unknown>(length: number, value: T) => T[];
     /**<!-- DOCS: ArrayTools.range ### @ -->
      * range
      *
@@ -3757,8 +3753,6 @@ declare namespace ArrayTools {
  * 
  * - `create`
  * - `ArrayTools.create`
- * - `filled`
- * - `ArrayTools.filled`
  * 
  * Create an array of the given length, where each value is the given value
  * @param {number} [length=1]
@@ -3766,20 +3760,18 @@ declare namespace ArrayTools {
  * @returns {T[]}
  */
 declare const create: <T extends unknown = number>(length?: number, value?: T) => T[];
-/**<!-- DOCS-ALIAS: ArrayTools.create -->
- * create
+/**<!-- DOCS-ALIAS: ArrayTools.filled -->
+ * filled
  * 
- * - `create`
- * - `ArrayTools.create`
  * - `filled`
  * - `ArrayTools.filled`
  * 
  * Create an array of the given length, where each value is the given value
  * @param {number} [length=1]
- * @param {T} [value=1 as T]
+ * @param {T} value
  * @returns {T[]}
  */
-declare const filled: <T extends unknown = number>(length?: number, value?: T) => T[];
+declare const filled: <T extends unknown>(length: number, value: T) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.range -->
  * range
  * 

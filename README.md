@@ -1123,6 +1123,7 @@ A collection of useful array functions.
 
   - [**ArrayTools**](#arraytools)
     - [create](#arraytools_create)
+    - [filled](#filled)
     - [range](#range)
     - [zip](#zip)
     - [zipMax](#zipmax)
@@ -1150,8 +1151,6 @@ A collection of useful array functions.
 ```typescript
 create(length: number, value: T): T[]
 ArrayTools.create(length: number, value: T): T[]
-filled(length: number, value: T): T[]
-ArrayTools.filled(length: number, value: T): T[]
 ```
 
 Create an array of the given length, where each value is the given value
@@ -1160,6 +1159,26 @@ Create an array of the given length, where each value is the given value
 |:---:|:---------------|:---------|:---------|:---------|
 | *0* | `length`       | *No*     | `number` | `1`      |
 | *1* | `value`        | *No*     | `T`      | `1 as T` |
+
+| Return Type |
+|-------------|
+| `T[]`       |
+
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
+
+### filled
+
+```typescript
+filled(length: number, value: T): T[]
+ArrayTools.filled(length: number, value: T): T[]
+```
+
+Create an array of the given length, where each value is the given value
+
+|  #  | Parameter Name | Required | Type     | Default |
+|:---:|:---------------|:---------|:---------|:--------|
+| *0* | `length`       | *No*     | `number` | `1`     |
+| *1* | `value`        | **Yes**  | `T`      |         |
 
 | Return Type |
 |-------------|

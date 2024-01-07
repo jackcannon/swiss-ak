@@ -380,7 +380,13 @@ var ArrayTools;
     };
     return new Array(args.length).fill(args.value);
   };
-  ArrayTools2.filled = ArrayTools2.create;
+  ArrayTools2.filled = (length = 1, value) => {
+    const args = {
+      length: safe.num(length, true, 0),
+      value
+    };
+    return new Array(args.length).fill(args.value);
+  };
   ArrayTools2.range = (length = 1, multiplier = 1, offset = 0) => {
     const args = {
       length: safe.num(length, true, 0),
@@ -537,7 +543,7 @@ var ArrayTools;
   })(utils = ArrayTools2.utils || (ArrayTools2.utils = {}));
 })(ArrayTools || (ArrayTools = {}));
 var create = ArrayTools.create;
-var filled = ArrayTools.create;
+var filled = ArrayTools.filled;
 var range = ArrayTools.range;
 var zip = ArrayTools.zip;
 var zipMax = ArrayTools.zipMax;

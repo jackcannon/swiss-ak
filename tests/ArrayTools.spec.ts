@@ -8,9 +8,7 @@ describe('ArrayTools', () => {
     multiTest(
       [
         [swissak.create, 'create'],
-        [swissak.ArrayTools.create, 'ArrayTools.create'],
-        [swissak.filled, 'filled'],
-        [swissak.ArrayTools.filled, 'ArrayTools.filled']
+        [swissak.ArrayTools.create, 'ArrayTools.create']
       ],
       (create, name) => {
         it(should` exist as ${name}`, () => {
@@ -21,9 +19,13 @@ describe('ArrayTools', () => {
           const array = create(10);
           expect(array.length).toBe(10);
         });
-        it(should` create an array with the values filled`, () => {
+        it(should` create an array with the values filled - numbers`, () => {
           const array = create(10, 999);
           expect(array).toEqual([999, 999, 999, 999, 999, 999, 999, 999, 999, 999]);
+        });
+        it(should` create an array with the values filled - strings`, () => {
+          const array = create(10, 'a');
+          expect(array).toEqual(['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a']);
         });
 
         it(should` handle a negative length`, () => {
@@ -46,6 +48,57 @@ describe('ArrayTools', () => {
           const array = create(undefined as any);
           expect(array.length).toBe(1);
         });
+
+        kitchenSink.toEqual('length', (v) => create(v), kitchenSink.safe.num(1, true, 0), kitchenSink.samples.num);
+      }
+    );
+  });
+  describe('filled', () => {
+    multiTest(
+      [
+        [swissak.filled, 'filled'],
+        [swissak.ArrayTools.filled, 'ArrayTools.filled']
+      ],
+      (filled, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(filled).toBeDefined();
+        });
+
+        it(should` fill an array of the correct length`, () => {
+          const array = filled(10, 'a');
+          expect(array.length).toBe(10);
+        });
+        it(should` fill an array with the values filled - numbers`, () => {
+          const array = filled(10, 999);
+          expect(array).toEqual([999, 999, 999, 999, 999, 999, 999, 999, 999, 999]);
+        });
+        it(should` fill an array with the values filled - strings`, () => {
+          const array = filled(10, 'a');
+          expect(array).toEqual(['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a']);
+        });
+
+        it(should` handle a negative length`, () => {
+          const array = filled(-10, 'a');
+          expect(array.length).toBe(0);
+        });
+        it(should` handle a negative length with a fill value`, () => {
+          const array = filled(-10, 999);
+          expect(array.length).toBe(0);
+        });
+        it(should` handle a zero length`, () => {
+          const array = filled(0, 'a');
+          expect(array.length).toBe(0);
+        });
+        it(should` handle a NaN length`, () => {
+          const array = filled(NaN, 'a');
+          expect(array.length).toBe(0);
+        });
+        it(should` handle an undefined length`, () => {
+          const array = filled(undefined as any, 'a');
+          expect(array.length).toBe(1);
+        });
+
+        kitchenSink.toEqual('length', (v) => filled(v, 'a'), kitchenSink.safe.num(1, true, 0), kitchenSink.samples.num);
       }
     );
   });

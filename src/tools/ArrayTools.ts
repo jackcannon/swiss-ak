@@ -16,8 +16,6 @@ export namespace ArrayTools {
    *
    * - `create`
    * - `ArrayTools.create`
-   * - `filled`
-   * - `ArrayTools.filled`
    *
    * Create an array of the given length, where each value is the given value
    * @param {number} [length=1]
@@ -33,8 +31,25 @@ export namespace ArrayTools {
     return new Array(args.length).fill(args.value);
   };
 
-  /** <!-- DOCS-ALIAS: ArrayTools.create  --> */
-  export const filled = create;
+  /**<!-- DOCS: ArrayTools.filled ### @ -->
+   * filled
+   *
+   * - `filled`
+   * - `ArrayTools.filled`
+   *
+   * Create an array of the given length, where each value is the given value
+   * @param {number} [length=1]
+   * @param {T} value
+   * @returns {T[]}
+   */
+  export const filled = <T extends unknown>(length: number = 1, value: T): T[] => {
+    const args = {
+      length: safe.num(length, true, 0),
+      value: value
+    };
+
+    return new Array(args.length).fill(args.value);
+  };
 
   /**<!-- DOCS: ArrayTools.range ### @ -->
    * range
@@ -550,8 +565,8 @@ export namespace ArrayTools {
 
 /** <!-- DOCS-ALIAS: ArrayTools.create  --> */
 export const create = ArrayTools.create;
-/** <!-- DOCS-ALIAS: ArrayTools.create  --> */
-export const filled = ArrayTools.create;
+/** <!-- DOCS-ALIAS: ArrayTools.filled  --> */
+export const filled = ArrayTools.filled;
 /** <!-- DOCS-ALIAS: ArrayTools.range  --> */
 export const range = ArrayTools.range;
 /** <!-- DOCS-ALIAS: ArrayTools.zip  --> */
