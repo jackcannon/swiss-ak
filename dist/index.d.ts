@@ -1828,10 +1828,31 @@ declare namespace fn {
      * [1, 2, 1].every(fn.isAllEqual); // false
      * ```
      * @param {T} val
+     * @param {number} i
      * @param {T[]} arr
      * @returns {boolean}
      */
-    export const isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
+    export const isAllEqual: <T = any>(val: T, i: number, arr: T[]) => boolean;
+    /**<!-- DOCS: fn.isUnique #### @ -->
+     * isUnique
+     *
+     * - `fn.isUnique`
+     * - `fn.everys.isUnique`
+     * - `everys.isUnique`
+     *
+     * Returns true if the item is unique in the array.
+     *
+     * ```typescript
+     * [1, 1, 1].every(fn.isUnique); // false
+     * [1, 2, 1].every(fn.isUnique); // false
+     * [1, 2, 3].every(fn.isUnique); // true
+     * ```
+     * @param {T} val
+     * @param {number} i
+     * @param {T[]} arr
+     * @returns {boolean}
+     */
+    export const isUnique: <T extends unknown>(val: T, i: number, arr: T[]) => boolean;
     /**<!-- DOCS-ALIAS: fn.filters -->
      * filters
      * 
@@ -2318,10 +2339,31 @@ declare namespace fn {
          * [1, 2, 1].every(fn.isAllEqual); // false
          * ```
          * @param {T} val
+         * @param {number} i
          * @param {T[]} arr
          * @returns {boolean}
          */
-        const isAllEqual: <T = any>(val: T, i: any, arr: T[]) => boolean;
+        const isAllEqual: <T = any>(val: T, i: number, arr: T[]) => boolean;
+        /**<!-- DOCS-ALIAS: fn.isUnique -->
+         * isUnique
+         * 
+         * - `fn.isUnique`
+         * - `fn.everys.isUnique`
+         * - `everys.isUnique`
+         * 
+         * Returns true if the item is unique in the array.
+         * 
+         * ```typescript
+         * [1, 1, 1].every(fn.isUnique); // false
+         * [1, 2, 1].every(fn.isUnique); // false
+         * [1, 2, 3].every(fn.isUnique); // true
+         * ```
+         * @param {T} val
+         * @param {number} i
+         * @param {T[]} arr
+         * @returns {boolean}
+         */
+        const isUnique: <T extends unknown>(val: T, i: number, arr: T[]) => boolean;
     }
     export {};
 }

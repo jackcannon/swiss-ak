@@ -682,7 +682,22 @@ var fn;
       return result2;
     };
   };
-  fn2.isAllEqual = (val, i, arr) => val === arr[0];
+  fn2.isAllEqual = (val, i, arr) => {
+    const args = {
+      val,
+      i: safe.num(i, true, 0),
+      arr: safe.arr(arr)
+    };
+    return args.val === args.arr[0];
+  };
+  fn2.isUnique = (val, i, arr) => {
+    const args = {
+      val,
+      i: safe.num(i, true, 0),
+      arr: safe.arr(arr)
+    };
+    return args.arr.indexOf(args.val) === args.i;
+  };
   let filters2;
   ((filters3) => {
     filters3.exists = fn2.exists;
@@ -724,6 +739,7 @@ var fn;
   let everys2;
   ((everys3) => {
     everys3.isAllEqual = fn2.isAllEqual;
+    everys3.isUnique = fn2.isUnique;
   })(everys2 = fn2.everys || (fn2.everys = {}));
 })(fn || (fn = {}));
 var filters = fn.filters;

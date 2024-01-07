@@ -282,6 +282,7 @@ A collection of useful higher-order functions.
       - [modeMapped](#modemapped)
     - [**everys**](#everys)
       - [isAllEqual](#isallequal)
+      - [isUnique](#isunique)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1065,9 +1066,9 @@ Collection of functions that can be used with Array.every
 #### isAllEqual
 
 ```typescript
-fn.isAllEqual(val: T, arr: T[]): boolean
-fn.everys.isAllEqual(val: T, arr: T[]): boolean
-everys.isAllEqual(val: T, arr: T[]): boolean
+fn.isAllEqual(val: T, i: number, arr: T[]): boolean
+fn.everys.isAllEqual(val: T, i: number, arr: T[]): boolean
+everys.isAllEqual(val: T, i: number, arr: T[]): boolean
 ```
 
 Returns if all the items are equal to one another.
@@ -1077,10 +1078,39 @@ Returns if all the items are equal to one another.
 [1, 2, 1].every(fn.isAllEqual); // false
 ```
 
-|  #  | Parameter Name | Required | Type  |
-|:---:|:---------------|:---------|:------|
-| *0* | `val`          | **Yes**  | `T`   |
-| *1* | `arr`          | **Yes**  | `T[]` |
+|  #  | Parameter Name | Required | Type     |
+|:---:|:---------------|:---------|:---------|
+| *0* | `val`          | **Yes**  | `T`      |
+| *1* | `i`            | **Yes**  | `number` |
+| *2* | `arr`          | **Yes**  | `T[]`    |
+
+| Return Type |
+|-------------|
+| `boolean`   |
+
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
+
+#### isUnique
+
+```typescript
+fn.isUnique(val: T, i: number, arr: T[]): boolean
+fn.everys.isUnique(val: T, i: number, arr: T[]): boolean
+everys.isUnique(val: T, i: number, arr: T[]): boolean
+```
+
+Returns true if the item is unique in the array.
+
+```typescript
+[1, 1, 1].every(fn.isUnique); // false
+[1, 2, 1].every(fn.isUnique); // false
+[1, 2, 3].every(fn.isUnique); // true
+```
+
+|  #  | Parameter Name | Required | Type     |
+|:---:|:---------------|:---------|:---------|
+| *0* | `val`          | **Yes**  | `T`      |
+| *1* | `i`            | **Yes**  | `number` |
+| *2* | `arr`          | **Yes**  | `T[]`    |
 
 | Return Type |
 |-------------|

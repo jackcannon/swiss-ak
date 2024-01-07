@@ -1390,4 +1390,42 @@ describe('fn', () => {
       }
     );
   });
+  describe('isUnique', () => {
+    multiTest(
+      [
+        [swissak.fn.isUnique, 'fn.isUnique'],
+        [swissak.fn.everys.isUnique, 'fn.everys.isUnique'],
+        [swissak.everys.isUnique, 'everys.isUnique']
+      ],
+      (isUnique, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(isUnique).toBeDefined();
+        });
+
+        it(should` return true if all values are unique (numbers)`, () => {
+          const input = [1, 2, 3, 4, 5];
+          const expct = true;
+          expect([...input].every(isUnique)).toEqual(expct);
+        });
+
+        it(should` return true if some values are the same (numbers)`, () => {
+          const input = [1, 2, 3, 4, 2];
+          const expct = false;
+          expect([...input].every(isUnique)).toEqual(expct);
+        });
+
+        it(should` return true if all values are unique (strings)`, () => {
+          const input = ['a', 'b', 'c', 'd', 'e'];
+          const expct = true;
+          expect([...input].every(isUnique)).toEqual(expct);
+        });
+
+        it(should` return true if some values are the same (strings)`, () => {
+          const input = ['a', 'b', 'c', 'd', 'b'];
+          const expct = false;
+          expect([...input].every(isUnique)).toEqual(expct);
+        });
+      }
+    );
+  });
 });

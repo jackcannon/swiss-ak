@@ -706,10 +706,46 @@ export namespace fn {
    * [1, 2, 1].every(fn.isAllEqual); // false
    * ```
    * @param {T} val
+   * @param {number} i
    * @param {T[]} arr
    * @returns {boolean}
    */
-  export const isAllEqual = <T = any>(val: T, i, arr: T[]): boolean => val === arr[0];
+  export const isAllEqual = <T = any>(val: T, i: number, arr: T[]): boolean => {
+    const args = {
+      val,
+      i: safe.num(i, true, 0),
+      arr: safe.arr(arr)
+    };
+    return args.val === args.arr[0];
+  };
+
+  /**<!-- DOCS: fn.isUnique #### @ -->
+   * isUnique
+   *
+   * - `fn.isUnique`
+   * - `fn.everys.isUnique`
+   * - `everys.isUnique`
+   *
+   * Returns true if the item is unique in the array.
+   *
+   * ```typescript
+   * [1, 1, 1].every(fn.isUnique); // false
+   * [1, 2, 1].every(fn.isUnique); // false
+   * [1, 2, 3].every(fn.isUnique); // true
+   * ```
+   * @param {T} val
+   * @param {number} i
+   * @param {T[]} arr
+   * @returns {boolean}
+   */
+  export const isUnique = <T extends unknown>(val: T, i: number, arr: T[]): boolean => {
+    const args = {
+      val,
+      i: safe.num(i, true, 0),
+      arr: safe.arr(arr)
+    };
+    return args.arr.indexOf(args.val) === args.i;
+  };
 
   /** <!-- DOCS-ALIAS: fn.filters  --> */
   export namespace filters {
@@ -793,6 +829,9 @@ export namespace fn {
 
     /** <!-- DOCS-ALIAS: fn.isAllEqual  --> */
     export const isAllEqual = fn.isAllEqual;
+
+    /** <!-- DOCS-ALIAS: fn.isUnique  --> */
+    export const isUnique = fn.isUnique;
   } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
