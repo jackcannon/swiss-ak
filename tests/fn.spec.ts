@@ -1428,4 +1428,150 @@ describe('fn', () => {
       }
     );
   });
+  describe('bySize', () => {
+    multiTest(
+      [
+        [swissak.fn.bySize, 'fn.bySize'],
+        [swissak.fn.groups.bySize, 'fn.groups.bySize'],
+        [swissak.groups.bySize, 'groups.bySize']
+      ],
+      (bySize, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(bySize).toBeDefined();
+        });
+
+        it(should` run the provided example`, () => {
+          const input = [1, 2, 3, 4, 5, 6, 7, 8];
+          const exptd = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8]
+          ];
+          const reslt = swissak.ArrayTools.group(input, bySize(3));
+          expect(reslt).toEqual(exptd);
+        });
+
+        it(should` group 13 items by size of 3`, () => {
+          const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+          const exptd = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12], [13]];
+          const reslt = swissak.ArrayTools.group(input, bySize(3));
+          expect(reslt).toEqual(exptd);
+        });
+
+        it(should` group 13 items by size of 4`, () => {
+          const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+          const exptd = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13]];
+          const reslt = swissak.ArrayTools.group(input, bySize(4));
+          expect(reslt).toEqual(exptd);
+        });
+
+        it(should` group 13 items by size of 5`, () => {
+          const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+          const exptd = [
+            [1, 2, 3, 4, 5],
+            [6, 7, 8, 9, 10],
+            [11, 12, 13]
+          ];
+          const reslt = swissak.ArrayTools.group(input, bySize(5));
+          expect(reslt).toEqual(exptd);
+        });
+
+        it(should` group 13 items by size of 6`, () => {
+          const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+          const exptd = [[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12], [13]];
+          const reslt = swissak.ArrayTools.group(input, bySize(6));
+          expect(reslt).toEqual(exptd);
+        });
+
+        kitchenSink.toEqual(
+          'size',
+          (v) => swissak.ArrayTools.group([1, 2, 3, 4, 5, 6, 7, 8, 9], bySize(v as any)),
+          kitchenSink.safe.num(undefined, true, 1),
+          kitchenSink.samples.general
+        );
+      }
+    );
+  });
+  describe('byNumGroups', () => {
+    multiTest(
+      [
+        [swissak.fn.byNumGroups, 'fn.byNumGroups'],
+        [swissak.fn.groups.byNumGroups, 'fn.groups.byNumGroups'],
+        [swissak.groups.byNumGroups, 'groups.byNumGroups']
+      ],
+      (byNumGroups, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(byNumGroups).toBeDefined();
+        });
+
+        it(should` run the provided example`, () => {
+          const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+          const exptd = [
+            [1, 2, 3, 4],
+            [5, 6, 7],
+            [8, 9, 10]
+          ];
+          const reslt = swissak.ArrayTools.group(input, byNumGroups(3));
+          expect(reslt).toEqual(exptd);
+        });
+
+        it(should` run group 14 items into 3 groups`, () => {
+          const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+          const exptd = [
+            [1, 2, 3, 4, 5],
+            [6, 7, 8, 9, 10],
+            [11, 12, 13, 14]
+          ];
+          const reslt = swissak.ArrayTools.group(input, byNumGroups(3));
+          expect(reslt).toEqual(exptd);
+        });
+
+        it(should` run group 14 items into 4 groups`, () => {
+          const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+          const exptd = [
+            [1, 2, 3, 4],
+            [5, 6, 7, 8],
+            [9, 10, 11],
+            [12, 13, 14]
+          ];
+          const reslt = swissak.ArrayTools.group(input, byNumGroups(4));
+          expect(reslt).toEqual(exptd);
+        });
+
+        it(should` run group 14 items into 5 groups`, () => {
+          const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+          const exptd = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
+            [10, 11, 12],
+            [13, 14]
+          ];
+          const reslt = swissak.ArrayTools.group(input, byNumGroups(5));
+          expect(reslt).toEqual(exptd);
+        });
+
+        it(should` run group 14 items into 6 groups`, () => {
+          const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+          const exptd = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8],
+            [9, 10],
+            [11, 12],
+            [13, 14]
+          ];
+          const reslt = swissak.ArrayTools.group(input, byNumGroups(6));
+          expect(reslt).toEqual(exptd);
+        });
+
+        kitchenSink.toEqual(
+          'numGroups',
+          (v) => swissak.ArrayTools.group([1, 2, 3, 4, 5, 6, 7, 8, 9], byNumGroups(v as any)),
+          kitchenSink.safe.num(undefined, true, 1),
+          kitchenSink.samples.general
+        );
+      }
+    );
+  });
 });

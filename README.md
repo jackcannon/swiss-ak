@@ -283,6 +283,9 @@ A collection of useful higher-order functions.
     - [**everys**](#everys)
       - [isAllEqual](#isallequal)
       - [isUnique](#isunique)
+    - [**groups**](#groups)
+      - [bySize](#bysize)
+      - [byNumGroups](#bynumgroups)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -1115,6 +1118,72 @@ Returns true if the item is unique in the array.
 | Return Type |
 |-------------|
 | `boolean`   |
+
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
+
+### groups
+
+```typescript
+fn.groups;
+```
+
+Collection of functions that can be used with ArrayTools.group
+
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
+
+#### bySize
+
+```typescript
+fn.bySize(size: number): (value: T, index: number, array: T[]) => number
+fn.groups.bySize(size: number): (value: T, index: number, array: T[]) => number
+groups.bySize(size: number): (value: T, index: number, array: T[]) => number
+```
+
+Group an array into groups of a given size.
+
+> __Note:__ The last group may be smaller than the given size.
+
+> __Note:__ The groups a distributed in order, so the first group will be filled up first, then the next, etc.
+
+```typescript
+const nums = [1, 2, 3, 4, 5, 6, 7, 8];
+ArrayTools.group(nums, fn.bySize(3)); // [[1, 2, 3], [4, 5, 6], [7, 8]]
+```
+
+|  #  | Parameter Name | Required | Type     |
+|:---:|:---------------|:---------|:---------|
+| *0* | `size`         | **Yes**  | `number` |
+
+| Return Type                                       |
+|---------------------------------------------------|
+| `(value: T, index: number, array: T[]) => number` |
+
+<p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
+
+#### byNumGroups
+
+```typescript
+fn.byNumGroups(numGroups: number): (value: T, index: number, array: T[]) => any
+fn.groups.byNumGroups(numGroups: number): (value: T, index: number, array: T[]) => any
+groups.byNumGroups(numGroups: number): (value: T, index: number, array: T[]) => any
+```
+
+Group an array into a certain number of groups as evenly as possible.
+
+> __Note:__ The groups a distributed in order, so the first group will be filled up first, then the next, etc.
+
+```typescript
+const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+ArrayTools.group(nums, byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
+```
+
+|  #  | Parameter Name | Required | Type     |
+|:---:|:---------------|:---------|:---------|
+| *0* | `numGroups`    | **Yes**  | `number` |
+
+| Return Type                                    |
+|------------------------------------------------|
+| `(value: T, index: number, array: T[]) => any` |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 

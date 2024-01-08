@@ -704,6 +704,29 @@ var fn;
     };
     return args.arr.indexOf(args.val) === args.i;
   };
+  fn2.bySize = (size) => {
+    const args = {
+      size: safe.num(size, true, 1)
+    };
+    return (value, index, array2) => Math.floor(index / args.size);
+  };
+  fn2.byNumGroups = (numGroups) => {
+    const args = {
+      numGroups: safe.num(numGroups, true, 1)
+    };
+    let size = null;
+    let remainder = null;
+    return (value, index, array2) => {
+      if (size === null) {
+        size = Math.ceil(array2.length / args.numGroups);
+        remainder = array2.length % args.numGroups;
+      }
+      const largeGroup = Math.floor(index / size);
+      if (largeGroup < remainder || remainder === 0)
+        return largeGroup;
+      return remainder + Math.floor((index - size * remainder) / (size - 1));
+    };
+  };
   let filters2;
   ((filters3) => {
     filters3.exists = fn2.exists;
@@ -747,12 +770,18 @@ var fn;
     everys3.isAllEqual = fn2.isAllEqual;
     everys3.isUnique = fn2.isUnique;
   })(everys2 = fn2.everys || (fn2.everys = {}));
+  let groups2;
+  ((groups3) => {
+    groups3.bySize = fn2.bySize;
+    groups3.byNumGroups = fn2.byNumGroups;
+  })(groups2 = fn2.groups || (fn2.groups = {}));
 })(fn || (fn = {}));
 var filters = fn.filters;
 var maps = fn.maps;
 var sorts = fn.sorts;
 var reduces = fn.reduces;
 var everys = fn.everys;
+var groups = fn.groups;
 
 // src/tools/TimeTools.ts
 var units = [
@@ -2591,6 +2620,7 @@ export {
   getTimer,
   group,
   groupObj,
+  groups,
   hours,
   interval,
   map,

@@ -1853,6 +1853,53 @@ declare namespace fn {
      * @returns {boolean}
      */
     export const isUnique: <T extends unknown>(val: T, i: number, arr: T[]) => boolean;
+    /**<!-- DOCS: fn.groups ### -->
+     * groups
+     *
+     * - `fn.groups`
+     *
+     * Collection of functions that can be used with ArrayTools.group
+     */
+    /**<!-- DOCS: fn.bySize #### @ -->
+     * bySize
+     *
+     * - `fn.bySize`
+     * - `fn.groups.bySize`
+     * - `groups.bySize`
+     *
+     * Group an array into groups of a given size.
+     *
+     * > __Note:__ The last group may be smaller than the given size.
+     *
+     * > __Note:__ The groups a distributed in order, so the first group will be filled up first, then the next, etc.
+     *
+     * ```typescript
+     * const nums = [1, 2, 3, 4, 5, 6, 7, 8];
+     * ArrayTools.group(nums, fn.bySize(3)); // [[1, 2, 3], [4, 5, 6], [7, 8]]
+     * ```
+     * @param {number} size
+     * @returns {(value: T, index: number, array: T[]) => number}
+     */
+    export const bySize: <T extends unknown>(size: number) => (value: T, index: number, array: T[]) => number;
+    /**<!-- DOCS: fn.byNumGroups #### @ -->
+     * byNumGroups
+     *
+     * - `fn.byNumGroups`
+     * - `fn.groups.byNumGroups`
+     * - `groups.byNumGroups`
+     *
+     * Group an array into a certain number of groups as evenly as possible.
+     *
+     * > __Note:__ The groups a distributed in order, so the first group will be filled up first, then the next, etc.
+     *
+     * ```typescript
+     * const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+     * ArrayTools.group(nums, byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
+     * ```
+     * @param {number} numGroups
+     * @returns {(value: T, index: number, array: T[]) => any}
+     */
+    export const byNumGroups: <T extends unknown>(numGroups: number) => (value: T, index: number, array: T[]) => any;
     /**<!-- DOCS-ALIAS: fn.filters -->
      * filters
      * 
@@ -2365,6 +2412,55 @@ declare namespace fn {
          */
         const isUnique: <T extends unknown>(val: T, i: number, arr: T[]) => boolean;
     }
+    /**<!-- DOCS-ALIAS: fn.groups -->
+     * groups
+     * 
+     * - `fn.groups`
+     * 
+     * Collection of functions that can be used with ArrayTools.group
+     */
+    export namespace groups {
+        /**<!-- DOCS-ALIAS: fn.bySize -->
+         * bySize
+         * 
+         * - `fn.bySize`
+         * - `fn.groups.bySize`
+         * - `groups.bySize`
+         * 
+         * Group an array into groups of a given size.
+         * 
+         * > __Note:__ The last group may be smaller than the given size.
+         * 
+         * > __Note:__ The groups a distributed in order, so the first group will be filled up first, then the next, etc.
+         * 
+         * ```typescript
+         * const nums = [1, 2, 3, 4, 5, 6, 7, 8];
+         * ArrayTools.group(nums, fn.bySize(3)); // [[1, 2, 3], [4, 5, 6], [7, 8]]
+         * ```
+         * @param {number} size
+         * @returns {(value: T, index: number, array: T[]) => number}
+         */
+        const bySize: <T extends unknown>(size: number) => (value: T, index: number, array: T[]) => number;
+        /**<!-- DOCS-ALIAS: fn.byNumGroups -->
+         * byNumGroups
+         * 
+         * - `fn.byNumGroups`
+         * - `fn.groups.byNumGroups`
+         * - `groups.byNumGroups`
+         * 
+         * Group an array into a certain number of groups as evenly as possible.
+         * 
+         * > __Note:__ The groups a distributed in order, so the first group will be filled up first, then the next, etc.
+         * 
+         * ```typescript
+         * const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+         * ArrayTools.group(nums, byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
+         * ```
+         * @param {number} numGroups
+         * @returns {(value: T, index: number, array: T[]) => any}
+         */
+        const byNumGroups: <T extends unknown>(numGroups: number) => (value: T, index: number, array: T[]) => any;
+    }
     export {};
 }
 /**<!-- DOCS-ALIAS: fn -->
@@ -2405,6 +2501,14 @@ declare const reduces: typeof fn.reduces;
  * Collection of functions that can be used with Array.every
  */
 declare const everys: typeof fn.everys;
+/**<!-- DOCS-ALIAS: fn.groups -->
+ * groups
+ * 
+ * - `fn.groups`
+ * 
+ * Collection of functions that can be used with ArrayTools.group
+ */
+declare const groups: typeof fn.groups;
 
 /**<!-- DOCS: timer ##! -->
  * timer
@@ -7949,4 +8053,4 @@ interface Cachier<T> {
     create<U>(): Cachier<U>;
 }
 
-export { ArrayTools, CENTURY, Cachier, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, MultiBarManager, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cachier, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getMultiBarManager, getProgressBar, getTimer, group, groupObj, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayTools, CENTURY, Cachier, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, MultiBarManager, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cachier, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getMultiBarManager, getProgressBar, getTimer, group, groupObj, groups, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

@@ -169,6 +169,16 @@ swissak.reduces.modeMapped;
 swissak.fn.isAllEqual;
 swissak.fn.everys.isAllEqual;
 swissak.everys.isAllEqual;
+swissak.fn.isUnique;
+swissak.fn.everys.isUnique;
+swissak.everys.isUnique;
+swissak.fn.bySize;
+swissak.fn.groups.bySize;
+swissak.groups.bySize;
+swissak.fn.byNumGroups;
+swissak.fn.groups.byNumGroups;
+swissak.groups.byNumGroups;
+
 swissak.range;
 swissak.ArrayTools.range;
 swissak.zip;

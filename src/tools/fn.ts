@@ -747,6 +747,79 @@ export namespace fn {
     return args.arr.indexOf(args.val) === args.i;
   };
 
+  /**<!-- DOCS: fn.groups ### -->
+   * groups
+   *
+   * - `fn.groups`
+   *
+   * Collection of functions that can be used with ArrayTools.group
+   */
+
+  /**<!-- DOCS: fn.bySize #### @ -->
+   * bySize
+   *
+   * - `fn.bySize`
+   * - `fn.groups.bySize`
+   * - `groups.bySize`
+   *
+   * Group an array into groups of a given size.
+   *
+   * > __Note:__ The last group may be smaller than the given size.
+   *
+   * > __Note:__ The groups a distributed in order, so the first group will be filled up first, then the next, etc.
+   *
+   * ```typescript
+   * const nums = [1, 2, 3, 4, 5, 6, 7, 8];
+   * ArrayTools.group(nums, fn.bySize(3)); // [[1, 2, 3], [4, 5, 6], [7, 8]]
+   * ```
+   * @param {number} size
+   * @returns {(value: T, index: number, array: T[]) => number}
+   */
+  export const bySize = <T extends unknown>(size: number) => {
+    const args = {
+      size: safe.num(size, true, 1)
+    };
+    return (value: T, index: number, array: T[]) => Math.floor(index / args.size);
+  };
+
+  /**<!-- DOCS: fn.byNumGroups #### @ -->
+   * byNumGroups
+   *
+   * - `fn.byNumGroups`
+   * - `fn.groups.byNumGroups`
+   * - `groups.byNumGroups`
+   *
+   * Group an array into a certain number of groups as evenly as possible.
+   *
+   * > __Note:__ The groups a distributed in order, so the first group will be filled up first, then the next, etc.
+   *
+   * ```typescript
+   * const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+   * ArrayTools.group(nums, byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
+   * ```
+   * @param {number} numGroups
+   * @returns {(value: T, index: number, array: T[]) => any}
+   */
+  export const byNumGroups = <T extends unknown>(numGroups: number) => {
+    const args = {
+      numGroups: safe.num(numGroups, true, 1)
+    };
+    let size = null;
+    let remainder = null;
+    return (value: T, index: number, array: T[]) => {
+      if (size === null) {
+        size = Math.ceil(array.length / args.numGroups);
+        remainder = array.length % args.numGroups;
+      }
+      // Group the initial groups by the largest size
+      const largeGroup = Math.floor(index / size);
+      if (largeGroup < remainder || remainder === 0) return largeGroup;
+
+      // Group the smaller groups
+      return remainder + Math.floor((index - size * remainder) / (size - 1));
+    };
+  };
+
   /** <!-- DOCS-ALIAS: fn.filters  --> */
   export namespace filters {
     // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
@@ -833,6 +906,17 @@ export namespace fn {
     /** <!-- DOCS-ALIAS: fn.isUnique  --> */
     export const isUnique = fn.isUnique;
   } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
+
+  /** <!-- DOCS-ALIAS: fn.groups  --> */
+  export namespace groups {
+    // SWISS-DOCS-JSDOC-REMOVE-PREV-LINE
+
+    /** <!-- DOCS-ALIAS: fn.bySize  --> */
+    export const bySize = fn.bySize;
+
+    /** <!-- DOCS-ALIAS: fn.byNumGroups  --> */
+    export const byNumGroups = fn.byNumGroups;
+  } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: fn  --> */
@@ -845,3 +929,5 @@ export const sorts = fn.sorts;
 export const reduces = fn.reduces;
 /** <!-- DOCS-ALIAS: fn.everys  --> */
 export const everys = fn.everys;
+/** <!-- DOCS-ALIAS: fn.groups  --> */
+export const groups = fn.groups;
