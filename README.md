@@ -5101,69 +5101,101 @@ symbols;
 
 A series of characters that can be used for display symbols
 
-| Name                    |                                   | Symbol |
-| :---------------------- | :-------------------------------- | :----: |
-| TAB                     | `symbols.TAB`                     |  ` `   |
-| TICK                    | `symbols.TICK`                    |   ✔    |
-| CROSS                   | `symbols.CROSS`                   |   ✖    |
-| PLUS                    | `symbols.PLUS`                    |   +    |
-| MINUS                   | `symbols.MINUS`                   |   -    |
-| TIMES                   | `symbols.TIMES`                   |   ×    |
-| DIVIDE                  | `symbols.DIVIDE`                  |   ÷    |
-| ELLIPSIS                | `symbols.ELLIPSIS`                |   …    |
-| BULLET                  | `symbols.BULLET`                  |   •    |
-| EJECT                   | `symbols.EJECT`                   |   ⏏    |
-| TILDE                   | `symbols.TILDE`                   |   ~    |
-| HOME                    | `symbols.HOME`                    |   ~    |
-| RADIO_EMPTY             | `symbols.RADIO_EMPTY`             |   ◯    |
-| RADIO_FULL              | `symbols.RADIO_FULL`              |   ◉    |
-| CURSOR                  | `symbols.CURSOR`                  |   ❯    |
-| CHEV_LFT                | `symbols.CHEV_LFT`                |   ‹    |
-| CHEV_RGT                | `symbols.CHEV_RGT`                |   ›    |
-| CHAIN                   | `symbols.CHAIN`                   |   ⫘    |
-| TRI_UPP                 | `symbols.TRI_UPP`                 |   ▲    |
-| TRI_DWN                 | `symbols.TRI_DWN`                 |   ▼    |
-| TRI_RGT                 | `symbols.TRI_RGT`                 |   ▶    |
-| TRI_LFT                 | `symbols.TRI_LFT`                 |   ◀    |
-| ARROW_UPP               | `symbols.ARROW_UPP`               |   ↑    |
-| ARROW_DWN               | `symbols.ARROW_DWN`               |   ↓    |
-| ARROW_RGT               | `symbols.ARROW_RGT`               |   →    |
-| ARROW_LFT               | `symbols.ARROW_LFT`               |   ←    |
-| ARROW_UPP_RGT           | `symbols.ARROW_UPP_RGT`           |   ↗    |
-| ARROW_DWN_RGT           | `symbols.ARROW_DWN_RGT`           |   ↘    |
-| ARROW_DWN_LFT           | `symbols.ARROW_DWN_LFT`           |   ↙    |
-| ARROW_UPP_LFT           | `symbols.ARROW_UPP_LFT`           |   ↖    |
-| ARROW_STILL             | `symbols.ARROW_STILL`             |   •    |
-| ARROW_FLIP_H            | `symbols.ARROW_FLIP_H`            |   ↔    |
-| ARROW_FLIP_V            | `symbols.ARROW_FLIP_V`            |   ↕    |
-| ARROW_ROTATE_UPP        | `symbols.ARROW_ROTATE_UPP`        |   ⤴    |
-| ARROW_ROTATE_DWN        | `symbols.ARROW_ROTATE_DWN`        |   ⤵    |
-| ARROW_ROTATE_LFT        | `symbols.ARROW_ROTATE_LFT`        |   ⤶    |
-| ARROW_ROTATE_RGT        | `symbols.ARROW_ROTATE_RGT`        |   ⤷    |
-| ARROW_ROTATE_CLOCK      | `symbols.ARROW_ROTATE_CLOCK`      |   ↻    |
-| ARROW_ROTATE_ANTI_CLOCK | `symbols.ARROW_ROTATE_ANTI_CLOCK` |   ↺    |
-| FRACTION_1_4            | `symbols.FRACTION_1_4`            |   ¼    |
-| FRACTION_1_2            | `symbols.FRACTION_1_2`            |   ½    |
-| FRACTION_3_4            | `symbols.FRACTION_3_4`            |   ¾    |
-| SUPERSCRIPT             | `symbols.SUPERSCRIPT['1']`        |   ¹    |
-|                         | `symbols.SUPERSCRIPT['2']`        |   ²    |
-|                         | `symbols.SUPERSCRIPT['3']`        |   ³    |
-|                         | `symbols.SUPERSCRIPT['4']`        |   ⁴    |
-|                         | `symbols.SUPERSCRIPT['5']`        |   ⁵    |
-|                         | `symbols.SUPERSCRIPT['6']`        |   ⁶    |
-|                         | `symbols.SUPERSCRIPT['7']`        |   ⁷    |
-|                         | `symbols.SUPERSCRIPT['8']`        |   ⁸    |
-|                         | `symbols.SUPERSCRIPT['9']`        |   ⁹    |
-|                         | `symbols.SUPERSCRIPT['0']`        |   ⁰    |
-|                         | `symbols.SUPERSCRIPT['-']`        |   ⁻    |
-|                         | `symbols.SUPERSCRIPT['+']`        |   ⁺    |
-|                         | `symbols.SUPERSCRIPT['=']`        |   ⁼    |
-|                         | `symbols.SUPERSCRIPT['(']`        |   ⁽    |
-|                         | `symbols.SUPERSCRIPT[')']`        |   ⁾    |
-|                         | `symbols.SUPERSCRIPT['i']`        |   ⁱ    |
-|                         | `symbols.SUPERSCRIPT['n']`        |   ⁿ    |
-|                         | `symbols.SUPERSCRIPT['o']`        |   °    |
-|                         | `symbols.SUPERSCRIPT['*']`        |   °    |
+| Name                    |                                                  | Symbol |
+| :---------------------- | :----------------------------------------------- | :----: |
+| TAB                     | `symbols.TAB`                                    |  ` `   |
+| TICK                    | `symbols.TICK`                                   |   ✔    |
+| CROSS                   | `symbols.CROSS`                                  |   ✖    |
+| PLUS                    | `symbols.PLUS`                                   |   +    |
+| MINUS                   | `symbols.MINUS`                                  |   -    |
+| TIMES                   | `symbols.TIMES`                                  |   ×    |
+| DIVIDE                  | `symbols.DIVIDE`                                 |   ÷    |
+| ELLIPSIS                | `symbols.ELLIPSIS`                               |   …    |
+| BULLET                  | `symbols.BULLET`                                 |   •    |
+| EJECT                   | `symbols.EJECT`                                  |   ⏏    |
+| TILDE                   | `symbols.TILDE`                                  |   ~    |
+| HOME                    | `symbols.HOME`                                   |   ~    |
+| RADIO_EMPTY             | `symbols.RADIO_EMPTY`                            |   ◯    |
+| RADIO_FULL              | `symbols.RADIO_FULL`                             |   ◉    |
+| CURSOR                  | `symbols.CURSOR`                                 |   ❯    |
+| CHEV_LFT                | `symbols.CHEV_LFT`                               |   ‹    |
+| CHEV_RGT                | `symbols.CHEV_RGT`                               |   ›    |
+| CHAIN                   | `symbols.CHAIN`                                  |   ⫘    |
+| TRI_UPP                 | `symbols.TRI_UPP`                                |   ▲    |
+| TRI_DWN                 | `symbols.TRI_DWN`                                |   ▼    |
+| TRI_RGT                 | `symbols.TRI_RGT`                                |   ▶    |
+| TRI_LFT                 | `symbols.TRI_LFT`                                |   ◀    |
+| ARROW_UPP               | `symbols.ARROW_UPP`                              |   ↑    |
+| ARROW_DWN               | `symbols.ARROW_DWN`                              |   ↓    |
+| ARROW_RGT               | `symbols.ARROW_RGT`                              |   →    |
+| ARROW_LFT               | `symbols.ARROW_LFT`                              |   ←    |
+| ARROW_UPP_RGT           | `symbols.ARROW_UPP_RGT`                          |   ↗    |
+| ARROW_DWN_RGT           | `symbols.ARROW_DWN_RGT`                          |   ↘    |
+| ARROW_DWN_LFT           | `symbols.ARROW_DWN_LFT`                          |   ↙    |
+| ARROW_UPP_LFT           | `symbols.ARROW_UPP_LFT`                          |   ↖    |
+| ARROW_STILL             | `symbols.ARROW_STILL`                            |   •    |
+| ARROW_FLIP_H            | `symbols.ARROW_FLIP_H`                           |   ↔    |
+| ARROW_FLIP_V            | `symbols.ARROW_FLIP_V`                           |   ↕    |
+| ARROW_ROTATE_UPP        | `symbols.ARROW_ROTATE_UPP`                       |   ⤴    |
+| ARROW_ROTATE_DWN        | `symbols.ARROW_ROTATE_DWN`                       |   ⤵    |
+| ARROW_ROTATE_LFT        | `symbols.ARROW_ROTATE_LFT`                       |   ⤶    |
+| ARROW_ROTATE_RGT        | `symbols.ARROW_ROTATE_RGT`                       |   ⤷    |
+| ARROW_ROTATE_CLOCK      | `symbols.ARROW_ROTATE_CLOCK`                     |   ↻    |
+| ARROW_ROTATE_ANTI_CLOCK | `symbols.ARROW_ROTATE_ANTI_CLOCK`                |   ↺    |
+| FRACTION_1_4            | `symbols.FRACTION_1_4`                           |   ¼    |
+| FRACTION_1_2            | `symbols.FRACTION_1_2`                           |   ½    |
+| FRACTION_3_4            | `symbols.FRACTION_3_4`                           |   ¾    |
+| SUPERSCRIPT             | `symbols.SUPERSCRIPT['1']`                       |   ¹    |
+|                         | `symbols.SUPERSCRIPT['2']`                       |   ²    |
+|                         | `symbols.SUPERSCRIPT['3']`                       |   ³    |
+|                         | `symbols.SUPERSCRIPT['4']`                       |   ⁴    |
+|                         | `symbols.SUPERSCRIPT['5']`                       |   ⁵    |
+|                         | `symbols.SUPERSCRIPT['6']`                       |   ⁶    |
+|                         | `symbols.SUPERSCRIPT['7']`                       |   ⁷    |
+|                         | `symbols.SUPERSCRIPT['8']`                       |   ⁸    |
+|                         | `symbols.SUPERSCRIPT['9']`                       |   ⁹    |
+|                         | `symbols.SUPERSCRIPT['0']`                       |   ⁰    |
+|                         | `symbols.SUPERSCRIPT['-']`                       |   ⁻    |
+|                         | `symbols.SUPERSCRIPT['+']`                       |   ⁺    |
+|                         | `symbols.SUPERSCRIPT['=']`                       |   ⁼    |
+|                         | `symbols.SUPERSCRIPT['(']`                       |   ⁽    |
+|                         | `symbols.SUPERSCRIPT[')']`                       |   ⁾    |
+|                         | `symbols.SUPERSCRIPT['i']`                       |   ⁱ    |
+|                         | `symbols.SUPERSCRIPT['n']`                       |   ⁿ    |
+|                         | `symbols.SUPERSCRIPT['o']`                       |   °    |
+|                         | `symbols.SUPERSCRIPT['*']`                       |   °    |
+| BLOCK                   | `symbols.BLOCK.full`                             |   █    |
+|                         | `symbols.BLOCK.upperHalf`                        |   ▀    |
+|                         | `symbols.BLOCK.lowerOneEighth`                   |   ▁    |
+|                         | `symbols.BLOCK.lowerOneQuarter`                  |   ▂    |
+|                         | `symbols.BLOCK.lowerThreeEighths`                |   ▃    |
+|                         | `symbols.BLOCK.lowerHalf`                        |   ▄    |
+|                         | `symbols.BLOCK.lowerFiveEighths`                 |   ▅    |
+|                         | `symbols.BLOCK.lowerThreeQuarters`               |   ▆    |
+|                         | `symbols.BLOCK.lowerSevenEighths`                |   ▇    |
+|                         | `symbols.BLOCK.leftSevenEighths`                 |   ▉    |
+|                         | `symbols.BLOCK.leftThreeQuarters`                |   ▊    |
+|                         | `symbols.BLOCK.leftFiveEighths`                  |   ▋    |
+|                         | `symbols.BLOCK.leftHalf`                         |   ▌    |
+|                         | `symbols.BLOCK.leftThreeEighths`                 |   ▍    |
+|                         | `symbols.BLOCK.leftOneQuarter`                   |   ▎    |
+|                         | `symbols.BLOCK.leftOneEighth`                    |   ▏    |
+|                         | `symbols.BLOCK.rightHalf`                        |   ▐    |
+|                         | `symbols.BLOCK.upperOneEighth`                   |   ▔    |
+|                         | `symbols.BLOCK.rightOneEighth`                   |   ▕    |
+| SHADE                   | `symbols.SHADE.light`                            |   ░    |
+|                         | `symbols.SHADE.medium`                           |   ▒    |
+|                         | `symbols.SHADE.dark`                             |   ▓    |
+| QUADRANT                | `symbols.QUADRANT.upperLeft`                     |   ▘    |
+|                         | `symbols.QUADRANT.upperRight`                    |   ▝    |
+|                         | `symbols.QUADRANT.lowerLeft`                     |   ▖    |
+|                         | `symbols.QUADRANT.lowerRight`                    |   ▗    |
+|                         | `symbols.QUADRANT.upperLeftLowerLeftLowerRight`  |   ▙    |
+|                         | `symbols.QUADRANT.upperLeftLowerRight`           |   ▚    |
+|                         | `symbols.QUADRANT.upperLeftUpperRightLowerLeft`  |   ▛    |
+|                         | `symbols.QUADRANT.upperLeftUpperRightLowerRight` |   ▜    |
+|                         | `symbols.QUADRANT.upperRightLowerLeft`           |   ▞    |
+|                         | `symbols.QUADRANT.upperRightLowerLeftLowerRight` |   ▟    |
 
   - [**symbols**](#symbols)
     - [superscript](#superscript)

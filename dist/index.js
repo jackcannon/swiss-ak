@@ -2544,6 +2544,44 @@ var symbols = {
     n: "\u207F",
     o: "\xB0",
     "*": "\xB0"
+  },
+  BLOCK: {
+    full: "\u2588",
+    upperHalf: "\u2580",
+    lowerOneEighth: "\u2581",
+    lowerOneQuarter: "\u2582",
+    lowerThreeEighths: "\u2583",
+    lowerHalf: "\u2584",
+    lowerFiveEighths: "\u2585",
+    lowerThreeQuarters: "\u2586",
+    lowerSevenEighths: "\u2587",
+    leftSevenEighths: "\u2589",
+    leftThreeQuarters: "\u258A",
+    leftFiveEighths: "\u258B",
+    leftHalf: "\u258C",
+    leftThreeEighths: "\u258D",
+    leftOneQuarter: "\u258E",
+    leftOneEighth: "\u258F",
+    rightHalf: "\u2590",
+    upperOneEighth: "\u2594",
+    rightOneEighth: "\u2595"
+  },
+  SHADE: {
+    light: "\u2591",
+    medium: "\u2592",
+    dark: "\u2593"
+  },
+  QUADRANT: {
+    upperLeft: "\u2598",
+    upperRight: "\u259D",
+    lowerLeft: "\u2596",
+    lowerRight: "\u2597",
+    upperLeftLowerLeftLowerRight: "\u2599",
+    upperLeftLowerRight: "\u259A",
+    upperLeftUpperRightLowerLeft: "\u259B",
+    upperLeftUpperRightLowerRight: "\u259C",
+    upperRightLowerLeft: "\u259E",
+    upperRightLowerLeftLowerRight: "\u259F"
   }
 };
 var superscript = (num) => (num ?? "").toString().split("").map((char) => char === " " ? " " : symbols.SUPERSCRIPT[char] || symbols.SUPERSCRIPT["*"]).join("");

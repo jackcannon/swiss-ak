@@ -156,6 +156,47 @@ describe('symbols', () => {
       expect(symbols.SUPERSCRIPT['o']).toEqual('°');
       expect(symbols.SUPERSCRIPT['*']).toEqual('°');
     });
+
+    it(should` have the BLOCK symbol`, () => {
+      expect(symbols.BLOCK.full).toEqual('█');
+      expect(symbols.BLOCK.upperHalf).toEqual('▀');
+      expect(symbols.BLOCK.lowerOneEighth).toEqual('▁');
+      expect(symbols.BLOCK.lowerOneQuarter).toEqual('▂');
+      expect(symbols.BLOCK.lowerThreeEighths).toEqual('▃');
+      expect(symbols.BLOCK.lowerHalf).toEqual('▄');
+      expect(symbols.BLOCK.lowerFiveEighths).toEqual('▅');
+      expect(symbols.BLOCK.lowerThreeQuarters).toEqual('▆');
+      expect(symbols.BLOCK.lowerSevenEighths).toEqual('▇');
+      expect(symbols.BLOCK.leftSevenEighths).toEqual('▉');
+      expect(symbols.BLOCK.leftThreeQuarters).toEqual('▊');
+      expect(symbols.BLOCK.leftFiveEighths).toEqual('▋');
+      expect(symbols.BLOCK.leftHalf).toEqual('▌');
+      expect(symbols.BLOCK.leftThreeEighths).toEqual('▍');
+      expect(symbols.BLOCK.leftOneQuarter).toEqual('▎');
+      expect(symbols.BLOCK.leftOneEighth).toEqual('▏');
+      expect(symbols.BLOCK.rightHalf).toEqual('▐');
+      expect(symbols.BLOCK.upperOneEighth).toEqual('▔');
+      expect(symbols.BLOCK.rightOneEighth).toEqual('▕');
+    });
+
+    it(should` have the SHADE symbol`, () => {
+      expect(symbols.SHADE.light).toEqual('░');
+      expect(symbols.SHADE.medium).toEqual('▒');
+      expect(symbols.SHADE.dark).toEqual('▓');
+    });
+
+    it(should` have the QUADRANT symbol`, () => {
+      expect(symbols.QUADRANT.upperLeft).toEqual('▘');
+      expect(symbols.QUADRANT.upperRight).toEqual('▝');
+      expect(symbols.QUADRANT.lowerLeft).toEqual('▖');
+      expect(symbols.QUADRANT.lowerRight).toEqual('▗');
+      expect(symbols.QUADRANT.upperLeftLowerLeftLowerRight).toEqual('▙');
+      expect(symbols.QUADRANT.upperLeftLowerRight).toEqual('▚');
+      expect(symbols.QUADRANT.upperLeftUpperRightLowerLeft).toEqual('▛');
+      expect(symbols.QUADRANT.upperLeftUpperRightLowerRight).toEqual('▜');
+      expect(symbols.QUADRANT.upperRightLowerLeft).toEqual('▞');
+      expect(symbols.QUADRANT.upperRightLowerLeftLowerRight).toEqual('▟');
+    });
   });
 });
 

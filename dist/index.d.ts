@@ -6943,133 +6943,300 @@ declare namespace TimeTools {
  *
  * A series of characters that can be used for display symbols
  *
- * | Name                    |                                   | Symbol |
- * | :---------------------- | :-------------------------------- | :----: |
- * | TAB                     | `symbols.TAB`                     |  ` `   |
- * | TICK                    | `symbols.TICK`                    |   ✔    |
- * | CROSS                   | `symbols.CROSS`                   |   ✖    |
- * | PLUS                    | `symbols.PLUS`                    |   +    |
- * | MINUS                   | `symbols.MINUS`                   |   -    |
- * | TIMES                   | `symbols.TIMES`                   |   ×    |
- * | DIVIDE                  | `symbols.DIVIDE`                  |   ÷    |
- * | ELLIPSIS                | `symbols.ELLIPSIS`                |   …    |
- * | BULLET                  | `symbols.BULLET`                  |   •    |
- * | EJECT                   | `symbols.EJECT`                   |   ⏏    |
- * | TILDE                   | `symbols.TILDE`                   |   ~    |
- * | HOME                    | `symbols.HOME`                    |   ~    |
- * | RADIO_EMPTY             | `symbols.RADIO_EMPTY`             |   ◯    |
- * | RADIO_FULL              | `symbols.RADIO_FULL`              |   ◉    |
- * | CURSOR                  | `symbols.CURSOR`                  |   ❯    |
- * | CHEV_LFT                | `symbols.CHEV_LFT`                |   ‹    |
- * | CHEV_RGT                | `symbols.CHEV_RGT`                |   ›    |
- * | CHAIN                   | `symbols.CHAIN`                   |   ⫘    |
- * | TRI_UPP                 | `symbols.TRI_UPP`                 |   ▲    |
- * | TRI_DWN                 | `symbols.TRI_DWN`                 |   ▼    |
- * | TRI_RGT                 | `symbols.TRI_RGT`                 |   ▶    |
- * | TRI_LFT                 | `symbols.TRI_LFT`                 |   ◀    |
- * | ARROW_UPP               | `symbols.ARROW_UPP`               |   ↑    |
- * | ARROW_DWN               | `symbols.ARROW_DWN`               |   ↓    |
- * | ARROW_RGT               | `symbols.ARROW_RGT`               |   →    |
- * | ARROW_LFT               | `symbols.ARROW_LFT`               |   ←    |
- * | ARROW_UPP_RGT           | `symbols.ARROW_UPP_RGT`           |   ↗    |
- * | ARROW_DWN_RGT           | `symbols.ARROW_DWN_RGT`           |   ↘    |
- * | ARROW_DWN_LFT           | `symbols.ARROW_DWN_LFT`           |   ↙    |
- * | ARROW_UPP_LFT           | `symbols.ARROW_UPP_LFT`           |   ↖    |
- * | ARROW_STILL             | `symbols.ARROW_STILL`             |   •    |
- * | ARROW_FLIP_H            | `symbols.ARROW_FLIP_H`            |   ↔    |
- * | ARROW_FLIP_V            | `symbols.ARROW_FLIP_V`            |   ↕    |
- * | ARROW_ROTATE_UPP        | `symbols.ARROW_ROTATE_UPP`        |   ⤴    |
- * | ARROW_ROTATE_DWN        | `symbols.ARROW_ROTATE_DWN`        |   ⤵    |
- * | ARROW_ROTATE_LFT        | `symbols.ARROW_ROTATE_LFT`        |   ⤶    |
- * | ARROW_ROTATE_RGT        | `symbols.ARROW_ROTATE_RGT`        |   ⤷    |
- * | ARROW_ROTATE_CLOCK      | `symbols.ARROW_ROTATE_CLOCK`      |   ↻    |
- * | ARROW_ROTATE_ANTI_CLOCK | `symbols.ARROW_ROTATE_ANTI_CLOCK` |   ↺    |
- * | FRACTION_1_4            | `symbols.FRACTION_1_4`            |   ¼    |
- * | FRACTION_1_2            | `symbols.FRACTION_1_2`            |   ½    |
- * | FRACTION_3_4            | `symbols.FRACTION_3_4`            |   ¾    |
- * | SUPERSCRIPT             | `symbols.SUPERSCRIPT['1']`        |   ¹    |
- * |                         | `symbols.SUPERSCRIPT['2']`        |   ²    |
- * |                         | `symbols.SUPERSCRIPT['3']`        |   ³    |
- * |                         | `symbols.SUPERSCRIPT['4']`        |   ⁴    |
- * |                         | `symbols.SUPERSCRIPT['5']`        |   ⁵    |
- * |                         | `symbols.SUPERSCRIPT['6']`        |   ⁶    |
- * |                         | `symbols.SUPERSCRIPT['7']`        |   ⁷    |
- * |                         | `symbols.SUPERSCRIPT['8']`        |   ⁸    |
- * |                         | `symbols.SUPERSCRIPT['9']`        |   ⁹    |
- * |                         | `symbols.SUPERSCRIPT['0']`        |   ⁰    |
- * |                         | `symbols.SUPERSCRIPT['-']`        |   ⁻    |
- * |                         | `symbols.SUPERSCRIPT['+']`        |   ⁺    |
- * |                         | `symbols.SUPERSCRIPT['=']`        |   ⁼    |
- * |                         | `symbols.SUPERSCRIPT['(']`        |   ⁽    |
- * |                         | `symbols.SUPERSCRIPT[')']`        |   ⁾    |
- * |                         | `symbols.SUPERSCRIPT['i']`        |   ⁱ    |
- * |                         | `symbols.SUPERSCRIPT['n']`        |   ⁿ    |
- * |                         | `symbols.SUPERSCRIPT['o']`        |   °    |
- * |                         | `symbols.SUPERSCRIPT['*']`        |   °    |
+ * | Name                    |                                                  | Symbol |
+ * | :---------------------- | :----------------------------------------------- | :----: |
+ * | TAB                     | `symbols.TAB`                                    |  ` `   |
+ * | TICK                    | `symbols.TICK`                                   |   ✔    |
+ * | CROSS                   | `symbols.CROSS`                                  |   ✖    |
+ * | PLUS                    | `symbols.PLUS`                                   |   +    |
+ * | MINUS                   | `symbols.MINUS`                                  |   -    |
+ * | TIMES                   | `symbols.TIMES`                                  |   ×    |
+ * | DIVIDE                  | `symbols.DIVIDE`                                 |   ÷    |
+ * | ELLIPSIS                | `symbols.ELLIPSIS`                               |   …    |
+ * | BULLET                  | `symbols.BULLET`                                 |   •    |
+ * | EJECT                   | `symbols.EJECT`                                  |   ⏏    |
+ * | TILDE                   | `symbols.TILDE`                                  |   ~    |
+ * | HOME                    | `symbols.HOME`                                   |   ~    |
+ * | RADIO_EMPTY             | `symbols.RADIO_EMPTY`                            |   ◯    |
+ * | RADIO_FULL              | `symbols.RADIO_FULL`                             |   ◉    |
+ * | CURSOR                  | `symbols.CURSOR`                                 |   ❯    |
+ * | CHEV_LFT                | `symbols.CHEV_LFT`                               |   ‹    |
+ * | CHEV_RGT                | `symbols.CHEV_RGT`                               |   ›    |
+ * | CHAIN                   | `symbols.CHAIN`                                  |   ⫘    |
+ * | TRI_UPP                 | `symbols.TRI_UPP`                                |   ▲    |
+ * | TRI_DWN                 | `symbols.TRI_DWN`                                |   ▼    |
+ * | TRI_RGT                 | `symbols.TRI_RGT`                                |   ▶    |
+ * | TRI_LFT                 | `symbols.TRI_LFT`                                |   ◀    |
+ * | ARROW_UPP               | `symbols.ARROW_UPP`                              |   ↑    |
+ * | ARROW_DWN               | `symbols.ARROW_DWN`                              |   ↓    |
+ * | ARROW_RGT               | `symbols.ARROW_RGT`                              |   →    |
+ * | ARROW_LFT               | `symbols.ARROW_LFT`                              |   ←    |
+ * | ARROW_UPP_RGT           | `symbols.ARROW_UPP_RGT`                          |   ↗    |
+ * | ARROW_DWN_RGT           | `symbols.ARROW_DWN_RGT`                          |   ↘    |
+ * | ARROW_DWN_LFT           | `symbols.ARROW_DWN_LFT`                          |   ↙    |
+ * | ARROW_UPP_LFT           | `symbols.ARROW_UPP_LFT`                          |   ↖    |
+ * | ARROW_STILL             | `symbols.ARROW_STILL`                            |   •    |
+ * | ARROW_FLIP_H            | `symbols.ARROW_FLIP_H`                           |   ↔    |
+ * | ARROW_FLIP_V            | `symbols.ARROW_FLIP_V`                           |   ↕    |
+ * | ARROW_ROTATE_UPP        | `symbols.ARROW_ROTATE_UPP`                       |   ⤴    |
+ * | ARROW_ROTATE_DWN        | `symbols.ARROW_ROTATE_DWN`                       |   ⤵    |
+ * | ARROW_ROTATE_LFT        | `symbols.ARROW_ROTATE_LFT`                       |   ⤶    |
+ * | ARROW_ROTATE_RGT        | `symbols.ARROW_ROTATE_RGT`                       |   ⤷    |
+ * | ARROW_ROTATE_CLOCK      | `symbols.ARROW_ROTATE_CLOCK`                     |   ↻    |
+ * | ARROW_ROTATE_ANTI_CLOCK | `symbols.ARROW_ROTATE_ANTI_CLOCK`                |   ↺    |
+ * | FRACTION_1_4            | `symbols.FRACTION_1_4`                           |   ¼    |
+ * | FRACTION_1_2            | `symbols.FRACTION_1_2`                           |   ½    |
+ * | FRACTION_3_4            | `symbols.FRACTION_3_4`                           |   ¾    |
+ * | SUPERSCRIPT             | `symbols.SUPERSCRIPT['1']`                       |   ¹    |
+ * |                         | `symbols.SUPERSCRIPT['2']`                       |   ²    |
+ * |                         | `symbols.SUPERSCRIPT['3']`                       |   ³    |
+ * |                         | `symbols.SUPERSCRIPT['4']`                       |   ⁴    |
+ * |                         | `symbols.SUPERSCRIPT['5']`                       |   ⁵    |
+ * |                         | `symbols.SUPERSCRIPT['6']`                       |   ⁶    |
+ * |                         | `symbols.SUPERSCRIPT['7']`                       |   ⁷    |
+ * |                         | `symbols.SUPERSCRIPT['8']`                       |   ⁸    |
+ * |                         | `symbols.SUPERSCRIPT['9']`                       |   ⁹    |
+ * |                         | `symbols.SUPERSCRIPT['0']`                       |   ⁰    |
+ * |                         | `symbols.SUPERSCRIPT['-']`                       |   ⁻    |
+ * |                         | `symbols.SUPERSCRIPT['+']`                       |   ⁺    |
+ * |                         | `symbols.SUPERSCRIPT['=']`                       |   ⁼    |
+ * |                         | `symbols.SUPERSCRIPT['(']`                       |   ⁽    |
+ * |                         | `symbols.SUPERSCRIPT[')']`                       |   ⁾    |
+ * |                         | `symbols.SUPERSCRIPT['i']`                       |   ⁱ    |
+ * |                         | `symbols.SUPERSCRIPT['n']`                       |   ⁿ    |
+ * |                         | `symbols.SUPERSCRIPT['o']`                       |   °    |
+ * |                         | `symbols.SUPERSCRIPT['*']`                       |   °    |
+ * | BLOCK                   | `symbols.BLOCK.full`                             |   █    |
+ * |                         | `symbols.BLOCK.upperHalf`                        |   ▀    |
+ * |                         | `symbols.BLOCK.lowerOneEighth`                   |   ▁    |
+ * |                         | `symbols.BLOCK.lowerOneQuarter`                  |   ▂    |
+ * |                         | `symbols.BLOCK.lowerThreeEighths`                |   ▃    |
+ * |                         | `symbols.BLOCK.lowerHalf`                        |   ▄    |
+ * |                         | `symbols.BLOCK.lowerFiveEighths`                 |   ▅    |
+ * |                         | `symbols.BLOCK.lowerThreeQuarters`               |   ▆    |
+ * |                         | `symbols.BLOCK.lowerSevenEighths`                |   ▇    |
+ * |                         | `symbols.BLOCK.leftSevenEighths`                 |   ▉    |
+ * |                         | `symbols.BLOCK.leftThreeQuarters`                |   ▊    |
+ * |                         | `symbols.BLOCK.leftFiveEighths`                  |   ▋    |
+ * |                         | `symbols.BLOCK.leftHalf`                         |   ▌    |
+ * |                         | `symbols.BLOCK.leftThreeEighths`                 |   ▍    |
+ * |                         | `symbols.BLOCK.leftOneQuarter`                   |   ▎    |
+ * |                         | `symbols.BLOCK.leftOneEighth`                    |   ▏    |
+ * |                         | `symbols.BLOCK.rightHalf`                        |   ▐    |
+ * |                         | `symbols.BLOCK.upperOneEighth`                   |   ▔    |
+ * |                         | `symbols.BLOCK.rightOneEighth`                   |   ▕    |
+ * | SHADE                   | `symbols.SHADE.light`                            |   ░    |
+ * |                         | `symbols.SHADE.medium`                           |   ▒    |
+ * |                         | `symbols.SHADE.dark`                             |   ▓    |
+ * | QUADRANT                | `symbols.QUADRANT.upperLeft`                     |   ▘    |
+ * |                         | `symbols.QUADRANT.upperRight`                    |   ▝    |
+ * |                         | `symbols.QUADRANT.lowerLeft`                     |   ▖    |
+ * |                         | `symbols.QUADRANT.lowerRight`                    |   ▗    |
+ * |                         | `symbols.QUADRANT.upperLeftLowerLeftLowerRight`  |   ▙    |
+ * |                         | `symbols.QUADRANT.upperLeftLowerRight`           |   ▚    |
+ * |                         | `symbols.QUADRANT.upperLeftUpperRightLowerLeft`  |   ▛    |
+ * |                         | `symbols.QUADRANT.upperLeftUpperRightLowerRight` |   ▜    |
+ * |                         | `symbols.QUADRANT.upperRightLowerLeft`           |   ▞    |
+ * |                         | `symbols.QUADRANT.upperRightLowerLeftLowerRight` |   ▟    |
  */
 declare const symbols: {
+    /** Symbol: `\t` */
     TAB: string;
+    /** Symbol: `✔` */
     TICK: string;
+    /** Symbol: `✖` */
     CROSS: string;
+    /** Symbol: `+` */
     PLUS: string;
+    /** Symbol: `-` */
     MINUS: string;
+    /** Symbol: `×` */
     TIMES: string;
+    /** Symbol: `÷` */
     DIVIDE: string;
+    /** Symbol: `…` */
     ELLIPSIS: string;
+    /** Symbol: `•` */
     BULLET: string;
+    /** Symbol: `⏏` */
     EJECT: string;
+    /** Symbol: `~` */
     TILDE: string;
+    /** Symbol: `~` */
     HOME: string;
+    /** Symbol: `◯` */
     RADIO_EMPTY: string;
+    /** Symbol: `◉` */
     RADIO_FULL: string;
+    /** Symbol: `❯` */
     CURSOR: string;
+    /** Symbol: `‹` */
     CHEV_LFT: string;
+    /** Symbol: `›` */
     CHEV_RGT: string;
+    /** Symbol: `⫘` */
     CHAIN: string;
+    /** Symbol: `▲` */
     TRI_UPP: string;
+    /** Symbol: `▼` */
     TRI_DWN: string;
+    /** Symbol: `▶` */
     TRI_RGT: string;
+    /** Symbol: `◀` */
     TRI_LFT: string;
+    /** Symbol: `↑` */
     ARROW_UPP: string;
+    /** Symbol: `↓` */
     ARROW_DWN: string;
+    /** Symbol: `→` */
     ARROW_RGT: string;
+    /** Symbol: `←` */
     ARROW_LFT: string;
+    /** Symbol: `↗` */
     ARROW_UPP_RGT: string;
+    /** Symbol: `↘` */
     ARROW_DWN_RGT: string;
+    /** Symbol: `↙` */
     ARROW_DWN_LFT: string;
+    /** Symbol: `↖` */
     ARROW_UPP_LFT: string;
+    /** Symbol: `•` */
     ARROW_STILL: string;
+    /** Symbol: `↔` */
     ARROW_FLIP_H: string;
+    /** Symbol: `↕` */
     ARROW_FLIP_V: string;
+    /** Symbol: `⤴` */
     ARROW_ROTATE_UPP: string;
+    /** Symbol: `⤵` */
     ARROW_ROTATE_DWN: string;
+    /** Symbol: `⤶` */
     ARROW_ROTATE_LFT: string;
+    /** Symbol: `⤷` */
     ARROW_ROTATE_RGT: string;
+    /** Symbol: `↻` */
     ARROW_ROTATE_CLOCK: string;
+    /** Symbol: `↺` */
     ARROW_ROTATE_ANTI_CLOCK: string;
+    /** Symbol: `¼` */
     FRACTION_1_4: string;
+    /** Symbol: `½` */
     FRACTION_1_2: string;
+    /** Symbol: `¾` */
     FRACTION_3_4: string;
+    /** Superscript symbols e.g. ¹, ², ³ */
     SUPERSCRIPT: {
+        /** Symbol: `¹` */
         1: string;
+        /** Symbol: `²` */
         2: string;
+        /** Symbol: `³` */
         3: string;
+        /** Symbol: `⁴` */
         4: string;
+        /** Symbol: `⁵` */
         5: string;
+        /** Symbol: `⁶` */
         6: string;
+        /** Symbol: `⁷` */
         7: string;
+        /** Symbol: `⁸` */
         8: string;
+        /** Symbol: `⁹` */
         9: string;
+        /** Symbol: `⁰` */
         0: string;
+        /** Symbol: `⁻` */
         '-': string;
+        /** Symbol: `⁺` */
         '+': string;
+        /** Symbol: `⁼` */
         '=': string;
+        /** Symbol: `⁽` */
         '(': string;
+        /** Symbol: `⁾` */
         ')': string;
+        /** Symbol: `ⁱ` */
         i: string;
+        /** Symbol: `ⁿ` */
         n: string;
+        /** Symbol: `°` */
         o: string;
+        /** Symbol: `°` */
         '*': string;
+    };
+    /** Block symbols e.g. █, ▀, ▌, etc */
+    BLOCK: {
+        /** Symbol: `█` */
+        full: string;
+        /** Symbol: `▀` */
+        upperHalf: string;
+        /** Symbol: `▁` */
+        lowerOneEighth: string;
+        /** Symbol: `▂` */
+        lowerOneQuarter: string;
+        /** Symbol: `▃` */
+        lowerThreeEighths: string;
+        /** Symbol: `▄` */
+        lowerHalf: string;
+        /** Symbol: `▅` */
+        lowerFiveEighths: string;
+        /** Symbol: `▆` */
+        lowerThreeQuarters: string;
+        /** Symbol: `▇` */
+        lowerSevenEighths: string;
+        /** Symbol: `▉` */
+        leftSevenEighths: string;
+        /** Symbol: `▊` */
+        leftThreeQuarters: string;
+        /** Symbol: `▋` */
+        leftFiveEighths: string;
+        /** Symbol: `▌` */
+        leftHalf: string;
+        /** Symbol: `▍` */
+        leftThreeEighths: string;
+        /** Symbol: `▎` */
+        leftOneQuarter: string;
+        /** Symbol: `▏` */
+        leftOneEighth: string;
+        /** Symbol: `▐` */
+        rightHalf: string;
+        /** Symbol: `▔` */
+        upperOneEighth: string;
+        /** Symbol: `▕` */
+        rightOneEighth: string;
+    };
+    /** Shade symbols - ░ ▒ ▓ */
+    SHADE: {
+        /** Symbol: `░` */
+        light: string;
+        /** Symbol: `▒` */
+        medium: string;
+        /** Symbol: `▓` */
+        dark: string;
+    };
+    /** Quadrant block symbols e.g. ▘, ▚, ▟ */
+    QUADRANT: {
+        /** Symbol: `▘` */
+        upperLeft: string;
+        /** Symbol: `▝` */
+        upperRight: string;
+        /** Symbol: `▖` */
+        lowerLeft: string;
+        /** Symbol: `▗` */
+        lowerRight: string;
+        /** Symbol: `▙` */
+        upperLeftLowerLeftLowerRight: string;
+        /** Symbol: `▚` */
+        upperLeftLowerRight: string;
+        /** Symbol: `▛` */
+        upperLeftUpperRightLowerLeft: string;
+        /** Symbol: `▜` */
+        upperLeftUpperRightLowerRight: string;
+        /** Symbol: `▞` */
+        upperRightLowerLeft: string;
+        /** Symbol: `▟` */
+        upperRightLowerLeftLowerRight: string;
     };
 };
 /**<!-- DOCS: superscript ### @ -->
