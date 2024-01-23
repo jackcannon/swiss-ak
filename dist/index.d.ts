@@ -21,6 +21,27 @@
 declare type Partial$1<T> = {
     [K in keyof T]?: T[K];
 };
+/**<!-- DOCS: types.DeepPartial ### -->
+ * DeepPartial<T>
+ *
+ * - `DeepPartial<T>`
+ *
+ * Like Partial, but makes all nested properties optional
+ *
+ * ```typescript
+ * interface ITest {
+ *   a: string;
+ *   b: {
+ *     foo: number;
+ *   };
+ *   c: boolean;
+ * };
+ * type DeepPartialTest = DeepPartial<ITest>; // { a?: string, b?: { foo?: number }, c?: boolean }
+ * ```
+ */
+declare type DeepPartial<T> = {
+    [P in keyof T]?: DeepPartial<T[P]>;
+};
 /**<!-- DOCS: types.KeysOnly ### -->
  * KeysOnly<T>
  *
@@ -4387,6 +4408,35 @@ declare namespace StringTools {
      * @returns {string}
      */
     const replaceAll: (text: string, searchValue: string | RegExp, replacer: string | ((substring: string, ...args: any[]) => string)) => string;
+    /**<!-- DOCS: StringTools.randomId ### @ -->
+     * randomId
+     *
+     * - `StringTools.randomId`
+     *
+     * Generate a random ID.
+     *
+     * Provides a random string of 10 alphanumeric characters, with the option to prefix and/or suffix the string.
+     *
+     * > __Note:__ This is a very simple random ID generator, and is not suitable for use in security contexts, and does not guarantee uniqueness.
+     *
+     * ```typescript
+     * StringTools.randomId(); // 'du9876optw'
+     * StringTools.randomId(); // '7xf8kewrkf'
+     * StringTools.randomId(); // 'bums15yb9n'
+     * StringTools.randomId(); // '8tcl55y4u1'
+     * StringTools.randomId(); // '41pxan1bog'
+     * StringTools.randomId(); // '122pa9czh4'
+     * StringTools.randomId(); // 'iu7xappxtz'
+     *
+     * StringTools.randomId('foo-'); // 'foo-xpynpfiz06'
+     * StringTools.randomId('', '-bar'); // 'dpyq3i2uwq-bar'
+     * StringTools.randomId('foo-', '-bar'); // 'foo-wapluosnf6-bar'
+     * ```
+     * @param {string} [prefix='']
+     * @param {string} [suffix='']
+     * @returns {string}
+     */
+    const randomId: (prefix?: string, suffix?: string) => string;
     /**<!-- DOCS: StringTools.clx ### @ -->
      * clx
      *
@@ -8220,4 +8270,4 @@ interface Cachier<T> {
     create<U>(): Cachier<U>;
 }
 
-export { ArrayTools, CENTURY, Cachier, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, MultiBarManager, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cachier, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getMultiBarManager, getProgressBar, getTimer, group, groupObj, groups, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayTools, CENTURY, Cachier, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeepPartial, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, MultiBarManager, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, ProgressBar, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cachier, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getMultiBarManager, getProgressBar, getTimer, group, groupObj, groups, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

@@ -24,6 +24,28 @@ export type Partial<T> = {
   [K in keyof T]?: T[K];
 };
 
+/**<!-- DOCS: types.DeepPartial ### -->
+ * DeepPartial<T>
+ *
+ * - `DeepPartial<T>`
+ *
+ * Like Partial, but makes all nested properties optional
+ *
+ * ```typescript
+ * interface ITest {
+ *   a: string;
+ *   b: {
+ *     foo: number;
+ *   };
+ *   c: boolean;
+ * };
+ * type DeepPartialTest = DeepPartial<ITest>; // { a?: string, b?: { foo?: number }, c?: boolean }
+ * ```
+ */
+export type DeepPartial<T> = {
+  [P in keyof T]?: DeepPartial<T[P]>;
+};
+
 /**<!-- DOCS: types.KeysOnly ### -->
  * KeysOnly<T>
  *

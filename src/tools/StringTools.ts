@@ -174,6 +174,42 @@ export namespace StringTools {
     return args.text.replace(regex, args.replacer as any);
   };
 
+  /**<!-- DOCS: StringTools.randomId ### @ -->
+   * randomId
+   *
+   * - `StringTools.randomId`
+   *
+   * Generate a random ID.
+   *
+   * Provides a random string of 10 alphanumeric characters, with the option to prefix and/or suffix the string.
+   *
+   * > __Note:__ This is a very simple random ID generator, and is not suitable for use in security contexts, and does not guarantee uniqueness.
+   *
+   * ```typescript
+   * StringTools.randomId(); // 'du9876optw'
+   * StringTools.randomId(); // '7xf8kewrkf'
+   * StringTools.randomId(); // 'bums15yb9n'
+   * StringTools.randomId(); // '8tcl55y4u1'
+   * StringTools.randomId(); // '41pxan1bog'
+   * StringTools.randomId(); // '122pa9czh4'
+   * StringTools.randomId(); // 'iu7xappxtz'
+   *
+   * StringTools.randomId('foo-'); // 'foo-xpynpfiz06'
+   * StringTools.randomId('', '-bar'); // 'dpyq3i2uwq-bar'
+   * StringTools.randomId('foo-', '-bar'); // 'foo-wapluosnf6-bar'
+   * ```
+   * @param {string} [prefix='']
+   * @param {string} [suffix='']
+   * @returns {string}
+   */
+  export const randomId = (prefix: string = '', suffix: string = ''): string => {
+    const args = {
+      prefix: safe.str(prefix, true, ''),
+      suffix: safe.str(suffix, true, '')
+    };
+    return args.prefix + Math.random().toString(36).substr(2, 10).padStart(10, '0') + args.suffix;
+  };
+
   // clx
   const processClxArray = (arr: any): string[] =>
     arr

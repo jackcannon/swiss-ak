@@ -182,6 +182,50 @@ describe('StringTools', () => {
     });
   });
 
+  describe('randomId', () => {
+    singleTest(swissak.StringTools.randomId, 'StringTools.randomId', (randomId, name) => {
+      it(should` exist as ${name}`, () => {
+        expect(randomId).toBeDefined();
+      });
+
+      it(should` return a string`, () => {
+        expect(typeof randomId()).toBe('string');
+      });
+
+      // Test multiple times to ensure it's not a one-off
+      for (let i = 0; i < 20; i++) {
+        describe(`${(i + '').padStart(2, ' ')}/20`, () => {
+          it(should` return a string of length 10`, () => {
+            expect(randomId().length).toBe(10);
+          });
+          it(should` be alphanumeric`, () => {
+            expect(/^[A-Za-z0-9]{10}$/.test(randomId())).toBe(true);
+          });
+          it(should` prefix foo`, () => {
+            expect(randomId('foo').startsWith('foo')).toBe(true);
+          });
+          it(should` prefix bar`, () => {
+            expect(randomId('bar').startsWith('bar')).toBe(true);
+          });
+          it(should` suffix foo`, () => {
+            expect(randomId(undefined, 'foo').endsWith('foo')).toBe(true);
+          });
+          it(should` suffix bar`, () => {
+            expect(randomId(undefined, 'bar').endsWith('bar')).toBe(true);
+          });
+          it(should` prefix foo and suffix bar`, () => {
+            const result = randomId('foo', 'bar');
+            expect(result.startsWith('foo')).toBe(true);
+            expect(result.endsWith('bar')).toBe(true);
+          });
+        });
+      }
+
+      kitchenSink.toEqual('prefix', (v: any) => randomId(v).length, kitchenSink.safe.str(undefined, true, ''), kitchenSink.samples.general);
+      kitchenSink.toEqual('suffix', (v: any) => randomId('', v).length, kitchenSink.safe.str(undefined, true, ''), kitchenSink.samples.general);
+    });
+  });
+
   describe('case handlers', () => {
     interface TestValuesObj {
       array: string[];

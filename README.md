@@ -1944,6 +1944,7 @@ A collection of string utilities
     - [repeat](#stringtools_repeat)
     - [makeRegExpSafe](#makeregexpsafe)
     - [replaceAll](#replaceall)
+    - [randomId](#randomid)
     - [clx](#clx)
     - [**Case Manipulators**](#case-manipulators)
       - [toCamelCase](#tocamelcase)
@@ -2122,6 +2123,43 @@ StringTools.replaceAll(input, 'o', '#') // 'the quick br#wn f#x jumps #ver the l
 | *0* | `text`         | **Yes**  | `string`                                                    |
 | *1* | `searchValue`  | **Yes**  | `string \| RegExp`                                          |
 | *2* | `replacer`     | **Yes**  | `string \| ((substring: string, ...args: any[]) => string)` |
+
+| Return Type |
+|-------------|
+| `string`    |
+
+<p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
+
+### randomId
+
+```typescript
+StringTools.randomId(prefix: string, suffix: string): string
+```
+
+Generate a random ID.
+
+Provides a random string of 10 alphanumeric characters, with the option to prefix and/or suffix the string.
+
+> __Note:__ This is a very simple random ID generator, and is not suitable for use in security contexts, and does not guarantee uniqueness.
+
+```typescript
+StringTools.randomId(); // 'du9876optw'
+StringTools.randomId(); // '7xf8kewrkf'
+StringTools.randomId(); // 'bums15yb9n'
+StringTools.randomId(); // '8tcl55y4u1'
+StringTools.randomId(); // '41pxan1bog'
+StringTools.randomId(); // '122pa9czh4'
+StringTools.randomId(); // 'iu7xappxtz'
+
+StringTools.randomId('foo-'); // 'foo-xpynpfiz06'
+StringTools.randomId('', '-bar'); // 'dpyq3i2uwq-bar'
+StringTools.randomId('foo-', '-bar'); // 'foo-wapluosnf6-bar'
+```
+
+|  #  | Parameter Name | Required | Type     | Default |
+|:---:|:---------------|:---------|:---------|:--------|
+| *0* | `prefix`       | *No*     | `string` | `''`    |
+| *1* | `suffix`       | *No*     | `string` | `''`    |
 
 | Return Type |
 |-------------|
@@ -6431,6 +6469,7 @@ Some commonly used typescript types
 
   - [**Types**](#types)
     - [Partial<T>](#partialt)
+    - [DeepPartial<T>](#deeppartialt)
     - [KeysOnly<T>](#keysonlyt)
     - [Numbered<T>](#numberedt)
     - [OfType<O, T>](#oftypeo-t)
@@ -6453,6 +6492,27 @@ interface ITest {
   b: boolean
 };
 type PartialTest = Partial<ITest>; // { a?: string, b?: boolean }
+```
+
+<p style="text-align: right" align="right"><a href="#types"> [↑ Back to <b>Types</b> ↑] </a></p>
+
+### DeepPartial<T>
+
+```typescript
+DeepPartial<T>;
+```
+
+Like Partial, but makes all nested properties optional
+
+```typescript
+interface ITest {
+  a: string;
+  b: {
+    foo: number;
+  };
+  c: boolean;
+};
+type DeepPartialTest = DeepPartial<ITest>; // { a?: string, b?: { foo?: number }, c?: boolean }
 ```
 
 <p style="text-align: right" align="right"><a href="#types"> [↑ Back to <b>Types</b> ↑] </a></p>

@@ -1,5 +1,6 @@
 import { ArrayTools } from './ArrayTools';
 import { PromiseTools } from './PromiseTools';
+import { StringTools } from './StringTools';
 import { safe } from './safe';
 import { ms } from './times';
 import { wait } from './waiters';
@@ -66,7 +67,7 @@ export class QueueManager {
 
   getPromise(id: string): Promise<any> {
     const args = {
-      id: safe.str(id, false, Math.random().toString(36).slice(2))
+      id: safe.str(id, false, StringTools.randomId())
     };
     const existing = this.promises.get(args.id);
 
@@ -107,7 +108,7 @@ export class QueueManager {
    */
   setPauseTime(id: string, time: ms) {
     const args = {
-      id: safe.str(id, false, Math.random().toString(36).slice(2)),
+      id: safe.str(id, false, StringTools.randomId()),
       time: safe.num(time, true, 0) as ms
     };
     this.pauseTimes.set(args.id, args.time);
@@ -126,7 +127,7 @@ export class QueueManager {
    */
   add<T>(id: string, promiseItem: PromiseTools.PromiseItem<T>): Promise<T> {
     const args = {
-      id: safe.str(id, false, Math.random().toString(36).slice(2)),
+      id: safe.str(id, false, StringTools.randomId()),
       promiseItem: safe.func(promiseItem as any, async () => promiseItem as unknown as T) as () => Promise<T> // functionified like functionifyPromiseItem
     };
     const promise = this.getPromise(args.id).then(async () => {

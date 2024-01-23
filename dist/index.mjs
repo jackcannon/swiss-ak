@@ -1490,6 +1490,13 @@ var StringTools;
     }
     return args.text.replace(regex, args.replacer);
   };
+  StringTools2.randomId = (prefix = "", suffix = "") => {
+    const args = {
+      prefix: safe.str(prefix, true, ""),
+      suffix: safe.str(suffix, true, "")
+    };
+    return args.prefix + Math.random().toString(36).substr(2, 10).padStart(10, "0") + args.suffix;
+  };
   const processClxArray = (arr) => arr.filter(fn.exists).map((item) => {
     if (typeof item === "string")
       return item;
@@ -2490,7 +2497,7 @@ var QueueManager = class {
   }
   getPromise(id) {
     const args = {
-      id: safe.str(id, false, Math.random().toString(36).slice(2))
+      id: safe.str(id, false, StringTools.randomId())
     };
     const existing = this.promises.get(args.id);
     if (existing)
@@ -2507,14 +2514,14 @@ var QueueManager = class {
   }
   setPauseTime(id, time) {
     const args = {
-      id: safe.str(id, false, Math.random().toString(36).slice(2)),
+      id: safe.str(id, false, StringTools.randomId()),
       time: safe.num(time, true, 0)
     };
     this.pauseTimes.set(args.id, args.time);
   }
   add(id, promiseItem) {
     const args = {
-      id: safe.str(id, false, Math.random().toString(36).slice(2)),
+      id: safe.str(id, false, StringTools.randomId()),
       promiseItem: safe.func(promiseItem, async () => promiseItem)
     };
     const promise = this.getPromise(args.id).then(async () => {
