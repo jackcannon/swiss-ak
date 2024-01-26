@@ -36,6 +36,12 @@ describe('symbols', () => {
     it(should` have the BULLET symbol`, () => {
       expect(symbols.BULLET).toEqual('•');
     });
+    it(should` have the BULLET_TRI symbol`, () => {
+      expect(symbols.BULLET_TRI).toEqual('‣');
+    });
+    it(should` have the BULLET_HYP symbol`, () => {
+      expect(symbols.BULLET_HYP).toEqual('⁃');
+    });
     it(should` have the EJECT symbol`, () => {
       expect(symbols.EJECT).toEqual('⏏');
     });
