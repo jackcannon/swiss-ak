@@ -2498,6 +2498,8 @@ var symbols = {
   DIVIDE: "\xF7",
   ELLIPSIS: "\u2026",
   BULLET: "\u2022",
+  BULLET_TRI: "\u2023",
+  BULLET_HYP: "\u2043",
   EJECT: "\u23CF",
   TILDE: "~",
   HOME: "~",

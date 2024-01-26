@@ -7004,6 +7004,8 @@ declare namespace TimeTools {
  * | DIVIDE                  | `symbols.DIVIDE`                                 |   ÷    |
  * | ELLIPSIS                | `symbols.ELLIPSIS`                               |   …    |
  * | BULLET                  | `symbols.BULLET`                                 |   •    |
+ * | BULLET_TRI              | `symbols.BULLET_TRI`                             |   ‣    |
+ * | BULLET_HYP              | `symbols.BULLET_HYP`                             |   ⁃    |
  * | EJECT                   | `symbols.EJECT`                                  |   ⏏    |
  * | TILDE                   | `symbols.TILDE`                                  |   ~    |
  * | HOME                    | `symbols.HOME`                                   |   ~    |
@@ -7108,6 +7110,10 @@ declare const symbols: {
     ELLIPSIS: string;
     /** Symbol: `•` */
     BULLET: string;
+    /** Symbol: `‣` */
+    BULLET_TRI: string;
+    /** Symbol: `⁃` */
+    BULLET_HYP: string;
     /** Symbol: `⏏` */
     EJECT: string;
     /** Symbol: `~` */

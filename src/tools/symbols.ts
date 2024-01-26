@@ -18,6 +18,8 @@
  * | DIVIDE                  | `symbols.DIVIDE`                                 |   ÷    |
  * | ELLIPSIS                | `symbols.ELLIPSIS`                               |   …    |
  * | BULLET                  | `symbols.BULLET`                                 |   •    |
+ * | BULLET_TRI              | `symbols.BULLET_TRI`                             |   ‣    |
+ * | BULLET_HYP              | `symbols.BULLET_HYP`                             |   ⁃    |
  * | EJECT                   | `symbols.EJECT`                                  |   ⏏    |
  * | TILDE                   | `symbols.TILDE`                                  |   ~    |
  * | HOME                    | `symbols.HOME`                                   |   ~    |
@@ -123,6 +125,10 @@ export const symbols = {
   ELLIPSIS: '…',
   /** Symbol: `•` */
   BULLET: '•',
+  /** Symbol: `‣` */
+  BULLET_TRI: '‣',
+  /** Symbol: `⁃` */
+  BULLET_HYP: '⁃',
   /** Symbol: `⏏` */
   EJECT: '⏏',
   /** Symbol: `~` */
