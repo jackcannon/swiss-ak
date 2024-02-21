@@ -6470,6 +6470,7 @@ A type for defining what is required for a property of an object when using `saf
 Some commonly used typescript types
 
   - [**Types**](#types)
+    - [Prettify<T>](#prettifyt)
     - [Partial<T>](#partialt)
     - [DeepPartial<T>](#deeppartialt)
     - [KeysOnly<T>](#keysonlyt)
@@ -6479,6 +6480,24 @@ Some commonly used typescript types
     - [RemapOf<O, T>](#remapofo-t)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+### Prettify<T>
+
+```typescript
+Prettify<T>;
+```
+
+Makes joined types more readable
+
+```typescript
+type A = {name: string};
+type B = {age: number};
+
+type NormalAB = A & B; // A & B
+type PrettyAB = Prettify<A & B>; // {name: string; age: number;}
+```
+
+<p style="text-align: right" align="right"><a href="#types"> [↑ Back to <b>Types</b> ↑] </a></p>
 
 ### Partial<T>
 

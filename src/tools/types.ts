@@ -5,6 +5,25 @@
  * Some commonly used typescript types
  */
 
+/**<!-- DOCS: types.Prettify ### -->
+ * Prettify<T>
+ *
+ * - `Prettify<T>`
+ *
+ * Makes joined types more readable
+ *
+ * ```typescript
+ * type A = {name: string};
+ * type B = {age: number};
+ *
+ * type NormalAB = A & B; // A & B
+ * type PrettyAB = Prettify<A & B>; // {name: string; age: number;}
+ * ```
+ */
+export type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};
+
 /**<!-- DOCS: types.Partial ### -->
  * Partial<T>
  *
