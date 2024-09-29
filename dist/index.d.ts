@@ -8294,4 +8294,64 @@ interface Cachier<T> {
     create<U>(): Cachier<U>;
 }
 
-export { ArrayTools, CENTURY, Cachier, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeepPartial, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, MultiBarManager, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, Prettify, ProgressBar, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cachier, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getMultiBarManager, getProgressBar, getTimer, group, groupObj, groups, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, partition, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+/**<!-- DOCS: onDemand ## @ -->
+ * onDemand
+ *
+ * - `onDemand<T>`
+ *
+ * A way of deferring the evaluation of object properties until they are accessed.
+ *
+ * Provide it with an object where the values are either raw values or functions that return the value, and it will give you back a new object where the values are only evaluated when accessed.
+ *
+ * ```typescript
+ * const demanded = onDemand({
+ *   name: () => 'foo',
+ *   random: () => Math.floor(Math.random() * 1000),
+ *   data: () => ({lorem: 'ipsum'}),
+ *   func: () => {
+ *     const randomLetter1 = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+ *     return () => {
+ *       const randomLetter2 = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+ *       return `${randomLetter1}-${randomLetter2}`;
+ *     }
+ *   },
+ *   age: 30
+ * });
+ *
+ * // access a value
+ * demanded.name; // 'foo'
+ *
+ * // overwrite a value
+ * demanded.name = 'bar';
+ * demanded.name; // 'bar'
+ *
+ * // getters are cached, so only execute once, and always return the same value
+ * demanded.random // 701
+ * demanded.random // 701
+ * demanded.data === demanded.data // true
+ *
+ * // getters can return functions
+ * demanded.func(); // 'J-A'
+ * demanded.func(); // 'J-M'
+ * demanded.func(); // 'J-K'
+ * demanded.func(); // 'J-S'
+ *
+ * // You can also just provide raw values without needing a getter
+ * demanded.age; // 30
+ *
+ * type Example = typeof demanded; // {
+ *   //  name: string;
+ *   //  random: number;
+ *   //  data: {
+ *   //      lorem: string;
+ *   //  };
+ *   //  func: () => string;
+ *   //  age: number;
+ *   //}
+ * ```
+ * @param {OnDemandInputObject<T>} input
+ * @returns {T}
+ */
+declare const onDemand: <T extends Object = Object>(input: { [K_1 in keyof T]: T[K_1] extends (...args: any[]) => infer R ? () => T[K_1] : T[K_1] | (() => T[K_1]); } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: T[K_1] extends (...args: any[]) => infer R ? () => T[K_1] : T[K_1] | (() => T[K_1]); }[K]; } : never) => T;
+
+export { ArrayTools, CENTURY, Cachier, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeepPartial, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, MultiBarManager, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, Prettify, ProgressBar, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cachier, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getMultiBarManager, getProgressBar, getTimer, group, groupObj, groups, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, onDemand, partition, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

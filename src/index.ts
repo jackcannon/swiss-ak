@@ -16,3 +16,4 @@ export * from './tools/symbols';
 export * from './tools/queue';
 export * from './tools/safe';
 export * from './tools/cachier';
+export * from './tools/onDemand';

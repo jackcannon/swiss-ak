@@ -2622,6 +2622,30 @@ var cachierFactory = () => {
   };
 };
 var cachier = cachierFactory();
+
+// src/tools/onDemand.ts
+var onDemand = (input) => {
+  const result = {};
+  const cache = {};
+  const keys = Object.keys(input);
+  const get = (key) => () => {
+    if (cache[key])
+      return cache[key];
+    const func = input[key];
+    const r = typeof func === "function" ? func() : func;
+    cache[key] = r;
+    return r;
+  };
+  const set = (key) => (value) => cache[key] = value;
+  for (let key of keys) {
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      get: get(key),
+      set: set(key)
+    });
+  }
+  return result;
+};
 export {
   ArrayTools,
   CENTURY,
@@ -2677,6 +2701,7 @@ export {
   milliseconds,
   minutes,
   months,
+  onDemand,
   partition,
   progressBar,
   queue,

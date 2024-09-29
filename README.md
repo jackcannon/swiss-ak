@@ -18,6 +18,8 @@ A collection of useful little things that I like to reuse across projects
     - [**ErrorTools**](#errortools)
     - [**progressBar**](#progressbar)
     - [**Cachier**](#cachier_title)
+    - [**onDemand**](#ondemand)
+      - [OnDemandInputObject](#ondemandinputobject)
     - [**symbols**](#symbols)
     - [**queue**](#queue)
     - [**timer**](#timer)
@@ -5130,6 +5132,85 @@ Cachier<T>;
 Type for a cachier object.
 
 <p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+## onDemand
+
+```typescript
+onDemand<T>(input: OnDemandInputObject<T>): T
+```
+
+A way of deferring the evaluation of object properties until they are accessed.
+
+Provide it with an object where the values are either raw values or functions that return the value, and it will give you back a new object where the values are only evaluated when accessed.
+
+```typescript
+const demanded = onDemand({
+  name: () => 'foo',
+  random: () => Math.floor(Math.random() * 1000),
+  data: () => ({lorem: 'ipsum'}),
+  func: () => {
+    const randomLetter1 = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+    return () => {
+      const randomLetter2 = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+      return `${randomLetter1}-${randomLetter2}`;
+    }
+  },
+  age: 30
+});
+
+// access a value
+demanded.name; // 'foo'
+
+// overwrite a value
+demanded.name = 'bar';
+demanded.name; // 'bar'
+
+// getters are cached, so only execute once, and always return the same value
+demanded.random // 701
+demanded.random // 701
+demanded.data === demanded.data // true
+
+// getters can return functions
+demanded.func(); // 'J-A'
+demanded.func(); // 'J-M'
+demanded.func(); // 'J-K'
+demanded.func(); // 'J-S'
+
+// You can also just provide raw values without needing a getter
+demanded.age; // 30
+
+type Example = typeof demanded; // {
+  //  name: string;
+  //  random: number;
+  //  data: {
+  //      lorem: string;
+  //  };
+  //  func: () => string;
+  //  age: number;
+  //}
+```
+
+|  #  | Parameter Name | Required | Type                     |
+|:---:|:---------------|:---------|:-------------------------|
+| *0* | `input`        | **Yes**  | `OnDemandInputObject<T>` |
+
+| Return Type |
+|-------------|
+| `T`         |
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+
+### OnDemandInputObject
+
+```typescript
+OnDemandInputObject<T>;
+```
+
+A type that takes an object and makes all the values either functions that return the value, or the value itself.
+
+Input type for the `onDemand` function.
+
+<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
 ## symbols
 

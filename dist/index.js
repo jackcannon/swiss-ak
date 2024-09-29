@@ -73,6 +73,7 @@ __export(src_exports, {
   milliseconds: () => milliseconds,
   minutes: () => minutes,
   months: () => months,
+  onDemand: () => onDemand,
   partition: () => partition,
   progressBar: () => progressBar,
   queue: () => queue,
@@ -2731,6 +2732,30 @@ var cachierFactory = () => {
   };
 };
 var cachier = cachierFactory();
+
+// src/tools/onDemand.ts
+var onDemand = (input) => {
+  const result = {};
+  const cache = {};
+  const keys = Object.keys(input);
+  const get = (key) => () => {
+    if (cache[key])
+      return cache[key];
+    const func = input[key];
+    const r = typeof func === "function" ? func() : func;
+    cache[key] = r;
+    return r;
+  };
+  const set = (key) => (value) => cache[key] = value;
+  for (let key of keys) {
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      get: get(key),
+      set: set(key)
+    });
+  }
+  return result;
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ArrayTools,
@@ -2787,6 +2812,7 @@ var cachier = cachierFactory();
   milliseconds,
   minutes,
   months,
+  onDemand,
   partition,
   progressBar,
   queue,
