@@ -8390,7 +8390,7 @@ interface Cachier<T> {
  * @param {OnDemandInputObject<T>} input
  * @returns {T}
  */
-declare const onDemand: <T extends Record<string, any>>(input: OnDemandInputObject<T>) => { [K in keyof T]: T[K]; };
+declare const onDemand: <T extends Record<string, any>>(input: OnDemandInputObject<T>) => T;
 /**<!-- DOCS: onDemand.OnDemandInputObject ### -->
  * OnDemandInputObject
  *

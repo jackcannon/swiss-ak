@@ -61,7 +61,7 @@ import { safe } from './safe';
  * @param {OnDemandInputObject<T>} input
  * @returns {T}
  */
-export const onDemand = <T extends Record<string, any>>(input: OnDemandInputObject<T>): Prettify<T> => {
+export const onDemand = <T extends Record<string, any>>(input: OnDemandInputObject<T>): T => {
   const args = {
     input: safe.obj(input, true, {} as T)
   };
