@@ -4866,6 +4866,8 @@ Useful for storing values that are expensive to calculate, or that you want to r
       - [remove](#cachier_cachier_remove)
       - [clear](#clear)
       - [getAll](#getall)
+      - [getDefaultExpiresIn](#getdefaultexpiresin)
+      - [setDefaultExpiresIn](#setdefaultexpiresin)
       - [create](#cachier_cachier_create)
     - [Cachier<T>](#cachiert)
 
@@ -4944,8 +4946,8 @@ cachier.get('foo'); // { "name": "foo" }
 #### getOrSave
 
 ```typescript
-cachier.getOrSave(id: string, orValue: T): T
-cachier.create().getOrSave(id: string, orValue: T): T
+cachier.getOrSave(id: string, orValue: T, expiresIn: ms): T
+cachier.create().getOrSave(id: string, orValue: T, expiresIn: ms): T
 ```
 
 Get a cached item by id, or save a new item if it doesn't exist.
@@ -4958,10 +4960,11 @@ cachier.getOrSave('foo', { name: 'SOMETHING DIFFERENT' }); // { "name": "lorem" 
 cachier.get('foo'); // { "name": "lorem" }
 ```
 
-|  #  | Parameter Name | Required | Type     |
-|:---:|:---------------|:---------|:---------|
-| *0* | `id`           | **Yes**  | `string` |
-| *1* | `orValue`      | **Yes**  | `T`      |
+|  #  | Parameter Name | Required | Type     | Default                 |
+|:---:|:---------------|:---------|:---------|:------------------------|
+| *0* | `id`           | **Yes**  | `string` |                         |
+| *1* | `orValue`      | **Yes**  | `T`      |                         |
+| *2* | `expiresIn`    | *No*     | `ms`     | `getDefaultExpiresIn()` |
 
 | Return Type |
 |-------------|
@@ -4972,8 +4975,8 @@ cachier.get('foo'); // { "name": "lorem" }
 #### getOrRun
 
 ```typescript
-cachier.getOrRun(id: string, orFunc: (id?: string) => T): T
-cachier.create().getOrRun(id: string, orFunc: (id?: string) => T): T
+cachier.getOrRun(id: string, orFunc: (id?: string) => T, expiresIn: ms): T
+cachier.create().getOrRun(id: string, orFunc: (id?: string) => T, expiresIn: ms): T
 ```
 
 Get a cached item by id, or run a function to create a new item if it doesn't exist.
@@ -4988,10 +4991,11 @@ cachier.getOrRun('foo', () => ({ name: 'SOMETHING DIFFERENT' })); // { "name": "
 cachier.get('foo'); // { "name": "lorem" }
 ```
 
-|  #  | Parameter Name | Required | Type                 |
-|:---:|:---------------|:---------|:---------------------|
-| *0* | `id`           | **Yes**  | `string`             |
-| *1* | `orFunc`       | **Yes**  | `(id?: string) => T` |
+|  #  | Parameter Name | Required | Type                 | Default                 |
+|:---:|:---------------|:---------|:---------------------|:------------------------|
+| *0* | `id`           | **Yes**  | `string`             |                         |
+| *1* | `orFunc`       | **Yes**  | `(id?: string) => T` |                         |
+| *2* | `expiresIn`    | *No*     | `ms`                 | `getDefaultExpiresIn()` |
 
 | Return Type |
 |-------------|
@@ -5002,8 +5006,8 @@ cachier.get('foo'); // { "name": "lorem" }
 #### save
 
 ```typescript
-cachier.save(id: string, item: T): T
-cachier.create().save(id: string, item: T): T
+cachier.save(id: string, item: T, expiresIn: ms): T
+cachier.create().save(id: string, item: T, expiresIn: ms): T
 ```
 
 Save an item to the cache.
@@ -5013,10 +5017,11 @@ cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
 cachier.get('foo'); // { "name": "foo" }
 ```
 
-|  #  | Parameter Name | Required | Type     |
-|:---:|:---------------|:---------|:---------|
-| *0* | `id`           | **Yes**  | `string` |
-| *1* | `item`         | **Yes**  | `T`      |
+|  #  | Parameter Name | Required | Type     | Default                 |
+|:---:|:---------------|:---------|:---------|:------------------------|
+| *0* | `id`           | **Yes**  | `string` |                         |
+| *1* | `item`         | **Yes**  | `T`      |                         |
+| *2* | `expiresIn`    | *No*     | `ms`     | `getDefaultExpiresIn()` |
 
 | Return Type |
 |-------------|
@@ -5077,8 +5082,8 @@ cachier.getAll(); // {}
 #### getAll
 
 ```typescript
-cachier.getAll(): ObjOfType<T>
-cachier.create().getAll(): ObjOfType<T>
+cachier.getAll(): Record<string, T>
+cachier.create().getAll(): Record<string, T>
 ```
 
 Get all items from the cache.
@@ -5091,17 +5096,63 @@ cachier.save('baz', { name: 'baz' });
 cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz": { "name": "baz" } }
 ```
 
-| Return Type    |
-|----------------|
-| `ObjOfType<T>` |
+| Return Type         |
+|---------------------|
+| `Record<string, T>` |
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+#### getDefaultExpiresIn
+
+```typescript
+cachier.getDefaultExpiresIn(): ms
+cachier.create().getDefaultExpiresIn(): ms
+```
+
+Get the default expiration time for items in the cache.
+
+```typescript
+cachier.getDefaultExpiresIn(); // Infinity
+cachier.setDefaultExpiresIn(1000);
+cachier.getDefaultExpiresIn(); // 1000
+```
+
+| Return Type |
+|-------------|
+| `ms`        |
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+#### setDefaultExpiresIn
+
+```typescript
+cachier.setDefaultExpiresIn(newValue: ms): ms
+cachier.create().setDefaultExpiresIn(newValue: ms): ms
+```
+
+Set the default expiration time for items in the cache.
+
+```typescript
+cachier.getDefaultExpiresIn(); // Infinity
+cachier.setDefaultExpiresIn(1000);
+cachier.getDefaultExpiresIn(); // 1000
+```
+
+|  #  | Parameter Name | Required | Type | Default    |
+|:---:|:---------------|:---------|:-----|:-----------|
+| *0* | `newValue`     | *No*     | `ms` | `Infinity` |
+
+| Return Type |
+|-------------|
+| `ms`        |
 
 <p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
 
 #### <span id="cachier_cachier_create">create</span>
 
 ```typescript
-cachier.create<T>(): Cachier<U>
-cachier.create().create<T>(): Cachier<U>
+cachier.create<T>(defaultExpiresIn: ms): Cachier<U>
+cachier.create().create<T>(defaultExpiresIn: ms): Cachier<U>
 ```
 
 Create a new isolated cachier object with a specific type.
@@ -5115,6 +5166,10 @@ cachier.save('foo', { name: 'foo' });
 numCache.getAll(); // { "bar": 123 }
 cachier.getAll(); // { "foo": { "name": "foo" } }
 ```
+
+|  #  | Parameter Name     | Required | Type | Default    |
+|:---:|:-------------------|:---------|:-----|:-----------|
+| *0* | `defaultExpiresIn` | *No*     | `ms` | `Infinity` |
 
 | Return Type  |
 |--------------|

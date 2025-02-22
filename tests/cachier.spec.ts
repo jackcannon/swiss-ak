@@ -73,6 +73,25 @@ describe('cachier', () => {
           expect(cache.get('foo')).toEqual({ name: 'BAR' });
         });
 
+        it(should` respect the expiresIn parameter`, async () => {
+          const cache = cachier.create();
+
+          // Save with 100ms expiry
+          cache.getOrSave('temp', 'value', 100);
+
+          // Should exist initially
+          expect(cache.get('temp')).toBe('value');
+
+          // Wait 200ms (longer than expiry)
+          await new Promise((resolve) => setTimeout(resolve, 200));
+
+          // Should be gone
+          expect(cache.get('temp')).toBeUndefined();
+
+          // Should save new value when expired
+          expect(cache.getOrSave('temp', 'new value')).toBe('new value');
+        });
+
         kitchenSink.toEqual(
           'id',
           (v: any) => {
@@ -92,6 +111,16 @@ describe('cachier', () => {
           },
           (v) => v,
           kitchenSink.samples.general
+        );
+        kitchenSink.toEqual(
+          'expiresIn',
+          (v: any) => {
+            const cache = cachier.create();
+            cache.getOrSave('foo', 'value', v);
+            return cache.get('foo');
+          },
+          kitchenSink.safe.num(undefined, false, undefined, undefined, Infinity),
+          kitchenSink.samples.num
         );
       }
     );
@@ -120,6 +149,31 @@ describe('cachier', () => {
           expect(cache.get('foo')).toEqual({ name: 'BAR' });
         });
 
+        it(should` respect the expiresIn parameter`, async () => {
+          const cache = cachier.create();
+          let runCount = 0;
+
+          const getValue = () => {
+            runCount++;
+            return `value${runCount}`;
+          };
+
+          // Save with 100ms expiry
+          expect(cache.getOrRun('temp', getValue, 100)).toBe('value1');
+          expect(runCount).toBe(1);
+
+          // Should return cached value
+          expect(cache.getOrRun('temp', getValue, 100)).toBe('value1');
+          expect(runCount).toBe(1);
+
+          // Wait 200ms (longer than expiry)
+          await new Promise((resolve) => setTimeout(resolve, 200));
+
+          // Should run function again after expiry
+          expect(cache.getOrRun('temp', getValue, 100)).toBe('value2');
+          expect(runCount).toBe(2);
+        });
+
         kitchenSink.toEqual(
           'id',
           (v: any) => {
@@ -139,6 +193,16 @@ describe('cachier', () => {
           },
           kitchenSink.safe.func(undefined),
           kitchenSink.samples.general
+        );
+        kitchenSink.toEqual(
+          'expiresIn',
+          (v: any) => {
+            const cache = cachier.create();
+            cache.getOrRun('foo', () => 'value', v);
+            return cache.get('foo');
+          },
+          kitchenSink.safe.num(undefined, false, undefined, undefined, Infinity),
+          kitchenSink.samples.num
         );
       }
     );
@@ -168,6 +232,22 @@ describe('cachier', () => {
           expect(cache.get('foo')).toEqual({ name: 'BAR' });
         });
 
+        it(should` respect the expiresIn parameter`, async () => {
+          const cache = cachier.create();
+
+          // Save with 100ms expiry
+          cache.save('temp', 'value', 100);
+
+          // Should exist initially
+          expect(cache.get('temp')).toBe('value');
+
+          // Wait 200ms (longer than expiry)
+          await new Promise((resolve) => setTimeout(resolve, 200));
+
+          // Should be gone
+          expect(cache.get('temp')).toBeUndefined();
+        });
+
         kitchenSink.toEqual(
           'id',
           (v: any) => {
@@ -185,6 +265,16 @@ describe('cachier', () => {
           },
           (v) => v,
           kitchenSink.samples.general
+        );
+        kitchenSink.toEqual(
+          'expiresIn',
+          (v: any) => {
+            const cache = cachier.create();
+            cache.save('foo', 'value', v);
+            return cache.get('foo');
+          },
+          kitchenSink.safe.num(undefined, false, undefined, undefined, Infinity),
+          kitchenSink.samples.num
         );
       }
     );
@@ -295,6 +385,84 @@ describe('cachier', () => {
           expect(cache.getAll()).toEqual({ foo: { name: 'foo' } });
           expect(cache2.getAll()).toEqual({ foo: { name: 'BAR' } });
         });
+      }
+    );
+  });
+
+  describe('getDefaultExpiresIn', () => {
+    multiTest(
+      [
+        [swissak.cachier, 'cachier'],
+        [swissak.cachier.create(), 'cachier.create()']
+      ],
+      (cachier, name) => {
+        it(should` exist as ${name + '.getDefaultExpiresIn'}`, () => {
+          expect(cachier.getDefaultExpiresIn).toBeDefined();
+        });
+
+        it(should` return Infinity by default`, () => {
+          const cache = cachier.create();
+          expect(cache.getDefaultExpiresIn()).toBe(Infinity);
+        });
+
+        it(should` return the value set by setDefaultExpiresIn`, () => {
+          const cache = cachier.create();
+          cache.setDefaultExpiresIn(1000);
+          expect(cache.getDefaultExpiresIn()).toBe(1000);
+        });
+      }
+    );
+  });
+
+  describe('setDefaultExpiresIn', () => {
+    multiTest(
+      [
+        [swissak.cachier, 'cachier'],
+        [swissak.cachier.create(), 'cachier.create()']
+      ],
+      (cachier, name) => {
+        it(should` exist as ${name + '.setDefaultExpiresIn'}`, () => {
+          expect(cachier.setDefaultExpiresIn).toBeDefined();
+        });
+
+        it(should` set the default expiration time`, () => {
+          const cache = cachier.create();
+          cache.setDefaultExpiresIn(1000);
+          expect(cache.getDefaultExpiresIn()).toBe(1000);
+        });
+
+        it(should` affect new items but not existing ones`, async () => {
+          const cache = cachier.create();
+
+          // Save with default (Infinity)
+          cache.save('infinite', 'value');
+
+          // Change default to 100ms
+          cache.setDefaultExpiresIn(100);
+
+          // Save with new default
+          cache.save('temporary', 'value');
+
+          // Wait 200ms (longer than expiry)
+          await new Promise((resolve) => setTimeout(resolve, 200));
+
+          // Infinite item should still exist
+          expect(cache.get('infinite')).toBe('value');
+
+          // Temporary item should be gone
+          expect(cache.get('temporary')).toBeUndefined();
+        });
+
+        kitchenSink.toEqual(
+          'expiresIn',
+          (v: any) => {
+            const cache = cachier.create();
+            cache.setDefaultExpiresIn(v);
+            return cache.getDefaultExpiresIn();
+          },
+          kitchenSink.safe.num(undefined, false, undefined, undefined, Infinity),
+          kitchenSink.samples.num
+        );
       }
     );
   });

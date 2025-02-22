@@ -8174,9 +8174,10 @@ interface Cachier<T> {
      * ```
      * @param {string} id
      * @param {T} orValue
+     * @param {ms} [expiresIn=getDefaultExpiresIn()]
      * @returns {T}
      */
-    getOrSave(id: string, orValue: T): T;
+    getOrSave(id: string, orValue: T, expiresIn?: ms): T;
     /**<!-- DOCS: cachier.Cachier.getOrRun #### -->
      * getOrRun
      *
@@ -8196,9 +8197,10 @@ interface Cachier<T> {
      * ```
      * @param {string} id
      * @param {(id?: string) => T} orFunc
+     * @param {ms} [expiresIn=getDefaultExpiresIn()]
      * @returns {T}
      */
-    getOrRun(id: string, orFunc: (id?: string) => T): T;
+    getOrRun(id: string, orFunc: (id?: string) => T, expiresIn?: ms): T;
     /**<!-- DOCS: cachier.Cachier.save #### -->
      * save
      *
@@ -8213,9 +8215,10 @@ interface Cachier<T> {
      * ```
      * @param {string} id
      * @param {T} item
+     * @param {ms} [expiresIn=getDefaultExpiresIn()]
      * @returns {T}
      */
-    save(id: string, item: T): T;
+    save(id: string, item: T, expiresIn?: ms): T;
     /**<!-- DOCS: cachier.Cachier.remove #### -->
      * remove
      *
@@ -8268,9 +8271,43 @@ interface Cachier<T> {
      *
      * cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz": { "name": "baz" } }
      * ```
-     * @returns {ObjOfType<T>}
+     * @returns {Record<string, T>}
      */
-    getAll(): ObjOfType<T>;
+    getAll(): Record<string, T>;
+    /**<!-- DOCS: cachier.Cachier.getDefaultExpiresIn #### -->
+     * getDefaultExpiresIn
+     *
+     * - `cachier.getDefaultExpiresIn`
+     * - `cachier.create().getDefaultExpiresIn`
+     *
+     * Get the default expiration time for items in the cache.
+     *
+     * ```typescript
+     * cachier.getDefaultExpiresIn(); // Infinity
+     * cachier.setDefaultExpiresIn(1000);
+     * cachier.getDefaultExpiresIn(); // 1000
+     * ```
+     * @returns {ms}
+     */
+    getDefaultExpiresIn(): ms;
+    /**<!-- DOCS: cachier.Cachier.setDefaultExpiresIn #### -->
+     * setDefaultExpiresIn
+     *
+     * - `cachier.setDefaultExpiresIn`
+     * - `cachier.create().setDefaultExpiresIn`
+     *
+     * Set the default expiration time for items in the cache.
+     *
+     * ```typescript
+     * cachier.getDefaultExpiresIn(); // Infinity
+     * cachier.setDefaultExpiresIn(1000);
+     * cachier.getDefaultExpiresIn(); // 1000
+     * ```
+     *
+     * @param {ms} [newValue=Infinity]
+     * @returns {ms}
+     */
+    setDefaultExpiresIn(newValue?: ms): ms;
     /**<!-- DOCS: cachier.Cachier.create #### -->
      * create
      *
@@ -8289,9 +8326,10 @@ interface Cachier<T> {
      * cachier.getAll(); // { "foo": { "name": "foo" } }
      * ```
      *
+     * @param {ms} [defaultExpiresIn=Infinity]
      * @returns {Cachier<U>}
      */
-    create<U>(): Cachier<U>;
+    create<U>(defaultExpiresIn?: ms): Cachier<U>;
 }
 
 /**<!-- DOCS: onDemand ##! @ -->

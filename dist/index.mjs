@@ -2552,51 +2552,75 @@ var QueueManager = class {
 var queue = new QueueManager();
 
 // src/tools/cachier.ts
-var cachierFactory = () => {
+var cachierFactory = (defaultExpiresIn = Infinity) => {
   let storedItems = {};
+  let defExpiresInVal = defaultExpiresIn;
+  const getValidatedValue = (id) => {
+    const item = storedItems[id];
+    if (item === void 0)
+      return { hasValidValue: false };
+    if (item.expires < Date.now()) {
+      delete storedItems[id];
+      return { hasValidValue: false };
+    }
+    return { hasValidValue: true, value: item.value };
+  };
   const get = (id) => {
     const args = {
       id: safe.str(id, false, "NO-ID")
     };
-    return storedItems[args.id];
+    const valid = getValidatedValue(args.id);
+    return valid.hasValidValue ? valid.value : void 0;
   };
-  const getOrSave = (id, orValue) => {
+  const getOrSave = (id, orValue, expiresIn = getDefaultExpiresIn()) => {
     const args = {
       id: safe.str(id, false, "NO-ID"),
-      orValue
+      orValue,
+      expiresIn: safe.num(expiresIn, false, void 0, void 0, getDefaultExpiresIn())
     };
     try {
-      const existing = storedItems[args.id];
-      if (existing !== void 0)
-        return existing;
-      storedItems[args.id] = args.orValue;
+      const valid = getValidatedValue(args.id);
+      if (valid.hasValidValue)
+        return valid.value;
+      storedItems[args.id] = {
+        expires: Date.now() + args.expiresIn,
+        value: args.orValue
+      };
       return args.orValue;
     } catch (err) {
       return void 0;
     }
   };
-  const getOrRun = (id, orFunc) => {
+  const getOrRun = (id, orFunc, expiresIn = getDefaultExpiresIn()) => {
     const args = {
       id: safe.str(id, false, "NO-ID"),
-      orFunc: safe.func(orFunc)
+      orFunc: safe.func(orFunc),
+      expiresIn: safe.num(expiresIn, false, void 0, void 0, getDefaultExpiresIn())
     };
     try {
-      const existing = storedItems[args.id];
-      if (existing !== void 0)
-        return existing;
+      const valid = getValidatedValue(args.id);
+      if (valid.hasValidValue)
+        return valid.value;
       const newItem = args.orFunc(args.id);
-      storedItems[args.id] = newItem;
+      storedItems[args.id] = {
+        expires: Date.now() + args.expiresIn,
+        value: newItem
+      };
       return newItem;
     } catch (err) {
       return void 0;
     }
   };
-  const save = (id, item) => {
+  const save = (id, item, expiresIn = getDefaultExpiresIn()) => {
     const args = {
       id: safe.str(id, false, "NO-ID"),
-      item
+      item,
+      expiresIn: safe.num(expiresIn, false, void 0, void 0, getDefaultExpiresIn())
     };
-    storedItems[args.id] = args.item;
+    storedItems[args.id] = {
+      expires: Date.now() + args.expiresIn,
+      value: args.item
+    };
     return args.item;
   };
   const remove = (id) => {
@@ -2608,8 +2632,19 @@ var cachierFactory = () => {
   const clear = () => {
     storedItems = {};
   };
-  const getAll = () => ({ ...storedItems });
-  const create2 = () => cachierFactory();
+  const getAll = () => {
+    const entries2 = Object.keys(storedItems).map((id) => [id, getValidatedValue(id)]).filter(([_, { hasValidValue }]) => hasValidValue).map(([id, { value }]) => [id, value]);
+    return Object.fromEntries(entries2);
+  };
+  const getDefaultExpiresIn = () => defExpiresInVal;
+  const setDefaultExpiresIn = (newValue = Infinity) => {
+    const args = {
+      newValue: safe.num(newValue, false, void 0, void 0, Infinity)
+    };
+    defExpiresInVal = args.newValue;
+    return defExpiresInVal;
+  };
+  const create2 = (defaultExpiresIn2 = Infinity) => cachierFactory(defaultExpiresIn2);
   return {
     get,
     getOrSave,
@@ -2618,6 +2653,8 @@ var cachierFactory = () => {
     remove,
     clear,
     getAll,
+    getDefaultExpiresIn,
+    setDefaultExpiresIn,
     create: create2
   };
 };

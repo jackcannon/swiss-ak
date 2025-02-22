@@ -1,7 +1,9 @@
 import { safe } from './safe';
-import { ObjOfType } from './types';
+import { ms } from './times';
 
 //<!-- DOCS: 610 -->
+
+type ValidatedValue<T> = { hasValidValue: false; value?: undefined } | { hasValidValue: true; value: T };
 
 /**<!-- DOCS: cachier.title ##! -->
  * Cachier
@@ -12,50 +14,80 @@ import { ObjOfType } from './types';
  */
 
 /** */
-const cachierFactory = <T extends unknown>(): Cachier<T> => {
-  let storedItems: ObjOfType<T> = {};
+const cachierFactory = <T extends unknown>(defaultExpiresIn: ms = Infinity): Cachier<T> => {
+  let storedItems: Record<string, { expires: number; value: T }> = {};
+  let defExpiresInVal: ms = defaultExpiresIn;
+
+  const getValidatedValue = (id: string): ValidatedValue<T> => {
+    const item = storedItems[id];
+    if (item === undefined) return { hasValidValue: false };
+    if (item.expires < Date.now()) {
+      delete storedItems[id];
+      return { hasValidValue: false };
+    }
+    return { hasValidValue: true, value: item.value };
+  };
 
   const get = (id: string) => {
     const args = {
       id: safe.str(id, false, 'NO-ID')
     };
-    return storedItems[args.id];
+    const valid = getValidatedValue(args.id);
+    return valid.hasValidValue ? valid.value : undefined;
   };
-  const getOrSave = (id: string, orValue: T): T => {
+  const getOrSave = (id: string, orValue: T, expiresIn: ms = getDefaultExpiresIn()): T => {
     const args = {
       id: safe.str(id, false, 'NO-ID'),
-      orValue
+      orValue,
+      expiresIn: safe.num(expiresIn, false, undefined, undefined, getDefaultExpiresIn())
     };
     try {
-      const existing = storedItems[args.id];
-      if (existing !== undefined) return existing;
-      storedItems[args.id] = args.orValue;
+      // get
+      const valid = getValidatedValue(args.id);
+      if (valid.hasValidValue) return valid.value;
+
+      // save
+      storedItems[args.id] = {
+        expires: Date.now() + args.expiresIn,
+        value: args.orValue
+      };
       return args.orValue;
     } catch (err) {
       return undefined as unknown as T;
     }
   };
-  const getOrRun = (id: string, orFunc: (id?: string) => T): T => {
+  const getOrRun = (id: string, orFunc: (id?: string) => T, expiresIn: ms = getDefaultExpiresIn()): T => {
     const args = {
       id: safe.str(id, false, 'NO-ID'),
-      orFunc: safe.func(orFunc)
+      orFunc: safe.func(orFunc),
+      expiresIn: safe.num(expiresIn, false, undefined, undefined, getDefaultExpiresIn())
     };
     try {
-      const existing = storedItems[args.id];
-      if (existing !== undefined) return existing;
+      // get
+      const valid = getValidatedValue(args.id);
+      if (valid.hasValidValue) return valid.value;
+
+      // run
       const newItem = args.orFunc(args.id);
-      storedItems[args.id] = newItem;
+      storedItems[args.id] = {
+        expires: Date.now() + args.expiresIn,
+        value: newItem
+      };
       return newItem;
     } catch (err) {
       return undefined as unknown as T;
     }
   };
-  const save = (id: string, item: T): T => {
+  const save = (id: string, item: T, expiresIn: ms = getDefaultExpiresIn()): T => {
     const args = {
       id: safe.str(id, false, 'NO-ID'),
-      item
+      item,
+      expiresIn: safe.num(expiresIn, false, undefined, undefined, getDefaultExpiresIn())
     };
-    storedItems[args.id] = args.item;
+    storedItems[args.id] = {
+      expires: Date.now() + args.expiresIn,
+      value: args.item
+    };
     return args.item;
   };
 
@@ -70,8 +102,25 @@ const cachierFactory = <T extends unknown>(): Cachier<T> => {
     storedItems = {};
   };
 
-  const getAll = (): ObjOfType<T> => ({ ...storedItems });
-  const create = <U>(): Cachier<U> => cachierFactory<U>();
+  const getAll = (): Record<string, T> => {
+    const entries = Object.keys(storedItems)
+      .map((id) => [id, getValidatedValue(id)] as [string, ValidatedValue<T>])
+      .filter(([_, { hasValidValue }]) => hasValidValue)
+      .map(([id, { value }]) => [id, value] as [string, T]);
+
+    return Object.fromEntries(entries);
+  };
+
+  const getDefaultExpiresIn = () => defExpiresInVal;
+  const setDefaultExpiresIn = (newValue: number = Infinity) => {
+    const args = {
+      newValue: safe.num(newValue, false, undefined, undefined, Infinity)
+    };
+    defExpiresInVal = args.newValue;
+    return defExpiresInVal;
+  };
+
+  const create = <U>(defaultExpiresIn: ms = Infinity): Cachier<U> => cachierFactory<U>(defaultExpiresIn);
 
   return {
     get,
@@ -81,6 +130,8 @@ const cachierFactory = <T extends unknown>(): Cachier<T> => {
     remove,
     clear,
     getAll,
+    getDefaultExpiresIn,
+    setDefaultExpiresIn,
     create
   };
 };
@@ -172,9 +223,10 @@ export interface Cachier<T> {
    * ```
    * @param {string} id
    * @param {T} orValue
+   * @param {ms} [expiresIn=getDefaultExpiresIn()]
    * @returns {T}
    */
-  getOrSave(id: string, orValue: T): T;
+  getOrSave(id: string, orValue: T, expiresIn?: ms): T;
 
   /**<!-- DOCS: cachier.Cachier.getOrRun #### -->
    * getOrRun
@@ -195,9 +247,10 @@ export interface Cachier<T> {
    * ```
    * @param {string} id
    * @param {(id?: string) => T} orFunc
+   * @param {ms} [expiresIn=getDefaultExpiresIn()]
    * @returns {T}
    */
-  getOrRun(id: string, orFunc: (id?: string) => T): T;
+  getOrRun(id: string, orFunc: (id?: string) => T, expiresIn?: ms): T;
 
   /**<!-- DOCS: cachier.Cachier.save #### -->
    * save
@@ -213,9 +266,10 @@ export interface Cachier<T> {
    * ```
    * @param {string} id
    * @param {T} item
+   * @param {ms} [expiresIn=getDefaultExpiresIn()]
    * @returns {T}
    */
-  save(id: string, item: T): T;
+  save(id: string, item: T, expiresIn?: ms): T;
 
   /**<!-- DOCS: cachier.Cachier.remove #### -->
    * remove
@@ -271,9 +325,45 @@ export interface Cachier<T> {
    *
    * cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz": { "name": "baz" } }
    * ```
-   * @returns {ObjOfType<T>}
+   * @returns {Record<string, T>}
    */
-  getAll(): ObjOfType<T>;
+  getAll(): Record<string, T>;
+
+  /**<!-- DOCS: cachier.Cachier.getDefaultExpiresIn #### -->
+   * getDefaultExpiresIn
+   *
+   * - `cachier.getDefaultExpiresIn`
+   * - `cachier.create().getDefaultExpiresIn`
+   *
+   * Get the default expiration time for items in the cache.
+   *
+   * ```typescript
+   * cachier.getDefaultExpiresIn(); // Infinity
+   * cachier.setDefaultExpiresIn(1000);
+   * cachier.getDefaultExpiresIn(); // 1000
+   * ```
+   * @returns {ms}
+   */
+  getDefaultExpiresIn(): ms;
+
+  /**<!-- DOCS: cachier.Cachier.setDefaultExpiresIn #### -->
+   * setDefaultExpiresIn
+   *
+   * - `cachier.setDefaultExpiresIn`
+   * - `cachier.create().setDefaultExpiresIn`
+   *
+   * Set the default expiration time for items in the cache.
+   *
+   * ```typescript
+   * cachier.getDefaultExpiresIn(); // Infinity
+   * cachier.setDefaultExpiresIn(1000);
+   * cachier.getDefaultExpiresIn(); // 1000
+   * ```
+   *
+   * @param {ms} [newValue=Infinity]
+   * @returns {ms}
+   */
+  setDefaultExpiresIn(newValue?: ms): ms;
 
   /**<!-- DOCS: cachier.Cachier.create #### -->
    * create
@@ -293,7 +383,8 @@ export interface Cachier<T> {
    * cachier.getAll(); // { "foo": { "name": "foo" } }
    * ```
    *
+   * @param {ms} [defaultExpiresIn=Infinity]
    * @returns {Cachier<U>}
    */
-  create<U>(): Cachier<U>;
+  create<U>(defaultExpiresIn?: ms): Cachier<U>;
 }
