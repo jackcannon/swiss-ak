@@ -403,6 +403,10 @@ swissak.cachier.create;
 
 type Cachier1 = swissak.Cachier<number>;
 
+// onDemand
+
+swissak.onDemand;
+
 // symbols
 
 swissak.symbols;

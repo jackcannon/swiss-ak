@@ -2735,13 +2735,16 @@ var cachier = cachierFactory();
 
 // src/tools/onDemand.ts
 var onDemand = (input) => {
+  const args = {
+    input: safe.obj(input, true, {})
+  };
   const result = {};
   const cache = {};
-  const keys = Object.keys(input);
+  const keys = Object.keys(args.input);
   const get = (key) => () => {
     if (cache[key])
       return cache[key];
-    const func = input[key];
+    const func = args.input[key];
     const r = typeof func === "function" ? func() : func;
     cache[key] = r;
     return r;

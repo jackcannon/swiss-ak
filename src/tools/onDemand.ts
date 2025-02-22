@@ -1,8 +1,9 @@
-import { Prettify } from './types';
-
 //<!-- DOCS: 620 -->
 
-/**<!-- DOCS: onDemand ## @ -->
+import { Prettify } from './types';
+import { safe } from './safe';
+
+/**<!-- DOCS: onDemand ##! @ -->
  * onDemand
  *
  * - `onDemand<T>`
@@ -60,18 +61,25 @@ import { Prettify } from './types';
  * @param {OnDemandInputObject<T>} input
  * @returns {T}
  */
-export const onDemand = <T extends Object = Object>(input: OnDemandInputObject<T>): T => {
+export const onDemand = <T extends Record<string, any>>(input: OnDemandInputObject<T>): Prettify<T> => {
+  const args = {
+    input: safe.obj(input, true, {} as T)
+  };
+
   const result = {} as T;
   const cache = {};
-  const keys = Object.keys(input);
+  const keys = Object.keys(args.input);
+
   const get = (key) => () => {
     if (cache[key]) return cache[key];
-    const func = input[key];
+    const func = args.input[key];
     const r = typeof func === 'function' ? func() : func;
     cache[key] = r;
     return r;
   };
+
   const set = (key) => (value) => (cache[key] = value);
+
   for (let key of keys) {
     Object.defineProperty(result, key, {
       enumerable: true,
@@ -91,6 +99,6 @@ export const onDemand = <T extends Object = Object>(input: OnDemandInputObject<T
  *
  * Input type for the `onDemand` function.
  */
-type OnDemandInputObject<T> = Prettify<{
+type OnDemandInputObject<T> = {
   [K in keyof T]: T[K] extends (...args: any[]) => infer R ? () => T[K] : (() => T[K]) | T[K];
-}>;
+};

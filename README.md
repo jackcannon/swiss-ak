@@ -19,7 +19,6 @@ A collection of useful little things that I like to reuse across projects
     - [**progressBar**](#progressbar)
     - [**Cachier**](#cachier_title)
     - [**onDemand**](#ondemand)
-      - [OnDemandInputObject](#ondemandinputobject)
     - [**symbols**](#symbols)
     - [**queue**](#queue)
     - [**timer**](#timer)
@@ -5190,6 +5189,9 @@ type Example = typeof demanded; // {
   //}
 ```
 
+  - [**onDemand**](#ondemand)
+    - [OnDemandInputObject](#ondemandinputobject)
+
 |  #  | Parameter Name | Required | Type                     |
 |:---:|:---------------|:---------|:-------------------------|
 | *0* | `input`        | **Yes**  | `OnDemandInputObject<T>` |
@@ -5210,7 +5212,7 @@ A type that takes an object and makes all the values either functions that retur
 
 Input type for the `onDemand` function.
 
-<p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
+<p style="text-align: right" align="right"><a href="#ondemand"> [↑ Back to <b>onDemand</b> ↑] </a></p>
 
 ## symbols
 

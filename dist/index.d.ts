@@ -8294,7 +8294,7 @@ interface Cachier<T> {
     create<U>(): Cachier<U>;
 }
 
-/**<!-- DOCS: onDemand ## @ -->
+/**<!-- DOCS: onDemand ##! @ -->
  * onDemand
  *
  * - `onDemand<T>`
@@ -8352,6 +8352,18 @@ interface Cachier<T> {
  * @param {OnDemandInputObject<T>} input
  * @returns {T}
  */
-declare const onDemand: <T extends Object = Object>(input: { [K_1 in keyof T]: T[K_1] extends (...args: any[]) => infer R ? () => T[K_1] : T[K_1] | (() => T[K_1]); } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: T[K_1] extends (...args: any[]) => infer R ? () => T[K_1] : T[K_1] | (() => T[K_1]); }[K]; } : never) => T;
+declare const onDemand: <T extends Record<string, any>>(input: OnDemandInputObject<T>) => { [K in keyof T]: T[K]; };
+/**<!-- DOCS: onDemand.OnDemandInputObject ### -->
+ * OnDemandInputObject
+ *
+ * - `OnDemandInputObject<T>`
+ *
+ * A type that takes an object and makes all the values either functions that return the value, or the value itself.
+ *
+ * Input type for the `onDemand` function.
+ */
+declare type OnDemandInputObject<T> = {
+    [K in keyof T]: T[K] extends (...args: any[]) => infer R ? () => T[K] : (() => T[K]) | T[K];
+};
 
 export { ArrayTools, CENTURY, Cachier, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeepPartial, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, MultiBarManager, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, Prettify, ProgressBar, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cachier, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getMultiBarManager, getProgressBar, getTimer, group, groupObj, groups, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, onDemand, partition, progressBar, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
