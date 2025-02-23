@@ -3,7 +3,6 @@ export * from './tools/times';
 export * from './tools/waiters';
 export * from './tools/fn';
 export * from './tools/timer';
-export * from './tools/progressBar';
 export * from './tools/ArrayTools';
 export * from './tools/ObjectTools';
 export * from './tools/StringTools';

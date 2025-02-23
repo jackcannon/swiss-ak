@@ -352,43 +352,6 @@ swissak.ErrorTools.retry;
 swissak.retryOr;
 swissak.ErrorTools.retryOr;
 
-// progress bar
-
-swissak.getProgressBar;
-swissak.progressBar.getProgressBar;
-swissak.progressBar.getFullOptions;
-
-const progressBar = swissak.getProgressBar(100);
-
-progressBar.update;
-progressBar.next;
-progressBar.set;
-progressBar.reset;
-progressBar.start;
-progressBar.finish;
-
-swissak.getMultiBarManager;
-swissak.progressBar.getMultiBarManager;
-swissak.progressBar.getFullMultiBarManagerOptions;
-
-const multiBarManager = swissak.getMultiBarManager();
-
-multiBarManager.add;
-multiBarManager.addNew;
-multiBarManager.remove;
-multiBarManager.update;
-multiBarManager.getBars;
-
-swissak.progressBar.utils.printLn;
-swissak.progressBar.utils.multiPrintFn;
-
-type ProgressBar1 = swissak.ProgressBar;
-type MultiBarManager1 = swissak.MultiBarManager;
-type ProgressBarOptionsFull1 = swissak.progressBar.ProgressBarOptionsFull;
-type ProgressBarOptions1 = swissak.progressBar.ProgressBarOptions;
-type MultiBarManagerOptionsFull1 = swissak.progressBar.MultiBarManagerOptionsFull;
-type MultiBarManagerOptions1 = swissak.progressBar.MultiBarManagerOptions;
-
 // cachier
 
 swissak.cachier;
