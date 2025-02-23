@@ -119,7 +119,7 @@ describe('cachier', () => {
             cache.getOrSave('foo', 'value', v);
             return cache.get('foo');
           },
-          kitchenSink.safe.num(undefined, false, undefined, undefined, Infinity),
+          kitchenSink.safe.num(undefined, true, undefined, undefined, Infinity),
           kitchenSink.samples.num
         );
       }
@@ -201,7 +201,7 @@ describe('cachier', () => {
             cache.getOrRun('foo', () => 'value', v);
             return cache.get('foo');
           },
-          kitchenSink.safe.num(undefined, false, undefined, undefined, Infinity),
+          kitchenSink.safe.num(undefined, true, undefined, undefined, Infinity),
           kitchenSink.samples.num
         );
       }
@@ -273,7 +273,7 @@ describe('cachier', () => {
             cache.save('foo', 'value', v);
             return cache.get('foo');
           },
-          kitchenSink.safe.num(undefined, false, undefined, undefined, Infinity),
+          kitchenSink.safe.num(undefined, true, undefined, undefined, Infinity),
           kitchenSink.samples.num
         );
       }
@@ -375,7 +375,7 @@ describe('cachier', () => {
           expect(cache).not.toBe(cachier);
         });
 
-        it(should` have seperate entries`, () => {
+        it(should` have separate entries`, () => {
           const cache = cachier.create();
           cache.save('foo', { name: 'foo' });
 
@@ -385,6 +385,48 @@ describe('cachier', () => {
           expect(cache.getAll()).toEqual({ foo: { name: 'foo' } });
           expect(cache2.getAll()).toEqual({ foo: { name: 'BAR' } });
         });
+
+        it(should` respect the defaultExpiresIn parameter`, async () => {
+          const cache = cachier.create(100); // Create with 100ms default expiry
+
+          // Save without explicit expiry - should use default
+          cache.save('temp', 'value');
+
+          // Should exist initially
+          expect(cache.get('temp')).toBe('value');
+
+          // Wait 200ms (longer than expiry)
+          await new Promise((resolve) => setTimeout(resolve, 200));
+
+          // Should be gone
+          expect(cache.get('temp')).toBeUndefined();
+        });
+
+        it(should` always default to Infinity for nested creates`, () => {
+          const cache = cachier.create(1000);
+          expect(cache.getDefaultExpiresIn()).toBe(1000);
+
+          const nestedCache = cache.create();
+          expect(nestedCache.getDefaultExpiresIn()).toBe(Infinity);
+        });
+
+        it(should` respect new defaultExpiresIn when specified in nested creates`, () => {
+          const cache = cachier.create(1000);
+          expect(cache.getDefaultExpiresIn()).toBe(1000);
+
+          const nestedCache = cache.create(2000);
+          expect(nestedCache.getDefaultExpiresIn()).toBe(2000);
+        });
+
+        kitchenSink.toEqual(
+          'defaultExpiresIn',
+          (v: any) => {
+            const cache = cachier.create(v);
+            return cache.getDefaultExpiresIn();
+          },
+          kitchenSink.safe.num(undefined, true, undefined, undefined, Infinity),
+          kitchenSink.samples.num
+        );
       }
     );
   });
@@ -460,7 +502,7 @@ describe('cachier', () => {
             cache.setDefaultExpiresIn(v);
             return cache.getDefaultExpiresIn();
           },
-          kitchenSink.safe.num(undefined, false, undefined, undefined, Infinity),
+          kitchenSink.safe.num(undefined, true, undefined, undefined, Infinity),
           kitchenSink.samples.num
         );
       }

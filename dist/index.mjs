@@ -2576,7 +2576,7 @@ var cachierFactory = (defaultExpiresIn = Infinity) => {
     const args = {
       id: safe.str(id, false, "NO-ID"),
       orValue,
-      expiresIn: safe.num(expiresIn, false, void 0, void 0, getDefaultExpiresIn())
+      expiresIn: safe.num(expiresIn, true, void 0, void 0, getDefaultExpiresIn())
     };
     try {
       const valid = getValidatedValue(args.id);
@@ -2595,7 +2595,7 @@ var cachierFactory = (defaultExpiresIn = Infinity) => {
     const args = {
       id: safe.str(id, false, "NO-ID"),
       orFunc: safe.func(orFunc),
-      expiresIn: safe.num(expiresIn, false, void 0, void 0, getDefaultExpiresIn())
+      expiresIn: safe.num(expiresIn, true, void 0, void 0, getDefaultExpiresIn())
     };
     try {
       const valid = getValidatedValue(args.id);
@@ -2615,7 +2615,7 @@ var cachierFactory = (defaultExpiresIn = Infinity) => {
     const args = {
       id: safe.str(id, false, "NO-ID"),
       item,
-      expiresIn: safe.num(expiresIn, false, void 0, void 0, getDefaultExpiresIn())
+      expiresIn: safe.num(expiresIn, true, void 0, void 0, getDefaultExpiresIn())
     };
     storedItems[args.id] = {
       expires: Date.now() + args.expiresIn,
@@ -2625,7 +2625,7 @@ var cachierFactory = (defaultExpiresIn = Infinity) => {
   };
   const remove = (id) => {
     const args = {
-      id: safe.str(id, false, "NO-ID")
+      id: safe.str(id, false, "NO-ID-REMOVE")
     };
     delete storedItems[args.id];
   };
@@ -2639,12 +2639,17 @@ var cachierFactory = (defaultExpiresIn = Infinity) => {
   const getDefaultExpiresIn = () => defExpiresInVal;
   const setDefaultExpiresIn = (newValue = Infinity) => {
     const args = {
-      newValue: safe.num(newValue, false, void 0, void 0, Infinity)
+      newValue: safe.num(newValue, true, void 0, void 0, Infinity)
     };
     defExpiresInVal = args.newValue;
     return defExpiresInVal;
   };
-  const create2 = (defaultExpiresIn2 = Infinity) => cachierFactory(defaultExpiresIn2);
+  const create2 = (defaultExpiresIn2 = Infinity) => {
+    const args = {
+      defaultExpiresIn: safe.num(defaultExpiresIn2, true, void 0, void 0, Infinity)
+    };
+    return cachierFactory(args.defaultExpiresIn);
+  };
   return {
     get,
     getOrSave,

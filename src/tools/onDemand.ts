@@ -1,6 +1,5 @@
 //<!-- DOCS: 620 -->
 
-import { Prettify } from './types';
 import { safe } from './safe';
 
 /**<!-- DOCS: onDemand ##! @ -->

@@ -15,7 +15,7 @@ type ValidatedValue<T> = { hasValidValue: false; value?: undefined } | { hasVali
 
 /** */
 const cachierFactory = <T extends unknown>(defaultExpiresIn: ms = Infinity): Cachier<T> => {
-  let storedItems: Record<string, { expires: number; value: T }> = {};
+  let storedItems: Record<string, { expires: ms; value: T }> = {};
   let defExpiresInVal: ms = defaultExpiresIn;
 
   const getValidatedValue = (id: string): ValidatedValue<T> => {
@@ -39,7 +39,7 @@ const cachierFactory = <T extends unknown>(defaultExpiresIn: ms = Infinity): Cac
     const args = {
       id: safe.str(id, false, 'NO-ID'),
       orValue,
-      expiresIn: safe.num(expiresIn, false, undefined, undefined, getDefaultExpiresIn())
+      expiresIn: safe.num(expiresIn, true, undefined, undefined, getDefaultExpiresIn())
     };
     try {
       // get
@@ -60,7 +60,7 @@ const cachierFactory = <T extends unknown>(defaultExpiresIn: ms = Infinity): Cac
     const args = {
       id: safe.str(id, false, 'NO-ID'),
       orFunc: safe.func(orFunc),
-      expiresIn: safe.num(expiresIn, false, undefined, undefined, getDefaultExpiresIn())
+      expiresIn: safe.num(expiresIn, true, undefined, undefined, getDefaultExpiresIn())
     };
     try {
       // get
@@ -82,7 +82,7 @@ const cachierFactory = <T extends unknown>(defaultExpiresIn: ms = Infinity): Cac
     const args = {
       id: safe.str(id, false, 'NO-ID'),
       item,
-      expiresIn: safe.num(expiresIn, false, undefined, undefined, getDefaultExpiresIn())
+      expiresIn: safe.num(expiresIn, true, undefined, undefined, getDefaultExpiresIn())
     };
     storedItems[args.id] = {
       expires: Date.now() + args.expiresIn,
@@ -93,7 +93,7 @@ const cachierFactory = <T extends unknown>(defaultExpiresIn: ms = Infinity): Cac
 
   const remove = (id: string): void => {
     const args = {
-      id: safe.str(id, false, 'NO-ID')
+      id: safe.str(id, false, 'NO-ID-REMOVE')
     };
     delete storedItems[args.id];
   };
@@ -112,15 +112,20 @@ const cachierFactory = <T extends unknown>(defaultExpiresIn: ms = Infinity): Cac
   };
 
   const getDefaultExpiresIn = () => defExpiresInVal;
-  const setDefaultExpiresIn = (newValue: number = Infinity) => {
+  const setDefaultExpiresIn = (newValue: ms = Infinity) => {
     const args = {
-      newValue: safe.num(newValue, false, undefined, undefined, Infinity)
+      newValue: safe.num(newValue, true, undefined, undefined, Infinity)
     };
     defExpiresInVal = args.newValue;
     return defExpiresInVal;
   };
 
-  const create = <U>(defaultExpiresIn: ms = Infinity): Cachier<U> => cachierFactory<U>(defaultExpiresIn);
+  const create = <U>(defaultExpiresIn: ms = Infinity): Cachier<U> => {
+    const args = {
+      defaultExpiresIn: safe.num(defaultExpiresIn, true, undefined, undefined, Infinity)
+    };
+    return cachierFactory<U>(args.defaultExpiresIn);
+  };
 
   return {
     get,
