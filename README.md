@@ -4249,6 +4249,7 @@ Useful for storing values that are expensive to calculate, or that you want to r
       - [get](#get)
       - [getOrSave](#getorsave)
       - [getOrRun](#getorrun)
+      - [getOrRunAsync](#getorrunasync)
       - [save](#save)
       - [remove](#remove)
       - [clear](#clear)
@@ -4387,6 +4388,44 @@ cachier.get('foo'); // { "name": "lorem" }
 | Return Type |
 |-------------|
 | `T`         |
+
+<p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
+
+#### getOrRunAsync
+
+```typescript
+cachier.getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn: ms): Promise<T>
+cachier.create().getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn: ms): Promise<T>
+```
+
+Get a cached item by id, or run an async function to create a new item if it doesn't exist.
+
+The created item will be cached and returned.
+
+Same as `cachier.getOrRun`, but the function can be async. Return will always be a promise.
+
+```typescript
+const longFn = async (name) => {
+  await wait(1000);
+  return { name };
+};
+
+await cachier.getOrRunAsync('foo', () => longFn('lorem')); // { name: 'lorem' }
+cachier.get('foo'); // { name: 'lorem' }
+
+await cachier.getOrRunAsync('foo', () => longFn('SOMETHING DIFFERENT')); // { name: 'lorem' }
+cachier.get('foo'); // { name: 'lorem' }
+```
+
+|  #  | Parameter Name | Required | Type                               | Default                 |
+|:---:|:---------------|:---------|:-----------------------------------|:------------------------|
+| *0* | `id`           | **Yes**  | `string`                           |                         |
+| *1* | `orFunc`       | **Yes**  | `(id?: string) => T \| Promise<T>` |                         |
+| *2* | `expiresIn`    | *No*     | `ms`                               | `getDefaultExpiresIn()` |
+
+| Return Type  |
+|--------------|
+| `Promise<T>` |
 
 <p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
 

@@ -78,6 +78,28 @@ const cachierFactory = <T extends unknown>(defaultExpiresIn: ms = Infinity): Cac
       return undefined as unknown as T;
     }
   };
+  const getOrRunAsync = async (id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn: ms = getDefaultExpiresIn()): Promise<T> => {
+    const args = {
+      id: safe.str(id, false, 'NO-ID'),
+      orFunc: safe.func(orFunc),
+      expiresIn: safe.num(expiresIn, true, undefined, undefined, getDefaultExpiresIn())
+    };
+    try {
+      // get
+      const valid = getValidatedValue(args.id);
+      if (valid.hasValidValue) return valid.value;
+
+      // run
+      const newItem = await args.orFunc(args.id);
+      storedItems[args.id] = {
+        expires: Date.now() + args.expiresIn,
+        value: newItem
+      };
+      return newItem;
+    } catch (err) {
+      return undefined as unknown as T;
+    }
+  };
   const save = (id: string, item: T, expiresIn: ms = getDefaultExpiresIn()): T => {
     const args = {
       id: safe.str(id, false, 'NO-ID'),
@@ -131,6 +153,7 @@ const cachierFactory = <T extends unknown>(defaultExpiresIn: ms = Infinity): Cac
     get,
     getOrSave,
     getOrRun,
+    getOrRunAsync,
     save,
     remove,
     clear,
@@ -256,6 +279,37 @@ export interface Cachier<T> {
    * @returns {T}
    */
   getOrRun(id: string, orFunc: (id?: string) => T, expiresIn?: ms): T;
+
+  /**<!-- DOCS: cachier.Cachier.getOrRunAsync #### -->
+   * getOrRunAsync
+   *
+   * - `cachier.getOrRunAsync`
+   * - `cachier.create().getOrRunAsync`
+   *
+   * Get a cached item by id, or run an async function to create a new item if it doesn't exist.
+   *
+   * The created item will be cached and returned.
+   *
+   * Same as `cachier.getOrRun`, but the function can be async. Return will always be a promise.
+   *
+   * ```typescript
+   * const longFn = async (name) => {
+   *   await wait(1000);
+   *   return { name };
+   * };
+   *
+   * await cachier.getOrRunAsync('foo', () => longFn('lorem')); // { name: 'lorem' }
+   * cachier.get('foo'); // { name: 'lorem' }
+   *
+   * await cachier.getOrRunAsync('foo', () => longFn('SOMETHING DIFFERENT')); // { name: 'lorem' }
+   * cachier.get('foo'); // { name: 'lorem' }
+   * ```
+   * @param {string} id
+   * @param {(id?: string) => T | Promise<T>} orFunc
+   * @param {ms} [expiresIn=getDefaultExpiresIn()]
+   * @returns {Promise<T>}
+   */
+  getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn?: ms): Promise<T>;
 
   /**<!-- DOCS: cachier.Cachier.save #### -->
    * save

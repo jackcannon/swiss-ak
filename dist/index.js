@@ -2340,6 +2340,26 @@ var cachierFactory = (defaultExpiresIn = Infinity) => {
       return void 0;
     }
   };
+  const getOrRunAsync = async (id, orFunc, expiresIn = getDefaultExpiresIn()) => {
+    const args = {
+      id: safe.str(id, false, "NO-ID"),
+      orFunc: safe.func(orFunc),
+      expiresIn: safe.num(expiresIn, true, void 0, void 0, getDefaultExpiresIn())
+    };
+    try {
+      const valid = getValidatedValue(args.id);
+      if (valid.hasValidValue)
+        return valid.value;
+      const newItem = await args.orFunc(args.id);
+      storedItems[args.id] = {
+        expires: Date.now() + args.expiresIn,
+        value: newItem
+      };
+      return newItem;
+    } catch (err) {
+      return void 0;
+    }
+  };
   const save = (id, item, expiresIn = getDefaultExpiresIn()) => {
     const args = {
       id: safe.str(id, false, "NO-ID"),
@@ -2383,6 +2403,7 @@ var cachierFactory = (defaultExpiresIn = Infinity) => {
     get,
     getOrSave,
     getOrRun,
+    getOrRunAsync,
     save,
     remove,
     clear,

@@ -7444,6 +7444,36 @@ interface Cachier<T> {
      * @returns {T}
      */
     getOrRun(id: string, orFunc: (id?: string) => T, expiresIn?: ms): T;
+    /**<!-- DOCS: cachier.Cachier.getOrRunAsync #### -->
+     * getOrRunAsync
+     *
+     * - `cachier.getOrRunAsync`
+     * - `cachier.create().getOrRunAsync`
+     *
+     * Get a cached item by id, or run an async function to create a new item if it doesn't exist.
+     *
+     * The created item will be cached and returned.
+     *
+     * Same as `cachier.getOrRun`, but the function can be async. Return will always be a promise.
+     *
+     * ```typescript
+     * const longFn = async (name) => {
+     *   await wait(1000);
+     *   return { name };
+     * };
+     *
+     * await cachier.getOrRunAsync('foo', () => longFn('lorem')); // { name: 'lorem' }
+     * cachier.get('foo'); // { name: 'lorem' }
+     *
+     * await cachier.getOrRunAsync('foo', () => longFn('SOMETHING DIFFERENT')); // { name: 'lorem' }
+     * cachier.get('foo'); // { name: 'lorem' }
+     * ```
+     * @param {string} id
+     * @param {(id?: string) => T | Promise<T>} orFunc
+     * @param {ms} [expiresIn=getDefaultExpiresIn()]
+     * @returns {Promise<T>}
+     */
+    getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn?: ms): Promise<T>;
     /**<!-- DOCS: cachier.Cachier.save #### -->
      * save
      *

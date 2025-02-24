@@ -208,6 +208,99 @@ describe('cachier', () => {
     );
   });
 
+  describe('getOrRunAsync', () => {
+    multiTest(
+      [
+        [swissak.cachier, 'cachier'],
+        [swissak.cachier.create(), 'cachier.create()']
+      ],
+      (cachier, name) => {
+        it(should` exist as ${name + '.getOrRunAsync'}`, () => {
+          expect(cachier.getOrRunAsync).toBeDefined();
+        });
+
+        it(should` return the item if it exists`, async () => {
+          const cache = cachier.create();
+          cache.save('foo', { name: 'foo' });
+          expect(await cache.getOrRunAsync('foo', async () => ({ name: 'BAR' }))).toEqual({ name: 'foo' });
+        });
+
+        it(should` run the function if the item does not exist`, async () => {
+          const cache = cachier.create();
+          expect(await cache.getOrRunAsync('foo', async () => ({ name: 'BAR' }))).toEqual({ name: 'BAR' });
+          expect(cache.get('foo')).toEqual({ name: 'BAR' });
+        });
+
+        it(should` handle async functions correctly`, async () => {
+          const cache = cachier.create();
+          const asyncFn = async () => {
+            await new Promise((resolve) => setTimeout(resolve, 50));
+            return { name: 'ASYNC' };
+          };
+
+          expect(await cache.getOrRunAsync('foo', asyncFn)).toEqual({ name: 'ASYNC' });
+          expect(cache.get('foo')).toEqual({ name: 'ASYNC' });
+        });
+
+        it(should` respect the expiresIn parameter`, async () => {
+          const cache = cachier.create();
+          let runCount = 0;
+
+          const getValue = async () => {
+            runCount++;
+            return `value${runCount}`;
+          };
+
+          // Save with 100ms expiry
+          expect(await cache.getOrRunAsync('temp', getValue, 100)).toBe('value1');
+          expect(runCount).toBe(1);
+
+          // Should return cached value
+          expect(await cache.getOrRunAsync('temp', getValue, 100)).toBe('value1');
+          expect(runCount).toBe(1);
+
+          // Wait 200ms (longer than expiry)
+          await new Promise((resolve) => setTimeout(resolve, 200));
+
+          // Should run function again after expiry
+          expect(await cache.getOrRunAsync('temp', getValue, 100)).toBe('value2');
+          expect(runCount).toBe(2);
+        });
+
+        kitchenSink.toEqual(
+          'id',
+          async (v: any) => {
+            const cache = cachier.create();
+            cache.save('NO-ID', { name: 'foo' });
+            return await cache.getOrRunAsync(v, async () => ({ name: 'BAR' }));
+          },
+          kitchenSink.safe.str(undefined, false, 'NO-ID'),
+          kitchenSink.samples.general
+        );
+        kitchenSink.toEqual(
+          'orFunc',
+          async (v: any) => {
+            const cache = cachier.create();
+            cache.save('foo', { name: 'foo' });
+            return await cache.getOrRunAsync('foo', v);
+          },
+          kitchenSink.safe.func(undefined),
+          kitchenSink.samples.general
+        );
+        kitchenSink.toEqual(
+          'expiresIn',
+          async (v: any) => {
+            const cache = cachier.create();
+            await cache.getOrRunAsync('foo', async () => 'value', v);
+            return cache.get('foo');
+          },
+          kitchenSink.safe.num(undefined, true, undefined, undefined, Infinity),
+          kitchenSink.samples.num
+        );
+      }
+    );
+  });
+
   describe('save', () => {
     multiTest(
       [
