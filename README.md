@@ -4157,6 +4157,7 @@ Functions for handling errors.
     - [tryOr](#tryor)
     - [retry](#retry)
     - [retryOr](#retryor)
+    - [tryCatch](#trycatch)
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -4236,6 +4237,41 @@ const result = retryOr('default', 5, seconds(1), () => getSomething());
 | Return Type  |
 |--------------|
 | `Promise<T>` |
+
+<p style="text-align: right" align="right"><a href="#errortools"> [↑ Back to <b>ErrorTools</b> ↑] </a></p>
+
+### tryCatch
+
+```typescript
+tryCatch(promiseOrFunc: Promise<T> | (() => T | Promise<T>)): Promise<TryCatchResult<T, E>>
+ErrorTools.tryCatch(promiseOrFunc: Promise<T> | (() => T | Promise<T>)): Promise<TryCatchResult<T, E>>
+```
+
+Inspired by the `tryCatch` function [by t3dotgg](https://gist.github.com/t3dotgg/a486c4ae66d32bf17c09c73609dacc5b).
+
+```typescript
+const getFoo = async () => {
+  return 'foo';
+};
+const example1 = await tryCatch(getFoo()); // { result: 'foo', error: null }
+
+const getError = async () => {
+  throw new Error('foo');
+};
+const example2 = await tryCatch(getError()); // { result: null, error: Error }
+
+const example3 = await tryCatch(() => {
+  return 'bar';
+}); // { result: 'bar', error: null }
+```
+
+|  #  | Parameter Name  | Required | Type                                    |
+|:---:|:----------------|:---------|:----------------------------------------|
+| *0* | `promiseOrFunc` | **Yes**  | `Promise<T> \| (() => T \| Promise<T>)` |
+
+| Return Type                     |
+|---------------------------------|
+| `Promise<TryCatchResult<T, E>>` |
 
 <p style="text-align: right" align="right"><a href="#errortools"> [↑ Back to <b>ErrorTools</b> ↑] </a></p>
 
@@ -5073,9 +5109,9 @@ getTimer().getTable(prefix: string, customEntries: ((durations: TimerDurations<T
 
 Get the timing table as a string
 
-|  #  | Parameter Name  | Required | Type                                                                                                        |
-|:---:|:----------------|:---------|:------------------------------------------------------------------------------------------------------------|
-| *0* | `prefix`        | *No*     | `string`                                                                                                    |
+|  #  | Parameter Name  | Required | Type                                                                                                       |
+|:---:|:----------------|:---------|:-----------------------------------------------------------------------------------------------------------|
+| *0* | `prefix`        | *No*     | `string`                                                                                                   |
 | *1* | `customEntries` | *No*     | `((durations: TimerDurations<TName>) => CustomEntryObj)[] \| CustomEntryDict<TimerDurations<TName>, TName>` |
 
 | Return Type |                  |
@@ -5093,9 +5129,9 @@ getTimer().log(prefix: string, customEntries: ((durations: TimerDurations<TName>
 
 Log the timing table
 
-|  #  | Parameter Name  | Required | Type                                                                                                        |
-|:---:|:----------------|:---------|:------------------------------------------------------------------------------------------------------------|
-| *0* | `prefix`        | *No*     | `string`                                                                                                    |
+|  #  | Parameter Name  | Required | Type                                                                                                       |
+|:---:|:----------------|:---------|:-----------------------------------------------------------------------------------------------------------|
+| *0* | `prefix`        | *No*     | `string`                                                                                                   |
 | *1* | `customEntries` | *No*     | `((durations: TimerDurations<TName>) => CustomEntryObj)[] \| CustomEntryDict<TimerDurations<TName>, TName>` |
 
 | Return Type |                            |

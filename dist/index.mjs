@@ -1603,10 +1603,20 @@ var ErrorTools;
     };
     return ErrorTools2.tryOr(args.orValue, () => ErrorTools2.retry(args.maxTries, args.delay, false, args.run));
   };
+  async function tryCatch2(promiseOrFunc) {
+    try {
+      const result = await (typeof promiseOrFunc === "function" ? promiseOrFunc() : promiseOrFunc);
+      return { result, error: null };
+    } catch (error) {
+      return { result: null, error };
+    }
+  }
+  ErrorTools2.tryCatch = tryCatch2;
 })(ErrorTools || (ErrorTools = {}));
 var tryOr = ErrorTools.tryOr;
 var retry = ErrorTools.retry;
 var retryOr = ErrorTools.retryOr;
+var tryCatch = ErrorTools.tryCatch;
 
 // src/tools/ColourTools.ts
 var safeRGB = (rgb) => safe.arrOf.num(rgb, true, 0, 255, 0, [0, 0, 0], 3, 3);
@@ -2408,6 +2418,7 @@ export {
   symbols,
   timer,
   times,
+  tryCatch,
   tryOr,
   wait,
   waitEvery,

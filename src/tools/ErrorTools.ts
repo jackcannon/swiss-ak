@@ -118,6 +118,51 @@ export namespace ErrorTools {
 
     return tryOr(args.orValue, () => retry(args.maxTries, args.delay, false, args.run));
   };
+
+  type TryCatchResult<T, E = Error> =
+    | {
+        result: T;
+        error: null;
+      }
+    | {
+        result: null;
+        error: E;
+      };
+
+  /**<!-- DOCS: ErrorTools.tryCatch ### @ -->
+   * tryCatch
+   *
+   * - `tryCatch`
+   * - `ErrorTools.tryCatch`
+   *
+   * Inspired by the `tryCatch` function [by t3dotgg](https://gist.github.com/t3dotgg/a486c4ae66d32bf17c09c73609dacc5b).
+   *
+   * ```typescript
+   * const getFoo = async () => {
+   *   return 'foo';
+   * };
+   * const example1 = await tryCatch(getFoo()); // { result: 'foo', error: null }
+   *
+   * const getError = async () => {
+   *   throw new Error('foo');
+   * };
+   * const example2 = await tryCatch(getError()); // { result: null, error: Error }
+   *
+   * const example3 = await tryCatch(() => {
+   *   return 'bar';
+   * }); // { result: 'bar', error: null }
+   * ```
+   * @param {Promise<T> | (() => T | Promise<T>)} promiseOrFunc
+   * @returns {Promise<TryCatchResult<T, E>>}
+   */
+  export async function tryCatch<T, E = Error>(promiseOrFunc: Promise<T> | (() => T | Promise<T>)): Promise<TryCatchResult<T, E>> {
+    try {
+      const result = await (typeof promiseOrFunc === 'function' ? promiseOrFunc() : promiseOrFunc);
+      return { result, error: null };
+    } catch (error) {
+      return { result: null, error: error as E };
+    }
+  }
 } // SWISS-DOCS-JSDOC-REMOVE-THIS-LINE
 
 /** <!-- DOCS-ALIAS: ErrorTools.tryOr  --> */
@@ -126,3 +171,5 @@ export const tryOr = ErrorTools.tryOr;
 export const retry = ErrorTools.retry;
 /** <!-- DOCS-ALIAS: ErrorTools.retryOr  --> */
 export const retryOr = ErrorTools.retryOr;
+/** <!-- DOCS-ALIAS: ErrorTools.tryCatch  --> */
+export const tryCatch = ErrorTools.tryCatch;

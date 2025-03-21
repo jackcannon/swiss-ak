@@ -5072,7 +5072,7 @@ declare namespace ErrorTools {
      * @param {...A} [args]
      * @returns {Promise<T>}
      */
-    const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: (...args: A) => Promise<T>, ...args: A) => Promise<T>;
+    export const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: (...args: A) => Promise<T>, ...args: A) => Promise<T>;
     /**<!-- DOCS: ErrorTools.retry ### @ -->
      * retry
      *
@@ -5090,7 +5090,7 @@ declare namespace ErrorTools {
      * @param {(attemptNumber) => T} [run=fn.result(undefined as T)]
      * @returns {Promise<T>}
      */
-    const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
+    export const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
     /**<!-- DOCS: ErrorTools.retryOr ### @ -->
      * retryOr
      *
@@ -5110,7 +5110,42 @@ declare namespace ErrorTools {
      * @param {() => T | Promise<T>} [run=fn.result(orValue)]
      * @returns {Promise<T>}
      */
-    const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
+    export const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
+    type TryCatchResult<T, E = Error> = {
+        result: T;
+        error: null;
+    } | {
+        result: null;
+        error: E;
+    };
+    /**<!-- DOCS: ErrorTools.tryCatch ### @ -->
+     * tryCatch
+     *
+     * - `tryCatch`
+     * - `ErrorTools.tryCatch`
+     *
+     * Inspired by the `tryCatch` function [by t3dotgg](https://gist.github.com/t3dotgg/a486c4ae66d32bf17c09c73609dacc5b).
+     *
+     * ```typescript
+     * const getFoo = async () => {
+     *   return 'foo';
+     * };
+     * const example1 = await tryCatch(getFoo()); // { result: 'foo', error: null }
+     *
+     * const getError = async () => {
+     *   throw new Error('foo');
+     * };
+     * const example2 = await tryCatch(getError()); // { result: null, error: Error }
+     *
+     * const example3 = await tryCatch(() => {
+     *   return 'bar';
+     * }); // { result: 'bar', error: null }
+     * ```
+     * @param {Promise<T> | (() => T | Promise<T>)} promiseOrFunc
+     * @returns {Promise<TryCatchResult<T, E>>}
+     */
+    export function tryCatch<T, E = Error>(promiseOrFunc: Promise<T> | (() => T | Promise<T>)): Promise<TryCatchResult<T, E>>;
+    export {};
 }
 /**<!-- DOCS-ALIAS: ErrorTools.tryOr -->
  * tryOr
@@ -5167,6 +5202,33 @@ declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress
  * @returns {Promise<T>}
  */
 declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
+/**<!-- DOCS-ALIAS: ErrorTools.tryCatch -->
+ * tryCatch
+ * 
+ * - `tryCatch`
+ * - `ErrorTools.tryCatch`
+ * 
+ * Inspired by the `tryCatch` function [by t3dotgg](https://gist.github.com/t3dotgg/a486c4ae66d32bf17c09c73609dacc5b).
+ * 
+ * ```typescript
+ * const getFoo = async () => {
+ *   return 'foo';
+ * };
+ * const example1 = await tryCatch(getFoo()); // { result: 'foo', error: null }
+ * 
+ * const getError = async () => {
+ *   throw new Error('foo');
+ * };
+ * const example2 = await tryCatch(getError()); // { result: null, error: Error }
+ * 
+ * const example3 = await tryCatch(() => {
+ *   return 'bar';
+ * }); // { result: 'bar', error: null }
+ * ```
+ * @param {Promise<T> | (() => T | Promise<T>)} promiseOrFunc
+ * @returns {Promise<TryCatchResult<T, E>>}
+ */
+declare const tryCatch: typeof ErrorTools.tryCatch;
 
 /**<!-- DOCS: MathsTools ##! -->
  * MathsTools
@@ -7677,4 +7739,4 @@ declare type OnDemandInputObject<T> = {
     [K in keyof T]: T[K] extends (...args: any[]) => infer R ? () => T[K] : (() => T[K]) | T[K];
 };
 
-export { ArrayTools, CENTURY, Cachier, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeepPartial, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, Prettify, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cachier, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getTimer, group, groupObj, groups, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, onDemand, partition, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayTools, CENTURY, Cachier, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeepPartial, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, Prettify, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cachier, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getTimer, group, groupObj, groups, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, onDemand, partition, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryCatch, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

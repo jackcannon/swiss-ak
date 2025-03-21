@@ -268,4 +268,92 @@ describe('ErrorTools', () => {
       }
     );
   });
+  describe('tryCatch', () => {
+    multiTest(
+      [
+        [swissak.tryCatch, 'tryCatch'],
+        [swissak.ErrorTools.tryCatch, 'ErrorTools.tryCatch']
+      ],
+      (tryCatch, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(tryCatch).toBeDefined();
+        });
+
+        it(should` handle successful Promise`, async () => {
+          const promise = Promise.resolve('foo');
+          const result = await tryCatch(promise);
+          expect(result).toEqual({ result: 'foo', error: null });
+        });
+
+        it(should` handle failed Promise`, async () => {
+          const error = new Error('test error');
+          const promise = Promise.reject(error);
+          const result = await tryCatch(promise);
+          expect(result).toEqual({ result: null, error });
+        });
+
+        it(should` handle successful sync function`, async () => {
+          const func = () => 'foo';
+          const result = await tryCatch(func);
+          expect(result).toEqual({ result: 'foo', error: null });
+        });
+
+        it(should` handle failed sync function`, async () => {
+          const error = new Error('test error');
+          const func = () => {
+            throw error;
+          };
+          const result = await tryCatch(func);
+          expect(result).toEqual({ result: null, error });
+        });
+
+        it(should` handle successful async function`, async () => {
+          const func = async () => 'foo';
+          const result = await tryCatch(func);
+          expect(result).toEqual({ result: 'foo', error: null });
+        });
+
+        it(should` handle failed async function`, async () => {
+          const error = new Error('test error');
+          const func = async () => {
+            throw error;
+          };
+          const result = await tryCatch(func);
+          expect(result).toEqual({ result: null, error });
+        });
+
+        it(should` handle undefined input`, async () => {
+          const result = await tryCatch(undefined as any);
+          expect(result).toEqual({ result: undefined, error: null });
+        });
+
+        it(should` handle null input`, async () => {
+          const result = await tryCatch(null as any);
+          expect(result).toEqual({ result: null, error: null });
+        });
+
+        it(should` handle number input`, async () => {
+          const result = await tryCatch(123 as any);
+          expect(result).toEqual({ result: 123, error: null });
+        });
+
+        it(should` handle string input`, async () => {
+          const result = await tryCatch('test' as any);
+          expect(result).toEqual({ result: 'test', error: null });
+        });
+
+        it(should` handle object input`, async () => {
+          const obj = { foo: 'bar' };
+          const result = await tryCatch(obj as any);
+          expect(result).toEqual({ result: obj, error: null });
+        });
+
+        it(should` handle array input`, async () => {
+          const arr = [1, 2, 3];
+          const result = await tryCatch(arr as any);
+          expect(result).toEqual({ result: arr, error: null });
+        });
+      }
+    );
+  });
 });
