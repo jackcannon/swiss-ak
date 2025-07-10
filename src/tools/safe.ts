@@ -230,7 +230,7 @@ export namespace safe {
    * @param {T} [fallback={} as T]
    * @returns {T}
    */
-  export const obj = <T extends unknown>(input: T, allowArrays: boolean = false, fallback: T = {} as T): T => {
+  export const obj = <T extends object>(input: T, allowArrays: boolean = false, fallback: T = {} as T): T => {
     let result = input;
     if (typeof result !== 'object' || result === undefined || result === null) result = fallback;
     if (!allowArrays && Array.isArray(result)) result = fallback;
@@ -287,10 +287,9 @@ export namespace safe {
    * @param {boolean} [allowComposition=true]
    * @returns {T}
    */
-  export const objWith = <T extends unknown>(input: T, objConfig: ObjWithConfig<T>, allowComposition: boolean = true): T => {
-    type TO = T & Object;
-    const inputObj = safe.obj(input, true, {}) as TO;
-    const result: TO = allowComposition ? ({ ...inputObj } as TO) : inputObj;
+  export const objWith = <T extends object>(input: T, objConfig: ObjWithConfig<T>, allowComposition: boolean = true): T => {
+    const inputObj = safe.obj(input, true, {}) as T;
+    const result: T = allowComposition ? ({ ...inputObj } as T) : inputObj;
     let isBroken = false;
 
     Object.entries(objConfig).forEach(([key, propConfig]: [string, ObjWithPropConfig<any>]) => {
@@ -346,7 +345,7 @@ export namespace safe {
    * @param {number} [maxLength=Infinity]
    * @returns {T[]}
    */
-  export const arr = <T extends unknown>(input: T[], fallback: T[] = [], minLength: number = 0, maxLength: number = Infinity): T[] => {
+  export const arr = <T>(input: T[], fallback: T[] = [], minLength: number = 0, maxLength: number = Infinity): T[] => {
     let result = input;
     if (result === undefined || result === null) result = fallback;
     if (!Array.isArray(result)) {
@@ -390,11 +389,14 @@ export namespace safe {
    * safe.prop(null, 'bar'); // 'bar'
    * safe.prop(undefined, 'bar'); // 'bar'
    * ```
-   * @param {string | number} input
-   * @param {string | number} [fallback='']
+   * @param {string | number | symbol} input
+   * @param {string | number | symbol} [fallback='']
    * @returns {string | number}
    */
-  export const prop = (input: string | number, fallback: string | number = ''): string | number => {
+  export const prop = (input: string | number | symbol, fallback: string | number | symbol = ''): string | number => {
+    if (typeof input === 'symbol') {
+      return fallback as string | number;
+    }
     if (typeof input === 'number') {
       return safe.num(input, undefined, undefined, undefined, fallback as unknown as number);
     }
@@ -637,7 +639,7 @@ export namespace safe {
      * @param {number} [arrMaxLength=Infinity]
      * @returns {T[]}
      */
-    export const obj = <T extends unknown>(
+    export const obj = <T extends object>(
       input: T[],
       allowArrays: boolean = false,
       fallback?: T,
@@ -696,7 +698,7 @@ export namespace safe {
      * @param {number} [arrMaxLength=Infinity]
      * @returns {T[]}
      */
-    export const objWith = <T extends unknown>(
+    export const objWith = <T extends object>(
       input: T[],
       objConfig: ObjWithConfig<T>,
       allowComposition: boolean = true,
@@ -743,7 +745,7 @@ export namespace safe {
      * @param {number} [arrMaxLength=Infinity]
      * @returns {T[][]}
      */
-    export const arr = <T extends unknown>(
+    export const arr = <T>(
       input: T[][],
       fallback?: T[],
       fallbackArr: T[][] = [],
@@ -782,17 +784,17 @@ export namespace safe {
      * safe.arrOf.prop(null, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
      * safe.arrOf.prop(undefined, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
      * ```
-     * @param {(string | number)[]} input
-     * @param {string | number} [fallback]
-     * @param {(string | number)[]} [fallbackArr=[]]
+     * @param {(string | number | symbol)[]} input
+     * @param {string | number | symbol} [fallback]
+     * @param {(string | number | symbol)[]} [fallbackArr=[]]
      * @param {number} [arrMinLength=0]
      * @param {number} [arrMaxLength=Infinity]
      * @returns {(string | number)[]}
      */
     export const prop = (
-      input: (string | number)[],
-      fallback?: string | number,
-      fallbackArr: (string | number)[] = [],
+      input: (string | number | symbol)[],
+      fallback?: string | number | symbol,
+      fallbackArr: (string | number | symbol)[] = [],
       arrMinLength: number = 0,
       arrMaxLength: number = Infinity
     ): (string | number)[] => {

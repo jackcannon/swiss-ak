@@ -26,11 +26,11 @@ export namespace ErrorTools {
    * const result = tryOr('default', () => getSomething());
    * ```
    * @param {T} orValue
-   * @param {(...args: A) => Promise<T>} func
+   * @param {(...args: A[]) => Promise<T>} func
    * @param {...A} [args]
    * @returns {Promise<T>}
    */
-  export const tryOr = async <T extends unknown, A extends unknown[]>(orValue: T, func: (...args: A) => Promise<T>, ...args: A): Promise<T> => {
+  export const tryOr = async <T, A>(orValue: T, func: (...args: A[]) => Promise<T>, ...args: A[]): Promise<T> => {
     try {
       return await func(...args);
     } catch (err) {
@@ -55,7 +55,7 @@ export namespace ErrorTools {
    * @param {(attemptNumber) => T} [run=fn.result(undefined as T)]
    * @returns {Promise<T>}
    */
-  export const retry = async <T extends unknown>(
+  export const retry = async <T>(
     maxTries: number = 10,
     delay: ms = 0,
     suppress: boolean = true,
@@ -103,12 +103,7 @@ export namespace ErrorTools {
    * @param {() => T | Promise<T>} [run=fn.result(orValue)]
    * @returns {Promise<T>}
    */
-  export const retryOr = async <T extends unknown>(
-    orValue: T,
-    maxTries: number = 10,
-    delay: ms = 0,
-    run: () => T | Promise<T> = fn.result(orValue)
-  ): Promise<T> => {
+  export const retryOr = async <T>(orValue: T, maxTries: number = 10, delay: ms = 0, run: () => T | Promise<T> = fn.result(orValue)): Promise<T> => {
     const args = {
       orValue,
       maxTries: safe.num(maxTries, true, 1),

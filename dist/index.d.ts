@@ -1529,7 +1529,7 @@ declare namespace fn {
      * @param {T[]} array
      * @returns {boolean}
      */
-    export const dedupe: <T extends unknown>(item: T, index: number, array: T[]) => boolean;
+    export const dedupe: <T>(item: T, index: number, array: T[]) => boolean;
     /**<!-- DOCS: fn.dedupeMapped #### @ -->
      * dedupeMapped
      *
@@ -1545,7 +1545,7 @@ declare namespace fn {
      * @param {(value?: T, index?: number, array?: T[]) => U} mapFn
      * @returns {(item: T, index: number, array: T[]) => boolean}
      */
-    export const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value?: T, index?: number, array?: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
+    export const dedupeMapped: <T, U>(mapFn: (value?: T, index?: number, array?: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
     /**<!-- DOCS: fn.maps ### -->
      * maps
      *
@@ -1617,7 +1617,7 @@ declare namespace fn {
      * @param {string | number} prop
      * @returns {(item: O) => P}
      */
-    export const toProp: <P = string, O = Object>(prop: string | number) => (item: O) => P;
+    export const toProp: <P = string, O extends object = object>(prop: string | number) => (item: O) => P;
     /**<!-- DOCS: fn.toFixed #### @ -->
      * toFixed
      *
@@ -1689,11 +1689,11 @@ declare namespace fn {
      * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
      * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
      * ```
-     * @param {string | number} propName
+     * @param {keyof O} propName
      * @param {SortFn<T>} [sortFn=asc]
      * @returns {SortFn<O>}
      */
-    export const byProp: <T = number, O = Object>(propName: string | number, sortFn?: SortFn<T>) => SortFn<O>;
+    export const byProp: <T = number, O extends object = object>(propName: keyof O, sortFn?: SortFn<T>) => SortFn<O>;
     /**<!-- DOCS: fn.nearestTo #### @ -->
      * nearestTo
      *
@@ -1743,7 +1743,7 @@ declare namespace fn {
      * @param {SortFn<T>} [sortFn=asc]
      * @returns {(a: T[], b: T[]) => number}
      */
-    export const array: <T extends unknown>(sortFn?: SortFn<T>) => (a: T[], b: T[]) => number;
+    export const array: <T>(sortFn?: SortFn<T>) => (a: T[], b: T[]) => number;
     /**<!-- DOCS: fn.arrayAsc #### @ -->
      * arrayAsc
      *
@@ -1792,7 +1792,7 @@ declare namespace fn {
      * @param {T} b
      * @returns {T}
      */
-    export const combine: <T extends unknown = number>(a: T, b: T) => T;
+    export const combine: <T = number>(a: T, b: T) => T;
     /**<!-- DOCS: fn.combineProp #### @ -->
      * combineProp
      *
@@ -1810,7 +1810,7 @@ declare namespace fn {
      * @param {string | number} propName
      * @returns {(a: O | T, b: O) => T}
      */
-    export const combineProp: <O extends unknown, T extends unknown = number>(propName: string | number) => (a: O | T, b: O) => T;
+    export const combineProp: <O, T = number>(propName: string | number) => (a: O | T, b: O) => T;
     /**<!-- DOCS: fn.mode #### @ -->
      * mode
      *
@@ -1829,7 +1829,7 @@ declare namespace fn {
      * @param {T[]} arr
      * @returns {T}
      */
-    export const mode: <T extends unknown>(prev: T, curr: T, index: number, arr: T[]) => T;
+    export const mode: <T>(prev: T, curr: T, index: number, arr: T[]) => T;
     /**<!-- DOCS: fn.modeMapped #### @ -->
      * modeMapped
      *
@@ -1845,7 +1845,7 @@ declare namespace fn {
      * @param {(value: T, index: number, array: T[]) => U} mapFn
      * @returns {(prev: T, curr: T, index: number, arr: T[]) => T}
      */
-    export const modeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
+    export const modeMapped: <T, U>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
     /**<!-- DOCS: fn.everys ### -->
      * everys
      *
@@ -1891,7 +1891,7 @@ declare namespace fn {
      * @param {T[]} arr
      * @returns {boolean}
      */
-    export const isUnique: <T extends unknown>(val: T, i: number, arr: T[]) => boolean;
+    export const isUnique: <T>(val: T, i: number, arr: T[]) => boolean;
     /**<!-- DOCS: fn.groups ### -->
      * groups
      *
@@ -1919,7 +1919,7 @@ declare namespace fn {
      * @param {number} size
      * @returns {(value: T, index: number, array: T[]) => number}
      */
-    export const bySize: <T extends unknown>(size: number) => (value: T, index: number, array: T[]) => number;
+    export const bySize: <T>(size: number) => (value: T, index: number, array: T[]) => number;
     /**<!-- DOCS: fn.byNumGroups #### @ -->
      * byNumGroups
      *
@@ -1938,7 +1938,7 @@ declare namespace fn {
      * @param {number} numGroups
      * @returns {(value: T, index: number, array: T[]) => any}
      */
-    export const byNumGroups: <T extends unknown>(numGroups: number) => (value: T, index: number, array: T[]) => any;
+    export const byNumGroups: <T>(numGroups: number) => (value: T, index: number, array: T[]) => any;
     /**<!-- DOCS-ALIAS: fn.filters -->
      * filters
      * 
@@ -2080,7 +2080,7 @@ declare namespace fn {
          * @param {T[]} array
          * @returns {boolean}
          */
-        const dedupe: <T extends unknown>(item: T, index: number, array: T[]) => boolean;
+        const dedupe: <T>(item: T, index: number, array: T[]) => boolean;
         /**<!-- DOCS-ALIAS: fn.dedupeMapped -->
          * dedupeMapped
          * 
@@ -2096,7 +2096,7 @@ declare namespace fn {
          * @param {(value?: T, index?: number, array?: T[]) => U} mapFn
          * @returns {(item: T, index: number, array: T[]) => boolean}
          */
-        const dedupeMapped: <T extends unknown, U extends unknown>(mapFn: (value?: T, index?: number, array?: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
+        const dedupeMapped: <T, U>(mapFn: (value?: T, index?: number, array?: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
     }
     /**<!-- DOCS-ALIAS: fn.maps -->
      * maps
@@ -2170,7 +2170,7 @@ declare namespace fn {
          * @param {string | number} prop
          * @returns {(item: O) => P}
          */
-        const toProp: <P = string, O = Object>(prop: string | number) => (item: O) => P;
+        const toProp: <P = string, O extends object = object>(prop: string | number) => (item: O) => P;
         /**<!-- DOCS-ALIAS: fn.toFixed -->
          * toFixed
          * 
@@ -2243,11 +2243,11 @@ declare namespace fn {
          * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
          * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
          * ```
-         * @param {string | number} propName
+         * @param {keyof O} propName
          * @param {SortFn<T>} [sortFn=asc]
          * @returns {SortFn<O>}
          */
-        const byProp: <T = number, O = Object>(propName: string | number, sortFn?: SortFn<T>) => SortFn<O>;
+        const byProp: <T = number, O extends object = object>(propName: keyof O, sortFn?: SortFn<T>) => SortFn<O>;
         /**<!-- DOCS-ALIAS: fn.nearestTo -->
          * nearestTo
          * 
@@ -2297,7 +2297,7 @@ declare namespace fn {
          * @param {SortFn<T>} [sortFn=asc]
          * @returns {(a: T[], b: T[]) => number}
          */
-        const array: <T extends unknown>(sortFn?: SortFn<T>) => (a: T[], b: T[]) => number;
+        const array: <T>(sortFn?: SortFn<T>) => (a: T[], b: T[]) => number;
         /**<!-- DOCS-ALIAS: fn.arrayAsc -->
          * arrayAsc
          * 
@@ -2348,7 +2348,7 @@ declare namespace fn {
          * @param {T} b
          * @returns {T}
          */
-        const combine: <T extends unknown = number>(a: T, b: T) => T;
+        const combine: <T = number>(a: T, b: T) => T;
         /**<!-- DOCS-ALIAS: fn.combineProp -->
          * combineProp
          * 
@@ -2366,7 +2366,7 @@ declare namespace fn {
          * @param {string | number} propName
          * @returns {(a: O | T, b: O) => T}
          */
-        const combineProp: <O extends unknown, T extends unknown = number>(propName: string | number) => (a: O | T, b: O) => T;
+        const combineProp: <O, T = number>(propName: string | number) => (a: O | T, b: O) => T;
         /**<!-- DOCS-ALIAS: fn.mode -->
          * mode
          * 
@@ -2385,7 +2385,7 @@ declare namespace fn {
          * @param {T[]} arr
          * @returns {T}
          */
-        const mode: <T extends unknown>(prev: T, curr: T, index: number, arr: T[]) => T;
+        const mode: <T>(prev: T, curr: T, index: number, arr: T[]) => T;
         /**<!-- DOCS-ALIAS: fn.modeMapped -->
          * modeMapped
          * 
@@ -2401,7 +2401,7 @@ declare namespace fn {
          * @param {(value: T, index: number, array: T[]) => U} mapFn
          * @returns {(prev: T, curr: T, index: number, arr: T[]) => T}
          */
-        const modeMapped: <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
+        const modeMapped: <T, U>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
     }
     /**<!-- DOCS-ALIAS: fn.everys -->
      * everys
@@ -2449,7 +2449,7 @@ declare namespace fn {
          * @param {T[]} arr
          * @returns {boolean}
          */
-        const isUnique: <T extends unknown>(val: T, i: number, arr: T[]) => boolean;
+        const isUnique: <T>(val: T, i: number, arr: T[]) => boolean;
     }
     /**<!-- DOCS-ALIAS: fn.groups -->
      * groups
@@ -2479,7 +2479,7 @@ declare namespace fn {
          * @param {number} size
          * @returns {(value: T, index: number, array: T[]) => number}
          */
-        const bySize: <T extends unknown>(size: number) => (value: T, index: number, array: T[]) => number;
+        const bySize: <T>(size: number) => (value: T, index: number, array: T[]) => number;
         /**<!-- DOCS-ALIAS: fn.byNumGroups -->
          * byNumGroups
          * 
@@ -2498,7 +2498,7 @@ declare namespace fn {
          * @param {number} numGroups
          * @returns {(value: T, index: number, array: T[]) => any}
          */
-        const byNumGroups: <T extends unknown>(numGroups: number) => (value: T, index: number, array: T[]) => any;
+        const byNumGroups: <T>(numGroups: number) => (value: T, index: number, array: T[]) => any;
     }
     export {};
 }
@@ -2778,10 +2778,10 @@ declare namespace ArrayTools {
      *
      * Create an array of the given length, where each value is the given value
      * @param {number} [length=1]
-     * @param {T} [value=1 as T]
+     * @param {T} [value=1 as unknown as T]
      * @returns {T[]}
      */
-    export const create: <T extends unknown = number>(length?: number, value?: T) => T[];
+    export const create: <T = number>(length?: number, value?: T) => T[];
     /**<!-- DOCS: ArrayTools.filled ### @ -->
      * filled
      *
@@ -2793,7 +2793,7 @@ declare namespace ArrayTools {
      * @param {T} value
      * @returns {T[]}
      */
-    export const filled: <T extends unknown>(length: number, value: T) => T[];
+    export const filled: <T>(length: number, value: T) => T[];
     /**<!-- DOCS: ArrayTools.range ### @ -->
      * range
      *
@@ -2976,7 +2976,7 @@ declare namespace ArrayTools {
      * @param {T[]} arr
      * @returns {T[]}
      */
-    export const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
+    export const roll: <T>(distance: number, arr: T[]) => T[];
     /**<!-- DOCS: ArrayTools.sortNumberedText ### @ -->
      * sortNumberedText
      *
@@ -3010,7 +3010,7 @@ declare namespace ArrayTools {
      * @param {number} [partitionSize=Math.ceil(array.length / 2)]
      * @returns {T[][]}
      */
-    export const partition: <T extends unknown>(array: T[], partitionSize?: number) => T[][];
+    export const partition: <T>(array: T[], partitionSize?: number) => T[][];
     /**<!-- DOCS: ArrayTools.groupObj ### @ -->
      * groupObj
      *
@@ -3034,7 +3034,7 @@ declare namespace ArrayTools {
      * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
      * @returns {{ [id: string]: T[]; [id: number]: T[]; }}
      */
-    export const groupObj: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => {
+    export const groupObj: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => {
         [id: string]: T[];
         [id: number]: T[];
     };
@@ -3061,7 +3061,7 @@ declare namespace ArrayTools {
      * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
      * @returns {T[][]}
      */
-    export const group: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
+    export const group: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
     /**<!-- DOCS: ArrayTools.findAndRemove ### @ -->
      * findAndRemove
      *
@@ -3075,7 +3075,7 @@ declare namespace ArrayTools {
      * @param {...T} [insertItems] items to insert in place of the removed item
      * @returns {T} the removed item (undefined if not found)
      */
-    export const findAndRemove: <T extends unknown>(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]) => T;
+    export const findAndRemove: <T>(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]) => T;
     /**<!-- DOCS: ArrayTools.findLastAndRemove ### @ -->
      * findLastAndRemove
      *
@@ -3089,7 +3089,7 @@ declare namespace ArrayTools {
      * @param {...T} [insertItems] items to insert in place of the removed item
      * @returns {T} the removed item (undefined if not found)
      */
-    export const findLastAndRemove: <T extends unknown>(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]) => T;
+    export const findLastAndRemove: <T>(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]) => T;
     /**<!-- DOCS: ArrayTools.filterAndRemove ### @ -->
      * filterAndRemove
      *
@@ -3102,7 +3102,7 @@ declare namespace ArrayTools {
      * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
      * @returns {T[]} the removed items
      */
-    export const filterAndRemove: <T extends unknown>(array: T[], predicate: (item: T, index: number, arr: T[]) => any) => T[];
+    export const filterAndRemove: <T>(array: T[], predicate: (item: T, index: number, arr: T[]) => any) => T[];
     /**<!-- DOCS: ArrayTools.utils ### @ -->
      * utils
      *
@@ -3142,10 +3142,10 @@ declare namespace ArrayTools {
  * 
  * Create an array of the given length, where each value is the given value
  * @param {number} [length=1]
- * @param {T} [value=1 as T]
+ * @param {T} [value=1 as unknown as T]
  * @returns {T[]}
  */
-declare const create: <T extends unknown = number>(length?: number, value?: T) => T[];
+declare const create: <T = number>(length?: number, value?: T) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.filled -->
  * filled
  * 
@@ -3157,7 +3157,7 @@ declare const create: <T extends unknown = number>(length?: number, value?: T) =
  * @param {T} value
  * @returns {T[]}
  */
-declare const filled: <T extends unknown>(length: number, value: T) => T[];
+declare const filled: <T>(length: number, value: T) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.range -->
  * range
  * 
@@ -3338,7 +3338,7 @@ declare const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
  * @param {T[]} arr
  * @returns {T[]}
  */
-declare const roll: <T extends unknown>(distance: number, arr: T[]) => T[];
+declare const roll: <T>(distance: number, arr: T[]) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.sortNumberedText -->
  * sortNumberedText
  * 
@@ -3372,7 +3372,7 @@ declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => strin
  * @param {number} [partitionSize=Math.ceil(array.length / 2)]
  * @returns {T[][]}
  */
-declare const partition: <T extends unknown>(array: T[], partitionSize?: number) => T[][];
+declare const partition: <T>(array: T[], partitionSize?: number) => T[][];
 /**<!-- DOCS-ALIAS: ArrayTools.groupObj -->
  * groupObj
  * 
@@ -3396,7 +3396,7 @@ declare const partition: <T extends unknown>(array: T[], partitionSize?: number)
  * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
  * @returns {{ [id: string]: T[]; [id: number]: T[]; }}
  */
-declare const groupObj: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => {
+declare const groupObj: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => {
     [id: string]: T[];
     [id: number]: T[];
 };
@@ -3423,7 +3423,7 @@ declare const groupObj: <T extends unknown>(array: T[], mapFn: (item: T, index: 
  * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
  * @returns {T[][]}
  */
-declare const group: <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
+declare const group: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
 
 /**<!-- DOCS: ObjectTools ##! -->
  * ObjectTools
@@ -3446,7 +3446,7 @@ declare namespace ObjectTools {
      * @param {(entries: [string, V][]) => [string, W][]} func
      * @returns {O}
      */
-    const remodel: <T extends unknown = Object, V extends unknown = any, W extends unknown = any, O extends unknown = OfType<T, W>>(obj: T, func: (entries: [string, V][]) => [string, W][]) => O;
+    const remodel: <T extends object, V = any, W = any, O = OfType<T, W>>(obj: T, func: (entries: [string, V][]) => [string, W][]) => O;
     /**<!-- DOCS: ObjectTools.remodelEach ### @ -->
      * remodelEach
      *
@@ -3461,10 +3461,10 @@ declare namespace ObjectTools {
      * ObjectTools.remodelEach(input, ([k, v]) => [k, v * 2]) // { foo: 4, bar: 2, baz: 8 }
      * ```
      * @param {T} obj
-     * @param {(entry: [string, V], index: number, entries: [string, V][]) => [string, W]} func
+     * @param {(entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]} func
      * @returns {O}
      */
-    const remodelEach: <T extends unknown = Object, V extends unknown = any, W extends unknown = any, O extends unknown = OfType<T, W>>(obj: T, func: (entry: [string, V], index: number, entries: [string, V][]) => [string, W]) => O;
+    const remodelEach: <T extends object, Vi = any, Vo = any, O = OfType<T, Vo>>(obj: T, func: (entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]) => O;
     /**<!-- DOCS: ObjectTools.map ### @ -->
      * map
      *
@@ -3476,10 +3476,10 @@ declare namespace ObjectTools {
      * ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => [key, key + value]); // {a: 'a1', b: 'b2', c: 'c3'}
      * ```
      * @param {T} obj
-     * @param {(key: string, value: V, index: number) => [string, W]} func
+     * @param {(key: string, value: Vi, index: number) => [string, Vo]} func
      * @returns {any}
      */
-    const map: <T extends unknown, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V, index: number) => [string, W]) => OfType<T, W>;
+    const map: <T extends object, Vi, Vo>(obj: T, func: (key: string, value: Vi, index: number) => [string, Vo]) => OfType<T, Vo>;
     /**<!-- DOCS: ObjectTools.mapValues ### @ -->
      * mapValues
      *
@@ -3491,10 +3491,10 @@ declare namespace ObjectTools {
      * ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: 'a', b: 'bb', c: 'ccc'}
      * ```
      * @param {T} obj
-     * @param {(key: string, value: V, index: number) => W} func
+     * @param {(key: string, value: Vi, index: number) => Vo} func
      * @returns {any}
      */
-    const mapValues: <T extends unknown, V extends unknown, W extends unknown>(obj: T, func: (key: string, value: V, index: number) => W) => OfType<T, W>;
+    const mapValues: <T extends object, Vi, Vo>(obj: T, func: (key: string, value: Vi, index: number) => Vo) => OfType<T, Vo>;
     /**<!-- DOCS: ObjectTools.mapKeys ### @ -->
      * mapKeys
      *
@@ -3509,7 +3509,7 @@ declare namespace ObjectTools {
      * @param {(key: string, value: V, index: number) => string} func
      * @returns {T}
      */
-    const mapKeys: <T extends unknown, V extends unknown>(obj: T, func: (key: string, value: V, index: number) => string) => T;
+    const mapKeys: <T extends object, V>(obj: T, func: (key: string, value: V, index: number) => string) => T;
     /**<!-- DOCS: ObjectTools.filter ### @ -->
      * filter
      *
@@ -3524,7 +3524,7 @@ declare namespace ObjectTools {
      * @param {(key: string, value: V, index: number) => boolean} func
      * @returns {O}
      */
-    const filter: <T extends unknown, V extends unknown, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean) => O;
+    const filter: <T extends object, V, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean) => O;
     /**<!-- DOCS: ObjectTools.clean ### @ -->
      * clean
      *
@@ -3538,7 +3538,7 @@ declare namespace ObjectTools {
      * @param {T} obj
      * @returns {O}
      */
-    const clean: <T extends unknown, O extends Partial<T>>(obj: T) => O;
+    const clean: <T extends object, O extends Partial<T>>(obj: T) => O;
     /**<!-- DOCS: ObjectTools.invert ### @ -->
      * invert
      *
@@ -3549,10 +3549,10 @@ declare namespace ObjectTools {
      * ```typescript
      * ObjectTools.invert({ a: 'foo', b: 'bar' }); // { foo: 'a', bar: 'b'}
      * ```
-     * @param {Ti} obj
-     * @returns {To}
+     * @param {T} obj
+     * @returns {O}
      */
-    const invert: <Ti extends unknown, To extends ObjOfType<string>>(obj: Ti) => To;
+    const invert: <T extends object, O extends ObjOfType<string>>(obj: T) => O;
 }
 
 declare type ClxType = string | boolean | {
@@ -4493,7 +4493,7 @@ declare namespace PromiseTools {
      * ```
      * @returns {DeferredPromise<T>}
      */
-    export const getDeferred: <T extends unknown>() => DeferredPromise<T>;
+    export const getDeferred: <T>() => DeferredPromise<T>;
     /**<!-- DOCS: PromiseTools.all ### @ -->
      * all
      *
@@ -4504,7 +4504,7 @@ declare namespace PromiseTools {
      * @param {PromiseTools.PromiseItem<T>[]} items
      * @returns {Promise<T[]>}
      */
-    export const all: <T extends unknown>(items: PromiseItem<T>[]) => Promise<T[]>;
+    export const all: <T>(items: PromiseItem<T>[]) => Promise<T[]>;
     /**<!-- DOCS: PromiseTools.allLimit ### @ -->
      * allLimit
      *
@@ -4550,7 +4550,7 @@ declare namespace PromiseTools {
      * @param {boolean} [noThrow=false]
      * @returns {Promise<T[]>}
      */
-    export const allLimit: <T extends unknown>(limit: number, items: PromiseItem<T>[], noThrow?: boolean) => Promise<T[]>;
+    export const allLimit: <T>(limit: number, items: PromiseItem<T>[], noThrow?: boolean) => Promise<T[]>;
     /**<!-- DOCS: PromiseTools.each ### @ -->
      * each
      *
@@ -4570,11 +4570,11 @@ declare namespace PromiseTools {
      * });
      * console.log(''); // after 2 seconds
      * ```
-     * @param {Ti[]} items
-     * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
+     * @param {T[]} items
+     * @param {(item: T, index: number, array: T[]) => Promise<any>} func
      * @returns {Promise<void>}
      */
-    export const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<void>;
+    export const each: <T>(items: T[], func: (item: T, index: number, array: T[]) => Promise<any>) => Promise<void>;
     /**<!-- DOCS: PromiseTools.eachLimit ### @ -->
      * eachLimit
      *
@@ -4597,11 +4597,11 @@ declare namespace PromiseTools {
      * console.log(''); // after 4 seconds
      * ```
      * @param {number} limit
-     * @param {Ti[]} items
-     * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
+     * @param {T[]} items
+     * @param {(item: T, index: number, array: T[]) => Promise<any>} func
      * @returns {Promise<void>}
      */
-    export const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<void>;
+    export const eachLimit: <T>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<any>) => Promise<void>;
     /**<!-- DOCS: PromiseTools.map ### @ -->
      * map
      *
@@ -4622,11 +4622,11 @@ declare namespace PromiseTools {
      *
      * console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
      * ```
-     * @param {Ti[]} items
-     * @param {(item: Ti, index: number, array: Ti[]) => Promise<To>} func
-     * @returns {Promise<To[]>}
+     * @param {T[]} items
+     * @param {(item: T, index: number, array: T[]) => Promise<U>} func
+     * @returns {Promise<U[]>}
      */
-    export const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
+    export const map: <T, U>(items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
     /**<!-- DOCS: PromiseTools.mapLimit ### @ -->
      * mapLimit
      *
@@ -4650,16 +4650,16 @@ declare namespace PromiseTools {
      * console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
      * ```
      * @param {number} limit
-     * @param {Ti[]} items
-     * @param {(item: Ti, index: number, array: Ti[]) => Promise<To>} func
-     * @returns {Promise<To[]>}
+     * @param {T[]} items
+     * @param {(item: T, index: number, array: T[]) => Promise<U>} func
+     * @returns {Promise<U[]>}
      */
-    export const mapLimit: <Ti extends unknown, To extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
-    type UnWrapPromise<T> = T extends Promise<infer U> ? U : T;
-    type UnWrapPromiseObject<T> = {
-        [K in keyof T]: UnWrapPromise<T[K]>;
-    };
-    /**<!-- DOCS: PromiseTools.allObj ### @ -->
+    export const mapLimit: <T, U>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
+    type AwaitedItem<T> = T extends Promise<infer U> ? Awaited<U> : T extends () => Promise<infer U> ? Awaited<U> : T;
+    type AwaitedObject<T> = Prettify<{
+        [K in keyof T]: AwaitedItem<T[K]>;
+    }>;
+    /**<!-- DOCS: PromiseTools.allObj ### -->
      * allObj
      *
      * - `allObj`
@@ -4696,10 +4696,10 @@ declare namespace PromiseTools {
      * // 	c: 20s
      * ```
      * @param {T} input
-     * @returns {Promise<UnWrapPromiseObject<T>>}
+     * @returns {Promise<AwaitedObject<T>>}
      */
-    export const allObj: <T extends Object>(input: T) => Promise<UnWrapPromiseObject<T>>;
-    /**<!-- DOCS: PromiseTools.allLimitObj ### @ -->
+    export const allObj: <T extends object>(input: T) => Promise<{ [K_1 in keyof T]: AwaitedItem<T[K_1]>; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: AwaitedItem<T[K_1]>; }[K]; } : never>;
+    /**<!-- DOCS: PromiseTools.allLimitObj ### -->
      * allLimitObj
      *
      * - `allLimitObj`
@@ -4742,9 +4742,9 @@ declare namespace PromiseTools {
      * @param {number} limit
      * @param {T} input
      * @param {boolean} [noThrow=false]
-     * @returns {Promise<UnWrapPromiseObject<T>>}
+     * @returns {Promise<AwaitedObject<T>>}
      */
-    export const allLimitObj: <T extends Object>(limit: number, input: T, noThrow?: boolean) => Promise<UnWrapPromiseObject<T>>;
+    export const allLimitObj: <T extends object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K_1 in keyof T]: AwaitedItem<T[K_1]>; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: AwaitedItem<T[K_1]>; }[K]; } : never>;
     /**<!-- DOCS: PromiseTools.PromiseFunc ### -->
      * PromiseFunc<T>
      *
@@ -4801,7 +4801,7 @@ declare type DeferredPromise<T> = PromiseTools.DeferredPromise<T>;
  * ```
  * @returns {DeferredPromise<T>}
  */
-declare const getDeferred: <T extends unknown>() => PromiseTools.DeferredPromise<T>;
+declare const getDeferred: <T>() => PromiseTools.DeferredPromise<T>;
 /**<!-- DOCS-ALIAS: PromiseTools.all -->
  * all
  * 
@@ -4812,7 +4812,7 @@ declare const getDeferred: <T extends unknown>() => PromiseTools.DeferredPromise
  * @param {PromiseTools.PromiseItem<T>[]} items
  * @returns {Promise<T[]>}
  */
-declare const all: <T extends unknown>(items: PromiseTools.PromiseItem<T>[]) => Promise<T[]>;
+declare const all: <T>(items: PromiseTools.PromiseItem<T>[]) => Promise<T[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.allLimit -->
  * allLimit
  * 
@@ -4858,7 +4858,7 @@ declare const all: <T extends unknown>(items: PromiseTools.PromiseItem<T>[]) => 
  * @param {boolean} [noThrow=false]
  * @returns {Promise<T[]>}
  */
-declare const allLimit: <T extends unknown>(limit: number, items: PromiseTools.PromiseItem<T>[], noThrow?: boolean) => Promise<T[]>;
+declare const allLimit: <T>(limit: number, items: PromiseTools.PromiseItem<T>[], noThrow?: boolean) => Promise<T[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.each -->
  * each
  * 
@@ -4878,11 +4878,11 @@ declare const allLimit: <T extends unknown>(limit: number, items: PromiseTools.P
  * });
  * console.log(''); // after 2 seconds
  * ```
- * @param {Ti[]} items
- * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
+ * @param {T[]} items
+ * @param {(item: T, index: number, array: T[]) => Promise<any>} func
  * @returns {Promise<void>}
  */
-declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<void>;
+declare const each: <T>(items: T[], func: (item: T, index: number, array: T[]) => Promise<any>) => Promise<void>;
 /**<!-- DOCS-ALIAS: PromiseTools.eachLimit -->
  * eachLimit
  * 
@@ -4905,11 +4905,11 @@ declare const each: <Ti extends unknown>(items: Ti[], func: (item: Ti, index: nu
  * console.log(''); // after 4 seconds
  * ```
  * @param {number} limit
- * @param {Ti[]} items
- * @param {(item: Ti, index: number, array: Ti[]) => Promise<any>} func
+ * @param {T[]} items
+ * @param {(item: T, index: number, array: T[]) => Promise<any>} func
  * @returns {Promise<void>}
  */
-declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>) => Promise<void>;
+declare const eachLimit: <T>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<any>) => Promise<void>;
 /**<!-- DOCS-ALIAS: PromiseTools.map -->
  * map
  * 
@@ -4930,11 +4930,11 @@ declare const eachLimit: <Ti extends unknown>(limit: number, items: Ti[], func: 
  * 
  * console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
  * ```
- * @param {Ti[]} items
- * @param {(item: Ti, index: number, array: Ti[]) => Promise<To>} func
- * @returns {Promise<To[]>}
+ * @param {T[]} items
+ * @param {(item: T, index: number, array: T[]) => Promise<U>} func
+ * @returns {Promise<U[]>}
  */
-declare const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
+declare const map: <T, U>(items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.mapLimit -->
  * mapLimit
  * 
@@ -4958,11 +4958,11 @@ declare const map: <Ti extends unknown, To extends unknown>(items: Ti[], func: (
  * console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
  * ```
  * @param {number} limit
- * @param {Ti[]} items
- * @param {(item: Ti, index: number, array: Ti[]) => Promise<To>} func
- * @returns {Promise<To[]>}
+ * @param {T[]} items
+ * @param {(item: T, index: number, array: T[]) => Promise<U>} func
+ * @returns {Promise<U[]>}
  */
-declare const mapLimit: <Ti extends unknown, To extends unknown>(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>) => Promise<To[]>;
+declare const mapLimit: <T, U>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.allObj -->
  * allObj
  * 
@@ -5000,9 +5000,9 @@ declare const mapLimit: <Ti extends unknown, To extends unknown>(limit: number, 
  * // 	c: 20s
  * ```
  * @param {T} input
- * @returns {Promise<UnWrapPromiseObject<T>>}
+ * @returns {Promise<AwaitedObject<T>>}
  */
-declare const allObj: <T extends Object>(input: T) => Promise<{ [K in keyof T]: T[K] extends infer T_1 ? T_1 extends T[K] ? T_1 extends Promise<unknown> ? unknown : T_1 : never : never; }>;
+declare const allObj: <T extends object>(input: T) => Promise<{ [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; }[K]; } : never>;
 /**<!-- DOCS-ALIAS: PromiseTools.allLimitObj -->
  * allLimitObj
  * 
@@ -5046,9 +5046,9 @@ declare const allObj: <T extends Object>(input: T) => Promise<{ [K in keyof T]: 
  * @param {number} limit
  * @param {T} input
  * @param {boolean} [noThrow=false]
- * @returns {Promise<UnWrapPromiseObject<T>>}
+ * @returns {Promise<AwaitedObject<T>>}
  */
-declare const allLimitObj: <T extends Object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K in keyof T]: T[K] extends infer T_1 ? T_1 extends T[K] ? T_1 extends Promise<unknown> ? unknown : T_1 : never : never; }>;
+declare const allLimitObj: <T extends object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; }[K]; } : never>;
 
 /**<!-- DOCS: ErrorTools ##! -->
  * ErrorTools
@@ -5068,11 +5068,11 @@ declare namespace ErrorTools {
      * const result = tryOr('default', () => getSomething());
      * ```
      * @param {T} orValue
-     * @param {(...args: A) => Promise<T>} func
+     * @param {(...args: A[]) => Promise<T>} func
      * @param {...A} [args]
      * @returns {Promise<T>}
      */
-    export const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: (...args: A) => Promise<T>, ...args: A) => Promise<T>;
+    export const tryOr: <T, A>(orValue: T, func: (...args: A[]) => Promise<T>, ...args: A[]) => Promise<T>;
     /**<!-- DOCS: ErrorTools.retry ### @ -->
      * retry
      *
@@ -5090,7 +5090,7 @@ declare namespace ErrorTools {
      * @param {(attemptNumber) => T} [run=fn.result(undefined as T)]
      * @returns {Promise<T>}
      */
-    export const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
+    export const retry: <T>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
     /**<!-- DOCS: ErrorTools.retryOr ### @ -->
      * retryOr
      *
@@ -5110,7 +5110,7 @@ declare namespace ErrorTools {
      * @param {() => T | Promise<T>} [run=fn.result(orValue)]
      * @returns {Promise<T>}
      */
-    export const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
+    export const retryOr: <T>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
     type TryCatchResult<T, E = Error> = {
         result: T;
         error: null;
@@ -5159,11 +5159,11 @@ declare namespace ErrorTools {
  * const result = tryOr('default', () => getSomething());
  * ```
  * @param {T} orValue
- * @param {(...args: A) => Promise<T>} func
+ * @param {(...args: A[]) => Promise<T>} func
  * @param {...A} [args]
  * @returns {Promise<T>}
  */
-declare const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: (...args: A) => Promise<T>, ...args: A) => Promise<T>;
+declare const tryOr: <T, A>(orValue: T, func: (...args: A[]) => Promise<T>, ...args: A[]) => Promise<T>;
 /**<!-- DOCS-ALIAS: ErrorTools.retry -->
  * retry
  * 
@@ -5181,7 +5181,7 @@ declare const tryOr: <T extends unknown, A extends unknown[]>(orValue: T, func: 
  * @param {(attemptNumber) => T} [run=fn.result(undefined as T)]
  * @returns {Promise<T>}
  */
-declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
+declare const retry: <T>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
 /**<!-- DOCS-ALIAS: ErrorTools.retryOr -->
  * retryOr
  * 
@@ -5201,7 +5201,7 @@ declare const retry: <T extends unknown>(maxTries?: number, delay?: ms, suppress
  * @param {() => T | Promise<T>} [run=fn.result(orValue)]
  * @returns {Promise<T>}
  */
-declare const retryOr: <T extends unknown>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
+declare const retryOr: <T>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
 /**<!-- DOCS-ALIAS: ErrorTools.tryCatch -->
  * tryCatch
  * 
@@ -6940,7 +6940,7 @@ declare namespace safe {
      * @param {T} [fallback={} as T]
      * @returns {T}
      */
-    const obj: <T extends unknown>(input: T, allowArrays?: boolean, fallback?: T) => T;
+    const obj: <T extends object>(input: T, allowArrays?: boolean, fallback?: T) => T;
     /**<!-- DOCS: safe.objWith ### @ -->
      * objWith
      *
@@ -6991,7 +6991,7 @@ declare namespace safe {
      * @param {boolean} [allowComposition=true]
      * @returns {T}
      */
-    const objWith: <T extends unknown>(input: T, objConfig: ObjWithConfig<T>, allowComposition?: boolean) => T;
+    const objWith: <T extends object>(input: T, objConfig: ObjWithConfig<T>, allowComposition?: boolean) => T;
     /**<!-- DOCS: safe.arr ### @ -->
      * arr
      *
@@ -7024,7 +7024,7 @@ declare namespace safe {
      * @param {number} [maxLength=Infinity]
      * @returns {T[]}
      */
-    const arr: <T extends unknown>(input: T[], fallback?: T[], minLength?: number, maxLength?: number) => T[];
+    const arr: <T>(input: T[], fallback?: T[], minLength?: number, maxLength?: number) => T[];
     /**<!-- DOCS: safe.prop ### @ -->
      * prop
      *
@@ -7053,11 +7053,11 @@ declare namespace safe {
      * safe.prop(null, 'bar'); // 'bar'
      * safe.prop(undefined, 'bar'); // 'bar'
      * ```
-     * @param {string | number} input
-     * @param {string | number} [fallback='']
+     * @param {string | number | symbol} input
+     * @param {string | number | symbol} [fallback='']
      * @returns {string | number}
      */
-    const prop: (input: string | number, fallback?: string | number) => string | number;
+    const prop: (input: string | number | symbol, fallback?: string | number | symbol) => string | number;
     /**<!-- DOCS: safe.arrOf ### -->
      * arrOf
      *
@@ -7248,7 +7248,7 @@ declare namespace safe {
          * @param {number} [arrMaxLength=Infinity]
          * @returns {T[]}
          */
-        const obj: <T extends unknown>(input: T[], allowArrays?: boolean, fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
+        const obj: <T extends object>(input: T[], allowArrays?: boolean, fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
         /**<!-- DOCS: safe.arrOf.objWith #### @ -->
          * objWith
          *
@@ -7296,7 +7296,7 @@ declare namespace safe {
          * @param {number} [arrMaxLength=Infinity]
          * @returns {T[]}
          */
-        const objWith: <T extends unknown>(input: T[], objConfig: ObjWithConfig<T>, allowComposition?: boolean, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
+        const objWith: <T extends object>(input: T[], objConfig: ObjWithConfig<T>, allowComposition?: boolean, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
         /**<!-- DOCS: safe.arrOf.arr #### @ -->
          * arr
          *
@@ -7332,7 +7332,7 @@ declare namespace safe {
          * @param {number} [arrMaxLength=Infinity]
          * @returns {T[][]}
          */
-        const arr: <T extends unknown>(input: T[][], fallback?: T[], fallbackArr?: T[][], arrMinLength?: number, arrMaxLength?: number) => T[][];
+        const arr: <T>(input: T[][], fallback?: T[], fallbackArr?: T[][], arrMinLength?: number, arrMaxLength?: number) => T[][];
         /**<!-- DOCS: safe.arrOf.prop #### @ -->
          * prop
          *
@@ -7361,14 +7361,14 @@ declare namespace safe {
          * safe.arrOf.prop(null, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
          * safe.arrOf.prop(undefined, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
          * ```
-         * @param {(string | number)[]} input
-         * @param {string | number} [fallback]
-         * @param {(string | number)[]} [fallbackArr=[]]
+         * @param {(string | number | symbol)[]} input
+         * @param {string | number | symbol} [fallback]
+         * @param {(string | number | symbol)[]} [fallbackArr=[]]
          * @param {number} [arrMinLength=0]
          * @param {number} [arrMaxLength=Infinity]
          * @returns {(string | number)[]}
          */
-        const prop: (input: (string | number)[], fallback?: string | number, fallbackArr?: (string | number)[], arrMinLength?: number, arrMaxLength?: number) => (string | number)[];
+        const prop: (input: (string | number | symbol)[], fallback?: string | number | symbol, fallbackArr?: (string | number | symbol)[], arrMinLength?: number, arrMaxLength?: number) => (string | number)[];
     }
     /**<!-- DOCS: safe.ObjWithConfig ### -->
      * ObjWithConfig<O>
@@ -7408,6 +7408,11 @@ declare namespace safe {
  * cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
  * cachier.get('foo'); // { "name": "foo" }
  *
+ * // Save with expiry (expires in 5 seconds)
+ * cachier.save('tmp1', { name: 'tmp1' }, seconds(5)); // { "name": "tmp1" }
+ * cachier.get('tmp1'); // { "name": "tmp1" }
+ * // After 5 seconds: cachier.get('tmp1'); // undefined
+ *
  * // Overwrite
  * cachier.save('foo', { name: 'bar' }); // { "name": "bar" }
  * cachier.get('foo'); // { "name": "bar" }
@@ -7416,9 +7421,19 @@ declare namespace safe {
  * cachier.getOrSave('foo', { name: 'baz' }); // { "name": "bar" }
  * cachier.get('foo'); // { "name": "bar" }
  *
+ * // Get if exists, otherwise save with expiry
+ * cachier.getOrSave('tmp2', { name: 'tmp2' }, seconds(3)); // { "name": "tmp2" }
+ * cachier.get('tmp2'); // { "name": "tmp2" }
+ * // After 3 seconds: cachier.get('tmp2'); // undefined
+ *
  * // Get if exists, otherwise run function to create and save
  * cachier.getOrRun('foo', () => ({ name: 'qux' })); // { "name": "bar" }
  * cachier.get('foo'); // { "name": "bar" }
+ *
+ * // Get if exists, otherwise run function with expiry
+ * cachier.getOrRun('tmp3', () => ({ name: 'tmp3' }), seconds(2)); // { "name": "tmp3" }
+ * cachier.get('tmp3'); // { "name": "tmp3" }
+ * // After 2 seconds: cachier.get('tmp3'); // undefined
  *
  * // Remove
  * cachier.remove('foo');
@@ -7476,6 +7491,11 @@ interface Cachier<T> {
      *
      * cachier.getOrSave('foo', { name: 'SOMETHING DIFFERENT' }); // { "name": "lorem" }
      * cachier.get('foo'); // { "name": "lorem" }
+     *
+     * // With expiry (expires in 10 seconds)
+     * cachier.getOrSave('bar', { name: 'bar' }, seconds(10)); // { "name": "bar" }
+     * cachier.get('bar'); // { "name": "bar" }
+     * // After 10 seconds: cachier.get('bar'); // undefined
      * ```
      * @param {string} id
      * @param {T} orValue
@@ -7499,6 +7519,11 @@ interface Cachier<T> {
      *
      * cachier.getOrRun('foo', () => ({ name: 'SOMETHING DIFFERENT' })); // { "name": "lorem" }
      * cachier.get('foo'); // { "name": "lorem" }
+     *
+     * // With expiry (expires in 15 seconds)
+     * cachier.getOrRun('baz', () => ({ name: 'baz' }), seconds(15)); // { "name": "baz" }
+     * cachier.get('baz'); // { "name": "baz" }
+     * // After 15 seconds: cachier.get('baz'); // undefined
      * ```
      * @param {string} id
      * @param {(id?: string) => T} orFunc
@@ -7529,6 +7554,11 @@ interface Cachier<T> {
      *
      * await cachier.getOrRunAsync('foo', () => longFn('SOMETHING DIFFERENT')); // { name: 'lorem' }
      * cachier.get('foo'); // { name: 'lorem' }
+     *
+     * // With expiry (expires in 20 seconds)
+     * await cachier.getOrRunAsync('qux', () => longFn('qux'), seconds(20)); // { name: 'qux' }
+     * cachier.get('qux'); // { name: 'qux' }
+     * // After 20 seconds: cachier.get('qux'); // undefined
      * ```
      * @param {string} id
      * @param {(id?: string) => T | Promise<T>} orFunc
@@ -7547,6 +7577,11 @@ interface Cachier<T> {
      * ```typescript
      * cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
      * cachier.get('foo'); // { "name": "foo" }
+     *
+     * // With expiry (expires in 30 seconds)
+     * cachier.save('quux', { name: 'quux' }, seconds(30)); // { "name": "quux" }
+     * cachier.get('quux'); // { "name": "quux" }
+     * // After 30 seconds: cachier.get('quux'); // undefined
      * ```
      * @param {string} id
      * @param {T} item
@@ -7659,6 +7694,11 @@ interface Cachier<T> {
      *
      * numCache.getAll(); // { "bar": 123 }
      * cachier.getAll(); // { "foo": { "name": "foo" } }
+     *
+     * // Create cache with default expiry (all items expire in 60 seconds)
+     * const tempCache = cachier.create<string>(seconds(60));
+     * tempCache.save('foo', 'foo'); // expires in 60 seconds
+     * tempCache.save('bar', 'bar', seconds(5)); // overrides default, expires in 5 seconds
      * ```
      *
      * @param {ms} [defaultExpiresIn=Infinity]

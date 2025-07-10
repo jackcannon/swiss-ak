@@ -243,7 +243,7 @@ export namespace fn {
    * @param {T[]} array
    * @returns {boolean}
    */
-  export const dedupe = <T extends unknown>(item: T, index: number, array: T[]): boolean => array.indexOf(item) === index;
+  export const dedupe = <T>(item: T, index: number, array: T[]): boolean => array.indexOf(item) === index;
 
   /**<!-- DOCS: fn.dedupeMapped #### @ -->
    * dedupeMapped
@@ -260,7 +260,7 @@ export namespace fn {
    * @param {(value?: T, index?: number, array?: T[]) => U} mapFn
    * @returns {(item: T, index: number, array: T[]) => boolean}
    */
-  export const dedupeMapped = <T extends unknown, U extends unknown>(mapFn: (value?: T, index?: number, array?: T[]) => U) => {
+  export const dedupeMapped = <T, U>(mapFn: (value?: T, index?: number, array?: T[]) => U) => {
     const args = {
       mapFn: safe.func(mapFn, (v: T) => v as unknown as U)
     };
@@ -345,7 +345,7 @@ export namespace fn {
    * @param {string | number} prop
    * @returns {(item: O) => P}
    */
-  export const toProp = <P = string, O = Object>(prop: string | number) => {
+  export const toProp = <P = string, O extends object = object>(prop: string | number) => {
     const args1 = {
       prop: safe.prop(prop, '')
     };
@@ -452,11 +452,11 @@ export namespace fn {
    * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
    * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
    * ```
-   * @param {string | number} propName
+   * @param {keyof O} propName
    * @param {SortFn<T>} [sortFn=asc]
    * @returns {SortFn<O>}
    */
-  export const byProp = <T = number, O = Object>(propName: string | number, sortFn: SortFn<T> = asc): SortFn<O> => {
+  export const byProp = <T = number, O extends object = object>(propName: keyof O, sortFn: SortFn<T> = asc): SortFn<O> => {
     const args = {
       propName: safe.prop(propName, ''),
       sortFn: safe.func(sortFn, asc)
@@ -528,7 +528,7 @@ export namespace fn {
    * @returns {(a: T[], b: T[]) => number}
    */
   export const array =
-    <T extends unknown>(sortFn: SortFn<T> = asc) =>
+    <T>(sortFn: SortFn<T> = asc) =>
     (a: T[], b: T[]) => {
       for (let i in a) {
         const result = sortFn(a[i], b[i]);
@@ -588,7 +588,7 @@ export namespace fn {
    * @param {T} b
    * @returns {T}
    */
-  export const combine = <T extends unknown = number>(a: T, b: T): T => (a as any) + b;
+  export const combine = <T = number>(a: T, b: T): T => (a as any) + b;
 
   /**<!-- DOCS: fn.combineProp #### @ -->
    * combineProp
@@ -607,7 +607,7 @@ export namespace fn {
    * @param {string | number} propName
    * @returns {(a: O | T, b: O) => T}
    */
-  export const combineProp = <O extends unknown, T extends unknown = number>(propName: string | number) => {
+  export const combineProp = <O, T = number>(propName: string | number) => {
     const args = {
       propName: safe.prop(propName, '')
     };
@@ -632,7 +632,7 @@ export namespace fn {
    * @param {T[]} arr
    * @returns {T}
    */
-  export const mode = <T extends unknown>(prev: T, curr: T, index: number, arr: T[]): T => {
+  export const mode = <T>(prev: T, curr: T, index: number, arr: T[]): T => {
     if (index > 1) {
       // First iteration will be index 1, because it will
       // skip index 0, and use value at [0] for first 'prev'.
@@ -660,7 +660,7 @@ export namespace fn {
    * @param {(value: T, index: number, array: T[]) => U} mapFn
    * @returns {(prev: T, curr: T, index: number, arr: T[]) => T}
    */
-  export const modeMapped = <T extends unknown, U extends unknown>(mapFn: (value: T, index: number, array: T[]) => U) => {
+  export const modeMapped = <T, U>(mapFn: (value: T, index: number, array: T[]) => U) => {
     const args = {
       mapFn: safe.func(mapFn, (v: T) => v as unknown as U)
     };
@@ -738,7 +738,7 @@ export namespace fn {
    * @param {T[]} arr
    * @returns {boolean}
    */
-  export const isUnique = <T extends unknown>(val: T, i: number, arr: T[]): boolean => {
+  export const isUnique = <T>(val: T, i: number, arr: T[]): boolean => {
     const args = {
       val,
       i: safe.num(i, true, 0),
@@ -775,7 +775,7 @@ export namespace fn {
    * @param {number} size
    * @returns {(value: T, index: number, array: T[]) => number}
    */
-  export const bySize = <T extends unknown>(size: number) => {
+  export const bySize = <T>(size: number) => {
     const args = {
       size: safe.num(size, true, 1)
     };
@@ -800,7 +800,7 @@ export namespace fn {
    * @param {number} numGroups
    * @returns {(value: T, index: number, array: T[]) => any}
    */
-  export const byNumGroups = <T extends unknown>(numGroups: number) => {
+  export const byNumGroups = <T>(numGroups: number) => {
     const args = {
       numGroups: safe.num(numGroups, true, 1)
     };

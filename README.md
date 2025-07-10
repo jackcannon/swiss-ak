@@ -818,9 +818,9 @@ Sort descending.
 #### byProp
 
 ```typescript
-fn.byProp(propName: string | number, sortFn: SortFn<T>): SortFn<O>
-fn.sorts.byProp(propName: string | number, sortFn: SortFn<T>): SortFn<O>
-sorts.byProp(propName: string | number, sortFn: SortFn<T>): SortFn<O>
+fn.byProp(propName: keyof O, sortFn: SortFn<T>): SortFn<O>
+fn.sorts.byProp(propName: keyof O, sortFn: SortFn<T>): SortFn<O>
+sorts.byProp(propName: keyof O, sortFn: SortFn<T>): SortFn<O>
 ```
 
 Sort by a given property.
@@ -830,10 +830,10 @@ const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
 people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
 ```
 
-|  #  | Parameter Name | Required | Type               | Default |
-|:---:|:---------------|:---------|:-------------------|:--------|
-| *0* | `propName`     | **Yes**  | `string \| number` |         |
-| *1* | `sortFn`       | *No*     | `SortFn<T>`        | `asc`   |
+|  #  | Parameter Name | Required | Type        | Default |
+|:---:|:---------------|:---------|:------------|:--------|
+| *0* | `propName`     | **Yes**  | `keyof O`   |         |
+| *1* | `sortFn`       | *No*     | `SortFn<T>` | `asc`   |
 
 | Return Type |
 |-------------|
@@ -1224,10 +1224,10 @@ ArrayTools.create(length: number, value: T): T[]
 
 Create an array of the given length, where each value is the given value
 
-|  #  | Parameter Name | Required | Type     | Default  |
-|:---:|:---------------|:---------|:---------|:---------|
-| *0* | `length`       | *No*     | `number` | `1`      |
-| *1* | `value`        | *No*     | `T`      | `1 as T` |
+|  #  | Parameter Name | Required | Type     | Default             |
+|:---:|:---------------|:---------|:---------|:--------------------|
+| *0* | `length`       | *No*     | `number` | `1`                 |
+| *1* | `value`        | *No*     | `T`      | `1 as unknown as T` |
 
 | Return Type |
 |-------------|
@@ -1775,7 +1775,7 @@ ObjectTools.remodel(input, (entries) => entries.filter(([k, v]) => v % 2 === 0))
 ### remodelEach
 
 ```typescript
-ObjectTools.remodelEach(obj: T, func: (entry: [string, V], index: number, entries: [string, V][]) => [string, W]): O
+ObjectTools.remodelEach(obj: T, func: (entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]): O
 ```
 
 Apply a function to each of the entries of an object
@@ -1787,10 +1787,10 @@ const input = {'foo': 2, 'bar': 1, 'baz': 4}
 ObjectTools.remodelEach(input, ([k, v]) => [k, v * 2]) // { foo: 4, bar: 2, baz: 8 }
 ```
 
-|  #  | Parameter Name | Required | Type                                                                         |
-|:---:|:---------------|:---------|:-----------------------------------------------------------------------------|
-| *0* | `obj`          | **Yes**  | `T`                                                                          |
-| *1* | `func`         | **Yes**  | `(entry: [string, V], index: number, entries: [string, V][]) => [string, W]` |
+|  #  | Parameter Name | Required | Type                                                                            |
+|:---:|:---------------|:---------|:--------------------------------------------------------------------------------|
+| *0* | `obj`          | **Yes**  | `T`                                                                             |
+| *1* | `func`         | **Yes**  | `(entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]` |
 
 | Return Type |
 |-------------|
@@ -1801,7 +1801,7 @@ ObjectTools.remodelEach(input, ([k, v]) => [k, v * 2]) // { foo: 4, bar: 2, baz:
 ### <span id="objecttools_map">map</span>
 
 ```typescript
-ObjectTools.map(obj: T, func: (key: string, value: V, index: number) => [string, W]): any
+ObjectTools.map(obj: T, func: (key: string, value: Vi, index: number) => [string, Vo]): any
 ```
 
 Maps the keys and values of an object in a similar way to Array.map
@@ -1810,10 +1810,10 @@ Maps the keys and values of an object in a similar way to Array.map
 ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => [key, key + value]); // {a: 'a1', b: 'b2', c: 'c3'}
 ```
 
-|  #  | Parameter Name | Required | Type                                                    |
-|:---:|:---------------|:---------|:--------------------------------------------------------|
-| *0* | `obj`          | **Yes**  | `T`                                                     |
-| *1* | `func`         | **Yes**  | `(key: string, value: V, index: number) => [string, W]` |
+|  #  | Parameter Name | Required | Type                                                      |
+|:---:|:---------------|:---------|:----------------------------------------------------------|
+| *0* | `obj`          | **Yes**  | `T`                                                       |
+| *1* | `func`         | **Yes**  | `(key: string, value: Vi, index: number) => [string, Vo]` |
 
 | Return Type |
 |-------------|
@@ -1824,7 +1824,7 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => [key, key + value]); // {a: 
 ### mapValues
 
 ```typescript
-ObjectTools.mapValues(obj: T, func: (key: string, value: V, index: number) => W): any
+ObjectTools.mapValues(obj: T, func: (key: string, value: Vi, index: number) => Vo): any
 ```
 
 Maps the values of an object in a similar way to Array.map
@@ -1833,10 +1833,10 @@ Maps the values of an object in a similar way to Array.map
 ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: 'a', b: 'bb', c: 'ccc'}
 ```
 
-|  #  | Parameter Name | Required | Type                                          |
-|:---:|:---------------|:---------|:----------------------------------------------|
-| *0* | `obj`          | **Yes**  | `T`                                           |
-| *1* | `func`         | **Yes**  | `(key: string, value: V, index: number) => W` |
+|  #  | Parameter Name | Required | Type                                            |
+|:---:|:---------------|:---------|:------------------------------------------------|
+| *0* | `obj`          | **Yes**  | `T`                                             |
+| *1* | `func`         | **Yes**  | `(key: string, value: Vi, index: number) => Vo` |
 
 | Return Type |
 |-------------|
@@ -1915,7 +1915,7 @@ ObjectTools.clean({a: 1, b: undefined, c: 3}) // { a: 1, c: 3 }
 ### invert
 
 ```typescript
-ObjectTools.invert(obj: Ti): To
+ObjectTools.invert(obj: T): O
 ```
 
 Inverts the keys and values of an object
@@ -1926,11 +1926,11 @@ ObjectTools.invert({ a: 'foo', b: 'bar' }); // { foo: 'a', bar: 'b'}
 
 |  #  | Parameter Name | Required | Type |
 |:---:|:---------------|:---------|:-----|
-| *0* | `obj`          | **Yes**  | `Ti` |
+| *0* | `obj`          | **Yes**  | `T`  |
 
 | Return Type |
 |-------------|
-| `To`        |
+| `O`         |
 
 <p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to <b>ObjectTools</b> ↑] </a></p>
 
@@ -3280,8 +3280,8 @@ timer.log();
 ### each
 
 ```typescript
-each(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void>
-PromiseTools.each(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void>
+each(items: T[], func: (item: T, index: number, array: T[]) => Promise<any>): Promise<void>
+PromiseTools.each(items: T[], func: (item: T, index: number, array: T[]) => Promise<any>): Promise<void>
 ```
 
 Run an async function against each item in an array
@@ -3298,10 +3298,10 @@ await PromiseTools.each<number>(arr, async (val: number) => {
 console.log(''); // after 2 seconds
 ```
 
-|  #  | Parameter Name | Required | Type                                                     |
-|:---:|:---------------|:---------|:---------------------------------------------------------|
-| *0* | `items`        | **Yes**  | `Ti[]`                                                   |
-| *1* | `func`         | **Yes**  | `(item: Ti, index: number, array: Ti[]) => Promise<any>` |
+|  #  | Parameter Name | Required | Type                                                   |
+|:---:|:---------------|:---------|:-------------------------------------------------------|
+| *0* | `items`        | **Yes**  | `T[]`                                                  |
+| *1* | `func`         | **Yes**  | `(item: T, index: number, array: T[]) => Promise<any>` |
 
 | Return Type     |
 |-----------------|
@@ -3312,8 +3312,8 @@ console.log(''); // after 2 seconds
 ### eachLimit
 
 ```typescript
-eachLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void>
-PromiseTools.eachLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<any>): Promise<void>
+eachLimit(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<any>): Promise<void>
+PromiseTools.eachLimit(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<any>): Promise<void>
 ```
 
 Run an async function against each item in an array, limiting the number of items that can run concurrently.
@@ -3332,11 +3332,11 @@ await PromiseTools.eachLimit<number>(2, arr, async (val: number) => {
 console.log(''); // after 4 seconds
 ```
 
-|  #  | Parameter Name | Required | Type                                                     |
-|:---:|:---------------|:---------|:---------------------------------------------------------|
-| *0* | `limit`        | **Yes**  | `number`                                                 |
-| *1* | `items`        | **Yes**  | `Ti[]`                                                   |
-| *2* | `func`         | **Yes**  | `(item: Ti, index: number, array: Ti[]) => Promise<any>` |
+|  #  | Parameter Name | Required | Type                                                   |
+|:---:|:---------------|:---------|:-------------------------------------------------------|
+| *0* | `limit`        | **Yes**  | `number`                                               |
+| *1* | `items`        | **Yes**  | `T[]`                                                  |
+| *2* | `func`         | **Yes**  | `(item: T, index: number, array: T[]) => Promise<any>` |
 
 | Return Type     |
 |-----------------|
@@ -3347,8 +3347,8 @@ console.log(''); // after 4 seconds
 ### <span id="promisetools_map">map</span>
 
 ```typescript
-map(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>): Promise<To[]>
-PromiseTools.map(items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>): Promise<To[]>
+map(items: T[], func: (item: T, index: number, array: T[]) => Promise<U>): Promise<U[]>
+PromiseTools.map(items: T[], func: (item: T, index: number, array: T[]) => Promise<U>): Promise<U[]>
 ```
 
 Run an async map function against each item in an array, mapping the results to a returned array
@@ -3366,22 +3366,22 @@ const mapped = await PromiseTools.map<number>(arr, async (val: number) => {
 console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
 ```
 
-|  #  | Parameter Name | Required | Type                                                    |
-|:---:|:---------------|:---------|:--------------------------------------------------------|
-| *0* | `items`        | **Yes**  | `Ti[]`                                                  |
-| *1* | `func`         | **Yes**  | `(item: Ti, index: number, array: Ti[]) => Promise<To>` |
+|  #  | Parameter Name | Required | Type                                                 |
+|:---:|:---------------|:---------|:-----------------------------------------------------|
+| *0* | `items`        | **Yes**  | `T[]`                                                |
+| *1* | `func`         | **Yes**  | `(item: T, index: number, array: T[]) => Promise<U>` |
 
-| Return Type     |
-|-----------------|
-| `Promise<To[]>` |
+| Return Type    |
+|----------------|
+| `Promise<U[]>` |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
 ### mapLimit
 
 ```typescript
-mapLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>): Promise<To[]>
-PromiseTools.mapLimit(limit: number, items: Ti[], func: (item: Ti, index: number, array: Ti[]) => Promise<To>): Promise<To[]>
+mapLimit(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<U>): Promise<U[]>
+PromiseTools.mapLimit(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<U>): Promise<U[]>
 ```
 
 Run an async map function against each item in an array, mapping the results to a returned array, and limiting the number of items that can run concurrently.
@@ -3401,23 +3401,23 @@ const mapped = await PromiseTools.mapLimit<number>(2, arr, async (val: number) =
 console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
 ```
 
-|  #  | Parameter Name | Required | Type                                                    |
-|:---:|:---------------|:---------|:--------------------------------------------------------|
-| *0* | `limit`        | **Yes**  | `number`                                                |
-| *1* | `items`        | **Yes**  | `Ti[]`                                                  |
-| *2* | `func`         | **Yes**  | `(item: Ti, index: number, array: Ti[]) => Promise<To>` |
+|  #  | Parameter Name | Required | Type                                                 |
+|:---:|:---------------|:---------|:-----------------------------------------------------|
+| *0* | `limit`        | **Yes**  | `number`                                             |
+| *1* | `items`        | **Yes**  | `T[]`                                                |
+| *2* | `func`         | **Yes**  | `(item: T, index: number, array: T[]) => Promise<U>` |
 
-| Return Type     |
-|-----------------|
-| `Promise<To[]>` |
+| Return Type    |
+|----------------|
+| `Promise<U[]>` |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
 ### allObj
 
 ```typescript
-allObj(input: T): Promise<UnWrapPromiseObject<T>>
-PromiseTools.allObj(input: T): Promise<UnWrapPromiseObject<T>>
+allObj(input: T): Promise<AwaitedObject<T>>
+PromiseTools.allObj(input: T): Promise<AwaitedObject<T>>
 ```
 
 Like Promise.all, but pass/receive objects rather than arrays
@@ -3455,17 +3455,17 @@ timer.log();
 |:---:|:---------------|:---------|:-----|
 | *0* | `input`        | **Yes**  | `T`  |
 
-| Return Type                       |
-|-----------------------------------|
-| `Promise<UnWrapPromiseObject<T>>` |
+| Return Type                 |
+|-----------------------------|
+| `Promise<AwaitedObject<T>>` |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
 ### allLimitObj
 
 ```typescript
-allLimitObj(limit: number, input: T, noThrow: boolean): Promise<UnWrapPromiseObject<T>>
-PromiseTools.allLimitObj(limit: number, input: T, noThrow: boolean): Promise<UnWrapPromiseObject<T>>
+allLimitObj(limit: number, input: T, noThrow: boolean): Promise<AwaitedObject<T>>
+PromiseTools.allLimitObj(limit: number, input: T, noThrow: boolean): Promise<AwaitedObject<T>>
 ```
 
 A mix of allObj and allLimit.
@@ -3509,9 +3509,9 @@ timer.log();
 | *1* | `input`        | **Yes**  | `T`       |         |
 | *2* | `noThrow`      | *No*     | `boolean` | `false` |
 
-| Return Type                       |
-|-----------------------------------|
-| `Promise<UnWrapPromiseObject<T>>` |
+| Return Type                 |
+|-----------------------------|
+| `Promise<AwaitedObject<T>>` |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
@@ -4164,8 +4164,8 @@ Functions for handling errors.
 ### tryOr
 
 ```typescript
-tryOr(orValue: T, func: (...args: A) => Promise<T>, ...args: A[]): Promise<T>
-ErrorTools.tryOr(orValue: T, func: (...args: A) => Promise<T>, ...args: A[]): Promise<T>
+tryOr(orValue: T, func: (...args: A[]) => Promise<T>, ...args: A[]): Promise<T>
+ErrorTools.tryOr(orValue: T, func: (...args: A[]) => Promise<T>, ...args: A[]): Promise<T>
 ```
 
 Try to execute a function and return its result if it succeeds, or return the default value if it fails.
@@ -4174,11 +4174,11 @@ Try to execute a function and return its result if it succeeds, or return the de
 const result = tryOr('default', () => getSomething());
 ```
 
-|  #   | Parameter Name | Required | Type                         |
-|:----:|:---------------|:---------|:-----------------------------|
-| *0*  | `orValue`      | **Yes**  | `T`                          |
-| *1*  | `func`         | **Yes**  | `(...args: A) => Promise<T>` |
-| *2…* | `args`         | *No*     | `A[]`                        |
+|  #   | Parameter Name | Required | Type                           |
+|:----:|:---------------|:---------|:-------------------------------|
+| *0*  | `orValue`      | **Yes**  | `T`                            |
+| *1*  | `func`         | **Yes**  | `(...args: A[]) => Promise<T>` |
+| *2…* | `args`         | *No*     | `A[]`                          |
 
 | Return Type  |
 |--------------|
@@ -4312,6 +4312,11 @@ Call `cachier.create<T>()` to create a new isolated cachier object with a specif
 cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
 cachier.get('foo'); // { "name": "foo" }
 
+// Save with expiry (expires in 5 seconds)
+cachier.save('tmp1', { name: 'tmp1' }, seconds(5)); // { "name": "tmp1" }
+cachier.get('tmp1'); // { "name": "tmp1" }
+// After 5 seconds: cachier.get('tmp1'); // undefined
+
 // Overwrite
 cachier.save('foo', { name: 'bar' }); // { "name": "bar" }
 cachier.get('foo'); // { "name": "bar" }
@@ -4320,9 +4325,19 @@ cachier.get('foo'); // { "name": "bar" }
 cachier.getOrSave('foo', { name: 'baz' }); // { "name": "bar" }
 cachier.get('foo'); // { "name": "bar" }
 
+// Get if exists, otherwise save with expiry
+cachier.getOrSave('tmp2', { name: 'tmp2' }, seconds(3)); // { "name": "tmp2" }
+cachier.get('tmp2'); // { "name": "tmp2" }
+// After 3 seconds: cachier.get('tmp2'); // undefined
+
 // Get if exists, otherwise run function to create and save
 cachier.getOrRun('foo', () => ({ name: 'qux' })); // { "name": "bar" }
 cachier.get('foo'); // { "name": "bar" }
+
+// Get if exists, otherwise run function with expiry
+cachier.getOrRun('tmp3', () => ({ name: 'tmp3' }), seconds(2)); // { "name": "tmp3" }
+cachier.get('tmp3'); // { "name": "tmp3" }
+// After 2 seconds: cachier.get('tmp3'); // undefined
 
 // Remove
 cachier.remove('foo');
@@ -4382,6 +4397,11 @@ cachier.get('foo'); // { "name": "lorem" }
 
 cachier.getOrSave('foo', { name: 'SOMETHING DIFFERENT' }); // { "name": "lorem" }
 cachier.get('foo'); // { "name": "lorem" }
+
+// With expiry (expires in 10 seconds)
+cachier.getOrSave('bar', { name: 'bar' }, seconds(10)); // { "name": "bar" }
+cachier.get('bar'); // { "name": "bar" }
+// After 10 seconds: cachier.get('bar'); // undefined
 ```
 
 |  #  | Parameter Name | Required | Type     | Default                 |
@@ -4413,6 +4433,11 @@ cachier.get('foo'); // { "name": "lorem" }
 
 cachier.getOrRun('foo', () => ({ name: 'SOMETHING DIFFERENT' })); // { "name": "lorem" }
 cachier.get('foo'); // { "name": "lorem" }
+
+// With expiry (expires in 15 seconds)
+cachier.getOrRun('baz', () => ({ name: 'baz' }), seconds(15)); // { "name": "baz" }
+cachier.get('baz'); // { "name": "baz" }
+// After 15 seconds: cachier.get('baz'); // undefined
 ```
 
 |  #  | Parameter Name | Required | Type                 | Default                 |
@@ -4451,6 +4476,11 @@ cachier.get('foo'); // { name: 'lorem' }
 
 await cachier.getOrRunAsync('foo', () => longFn('SOMETHING DIFFERENT')); // { name: 'lorem' }
 cachier.get('foo'); // { name: 'lorem' }
+
+// With expiry (expires in 20 seconds)
+await cachier.getOrRunAsync('qux', () => longFn('qux'), seconds(20)); // { name: 'qux' }
+cachier.get('qux'); // { name: 'qux' }
+// After 20 seconds: cachier.get('qux'); // undefined
 ```
 
 |  #  | Parameter Name | Required | Type                               | Default                 |
@@ -4477,6 +4507,11 @@ Save an item to the cache.
 ```typescript
 cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
 cachier.get('foo'); // { "name": "foo" }
+
+// With expiry (expires in 30 seconds)
+cachier.save('quux', { name: 'quux' }, seconds(30)); // { "name": "quux" }
+cachier.get('quux'); // { "name": "quux" }
+// After 30 seconds: cachier.get('quux'); // undefined
 ```
 
 |  #  | Parameter Name | Required | Type     | Default                 |
@@ -4627,6 +4662,11 @@ cachier.save('foo', { name: 'foo' });
 
 numCache.getAll(); // { "bar": 123 }
 cachier.getAll(); // { "foo": { "name": "foo" } }
+
+// Create cache with default expiry (all items expire in 60 seconds)
+const tempCache = cachier.create<string>(seconds(60));
+tempCache.save('foo', 'foo'); // expires in 60 seconds
+tempCache.save('bar', 'bar', seconds(5)); // overrides default, expires in 5 seconds
 ```
 
 |  #  | Parameter Name     | Required | Type | Default    |
@@ -5109,9 +5149,9 @@ getTimer().getTable(prefix: string, customEntries: ((durations: TimerDurations<T
 
 Get the timing table as a string
 
-|  #  | Parameter Name  | Required | Type                                                                                                       |
-|:---:|:----------------|:---------|:-----------------------------------------------------------------------------------------------------------|
-| *0* | `prefix`        | *No*     | `string`                                                                                                   |
+|  #  | Parameter Name  | Required | Type                                                                                                        |
+|:---:|:----------------|:---------|:------------------------------------------------------------------------------------------------------------|
+| *0* | `prefix`        | *No*     | `string`                                                                                                    |
 | *1* | `customEntries` | *No*     | `((durations: TimerDurations<TName>) => CustomEntryObj)[] \| CustomEntryDict<TimerDurations<TName>, TName>` |
 
 | Return Type |                  |
@@ -5129,9 +5169,9 @@ getTimer().log(prefix: string, customEntries: ((durations: TimerDurations<TName>
 
 Log the timing table
 
-|  #  | Parameter Name  | Required | Type                                                                                                       |
-|:---:|:----------------|:---------|:-----------------------------------------------------------------------------------------------------------|
-| *0* | `prefix`        | *No*     | `string`                                                                                                   |
+|  #  | Parameter Name  | Required | Type                                                                                                        |
+|:---:|:----------------|:---------|:------------------------------------------------------------------------------------------------------------|
+| *0* | `prefix`        | *No*     | `string`                                                                                                    |
 | *1* | `customEntries` | *No*     | `((durations: TimerDurations<TName>) => CustomEntryObj)[] \| CustomEntryDict<TimerDurations<TName>, TName>` |
 
 | Return Type |                            |
@@ -5634,7 +5674,7 @@ safe.arr(undefined, [4, 5, 6]); // [ 4, 5, 6 ]
 ### <span id="safe_prop">prop</span>
 
 ```typescript
-safe.prop(input: string | number, fallback: string | number): string | number
+safe.prop(input: string | number | symbol, fallback: string | number | symbol): string | number
 ```
 
 Process a value (string or number) that is expected to be used as a property name, ensuring that it is safe to use.
@@ -5661,10 +5701,10 @@ safe.prop(null, 'bar'); // 'bar'
 safe.prop(undefined, 'bar'); // 'bar'
 ```
 
-|  #  | Parameter Name | Required | Type               | Default |
-|:---:|:---------------|:---------|:-------------------|:--------|
-| *0* | `input`        | **Yes**  | `string \| number` |         |
-| *1* | `fallback`     | *No*     | `string \| number` | `''`    |
+|  #  | Parameter Name | Required | Type                         | Default |
+|:---:|:---------------|:---------|:-----------------------------|:--------|
+| *0* | `input`        | **Yes**  | `string \| number \| symbol` |         |
+| *1* | `fallback`     | *No*     | `string \| number \| symbol` | `''`    |
 
 | Return Type        |
 |--------------------|
@@ -6005,7 +6045,7 @@ safe.arrOf.arr(undefined, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
 #### <span id="safe_arrof_prop">prop</span>
 
 ```typescript
-safe.arrOf.prop(input: (string | number)[], fallback: string | number, fallbackArr: (string | number)[], arrMinLength: number, arrMaxLength: number): (string | number)[]
+safe.arrOf.prop(input: (string | number | symbol)[], fallback: string | number | symbol, fallbackArr: (string | number | symbol)[], arrMinLength: number, arrMaxLength: number): (string | number)[]
 ```
 
 Process an array of values that can be used as properties (string or number), ensuring that they are safe to use.
@@ -6032,13 +6072,13 @@ safe.arrOf.prop(null, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
 safe.arrOf.prop(undefined, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
 ```
 
-|  #  | Parameter Name | Required | Type                   | Default    |
-|:---:|:---------------|:---------|:-----------------------|:-----------|
-| *0* | `input`        | **Yes**  | `(string \| number)[]` |            |
-| *1* | `fallback`     | *No*     | `string \| number`     |            |
-| *2* | `fallbackArr`  | *No*     | `(string \| number)[]` | `[]`       |
-| *3* | `arrMinLength` | *No*     | `number`               | `0`        |
-| *4* | `arrMaxLength` | *No*     | `number`               | `Infinity` |
+|  #  | Parameter Name | Required | Type                             | Default    |
+|:---:|:---------------|:---------|:---------------------------------|:-----------|
+| *0* | `input`        | **Yes**  | `(string \| number \| symbol)[]` |            |
+| *1* | `fallback`     | *No*     | `string \| number \| symbol`     |            |
+| *2* | `fallbackArr`  | *No*     | `(string \| number \| symbol)[]` | `[]`       |
+| *3* | `arrMinLength` | *No*     | `number`                         | `0`        |
+| *4* | `arrMaxLength` | *No*     | `number`                         | `Infinity` |
 
 | Return Type            |
 |------------------------|

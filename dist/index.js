@@ -217,6 +217,9 @@ var safe;
     return result;
   };
   safe2.prop = (input, fallback = "") => {
+    if (typeof input === "symbol") {
+      return fallback;
+    }
     if (typeof input === "number") {
       return safe2.num(input, void 0, void 0, void 0, fallback);
     }

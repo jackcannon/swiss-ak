@@ -14,7 +14,7 @@ type ValidatedValue<T> = { hasValidValue: false; value?: undefined } | { hasVali
  */
 
 /** */
-const cachierFactory = <T extends unknown>(defaultExpiresIn: ms = Infinity): Cachier<T> => {
+const cachierFactory = <T>(defaultExpiresIn: ms = Infinity): Cachier<T> => {
   let storedItems: Record<string, { expires: ms; value: T }> = {};
   let defExpiresInVal: ms = defaultExpiresIn;
 
@@ -178,6 +178,11 @@ const cachierFactory = <T extends unknown>(defaultExpiresIn: ms = Infinity): Cac
  * cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
  * cachier.get('foo'); // { "name": "foo" }
  *
+ * // Save with expiry (expires in 5 seconds)
+ * cachier.save('tmp1', { name: 'tmp1' }, seconds(5)); // { "name": "tmp1" }
+ * cachier.get('tmp1'); // { "name": "tmp1" }
+ * // After 5 seconds: cachier.get('tmp1'); // undefined
+ *
  * // Overwrite
  * cachier.save('foo', { name: 'bar' }); // { "name": "bar" }
  * cachier.get('foo'); // { "name": "bar" }
@@ -186,9 +191,19 @@ const cachierFactory = <T extends unknown>(defaultExpiresIn: ms = Infinity): Cac
  * cachier.getOrSave('foo', { name: 'baz' }); // { "name": "bar" }
  * cachier.get('foo'); // { "name": "bar" }
  *
+ * // Get if exists, otherwise save with expiry
+ * cachier.getOrSave('tmp2', { name: 'tmp2' }, seconds(3)); // { "name": "tmp2" }
+ * cachier.get('tmp2'); // { "name": "tmp2" }
+ * // After 3 seconds: cachier.get('tmp2'); // undefined
+ *
  * // Get if exists, otherwise run function to create and save
  * cachier.getOrRun('foo', () => ({ name: 'qux' })); // { "name": "bar" }
  * cachier.get('foo'); // { "name": "bar" }
+ *
+ * // Get if exists, otherwise run function with expiry
+ * cachier.getOrRun('tmp3', () => ({ name: 'tmp3' }), seconds(2)); // { "name": "tmp3" }
+ * cachier.get('tmp3'); // { "name": "tmp3" }
+ * // After 2 seconds: cachier.get('tmp3'); // undefined
  *
  * // Remove
  * cachier.remove('foo');
@@ -248,6 +263,11 @@ export interface Cachier<T> {
    *
    * cachier.getOrSave('foo', { name: 'SOMETHING DIFFERENT' }); // { "name": "lorem" }
    * cachier.get('foo'); // { "name": "lorem" }
+   *
+   * // With expiry (expires in 10 seconds)
+   * cachier.getOrSave('bar', { name: 'bar' }, seconds(10)); // { "name": "bar" }
+   * cachier.get('bar'); // { "name": "bar" }
+   * // After 10 seconds: cachier.get('bar'); // undefined
    * ```
    * @param {string} id
    * @param {T} orValue
@@ -272,6 +292,11 @@ export interface Cachier<T> {
    *
    * cachier.getOrRun('foo', () => ({ name: 'SOMETHING DIFFERENT' })); // { "name": "lorem" }
    * cachier.get('foo'); // { "name": "lorem" }
+   *
+   * // With expiry (expires in 15 seconds)
+   * cachier.getOrRun('baz', () => ({ name: 'baz' }), seconds(15)); // { "name": "baz" }
+   * cachier.get('baz'); // { "name": "baz" }
+   * // After 15 seconds: cachier.get('baz'); // undefined
    * ```
    * @param {string} id
    * @param {(id?: string) => T} orFunc
@@ -303,6 +328,11 @@ export interface Cachier<T> {
    *
    * await cachier.getOrRunAsync('foo', () => longFn('SOMETHING DIFFERENT')); // { name: 'lorem' }
    * cachier.get('foo'); // { name: 'lorem' }
+   *
+   * // With expiry (expires in 20 seconds)
+   * await cachier.getOrRunAsync('qux', () => longFn('qux'), seconds(20)); // { name: 'qux' }
+   * cachier.get('qux'); // { name: 'qux' }
+   * // After 20 seconds: cachier.get('qux'); // undefined
    * ```
    * @param {string} id
    * @param {(id?: string) => T | Promise<T>} orFunc
@@ -322,6 +352,11 @@ export interface Cachier<T> {
    * ```typescript
    * cachier.save('foo', { name: 'foo' }); // { "name": "foo" }
    * cachier.get('foo'); // { "name": "foo" }
+   *
+   * // With expiry (expires in 30 seconds)
+   * cachier.save('quux', { name: 'quux' }, seconds(30)); // { "name": "quux" }
+   * cachier.get('quux'); // { "name": "quux" }
+   * // After 30 seconds: cachier.get('quux'); // undefined
    * ```
    * @param {string} id
    * @param {T} item
@@ -440,6 +475,11 @@ export interface Cachier<T> {
    *
    * numCache.getAll(); // { "bar": 123 }
    * cachier.getAll(); // { "foo": { "name": "foo" } }
+   *
+   * // Create cache with default expiry (all items expire in 60 seconds)
+   * const tempCache = cachier.create<string>(seconds(60));
+   * tempCache.save('foo', 'foo'); // expires in 60 seconds
+   * tempCache.save('bar', 'bar', seconds(5)); // overrides default, expires in 5 seconds
    * ```
    *
    * @param {ms} [defaultExpiresIn=Infinity]

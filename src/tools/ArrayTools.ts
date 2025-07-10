@@ -19,10 +19,10 @@ export namespace ArrayTools {
    *
    * Create an array of the given length, where each value is the given value
    * @param {number} [length=1]
-   * @param {T} [value=1 as T]
+   * @param {T} [value=1 as unknown as T]
    * @returns {T[]}
    */
-  export const create = <T extends unknown = number>(length: number = 1, value: T = 1 as T): T[] => {
+  export const create = <T = number>(length: number = 1, value: T = 1 as unknown as T): T[] => {
     const args = {
       length: safe.num(length, true, 0),
       value: value
@@ -42,7 +42,7 @@ export namespace ArrayTools {
    * @param {T} value
    * @returns {T[]}
    */
-  export const filled = <T extends unknown>(length: number = 1, value: T): T[] => {
+  export const filled = <T>(length: number = 1, value: T): T[] => {
     const args = {
       length: safe.num(length, true, 0),
       value: value
@@ -287,7 +287,7 @@ export namespace ArrayTools {
    * @param {T[]} arr
    * @returns {T[]}
    */
-  export const roll = <T extends unknown>(distance: number, arr: T[]): T[] => {
+  export const roll = <T>(distance: number, arr: T[]): T[] => {
     const args = {
       distance: safe.num(distance, true),
       arr: safe.arr(arr)
@@ -341,7 +341,7 @@ export namespace ArrayTools {
    * @param {number} [partitionSize=Math.ceil(array.length / 2)]
    * @returns {T[][]}
    */
-  export const partition = <T extends unknown>(array: T[], partitionSize: number = Math.ceil(array.length / 2)): T[][] => {
+  export const partition = <T>(array: T[], partitionSize: number = Math.ceil(array.length / 2)): T[][] => {
     const args = {
       array: safe.arr(array),
       partitionSize: safe.num(partitionSize, true, 1)
@@ -377,10 +377,7 @@ export namespace ArrayTools {
    * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
    * @returns {{ [id: string]: T[]; [id: number]: T[]; }}
    */
-  export const groupObj = <T extends unknown>(
-    array: T[],
-    mapFn: (item: T, index: number, arr: T[]) => string | number
-  ): { [id: string | number]: T[] } => {
+  export const groupObj = <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): { [id: string | number]: T[] } => {
     const args = {
       array: safe.arr(array),
       mapFn: safe.func(mapFn, fn.noact as () => string | number)
@@ -423,7 +420,7 @@ export namespace ArrayTools {
    * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
    * @returns {T[][]}
    */
-  export const group = <T extends unknown>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): T[][] => {
+  export const group = <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): T[][] => {
     const args = {
       array: safe.arr(array),
       mapFn: safe.func(mapFn, fn.noact as () => string | number)
@@ -445,11 +442,7 @@ export namespace ArrayTools {
    * @param {...T} [insertItems] items to insert in place of the removed item
    * @returns {T} the removed item (undefined if not found)
    */
-  export const findAndRemove = <T extends unknown>(
-    array: T[],
-    predicate: (item: T, index: number, arr: T[]) => any,
-    ...insertItems: T[]
-  ): T | undefined => {
+  export const findAndRemove = <T>(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]): T | undefined => {
     const args = {
       array: safe.arr(array),
       predicate: safe.func(predicate, () => false),
@@ -473,11 +466,7 @@ export namespace ArrayTools {
    * @param {...T} [insertItems] items to insert in place of the removed item
    * @returns {T} the removed item (undefined if not found)
    */
-  export const findLastAndRemove = <T extends unknown>(
-    array: T[],
-    predicate: (item: T, index: number, arr: T[]) => any,
-    ...insertItems: T[]
-  ): T | undefined => {
+  export const findLastAndRemove = <T>(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]): T | undefined => {
     const args = {
       array: safe.arr(array),
       predicate: safe.func(predicate, () => false),
@@ -501,7 +490,7 @@ export namespace ArrayTools {
    * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
    * @returns {T[]} the removed items
    */
-  export const filterAndRemove = <T extends unknown>(array: T[], predicate: (item: T, index: number, arr: T[]) => any): T[] => {
+  export const filterAndRemove = <T>(array: T[], predicate: (item: T, index: number, arr: T[]) => any): T[] => {
     const args = {
       array: safe.arr(array),
       predicate: safe.func(predicate, () => false)
