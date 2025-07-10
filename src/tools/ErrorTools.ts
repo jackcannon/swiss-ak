@@ -23,7 +23,7 @@ export namespace ErrorTools {
    * Try to execute a function and return its result if it succeeds, or return the default value if it fails.
    *
    * ```typescript
-   * const result = tryOr('default', () => getSomething());
+   * const result = ErrorTools.tryOr('default', () => getSomething());
    * ```
    * @param {T} orValue
    * @param {(...args: A[]) => Promise<T>} func
@@ -47,7 +47,7 @@ export namespace ErrorTools {
    * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
    *
    * ```typescript
-   * const result = tryOr(5, seconds(1), true, () => getSomething());
+   * const result = ErrorTools.retry(5, seconds(1), true, () => getSomething());
    * ```
    * @param {number} [maxTries=10]
    * @param {ms} [delay=0]
@@ -95,7 +95,7 @@ export namespace ErrorTools {
    * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
    *
    * ```typescript
-   * const result = retryOr('default', 5, seconds(1), () => getSomething());
+   * const result = ErrorTools.retryOr('default', 5, seconds(1), () => getSomething());
    * ```
    * @param {T} orValue
    * @param {number} [maxTries=10]
@@ -136,14 +136,14 @@ export namespace ErrorTools {
    * const getFoo = async () => {
    *   return 'foo';
    * };
-   * const example1 = await tryCatch(getFoo()); // { result: 'foo', error: null }
+   * const example1 = await ErrorTools.tryCatch(getFoo()); // { result: 'foo', error: null }
    *
    * const getError = async () => {
    *   throw new Error('foo');
    * };
-   * const example2 = await tryCatch(getError()); // { result: null, error: Error }
+   * const example2 = await ErrorTools.tryCatch(getError()); // { result: null, error: Error }
    *
-   * const example3 = await tryCatch(() => {
+   * const example3 = await ErrorTools.tryCatch(() => {
    *   return 'bar';
    * }); // { result: 'bar', error: null }
    * ```

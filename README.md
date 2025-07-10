@@ -364,6 +364,10 @@ Returns an async function that resolves to the first argument
 
 Like fn.result, but wrapped in a Promise
 
+```typescript
+await Promise.all(stuff.map(fn.resolve()));
+```
+
 |  #  | Parameter Name | Required | Type |
 |:---:|:---------------|:---------|:-----|
 | *0* | `item`         | *No*     | `T`  |
@@ -381,6 +385,10 @@ fn.reject(item: T): () => Promise<T>
 ```
 
 Returns an async function that rejects with the first argument
+
+```typescript
+await Promise.all(stuff.map(fn.reject()));
+```
 
 |  #  | Parameter Name | Required | Type |
 |:---:|:---------------|:---------|:-----|
@@ -801,7 +809,7 @@ sorts.desc(a: any, b: any): number
 Sort descending.
 
 ```typescript
-[2, 4, 3, 1].sort(fn.asc); // [4, 3, 2, 1]
+[2, 4, 3, 1].sort(fn.desc); // [4, 3, 2, 1]
 ```
 
 |  #  | Parameter Name | Required | Type  |
@@ -905,6 +913,11 @@ Sort an array of arrays by the given sort function.
 
 Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
 
+```typescript
+const arr = [[1, 2], [3, 4], [5, 6]];
+arr.sort(fn.array(fn.asc)); // [[1, 2], [3, 4], [5, 6]]
+```
+
 |  #  | Parameter Name | Required | Type        | Default |
 |:---:|:---------------|:---------|:------------|:--------|
 | *0* | `sortFn`       | *No*     | `SortFn<T>` | `asc`   |
@@ -918,28 +931,56 @@ Sorts by the first item in the array, then the second, etc. until a non-zero res
 #### arrayAsc
 
 ```typescript
-fn.arrayAsc;
-fn.sorts.arrayAsc;
-sorts.arrayAsc;
+fn.arrayAsc(a: T, b: T): number
+fn.sorts.arrayAsc(a: T, b: T): number
+sorts.arrayAsc(a: T, b: T): number
 ```
 
 Sort an array of arrays in ascending order
 
 Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
 
+```typescript
+const arr = [[1, 2], [3, 4], [5, 6]];
+arr.sort(fn.arrayAsc); // [[1, 2], [3, 4], [5, 6]]
+```
+
+|  #  | Parameter Name | Required | Type |
+|:---:|:---------------|:---------|:-----|
+| *0* | `a`            | **Yes**  | `T`  |
+| *1* | `b`            | **Yes**  | `T`  |
+
+| Return Type |
+|-------------|
+| `number`    |
+
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
 #### arrayDesc
 
 ```typescript
-fn.arrayDesc;
-fn.sorts.arrayDesc;
-sorts.arrayDesc;
+fn.arrayDesc(a: T, b: T): number
+fn.sorts.arrayDesc(a: T, b: T): number
+sorts.arrayDesc(a: T, b: T): number
 ```
 
 Sort an array of arrays in descending order
 
 Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+
+```typescript
+const arr = [[1, 2], [3, 4], [5, 6]];
+arr.sort(fn.arrayDesc); // [[5, 6], [3, 4], [1, 2]]
+```
+
+|  #  | Parameter Name | Required | Type |
+|:---:|:---------------|:---------|:-----|
+| *0* | `a`            | **Yes**  | `T`  |
+| *1* | `b`            | **Yes**  | `T`  |
+
+| Return Type |
+|-------------|
+| `number`    |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -1174,7 +1215,7 @@ Group an array into a certain number of groups as evenly as possible.
 
 ```typescript
 const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-ArrayTools.group(nums, byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
+ArrayTools.group(nums, fn.byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
 ```
 
 |  #  | Parameter Name | Required | Type     |
@@ -1224,6 +1265,12 @@ ArrayTools.create(length: number, value: T): T[]
 
 Create an array of the given length, where each value is the given value
 
+```typescript
+ArrayTools.create(3); // [ 1, 1, 1 ]
+ArrayTools.create(3, 'a'); // [ 'a', 'a', 'a' ]
+ArrayTools.create(3, 1); // [ 1, 1, 1 ]
+```
+
 |  #  | Parameter Name | Required | Type     | Default             |
 |:---:|:---------------|:---------|:---------|:--------------------|
 | *0* | `length`       | *No*     | `number` | `1`                 |
@@ -1243,6 +1290,12 @@ ArrayTools.filled(length: number, value: T): T[]
 ```
 
 Create an array of the given length, where each value is the given value
+
+```typescript
+ArrayTools.filled(3); // [ 1, 1, 1 ]
+ArrayTools.filled(3, 'a'); // [ 'a', 'a', 'a' ]
+ArrayTools.filled(3, 1); // [ 1, 1, 1 ]
+```
 
 |  #  | Parameter Name | Required | Type     | Default |
 |:---:|:---------------|:---------|:---------|:--------|
@@ -1411,12 +1464,12 @@ Returns a new array with the order reversed without affecting original array
 const arr1 = [1, 2, 3];
 arr1            // [1, 2, 3]
 arr1.reverse(); // [3, 2, 1]
-arr1            // [3, 2, 1]
+arr1            // [3, 2, 1] - mutated
 
 const arr2 = [1, 2, 3];
 arr2            // [1, 2, 3]
 ArrayTools.reverse(arr2);  // [3, 2, 1]
-arr2            // [1, 2, 3]
+arr2            // [1, 2, 3] - not mutated
 ```
 
 |  #  | Parameter Name | Required | Type  |
@@ -1442,7 +1495,7 @@ Returns array of 'tuples' of index/value pairs
 const arr = ['a', 'b', 'c'];
 ArrayTools.entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
 
-for (let [index, value] of entries(arr)) {
+for (let [index, value] of ArrayTools.entries(arr)) {
  console.log(index); // 0, 1, 2
  console.log(value); // 'a', 'b', 'c'
 }
@@ -1632,6 +1685,12 @@ Find the first item in an array that matches a given predicate, and remove it fr
 
 > **Note:** This function mutates the provided array
 
+```typescript
+const arr = [1, 2, 3, 4, 5];
+ArrayTools.findAndRemove(arr, (item) => item === 3); // 3
+arr; // [1, 2, 4, 5]
+```
+
 |  #   | Parameter Name | Required | Type                                        | Description                                                       |
 |:----:|:---------------|:---------|:--------------------------------------------|:------------------------------------------------------------------|
 | *0*  | `array`        | **Yes**  | `T[]`                                       | the array to mutate                                               |
@@ -1654,6 +1713,12 @@ Find the last item in an array that matches a given predicate, and remove it fro
 
 > **Note:** This function mutates the provided array
 
+```typescript
+const arr = [1, 2, 3, 4, 5];
+ArrayTools.findLastAndRemove(arr, (item) => item === 3); // 3
+arr; // [1, 2, 4, 5]
+```
+
 |  #   | Parameter Name | Required | Type                                        | Description                                                       |
 |:----:|:---------------|:---------|:--------------------------------------------|:------------------------------------------------------------------|
 | *0*  | `array`        | **Yes**  | `T[]`                                       | the array to mutate                                               |
@@ -1675,6 +1740,12 @@ ArrayTools.filterAndRemove(array: T[], predicate: (item: T, index: number, arr: 
 Find the items in an array that matches a given predicate, and remove them from the array
 
 > **Note:** This function mutates the provided array
+
+```typescript
+const arr = [1, 2, 3, 4, 5];
+ArrayTools.filterAndRemove(arr, (item) => item === 3); // [3]
+arr; // [1, 2, 4, 5]
+```
 
 |  #  | Parameter Name | Required | Type                                        | Description                                                       |
 |:---:|:---------------|:---------|:--------------------------------------------|:------------------------------------------------------------------|
@@ -1705,6 +1776,11 @@ ArrayTools.utils.isNumString(text: string): boolean
 
 Returns true if the given string is a number
 
+```typescript
+ArrayTools.utils.isNumString('123'); // true
+ArrayTools.utils.isNumString('123a'); // false
+```
+
 |  #  | Parameter Name | Required | Type     |
 |:---:|:---------------|:---------|:---------|
 | *0* | `text`         | **Yes**  | `string` |
@@ -1722,6 +1798,11 @@ ArrayTools.utils.partitionNums(ignoreCase: boolean): (name: string) => (string |
 ```
 
 Splits a string into an array of strings and numbers
+
+```typescript
+ArrayTools.utils.partitionNums(true)('123a'); // [ '123', 'a' ]
+ArrayTools.utils.partitionNums(false)('123a'); // [ '123', 'a' ]
+```
 
 |  #  | Parameter Name | Required | Type      |
 |:---:|:---------------|:---------|:----------|
@@ -4171,7 +4252,7 @@ ErrorTools.tryOr(orValue: T, func: (...args: A[]) => Promise<T>, ...args: A[]): 
 Try to execute a function and return its result if it succeeds, or return the default value if it fails.
 
 ```typescript
-const result = tryOr('default', () => getSomething());
+const result = ErrorTools.tryOr('default', () => getSomething());
 ```
 
 |  #   | Parameter Name | Required | Type                           |
@@ -4196,7 +4277,7 @@ ErrorTools.retry(maxTries: number, delay: ms, suppress: boolean, run: (attemptNu
 Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
 
 ```typescript
-const result = tryOr(5, seconds(1), true, () => getSomething());
+const result = ErrorTools.retry(5, seconds(1), true, () => getSomething());
 ```
 
 |  #  | Parameter Name | Required | Type                   | Default                     |
@@ -4224,7 +4305,7 @@ Combination of retry and tryOr.
 Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
 
 ```typescript
-const result = retryOr('default', 5, seconds(1), () => getSomething());
+const result = ErrorTools.retryOr('default', 5, seconds(1), () => getSomething());
 ```
 
 |  #  | Parameter Name | Required | Type                    | Default              |
@@ -4253,14 +4334,14 @@ Inspired by the `tryCatch` function [by t3dotgg](https://gist.github.com/t3dotgg
 const getFoo = async () => {
   return 'foo';
 };
-const example1 = await tryCatch(getFoo()); // { result: 'foo', error: null }
+const example1 = await ErrorTools.tryCatch(getFoo()); // { result: 'foo', error: null }
 
 const getError = async () => {
   throw new Error('foo');
 };
-const example2 = await tryCatch(getError()); // { result: null, error: Error }
+const example2 = await ErrorTools.tryCatch(getError()); // { result: null, error: Error }
 
-const example3 = await tryCatch(() => {
+const example3 = await ErrorTools.tryCatch(() => {
   return 'bar';
 }); // { result: 'bar', error: null }
 ```
@@ -4976,6 +5057,10 @@ new QueueManager().setDefaultPauseTime(time: ms): void
 
 Sets the default pause time for pauses between queue items.
 
+```typescript
+queue.setDefaultPauseTime(seconds(1));
+```
+
 |  #  | Parameter Name | Required | Type |
 |:---:|:---------------|:---------|:-----|
 | *0* | `time`         | **Yes**  | `ms` |
@@ -4994,6 +5079,10 @@ new QueueManager().setPauseTime(id: string, time: ms): void
 ```
 
 Sets the pause time for pauses between queue items for the specified queue.
+
+```typescript
+queue.setPauseTime('printer', seconds(1));
+```
 
 |  #  | Parameter Name | Required | Type     |
 |:---:|:---------------|:---------|:---------|
@@ -5015,6 +5104,13 @@ new QueueManager().add(id: string, promiseItem: PromiseTools.PromiseItem<T>): Pr
 
 Adds a function to the queue.
 
+```typescript
+queue.add('printer', async () => {
+  await wait(seconds(1));
+  console.log('printed');
+});
+```
+
 |  #  | Parameter Name | Required | Type                          |
 |:---:|:---------------|:---------|:------------------------------|
 | *0* | `id`           | **Yes**  | `string`                      |
@@ -5035,6 +5131,10 @@ QueueManager.new(defaultPauseTime: ms): QueueManager
 ```
 
 Creates a new QueueManager instance.
+
+```typescript
+const newQueue = queue.new();
+```
 
 |  #  | Parameter Name     | Required | Type | Default |
 |:---:|:-------------------|:---------|:-----|:--------|
@@ -5090,6 +5190,10 @@ getTimer().start(...labels: string[]): void
 
 Start a timer
 
+```typescript
+timer.start('TOTAL', 'Intro');
+```
+
 |  #   | Parameter Name | Required | Type       |
 |:----:|:---------------|:---------|:-----------|
 | *0…* | `labels`       | **Yes**  | `string[]` |
@@ -5108,6 +5212,10 @@ getTimer().end(...labels: string[]): void
 ```
 
 End a given timer
+
+```typescript
+timer.end('TOTAL', 'Intro');
+```
 
 |  #   | Parameter Name | Required | Type       |
 |:----:|:---------------|:---------|:-----------|
@@ -5129,6 +5237,10 @@ getTimer().switch(endLabel: string | string[], startLabel: string | string[]): v
 Switch the timer
 The same as calling timer.end(endLabel) and timer.start(startLabel)
 
+```typescript
+timer.switch('Intro', 'Ending');
+```
+
 |  #  | Parameter Name | Required | Type                 |
 |:---:|:---------------|:---------|:---------------------|
 | *0* | `endLabel`     | **Yes**  | `string \| string[]` |
@@ -5148,6 +5260,10 @@ getTimer().getTable(prefix: string, customEntries: ((durations: TimerDurations<T
 ```
 
 Get the timing table as a string
+
+```typescript
+timer.getTable();
+```
 
 |  #  | Parameter Name  | Required | Type                                                                                                        |
 |:---:|:----------------|:---------|:------------------------------------------------------------------------------------------------------------|
@@ -5169,6 +5285,10 @@ getTimer().log(prefix: string, customEntries: ((durations: TimerDurations<TName>
 
 Log the timing table
 
+```typescript
+timer.log();
+```
+
 |  #  | Parameter Name  | Required | Type                                                                                                        |
 |:---:|:----------------|:---------|:------------------------------------------------------------------------------------------------------------|
 | *0* | `prefix`        | *No*     | `string`                                                                                                    |
@@ -5189,6 +5309,10 @@ getTimer().reset(): void
 
 Reset the timer
 
+```typescript
+timer.reset();
+```
+
 | Return Type |
 |-------------|
 | `void`      |
@@ -5198,11 +5322,19 @@ Reset the timer
 #### getDuration
 
 ```typescript
-timer.getDuration(): ms
-getTimer().getDuration(): ms
+timer.getDuration(label: string): ms
+getTimer().getDuration(label: string): ms
 ```
 
 Get the duration of a given timer
+
+```typescript
+timer.getDuration('Intro');
+```
+
+|  #  | Parameter Name | Required | Type     |
+|:---:|:---------------|:---------|:---------|
+| *0* | `label`        | **Yes**  | `string` |
 
 | Return Type |
 |-------------|
@@ -5219,6 +5351,10 @@ getTimer().names;
 
 The names of the timers
 
+```typescript
+timer.names; // { TOTAL: 'TOTAL', INTRO: 'Intro', ENDING: 'Ending' }
+```
+
 <p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
 
 #### displayNames
@@ -5229,6 +5365,10 @@ getTimer().displayNames;
 ```
 
 The display names of the timers
+
+```typescript
+timer.displayNames; // { TOTAL: 'TOTAL', INTRO: 'Intro', ENDING: 'Ending' }
+```
 
 <p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
 
@@ -5241,6 +5381,10 @@ getTimer().startTimes;
 
 The start times of the timers
 
+```typescript
+timer.startTimes; // { TOTAL: 1715395200000, INTRO: 1715395200000, ENDING: 1715395200000 }
+```
+
 <p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
 
 #### endTimes
@@ -5251,6 +5395,10 @@ getTimer().endTimes;
 ```
 
 The end times of the timers
+
+```typescript
+timer.endTimes; // { TOTAL: 1715395200000, INTRO: 1715395200000, ENDING: 1715395200000 }
+```
 
 <p style="text-align: right" align="right"><a href="#timer"> [↑ Back to <b>timer</b> ↑] </a></p>
 

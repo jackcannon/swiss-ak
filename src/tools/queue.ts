@@ -85,6 +85,10 @@ export class QueueManager {
    * - `new QueueManager().setDefaultPauseTime`
    *
    * Sets the default pause time for pauses between queue items.
+   *
+   * ```typescript
+   * queue.setDefaultPauseTime(seconds(1));
+   * ```
    * @param {ms} time
    * @returns {void}
    */
@@ -102,6 +106,10 @@ export class QueueManager {
    * - `new QueueManager().setPauseTime`
    *
    * Sets the pause time for pauses between queue items for the specified queue.
+   *
+   * ```typescript
+   * queue.setPauseTime('printer', seconds(1));
+   * ```
    * @param {string} id
    * @param {ms} time
    * @returns {void}
@@ -121,6 +129,13 @@ export class QueueManager {
    * - `new QueueManager().add`
    *
    * Adds a function to the queue.
+   *
+   * ```typescript
+   * queue.add('printer', async () => {
+   *   await wait(seconds(1));
+   *   console.log('printed');
+   * });
+   * ```
    * @param {string} id
    * @param {PromiseTools.PromiseItem<T>} promiseItem
    * @returns {Promise<T>}
@@ -150,6 +165,10 @@ export class QueueManager {
    * - `QueueManager.new`
    *
    * Creates a new QueueManager instance.
+   *
+   * ```typescript
+   * const newQueue = queue.new();
+   * ```
    * @param {ms} [defaultPauseTime=0]
    * @returns {QueueManager}
    */

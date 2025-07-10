@@ -68,6 +68,10 @@ export namespace fn {
    * Returns an async function that resolves to the first argument
    *
    * Like fn.result, but wrapped in a Promise
+   *
+   * ```typescript
+   * await Promise.all(stuff.map(fn.resolve()));
+   * ```
    * @param {T} [item]
    * @returns {() => Promise<T>}
    */
@@ -82,6 +86,10 @@ export namespace fn {
    * - `fn.reject`
    *
    * Returns an async function that rejects with the first argument
+   *
+   * ```typescript
+   * await Promise.all(stuff.map(fn.reject()));
+   * ```
    * @param {T} [item]
    * @returns {() => Promise<T>}
    */
@@ -425,7 +433,7 @@ export namespace fn {
    * Sort descending.
    *
    * ```typescript
-   * [2, 4, 3, 1].sort(fn.asc); // [4, 3, 2, 1]
+   * [2, 4, 3, 1].sort(fn.desc); // [4, 3, 2, 1]
    * ```
    * @param {any} a
    * @param {any} b
@@ -524,6 +532,11 @@ export namespace fn {
    * Sort an array of arrays by the given sort function.
    *
    * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+   *
+   * ```typescript
+   * const arr = [[1, 2], [3, 4], [5, 6]];
+   * arr.sort(fn.array(fn.asc)); // [[1, 2], [3, 4], [5, 6]]
+   * ```
    * @param {SortFn<T>} [sortFn=asc]
    * @returns {(a: T[], b: T[]) => number}
    */
@@ -547,6 +560,14 @@ export namespace fn {
    * Sort an array of arrays in ascending order
    *
    * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+   *
+   * ```typescript
+   * const arr = [[1, 2], [3, 4], [5, 6]];
+   * arr.sort(fn.arrayAsc); // [[1, 2], [3, 4], [5, 6]]
+   * ```
+   * @param {T} a
+   * @param {T} b
+   * @returns {number}
    */
   export const arrayAsc = array(asc);
 
@@ -560,6 +581,14 @@ export namespace fn {
    * Sort an array of arrays in descending order
    *
    * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+   *
+   * ```typescript
+   * const arr = [[1, 2], [3, 4], [5, 6]];
+   * arr.sort(fn.arrayDesc); // [[5, 6], [3, 4], [1, 2]]
+   * ```
+   * @param {T} a
+   * @param {T} b
+   * @returns {number}
    */
   export const arrayDesc = array(desc);
 
@@ -795,7 +824,7 @@ export namespace fn {
    *
    * ```typescript
    * const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-   * ArrayTools.group(nums, byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
+   * ArrayTools.group(nums, fn.byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
    * ```
    * @param {number} numGroups
    * @returns {(value: T, index: number, array: T[]) => any}

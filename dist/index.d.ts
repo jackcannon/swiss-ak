@@ -1375,6 +1375,10 @@ declare namespace fn {
      * Returns an async function that resolves to the first argument
      *
      * Like fn.result, but wrapped in a Promise
+     *
+     * ```typescript
+     * await Promise.all(stuff.map(fn.resolve()));
+     * ```
      * @param {T} [item]
      * @returns {() => Promise<T>}
      */
@@ -1385,6 +1389,10 @@ declare namespace fn {
      * - `fn.reject`
      *
      * Returns an async function that rejects with the first argument
+     *
+     * ```typescript
+     * await Promise.all(stuff.map(fn.reject()));
+     * ```
      * @param {T} [item]
      * @returns {() => Promise<T>}
      */
@@ -1668,7 +1676,7 @@ declare namespace fn {
      * Sort descending.
      *
      * ```typescript
-     * [2, 4, 3, 1].sort(fn.asc); // [4, 3, 2, 1]
+     * [2, 4, 3, 1].sort(fn.desc); // [4, 3, 2, 1]
      * ```
      * @param {any} a
      * @param {any} b
@@ -1740,6 +1748,11 @@ declare namespace fn {
      * Sort an array of arrays by the given sort function.
      *
      * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+     *
+     * ```typescript
+     * const arr = [[1, 2], [3, 4], [5, 6]];
+     * arr.sort(fn.array(fn.asc)); // [[1, 2], [3, 4], [5, 6]]
+     * ```
      * @param {SortFn<T>} [sortFn=asc]
      * @returns {(a: T[], b: T[]) => number}
      */
@@ -1754,6 +1767,14 @@ declare namespace fn {
      * Sort an array of arrays in ascending order
      *
      * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+     *
+     * ```typescript
+     * const arr = [[1, 2], [3, 4], [5, 6]];
+     * arr.sort(fn.arrayAsc); // [[1, 2], [3, 4], [5, 6]]
+     * ```
+     * @param {T} a
+     * @param {T} b
+     * @returns {number}
      */
     export const arrayAsc: (a: any[], b: any[]) => number;
     /**<!-- DOCS: fn.arrayDesc #### @ -->
@@ -1766,6 +1787,14 @@ declare namespace fn {
      * Sort an array of arrays in descending order
      *
      * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+     *
+     * ```typescript
+     * const arr = [[1, 2], [3, 4], [5, 6]];
+     * arr.sort(fn.arrayDesc); // [[5, 6], [3, 4], [1, 2]]
+     * ```
+     * @param {T} a
+     * @param {T} b
+     * @returns {number}
      */
     export const arrayDesc: (a: any[], b: any[]) => number;
     /**<!-- DOCS: fn.reduces ### -->
@@ -1933,7 +1962,7 @@ declare namespace fn {
      *
      * ```typescript
      * const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-     * ArrayTools.group(nums, byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
+     * ArrayTools.group(nums, fn.byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
      * ```
      * @param {number} numGroups
      * @returns {(value: T, index: number, array: T[]) => any}
@@ -2223,7 +2252,7 @@ declare namespace fn {
          * Sort descending.
          * 
          * ```typescript
-         * [2, 4, 3, 1].sort(fn.asc); // [4, 3, 2, 1]
+         * [2, 4, 3, 1].sort(fn.desc); // [4, 3, 2, 1]
          * ```
          * @param {any} a
          * @param {any} b
@@ -2294,6 +2323,11 @@ declare namespace fn {
          * Sort an array of arrays by the given sort function.
          * 
          * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+         * 
+         * ```typescript
+         * const arr = [[1, 2], [3, 4], [5, 6]];
+         * arr.sort(fn.array(fn.asc)); // [[1, 2], [3, 4], [5, 6]]
+         * ```
          * @param {SortFn<T>} [sortFn=asc]
          * @returns {(a: T[], b: T[]) => number}
          */
@@ -2308,6 +2342,14 @@ declare namespace fn {
          * Sort an array of arrays in ascending order
          * 
          * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+         * 
+         * ```typescript
+         * const arr = [[1, 2], [3, 4], [5, 6]];
+         * arr.sort(fn.arrayAsc); // [[1, 2], [3, 4], [5, 6]]
+         * ```
+         * @param {T} a
+         * @param {T} b
+         * @returns {number}
          */
         const arrayAsc: (a: any[], b: any[]) => number;
         /**<!-- DOCS-ALIAS: fn.arrayDesc -->
@@ -2320,6 +2362,14 @@ declare namespace fn {
          * Sort an array of arrays in descending order
          * 
          * Sorts by the first item in the array, then the second, etc. until a non-zero result is found.
+         * 
+         * ```typescript
+         * const arr = [[1, 2], [3, 4], [5, 6]];
+         * arr.sort(fn.arrayDesc); // [[5, 6], [3, 4], [1, 2]]
+         * ```
+         * @param {T} a
+         * @param {T} b
+         * @returns {number}
          */
         const arrayDesc: (a: any[], b: any[]) => number;
     }
@@ -2493,7 +2543,7 @@ declare namespace fn {
          * 
          * ```typescript
          * const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-         * ArrayTools.group(nums, byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
+         * ArrayTools.group(nums, fn.byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
          * ```
          * @param {number} numGroups
          * @returns {(value: T, index: number, array: T[]) => any}
@@ -2581,6 +2631,10 @@ interface ITimer<TName> {
      * - `getTimer().start`
      *
      * Start a timer
+     *
+     * ```typescript
+     * timer.start('TOTAL', 'Intro');
+     * ```
      * @param {...string} labels
      * @returns {void}
      */
@@ -2592,6 +2646,10 @@ interface ITimer<TName> {
      * - `getTimer().end`
      *
      * End a given timer
+     *
+     * ```typescript
+     * timer.end('TOTAL', 'Intro');
+     * ```
      * @param {...string} labels
      * @returns {void}
      */
@@ -2605,6 +2663,9 @@ interface ITimer<TName> {
      * Switch the timer
      * The same as calling timer.end(endLabel) and timer.start(startLabel)
      *
+     * ```typescript
+     * timer.switch('Intro', 'Ending');
+     * ```
      * @param {string | string[]} endLabel
      * @param {string | string[]} startLabel
      * @returns {void}
@@ -2618,6 +2679,9 @@ interface ITimer<TName> {
      *
      * Get the timing table as a string
      *
+     * ```typescript
+     * timer.getTable();
+     * ```
      * @param {string} [prefix]
      * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries]
      * @returns {string} - the timing table
@@ -2631,6 +2695,9 @@ interface ITimer<TName> {
      *
      * Log the timing table
      *
+     * ```typescript
+     * timer.log();
+     * ```
      * @param {string} [prefix]
      * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries]
      * @returns {number} - the number of lines logged
@@ -2644,6 +2711,10 @@ interface ITimer<TName> {
      *
      * Reset the timer
      *
+     * ```typescript
+     * timer.reset();
+     * ```
+     *
      * @returns {void}
      */
     reset(): void;
@@ -2655,6 +2726,11 @@ interface ITimer<TName> {
      *
      * Get the duration of a given timer
      *
+     * ```typescript
+     * timer.getDuration('Intro');
+     * ```
+     *
+     * @param {string} label
      * @returns {ms}
      */
     getDuration(label: string): ms;
@@ -2665,6 +2741,10 @@ interface ITimer<TName> {
      * - `getTimer().names`
      *
      * The names of the timers
+     *
+     * ```typescript
+     * timer.names; // { TOTAL: 'TOTAL', INTRO: 'Intro', ENDING: 'Ending' }
+     * ```
      */
     names: KeysOnly<TName>;
     /**<!-- DOCS: ITimer.displayNames #### -->
@@ -2674,6 +2754,10 @@ interface ITimer<TName> {
      * - `getTimer().displayNames`
      *
      * The display names of the timers
+     *
+     * ```typescript
+     * timer.displayNames; // { TOTAL: 'TOTAL', INTRO: 'Intro', ENDING: 'Ending' }
+     * ```
      */
     displayNames: TName;
     /**<!-- DOCS: ITimer.startTimes #### -->
@@ -2683,6 +2767,10 @@ interface ITimer<TName> {
      * - `getTimer().startTimes`
      *
      * The start times of the timers
+     *
+     * ```typescript
+     * timer.startTimes; // { TOTAL: 1715395200000, INTRO: 1715395200000, ENDING: 1715395200000 }
+     * ```
      */
     startTimes: Partial<OfType<TName, ms>>;
     /**<!-- DOCS: ITimer.endTimes #### -->
@@ -2692,6 +2780,10 @@ interface ITimer<TName> {
      * - `getTimer().endTimes`
      *
      * The end times of the timers
+     *
+     * ```typescript
+     * timer.endTimes; // { TOTAL: 1715395200000, INTRO: 1715395200000, ENDING: 1715395200000 }
+     * ```
      */
     endTimes: Partial<OfType<TName, ms>>;
 }
@@ -2777,6 +2869,12 @@ declare namespace ArrayTools {
      * - `ArrayTools.create`
      *
      * Create an array of the given length, where each value is the given value
+     *
+     * ```typescript
+     * ArrayTools.create(3); // [ 1, 1, 1 ]
+     * ArrayTools.create(3, 'a'); // [ 'a', 'a', 'a' ]
+     * ArrayTools.create(3, 1); // [ 1, 1, 1 ]
+     * ```
      * @param {number} [length=1]
      * @param {T} [value=1 as unknown as T]
      * @returns {T[]}
@@ -2789,6 +2887,12 @@ declare namespace ArrayTools {
      * - `ArrayTools.filled`
      *
      * Create an array of the given length, where each value is the given value
+     *
+     * ```typescript
+     * ArrayTools.filled(3); // [ 1, 1, 1 ]
+     * ArrayTools.filled(3, 'a'); // [ 'a', 'a', 'a' ]
+     * ArrayTools.filled(3, 1); // [ 1, 1, 1 ]
+     * ```
      * @param {number} [length=1]
      * @param {T} value
      * @returns {T[]}
@@ -2911,12 +3015,12 @@ declare namespace ArrayTools {
      * const arr1 = [1, 2, 3];
      * arr1            // [1, 2, 3]
      * arr1.reverse(); // [3, 2, 1]
-     * arr1            // [3, 2, 1]
+     * arr1            // [3, 2, 1] - mutated
      *
      * const arr2 = [1, 2, 3];
      * arr2            // [1, 2, 3]
      * ArrayTools.reverse(arr2);  // [3, 2, 1]
-     * arr2            // [1, 2, 3]
+     * arr2            // [1, 2, 3] - not mutated
      * ```
      * @param {T[]} arr
      * @returns {T[]}
@@ -2934,7 +3038,7 @@ declare namespace ArrayTools {
      * const arr = ['a', 'b', 'c'];
      * ArrayTools.entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
      *
-     * for (let [index, value] of entries(arr)) {
+     * for (let [index, value] of ArrayTools.entries(arr)) {
      *  console.log(index); // 0, 1, 2
      *  console.log(value); // 'a', 'b', 'c'
      * }
@@ -3070,6 +3174,12 @@ declare namespace ArrayTools {
      * Find the first item in an array that matches a given predicate, and remove it from the array
      *
      * > **Note:** This function mutates the provided array
+     *
+     * ```typescript
+     * const arr = [1, 2, 3, 4, 5];
+     * ArrayTools.findAndRemove(arr, (item) => item === 3); // 3
+     * arr; // [1, 2, 4, 5]
+     * ```
      * @param {T[]} array the array to mutate
      * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
      * @param {...T} [insertItems] items to insert in place of the removed item
@@ -3084,6 +3194,12 @@ declare namespace ArrayTools {
      * Find the last item in an array that matches a given predicate, and remove it from the array
      *
      * > **Note:** This function mutates the provided array
+     *
+     * ```typescript
+     * const arr = [1, 2, 3, 4, 5];
+     * ArrayTools.findLastAndRemove(arr, (item) => item === 3); // 3
+     * arr; // [1, 2, 4, 5]
+     * ```
      * @param {T[]} array the array to mutate
      * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
      * @param {...T} [insertItems] items to insert in place of the removed item
@@ -3098,6 +3214,12 @@ declare namespace ArrayTools {
      * Find the items in an array that matches a given predicate, and remove them from the array
      *
      * > **Note:** This function mutates the provided array
+     *
+     * ```typescript
+     * const arr = [1, 2, 3, 4, 5];
+     * ArrayTools.filterAndRemove(arr, (item) => item === 3); // [3]
+     * arr; // [1, 2, 4, 5]
+     * ```
      * @param {T[]} array the array to mutate
      * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
      * @returns {T[]} the removed items
@@ -3117,6 +3239,11 @@ declare namespace ArrayTools {
          * - `ArrayTools.utils.isNumString`
          *
          * Returns true if the given string is a number
+         *
+         * ```typescript
+         * ArrayTools.utils.isNumString('123'); // true
+         * ArrayTools.utils.isNumString('123a'); // false
+         * ```
          * @param {string} text
          * @returns {boolean}
          */
@@ -3127,6 +3254,11 @@ declare namespace ArrayTools {
          * - `ArrayTools.utils.partitionNums`
          *
          * Splits a string into an array of strings and numbers
+         *
+         * ```typescript
+         * ArrayTools.utils.partitionNums(true)('123a'); // [ '123', 'a' ]
+         * ArrayTools.utils.partitionNums(false)('123a'); // [ '123', 'a' ]
+         * ```
          * @param {boolean} ignoreCase
          * @returns {(name: string) => (string | number)[]}
          */
@@ -3141,6 +3273,12 @@ declare namespace ArrayTools {
  * - `ArrayTools.create`
  * 
  * Create an array of the given length, where each value is the given value
+ * 
+ * ```typescript
+ * ArrayTools.create(3); // [ 1, 1, 1 ]
+ * ArrayTools.create(3, 'a'); // [ 'a', 'a', 'a' ]
+ * ArrayTools.create(3, 1); // [ 1, 1, 1 ]
+ * ```
  * @param {number} [length=1]
  * @param {T} [value=1 as unknown as T]
  * @returns {T[]}
@@ -3153,6 +3291,12 @@ declare const create: <T = number>(length?: number, value?: T) => T[];
  * - `ArrayTools.filled`
  * 
  * Create an array of the given length, where each value is the given value
+ * 
+ * ```typescript
+ * ArrayTools.filled(3); // [ 1, 1, 1 ]
+ * ArrayTools.filled(3, 'a'); // [ 'a', 'a', 'a' ]
+ * ArrayTools.filled(3, 1); // [ 1, 1, 1 ]
+ * ```
  * @param {number} [length=1]
  * @param {T} value
  * @returns {T[]}
@@ -3273,12 +3417,12 @@ declare const randomise: <T = string>(arr: T[]) => T[];
  * const arr1 = [1, 2, 3];
  * arr1            // [1, 2, 3]
  * arr1.reverse(); // [3, 2, 1]
- * arr1            // [3, 2, 1]
+ * arr1            // [3, 2, 1] - mutated
  * 
  * const arr2 = [1, 2, 3];
  * arr2            // [1, 2, 3]
  * ArrayTools.reverse(arr2);  // [3, 2, 1]
- * arr2            // [1, 2, 3]
+ * arr2            // [1, 2, 3] - not mutated
  * ```
  * @param {T[]} arr
  * @returns {T[]}
@@ -3296,7 +3440,7 @@ declare const reverse: <T = string>(arr: T[]) => T[];
  * const arr = ['a', 'b', 'c'];
  * ArrayTools.entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
  * 
- * for (let [index, value] of entries(arr)) {
+ * for (let [index, value] of ArrayTools.entries(arr)) {
  *  console.log(index); // 0, 1, 2
  *  console.log(value); // 'a', 'b', 'c'
  * }
@@ -5065,7 +5209,7 @@ declare namespace ErrorTools {
      * Try to execute a function and return its result if it succeeds, or return the default value if it fails.
      *
      * ```typescript
-     * const result = tryOr('default', () => getSomething());
+     * const result = ErrorTools.tryOr('default', () => getSomething());
      * ```
      * @param {T} orValue
      * @param {(...args: A[]) => Promise<T>} func
@@ -5082,7 +5226,7 @@ declare namespace ErrorTools {
      * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
      *
      * ```typescript
-     * const result = tryOr(5, seconds(1), true, () => getSomething());
+     * const result = ErrorTools.retry(5, seconds(1), true, () => getSomething());
      * ```
      * @param {number} [maxTries=10]
      * @param {ms} [delay=0]
@@ -5102,7 +5246,7 @@ declare namespace ErrorTools {
      * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
      *
      * ```typescript
-     * const result = retryOr('default', 5, seconds(1), () => getSomething());
+     * const result = ErrorTools.retryOr('default', 5, seconds(1), () => getSomething());
      * ```
      * @param {T} orValue
      * @param {number} [maxTries=10]
@@ -5130,14 +5274,14 @@ declare namespace ErrorTools {
      * const getFoo = async () => {
      *   return 'foo';
      * };
-     * const example1 = await tryCatch(getFoo()); // { result: 'foo', error: null }
+     * const example1 = await ErrorTools.tryCatch(getFoo()); // { result: 'foo', error: null }
      *
      * const getError = async () => {
      *   throw new Error('foo');
      * };
-     * const example2 = await tryCatch(getError()); // { result: null, error: Error }
+     * const example2 = await ErrorTools.tryCatch(getError()); // { result: null, error: Error }
      *
-     * const example3 = await tryCatch(() => {
+     * const example3 = await ErrorTools.tryCatch(() => {
      *   return 'bar';
      * }); // { result: 'bar', error: null }
      * ```
@@ -5156,7 +5300,7 @@ declare namespace ErrorTools {
  * Try to execute a function and return its result if it succeeds, or return the default value if it fails.
  * 
  * ```typescript
- * const result = tryOr('default', () => getSomething());
+ * const result = ErrorTools.tryOr('default', () => getSomething());
  * ```
  * @param {T} orValue
  * @param {(...args: A[]) => Promise<T>} func
@@ -5173,7 +5317,7 @@ declare const tryOr: <T, A>(orValue: T, func: (...args: A[]) => Promise<T>, ...a
  * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds.
  * 
  * ```typescript
- * const result = tryOr(5, seconds(1), true, () => getSomething());
+ * const result = ErrorTools.retry(5, seconds(1), true, () => getSomething());
  * ```
  * @param {number} [maxTries=10]
  * @param {ms} [delay=0]
@@ -5193,7 +5337,7 @@ declare const retry: <T>(maxTries?: number, delay?: ms, suppress?: boolean, run?
  * Try to execute a function and return its result if it succeeds, or retry a given number of times until it succeeds. Return the default value if it fails too many times
  * 
  * ```typescript
- * const result = retryOr('default', 5, seconds(1), () => getSomething());
+ * const result = ErrorTools.retryOr('default', 5, seconds(1), () => getSomething());
  * ```
  * @param {T} orValue
  * @param {number} [maxTries=10]
@@ -5214,14 +5358,14 @@ declare const retryOr: <T>(orValue: T, maxTries?: number, delay?: ms, run?: () =
  * const getFoo = async () => {
  *   return 'foo';
  * };
- * const example1 = await tryCatch(getFoo()); // { result: 'foo', error: null }
+ * const example1 = await ErrorTools.tryCatch(getFoo()); // { result: 'foo', error: null }
  * 
  * const getError = async () => {
  *   throw new Error('foo');
  * };
- * const example2 = await tryCatch(getError()); // { result: null, error: Error }
+ * const example2 = await ErrorTools.tryCatch(getError()); // { result: null, error: Error }
  * 
- * const example3 = await tryCatch(() => {
+ * const example3 = await ErrorTools.tryCatch(() => {
  *   return 'bar';
  * }); // { result: 'bar', error: null }
  * ```
@@ -6698,6 +6842,10 @@ declare class QueueManager {
      * - `new QueueManager().setDefaultPauseTime`
      *
      * Sets the default pause time for pauses between queue items.
+     *
+     * ```typescript
+     * queue.setDefaultPauseTime(seconds(1));
+     * ```
      * @param {ms} time
      * @returns {void}
      */
@@ -6709,6 +6857,10 @@ declare class QueueManager {
      * - `new QueueManager().setPauseTime`
      *
      * Sets the pause time for pauses between queue items for the specified queue.
+     *
+     * ```typescript
+     * queue.setPauseTime('printer', seconds(1));
+     * ```
      * @param {string} id
      * @param {ms} time
      * @returns {void}
@@ -6721,6 +6873,13 @@ declare class QueueManager {
      * - `new QueueManager().add`
      *
      * Adds a function to the queue.
+     *
+     * ```typescript
+     * queue.add('printer', async () => {
+     *   await wait(seconds(1));
+     *   console.log('printed');
+     * });
+     * ```
      * @param {string} id
      * @param {PromiseTools.PromiseItem<T>} promiseItem
      * @returns {Promise<T>}
@@ -6734,6 +6893,10 @@ declare class QueueManager {
      * - `QueueManager.new`
      *
      * Creates a new QueueManager instance.
+     *
+     * ```typescript
+     * const newQueue = queue.new();
+     * ```
      * @param {ms} [defaultPauseTime=0]
      * @returns {QueueManager}
      */
@@ -6746,6 +6909,10 @@ declare class QueueManager {
      * - `QueueManager.new`
      * 
      * Creates a new QueueManager instance.
+     * 
+     * ```typescript
+     * const newQueue = queue.new();
+     * ```
      * @param {ms} [defaultPauseTime=0]
      * @returns {QueueManager}
      */

@@ -18,6 +18,12 @@ export namespace ArrayTools {
    * - `ArrayTools.create`
    *
    * Create an array of the given length, where each value is the given value
+   *
+   * ```typescript
+   * ArrayTools.create(3); // [ 1, 1, 1 ]
+   * ArrayTools.create(3, 'a'); // [ 'a', 'a', 'a' ]
+   * ArrayTools.create(3, 1); // [ 1, 1, 1 ]
+   * ```
    * @param {number} [length=1]
    * @param {T} [value=1 as unknown as T]
    * @returns {T[]}
@@ -38,6 +44,12 @@ export namespace ArrayTools {
    * - `ArrayTools.filled`
    *
    * Create an array of the given length, where each value is the given value
+   *
+   * ```typescript
+   * ArrayTools.filled(3); // [ 1, 1, 1 ]
+   * ArrayTools.filled(3, 'a'); // [ 'a', 'a', 'a' ]
+   * ArrayTools.filled(3, 1); // [ 1, 1, 1 ]
+   * ```
    * @param {number} [length=1]
    * @param {T} value
    * @returns {T[]}
@@ -206,12 +218,12 @@ export namespace ArrayTools {
    * const arr1 = [1, 2, 3];
    * arr1            // [1, 2, 3]
    * arr1.reverse(); // [3, 2, 1]
-   * arr1            // [3, 2, 1]
+   * arr1            // [3, 2, 1] - mutated
    *
    * const arr2 = [1, 2, 3];
    * arr2            // [1, 2, 3]
    * ArrayTools.reverse(arr2);  // [3, 2, 1]
-   * arr2            // [1, 2, 3]
+   * arr2            // [1, 2, 3] - not mutated
    * ```
    * @param {T[]} arr
    * @returns {T[]}
@@ -233,7 +245,7 @@ export namespace ArrayTools {
    * const arr = ['a', 'b', 'c'];
    * ArrayTools.entries(arr); // [ [0, 'a'], [1, 'b'], [2, 'c'] ]
    *
-   * for (let [index, value] of entries(arr)) {
+   * for (let [index, value] of ArrayTools.entries(arr)) {
    *  console.log(index); // 0, 1, 2
    *  console.log(value); // 'a', 'b', 'c'
    * }
@@ -437,6 +449,12 @@ export namespace ArrayTools {
    * Find the first item in an array that matches a given predicate, and remove it from the array
    *
    * > **Note:** This function mutates the provided array
+   *
+   * ```typescript
+   * const arr = [1, 2, 3, 4, 5];
+   * ArrayTools.findAndRemove(arr, (item) => item === 3); // 3
+   * arr; // [1, 2, 4, 5]
+   * ```
    * @param {T[]} array the array to mutate
    * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
    * @param {...T} [insertItems] items to insert in place of the removed item
@@ -461,6 +479,12 @@ export namespace ArrayTools {
    * Find the last item in an array that matches a given predicate, and remove it from the array
    *
    * > **Note:** This function mutates the provided array
+   *
+   * ```typescript
+   * const arr = [1, 2, 3, 4, 5];
+   * ArrayTools.findLastAndRemove(arr, (item) => item === 3); // 3
+   * arr; // [1, 2, 4, 5]
+   * ```
    * @param {T[]} array the array to mutate
    * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
    * @param {...T} [insertItems] items to insert in place of the removed item
@@ -486,6 +510,12 @@ export namespace ArrayTools {
    * Find the items in an array that matches a given predicate, and remove them from the array
    *
    * > **Note:** This function mutates the provided array
+   *
+   * ```typescript
+   * const arr = [1, 2, 3, 4, 5];
+   * ArrayTools.filterAndRemove(arr, (item) => item === 3); // [3]
+   * arr; // [1, 2, 4, 5]
+   * ```
    * @param {T[]} array the array to mutate
    * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
    * @returns {T[]} the removed items
@@ -518,6 +548,11 @@ export namespace ArrayTools {
      * - `ArrayTools.utils.isNumString`
      *
      * Returns true if the given string is a number
+     *
+     * ```typescript
+     * ArrayTools.utils.isNumString('123'); // true
+     * ArrayTools.utils.isNumString('123a'); // false
+     * ```
      * @param {string} text
      * @returns {boolean}
      */
@@ -532,6 +567,11 @@ export namespace ArrayTools {
      * - `ArrayTools.utils.partitionNums`
      *
      * Splits a string into an array of strings and numbers
+     *
+     * ```typescript
+     * ArrayTools.utils.partitionNums(true)('123a'); // [ '123', 'a' ]
+     * ArrayTools.utils.partitionNums(false)('123a'); // [ '123', 'a' ]
+     * ```
      * @param {boolean} ignoreCase
      * @returns {(name: string) => (string | number)[]}
      */

@@ -56,6 +56,10 @@ export interface ITimer<TName> {
    * - `getTimer().start`
    *
    * Start a timer
+   *
+   * ```typescript
+   * timer.start('TOTAL', 'Intro');
+   * ```
    * @param {...string} labels
    * @returns {void}
    */
@@ -68,6 +72,10 @@ export interface ITimer<TName> {
    * - `getTimer().end`
    *
    * End a given timer
+   *
+   * ```typescript
+   * timer.end('TOTAL', 'Intro');
+   * ```
    * @param {...string} labels
    * @returns {void}
    */
@@ -82,6 +90,9 @@ export interface ITimer<TName> {
    * Switch the timer
    * The same as calling timer.end(endLabel) and timer.start(startLabel)
    *
+   * ```typescript
+   * timer.switch('Intro', 'Ending');
+   * ```
    * @param {string | string[]} endLabel
    * @param {string | string[]} startLabel
    * @returns {void}
@@ -96,6 +107,9 @@ export interface ITimer<TName> {
    *
    * Get the timing table as a string
    *
+   * ```typescript
+   * timer.getTable();
+   * ```
    * @param {string} [prefix]
    * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries]
    * @returns {string} - the timing table
@@ -113,6 +127,9 @@ export interface ITimer<TName> {
    *
    * Log the timing table
    *
+   * ```typescript
+   * timer.log();
+   * ```
    * @param {string} [prefix]
    * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries]
    * @returns {number} - the number of lines logged
@@ -130,6 +147,10 @@ export interface ITimer<TName> {
    *
    * Reset the timer
    *
+   * ```typescript
+   * timer.reset();
+   * ```
+   *
    * @returns {void}
    */
   reset(): void;
@@ -142,6 +163,11 @@ export interface ITimer<TName> {
    *
    * Get the duration of a given timer
    *
+   * ```typescript
+   * timer.getDuration('Intro');
+   * ```
+   *
+   * @param {string} label
    * @returns {ms}
    */
   getDuration(label: string): ms;
@@ -153,6 +179,10 @@ export interface ITimer<TName> {
    * - `getTimer().names`
    *
    * The names of the timers
+   *
+   * ```typescript
+   * timer.names; // { TOTAL: 'TOTAL', INTRO: 'Intro', ENDING: 'Ending' }
+   * ```
    */
   names: KeysOnly<TName>;
 
@@ -163,6 +193,10 @@ export interface ITimer<TName> {
    * - `getTimer().displayNames`
    *
    * The display names of the timers
+   *
+   * ```typescript
+   * timer.displayNames; // { TOTAL: 'TOTAL', INTRO: 'Intro', ENDING: 'Ending' }
+   * ```
    */
   displayNames: TName;
 
@@ -173,6 +207,10 @@ export interface ITimer<TName> {
    * - `getTimer().startTimes`
    *
    * The start times of the timers
+   *
+   * ```typescript
+   * timer.startTimes; // { TOTAL: 1715395200000, INTRO: 1715395200000, ENDING: 1715395200000 }
+   * ```
    */
   startTimes: Partial<OfType<TName, ms>>;
 
@@ -183,6 +221,10 @@ export interface ITimer<TName> {
    * - `getTimer().endTimes`
    *
    * The end times of the timers
+   *
+   * ```typescript
+   * timer.endTimes; // { TOTAL: 1715395200000, INTRO: 1715395200000, ENDING: 1715395200000 }
+   * ```
    */
   endTimes: Partial<OfType<TName, ms>>;
 }
