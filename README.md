@@ -1245,6 +1245,7 @@ A collection of useful array functions.
     - [roll](#roll)
     - [sortNumberedText](#sortnumberedtext)
     - [partition](#partition)
+    - [partitionEvenly](#partitionevenly)
     - [groupObj](#groupobj)
     - [group](#group)
     - [findAndRemove](#findandremove)
@@ -1598,12 +1599,40 @@ Breaks an array into smaller arrays of a given size
 
 ```typescript
 ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
+ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 9, 10 ] ]
+ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
 ```
 
 |  #  | Parameter Name  | Required | Type     | Default                       |
 |:---:|:----------------|:---------|:---------|:------------------------------|
 | *0* | `array`         | **Yes**  | `T[]`    |                               |
 | *1* | `partitionSize` | *No*     | `number` | `Math.ceil(array.length / 2)` |
+
+| Return Type |
+|-------------|
+| `T[][]`     |
+
+<p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
+
+### partitionEvenly
+
+```typescript
+partitionEvenly(array: T[], maxPartitionSize: number): T[][]
+ArrayTools.partitionEvenly(array: T[], maxPartitionSize: number): T[][]
+```
+
+Breaks an array into smaller arrays of a given size, but tries to keep the sizes as even as possible
+
+```typescript
+ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8 ], [ 9, 10 ] ]
+ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7 ], [ 8, 9, 10 ] ]
+ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
+```
+
+|  #  | Parameter Name     | Required | Type     | Default                       |
+|:---:|:-------------------|:---------|:---------|:------------------------------|
+| *0* | `array`            | **Yes**  | `T[]`    |                               |
+| *1* | `maxPartitionSize` | *No*     | `number` | `Math.ceil(array.length / 2)` |
 
 | Return Type |
 |-------------|

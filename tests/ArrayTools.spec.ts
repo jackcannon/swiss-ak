@@ -628,6 +628,82 @@ describe('ArrayTools', () => {
       }
     );
   });
+  describe('partitionEvenly', () => {
+    multiTest(
+      [
+        [swissak.partitionEvenly, 'partitionEvenly'],
+        [swissak.ArrayTools.partitionEvenly, 'ArrayTools.partitionEvenly']
+      ],
+      (partitionEvenly, name) => {
+        it(should` exist as ${name}`, () => {
+          expect(partitionEvenly).toBeDefined();
+        });
+        it(should` partition an array evenly`, () => {
+          const result = partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3);
+          expect(result).toEqual([
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8],
+            [9, 10]
+          ]);
+        });
+
+        // handle array
+        it(should` handle empty arrays`, () => {
+          const result = partitionEvenly([], 3);
+          expect(result).toEqual([]);
+        });
+        it(should` handle non-array params`, () => {
+          const result = partitionEvenly(999 as any, 3);
+          expect(result).toEqual([]);
+        });
+
+        // maxPartitionSize defaults
+        it(should` maxPartitionSize defaults to half - 8`, () => {
+          const result = partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8], undefined as any);
+          expect(result).toEqual([
+            [1, 2, 3, 4],
+            [5, 6, 7, 8]
+          ]);
+        });
+        it(should` maxPartitionSize defaults to half - 15`, () => {
+          const result = partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], undefined as any);
+          expect(result).toEqual([
+            [1, 2, 3, 4, 5, 6, 7, 8],
+            [9, 10, 11, 12, 13, 14, 15]
+          ]);
+        });
+
+        // handle maxPartitionSize
+        it(should` handle zero maxPartitionSize`, () => {
+          const result = partitionEvenly([1, 2, 3, 4, 5], 0);
+          expect(result).toEqual([[1], [2], [3], [4], [5]]);
+        });
+        it(should` handle decimal maxPartitionSize`, () => {
+          const result = partitionEvenly([1, 2, 3, 4, 5], 3.5);
+          expect(result).toEqual([
+            [1, 2, 3],
+            [4, 5]
+          ]);
+        });
+        it(should` handle negative maxPartitionSize`, () => {
+          const result = partitionEvenly([1, 2, 3, 4, 5], -3);
+          expect(result).toEqual([[1], [2], [3], [4], [5]]);
+        });
+        it(should` handle NaN maxPartitionSize`, () => {
+          const result = partitionEvenly([1, 2, 3, 4, 5], NaN);
+          expect(result).toEqual([[1], [2], [3], [4], [5]]);
+        });
+        it(should` handle undefined maxPartitionSize`, () => {
+          const result = partitionEvenly([1, 2, 3, 4, 5], undefined as any);
+          expect(result).toEqual([
+            [1, 2, 3],
+            [4, 5]
+          ]);
+        });
+      }
+    );
+  });
   describe('groupObj', () => {
     multiTest(
       [

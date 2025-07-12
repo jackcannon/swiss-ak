@@ -348,6 +348,8 @@ export namespace ArrayTools {
    *
    * ```typescript
    * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
+   * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 9, 10 ] ]
+   * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
    * ```
    * @param {T[]} array
    * @param {number} [partitionSize=Math.ceil(array.length / 2)]
@@ -362,6 +364,41 @@ export namespace ArrayTools {
     const result: T[][] = [];
     for (let i = 0; i < numParts; i++) {
       result.push(args.array.slice(i * args.partitionSize, (i + 1) * args.partitionSize));
+    }
+    return result;
+  };
+
+  /**<!-- DOCS: ArrayTools.partitionEvenly ### @ -->
+   * partitionEvenly
+   *
+   * - `partitionEvenly`
+   * - `ArrayTools.partitionEvenly`
+   *
+   * Breaks an array into smaller arrays of a given size, but tries to keep the sizes as even as possible
+   *
+   * ```typescript
+   * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8 ], [ 9, 10 ] ]
+   * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7 ], [ 8, 9, 10 ] ]
+   * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
+   * ```
+   * @param {T[]} array
+   * @param {number} [maxPartitionSize=Math.ceil(array.length / 2)]
+   * @returns {T[][]}
+   */
+  export const partitionEvenly = <T>(array: T[], maxPartitionSize: number = Math.ceil(array.length / 2)): T[][] => {
+    const args = {
+      array: safe.arr(array),
+      maxPartitionSize: safe.num(maxPartitionSize, true, 1)
+    };
+    const numGroups = Math.ceil(args.array.length / args.maxPartitionSize);
+    const baseSize = Math.floor(args.array.length / numGroups);
+    const remainder = args.array.length % numGroups;
+    const result: T[][] = [];
+    let start = 0;
+    for (let i = 0; i < numGroups; i++) {
+      const size = baseSize + (i < remainder ? 1 : 0);
+      result.push(array.slice(start, start + size));
+      start += size;
     }
     return result;
   };
@@ -618,6 +655,8 @@ export const roll = ArrayTools.roll;
 export const sortNumberedText = ArrayTools.sortNumberedText;
 /** <!-- DOCS-ALIAS: ArrayTools.partition  --> */
 export const partition = ArrayTools.partition;
+/** <!-- DOCS-ALIAS: ArrayTools.partitionEvenly  --> */
+export const partitionEvenly = ArrayTools.partitionEvenly;
 /** <!-- DOCS-ALIAS: ArrayTools.groupObj  --> */
 export const groupObj = ArrayTools.groupObj;
 /** <!-- DOCS-ALIAS: ArrayTools.group  --> */

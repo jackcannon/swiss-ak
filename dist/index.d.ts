@@ -3109,12 +3109,32 @@ declare namespace ArrayTools {
      *
      * ```typescript
      * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
+     * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 9, 10 ] ]
+     * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
      * ```
      * @param {T[]} array
      * @param {number} [partitionSize=Math.ceil(array.length / 2)]
      * @returns {T[][]}
      */
     export const partition: <T>(array: T[], partitionSize?: number) => T[][];
+    /**<!-- DOCS: ArrayTools.partitionEvenly ### @ -->
+     * partitionEvenly
+     *
+     * - `partitionEvenly`
+     * - `ArrayTools.partitionEvenly`
+     *
+     * Breaks an array into smaller arrays of a given size, but tries to keep the sizes as even as possible
+     *
+     * ```typescript
+     * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8 ], [ 9, 10 ] ]
+     * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7 ], [ 8, 9, 10 ] ]
+     * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
+     * ```
+     * @param {T[]} array
+     * @param {number} [maxPartitionSize=Math.ceil(array.length / 2)]
+     * @returns {T[][]}
+     */
+    export const partitionEvenly: <T>(array: T[], maxPartitionSize?: number) => T[][];
     /**<!-- DOCS: ArrayTools.groupObj ### @ -->
      * groupObj
      *
@@ -3511,12 +3531,32 @@ declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => strin
  * 
  * ```typescript
  * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
+ * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 9, 10 ] ]
+ * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
  * ```
  * @param {T[]} array
  * @param {number} [partitionSize=Math.ceil(array.length / 2)]
  * @returns {T[][]}
  */
 declare const partition: <T>(array: T[], partitionSize?: number) => T[][];
+/**<!-- DOCS-ALIAS: ArrayTools.partitionEvenly -->
+ * partitionEvenly
+ * 
+ * - `partitionEvenly`
+ * - `ArrayTools.partitionEvenly`
+ * 
+ * Breaks an array into smaller arrays of a given size, but tries to keep the sizes as even as possible
+ * 
+ * ```typescript
+ * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8 ], [ 9, 10 ] ]
+ * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7 ], [ 8, 9, 10 ] ]
+ * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
+ * ```
+ * @param {T[]} array
+ * @param {number} [maxPartitionSize=Math.ceil(array.length / 2)]
+ * @returns {T[][]}
+ */
+declare const partitionEvenly: <T>(array: T[], maxPartitionSize?: number) => T[][];
 /**<!-- DOCS-ALIAS: ArrayTools.groupObj -->
  * groupObj
  * 
@@ -7946,4 +7986,4 @@ declare type OnDemandInputObject<T> = {
     [K in keyof T]: T[K] extends (...args: any[]) => infer R ? () => T[K] : (() => T[K]) | T[K];
 };
 
-export { ArrayTools, CENTURY, Cachier, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeepPartial, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, Prettify, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cachier, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getTimer, group, groupObj, groups, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, onDemand, partition, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryCatch, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };
+export { ArrayTools, CENTURY, Cachier, ClxType, ColourTools, CustomEntryDict, DAY, DECADE, DeepPartial, DeferredPromise, ErrorTools, HOUR, ITimer, KeysOnly, MILLENNIUM, MILLISECOND, MINUTE, MONTH, MathsTools, Numbered, ObjOfType, ObjectTools, OfType, Partial$1 as Partial, Prettify, PromiseTools, QueueManager, RemapOf, SECOND, StringTools, TimeTools, WEEK, YEAR, all, allLimit, allLimitObj, allObj, cachier, centuries, century, clx, create, day, days, decade, decades, each, eachLimit, entries, everys, ff, filled, filters, fn, getDeferred, getTimer, group, groupObj, groups, hour, hours, interval, map, mapLimit, maps, millennium, millenniums, milliseconds, minute, minutes, month, months, ms, onDemand, partition, partitionEvenly, queue, randomise, range, reduces, repeat, retry, retryOr, reverse, roll, safe, second, seconds, sortByMapped, sortNumberedText, sorts, stopInterval, superscript, symbols, timer, times, tryCatch, tryOr, wait, waitEvery, waitFor, waitUntil, waiters, week, weeks, year, years, zip, zipMax };

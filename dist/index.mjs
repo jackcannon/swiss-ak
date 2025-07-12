@@ -360,6 +360,23 @@ var ArrayTools;
     }
     return result;
   };
+  ArrayTools2.partitionEvenly = (array, maxPartitionSize = Math.ceil(array.length / 2)) => {
+    const args = {
+      array: safe.arr(array),
+      maxPartitionSize: safe.num(maxPartitionSize, true, 1)
+    };
+    const numGroups = Math.ceil(args.array.length / args.maxPartitionSize);
+    const baseSize = Math.floor(args.array.length / numGroups);
+    const remainder = args.array.length % numGroups;
+    const result = [];
+    let start = 0;
+    for (let i = 0; i < numGroups; i++) {
+      const size = baseSize + (i < remainder ? 1 : 0);
+      result.push(array.slice(start, start + size));
+      start += size;
+    }
+    return result;
+  };
   ArrayTools2.groupObj = (array, mapFn) => {
     const args = {
       array: safe.arr(array),
@@ -450,6 +467,7 @@ var repeat = ArrayTools.repeat;
 var roll = ArrayTools.roll;
 var sortNumberedText = ArrayTools.sortNumberedText;
 var partition = ArrayTools.partition;
+var partitionEvenly = ArrayTools.partitionEvenly;
 var groupObj = ArrayTools.groupObj;
 var group = ArrayTools.group;
 
@@ -2402,6 +2420,7 @@ export {
   months,
   onDemand,
   partition,
+  partitionEvenly,
   queue,
   randomise,
   range,
