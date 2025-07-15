@@ -37,6 +37,37 @@ describe('cachier', () => {
           expect(cache.get('foo')).toEqual({ name: 'foo' });
         });
 
+        it(should` return undefined for expired items by default`, async () => {
+          const cache = cachier.create();
+          cache.save('expired', 'value', 100);
+          expect(cache.get('expired')).toBe('value');
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          expect(cache.get('expired')).toBeUndefined();
+        });
+
+        it(should` return undefined for expired items when ignoreExpiry is false`, async () => {
+          const cache = cachier.create();
+          cache.save('expired', 'value', 100);
+          expect(cache.get('expired', false)).toBe('value');
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          expect(cache.get('expired', false)).toBeUndefined();
+        });
+
+        it(should` return expired items when ignoreExpiry is true`, async () => {
+          const cache = cachier.create();
+          cache.save('expired', 'value', 100);
+          expect(cache.get('expired', true)).toBe('value');
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          expect(cache.get('expired', true)).toBe('value');
+        });
+
+        it(should` not affect non-expired items when ignoreExpiry is used`, () => {
+          const cache = cachier.create();
+          cache.save('nonexpired', 'value');
+          expect(cache.get('nonexpired', false)).toBe('value');
+          expect(cache.get('nonexpired', true)).toBe('value');
+        });
+
         kitchenSink.toEqual(
           'id',
           (v: any) => {
@@ -75,21 +106,34 @@ describe('cachier', () => {
 
         it(should` respect the expiresIn parameter`, async () => {
           const cache = cachier.create();
-
-          // Save with 100ms expiry
           cache.getOrSave('temp', 'value', 100);
-
-          // Should exist initially
           expect(cache.get('temp')).toBe('value');
-
-          // Wait 200ms (longer than expiry)
           await new Promise((resolve) => setTimeout(resolve, 200));
-
-          // Should be gone
           expect(cache.get('temp')).toBeUndefined();
-
-          // Should save new value when expired
           expect(cache.getOrSave('temp', 'new value')).toBe('new value');
+        });
+
+        it(should` return cached items when ignoreExpiry is false on expired items`, async () => {
+          const cache = cachier.create();
+          cache.save('expired', 'original', 100);
+          expect(cache.getOrSave('expired', 'fallback', Infinity, false)).toBe('original');
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          expect(cache.getOrSave('expired', 'fallback', Infinity, false)).toBe('fallback');
+        });
+
+        it(should` return expired items when ignoreExpiry is true`, async () => {
+          const cache = cachier.create();
+          cache.save('expired', 'original', 100);
+          expect(cache.getOrSave('expired', 'fallback', Infinity, true)).toBe('original');
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          expect(cache.getOrSave('expired', 'fallback', Infinity, true)).toBe('original');
+        });
+
+        it(should` not affect non-expired items when ignoreExpiry is used`, () => {
+          const cache = cachier.create();
+          cache.save('nonexpired', 'original');
+          expect(cache.getOrSave('nonexpired', 'fallback', Infinity, false)).toBe('original');
+          expect(cache.getOrSave('nonexpired', 'fallback', Infinity, true)).toBe('original');
         });
 
         kitchenSink.toEqual(
@@ -158,20 +202,49 @@ describe('cachier', () => {
             return `value${runCount}`;
           };
 
-          // Save with 100ms expiry
           expect(cache.getOrRun('temp', getValue, 100)).toBe('value1');
           expect(runCount).toBe(1);
 
-          // Should return cached value
           expect(cache.getOrRun('temp', getValue, 100)).toBe('value1');
           expect(runCount).toBe(1);
 
-          // Wait 200ms (longer than expiry)
           await new Promise((resolve) => setTimeout(resolve, 200));
 
-          // Should run function again after expiry
           expect(cache.getOrRun('temp', getValue, 100)).toBe('value2');
           expect(runCount).toBe(2);
+        });
+
+        it(should` return cached items when ignoreExpiry is false on expired items`, async () => {
+          const cache = cachier.create();
+
+          cache.save('expired', 'original', 100);
+
+          expect(cache.getOrRun('expired', () => 'fallback', Infinity, false)).toBe('original');
+
+          await new Promise((resolve) => setTimeout(resolve, 200));
+
+          expect(cache.getOrRun('expired', () => 'fallback', Infinity, false)).toBe('fallback');
+        });
+
+        it(should` return expired items when ignoreExpiry is true`, async () => {
+          const cache = cachier.create();
+
+          cache.save('expired', 'original', 100);
+
+          expect(cache.getOrRun('expired', () => 'fallback', Infinity, true)).toBe('original');
+
+          await new Promise((resolve) => setTimeout(resolve, 200));
+
+          expect(cache.getOrRun('expired', () => 'fallback', Infinity, true)).toBe('original');
+        });
+
+        it(should` not affect non-expired items when ignoreExpiry is used`, () => {
+          const cache = cachier.create();
+
+          cache.save('nonexpired', 'original');
+
+          expect(cache.getOrRun('nonexpired', () => 'fallback', Infinity, false)).toBe('original');
+          expect(cache.getOrRun('nonexpired', () => 'fallback', Infinity, true)).toBe('original');
         });
 
         kitchenSink.toEqual(
@@ -251,20 +324,49 @@ describe('cachier', () => {
             return `value${runCount}`;
           };
 
-          // Save with 100ms expiry
           expect(await cache.getOrRunAsync('temp', getValue, 100)).toBe('value1');
           expect(runCount).toBe(1);
 
-          // Should return cached value
           expect(await cache.getOrRunAsync('temp', getValue, 100)).toBe('value1');
           expect(runCount).toBe(1);
 
-          // Wait 200ms (longer than expiry)
           await new Promise((resolve) => setTimeout(resolve, 200));
 
-          // Should run function again after expiry
           expect(await cache.getOrRunAsync('temp', getValue, 100)).toBe('value2');
           expect(runCount).toBe(2);
+        });
+
+        it(should` return cached items when ignoreExpiry is false on expired items`, async () => {
+          const cache = cachier.create();
+
+          cache.save('expired', 'original', 100);
+
+          expect(await cache.getOrRunAsync('expired', async () => 'fallback', Infinity, false)).toBe('original');
+
+          await new Promise((resolve) => setTimeout(resolve, 200));
+
+          expect(await cache.getOrRunAsync('expired', async () => 'fallback', Infinity, false)).toBe('fallback');
+        });
+
+        it(should` return expired items when ignoreExpiry is true`, async () => {
+          const cache = cachier.create();
+
+          cache.save('expired', 'original', 100);
+
+          expect(await cache.getOrRunAsync('expired', async () => 'fallback', Infinity, true)).toBe('original');
+
+          await new Promise((resolve) => setTimeout(resolve, 200));
+
+          expect(await cache.getOrRunAsync('expired', async () => 'fallback', Infinity, true)).toBe('original');
+        });
+
+        it(should` not affect non-expired items when ignoreExpiry is used`, async () => {
+          const cache = cachier.create();
+
+          cache.save('nonexpired', 'original');
+
+          expect(await cache.getOrRunAsync('nonexpired', async () => 'fallback', Infinity, false)).toBe('original');
+          expect(await cache.getOrRunAsync('nonexpired', async () => 'fallback', Infinity, true)).toBe('original');
         });
 
         kitchenSink.toEqual(
@@ -327,17 +429,9 @@ describe('cachier', () => {
 
         it(should` respect the expiresIn parameter`, async () => {
           const cache = cachier.create();
-
-          // Save with 100ms expiry
           cache.save('temp', 'value', 100);
-
-          // Should exist initially
           expect(cache.get('temp')).toBe('value');
-
-          // Wait 200ms (longer than expiry)
           await new Promise((resolve) => setTimeout(resolve, 200));
-
-          // Should be gone
           expect(cache.get('temp')).toBeUndefined();
         });
 
@@ -448,6 +542,49 @@ describe('cachier', () => {
           cache.save('baz', { name: 'baz' });
           expect(cache.getAll()).toEqual({ foo: { name: 'foo' }, bar: { name: 'BAR' }, baz: { name: 'baz' } });
         });
+
+        it(should` exclude expired items by default`, async () => {
+          const cache = cachier.create();
+
+          cache.save('permanent', 'value1');
+          cache.save('temp', 'value2', 100);
+
+          expect(cache.getAll()).toEqual({ permanent: 'value1', temp: 'value2' });
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          expect(cache.getAll()).toEqual({ permanent: 'value1' });
+        });
+
+        it(should` exclude expired items when ignoreExpiry is false`, async () => {
+          const cache = cachier.create();
+
+          cache.save('permanent', 'value1');
+          cache.save('temp', 'value2', 100);
+
+          expect(cache.getAll(false)).toEqual({ permanent: 'value1', temp: 'value2' });
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          expect(cache.getAll(false)).toEqual({ permanent: 'value1' });
+        });
+
+        it(should` include expired items when ignoreExpiry is true`, async () => {
+          const cache = cachier.create();
+
+          cache.save('permanent', 'value1');
+          cache.save('temp', 'value2', 100);
+
+          expect(cache.getAll(true)).toEqual({ permanent: 'value1', temp: 'value2' });
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          expect(cache.getAll(true)).toEqual({ permanent: 'value1', temp: 'value2' });
+        });
+
+        it(should` not affect non-expired items when ignoreExpiry is used`, () => {
+          const cache = cachier.create();
+
+          cache.save('item1', 'value1');
+          cache.save('item2', 'value2');
+
+          expect(cache.getAll(false)).toEqual({ item1: 'value1', item2: 'value2' });
+          expect(cache.getAll(true)).toEqual({ item1: 'value1', item2: 'value2' });
+        });
       }
     );
   });
@@ -481,17 +618,9 @@ describe('cachier', () => {
 
         it(should` respect the defaultExpiresIn parameter`, async () => {
           const cache = cachier.create(100); // Create with 100ms default expiry
-
-          // Save without explicit expiry - should use default
           cache.save('temp', 'value');
-
-          // Should exist initially
           expect(cache.get('temp')).toBe('value');
-
-          // Wait 200ms (longer than expiry)
           await new Promise((resolve) => setTimeout(resolve, 200));
-
-          // Should be gone
           expect(cache.get('temp')).toBeUndefined();
         });
 
@@ -569,22 +698,11 @@ describe('cachier', () => {
         it(should` affect new items but not existing ones`, async () => {
           const cache = cachier.create();
 
-          // Save with default (Infinity)
           cache.save('infinite', 'value');
-
-          // Change default to 100ms
           cache.setDefaultExpiresIn(100);
-
-          // Save with new default
           cache.save('temporary', 'value');
-
-          // Wait 200ms (longer than expiry)
           await new Promise((resolve) => setTimeout(resolve, 200));
-
-          // Infinite item should still exist
           expect(cache.get('infinite')).toBe('value');
-
-          // Temporary item should be gone
           expect(cache.get('temporary')).toBeUndefined();
         });
 

@@ -3108,6 +3108,8 @@ declare namespace ArrayTools {
      * Breaks an array into smaller arrays of a given size
      *
      * ```typescript
+     * ArrayTools.partition([1, 2, 3, 4], 3); // [ [ 1, 2, 3 ], [ 4 ] ]
+     *
      * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
      * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 9, 10 ] ]
      * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
@@ -3126,6 +3128,8 @@ declare namespace ArrayTools {
      * Breaks an array into smaller arrays of a given size, but tries to keep the sizes as even as possible
      *
      * ```typescript
+     * ArrayTools.partitionEvenly([1, 2, 3, 4], 3); // [ [ 1, 2 ], [ 3, 4 ] ]
+     *
      * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8 ], [ 9, 10 ] ]
      * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7 ], [ 8, 9, 10 ] ]
      * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
@@ -3530,6 +3534,8 @@ declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => strin
  * Breaks an array into smaller arrays of a given size
  * 
  * ```typescript
+ * ArrayTools.partition([1, 2, 3, 4], 3); // [ [ 1, 2, 3 ], [ 4 ] ]
+ * 
  * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
  * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 9, 10 ] ]
  * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
@@ -3548,6 +3554,8 @@ declare const partition: <T>(array: T[], partitionSize?: number) => T[][];
  * Breaks an array into smaller arrays of a given size, but tries to keep the sizes as even as possible
  * 
  * ```typescript
+ * ArrayTools.partitionEvenly([1, 2, 3, 4], 3); // [ [ 1, 2 ], [ 3, 4 ] ]
+ * 
  * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8 ], [ 9, 10 ] ]
  * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7 ], [ 8, 9, 10 ] ]
  * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
@@ -7681,9 +7689,10 @@ interface Cachier<T> {
      * cachier.get('foo'); // { "name": "foo" }
      * ```
      * @param {string} id
+     * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
      * @returns {T}
      */
-    get(id: string): T;
+    get(id: string, ignoreExpiry?: boolean): T;
     /**<!-- DOCS: cachier.Cachier.getOrSave #### -->
      * getOrSave
      *
@@ -7707,9 +7716,10 @@ interface Cachier<T> {
      * @param {string} id
      * @param {T} orValue
      * @param {ms} [expiresIn=getDefaultExpiresIn()]
+     * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
      * @returns {T}
      */
-    getOrSave(id: string, orValue: T, expiresIn?: ms): T;
+    getOrSave(id: string, orValue: T, expiresIn?: ms, ignoreExpiry?: boolean): T;
     /**<!-- DOCS: cachier.Cachier.getOrRun #### -->
      * getOrRun
      *
@@ -7735,9 +7745,10 @@ interface Cachier<T> {
      * @param {string} id
      * @param {(id?: string) => T} orFunc
      * @param {ms} [expiresIn=getDefaultExpiresIn()]
+     * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
      * @returns {T}
      */
-    getOrRun(id: string, orFunc: (id?: string) => T, expiresIn?: ms): T;
+    getOrRun(id: string, orFunc: (id?: string) => T, expiresIn?: ms, ignoreExpiry?: boolean): T;
     /**<!-- DOCS: cachier.Cachier.getOrRunAsync #### -->
      * getOrRunAsync
      *
@@ -7770,9 +7781,10 @@ interface Cachier<T> {
      * @param {string} id
      * @param {(id?: string) => T | Promise<T>} orFunc
      * @param {ms} [expiresIn=getDefaultExpiresIn()]
+     * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
      * @returns {Promise<T>}
      */
-    getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn?: ms): Promise<T>;
+    getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn?: ms, ignoreExpiry?: boolean): Promise<T>;
     /**<!-- DOCS: cachier.Cachier.save #### -->
      * save
      *
@@ -7848,9 +7860,10 @@ interface Cachier<T> {
      *
      * cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz": { "name": "baz" } }
      * ```
+     * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
      * @returns {Record<string, T>}
      */
-    getAll(): Record<string, T>;
+    getAll(ignoreExpiry?: boolean): Record<string, T>;
     /**<!-- DOCS: cachier.Cachier.getDefaultExpiresIn #### -->
      * getDefaultExpiresIn
      *

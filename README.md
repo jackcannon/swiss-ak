@@ -1598,6 +1598,8 @@ ArrayTools.partition(array: T[], partitionSize: number): T[][]
 Breaks an array into smaller arrays of a given size
 
 ```typescript
+ArrayTools.partition([1, 2, 3, 4], 3); // [ [ 1, 2, 3 ], [ 4 ] ]
+
 ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
 ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 9, 10 ] ]
 ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
@@ -1624,6 +1626,8 @@ ArrayTools.partitionEvenly(array: T[], maxPartitionSize: number): T[][]
 Breaks an array into smaller arrays of a given size, but tries to keep the sizes as even as possible
 
 ```typescript
+ArrayTools.partitionEvenly([1, 2, 3, 4], 3); // [ [ 1, 2 ], [ 3, 4 ] ]
+
 ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8 ], [ 9, 10 ] ]
 ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7 ], [ 8, 9, 10 ] ]
 ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
@@ -4471,8 +4475,8 @@ cachier.getAll(); // {}
 #### get
 
 ```typescript
-cachier.get(id: string): T
-cachier.create().get(id: string): T
+cachier.get(id: string, ignoreExpiry: boolean): T
+cachier.create().get(id: string, ignoreExpiry: boolean): T
 ```
 
 Get a cached item by id.
@@ -4482,9 +4486,10 @@ cachier.save('foo', { name: 'foo' });
 cachier.get('foo'); // { "name": "foo" }
 ```
 
-|  #  | Parameter Name | Required | Type     |
-|:---:|:---------------|:---------|:---------|
-| *0* | `id`           | **Yes**  | `string` |
+|  #  | Parameter Name | Required | Type      | Default | Description                                                |
+|:---:|:---------------|:---------|:----------|:--------|:-----------------------------------------------------------|
+| *0* | `id`           | **Yes**  | `string`  |         |                                                            |
+| *1* | `ignoreExpiry` | *No*     | `boolean` | `false` | If true, the item will be returned even if it has expired. |
 
 | Return Type |
 |-------------|
@@ -4495,8 +4500,8 @@ cachier.get('foo'); // { "name": "foo" }
 #### getOrSave
 
 ```typescript
-cachier.getOrSave(id: string, orValue: T, expiresIn: ms): T
-cachier.create().getOrSave(id: string, orValue: T, expiresIn: ms): T
+cachier.getOrSave(id: string, orValue: T, expiresIn: ms, ignoreExpiry: boolean): T
+cachier.create().getOrSave(id: string, orValue: T, expiresIn: ms, ignoreExpiry: boolean): T
 ```
 
 Get a cached item by id, or save a new item if it doesn't exist.
@@ -4514,11 +4519,12 @@ cachier.get('bar'); // { "name": "bar" }
 // After 10 seconds: cachier.get('bar'); // undefined
 ```
 
-|  #  | Parameter Name | Required | Type     | Default                 |
-|:---:|:---------------|:---------|:---------|:------------------------|
-| *0* | `id`           | **Yes**  | `string` |                         |
-| *1* | `orValue`      | **Yes**  | `T`      |                         |
-| *2* | `expiresIn`    | *No*     | `ms`     | `getDefaultExpiresIn()` |
+|  #  | Parameter Name | Required | Type      | Default                 | Description                                                |
+|:---:|:---------------|:---------|:----------|:------------------------|:-----------------------------------------------------------|
+| *0* | `id`           | **Yes**  | `string`  |                         |                                                            |
+| *1* | `orValue`      | **Yes**  | `T`       |                         |                                                            |
+| *2* | `expiresIn`    | *No*     | `ms`      | `getDefaultExpiresIn()` |                                                            |
+| *3* | `ignoreExpiry` | *No*     | `boolean` | `false`                 | If true, the item will be returned even if it has expired. |
 
 | Return Type |
 |-------------|
@@ -4529,8 +4535,8 @@ cachier.get('bar'); // { "name": "bar" }
 #### getOrRun
 
 ```typescript
-cachier.getOrRun(id: string, orFunc: (id?: string) => T, expiresIn: ms): T
-cachier.create().getOrRun(id: string, orFunc: (id?: string) => T, expiresIn: ms): T
+cachier.getOrRun(id: string, orFunc: (id?: string) => T, expiresIn: ms, ignoreExpiry: boolean): T
+cachier.create().getOrRun(id: string, orFunc: (id?: string) => T, expiresIn: ms, ignoreExpiry: boolean): T
 ```
 
 Get a cached item by id, or run a function to create a new item if it doesn't exist.
@@ -4550,11 +4556,12 @@ cachier.get('baz'); // { "name": "baz" }
 // After 15 seconds: cachier.get('baz'); // undefined
 ```
 
-|  #  | Parameter Name | Required | Type                 | Default                 |
-|:---:|:---------------|:---------|:---------------------|:------------------------|
-| *0* | `id`           | **Yes**  | `string`             |                         |
-| *1* | `orFunc`       | **Yes**  | `(id?: string) => T` |                         |
-| *2* | `expiresIn`    | *No*     | `ms`                 | `getDefaultExpiresIn()` |
+|  #  | Parameter Name | Required | Type                 | Default                 | Description                                                |
+|:---:|:---------------|:---------|:---------------------|:------------------------|:-----------------------------------------------------------|
+| *0* | `id`           | **Yes**  | `string`             |                         |                                                            |
+| *1* | `orFunc`       | **Yes**  | `(id?: string) => T` |                         |                                                            |
+| *2* | `expiresIn`    | *No*     | `ms`                 | `getDefaultExpiresIn()` |                                                            |
+| *3* | `ignoreExpiry` | *No*     | `boolean`            | `false`                 | If true, the item will be returned even if it has expired. |
 
 | Return Type |
 |-------------|
@@ -4565,8 +4572,8 @@ cachier.get('baz'); // { "name": "baz" }
 #### getOrRunAsync
 
 ```typescript
-cachier.getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn: ms): Promise<T>
-cachier.create().getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn: ms): Promise<T>
+cachier.getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn: ms, ignoreExpiry: boolean): Promise<T>
+cachier.create().getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn: ms, ignoreExpiry: boolean): Promise<T>
 ```
 
 Get a cached item by id, or run an async function to create a new item if it doesn't exist.
@@ -4593,11 +4600,12 @@ cachier.get('qux'); // { name: 'qux' }
 // After 20 seconds: cachier.get('qux'); // undefined
 ```
 
-|  #  | Parameter Name | Required | Type                               | Default                 |
-|:---:|:---------------|:---------|:-----------------------------------|:------------------------|
-| *0* | `id`           | **Yes**  | `string`                           |                         |
-| *1* | `orFunc`       | **Yes**  | `(id?: string) => T \| Promise<T>` |                         |
-| *2* | `expiresIn`    | *No*     | `ms`                               | `getDefaultExpiresIn()` |
+|  #  | Parameter Name | Required | Type                               | Default                 | Description                                                |
+|:---:|:---------------|:---------|:-----------------------------------|:------------------------|:-----------------------------------------------------------|
+| *0* | `id`           | **Yes**  | `string`                           |                         |                                                            |
+| *1* | `orFunc`       | **Yes**  | `(id?: string) => T \| Promise<T>` |                         |                                                            |
+| *2* | `expiresIn`    | *No*     | `ms`                               | `getDefaultExpiresIn()` |                                                            |
+| *3* | `ignoreExpiry` | *No*     | `boolean`                          | `false`                 | If true, the item will be returned even if it has expired. |
 
 | Return Type  |
 |--------------|
@@ -4689,8 +4697,8 @@ cachier.getAll(); // {}
 #### getAll
 
 ```typescript
-cachier.getAll(): Record<string, T>
-cachier.create().getAll(): Record<string, T>
+cachier.getAll(ignoreExpiry: boolean): Record<string, T>
+cachier.create().getAll(ignoreExpiry: boolean): Record<string, T>
 ```
 
 Get all items from the cache.
@@ -4702,6 +4710,10 @@ cachier.save('baz', { name: 'baz' });
 
 cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz": { "name": "baz" } }
 ```
+
+|  #  | Parameter Name | Required | Type      | Default | Description                                                |
+|:---:|:---------------|:---------|:----------|:--------|:-----------------------------------------------------------|
+| *0* | `ignoreExpiry` | *No*     | `boolean` | `false` | If true, the item will be returned even if it has expired. |
 
 | Return Type         |
 |---------------------|

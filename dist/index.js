@@ -2317,31 +2317,35 @@ var queue = new QueueManager();
 var cachierFactory = (defaultExpiresIn = Infinity) => {
   let storedItems = {};
   let defExpiresInVal = defaultExpiresIn;
-  const getValidatedValue = (id) => {
+  const getValidatedValue = (id, ignoreExpiry) => {
     const item = storedItems[id];
     if (item === void 0)
       return { hasValidValue: false };
+    if (ignoreExpiry)
+      return { hasValidValue: true, value: item.value };
     if (item.expires < Date.now()) {
       delete storedItems[id];
       return { hasValidValue: false };
     }
     return { hasValidValue: true, value: item.value };
   };
-  const get = (id) => {
+  const get = (id, ignoreExpiry = false) => {
     const args = {
-      id: safe.str(id, false, "NO-ID")
+      id: safe.str(id, false, "NO-ID"),
+      ignoreExpiry: safe.bool(ignoreExpiry, false)
     };
-    const valid = getValidatedValue(args.id);
+    const valid = getValidatedValue(args.id, args.ignoreExpiry);
     return valid.hasValidValue ? valid.value : void 0;
   };
-  const getOrSave = (id, orValue, expiresIn = getDefaultExpiresIn()) => {
+  const getOrSave = (id, orValue, expiresIn = getDefaultExpiresIn(), ignoreExpiry = false) => {
     const args = {
       id: safe.str(id, false, "NO-ID"),
       orValue,
-      expiresIn: safe.num(expiresIn, true, void 0, void 0, getDefaultExpiresIn())
+      expiresIn: safe.num(expiresIn, true, void 0, void 0, getDefaultExpiresIn()),
+      ignoreExpiry: safe.bool(ignoreExpiry, false)
     };
     try {
-      const valid = getValidatedValue(args.id);
+      const valid = getValidatedValue(args.id, args.ignoreExpiry);
       if (valid.hasValidValue)
         return valid.value;
       storedItems[args.id] = {
@@ -2353,14 +2357,15 @@ var cachierFactory = (defaultExpiresIn = Infinity) => {
       return void 0;
     }
   };
-  const getOrRun = (id, orFunc, expiresIn = getDefaultExpiresIn()) => {
+  const getOrRun = (id, orFunc, expiresIn = getDefaultExpiresIn(), ignoreExpiry = false) => {
     const args = {
       id: safe.str(id, false, "NO-ID"),
       orFunc: safe.func(orFunc),
-      expiresIn: safe.num(expiresIn, true, void 0, void 0, getDefaultExpiresIn())
+      expiresIn: safe.num(expiresIn, true, void 0, void 0, getDefaultExpiresIn()),
+      ignoreExpiry: safe.bool(ignoreExpiry, false)
     };
     try {
-      const valid = getValidatedValue(args.id);
+      const valid = getValidatedValue(args.id, args.ignoreExpiry);
       if (valid.hasValidValue)
         return valid.value;
       const newItem = args.orFunc(args.id);
@@ -2373,14 +2378,15 @@ var cachierFactory = (defaultExpiresIn = Infinity) => {
       return void 0;
     }
   };
-  const getOrRunAsync = async (id, orFunc, expiresIn = getDefaultExpiresIn()) => {
+  const getOrRunAsync = async (id, orFunc, expiresIn = getDefaultExpiresIn(), ignoreExpiry = false) => {
     const args = {
       id: safe.str(id, false, "NO-ID"),
       orFunc: safe.func(orFunc),
-      expiresIn: safe.num(expiresIn, true, void 0, void 0, getDefaultExpiresIn())
+      expiresIn: safe.num(expiresIn, true, void 0, void 0, getDefaultExpiresIn()),
+      ignoreExpiry: safe.bool(ignoreExpiry, false)
     };
     try {
-      const valid = getValidatedValue(args.id);
+      const valid = getValidatedValue(args.id, args.ignoreExpiry);
       if (valid.hasValidValue)
         return valid.value;
       const newItem = await args.orFunc(args.id);
@@ -2414,8 +2420,11 @@ var cachierFactory = (defaultExpiresIn = Infinity) => {
   const clear = () => {
     storedItems = {};
   };
-  const getAll = () => {
-    const entries2 = Object.keys(storedItems).map((id) => [id, getValidatedValue(id)]).filter(([_, { hasValidValue }]) => hasValidValue).map(([id, { value }]) => [id, value]);
+  const getAll = (ignoreExpiry = false) => {
+    const args = {
+      ignoreExpiry: safe.bool(ignoreExpiry, false)
+    };
+    const entries2 = Object.keys(storedItems).map((id) => [id, getValidatedValue(id, args.ignoreExpiry)]).filter(([_, { hasValidValue }]) => hasValidValue).map(([id, { value }]) => [id, value]);
     return Object.fromEntries(entries2);
   };
   const getDefaultExpiresIn = () => defExpiresInVal;

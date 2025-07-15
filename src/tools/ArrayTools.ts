@@ -347,6 +347,8 @@ export namespace ArrayTools {
    * Breaks an array into smaller arrays of a given size
    *
    * ```typescript
+   * ArrayTools.partition([1, 2, 3, 4], 3); // [ [ 1, 2, 3 ], [ 4 ] ]
+   *
    * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 10 ] ]
    * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 9, 10 ] ]
    * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
@@ -377,6 +379,8 @@ export namespace ArrayTools {
    * Breaks an array into smaller arrays of a given size, but tries to keep the sizes as even as possible
    *
    * ```typescript
+   * ArrayTools.partitionEvenly([1, 2, 3, 4], 3); // [ [ 1, 2 ], [ 3, 4 ] ]
+   *
    * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3); // [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8 ], [ 9, 10 ] ]
    * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7 ], [ 8, 9, 10 ] ]
    * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]

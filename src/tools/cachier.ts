@@ -18,9 +18,10 @@ const cachierFactory = <T>(defaultExpiresIn: ms = Infinity): Cachier<T> => {
   let storedItems: Record<string, { expires: ms; value: T }> = {};
   let defExpiresInVal: ms = defaultExpiresIn;
 
-  const getValidatedValue = (id: string): ValidatedValue<T> => {
+  const getValidatedValue = (id: string, ignoreExpiry: boolean): ValidatedValue<T> => {
     const item = storedItems[id];
     if (item === undefined) return { hasValidValue: false };
+    if (ignoreExpiry) return { hasValidValue: true, value: item.value }; // ignore expiry if requested
     if (item.expires < Date.now()) {
       delete storedItems[id];
       return { hasValidValue: false };
@@ -28,22 +29,24 @@ const cachierFactory = <T>(defaultExpiresIn: ms = Infinity): Cachier<T> => {
     return { hasValidValue: true, value: item.value };
   };
 
-  const get = (id: string) => {
+  const get: Cachier<T>['get'] = (id: string, ignoreExpiry: boolean = false) => {
     const args = {
-      id: safe.str(id, false, 'NO-ID')
+      id: safe.str(id, false, 'NO-ID'),
+      ignoreExpiry: safe.bool(ignoreExpiry, false)
     };
-    const valid = getValidatedValue(args.id);
+    const valid = getValidatedValue(args.id, args.ignoreExpiry);
     return valid.hasValidValue ? valid.value : undefined;
   };
-  const getOrSave = (id: string, orValue: T, expiresIn: ms = getDefaultExpiresIn()): T => {
+  const getOrSave: Cachier<T>['getOrSave'] = (id: string, orValue: T, expiresIn: ms = getDefaultExpiresIn(), ignoreExpiry: boolean = false): T => {
     const args = {
       id: safe.str(id, false, 'NO-ID'),
       orValue,
-      expiresIn: safe.num(expiresIn, true, undefined, undefined, getDefaultExpiresIn())
+      expiresIn: safe.num(expiresIn, true, undefined, undefined, getDefaultExpiresIn()),
+      ignoreExpiry: safe.bool(ignoreExpiry, false)
     };
     try {
       // get
-      const valid = getValidatedValue(args.id);
+      const valid = getValidatedValue(args.id, args.ignoreExpiry);
       if (valid.hasValidValue) return valid.value;
 
       // save
@@ -56,15 +59,21 @@ const cachierFactory = <T>(defaultExpiresIn: ms = Infinity): Cachier<T> => {
       return undefined as unknown as T;
     }
   };
-  const getOrRun = (id: string, orFunc: (id?: string) => T, expiresIn: ms = getDefaultExpiresIn()): T => {
+  const getOrRun: Cachier<T>['getOrRun'] = (
+    id: string,
+    orFunc: (id?: string) => T,
+    expiresIn: ms = getDefaultExpiresIn(),
+    ignoreExpiry: boolean = false
+  ): T => {
     const args = {
       id: safe.str(id, false, 'NO-ID'),
       orFunc: safe.func(orFunc),
-      expiresIn: safe.num(expiresIn, true, undefined, undefined, getDefaultExpiresIn())
+      expiresIn: safe.num(expiresIn, true, undefined, undefined, getDefaultExpiresIn()),
+      ignoreExpiry: safe.bool(ignoreExpiry, false)
     };
     try {
       // get
-      const valid = getValidatedValue(args.id);
+      const valid = getValidatedValue(args.id, args.ignoreExpiry);
       if (valid.hasValidValue) return valid.value;
 
       // run
@@ -78,15 +87,21 @@ const cachierFactory = <T>(defaultExpiresIn: ms = Infinity): Cachier<T> => {
       return undefined as unknown as T;
     }
   };
-  const getOrRunAsync = async (id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn: ms = getDefaultExpiresIn()): Promise<T> => {
+  const getOrRunAsync: Cachier<T>['getOrRunAsync'] = async (
+    id: string,
+    orFunc: (id?: string) => T | Promise<T>,
+    expiresIn: ms = getDefaultExpiresIn(),
+    ignoreExpiry: boolean = false
+  ): Promise<T> => {
     const args = {
       id: safe.str(id, false, 'NO-ID'),
       orFunc: safe.func(orFunc),
-      expiresIn: safe.num(expiresIn, true, undefined, undefined, getDefaultExpiresIn())
+      expiresIn: safe.num(expiresIn, true, undefined, undefined, getDefaultExpiresIn()),
+      ignoreExpiry: safe.bool(ignoreExpiry, false)
     };
     try {
       // get
-      const valid = getValidatedValue(args.id);
+      const valid = getValidatedValue(args.id, args.ignoreExpiry);
       if (valid.hasValidValue) return valid.value;
 
       // run
@@ -100,7 +115,7 @@ const cachierFactory = <T>(defaultExpiresIn: ms = Infinity): Cachier<T> => {
       return undefined as unknown as T;
     }
   };
-  const save = (id: string, item: T, expiresIn: ms = getDefaultExpiresIn()): T => {
+  const save: Cachier<T>['save'] = (id: string, item: T, expiresIn: ms = getDefaultExpiresIn()): T => {
     const args = {
       id: safe.str(id, false, 'NO-ID'),
       item,
@@ -113,28 +128,31 @@ const cachierFactory = <T>(defaultExpiresIn: ms = Infinity): Cachier<T> => {
     return args.item;
   };
 
-  const remove = (id: string): void => {
+  const remove: Cachier<T>['remove'] = (id: string): void => {
     const args = {
       id: safe.str(id, false, 'NO-ID-REMOVE')
     };
     delete storedItems[args.id];
   };
 
-  const clear = (): void => {
+  const clear: Cachier<T>['clear'] = (): void => {
     storedItems = {};
   };
 
-  const getAll = (): Record<string, T> => {
+  const getAll: Cachier<T>['getAll'] = (ignoreExpiry: boolean = false): Record<string, T> => {
+    const args = {
+      ignoreExpiry: safe.bool(ignoreExpiry, false)
+    };
     const entries = Object.keys(storedItems)
-      .map((id) => [id, getValidatedValue(id)] as [string, ValidatedValue<T>])
+      .map((id) => [id, getValidatedValue(id, args.ignoreExpiry)] as [string, ValidatedValue<T>])
       .filter(([_, { hasValidValue }]) => hasValidValue)
       .map(([id, { value }]) => [id, value] as [string, T]);
 
     return Object.fromEntries(entries);
   };
 
-  const getDefaultExpiresIn = () => defExpiresInVal;
-  const setDefaultExpiresIn = (newValue: ms = Infinity) => {
+  const getDefaultExpiresIn: Cachier<T>['getDefaultExpiresIn'] = () => defExpiresInVal;
+  const setDefaultExpiresIn: Cachier<T>['setDefaultExpiresIn'] = (newValue: ms = Infinity) => {
     const args = {
       newValue: safe.num(newValue, true, undefined, undefined, Infinity)
     };
@@ -142,7 +160,7 @@ const cachierFactory = <T>(defaultExpiresIn: ms = Infinity): Cachier<T> => {
     return defExpiresInVal;
   };
 
-  const create = <U>(defaultExpiresIn: ms = Infinity): Cachier<U> => {
+  const create: Cachier<T>['create'] = <U>(defaultExpiresIn: ms = Infinity): Cachier<U> => {
     const args = {
       defaultExpiresIn: safe.num(defaultExpiresIn, true, undefined, undefined, Infinity)
     };
@@ -245,9 +263,10 @@ export interface Cachier<T> {
    * cachier.get('foo'); // { "name": "foo" }
    * ```
    * @param {string} id
+   * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
    * @returns {T}
    */
-  get(id: string): T;
+  get(id: string, ignoreExpiry?: boolean): T;
 
   /**<!-- DOCS: cachier.Cachier.getOrSave #### -->
    * getOrSave
@@ -272,9 +291,10 @@ export interface Cachier<T> {
    * @param {string} id
    * @param {T} orValue
    * @param {ms} [expiresIn=getDefaultExpiresIn()]
+   * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
    * @returns {T}
    */
-  getOrSave(id: string, orValue: T, expiresIn?: ms): T;
+  getOrSave(id: string, orValue: T, expiresIn?: ms, ignoreExpiry?: boolean): T;
 
   /**<!-- DOCS: cachier.Cachier.getOrRun #### -->
    * getOrRun
@@ -301,9 +321,10 @@ export interface Cachier<T> {
    * @param {string} id
    * @param {(id?: string) => T} orFunc
    * @param {ms} [expiresIn=getDefaultExpiresIn()]
+   * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
    * @returns {T}
    */
-  getOrRun(id: string, orFunc: (id?: string) => T, expiresIn?: ms): T;
+  getOrRun(id: string, orFunc: (id?: string) => T, expiresIn?: ms, ignoreExpiry?: boolean): T;
 
   /**<!-- DOCS: cachier.Cachier.getOrRunAsync #### -->
    * getOrRunAsync
@@ -337,9 +358,10 @@ export interface Cachier<T> {
    * @param {string} id
    * @param {(id?: string) => T | Promise<T>} orFunc
    * @param {ms} [expiresIn=getDefaultExpiresIn()]
+   * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
    * @returns {Promise<T>}
    */
-  getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn?: ms): Promise<T>;
+  getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn?: ms, ignoreExpiry?: boolean): Promise<T>;
 
   /**<!-- DOCS: cachier.Cachier.save #### -->
    * save
@@ -419,9 +441,10 @@ export interface Cachier<T> {
    *
    * cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz": { "name": "baz" } }
    * ```
+   * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
    * @returns {Record<string, T>}
    */
-  getAll(): Record<string, T>;
+  getAll(ignoreExpiry?: boolean): Record<string, T>;
 
   /**<!-- DOCS: cachier.Cachier.getDefaultExpiresIn #### -->
    * getDefaultExpiresIn
