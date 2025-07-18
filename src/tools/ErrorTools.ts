@@ -28,7 +28,7 @@ export namespace ErrorTools {
    * @param {T} orValue - Default value to return if the function fails
    * @param {(...args: A[]) => Promise<T>} func - Function to try
    * @param {...A} [args] - Arguments to pass to the function
-   * @returns {Promise<T>}
+   * @returns {Promise<T>} - Promise that resolves to the result of the function, or the default value if it fails
    */
   export const tryOr = async <T, A>(orValue: T, func: (...args: A[]) => Promise<T>, ...args: A[]): Promise<T> => {
     try {
@@ -53,7 +53,7 @@ export namespace ErrorTools {
    * @param {ms} [delay=0] - Delay between tries
    * @param {boolean} [suppress=true] - Whether to suppress the error
    * @param {(attemptNumber) => T} [run=fn.result(undefined as T)] - Function to run on each attempt
-   * @returns {Promise<T>}
+   * @returns {Promise<T>} - Promise that resolves to the result of the function, or undefined if it fails after all tries
    */
   export const retry = async <T>(
     maxTries: number = 10,
@@ -101,7 +101,7 @@ export namespace ErrorTools {
    * @param {number} [maxTries=10] - Maximum number of tries
    * @param {ms} [delay=0] - Delay between tries
    * @param {() => T | Promise<T>} [run=fn.result(orValue)] - Function to run on each attempt
-   * @returns {Promise<T>}
+   * @returns {Promise<T>} - Promise that resolves to the result of the function, or the default value if it fails after all tries
    */
   export const retryOr = async <T>(orValue: T, maxTries: number = 10, delay: ms = 0, run: () => T | Promise<T> = fn.result(orValue)): Promise<T> => {
     const args = {
@@ -148,7 +148,7 @@ export namespace ErrorTools {
    * }); // { result: 'bar', error: null }
    * ```
    * @param {Promise<T> | (() => T | Promise<T>)} promiseOrFunc - Promise or function to try
-   * @returns {Promise<TryCatchResult<T, E>>}
+   * @returns {Promise<TryCatchResult<T, E>>} - Promise with result or error
    */
   export async function tryCatch<T, E = Error>(promiseOrFunc: Promise<T> | (() => T | Promise<T>)): Promise<TryCatchResult<T, E>> {
     try {

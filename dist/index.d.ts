@@ -1349,7 +1349,7 @@ declare namespace fn {
      *   .map(condition ? mapSomething : fn.noact)
      * ```
      * @param {T} [item] - Item to return
-     * @returns {T}
+     * @returns {T} - The first argument it receives
      */
     export const noact: <T = any>(item?: T) => T;
     /**<!-- DOCS: fn.result ### @ -->
@@ -1364,7 +1364,7 @@ declare namespace fn {
      *   .filter(condition ? mapSomething : fn.result(true))
      * ```
      * @param {T} [item] - Item to return from the function
-     * @returns {() => T}
+     * @returns {() => T} - Function that returns the first argument
      */
     export const result: <T = any>(item?: T) => () => T;
     /**<!-- DOCS: fn.resolve ### @ -->
@@ -1380,7 +1380,7 @@ declare namespace fn {
      * await Promise.all(stuff.map(fn.resolve()));
      * ```
      * @param {T} [item] - Item to resolve
-     * @returns {() => Promise<T>}
+     * @returns {() => Promise<T>} - Function that returns a Promise that resolves to the first argument
      */
     export const resolve: <T = any>(item?: T) => () => Promise<T>;
     /**<!-- DOCS: fn.reject ### @ -->
@@ -1394,7 +1394,7 @@ declare namespace fn {
      * await Promise.all(stuff.map(fn.reject()));
      * ```
      * @param {T} [item] - Item to reject
-     * @returns {() => Promise<T>}
+     * @returns {() => Promise<T>} - Function that returns a Promise that rejects with the first argument
      */
     export const reject: <T = any>(item?: T) => () => Promise<T>;
     /**<!-- DOCS: fn.filters ### -->
@@ -1417,7 +1417,7 @@ declare namespace fn {
      * [null, 1, undefined, 2].filter(fn.exists); // [1, 2]
      * ```
      * @param {T} item - Item to check if it exists
-     * @returns {boolean}
+     * @returns {boolean} - True if item isn't null or undefined
      */
     export const exists: <T = any>(item: T) => boolean;
     /**<!-- DOCS: fn.isTruthy #### @ -->
@@ -1434,7 +1434,7 @@ declare namespace fn {
      * ['', 'a', 'b'].filter(fn.isTruthy); // ['a', 'b']
      * ```
      * @param {T} item - Item to check if it is truthy
-     * @returns {boolean}
+     * @returns {boolean} - True if item is truthy
      */
     export const isTruthy: <T = any>(item: T) => boolean;
     /**<!-- DOCS: fn.isFalsy #### @ -->
@@ -1451,7 +1451,7 @@ declare namespace fn {
      * ['', 'a', 'b'].filter(fn.isFalsy); // ['']
      * ```
      * @param {T} item - Item to check if it is falsy
-     * @returns {boolean}
+     * @returns {boolean} - True if item is falsy
      */
     export const isFalsy: <T = any>(item: T) => boolean;
     /**<!-- DOCS: fn.isEmpty #### @ -->
@@ -1468,7 +1468,7 @@ declare namespace fn {
      * [[], [1], [2]].filter(fn.isEmpty); // [[]]
      * ```
      * @param {T[] | string} item - Item to check if it is empty
-     * @returns {boolean}
+     * @returns {boolean} - True if item's length is 0
      */
     export const isEmpty: <T = any>(item: string | T[]) => boolean;
     /**<!-- DOCS: fn.isNotEmpty #### @ -->
@@ -1485,7 +1485,7 @@ declare namespace fn {
      * [[], [1], [2]].filter(fn.isNotEmpty); // [[1], [2]]
      * ```
      * @param {T[] | string} item - Item to check if it is not empty
-     * @returns {boolean}
+     * @returns {boolean} - True if item's length is 1 or more
      */
     export const isNotEmpty: <T = any>(item: string | T[]) => boolean;
     /**<!-- DOCS: fn.isEqual #### @ -->
@@ -1501,7 +1501,7 @@ declare namespace fn {
      * [0, 1, 2].filter(fn.isEqual(1)); // [1]
      * ```
      * @param {T} item - Item to check whether each item of the array is equal to
-     * @returns {(other: T) => boolean}
+     * @returns {(other: T) => boolean} - Function to use in Array.filter
      */
     export const isEqual: <T = any>(item: T) => (other: T) => boolean;
     /**<!-- DOCS: fn.isNotEqual #### @ -->
@@ -1517,7 +1517,7 @@ declare namespace fn {
      * [0, 1, 2].filter(fn.isNotEqual(1)); // [0, 2]
      * ```
      * @param {T} item - Item to check whether each item of the array is not equal to
-     * @returns {(other: T) => boolean}
+     * @returns {(other: T) => boolean} - Function to use in Array.filter
      */
     export const isNotEqual: <T = any>(item: T) => (other: T) => boolean;
     /**<!-- DOCS: fn.dedupe #### @ -->
@@ -1535,7 +1535,7 @@ declare namespace fn {
      * @param {T} item - Given item in array
      * @param {number} index - Index of the given item
      * @param {T[]} array - Array of items
-     * @returns {boolean}
+     * @returns {boolean} - True if the item is the first occurrence in the array
      */
     export const dedupe: <T>(item: T, index: number, array: T[]) => boolean;
     /**<!-- DOCS: fn.dedupeMapped #### @ -->
@@ -1551,7 +1551,7 @@ declare namespace fn {
      * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
      * ```
      * @param {(value?: T, index?: number, array?: T[]) => U} mapFn - Function to map the item to a new value (will be used to check for duplicates)
-     * @returns {(item: T, index: number, array: T[]) => boolean}
+     * @returns {(item: T, index: number, array: T[]) => boolean} - Function to use in Array.filter
      */
     export const dedupeMapped: <T, U>(mapFn: (value?: T, index?: number, array?: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
     /**<!-- DOCS: fn.maps ### -->
@@ -1574,7 +1574,7 @@ declare namespace fn {
      * [0, 1, 2].map(fn.toString); // ['0', '1', '2']
      * ```
      * @param {T} item - Item in an array
-     * @returns {string}
+     * @returns {string} - String of the item
      */
     export const toString: <T = any>(item: T) => string;
     /**<!-- DOCS: fn.toNumber #### @ -->
@@ -1590,7 +1590,7 @@ declare namespace fn {
      * ['0', '1', '2'].map(fn.toNumber); // [0, 1, 2]
      * ```
      * @param {T} item - Item in an array
-     * @returns {number}
+     * @returns {number} - Number of the item
      */
     export const toNumber: <T = any>(item: T) => number;
     /**<!-- DOCS: fn.toBool #### @ -->
@@ -1607,7 +1607,7 @@ declare namespace fn {
      * ['true', 'false', '', 'text'].map(fn.toBool); // [true, false, false, true]
      * ```
      * @param {T} item - Item in an array
-     * @returns {boolean}
+     * @returns {boolean} - Boolean of the item
      */
     export const toBool: <T = any>(item: T) => boolean;
     /**<!-- DOCS: fn.toProp #### @ -->
@@ -1623,7 +1623,7 @@ declare namespace fn {
      * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
      * ```
      * @param {keyof O} propName - Property to get from each item
-     * @returns {(item: O) => O[keyof O]}
+     * @returns {(item: O) => O[keyof O]} - Function to use in Array.map
      */
     export const toProp: <O extends object>(propName: keyof O) => (item: O) => O[keyof O];
     /**<!-- DOCS: fn.toFixed #### @ -->
@@ -1639,7 +1639,7 @@ declare namespace fn {
      * [1.234, 5.678, 9.012].map(fn.toFixed(2)); // [1.23, 5.68, 9.01]
      * ```
      * @param {number} precision - Number of decimal places to round to
-     * @returns {(num: number) => number}
+     * @returns {(num: number) => number} - Function to use in Array.map
      */
     export const toFixed: (precision: number) => (num: number) => number;
     /**<!-- DOCS: fn.sorts ### -->
@@ -1663,7 +1663,7 @@ declare namespace fn {
      * ```
      * @param {T} a - Item to compare
      * @param {T} b - Item to compare
-     * @returns {number}
+     * @returns {number} - Number used for sorting
      */
     export const asc: <T>(a: T, b: T) => number;
     /**<!-- DOCS: fn.desc #### @ -->
@@ -1680,7 +1680,7 @@ declare namespace fn {
      * ```
      * @param {T} a - Item to compare
      * @param {T} b - Item to compare
-     * @returns {number}
+     * @returns {number} - Number used for sorting
      */
     export const desc: <T>(a: T, b: T) => number;
     type SortFn<T = number> = (a: T, b: T) => number;
@@ -1699,7 +1699,7 @@ declare namespace fn {
      * ```
      * @param {keyof O} propName - Property to sort by
      * @param {SortFn<O[keyof O]>} [sortFn=fn.sorts.asc] - Sort function to use
-     * @returns {SortFn<O>}
+     * @returns {SortFn<O>} - Function to use in Array.sort
      */
     export const byProp: <O extends object>(propName: keyof O, sortFn?: SortFn<O[keyof O]>) => SortFn<O>;
     /**<!-- DOCS: fn.nearestTo #### @ -->
@@ -1718,7 +1718,7 @@ declare namespace fn {
      * people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
      * ```
      * @param {number | `${number}`} target - Target value to sort by
-     * @returns {(a: number | `${number}`, b: number | `${number}`) => number}
+     * @returns {(a: number | `${number}`, b: number | `${number}`) => number} - Function to use in Array.sort
      */
     export const nearestTo: (target: number | `${number}`) => (a: number | `${number}`, b: number | `${number}`) => number;
     /**<!-- DOCS: fn.furthestFrom #### @ -->
@@ -1735,7 +1735,7 @@ declare namespace fn {
      * people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
      * ```
      * @param {number | `${number}`} target - Target value to sort by
-     * @returns {(a: number | `${number}`, b: number | `${number}`) => number}
+     * @returns {(a: number | `${number}`, b: number | `${number}`) => number} - Function to use in Array.sort
      */
     export const furthestFrom: (target: number | `${number}`) => (a: number | `${number}`, b: number | `${number}`) => number;
     /**<!-- DOCS: fn.array #### @ -->
@@ -1754,7 +1754,7 @@ declare namespace fn {
      * arr.sort(fn.array(fn.asc)); // [[1, 2], [3, 4], [5, 6]]
      * ```
      * @param {SortFn<T>} [sortFn=fn.sorts.asc] - Sort function to use
-     * @returns {(a: T[], b: T[]) => number}
+     * @returns {(a: T[], b: T[]) => number} - Function to use in Array.sort
      */
     export const array: <T>(sortFn?: SortFn<T>) => (a: T[], b: T[]) => number;
     /**<!-- DOCS: fn.arrayAsc #### @ -->
@@ -1774,7 +1774,7 @@ declare namespace fn {
      * ```
      * @param {T} a - Item to compare
      * @param {T} b - Item to compare
-     * @returns {number}
+     * @returns {number} - Number used for sorting
      */
     export const arrayAsc: <T>(a: T[], b: T[]) => number;
     /**<!-- DOCS: fn.arrayDesc #### @ -->
@@ -1794,7 +1794,7 @@ declare namespace fn {
      * ```
      * @param {T} a - Item to compare
      * @param {T} b - Item to compare
-     * @returns {number}
+     * @returns {number} - Number used for sorting
      */
     export const arrayDesc: <T>(a: T[], b: T[]) => number;
     /**<!-- DOCS: fn.reduces ### -->
@@ -1819,7 +1819,7 @@ declare namespace fn {
      * ```
      * @param {T} a - Item to combine
      * @param {T} b - Item to combine
-     * @returns {T}
+     * @returns {T} - Combined item
      */
     export const combine: <T = number>(a: T, b: T) => T;
     /**<!-- DOCS: fn.combineProp #### @ -->
@@ -1839,7 +1839,7 @@ declare namespace fn {
      * people.reduce(fn.combineProp('name'), ''); // 'abc'
      * ```
      * @param {keyof O} propName - Property to combine
-     * @returns {(a: O[keyof O], b: O) => O[keyof O]}
+     * @returns {(a: O[keyof O], b: O) => O[keyof O]} - Function to use in Array.reduce
      */
     export const combineProp: <O extends object>(propName: keyof O) => (a: O[keyof O], b: O) => O[keyof O];
     /**<!-- DOCS: fn.mode #### @ -->
@@ -1858,7 +1858,7 @@ declare namespace fn {
      * @param {T} curr - Current value
      * @param {number} index - Index of the current value
      * @param {T[]} arr - Array of values
-     * @returns {T}
+     * @returns {T} - Most common value so far
      */
     export const mode: <T>(prev: T, curr: T, index: number, arr: T[]) => T;
     /**<!-- DOCS: fn.modeMapped #### @ -->
@@ -1874,7 +1874,7 @@ declare namespace fn {
      * [2, 4, 6, 8, 9, 12].reduce(fn.modeMapped((v) => v % 3)); // 6 (maps to [ 2, 1, 0, 2, 0, 0 ])
      * ```
      * @param {(value: T, index: number, array: T[]) => U} mapFn - Map function to use
-     * @returns {(prev: T, curr: T, index: number, arr: T[]) => T}
+     * @returns {(prev: T, curr: T, index: number, arr: T[]) => T} - Function to use in Array.reduce
      */
     export const modeMapped: <T, U>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
     /**<!-- DOCS: fn.everys ### -->
@@ -1900,7 +1900,7 @@ declare namespace fn {
      * @param {T} val - Value to check
      * @param {number} i - Index of the value
      * @param {T[]} arr - Array of values
-     * @returns {boolean}
+     * @returns {boolean} - True if all the items are equal to one another so far
      */
     export const isAllEqual: <T = any>(val: T, i: number, arr: T[]) => boolean;
     /**<!-- DOCS: fn.isUnique #### @ -->
@@ -1920,7 +1920,7 @@ declare namespace fn {
      * @param {T} val - Value to check
      * @param {number} i - Index of the value
      * @param {T[]} arr - Array of values
-     * @returns {boolean}
+     * @returns {boolean} - True if the item is unique in the array so far
      */
     export const isUnique: <T>(val: T, i: number, arr: T[]) => boolean;
     /**<!-- DOCS: fn.groups ### -->
@@ -1950,7 +1950,7 @@ declare namespace fn {
      * ArrayTools.group(nums, fn.bySize(3)); // [[1, 2, 3], [4, 5, 6], [7, 8]]
      * ```
      * @param {number} size - Size of the groups
-     * @returns {(value: T, index: number, array: T[]) => number}
+     * @returns {(value: T, index: number, array: T[]) => number} - Function to use in ArrayTools.group
      */
     export const bySize: <T>(size: number) => (value: T, index: number, array: T[]) => number;
     /**<!-- DOCS: fn.byNumGroups #### @ -->
@@ -1969,7 +1969,7 @@ declare namespace fn {
      * ArrayTools.group(nums, fn.byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
      * ```
      * @param {number} numGroups - Number of groups to create
-     * @returns {(value: T, index: number, array: T[]) => any}
+     * @returns {(value: T, index: number, array: T[]) => any} - Function to use in ArrayTools.group
      */
     export const byNumGroups: <T>(numGroups: number) => (value: T, index: number, array: T[]) => any;
     /**<!-- DOCS-ALIAS: fn.filters -->
@@ -1993,7 +1993,7 @@ declare namespace fn {
          * [null, 1, undefined, 2].filter(fn.exists); // [1, 2]
          * ```
          * @param {T} item - Item to check if it exists
-         * @returns {boolean}
+         * @returns {boolean} - True if item isn't null or undefined
          */
         const exists: <T = any>(item: T) => boolean;
         /**<!-- DOCS-ALIAS: fn.isTruthy -->
@@ -2010,7 +2010,7 @@ declare namespace fn {
          * ['', 'a', 'b'].filter(fn.isTruthy); // ['a', 'b']
          * ```
          * @param {T} item - Item to check if it is truthy
-         * @returns {boolean}
+         * @returns {boolean} - True if item is truthy
          */
         const isTruthy: <T = any>(item: T) => boolean;
         /**<!-- DOCS-ALIAS: fn.isFalsy -->
@@ -2027,7 +2027,7 @@ declare namespace fn {
          * ['', 'a', 'b'].filter(fn.isFalsy); // ['']
          * ```
          * @param {T} item - Item to check if it is falsy
-         * @returns {boolean}
+         * @returns {boolean} - True if item is falsy
          */
         const isFalsy: <T = any>(item: T) => boolean;
         /**<!-- DOCS-ALIAS: fn.isEmpty -->
@@ -2044,7 +2044,7 @@ declare namespace fn {
          * [[], [1], [2]].filter(fn.isEmpty); // [[]]
          * ```
          * @param {T[] | string} item - Item to check if it is empty
-         * @returns {boolean}
+         * @returns {boolean} - True if item's length is 0
          */
         const isEmpty: <T = any>(item: string | T[]) => boolean;
         /**<!-- DOCS-ALIAS: fn.isNotEmpty -->
@@ -2061,7 +2061,7 @@ declare namespace fn {
          * [[], [1], [2]].filter(fn.isNotEmpty); // [[1], [2]]
          * ```
          * @param {T[] | string} item - Item to check if it is not empty
-         * @returns {boolean}
+         * @returns {boolean} - True if item's length is 1 or more
          */
         const isNotEmpty: <T = any>(item: string | T[]) => boolean;
         /**<!-- DOCS-ALIAS: fn.isEqual -->
@@ -2077,7 +2077,7 @@ declare namespace fn {
          * [0, 1, 2].filter(fn.isEqual(1)); // [1]
          * ```
          * @param {T} item - Item to check whether each item of the array is equal to
-         * @returns {(other: T) => boolean}
+         * @returns {(other: T) => boolean} - Function to use in Array.filter
          */
         const isEqual: <T = any>(item: T) => (other: T) => boolean;
         /**<!-- DOCS-ALIAS: fn.isNotEqual -->
@@ -2093,7 +2093,7 @@ declare namespace fn {
          * [0, 1, 2].filter(fn.isNotEqual(1)); // [0, 2]
          * ```
          * @param {T} item - Item to check whether each item of the array is not equal to
-         * @returns {(other: T) => boolean}
+         * @returns {(other: T) => boolean} - Function to use in Array.filter
          */
         const isNotEqual: <T = any>(item: T) => (other: T) => boolean;
         /**<!-- DOCS-ALIAS: fn.dedupe -->
@@ -2111,7 +2111,7 @@ declare namespace fn {
          * @param {T} item - Given item in array
          * @param {number} index - Index of the given item
          * @param {T[]} array - Array of items
-         * @returns {boolean}
+         * @returns {boolean} - True if the item is the first occurrence in the array
          */
         const dedupe: <T>(item: T, index: number, array: T[]) => boolean;
         /**<!-- DOCS-ALIAS: fn.dedupeMapped -->
@@ -2127,7 +2127,7 @@ declare namespace fn {
          * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
          * ```
          * @param {(value?: T, index?: number, array?: T[]) => U} mapFn - Function to map the item to a new value (will be used to check for duplicates)
-         * @returns {(item: T, index: number, array: T[]) => boolean}
+         * @returns {(item: T, index: number, array: T[]) => boolean} - Function to use in Array.filter
          */
         const dedupeMapped: <T, U>(mapFn: (value?: T, index?: number, array?: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
     }
@@ -2152,7 +2152,7 @@ declare namespace fn {
          * [0, 1, 2].map(fn.toString); // ['0', '1', '2']
          * ```
          * @param {T} item - Item in an array
-         * @returns {string}
+         * @returns {string} - String of the item
          */
         const toString: <T = any>(item: T) => string;
         /**<!-- DOCS-ALIAS: fn.toNumber -->
@@ -2168,7 +2168,7 @@ declare namespace fn {
          * ['0', '1', '2'].map(fn.toNumber); // [0, 1, 2]
          * ```
          * @param {T} item - Item in an array
-         * @returns {number}
+         * @returns {number} - Number of the item
          */
         const toNumber: <T = any>(item: T) => number;
         /**<!-- DOCS-ALIAS: fn.toBool -->
@@ -2185,7 +2185,7 @@ declare namespace fn {
          * ['true', 'false', '', 'text'].map(fn.toBool); // [true, false, false, true]
          * ```
          * @param {T} item - Item in an array
-         * @returns {boolean}
+         * @returns {boolean} - Boolean of the item
          */
         const toBool: <T = any>(item: T) => boolean;
         /**<!-- DOCS-ALIAS: fn.toProp -->
@@ -2201,7 +2201,7 @@ declare namespace fn {
          * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
          * ```
          * @param {keyof O} propName - Property to get from each item
-         * @returns {(item: O) => O[keyof O]}
+         * @returns {(item: O) => O[keyof O]} - Function to use in Array.map
          */
         const toProp: <O extends object>(propName: keyof O) => (item: O) => O[keyof O];
         /**<!-- DOCS-ALIAS: fn.toFixed -->
@@ -2217,7 +2217,7 @@ declare namespace fn {
          * [1.234, 5.678, 9.012].map(fn.toFixed(2)); // [1.23, 5.68, 9.01]
          * ```
          * @param {number} precision - Number of decimal places to round to
-         * @returns {(num: number) => number}
+         * @returns {(num: number) => number} - Function to use in Array.map
          */
         const toFixed: (precision: number) => (num: number) => number;
     }
@@ -2243,7 +2243,7 @@ declare namespace fn {
          * ```
          * @param {T} a - Item to compare
          * @param {T} b - Item to compare
-         * @returns {number}
+         * @returns {number} - Number used for sorting
          */
         const asc: <T>(a: T, b: T) => number;
         /**<!-- DOCS-ALIAS: fn.desc -->
@@ -2260,7 +2260,7 @@ declare namespace fn {
          * ```
          * @param {T} a - Item to compare
          * @param {T} b - Item to compare
-         * @returns {number}
+         * @returns {number} - Number used for sorting
          */
         const desc: <T>(a: T, b: T) => number;
         /**<!-- DOCS-ALIAS: fn.byProp -->
@@ -2278,7 +2278,7 @@ declare namespace fn {
          * ```
          * @param {keyof O} propName - Property to sort by
          * @param {SortFn<O[keyof O]>} [sortFn=fn.sorts.asc] - Sort function to use
-         * @returns {SortFn<O>}
+         * @returns {SortFn<O>} - Function to use in Array.sort
          */
         const byProp: <O extends object>(propName: keyof O, sortFn?: SortFn<O[keyof O]>) => SortFn<O>;
         /**<!-- DOCS-ALIAS: fn.nearestTo -->
@@ -2297,7 +2297,7 @@ declare namespace fn {
          * people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
          * ```
          * @param {number | `${number}`} target - Target value to sort by
-         * @returns {(a: number | `${number}`, b: number | `${number}`) => number}
+         * @returns {(a: number | `${number}`, b: number | `${number}`) => number} - Function to use in Array.sort
          */
         const nearestTo: (target: number | `${number}`) => (a: number | `${number}`, b: number | `${number}`) => number;
         /**<!-- DOCS-ALIAS: fn.furthestFrom -->
@@ -2314,7 +2314,7 @@ declare namespace fn {
          * people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
          * ```
          * @param {number | `${number}`} target - Target value to sort by
-         * @returns {(a: number | `${number}`, b: number | `${number}`) => number}
+         * @returns {(a: number | `${number}`, b: number | `${number}`) => number} - Function to use in Array.sort
          */
         const furthestFrom: (target: number | `${number}`) => (a: number | `${number}`, b: number | `${number}`) => number;
         /**<!-- DOCS-ALIAS: fn.array -->
@@ -2333,7 +2333,7 @@ declare namespace fn {
          * arr.sort(fn.array(fn.asc)); // [[1, 2], [3, 4], [5, 6]]
          * ```
          * @param {SortFn<T>} [sortFn=fn.sorts.asc] - Sort function to use
-         * @returns {(a: T[], b: T[]) => number}
+         * @returns {(a: T[], b: T[]) => number} - Function to use in Array.sort
          */
         const array: <T>(sortFn?: SortFn<T>) => (a: T[], b: T[]) => number;
         /**<!-- DOCS-ALIAS: fn.arrayAsc -->
@@ -2353,7 +2353,7 @@ declare namespace fn {
          * ```
          * @param {T} a - Item to compare
          * @param {T} b - Item to compare
-         * @returns {number}
+         * @returns {number} - Number used for sorting
          */
         const arrayAsc: <T>(a: T[], b: T[]) => number;
         /**<!-- DOCS-ALIAS: fn.arrayDesc -->
@@ -2373,7 +2373,7 @@ declare namespace fn {
          * ```
          * @param {T} a - Item to compare
          * @param {T} b - Item to compare
-         * @returns {number}
+         * @returns {number} - Number used for sorting
          */
         const arrayDesc: <T>(a: T[], b: T[]) => number;
     }
@@ -2400,7 +2400,7 @@ declare namespace fn {
          * ```
          * @param {T} a - Item to combine
          * @param {T} b - Item to combine
-         * @returns {T}
+         * @returns {T} - Combined item
          */
         const combine: <T = number>(a: T, b: T) => T;
         /**<!-- DOCS-ALIAS: fn.combineProp -->
@@ -2420,7 +2420,7 @@ declare namespace fn {
          * people.reduce(fn.combineProp('name'), ''); // 'abc'
          * ```
          * @param {keyof O} propName - Property to combine
-         * @returns {(a: O[keyof O], b: O) => O[keyof O]}
+         * @returns {(a: O[keyof O], b: O) => O[keyof O]} - Function to use in Array.reduce
          */
         const combineProp: <O extends object>(propName: keyof O) => (a: O[keyof O], b: O) => O[keyof O];
         /**<!-- DOCS-ALIAS: fn.mode -->
@@ -2439,7 +2439,7 @@ declare namespace fn {
          * @param {T} curr - Current value
          * @param {number} index - Index of the current value
          * @param {T[]} arr - Array of values
-         * @returns {T}
+         * @returns {T} - Most common value so far
          */
         const mode: <T>(prev: T, curr: T, index: number, arr: T[]) => T;
         /**<!-- DOCS-ALIAS: fn.modeMapped -->
@@ -2455,7 +2455,7 @@ declare namespace fn {
          * [2, 4, 6, 8, 9, 12].reduce(fn.modeMapped((v) => v % 3)); // 6 (maps to [ 2, 1, 0, 2, 0, 0 ])
          * ```
          * @param {(value: T, index: number, array: T[]) => U} mapFn - Map function to use
-         * @returns {(prev: T, curr: T, index: number, arr: T[]) => T}
+         * @returns {(prev: T, curr: T, index: number, arr: T[]) => T} - Function to use in Array.reduce
          */
         const modeMapped: <T, U>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
     }
@@ -2483,7 +2483,7 @@ declare namespace fn {
          * @param {T} val - Value to check
          * @param {number} i - Index of the value
          * @param {T[]} arr - Array of values
-         * @returns {boolean}
+         * @returns {boolean} - True if all the items are equal to one another so far
          */
         const isAllEqual: <T = any>(val: T, i: number, arr: T[]) => boolean;
         /**<!-- DOCS-ALIAS: fn.isUnique -->
@@ -2503,7 +2503,7 @@ declare namespace fn {
          * @param {T} val - Value to check
          * @param {number} i - Index of the value
          * @param {T[]} arr - Array of values
-         * @returns {boolean}
+         * @returns {boolean} - True if the item is unique in the array so far
          */
         const isUnique: <T>(val: T, i: number, arr: T[]) => boolean;
     }
@@ -2535,7 +2535,7 @@ declare namespace fn {
          * ArrayTools.group(nums, fn.bySize(3)); // [[1, 2, 3], [4, 5, 6], [7, 8]]
          * ```
          * @param {number} size - Size of the groups
-         * @returns {(value: T, index: number, array: T[]) => number}
+         * @returns {(value: T, index: number, array: T[]) => number} - Function to use in ArrayTools.group
          */
         const bySize: <T>(size: number) => (value: T, index: number, array: T[]) => number;
         /**<!-- DOCS-ALIAS: fn.byNumGroups -->
@@ -2554,7 +2554,7 @@ declare namespace fn {
          * ArrayTools.group(nums, fn.byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
          * ```
          * @param {number} numGroups - Number of groups to create
-         * @returns {(value: T, index: number, array: T[]) => any}
+         * @returns {(value: T, index: number, array: T[]) => any} - Function to use in ArrayTools.group
          */
         const byNumGroups: <T>(numGroups: number) => (value: T, index: number, array: T[]) => any;
     }
@@ -2885,7 +2885,7 @@ declare namespace ArrayTools {
      * ```
      * @param {number} [length=1] - Length of the array to create
      * @param {T} [value=1 as unknown as T] - Value to fill the array with
-     * @returns {T[]}
+     * @returns {T[]} - Array of the given length, full of the given value
      */
     export const create: <T = number>(length?: number, value?: T) => T[];
     /**<!-- DOCS: ArrayTools.filled ### @ -->
@@ -2903,7 +2903,7 @@ declare namespace ArrayTools {
      * ```
      * @param {number} [length=1] - Length of the array to create
      * @param {T} value - Value to fill the array with
-     * @returns {T[]}
+     * @returns {T[]} - Array of the given length, full of the given value
      */
     export const filled: <T>(length: number, value: T) => T[];
     /**<!-- DOCS: ArrayTools.range ### @ -->
@@ -2927,7 +2927,7 @@ declare namespace ArrayTools {
      * @param {number} [length=1] - Length of the array to create
      * @param {number} [multiplier=1] - Multiplier to apply to each value
      * @param {number} [offset=0] - Offset to apply to each value (after the multiplier)
-     * @returns {number[]}
+     * @returns {number[]} - Array of the given length, where each value is equal to it's index
      */
     export const range: (length?: number, multiplier?: number, offset?: number) => number[];
     type UnwrapArray<T> = T extends Array<infer U> ? U : T;
@@ -2948,7 +2948,7 @@ declare namespace ArrayTools {
      * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
      * ```
      * @param {...T} [arrs] - Arrays to zip together
-     * @returns {ZippedArrays<T>[]}
+     * @returns {ZippedArrays<T>[]} - Array of 'tuples' for each value at the corresponding indexes
      */
     export const zip: <T extends any[]>(...arrs: T) => ZippedArrays<T>[];
     /**<!-- DOCS: ArrayTools.zipMax ### @ -->
@@ -2967,7 +2967,7 @@ declare namespace ArrayTools {
      * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
      * ```
      * @param {...T} [arrs] - Arrays to zip together
-     * @returns {ZippedArrays<T>[]}
+     * @returns {ZippedArrays<T>[]} - Array of 'tuples' for each value at the corresponding indexes
      */
     export const zipMax: <T extends any[]>(...arrs: T) => ZippedArrays<T>[];
     /**<!-- DOCS: ArrayTools.sortByMapped ### @ -->
@@ -2989,7 +2989,7 @@ declare namespace ArrayTools {
      * @param {T[]} arr - Array to sort
      * @param {(value: T, index: number, array: T[]) => M} mapFn - Function to map the values to
      * @param {(a: M, b: M) => number} [sortFn=fn.asc] - Function to sort the mapped values by
-     * @returns {T[]}
+     * @returns {T[]} - Sorted array (non-mutated)
      */
     export const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn?: (a: M, b: M) => number) => T[];
     /**<!-- DOCS: ArrayTools.randomise ### @ -->
@@ -3008,7 +3008,7 @@ declare namespace ArrayTools {
      * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
      * ```
      * @param {T[]} arr - Array to randomise
-     * @returns {T[]}
+     * @returns {T[]} - Randomised array (non-mutated)
      */
     export const randomise: <T = string>(arr: T[]) => T[];
     /**<!-- DOCS: ArrayTools.reverse ### @ -->
@@ -3031,7 +3031,7 @@ declare namespace ArrayTools {
      * arr2            // [1, 2, 3] - not mutated
      * ```
      * @param {T[]} arr - Array to reverse
-     * @returns {T[]}
+     * @returns {T[]} - Reversed array (non-mutated)
      */
     export const reverse: <T = string>(arr: T[]) => T[];
     /**<!-- DOCS: ArrayTools.entries ### @ -->
@@ -3052,7 +3052,7 @@ declare namespace ArrayTools {
      * }
      * ```
      * @param {T[]} arr - Array to get entries from
-     * @returns {[number, T][]}
+     * @returns {[number, T][]} - Array of 'tuples' of index/value pairs
      */
     export const entries: <T = string>(arr: T[]) => [number, T][];
     /**<!-- DOCS: ArrayTools.repeat ### @ -->
@@ -3069,7 +3069,7 @@ declare namespace ArrayTools {
      * ```
      * @param {number} maxLength - Maximum length of the array
      * @param {...T} [items] - Items to repeat
-     * @returns {T[]}
+     * @returns {T[]} - Array with the given items repeated
      */
     export const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
     /**<!-- DOCS: ArrayTools.roll ### @ -->
@@ -3086,7 +3086,7 @@ declare namespace ArrayTools {
      * ```
      * @param {number} distance - Distance to roll the array by
      * @param {T[]} arr - Array to roll
-     * @returns {T[]}
+     * @returns {T[]} - Rolled array (non-mutated)
      */
     export const roll: <T>(distance: number, arr: T[]) => T[];
     /**<!-- DOCS: ArrayTools.sortNumberedText ### @ -->
@@ -3104,7 +3104,7 @@ declare namespace ArrayTools {
      * ```
      * @param {string[]} texts - Texts to sort
      * @param {boolean} [ignoreCase=true] - Whether to ignore case when sorting
-     * @returns {string[]}
+     * @returns {string[]} - Sorted array (non-mutated)
      */
     export const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
     /**<!-- DOCS: ArrayTools.partition ### @ -->
@@ -3124,7 +3124,7 @@ declare namespace ArrayTools {
      * ```
      * @param {T[]} array - Array to partition
      * @param {number} [partitionSize=Math.ceil(array.length / 2)] - Size of each partition
-     * @returns {T[][]}
+     * @returns {T[][]} - Array of arrays, each containing a partition of the original array
      */
     export const partition: <T>(array: T[], partitionSize?: number) => T[][];
     /**<!-- DOCS: ArrayTools.partitionEvenly ### @ -->
@@ -3144,7 +3144,7 @@ declare namespace ArrayTools {
      * ```
      * @param {T[]} array - Array to partition
      * @param {number} [maxPartitionSize=Math.ceil(array.length / 2)] - Maximum size of each partition
-     * @returns {T[][]}
+     * @returns {T[][]} - Array of arrays, each containing a partition of the original array
      */
     export const partitionEvenly: <T>(array: T[], maxPartitionSize?: number) => T[][];
     /**<!-- DOCS: ArrayTools.groupObj ### @ -->
@@ -3168,7 +3168,7 @@ declare namespace ArrayTools {
      * ```
      * @param {T[]} array - Array to group
      * @param {(item: T, index: number, arr: T[]) => string | number} mapFn - Map function to get the group key for each item
-     * @returns {{ [id: string]: T[]; [id: number]: T[]; }}
+     * @returns {{ [id: string]: T[]; [id: number]: T[]; }} - Object with the group keys as keys, and the items as values
      */
     export const groupObj: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => {
         [id: string]: T[];
@@ -3195,7 +3195,7 @@ declare namespace ArrayTools {
      * ```
      * @param {T[]} array - Array to group
      * @param {(item: T, index: number, arr: T[]) => string | number} mapFn - Map function to get the group key for each item
-     * @returns {T[][]}
+     * @returns {T[][]} - Array of arrays, each containing a group of the original array
      */
     export const group: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
     /**<!-- DOCS: ArrayTools.findAndRemove ### @ -->
@@ -3277,7 +3277,7 @@ declare namespace ArrayTools {
          * ArrayTools.utils.isNumString('123a'); // false
          * ```
          * @param {string} text - Text to check if it is a number
-         * @returns {boolean}
+         * @returns {boolean} - True if the given string is a number
          */
         const isNumString: (text: string) => boolean;
         /**<!-- DOCS: ArrayTools.utils.partitionNums #### @ -->
@@ -3292,7 +3292,7 @@ declare namespace ArrayTools {
          * ArrayTools.utils.partitionNums(false)('123a'); // [ '123', 'a' ]
          * ```
          * @param {boolean} ignoreCase - Whether to ignore case
-         * @returns {(name: string) => (string | number)[]}
+         * @returns {(name: string) => (string | number)[]} - Function to split a string into array of strings & numbers
          */
         const partitionNums: (ignoreCase: boolean) => (name: string) => (string | number)[];
     }
@@ -3313,7 +3313,7 @@ declare namespace ArrayTools {
  * ```
  * @param {number} [length=1] - Length of the array to create
  * @param {T} [value=1 as unknown as T] - Value to fill the array with
- * @returns {T[]}
+ * @returns {T[]} - Array of the given length, full of the given value
  */
 declare const create: <T = number>(length?: number, value?: T) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.filled -->
@@ -3331,7 +3331,7 @@ declare const create: <T = number>(length?: number, value?: T) => T[];
  * ```
  * @param {number} [length=1] - Length of the array to create
  * @param {T} value - Value to fill the array with
- * @returns {T[]}
+ * @returns {T[]} - Array of the given length, full of the given value
  */
 declare const filled: <T>(length: number, value: T) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.range -->
@@ -3355,7 +3355,7 @@ declare const filled: <T>(length: number, value: T) => T[];
  * @param {number} [length=1] - Length of the array to create
  * @param {number} [multiplier=1] - Multiplier to apply to each value
  * @param {number} [offset=0] - Offset to apply to each value (after the multiplier)
- * @returns {number[]}
+ * @returns {number[]} - Array of the given length, where each value is equal to it's index
  */
 declare const range: (length?: number, multiplier?: number, offset?: number) => number[];
 /**<!-- DOCS-ALIAS: ArrayTools.zip -->
@@ -3374,7 +3374,7 @@ declare const range: (length?: number, multiplier?: number, offset?: number) => 
  * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
  * ```
  * @param {...T} [arrs] - Arrays to zip together
- * @returns {ZippedArrays<T>[]}
+ * @returns {ZippedArrays<T>[]} - Array of 'tuples' for each value at the corresponding indexes
  */
 declare const zip: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...any] : []] : []] : []] : []] : []] : []] : []] : []] : []] : []] : [])[];
 /**<!-- DOCS-ALIAS: ArrayTools.zipMax -->
@@ -3393,7 +3393,7 @@ declare const zip: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...i
  * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
  * ```
  * @param {...T} [arrs] - Arrays to zip together
- * @returns {ZippedArrays<T>[]}
+ * @returns {ZippedArrays<T>[]} - Array of 'tuples' for each value at the corresponding indexes
  */
 declare const zipMax: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...any] : []] : []] : []] : []] : []] : []] : []] : []] : []] : []] : [])[];
 /**<!-- DOCS-ALIAS: ArrayTools.sortByMapped -->
@@ -3415,7 +3415,7 @@ declare const zipMax: <T extends any[]>(...arrs: T) => (T extends [infer Head, .
  * @param {T[]} arr - Array to sort
  * @param {(value: T, index: number, array: T[]) => M} mapFn - Function to map the values to
  * @param {(a: M, b: M) => number} [sortFn=fn.asc] - Function to sort the mapped values by
- * @returns {T[]}
+ * @returns {T[]} - Sorted array (non-mutated)
  */
 declare const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn?: (a: M, b: M) => number) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.randomise -->
@@ -3434,7 +3434,7 @@ declare const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T,
  * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
  * ```
  * @param {T[]} arr - Array to randomise
- * @returns {T[]}
+ * @returns {T[]} - Randomised array (non-mutated)
  */
 declare const randomise: <T = string>(arr: T[]) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.reverse -->
@@ -3457,7 +3457,7 @@ declare const randomise: <T = string>(arr: T[]) => T[];
  * arr2            // [1, 2, 3] - not mutated
  * ```
  * @param {T[]} arr - Array to reverse
- * @returns {T[]}
+ * @returns {T[]} - Reversed array (non-mutated)
  */
 declare const reverse: <T = string>(arr: T[]) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.entries -->
@@ -3478,7 +3478,7 @@ declare const reverse: <T = string>(arr: T[]) => T[];
  * }
  * ```
  * @param {T[]} arr - Array to get entries from
- * @returns {[number, T][]}
+ * @returns {[number, T][]} - Array of 'tuples' of index/value pairs
  */
 declare const entries: <T = string>(arr: T[]) => [number, T][];
 /**<!-- DOCS-ALIAS: ArrayTools.repeat -->
@@ -3495,7 +3495,7 @@ declare const entries: <T = string>(arr: T[]) => [number, T][];
  * ```
  * @param {number} maxLength - Maximum length of the array
  * @param {...T} [items] - Items to repeat
- * @returns {T[]}
+ * @returns {T[]} - Array with the given items repeated
  */
 declare const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.roll -->
@@ -3512,7 +3512,7 @@ declare const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
  * ```
  * @param {number} distance - Distance to roll the array by
  * @param {T[]} arr - Array to roll
- * @returns {T[]}
+ * @returns {T[]} - Rolled array (non-mutated)
  */
 declare const roll: <T>(distance: number, arr: T[]) => T[];
 /**<!-- DOCS-ALIAS: ArrayTools.sortNumberedText -->
@@ -3530,7 +3530,7 @@ declare const roll: <T>(distance: number, arr: T[]) => T[];
  * ```
  * @param {string[]} texts - Texts to sort
  * @param {boolean} [ignoreCase=true] - Whether to ignore case when sorting
- * @returns {string[]}
+ * @returns {string[]} - Sorted array (non-mutated)
  */
 declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
 /**<!-- DOCS-ALIAS: ArrayTools.partition -->
@@ -3550,7 +3550,7 @@ declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => strin
  * ```
  * @param {T[]} array - Array to partition
  * @param {number} [partitionSize=Math.ceil(array.length / 2)] - Size of each partition
- * @returns {T[][]}
+ * @returns {T[][]} - Array of arrays, each containing a partition of the original array
  */
 declare const partition: <T>(array: T[], partitionSize?: number) => T[][];
 /**<!-- DOCS-ALIAS: ArrayTools.partitionEvenly -->
@@ -3570,7 +3570,7 @@ declare const partition: <T>(array: T[], partitionSize?: number) => T[][];
  * ```
  * @param {T[]} array - Array to partition
  * @param {number} [maxPartitionSize=Math.ceil(array.length / 2)] - Maximum size of each partition
- * @returns {T[][]}
+ * @returns {T[][]} - Array of arrays, each containing a partition of the original array
  */
 declare const partitionEvenly: <T>(array: T[], maxPartitionSize?: number) => T[][];
 /**<!-- DOCS-ALIAS: ArrayTools.groupObj -->
@@ -3594,7 +3594,7 @@ declare const partitionEvenly: <T>(array: T[], maxPartitionSize?: number) => T[]
  * ```
  * @param {T[]} array - Array to group
  * @param {(item: T, index: number, arr: T[]) => string | number} mapFn - Map function to get the group key for each item
- * @returns {{ [id: string]: T[]; [id: number]: T[]; }}
+ * @returns {{ [id: string]: T[]; [id: number]: T[]; }} - Object with the group keys as keys, and the items as values
  */
 declare const groupObj: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => {
     [id: string]: T[];
@@ -3621,7 +3621,7 @@ declare const groupObj: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]
  * ```
  * @param {T[]} array - Array to group
  * @param {(item: T, index: number, arr: T[]) => string | number} mapFn - Map function to get the group key for each item
- * @returns {T[][]}
+ * @returns {T[][]} - Array of arrays, each containing a group of the original array
  */
 declare const group: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
 
@@ -3644,7 +3644,7 @@ declare namespace ObjectTools {
      * ```
      * @param {T} obj - Object to remodel
      * @param {(entries: [string, V][]) => [string, W][]} func - Function to apply to the entries array
-     * @returns {O}
+     * @returns {O} - Remodeled object
      */
     const remodel: <T extends object, V = any, W = any, O = OfType<T, W>>(obj: T, func: (entries: [string, V][]) => [string, W][]) => O;
     /**<!-- DOCS: ObjectTools.remodelEach ### @ -->
@@ -3662,7 +3662,7 @@ declare namespace ObjectTools {
      * ```
      * @param {T} obj - Object to remodel
      * @param {(entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]} func - Function to apply to each of the entries
-     * @returns {O}
+     * @returns {O} - Remodeled object
      */
     const remodelEach: <T extends object, Vi = any, Vo = any, O = OfType<T, Vo>>(obj: T, func: (entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]) => O;
     /**<!-- DOCS: ObjectTools.map ### @ -->
@@ -3677,7 +3677,7 @@ declare namespace ObjectTools {
      * ```
      * @param {T} obj - Object to map
      * @param {(key: string, value: Vi, index: number) => [string, Vo]} func - Function to apply to each of the entries
-     * @returns {any}
+     * @returns {any} - Mapped object
      */
     const map: <T extends object, Vi, Vo>(obj: T, func: (key: string, value: Vi, index: number) => [string, Vo]) => OfType<T, Vo>;
     /**<!-- DOCS: ObjectTools.mapValues ### @ -->
@@ -3692,7 +3692,7 @@ declare namespace ObjectTools {
      * ```
      * @param {T} obj - Object to map
      * @param {(key: string, value: Vi, index: number) => Vo} func - Function to apply to each of the entries
-     * @returns {any}
+     * @returns {any} - Mapped object
      */
     const mapValues: <T extends object, Vi, Vo>(obj: T, func: (key: string, value: Vi, index: number) => Vo) => OfType<T, Vo>;
     /**<!-- DOCS: ObjectTools.mapKeys ### @ -->
@@ -3707,7 +3707,7 @@ declare namespace ObjectTools {
      * ```
      * @param {T} obj - Object to map
      * @param {(key: string, value: V, index: number) => string} func - Function to apply to each of the entries
-     * @returns {T}
+     * @returns {T} - Mapped object
      */
     const mapKeys: <T extends object, V>(obj: T, func: (key: string, value: V, index: number) => string) => T;
     /**<!-- DOCS: ObjectTools.filter ### @ -->
@@ -3722,7 +3722,7 @@ declare namespace ObjectTools {
      * ```
      * @param {T} obj - Object to filter
      * @param {(key: string, value: V, index: number) => boolean} func - Function to apply to each of the entries
-     * @returns {O}
+     * @returns {O} - Filtered object
      */
     const filter: <T extends object, V, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean) => O;
     /**<!-- DOCS: ObjectTools.clean ### @ -->
@@ -3736,7 +3736,7 @@ declare namespace ObjectTools {
      * ObjectTools.clean({a: 1, b: undefined, c: 3}) // { a: 1, c: 3 }
      * ```
      * @param {T} obj - Object to clean
-     * @returns {O}
+     * @returns {O} - Cleaned object
      */
     const clean: <T extends object, O extends Partial<T>>(obj: T) => O;
     /**<!-- DOCS: ObjectTools.invert ### @ -->
@@ -3750,7 +3750,7 @@ declare namespace ObjectTools {
      * ObjectTools.invert({ a: 'foo', b: 'bar' }); // { foo: 'a', bar: 'b'}
      * ```
      * @param {T} obj - Object to invert
-     * @returns {O}
+     * @returns {O} - Inverted object
      */
     const invert: <T extends object, O extends ObjOfType<string>>(obj: T) => O;
 }
@@ -3776,7 +3776,7 @@ declare namespace StringTools {
      * ```
      * @param {string} [input=''] - String to capitalise
      * @param {boolean} [forceRestToLowerCase=true] - Whether to force the rest of the string to lower case
-     * @returns {string}
+     * @returns {string} - Capitalised string
      */
     const capitalise: (input?: string, forceRestToLowerCase?: boolean) => string;
     /**<!-- DOCS: StringTools.angloise ### @ -->
@@ -3790,7 +3790,7 @@ declare namespace StringTools {
      * StringTools.angloise('éèêë'); // 'eeee'
      * ```
      * @param {string} input - String to angloise
-     * @returns {string}
+     * @returns {string} - String with accents removed
      */
     const angloise: (input: string) => string;
     /**<!-- DOCS: StringTools.clean ### @ -->
@@ -3804,7 +3804,7 @@ declare namespace StringTools {
      * StringTools.clean('éèêë_--ab0'); // 'eeeeab0'
      * ```
      * @param {string} [input=''] - String to clean
-     * @returns {string}
+     * @returns {string} - Cleaned string
      */
     const clean: (input?: string) => string;
     /**<!-- DOCS: StringTools.repeat ### @ -->
@@ -3822,7 +3822,7 @@ declare namespace StringTools {
      * ```
      * @param {number} maxLength - Maximum length of the string
      * @param {string} repeated - String to repeat
-     * @returns {string}
+     * @returns {string} - Repeated string
      */
     const repeat: (maxLength: number, repeated: string) => string;
     /**<!-- DOCS: StringTools.makeRegExpSafe ### @ -->
@@ -3843,7 +3843,7 @@ declare namespace StringTools {
      * longText.replace(new RegExp(makeRegExpSafe(textWithSpecChars)), 'foobar'); // 'A long line with foobar in it'
      * ```
      * @param {string} text - String to make safe for use in a RegExp
-     * @returns {string}
+     * @returns {string} - String safe for use in a RegExp
      */
     const makeRegExpSafe: (text: string) => string;
     /**<!-- DOCS: StringTools.replaceAll ### @ -->
@@ -3866,7 +3866,7 @@ declare namespace StringTools {
      * @param {string} text - String to replace in
      * @param {string | RegExp} searchValue - String or RegExp to search for
      * @param {string | ((substring: string, ...args: any[]) => string)} replacer - String or function to replace the search value with
-     * @returns {string}
+     * @returns {string} - String with the search value replaced
      */
     const replaceAll: (text: string, searchValue: string | RegExp, replacer: string | ((substring: string, ...args: any[]) => string)) => string;
     /**<!-- DOCS: StringTools.randomId ### @ -->
@@ -3895,7 +3895,7 @@ declare namespace StringTools {
      * ```
      * @param {string} [prefix=''] - Prefix to add to the random ID
      * @param {string} [suffix=''] - Suffix to add to the random ID
-     * @returns {string}
+     * @returns {string} - Random ID
      */
     const randomId: (prefix?: string, suffix?: string) => string;
     /**<!-- DOCS: StringTools.clx ### @ -->
@@ -3916,7 +3916,7 @@ declare namespace StringTools {
      * clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
      * ```
      * @param {...ClxType} [args] - Classes (or objects/arrays to compose
-     * @returns {string}
+     * @returns {string} - Composed class name
      */
     const clx: (...args: ClxType[]) => string;
     /**<!-- DOCS: StringTools.Case_Manipulators ### -->
@@ -3934,7 +3934,7 @@ declare namespace StringTools {
          * 
          * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
          * @param {string | string[]} input - String or array of strings to convert
-         * @returns {string}
+         * @returns {string} - Lower camel case string
          */
         toLowerCamelCase(input: string | string[]): string;
         /**<!-- DOCS-ALIAS: StringTools.toUpperCamelCase -->
@@ -3948,7 +3948,7 @@ declare namespace StringTools {
          * 
          * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
          * @param {string | string[]} input - String or array of strings to convert
-         * @returns {string}
+         * @returns {string} - Upper camel case string
          */
         toUpperCamelCase(input: string | string[]): string;
         /**<!-- DOCS-ALIAS: StringTools.toCamelCase -->
@@ -3963,7 +3963,7 @@ declare namespace StringTools {
          * Convert a string to camel case (e.g. `thisIsCamelCase`)
          * @param {string | string[]} input - String or array of strings to convert
          * @param {boolean} [capitaliseFirst=false] - Whether to capitalise the first letter
-         * @returns {string}
+         * @returns {string} - Camel case string
          */
         toCamelCase(input: string | string[], capitaliseFirst?: boolean): string;
         /**<!-- DOCS-ALIAS: StringTools.toLowerSlugCase -->
@@ -3977,7 +3977,7 @@ declare namespace StringTools {
          * 
          * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
          * @param {string | string[]} input - String or array of strings to convert
-         * @returns {string}
+         * @returns {string} - Lower slug case string
          */
         toLowerSlugCase(input: string | string[]): string;
         /**<!-- DOCS-ALIAS: StringTools.toUpperSlugCase -->
@@ -3991,7 +3991,7 @@ declare namespace StringTools {
          * 
          * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
          * @param {string | string[]} input - String or array of strings to convert
-         * @returns {string}
+         * @returns {string} - Upper slug case string
          */
         toUpperSlugCase(input: string | string[]): string;
         /**<!-- DOCS-ALIAS: StringTools.toSlugCase -->
@@ -4006,7 +4006,7 @@ declare namespace StringTools {
          * Convert a string to camel case (e.g. `this-is-slug-case`)
          * @param {string | string[]} input - String or array of strings to convert
          * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
-         * @returns {string}
+         * @returns {string} - Slug case string
          */
         toSlugCase(input: string | string[], toUpper?: boolean): string;
         /**<!-- DOCS-ALIAS: StringTools.toLowerSnakeCase -->
@@ -4020,7 +4020,7 @@ declare namespace StringTools {
          * 
          * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
          * @param {string | string[]} input - String or array of strings to convert
-         * @returns {string}
+         * @returns {string} - Lower snake case string
          */
         toLowerSnakeCase(input: string | string[]): string;
         /**<!-- DOCS-ALIAS: StringTools.toUpperSnakeCase -->
@@ -4034,7 +4034,7 @@ declare namespace StringTools {
          * 
          * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
          * @param {string | string[]} input - String or array of strings to convert
-         * @returns {string}
+         * @returns {string} - Upper snake case string
          */
         toUpperSnakeCase(input: string | string[]): string;
         /**<!-- DOCS-ALIAS: StringTools.toSnakeCase -->
@@ -4049,7 +4049,7 @@ declare namespace StringTools {
          * Convert a string to snake case (e.g. `this_is_snake_case`)
          * @param {string | string[]} input - String or array of strings to convert
          * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
-         * @returns {string}
+         * @returns {string} - Snake case string
          */
         toSnakeCase(input: string | string[], toUpper?: boolean): string;
         /**<!-- DOCS-ALIAS: StringTools.toLowerSpaced -->
@@ -4063,7 +4063,7 @@ declare namespace StringTools {
          * 
          * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
          * @param {string | string[]} input - String or array of strings to convert
-         * @returns {string}
+         * @returns {string} - Lower spaced case string
          */
         toLowerSpaced(input: string | string[]): string;
         /**<!-- DOCS-ALIAS: StringTools.toUpperSpaced -->
@@ -4077,7 +4077,7 @@ declare namespace StringTools {
          * 
          * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
          * @param {string | string[]} input - String or array of strings to convert
-         * @returns {string}
+         * @returns {string} - Upper spaced case string
          */
         toUpperSpaced(input: string | string[]): string;
         /**<!-- DOCS-ALIAS: StringTools.toCapitalisedSpaced -->
@@ -4091,7 +4091,7 @@ declare namespace StringTools {
          * 
          * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
          * @param {string | string[]} input - String or array of strings to convert
-         * @returns {string}
+         * @returns {string} - Capitalised spaced case string
          */
         toCapitalisedSpaced(input: string | string[]): string;
         /**<!-- DOCS-ALIAS: StringTools.toSpaced -->
@@ -4106,7 +4106,7 @@ declare namespace StringTools {
          * Convert a string to spaced case (e.g. `this is spaced case`)
          * @param {string | string[]} input - String or array of strings to convert
          * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
-         * @returns {string}
+         * @returns {string} - Spaced case string
          */
         toSpaced(input: string | string[], toUpper?: boolean): string;
         /**<!-- DOCS-ALIAS: StringTools.toCharacterSeparated -->
@@ -4122,7 +4122,7 @@ declare namespace StringTools {
          * @param {string | string[]} input - String or array of strings to convert
          * @param {string} [char=','] - Character to separate the words by
          * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
-         * @returns {string}
+         * @returns {string} - Character separated string
          */
         toCharacterSeparated(input: string | string[], char: string, toUpper?: boolean): string;
     }
@@ -4138,7 +4138,7 @@ declare namespace StringTools {
      * 
      * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Lower camel case string
      */
     toLowerCamelCase: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toUpperCamelCase -->
@@ -4152,7 +4152,7 @@ declare namespace StringTools {
      * 
      * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Upper camel case string
      */
     toUpperCamelCase: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toCamelCase -->
@@ -4167,7 +4167,7 @@ declare namespace StringTools {
      * Convert a string to camel case (e.g. `thisIsCamelCase`)
      * @param {string | string[]} input - String or array of strings to convert
      * @param {boolean} [capitaliseFirst=false] - Whether to capitalise the first letter
-     * @returns {string}
+     * @returns {string} - Camel case string
      */
     toCamelCase: (input: string | string[], capitaliseFirst?: boolean) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toLowerSlugCase -->
@@ -4181,7 +4181,7 @@ declare namespace StringTools {
      * 
      * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Lower slug case string
      */
     toLowerSlugCase: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toUpperSlugCase -->
@@ -4195,7 +4195,7 @@ declare namespace StringTools {
      * 
      * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Upper slug case string
      */
     toUpperSlugCase: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toSlugCase -->
@@ -4210,7 +4210,7 @@ declare namespace StringTools {
      * Convert a string to camel case (e.g. `this-is-slug-case`)
      * @param {string | string[]} input - String or array of strings to convert
      * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
-     * @returns {string}
+     * @returns {string} - Slug case string
      */
     toSlugCase: (input: string | string[], toUpper?: boolean) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toLowerSnakeCase -->
@@ -4224,7 +4224,7 @@ declare namespace StringTools {
      * 
      * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Lower snake case string
      */
     toLowerSnakeCase: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toUpperSnakeCase -->
@@ -4238,7 +4238,7 @@ declare namespace StringTools {
      * 
      * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Upper snake case string
      */
     toUpperSnakeCase: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toSnakeCase -->
@@ -4253,7 +4253,7 @@ declare namespace StringTools {
      * Convert a string to snake case (e.g. `this_is_snake_case`)
      * @param {string | string[]} input - String or array of strings to convert
      * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
-     * @returns {string}
+     * @returns {string} - Snake case string
      */
     toSnakeCase: (input: string | string[], toUpper?: boolean) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toLowerSpaced -->
@@ -4267,7 +4267,7 @@ declare namespace StringTools {
      * 
      * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Lower spaced case string
      */
     toLowerSpaced: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toUpperSpaced -->
@@ -4281,7 +4281,7 @@ declare namespace StringTools {
      * 
      * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Upper spaced case string
      */
     toUpperSpaced: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toCapitalisedSpaced -->
@@ -4295,7 +4295,7 @@ declare namespace StringTools {
      * 
      * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Capitalised spaced case string
      */
     toCapitalisedSpaced: (input: string | string[]) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toSpaced -->
@@ -4310,7 +4310,7 @@ declare namespace StringTools {
      * Convert a string to spaced case (e.g. `this is spaced case`)
      * @param {string | string[]} input - String or array of strings to convert
      * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
-     * @returns {string}
+     * @returns {string} - Spaced case string
      */
     toSpaced: (input: string | string[], toUpper?: boolean) => string, 
     /**<!-- DOCS-ALIAS: StringTools.toCharacterSeparated -->
@@ -4326,7 +4326,7 @@ declare namespace StringTools {
      * @param {string | string[]} input - String or array of strings to convert
      * @param {string} [char=','] - Character to separate the words by
      * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
-     * @returns {string}
+     * @returns {string} - Character separated string
      */
     toCharacterSeparated: (input: string | string[], char: string, toUpper?: boolean) => string;
     /**<!-- DOCS: StringTools.fromSlugCase #### -->
@@ -4429,7 +4429,7 @@ declare namespace StringTools {
          * ```
          * @param {string} input - String to match brackets in
          * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
-         * @returns {string}
+         * @returns {string} - String with the brackets replaced with special symbols
          */
         const unique: (input: string, replaceSymbols?: Partial<BracketReplaceSymbols>) => string;
         /**<!-- DOCS: StringTools.matchBrackets.depth #### @ -->
@@ -4446,7 +4446,7 @@ declare namespace StringTools {
          * ```
          * @param {string} input - String to match brackets in
          * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
-         * @returns {string}
+         * @returns {string} - String with the brackets replaced with special symbols
          */
         const depth: (input: string, replaceSymbols?: Partial<BracketReplaceSymbols>) => string;
         /**<!-- DOCS: StringTools.matchBrackets.clean #### @ -->
@@ -4466,7 +4466,7 @@ declare namespace StringTools {
          * ```
          * @param {string} input - String to clean
          * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
-         * @returns {string}
+         * @returns {string} - String cleaned of the special symbols
          */
         const clean: (input: string, replaceSymbols?: Partial<BracketReplaceSymbols>) => string;
         /**<!-- DOCS: StringTools.matchBrackets.grabDepth #### @ -->
@@ -4493,7 +4493,7 @@ declare namespace StringTools {
          * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round'] - Bracket type to match
          * @param {number} [depthID=0] - Depth ID to match
          * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
-         * @returns {string[]}
+         * @returns {string[]} - Array of bracketed substrings
          */
         const grabDepth: (input: string, bracketType?: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle', depthID?: number, replaceSymbols?: Partial<BracketReplaceSymbols>) => string[];
         /**<!-- DOCS: StringTools.matchBrackets.grabUnique #### @ -->
@@ -4521,7 +4521,7 @@ declare namespace StringTools {
          * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round'] - Bracket type to match
          * @param {number} [uniqueID=0] - Unique ID to match
          * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
-         * @returns {string}
+         * @returns {string} - Bracketed substring
          */
         const grabUnique: (input: string, bracketType?: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle', uniqueID?: number, replaceSymbols?: Partial<BracketReplaceSymbols>) => string;
         /**<!-- DOCS: StringTools.matchBrackets.grab #### @ -->
@@ -4546,7 +4546,7 @@ declare namespace StringTools {
          * @param {string} input - String to match brackets in
          * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round'] - Bracket type to match
          * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
-         * @returns {string[]}
+         * @returns {string[]} - Array of bracketed substrings
          */
         const grab: (input: string, bracketType?: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle', replaceSymbols?: Partial<BracketReplaceSymbols>) => string[];
         /**<!-- DOCS: StringTools.matchBrackets.getReplaceSymbols #### @ -->
@@ -4588,7 +4588,7 @@ declare namespace StringTools {
          * // }
          * ```
          * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Partial set of replace symbols to use
-         * @returns {BracketReplaceSymbols}
+         * @returns {BracketReplaceSymbols} - Full set of replace symbols
          */
         const getReplaceSymbols: (replaceSymbols?: Partial<BracketReplaceSymbols>) => BracketReplaceSymbols;
         /**<!-- DOCS: StringTools.matchBrackets.BracketReplaceSymbols #### -->
@@ -4643,7 +4643,7 @@ declare namespace StringTools {
  * clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
  * ```
  * @param {...ClxType} [args] - Classes (or objects/arrays to compose
- * @returns {string}
+ * @returns {string} - Composed class name
  */
 declare const clx: (...args: ClxType[]) => string;
 
@@ -4691,7 +4691,7 @@ declare namespace PromiseTools {
      *
      * const luckyNumber: number = await run();
      * ```
-     * @returns {DeferredPromise<T>}
+     * @returns {DeferredPromise<T>} - Deferred promise
      */
     export const getDeferred: <T>() => DeferredPromise<T>;
     /**<!-- DOCS: PromiseTools.all ### @ -->
@@ -4702,7 +4702,7 @@ declare namespace PromiseTools {
      *
      * Similar to Promise.all, but accepts values, functions, and promises.
      * @param {PromiseTools.PromiseItem<T>[]} items - Items to wait for
-     * @returns {Promise<T[]>}
+     * @returns {Promise<T[]>} - Promise that resolves to an array of the results
      */
     export const all: <T>(items: PromiseItem<T>[]) => Promise<T[]>;
     /**<!-- DOCS: PromiseTools.allLimit ### @ -->
@@ -4748,7 +4748,7 @@ declare namespace PromiseTools {
      * @param {number} limit - Maximum number of items to run concurrently
      * @param {PromiseTools.PromiseItem<T>[]} items - Items to wait for
      * @param {boolean} [noThrow=false] - Whether to prevent throwing errors
-     * @returns {Promise<T[]>}
+     * @returns {Promise<T[]>} - Promise that resolves to an array of the results
      */
     export const allLimit: <T>(limit: number, items: PromiseItem<T>[], noThrow?: boolean) => Promise<T[]>;
     /**<!-- DOCS: PromiseTools.each ### @ -->
@@ -4772,7 +4772,7 @@ declare namespace PromiseTools {
      * ```
      * @param {T[]} items - Items to iterate over
      * @param {(item: T, index: number, array: T[]) => Promise<any>} func - Function to apply to each item
-     * @returns {Promise<void>}
+     * @returns {Promise<void>} - Promise that resolves when all items have been processed
      */
     export const each: <T>(items: T[], func: (item: T, index: number, array: T[]) => Promise<any>) => Promise<void>;
     /**<!-- DOCS: PromiseTools.eachLimit ### @ -->
@@ -4799,7 +4799,7 @@ declare namespace PromiseTools {
      * @param {number} limit - Maximum number of items to run concurrently
      * @param {T[]} items - Items to iterate over
      * @param {(item: T, index: number, array: T[]) => Promise<any>} func - Function to apply to each item
-     * @returns {Promise<void>}
+     * @returns {Promise<void>} - Promise that resolves when all items have been processed
      */
     export const eachLimit: <T>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<any>) => Promise<void>;
     /**<!-- DOCS: PromiseTools.map ### @ -->
@@ -4824,7 +4824,7 @@ declare namespace PromiseTools {
      * ```
      * @param {T[]} items - Items to iterate over
      * @param {(item: T, index: number, array: T[]) => Promise<U>} func - Map function to apply to each item
-     * @returns {Promise<U[]>}
+     * @returns {Promise<U[]>} - Promise that resolves to a mapped array of the results
      */
     export const map: <T, U>(items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
     /**<!-- DOCS: PromiseTools.mapLimit ### @ -->
@@ -4852,7 +4852,7 @@ declare namespace PromiseTools {
      * @param {number} limit - Maximum number of items to run concurrently
      * @param {T[]} items - Items to iterate over
      * @param {(item: T, index: number, array: T[]) => Promise<U>} func - Map function to apply to each item
-     * @returns {Promise<U[]>}
+     * @returns {Promise<U[]>} - Promise that resolves to a mapped array of the results
      */
     export const mapLimit: <T, U>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
     type AwaitedItem<T> = T extends Promise<infer U> ? Awaited<U> : T extends () => Promise<infer U> ? Awaited<U> : T;
@@ -4896,7 +4896,7 @@ declare namespace PromiseTools {
      * // 	c: 20s
      * ```
      * @param {T} input - Object with properties to wait for
-     * @returns {Promise<AwaitedObject<T>>}
+     * @returns {Promise<AwaitedObject<T>>} - Promise that resolves to an object with the results
      */
     export const allObj: <T extends object>(input: T) => Promise<{ [K_1 in keyof T]: AwaitedItem<T[K_1]>; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: AwaitedItem<T[K_1]>; }[K]; } : never>;
     /**<!-- DOCS: PromiseTools.allLimitObj ### -->
@@ -4942,7 +4942,7 @@ declare namespace PromiseTools {
      * @param {number} limit - Maximum number of items to run concurrently
      * @param {T} input - Object with properties to wait for
      * @param {boolean} [noThrow=false] - Whether to prevent throwing errors
-     * @returns {Promise<AwaitedObject<T>>}
+     * @returns {Promise<AwaitedObject<T>>} - Promise that resolves to an object with the results
      */
     export const allLimitObj: <T extends object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K_1 in keyof T]: AwaitedItem<T[K_1]>; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: AwaitedItem<T[K_1]>; }[K]; } : never>;
     /**<!-- DOCS: PromiseTools.PromiseFunc ### -->
@@ -4999,7 +4999,7 @@ declare type DeferredPromise<T> = PromiseTools.DeferredPromise<T>;
  * 
  * const luckyNumber: number = await run();
  * ```
- * @returns {DeferredPromise<T>}
+ * @returns {DeferredPromise<T>} - Deferred promise
  */
 declare const getDeferred: <T>() => PromiseTools.DeferredPromise<T>;
 /**<!-- DOCS-ALIAS: PromiseTools.all -->
@@ -5010,7 +5010,7 @@ declare const getDeferred: <T>() => PromiseTools.DeferredPromise<T>;
  * 
  * Similar to Promise.all, but accepts values, functions, and promises.
  * @param {PromiseTools.PromiseItem<T>[]} items - Items to wait for
- * @returns {Promise<T[]>}
+ * @returns {Promise<T[]>} - Promise that resolves to an array of the results
  */
 declare const all: <T>(items: PromiseTools.PromiseItem<T>[]) => Promise<T[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.allLimit -->
@@ -5056,7 +5056,7 @@ declare const all: <T>(items: PromiseTools.PromiseItem<T>[]) => Promise<T[]>;
  * @param {number} limit - Maximum number of items to run concurrently
  * @param {PromiseTools.PromiseItem<T>[]} items - Items to wait for
  * @param {boolean} [noThrow=false] - Whether to prevent throwing errors
- * @returns {Promise<T[]>}
+ * @returns {Promise<T[]>} - Promise that resolves to an array of the results
  */
 declare const allLimit: <T>(limit: number, items: PromiseTools.PromiseItem<T>[], noThrow?: boolean) => Promise<T[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.each -->
@@ -5080,7 +5080,7 @@ declare const allLimit: <T>(limit: number, items: PromiseTools.PromiseItem<T>[],
  * ```
  * @param {T[]} items - Items to iterate over
  * @param {(item: T, index: number, array: T[]) => Promise<any>} func - Function to apply to each item
- * @returns {Promise<void>}
+ * @returns {Promise<void>} - Promise that resolves when all items have been processed
  */
 declare const each: <T>(items: T[], func: (item: T, index: number, array: T[]) => Promise<any>) => Promise<void>;
 /**<!-- DOCS-ALIAS: PromiseTools.eachLimit -->
@@ -5107,7 +5107,7 @@ declare const each: <T>(items: T[], func: (item: T, index: number, array: T[]) =
  * @param {number} limit - Maximum number of items to run concurrently
  * @param {T[]} items - Items to iterate over
  * @param {(item: T, index: number, array: T[]) => Promise<any>} func - Function to apply to each item
- * @returns {Promise<void>}
+ * @returns {Promise<void>} - Promise that resolves when all items have been processed
  */
 declare const eachLimit: <T>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<any>) => Promise<void>;
 /**<!-- DOCS-ALIAS: PromiseTools.map -->
@@ -5132,7 +5132,7 @@ declare const eachLimit: <T>(limit: number, items: T[], func: (item: T, index: n
  * ```
  * @param {T[]} items - Items to iterate over
  * @param {(item: T, index: number, array: T[]) => Promise<U>} func - Map function to apply to each item
- * @returns {Promise<U[]>}
+ * @returns {Promise<U[]>} - Promise that resolves to a mapped array of the results
  */
 declare const map: <T, U>(items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.mapLimit -->
@@ -5160,7 +5160,7 @@ declare const map: <T, U>(items: T[], func: (item: T, index: number, array: T[])
  * @param {number} limit - Maximum number of items to run concurrently
  * @param {T[]} items - Items to iterate over
  * @param {(item: T, index: number, array: T[]) => Promise<U>} func - Map function to apply to each item
- * @returns {Promise<U[]>}
+ * @returns {Promise<U[]>} - Promise that resolves to a mapped array of the results
  */
 declare const mapLimit: <T, U>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
 /**<!-- DOCS-ALIAS: PromiseTools.allObj -->
@@ -5200,7 +5200,7 @@ declare const mapLimit: <T, U>(limit: number, items: T[], func: (item: T, index:
  * // 	c: 20s
  * ```
  * @param {T} input - Object with properties to wait for
- * @returns {Promise<AwaitedObject<T>>}
+ * @returns {Promise<AwaitedObject<T>>} - Promise that resolves to an object with the results
  */
 declare const allObj: <T extends object>(input: T) => Promise<{ [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; }[K]; } : never>;
 /**<!-- DOCS-ALIAS: PromiseTools.allLimitObj -->
@@ -5246,7 +5246,7 @@ declare const allObj: <T extends object>(input: T) => Promise<{ [K_1 in keyof T]
  * @param {number} limit - Maximum number of items to run concurrently
  * @param {T} input - Object with properties to wait for
  * @param {boolean} [noThrow=false] - Whether to prevent throwing errors
- * @returns {Promise<AwaitedObject<T>>}
+ * @returns {Promise<AwaitedObject<T>>} - Promise that resolves to an object with the results
  */
 declare const allLimitObj: <T extends object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; }[K]; } : never>;
 
@@ -5270,7 +5270,7 @@ declare namespace ErrorTools {
      * @param {T} orValue - Default value to return if the function fails
      * @param {(...args: A[]) => Promise<T>} func - Function to try
      * @param {...A} [args] - Arguments to pass to the function
-     * @returns {Promise<T>}
+     * @returns {Promise<T>} - Promise that resolves to the result of the function, or the default value if it fails
      */
     export const tryOr: <T, A>(orValue: T, func: (...args: A[]) => Promise<T>, ...args: A[]) => Promise<T>;
     /**<!-- DOCS: ErrorTools.retry ### @ -->
@@ -5288,7 +5288,7 @@ declare namespace ErrorTools {
      * @param {ms} [delay=0] - Delay between tries
      * @param {boolean} [suppress=true] - Whether to suppress the error
      * @param {(attemptNumber) => T} [run=fn.result(undefined as T)] - Function to run on each attempt
-     * @returns {Promise<T>}
+     * @returns {Promise<T>} - Promise that resolves to the result of the function, or undefined if it fails after all tries
      */
     export const retry: <T>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
     /**<!-- DOCS: ErrorTools.retryOr ### @ -->
@@ -5308,7 +5308,7 @@ declare namespace ErrorTools {
      * @param {number} [maxTries=10] - Maximum number of tries
      * @param {ms} [delay=0] - Delay between tries
      * @param {() => T | Promise<T>} [run=fn.result(orValue)] - Function to run on each attempt
-     * @returns {Promise<T>}
+     * @returns {Promise<T>} - Promise that resolves to the result of the function, or the default value if it fails after all tries
      */
     export const retryOr: <T>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
     type TryCatchResult<T, E = Error> = {
@@ -5342,7 +5342,7 @@ declare namespace ErrorTools {
      * }); // { result: 'bar', error: null }
      * ```
      * @param {Promise<T> | (() => T | Promise<T>)} promiseOrFunc - Promise or function to try
-     * @returns {Promise<TryCatchResult<T, E>>}
+     * @returns {Promise<TryCatchResult<T, E>>} - Promise with result or error
      */
     export function tryCatch<T, E = Error>(promiseOrFunc: Promise<T> | (() => T | Promise<T>)): Promise<TryCatchResult<T, E>>;
     export {};
@@ -5361,7 +5361,7 @@ declare namespace ErrorTools {
  * @param {T} orValue - Default value to return if the function fails
  * @param {(...args: A[]) => Promise<T>} func - Function to try
  * @param {...A} [args] - Arguments to pass to the function
- * @returns {Promise<T>}
+ * @returns {Promise<T>} - Promise that resolves to the result of the function, or the default value if it fails
  */
 declare const tryOr: <T, A>(orValue: T, func: (...args: A[]) => Promise<T>, ...args: A[]) => Promise<T>;
 /**<!-- DOCS-ALIAS: ErrorTools.retry -->
@@ -5379,7 +5379,7 @@ declare const tryOr: <T, A>(orValue: T, func: (...args: A[]) => Promise<T>, ...a
  * @param {ms} [delay=0] - Delay between tries
  * @param {boolean} [suppress=true] - Whether to suppress the error
  * @param {(attemptNumber) => T} [run=fn.result(undefined as T)] - Function to run on each attempt
- * @returns {Promise<T>}
+ * @returns {Promise<T>} - Promise that resolves to the result of the function, or undefined if it fails after all tries
  */
 declare const retry: <T>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
 /**<!-- DOCS-ALIAS: ErrorTools.retryOr -->
@@ -5399,7 +5399,7 @@ declare const retry: <T>(maxTries?: number, delay?: ms, suppress?: boolean, run?
  * @param {number} [maxTries=10] - Maximum number of tries
  * @param {ms} [delay=0] - Delay between tries
  * @param {() => T | Promise<T>} [run=fn.result(orValue)] - Function to run on each attempt
- * @returns {Promise<T>}
+ * @returns {Promise<T>} - Promise that resolves to the result of the function, or the default value if it fails after all tries
  */
 declare const retryOr: <T>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
 /**<!-- DOCS-ALIAS: ErrorTools.tryCatch -->
@@ -5426,7 +5426,7 @@ declare const retryOr: <T>(orValue: T, maxTries?: number, delay?: ms, run?: () =
  * }); // { result: 'bar', error: null }
  * ```
  * @param {Promise<T> | (() => T | Promise<T>)} promiseOrFunc - Promise or function to try
- * @returns {Promise<TryCatchResult<T, E>>}
+ * @returns {Promise<TryCatchResult<T, E>>} - Promise with result or error
  */
 declare const tryCatch: typeof ErrorTools.tryCatch;
 
@@ -5457,7 +5457,7 @@ declare namespace MathsTools {
      * ```
      * @param {number} num - Number to fix
      * @param {number} [precision=6] - Precision to round to
-     * @returns {number}
+     * @returns {number} - Unbroken number
      */
     const fixFloat: (num: number, precision?: number) => number;
     /**<!-- DOCS-ALIAS: MathsTools.fixFloat -->
@@ -5479,7 +5479,7 @@ declare namespace MathsTools {
      * ```
      * @param {number} num - Number to fix
      * @param {number} [precision=6] - Precision to round to
-     * @returns {number}
+     * @returns {number} - Unbroken number
      */
     const ff: (num: number, precision?: number) => number;
     /**<!-- DOCS: MathsTools.addAll ### @ -->
@@ -5493,7 +5493,7 @@ declare namespace MathsTools {
      * MathsTools.addAll(1, 2, 3, 4, 5); // 15
      * ```
      * @param {...number} [nums] - Numbers to add
-     * @returns {number}
+     * @returns {number} - Sum of all numbers
      */
     const addAll: (...nums: number[]) => number;
     /**<!-- DOCS: MathsTools.round ### -->
@@ -5514,7 +5514,7 @@ declare namespace MathsTools {
      * ```
      * @param {number} to - Target to floor to
      * @param {number} value - Number to floor
-     * @returns {number}
+     * @returns {number} - Floored number
      */
     const floorTo: (to: number, value: number) => number;
     /**<!-- DOCS: MathsTools.roundTo #### @ -->
@@ -5533,7 +5533,7 @@ declare namespace MathsTools {
      * ```
      * @param {number} to - Target to round to
      * @param {number} value - Number to round
-     * @returns {number}
+     * @returns {number} - Rounded number
      */
     const roundTo: (to: number, value: number) => number;
     /**<!-- DOCS: MathsTools.ceilTo #### @ -->
@@ -5551,7 +5551,7 @@ declare namespace MathsTools {
      * ```
      * @param {number} to - Target to ceil to
      * @param {number} value - Number to ceil
-     * @returns {number}
+     * @returns {number} - Ceiled number
      */
     const ceilTo: (to: number, value: number) => number;
     /**
@@ -5577,7 +5577,7 @@ declare namespace MathsTools {
          * ```
          * @param {number} to - Target to floor to
          * @param {number} value - Number to floor
-         * @returns {number}
+         * @returns {number} - Floored number
          */
         const floorTo: (to: number, value: number) => number;
         /**<!-- DOCS-ALIAS: MathsTools.roundTo -->
@@ -5596,7 +5596,7 @@ declare namespace MathsTools {
          * ```
          * @param {number} to - Target to round to
          * @param {number} value - Number to round
-         * @returns {number}
+         * @returns {number} - Rounded number
          */
         const roundTo: (to: number, value: number) => number;
         /**<!-- DOCS-ALIAS: MathsTools.ceilTo -->
@@ -5614,7 +5614,7 @@ declare namespace MathsTools {
          * ```
          * @param {number} to - Target to ceil to
          * @param {number} value - Number to ceil
-         * @returns {number}
+         * @returns {number} - Ceiled number
          */
         const ceilTo: (to: number, value: number) => number;
         /**<!-- DOCS-ALIAS: MathsTools.roundTo -->
@@ -5633,7 +5633,7 @@ declare namespace MathsTools {
          * ```
          * @param {number} to - Target to round to
          * @param {number} value - Number to round
-         * @returns {number}
+         * @returns {number} - Rounded number
          */
         const to: (to: number, value: number) => number;
     }
@@ -5650,7 +5650,7 @@ declare namespace MathsTools {
      * @param {number} progress - Progress to interpolate (`0`-`1`)
      * @param {number} fromVal - Start value (what the progress is at `0`)
      * @param {number} toVal - End value (what the progress is at `1`)
-     * @returns {number}
+     * @returns {number} - Interpolated number
      */
     const lerp: (progress: number, fromVal: number, toVal: number) => number;
     /**<!-- DOCS: MathsTools.lerpArray ### @ -->
@@ -5666,7 +5666,7 @@ declare namespace MathsTools {
      * @param {number} progress - Progress to interpolate (`0`-`1`)
      * @param {number[]} fromArr - Start values (what the progress is at `0`)
      * @param {number[]} toArr - End values (what the progress is at `1`)
-     * @returns {number[]}
+     * @returns {number[]} - Interpolated array
      */
     const lerpArray: (progress: number, fromArr: number[], toArr: number[]) => number[];
     /**<!-- DOCS: MathsTools.lerpObj ### @ -->
@@ -5682,7 +5682,7 @@ declare namespace MathsTools {
      * @param {number} progress - Progress to interpolate (`0`-`1`)
      * @param {T} fromObj - Start values (what the progress is at `0`)
      * @param {T} toObj - End values (what the progress is at `1`)
-     * @returns {T}
+     * @returns {T} - Interpolated object
      */
     const lerpObj: <T extends object>(progress: number, fromObj: T, toObj: T) => T;
     /**<!-- DOCS: MathsTools.clamp ### @ -->
@@ -5699,7 +5699,7 @@ declare namespace MathsTools {
      * @param {number} value - Value to clamp
      * @param {number} min - Minimum value
      * @param {number} max - Maximum value
-     * @returns {number}
+     * @returns {number} - Clamped number
      */
     const clamp: (value: number, min: number, max: number) => number;
     /**<!-- DOCS: MathsTools.getOrdinal ### @ -->
@@ -5729,7 +5729,7 @@ declare namespace MathsTools {
      * MathsTools.getOrdinal(24); // 'th'
      * ```
      * @param {number} [num=0] - Number to get the ordinal for
-     * @returns {"th" | "st" | "nd" | "rd"}
+     * @returns {"th" | "st" | "nd" | "rd"} - Ordinal suffix
      */
     const getOrdinal: (num?: number) => "th" | "st" | "nd" | "rd";
 }
@@ -5752,7 +5752,7 @@ declare namespace MathsTools {
  * ```
  * @param {number} num - Number to fix
  * @param {number} [precision=6] - Precision to round to
- * @returns {number}
+ * @returns {number} - Unbroken number
  */
 declare const ff: (num: number, precision?: number) => number;
 
@@ -6324,7 +6324,7 @@ declare namespace ColourTools {
      * ColourTools.parse('red') // [255, 0, 0]
      * ```
      * @param {string} input - Input string to parse
-     * @returns {ColourValues}
+     * @returns {ColourValues} - RGB array of the parsed colour
      */
     const parse: (input: string) => ColourValues;
     /**<!-- DOCS: ColourTools.toHex ### @ -->
@@ -6338,7 +6338,7 @@ declare namespace ColourTools {
      * ColourTools.toHex([255, 0, 0]) // '#FF0000'
      * ```
      * @param {ColourValues} colour - Colour to convert to a hex string
-     * @returns {string}
+     * @returns {string} - Hex string of the colour
      */
     const toHex: (colour: ColourValues) => string;
     /**<!-- DOCS: ColourTools.getLuminance ### @ -->
@@ -6361,7 +6361,7 @@ declare namespace ColourTools {
      * ColourTools.getLuminance([0, 0, 255]); // 29.07
      * ```
      * @param {ColourValues} rgb - Colour to get the luminance of
-     * @returns {number}
+     * @returns {number} - Luminance value of the colour
      */
     const getLuminance: (rgb: ColourValues) => number;
     /**<!-- DOCS: ColourTools.toYUV ### @ -->
@@ -6377,7 +6377,7 @@ declare namespace ColourTools {
      * ColourTools.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
      * ```
      * @param {ColourValues} rgb - Colour to convert to a YUV array
-     * @returns {ColourValues}
+     * @returns {ColourValues} - YUV array of the colour
      */
     const toYUV: (rgb: ColourValues) => ColourValues;
     /**<!-- DOCS: ColourTools.toHSL ### @ -->
@@ -6395,7 +6395,7 @@ declare namespace ColourTools {
      * ```
      * @param {ColourValues} colour - Colour to convert to a HSL array
      * @param {boolean} [round=true] - Whether to round the result
-     * @returns {HSLValues}
+     * @returns {HSLValues} - HSL array of the colour
      */
     const toHSL: (colour: ColourValues, round?: boolean) => HSLValues;
     /**<!-- DOCS: ColourTools.fromHSL ### @ -->
@@ -6413,7 +6413,7 @@ declare namespace ColourTools {
      * ```
      * @param {HSLValues} hsl - HSL array to convert to a RGB array
      * @param {boolean} [round=true] - Whether to round the result
-     * @returns {ColourValues}
+     * @returns {ColourValues} - RGB array of the colour
      */
     const fromHSL: (hsl: HSLValues, round?: boolean) => ColourValues;
     /**<!-- DOCS: ColourTools.invertColour ### @ -->
@@ -6429,7 +6429,7 @@ declare namespace ColourTools {
      * ColourTools.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
      * ```
      * @param {ColourValues} rgb - Colour to invert
-     * @returns {ColourValues}
+     * @returns {ColourValues} - RGB array of the inverted colour
      */
     const invertColour: (rgb: ColourValues) => ColourValues;
     /**<!-- DOCS: ColourTools.getContrastedColour ### @ -->
@@ -6446,7 +6446,7 @@ declare namespace ColourTools {
      * ColourTools.getContrastedColour([255, 255, 0]); // [0, 0, 0]
      * ```
      * @param {ColourValues} colour - Colour to get the contrasted colour of
-     * @returns {ColourValues}
+     * @returns {ColourValues} - RGB array of the contrasted colour
      */
     const getContrastedColour: (colour: ColourValues) => ColourValues;
     /**<!-- DOCS: ColourTools.getLimitedColour ### @ -->
@@ -6466,7 +6466,7 @@ declare namespace ColourTools {
      * @param {ColourValues} colour - Colour to limit
      * @param {(hsl: HSLValues) => boolean} checkFn - Function to check if the colour should be limited
      * @param {(hsl: HSLValues) => HSLValues} adjustFn - Function to adjust the colour if it should be limited
-     * @returns {ColourValues}
+     * @returns {ColourValues} - RGB array of the limited colour
      */
     const getLimitedColour: (colour: ColourValues, checkFn: (hsl: HSLValues) => boolean, adjustFn: (hsl: HSLValues) => HSLValues) => ColourValues;
 }
@@ -6941,7 +6941,7 @@ declare class QueueManager {
      * ```
      * @param {string} id - Queue ID
      * @param {PromiseTools.PromiseItem<T>} promiseItem - Function to add to the queue
-     * @returns {Promise<T>}
+     * @returns {Promise<T>} - Promise that resolves to the result of the function once it has been executed
      */
     add<T>(id: string, promiseItem: PromiseTools.PromiseItem<T>): Promise<T>;
     /**<!-- DOCS: queue.new #### @ -->
@@ -6957,7 +6957,7 @@ declare class QueueManager {
      * const newQueue = queue.new();
      * ```
      * @param {ms} [defaultPauseTime=0] - Amount of time to pause between queue items
-     * @returns {QueueManager}
+     * @returns {QueueManager} - New QueueManager instance
      */
     new(defaultPauseTime?: ms): QueueManager;
     /**<!-- DOCS-ALIAS: queue.new -->
@@ -6973,7 +6973,7 @@ declare class QueueManager {
      * const newQueue = queue.new();
      * ```
      * @param {ms} [defaultPauseTime=0] - Amount of time to pause between queue items
-     * @returns {QueueManager}
+     * @returns {QueueManager} - New QueueManager instance
      */
     static new(defaultPauseTime?: ms): QueueManager;
 }
@@ -7029,7 +7029,7 @@ declare namespace safe {
      * @param {number} [min] - Minimum value
      * @param {number} [max] - Maximum value
      * @param {number} [fallback=0] - Fallback value
-     * @returns {number}
+     * @returns {number} - Number that is safe to use
      */
     const num: (input: number, isInt?: boolean, min?: number, max?: number, fallback?: number) => number;
     /**<!-- DOCS: safe.str ### @ -->
@@ -7061,7 +7061,7 @@ declare namespace safe {
      * @param {string} input - String to process
      * @param {boolean} [allowBasicStringify=false] - Whether to allow basic stringification
      * @param {string} [fallback=''] - Fallback value
-     * @returns {string}
+     * @returns {string} - String that is safe to use
      */
     const str: (input: string, allowBasicStringify?: boolean, fallback?: string) => string;
     /**<!-- DOCS: safe.bool ### @ -->
@@ -7099,7 +7099,7 @@ declare namespace safe {
      * safe.bool(undefined, true); // true
      * @param {boolean} input - Boolean to process
      * @param {boolean} [fallback=false] - Fallback value
-     * @returns {boolean}
+     * @returns {boolean} - Boolean that is safe to use
      */
     const bool: (input: boolean, fallback?: boolean) => boolean;
     /**<!-- DOCS: safe.func ### @ -->
@@ -7132,7 +7132,7 @@ declare namespace safe {
      * ```
      * @param {T} input - Function to process
      * @param {T} [fallback=(() => {}) as unknown as T] - Fallback value
-     * @returns {T}
+     * @returns {T} - Function that is safe to use
      */
     const func: <T extends Function>(input: T, fallback?: T) => T;
     /**<!-- DOCS: safe.obj ### @ -->
@@ -7164,7 +7164,7 @@ declare namespace safe {
      * @param {T} input - Object to process
      * @param {boolean} [allowArrays=false] - Whether to allow arrays
      * @param {T} [fallback={} as T] - Fallback value
-     * @returns {T}
+     * @returns {T} - Object that is safe to use
      */
     const obj: <T extends object>(input: T, allowArrays?: boolean, fallback?: T) => T;
     /**<!-- DOCS: safe.objWith ### @ -->
@@ -7215,7 +7215,7 @@ declare namespace safe {
      * @param {T} input - Object to process
      * @param {ObjWithConfig<T>} objConfig - Object safety configuration
      * @param {boolean} [allowComposition=true] - Whether to allow composition
-     * @returns {T}
+     * @returns {T} - Object that is safe to use
      */
     const objWith: <T extends object>(input: T, objConfig: ObjWithConfig<T>, allowComposition?: boolean) => T;
     /**<!-- DOCS: safe.arr ### @ -->
@@ -7248,7 +7248,7 @@ declare namespace safe {
      * @param {T[]} [fallback=[]] - Fallback value
      * @param {number} [minLength=0] - Minimum length
      * @param {number} [maxLength=Infinity] - Maximum length
-     * @returns {T[]}
+     * @returns {T[]} - Array that is safe to use
      */
     const arr: <T>(input: T[], fallback?: T[], minLength?: number, maxLength?: number) => T[];
     /**<!-- DOCS: safe.prop ### @ -->
@@ -7281,7 +7281,7 @@ declare namespace safe {
      * ```
      * @param {string | number | symbol} input - Value to process
      * @param {string | number | symbol} [fallback=''] - Fallback value
-     * @returns {string | number}
+     * @returns {string | number} - Property name that is safe to use
      */
     const prop: (input: string | number | symbol, fallback?: string | number | symbol) => string | number;
     /**<!-- DOCS: safe.arrOf ### -->
@@ -7326,7 +7326,7 @@ declare namespace safe {
          * @param {number[]} [fallbackArr=[]] - Fallback array
          * @param {number} [arrMinLength=0] - Minimum length of the array
          * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-         * @returns {number[]}
+         * @returns {number[]} - Array of numbers that is safe to use
          */
         const num: (input: number[], isInt?: boolean, min?: number, max?: number, fallback?: number, fallbackArr?: number[], arrMinLength?: number, arrMaxLength?: number) => number[];
         /**<!-- DOCS: safe.arrOf.str #### @ -->
@@ -7363,7 +7363,7 @@ declare namespace safe {
          * @param {string[]} [fallbackArr=[]] - Fallback array
          * @param {number} [arrMinLength=0] - Minimum length of the array
          * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-         * @returns {string[]}
+         * @returns {string[]} - Array of strings that is safe to use
          */
         const str: (input: string[], allowStringify?: boolean, fallback?: string, fallbackArr?: string[], arrMinLength?: number, arrMaxLength?: number) => string[];
         /**<!-- DOCS: safe.arrOf.bool #### @ -->
@@ -7399,7 +7399,7 @@ declare namespace safe {
          * @param {boolean[]} [fallbackArr=[]] - Fallback array
          * @param {number} [arrMinLength=0] - Minimum length of the array
          * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-         * @returns {boolean[]}
+         * @returns {boolean[]} - Array of booleans that is safe to use
          */
         const bool: (input: boolean[], fallback?: boolean, fallbackArr?: boolean[], arrMinLength?: number, arrMaxLength?: number) => boolean[];
         /**<!-- DOCS: safe.arrOf.func #### @ -->
@@ -7435,7 +7435,7 @@ declare namespace safe {
          * @param {T[]} [fallbackArr=[]] - Fallback array
          * @param {number} [arrMinLength=0] - Minimum length of the array
          * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-         * @returns {T[]}
+         * @returns {T[]} - Array of functions that is safe to use
          */
         const func: <T extends Function>(input: T[], fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
         /**<!-- DOCS: safe.arrOf.obj #### @ -->
@@ -7472,7 +7472,7 @@ declare namespace safe {
          * @param {T[]} [fallbackArr=[]] - Fallback array
          * @param {number} [arrMinLength=0] - Minimum length of the array
          * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-         * @returns {T[]}
+         * @returns {T[]} - Array of objects that is safe to use
          */
         const obj: <T extends object>(input: T[], allowArrays?: boolean, fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
         /**<!-- DOCS: safe.arrOf.objWith #### @ -->
@@ -7520,7 +7520,7 @@ declare namespace safe {
          * @param {T[]} [fallbackArr=[]] - Fallback array
          * @param {number} [arrMinLength=0] - Minimum length of the array
          * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-         * @returns {T[]}
+         * @returns {T[]} - Array of objects that is safe to use
          */
         const objWith: <T extends object>(input: T[], objConfig: ObjWithConfig<T>, allowComposition?: boolean, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
         /**<!-- DOCS: safe.arrOf.arr #### @ -->
@@ -7556,7 +7556,7 @@ declare namespace safe {
          * @param {T[][]} [fallbackArr=[]] - Fallback array
          * @param {number} [arrMinLength=0] - Minimum length of the array
          * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-         * @returns {T[][]}
+         * @returns {T[][]} - Array of arrays that is safe to use
          */
         const arr: <T>(input: T[][], fallback?: T[], fallbackArr?: T[][], arrMinLength?: number, arrMaxLength?: number) => T[][];
         /**<!-- DOCS: safe.arrOf.prop #### @ -->
@@ -7592,7 +7592,7 @@ declare namespace safe {
          * @param {(string | number | symbol)[]} [fallbackArr=[]] - Fallback array
          * @param {number} [arrMinLength=0] - Minimum length of the array
          * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-         * @returns {(string | number)[]}
+         * @returns {(string | number)[]} - Array of property names that is safe to use
          */
         const prop: (input: (string | number | symbol)[], fallback?: string | number | symbol, fallbackArr?: (string | number | symbol)[], arrMinLength?: number, arrMaxLength?: number) => (string | number)[];
     }
@@ -7701,7 +7701,7 @@ interface Cachier<T> {
      * ```
      * @param {string} id - ID of the item to get
      * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
-     * @returns {T}
+     * @returns {T} - The cached item, or undefined if it doesn't exist or has expired
      */
     get(id: string, ignoreExpiry?: boolean): T;
     /**<!-- DOCS: cachier.Cachier.getOrSave #### -->
@@ -7728,7 +7728,7 @@ interface Cachier<T> {
      * @param {T} orValue - Value to save if the item doesn't exist
      * @param {ms} [expiresIn=getDefaultExpiresIn()] - Expiration time in milliseconds for the item (if saving orValue)
      * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
-     * @returns {T}
+     * @returns {T} - The cached item, or the orValue if it doesn't exist or has expired
      */
     getOrSave(id: string, orValue: T, expiresIn?: ms, ignoreExpiry?: boolean): T;
     /**<!-- DOCS: cachier.Cachier.getOrRun #### -->
@@ -7757,7 +7757,7 @@ interface Cachier<T> {
      * @param {(id?: string) => T} orFunc - Function to run if the item doesn't exist. What it returns will be saved.
      * @param {ms} [expiresIn=getDefaultExpiresIn()] - Expiration time in milliseconds for the item (if running orFunc)
      * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
-     * @returns {T}
+     * @returns {T} - The cached item, or the result of the orFunc if it doesn't exist or has expired
      */
     getOrRun(id: string, orFunc: (id?: string) => T, expiresIn?: ms, ignoreExpiry?: boolean): T;
     /**<!-- DOCS: cachier.Cachier.getOrRunAsync #### -->
@@ -7793,7 +7793,7 @@ interface Cachier<T> {
      * @param {(id?: string) => T | Promise<T>} orFunc - Function to run if the item doesn't exist. What it returns will be saved.
      * @param {ms} [expiresIn=getDefaultExpiresIn()] - Expiration time in milliseconds for the item (if running orFunc)
      * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
-     * @returns {Promise<T>}
+     * @returns {Promise<T>} - Promise that resolves to the cached item, or the result of the orFunc if it doesn't exist or has expired
      */
     getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn?: ms, ignoreExpiry?: boolean): Promise<T>;
     /**<!-- DOCS: cachier.Cachier.save #### -->
@@ -7816,7 +7816,7 @@ interface Cachier<T> {
      * @param {string} id - ID of the item to save
      * @param {T} item - Item to save
      * @param {ms} [expiresIn=getDefaultExpiresIn()] - Expiration time in milliseconds for the item
-     * @returns {T}
+     * @returns {T} - The saved item
      */
     save(id: string, item: T, expiresIn?: ms): T;
     /**<!-- DOCS: cachier.Cachier.remove #### -->
@@ -7872,7 +7872,7 @@ interface Cachier<T> {
      * cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz": { "name": "baz" } }
      * ```
      * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
-     * @returns {Record<string, T>}
+     * @returns {Record<string, T>} - Object of all saved items
      */
     getAll(ignoreExpiry?: boolean): Record<string, T>;
     /**<!-- DOCS: cachier.Cachier.getDefaultExpiresIn #### -->
@@ -7888,7 +7888,7 @@ interface Cachier<T> {
      * cachier.setDefaultExpiresIn(1000);
      * cachier.getDefaultExpiresIn(); // 1000
      * ```
-     * @returns {ms}
+     * @returns {ms} - Default expiration time in milliseconds
      */
     getDefaultExpiresIn(): ms;
     /**<!-- DOCS: cachier.Cachier.setDefaultExpiresIn #### -->
@@ -7906,7 +7906,7 @@ interface Cachier<T> {
      * ```
      *
      * @param {ms} [newValue=Infinity] - New default expiration time in milliseconds
-     * @returns {ms}
+     * @returns {ms} - New default expiration time in milliseconds
      */
     setDefaultExpiresIn(newValue?: ms): ms;
     /**<!-- DOCS: cachier.Cachier.create #### -->
@@ -7933,7 +7933,7 @@ interface Cachier<T> {
      * ```
      *
      * @param {ms} [defaultExpiresIn=Infinity] - Default expiration time in milliseconds for the new cache
-     * @returns {Cachier<U>}
+     * @returns {Cachier<U>} - New cachier object
      */
     create<U>(defaultExpiresIn?: ms): Cachier<U>;
 }
@@ -7994,7 +7994,7 @@ interface Cachier<T> {
  *   //}
  * ```
  * @param {OnDemandInputObject<T>} input - Input object
- * @returns {T}
+ * @returns {T} - Object where each value is only evaluated when accessed
  */
 declare const onDemand: <T extends Record<string, any>>(input: OnDemandInputObject<T>) => T;
 /**<!-- DOCS: onDemand.OnDemandInputObject ### -->

@@ -138,7 +138,7 @@ export class QueueManager {
    * ```
    * @param {string} id - Queue ID
    * @param {PromiseTools.PromiseItem<T>} promiseItem - Function to add to the queue
-   * @returns {Promise<T>}
+   * @returns {Promise<T>} - Promise that resolves to the result of the function once it has been executed
    */
   add<T>(id: string, promiseItem: PromiseTools.PromiseItem<T>): Promise<T> {
     const args = {
@@ -170,7 +170,7 @@ export class QueueManager {
    * const newQueue = queue.new();
    * ```
    * @param {ms} [defaultPauseTime=0] - Amount of time to pause between queue items
-   * @returns {QueueManager}
+   * @returns {QueueManager} - New QueueManager instance
    */
   new(defaultPauseTime: ms = 0) {
     const args = {

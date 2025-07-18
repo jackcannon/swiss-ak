@@ -31,7 +31,7 @@ export namespace MathsTools {
    * ```
    * @param {number} num - Number to fix
    * @param {number} [precision=6] - Precision to round to
-   * @returns {number}
+   * @returns {number} - Unbroken number
    */
   export const fixFloat = (num: number, precision: number = 6): number => {
     const args = {
@@ -55,7 +55,7 @@ export namespace MathsTools {
    * MathsTools.addAll(1, 2, 3, 4, 5); // 15
    * ```
    * @param {...number} [nums] - Numbers to add
-   * @returns {number}
+   * @returns {number} - Sum of all numbers
    */
   export const addAll = (...nums: number[]): number => {
     const args = {
@@ -82,7 +82,7 @@ export namespace MathsTools {
    * ```
    * @param {number} to - Target to floor to
    * @param {number} value - Number to floor
-   * @returns {number}
+   * @returns {number} - Floored number
    */
   export const floorTo = (to: number, value: number) => {
     const args = {
@@ -108,7 +108,7 @@ export namespace MathsTools {
    * ```
    * @param {number} to - Target to round to
    * @param {number} value - Number to round
-   * @returns {number}
+   * @returns {number} - Rounded number
    */
   export const roundTo = (to: number, value: number) => {
     const args = {
@@ -133,7 +133,7 @@ export namespace MathsTools {
    * ```
    * @param {number} to - Target to ceil to
    * @param {number} value - Number to ceil
-   * @returns {number}
+   * @returns {number} - Ceiled number
    */
   export const ceilTo = (to: number, value: number) => {
     const args = {
@@ -176,7 +176,7 @@ export namespace MathsTools {
    * @param {number} progress - Progress to interpolate (`0`-`1`)
    * @param {number} fromVal - Start value (what the progress is at `0`)
    * @param {number} toVal - End value (what the progress is at `1`)
-   * @returns {number}
+   * @returns {number} - Interpolated number
    */
   export const lerp = (progress: number, fromVal: number, toVal: number): number => {
     const args = {
@@ -200,7 +200,7 @@ export namespace MathsTools {
    * @param {number} progress - Progress to interpolate (`0`-`1`)
    * @param {number[]} fromArr - Start values (what the progress is at `0`)
    * @param {number[]} toArr - End values (what the progress is at `1`)
-   * @returns {number[]}
+   * @returns {number[]} - Interpolated array
    */
   export const lerpArray = (progress: number, fromArr: number[], toArr: number[]): number[] => {
     const args = {
@@ -224,7 +224,7 @@ export namespace MathsTools {
    * @param {number} progress - Progress to interpolate (`0`-`1`)
    * @param {T} fromObj - Start values (what the progress is at `0`)
    * @param {T} toObj - End values (what the progress is at `1`)
-   * @returns {T}
+   * @returns {T} - Interpolated object
    */
   export const lerpObj = <T extends object>(progress: number, fromObj: T, toObj: T): T => {
     const args = {
@@ -253,7 +253,7 @@ export namespace MathsTools {
    * @param {number} value - Value to clamp
    * @param {number} min - Minimum value
    * @param {number} max - Maximum value
-   * @returns {number}
+   * @returns {number} - Clamped number
    */
   export const clamp = (value: number, min: number, max: number) => {
     const args = {
@@ -293,7 +293,7 @@ export namespace MathsTools {
    * MathsTools.getOrdinal(24); // 'th'
    * ```
    * @param {number} [num=0] - Number to get the ordinal for
-   * @returns {"th" | "st" | "nd" | "rd"}
+   * @returns {"th" | "st" | "nd" | "rd"} - Ordinal suffix
    */
   export const getOrdinal = (num: number = 0) => {
     const args = {

@@ -26,7 +26,7 @@ export namespace StringTools {
    * ```
    * @param {string} [input=''] - String to capitalise
    * @param {boolean} [forceRestToLowerCase=true] - Whether to force the rest of the string to lower case
-   * @returns {string}
+   * @returns {string} - Capitalised string
    */
   export const capitalise = (input: string = '', forceRestToLowerCase: boolean = true): string => {
     const args = {
@@ -50,7 +50,7 @@ export namespace StringTools {
    * StringTools.angloise('éèêë'); // 'eeee'
    * ```
    * @param {string} input - String to angloise
-   * @returns {string}
+   * @returns {string} - String with accents removed
    */
   export const angloise = (input: string): string => {
     const inp = safe.str(input);
@@ -68,7 +68,7 @@ export namespace StringTools {
    * StringTools.clean('éèêë_--ab0'); // 'eeeeab0'
    * ```
    * @param {string} [input=''] - String to clean
-   * @returns {string}
+   * @returns {string} - Cleaned string
    */
   export const clean = (input: string = ''): string => {
     const inp = safe.str(input);
@@ -92,7 +92,7 @@ export namespace StringTools {
    * ```
    * @param {number} maxLength - Maximum length of the string
    * @param {string} repeated - String to repeat
-   * @returns {string}
+   * @returns {string} - Repeated string
    */
   export const repeat = (maxLength: number, repeated: string): string => {
     const args = {
@@ -120,7 +120,7 @@ export namespace StringTools {
    * longText.replace(new RegExp(makeRegExpSafe(textWithSpecChars)), 'foobar'); // 'A long line with foobar in it'
    * ```
    * @param {string} text - String to make safe for use in a RegExp
-   * @returns {string}
+   * @returns {string} - String safe for use in a RegExp
    */
   export const makeRegExpSafe = (text: string): string => {
     const args = {
@@ -149,7 +149,7 @@ export namespace StringTools {
    * @param {string} text - String to replace in
    * @param {string | RegExp} searchValue - String or RegExp to search for
    * @param {string | ((substring: string, ...args: any[]) => string)} replacer - String or function to replace the search value with
-   * @returns {string}
+   * @returns {string} - String with the search value replaced
    */
   export const replaceAll = (
     text: string,
@@ -200,7 +200,7 @@ export namespace StringTools {
    * ```
    * @param {string} [prefix=''] - Prefix to add to the random ID
    * @param {string} [suffix=''] - Suffix to add to the random ID
-   * @returns {string}
+   * @returns {string} - Random ID
    */
   export const randomId = (prefix: string = '', suffix: string = ''): string => {
     const args = {
@@ -250,7 +250,7 @@ export namespace StringTools {
    * clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
    * ```
    * @param {...ClxType} [args] - Classes (or objects/arrays to compose
-   * @returns {string}
+   * @returns {string} - Composed class name
    */
   export const clx = (...args: ClxType[]): string => processClxArray(args).join(' ');
 
@@ -318,7 +318,7 @@ export namespace StringTools {
      * Convert a string to camel case (e.g. `thisIsCamelCase`)
      * @param {string | string[]} input - String or array of strings to convert
      * @param {boolean} [capitaliseFirst=false] - Whether to capitalise the first letter
-     * @returns {string}
+     * @returns {string} - Camel case string
      */
     const toCamelCase = (input: string | string[], capitaliseFirst: boolean = false): string => {
       const args = {
@@ -339,7 +339,7 @@ export namespace StringTools {
      *
      * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Lower camel case string
      */
     const toLowerCamelCase = (input: string | string[]): string => toCamelCase(safeInput(input), false);
 
@@ -354,7 +354,7 @@ export namespace StringTools {
      *
      * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Upper camel case string
      */
     const toUpperCamelCase = (input: string | string[]): string => toCamelCase(safeInput(input), true);
 
@@ -371,7 +371,7 @@ export namespace StringTools {
      * @param {string | string[]} input - String or array of strings to convert
      * @param {string} [char=','] - Character to separate the words by
      * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
-     * @returns {string}
+     * @returns {string} - Character separated string
      */
     const toCharacterSeparated = (input: string | string[], char: string = ',', toUpper: boolean = false) => {
       const args = {
@@ -395,7 +395,7 @@ export namespace StringTools {
      * Convert a string to camel case (e.g. `this-is-slug-case`)
      * @param {string | string[]} input - String or array of strings to convert
      * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
-     * @returns {string}
+     * @returns {string} - Slug case string
      */
     const toSlugCase = (input: string | string[], toUpper: boolean = false): string => {
       const args = {
@@ -416,7 +416,7 @@ export namespace StringTools {
      *
      * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Lower slug case string
      */
     const toLowerSlugCase = (input: string | string[]): string => toSlugCase(safeInput(input), false);
 
@@ -431,7 +431,7 @@ export namespace StringTools {
      *
      * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Upper slug case string
      */
     const toUpperSlugCase = (input: string | string[]): string => toSlugCase(safeInput(input), true);
 
@@ -447,7 +447,7 @@ export namespace StringTools {
      * Convert a string to snake case (e.g. `this_is_snake_case`)
      * @param {string | string[]} input - String or array of strings to convert
      * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
-     * @returns {string}
+     * @returns {string} - Snake case string
      */
     const toSnakeCase = (input: string | string[], toUpper: boolean = false): string => {
       const args = {
@@ -468,7 +468,7 @@ export namespace StringTools {
      *
      * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Lower snake case string
      */
     const toLowerSnakeCase = (input: string | string[]): string => toSnakeCase(safeInput(input), false);
 
@@ -483,7 +483,7 @@ export namespace StringTools {
      *
      * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Upper snake case string
      */
     const toUpperSnakeCase = (input: string | string[]): string => toSnakeCase(safeInput(input), true);
 
@@ -499,7 +499,7 @@ export namespace StringTools {
      * Convert a string to spaced case (e.g. `this is spaced case`)
      * @param {string | string[]} input - String or array of strings to convert
      * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
-     * @returns {string}
+     * @returns {string} - Spaced case string
      */
     const toSpaced = (input: string | string[], toUpper: boolean = false): string => {
       const args = {
@@ -520,7 +520,7 @@ export namespace StringTools {
      *
      * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Lower spaced case string
      */
     const toLowerSpaced = (input: string | string[]): string => toSpaced(safeInput(input), false);
 
@@ -535,7 +535,7 @@ export namespace StringTools {
      *
      * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Upper spaced case string
      */
     const toUpperSpaced = (input: string | string[]): string => toSpaced(safeInput(input), true);
 
@@ -550,7 +550,7 @@ export namespace StringTools {
      *
      * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
      * @param {string | string[]} input - String or array of strings to convert
-     * @returns {string}
+     * @returns {string} - Capitalised spaced case string
      */
     const toCapitalisedSpaced = (input: string | string[]): string => capitalise(toSpaced(safeInput(input), false));
 
@@ -824,7 +824,7 @@ export namespace StringTools {
      * ```
      * @param {string} input - String to match brackets in
      * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
-     * @returns {string}
+     * @returns {string} - String with the brackets replaced with special symbols
      */
     export const unique = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => {
       const args = {
@@ -848,7 +848,7 @@ export namespace StringTools {
      * ```
      * @param {string} input - String to match brackets in
      * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
-     * @returns {string}
+     * @returns {string} - String with the brackets replaced with special symbols
      */
     export const depth = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => {
       const args = {
@@ -875,7 +875,7 @@ export namespace StringTools {
      * ```
      * @param {string} input - String to clean
      * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
-     * @returns {string}
+     * @returns {string} - String cleaned of the special symbols
      */
     export const clean = (input: string, replaceSymbols: Partial<BracketReplaceSymbols> = {}): string => {
       const args = {
@@ -949,7 +949,7 @@ export namespace StringTools {
      * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round'] - Bracket type to match
      * @param {number} [depthID=0] - Depth ID to match
      * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
-     * @returns {string[]}
+     * @returns {string[]} - Array of bracketed substrings
      */
     export const grabDepth = (
       input: string,
@@ -993,7 +993,7 @@ export namespace StringTools {
      * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round'] - Bracket type to match
      * @param {number} [uniqueID=0] - Unique ID to match
      * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
-     * @returns {string}
+     * @returns {string} - Bracketed substring
      */
     export const grabUnique = (
       input: string,
@@ -1034,7 +1034,7 @@ export namespace StringTools {
      * @param {string} input - String to match brackets in
      * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round'] - Bracket type to match
      * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
-     * @returns {string[]}
+     * @returns {string[]} - Array of bracketed substrings
      */
     export const grab = (
       input: string,
@@ -1099,7 +1099,7 @@ export namespace StringTools {
      * // }
      * ```
      * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Partial set of replace symbols to use
-     * @returns {BracketReplaceSymbols}
+     * @returns {BracketReplaceSymbols} - Full set of replace symbols
      */
     export const getReplaceSymbols = (replaceSymbols: Partial<BracketReplaceSymbols> = {}): BracketReplaceSymbols => {
       return safeSymbols({

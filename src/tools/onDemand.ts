@@ -58,7 +58,7 @@ import { safe } from './safe';
  *   //}
  * ```
  * @param {OnDemandInputObject<T>} input - Input object
- * @returns {T}
+ * @returns {T} - Object where each value is only evaluated when accessed
  */
 export const onDemand = <T extends Record<string, any>>(input: OnDemandInputObject<T>): T => {
   const args = {

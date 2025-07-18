@@ -26,7 +26,7 @@ export namespace ArrayTools {
    * ```
    * @param {number} [length=1] - Length of the array to create
    * @param {T} [value=1 as unknown as T] - Value to fill the array with
-   * @returns {T[]}
+   * @returns {T[]} - Array of the given length, full of the given value
    */
   export const create = <T = number>(length: number = 1, value: T = 1 as unknown as T): T[] => {
     const args = {
@@ -52,7 +52,7 @@ export namespace ArrayTools {
    * ```
    * @param {number} [length=1] - Length of the array to create
    * @param {T} value - Value to fill the array with
-   * @returns {T[]}
+   * @returns {T[]} - Array of the given length, full of the given value
    */
   export const filled = <T>(length: number = 1, value: T): T[] => {
     const args = {
@@ -84,7 +84,7 @@ export namespace ArrayTools {
    * @param {number} [length=1] - Length of the array to create
    * @param {number} [multiplier=1] - Multiplier to apply to each value
    * @param {number} [offset=0] - Offset to apply to each value (after the multiplier)
-   * @returns {number[]}
+   * @returns {number[]} - Array of the given length, where each value is equal to it's index
    */
   export const range = (length: number = 1, multiplier: number = 1, offset: number = 0): number[] => {
     const args = {
@@ -117,7 +117,7 @@ export namespace ArrayTools {
    * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
    * ```
    * @param {...T} [arrs] - Arrays to zip together
-   * @returns {ZippedArrays<T>[]}
+   * @returns {ZippedArrays<T>[]} - Array of 'tuples' for each value at the corresponding indexes
    */
   export const zip = <T extends [...any[]]>(...arrs: T): ZippedArrays<T>[] => {
     const input = safe.arrOf.arr(arrs) as T;
@@ -140,7 +140,7 @@ export namespace ArrayTools {
    * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
    * ```
    * @param {...T} [arrs] - Arrays to zip together
-   * @returns {ZippedArrays<T>[]}
+   * @returns {ZippedArrays<T>[]} - Array of 'tuples' for each value at the corresponding indexes
    */
   export const zipMax = <T extends [...any[]]>(...arrs: T): ZippedArrays<T>[] => {
     const input = safe.arr(arrs).map((arr) => safe.arr(arr)) as T;
@@ -166,7 +166,7 @@ export namespace ArrayTools {
    * @param {T[]} arr - Array to sort
    * @param {(value: T, index: number, array: T[]) => M} mapFn - Function to map the values to
    * @param {(a: M, b: M) => number} [sortFn=fn.asc] - Function to sort the mapped values by
-   * @returns {T[]}
+   * @returns {T[]} - Sorted array (non-mutated)
    */
   export const sortByMapped = <T = string, M = number>(
     arr: T[],
@@ -199,7 +199,7 @@ export namespace ArrayTools {
    * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
    * ```
    * @param {T[]} arr - Array to randomise
-   * @returns {T[]}
+   * @returns {T[]} - Randomised array (non-mutated)
    */
   export const randomise = <T = string>(arr: T[]): T[] => {
     const input = safe.arr(arr);
@@ -226,7 +226,7 @@ export namespace ArrayTools {
    * arr2            // [1, 2, 3] - not mutated
    * ```
    * @param {T[]} arr - Array to reverse
-   * @returns {T[]}
+   * @returns {T[]} - Reversed array (non-mutated)
    */
   export const reverse = <T = string>(arr: T[]): T[] => {
     const input = safe.arr(arr);
@@ -251,7 +251,7 @@ export namespace ArrayTools {
    * }
    * ```
    * @param {T[]} arr - Array to get entries from
-   * @returns {[number, T][]}
+   * @returns {[number, T][]} - Array of 'tuples' of index/value pairs
    */
   export const entries = <T = string>(arr: T[]): [number, T][] => {
     const input = safe.arr(arr);
@@ -272,7 +272,7 @@ export namespace ArrayTools {
    * ```
    * @param {number} maxLength - Maximum length of the array
    * @param {...T} [items] - Items to repeat
-   * @returns {T[]}
+   * @returns {T[]} - Array with the given items repeated
    */
   export const repeat = <T = string>(maxLength: number, ...items: T[]): T[] => {
     const args = {
@@ -297,7 +297,7 @@ export namespace ArrayTools {
    * ```
    * @param {number} distance - Distance to roll the array by
    * @param {T[]} arr - Array to roll
-   * @returns {T[]}
+   * @returns {T[]} - Rolled array (non-mutated)
    */
   export const roll = <T>(distance: number, arr: T[]): T[] => {
     const args = {
@@ -322,7 +322,7 @@ export namespace ArrayTools {
    * ```
    * @param {string[]} texts - Texts to sort
    * @param {boolean} [ignoreCase=true] - Whether to ignore case when sorting
-   * @returns {string[]}
+   * @returns {string[]} - Sorted array (non-mutated)
    */
   export const sortNumberedText = (texts: string[], ignoreCase: boolean = true): string[] => {
     const args = {
@@ -355,7 +355,7 @@ export namespace ArrayTools {
    * ```
    * @param {T[]} array - Array to partition
    * @param {number} [partitionSize=Math.ceil(array.length / 2)] - Size of each partition
-   * @returns {T[][]}
+   * @returns {T[][]} - Array of arrays, each containing a partition of the original array
    */
   export const partition = <T>(array: T[], partitionSize: number = Math.ceil(array.length / 2)): T[][] => {
     const args = {
@@ -387,7 +387,7 @@ export namespace ArrayTools {
    * ```
    * @param {T[]} array - Array to partition
    * @param {number} [maxPartitionSize=Math.ceil(array.length / 2)] - Maximum size of each partition
-   * @returns {T[][]}
+   * @returns {T[][]} - Array of arrays, each containing a partition of the original array
    */
   export const partitionEvenly = <T>(array: T[], maxPartitionSize: number = Math.ceil(array.length / 2)): T[][] => {
     const args = {
@@ -428,7 +428,7 @@ export namespace ArrayTools {
    * ```
    * @param {T[]} array - Array to group
    * @param {(item: T, index: number, arr: T[]) => string | number} mapFn - Map function to get the group key for each item
-   * @returns {{ [id: string]: T[]; [id: number]: T[]; }}
+   * @returns {{ [id: string]: T[]; [id: number]: T[]; }} - Object with the group keys as keys, and the items as values
    */
   export const groupObj = <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): { [id: string | number]: T[] } => {
     const args = {
@@ -471,7 +471,7 @@ export namespace ArrayTools {
    * ```
    * @param {T[]} array - Array to group
    * @param {(item: T, index: number, arr: T[]) => string | number} mapFn - Map function to get the group key for each item
-   * @returns {T[][]}
+   * @returns {T[][]} - Array of arrays, each containing a group of the original array
    */
   export const group = <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): T[][] => {
     const args = {
@@ -595,7 +595,7 @@ export namespace ArrayTools {
      * ArrayTools.utils.isNumString('123a'); // false
      * ```
      * @param {string} text - Text to check if it is a number
-     * @returns {boolean}
+     * @returns {boolean} - True if the given string is a number
      */
     export const isNumString = (text: string) => {
       const input = safe.str(text);
@@ -614,7 +614,7 @@ export namespace ArrayTools {
      * ArrayTools.utils.partitionNums(false)('123a'); // [ '123', 'a' ]
      * ```
      * @param {boolean} ignoreCase - Whether to ignore case
-     * @returns {(name: string) => (string | number)[]}
+     * @returns {(name: string) => (string | number)[]} - Function to split a string into array of strings & numbers
      */
     export const partitionNums = (ignoreCase: boolean) => {
       const ignoreCaseSafe = safe.bool(ignoreCase);

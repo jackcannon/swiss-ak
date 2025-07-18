@@ -23,7 +23,7 @@ export namespace ObjectTools {
    * ```
    * @param {T} obj - Object to remodel
    * @param {(entries: [string, V][]) => [string, W][]} func - Function to apply to the entries array
-   * @returns {O}
+   * @returns {O} - Remodeled object
    */
   export const remodel = <T extends object, V = any, W = any, O = OfType<T, W>>(obj: T, func: (entries: [string, V][]) => [string, W][]): O => {
     const args = {
@@ -48,7 +48,7 @@ export namespace ObjectTools {
    * ```
    * @param {T} obj - Object to remodel
    * @param {(entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]} func - Function to apply to each of the entries
-   * @returns {O}
+   * @returns {O} - Remodeled object
    */
   export const remodelEach = <T extends object, Vi = any, Vo = any, O = OfType<T, Vo>>(
     obj: T,
@@ -73,7 +73,7 @@ export namespace ObjectTools {
    * ```
    * @param {T} obj - Object to map
    * @param {(key: string, value: Vi, index: number) => [string, Vo]} func - Function to apply to each of the entries
-   * @returns {any}
+   * @returns {any} - Mapped object
    */
   export const map = <T extends object, Vi, Vo>(obj: T, func: (key: string, value: Vi, index: number) => [string, Vo]): OfType<T, Vo> => {
     const args = {
@@ -95,7 +95,7 @@ export namespace ObjectTools {
    * ```
    * @param {T} obj - Object to map
    * @param {(key: string, value: Vi, index: number) => Vo} func - Function to apply to each of the entries
-   * @returns {any}
+   * @returns {any} - Mapped object
    */
   export const mapValues = <T extends object, Vi, Vo>(obj: T, func: (key: string, value: Vi, index: number) => Vo): OfType<T, Vo> => {
     const args = {
@@ -117,7 +117,7 @@ export namespace ObjectTools {
    * ```
    * @param {T} obj - Object to map
    * @param {(key: string, value: V, index: number) => string} func - Function to apply to each of the entries
-   * @returns {T}
+   * @returns {T} - Mapped object
    */
   export const mapKeys = <T extends object, V>(obj: T, func: (key: string, value: V, index: number) => string): T => {
     const args = {
@@ -139,7 +139,7 @@ export namespace ObjectTools {
    * ```
    * @param {T} obj - Object to filter
    * @param {(key: string, value: V, index: number) => boolean} func - Function to apply to each of the entries
-   * @returns {O}
+   * @returns {O} - Filtered object
    */
   export const filter = <T extends object, V, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean): O => {
     const args = {
@@ -160,7 +160,7 @@ export namespace ObjectTools {
    * ObjectTools.clean({a: 1, b: undefined, c: 3}) // { a: 1, c: 3 }
    * ```
    * @param {T} obj - Object to clean
-   * @returns {O}
+   * @returns {O} - Cleaned object
    */
   export const clean = <T extends object, O extends Partial<T>>(obj: T): O => {
     const args = {
@@ -180,7 +180,7 @@ export namespace ObjectTools {
    * ObjectTools.invert({ a: 'foo', b: 'bar' }); // { foo: 'a', bar: 'b'}
    * ```
    * @param {T} obj - Object to invert
-   * @returns {O}
+   * @returns {O} - Inverted object
    */
   export const invert = <T extends object, O extends ObjOfType<string>>(obj: T): O => {
     const args = {

@@ -325,9 +325,9 @@ const items = stuff
 |:---:|:---------------|:---------|:-----|:---------------|
 | *0* | `item`         | *No*     | `T`  | Item to return |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |                                |
+|-------------|--------------------------------|
+| `T`         | The first argument it receives |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -348,9 +348,9 @@ const items = stuff
 |:---:|:---------------|:---------|:-----|:---------------------------------|
 | *0* | `item`         | *No*     | `T`  | Item to return from the function |
 
-| Return Type |
-|-------------|
-| `() => T`   |
+| Return Type |                                          |
+|-------------|------------------------------------------|
+| `() => T`   | Function that returns the first argument |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -372,9 +372,9 @@ await Promise.all(stuff.map(fn.resolve()));
 |:---:|:---------------|:---------|:-----|:----------------|
 | *0* | `item`         | *No*     | `T`  | Item to resolve |
 
-| Return Type        |
-|--------------------|
-| `() => Promise<T>` |
+| Return Type        |                                                                     |
+|--------------------|---------------------------------------------------------------------|
+| `() => Promise<T>` | Function that returns a Promise that resolves to the first argument |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -394,9 +394,9 @@ await Promise.all(stuff.map(fn.reject()));
 |:---:|:---------------|:---------|:-----|:---------------|
 | *0* | `item`         | *No*     | `T`  | Item to reject |
 
-| Return Type        |
-|--------------------|
-| `() => Promise<T>` |
+| Return Type        |                                                                      |
+|--------------------|----------------------------------------------------------------------|
+| `() => Promise<T>` | Function that returns a Promise that rejects with the first argument |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -428,9 +428,9 @@ Returns true if item isn't null or undefined.
 |:---:|:---------------|:---------|:-----|:---------------------------|
 | *0* | `item`         | **Yes**  | `T`  | Item to check if it exists |
 
-| Return Type |
-|-------------|
-| `boolean`   |
+| Return Type |                                      |
+|-------------|--------------------------------------|
+| `boolean`   | True if item isn't null or undefined |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -453,9 +453,9 @@ Returns true if item is truthy.
 |:---:|:---------------|:---------|:-----|:------------------------------|
 | *0* | `item`         | **Yes**  | `T`  | Item to check if it is truthy |
 
-| Return Type |
-|-------------|
-| `boolean`   |
+| Return Type |                        |
+|-------------|------------------------|
+| `boolean`   | True if item is truthy |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -478,9 +478,9 @@ Returns true if item is falsy.
 |:---:|:---------------|:---------|:-----|:-----------------------------|
 | *0* | `item`         | **Yes**  | `T`  | Item to check if it is falsy |
 
-| Return Type |
-|-------------|
-| `boolean`   |
+| Return Type |                       |
+|-------------|-----------------------|
+| `boolean`   | True if item is falsy |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -503,9 +503,9 @@ Returns true if item's length is 0
 |:---:|:---------------|:---------|:----------------|:-----------------------------|
 | *0* | `item`         | **Yes**  | `T[] \| string` | Item to check if it is empty |
 
-| Return Type |
-|-------------|
-| `boolean`   |
+| Return Type |                            |
+|-------------|----------------------------|
+| `boolean`   | True if item's length is 0 |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -528,9 +528,9 @@ Returns true if item's length is 1 or more
 |:---:|:---------------|:---------|:----------------|:---------------------------------|
 | *0* | `item`         | **Yes**  | `T[] \| string` | Item to check if it is not empty |
 
-| Return Type |
-|-------------|
-| `boolean`   |
+| Return Type |                                    |
+|-------------|------------------------------------|
+| `boolean`   | True if item's length is 1 or more |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -552,9 +552,9 @@ Returns a function that returns true if the item is equal to provided value.
 |:---:|:---------------|:---------|:-----|:---------------------------------------------------------|
 | *0* | `item`         | **Yes**  | `T`  | Item to check whether each item of the array is equal to |
 
-| Return Type             |
-|-------------------------|
-| `(other: T) => boolean` |
+| Return Type             |                                 |
+|-------------------------|---------------------------------|
+| `(other: T) => boolean` | Function to use in Array.filter |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -576,9 +576,9 @@ Returns a function that returns true if the item is not equal to provided value.
 |:---:|:---------------|:---------|:-----|:-------------------------------------------------------------|
 | *0* | `item`         | **Yes**  | `T`  | Item to check whether each item of the array is not equal to |
 
-| Return Type             |
-|-------------------------|
-| `(other: T) => boolean` |
+| Return Type             |                                 |
+|-------------------------|---------------------------------|
+| `(other: T) => boolean` | Function to use in Array.filter |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -602,9 +602,9 @@ Removes duplicate items from an array.
 | *1* | `index`        | **Yes**  | `number` | Index of the given item |
 | *2* | `array`        | **Yes**  | `T[]`    | Array of items          |
 
-| Return Type |
-|-------------|
-| `boolean`   |
+| Return Type |                                                       |
+|-------------|-------------------------------------------------------|
+| `boolean`   | True if the item is the first occurrence in the array |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -626,9 +626,9 @@ Removes duplicate items from an array based on a mapped value.
 |:---:|:---------------|:---------|:------------------------------------------------|:-------------------------------------------------------------------------------|
 | *0* | `mapFn`        | **Yes**  | `(value?: T, index?: number, array?: T[]) => U` | Function to map the item to a new value (will be used to check for duplicates) |
 
-| Return Type                                       |
-|---------------------------------------------------|
-| `(item: T, index: number, array: T[]) => boolean` |
+| Return Type                                       |                                 |
+|---------------------------------------------------|---------------------------------|
+| `(item: T, index: number, array: T[]) => boolean` | Function to use in Array.filter |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -660,9 +660,9 @@ Maps the item to a string.
 |:---:|:---------------|:---------|:-----|:-----------------|
 | *0* | `item`         | **Yes**  | `T`  | Item in an array |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                    |
+|-------------|--------------------|
+| `string`    | String of the item |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -684,9 +684,9 @@ Maps the item to a number.
 |:---:|:---------------|:---------|:-----|:-----------------|
 | *0* | `item`         | **Yes**  | `T`  | Item in an array |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                    |
+|-------------|--------------------|
+| `number`    | Number of the item |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -709,9 +709,9 @@ Maps the item to a boolean.
 |:---:|:---------------|:---------|:-----|:-----------------|
 | *0* | `item`         | **Yes**  | `T`  | Item in an array |
 
-| Return Type |
-|-------------|
-| `boolean`   |
+| Return Type |                     |
+|-------------|---------------------|
+| `boolean`   | Boolean of the item |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -733,9 +733,9 @@ Maps the item to a given property of the item
 |:---:|:---------------|:---------|:----------|:-------------------------------|
 | *0* | `propName`     | **Yes**  | `keyof O` | Property to get from each item |
 
-| Return Type               |
-|---------------------------|
-| `(item: O) => O[keyof O]` |
+| Return Type               |                              |
+|---------------------------|------------------------------|
+| `(item: O) => O[keyof O]` | Function to use in Array.map |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -757,9 +757,9 @@ Map the items (numbers) of an array to a fixed precision.
 |:---:|:---------------|:---------|:---------|:-------------------------------------|
 | *0* | `precision`    | **Yes**  | `number` | Number of decimal places to round to |
 
-| Return Type               |
-|---------------------------|
-| `(num: number) => number` |
+| Return Type               |                              |
+|---------------------------|------------------------------|
+| `(num: number) => number` | Function to use in Array.map |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -792,9 +792,9 @@ Sort ascending.
 | *0* | `a`            | **Yes**  | `T`  | Item to compare |
 | *1* | `b`            | **Yes**  | `T`  | Item to compare |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                         |
+|-------------|-------------------------|
+| `number`    | Number used for sorting |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -817,9 +817,9 @@ Sort descending.
 | *0* | `a`            | **Yes**  | `T`  | Item to compare |
 | *1* | `b`            | **Yes**  | `T`  | Item to compare |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                         |
+|-------------|-------------------------|
+| `number`    | Number used for sorting |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -843,9 +843,9 @@ people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4
 | *0* | `propName`     | **Yes**  | `keyof O`            |                | Property to sort by  |
 | *1* | `sortFn`       | *No*     | `SortFn<O[keyof O]>` | `fn.sorts.asc` | Sort function to use |
 
-| Return Type |
-|-------------|
-| `SortFn<O>` |
+| Return Type |                               |
+|-------------|-------------------------------|
+| `SortFn<O>` | Function to use in Array.sort |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -870,9 +870,9 @@ people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
 |:---:|:---------------|:---------|:---------------------------|:------------------------|
 | *0* | `target`       | **Yes**  | ``number \| `${number}` `` | Target value to sort by |
 
-| Return Type                                                        |
-|--------------------------------------------------------------------|
-| ``(a: number \| `${number}`, b: number \| `${number}`) => number`` |
+| Return Type                                                        |                               |
+|--------------------------------------------------------------------|-------------------------------|
+| ``(a: number \| `${number}`, b: number \| `${number}`) => number`` | Function to use in Array.sort |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -895,9 +895,9 @@ people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
 |:---:|:---------------|:---------|:---------------------------|:------------------------|
 | *0* | `target`       | **Yes**  | ``number \| `${number}` `` | Target value to sort by |
 
-| Return Type                                                        |
-|--------------------------------------------------------------------|
-| ``(a: number \| `${number}`, b: number \| `${number}`) => number`` |
+| Return Type                                                        |                               |
+|--------------------------------------------------------------------|-------------------------------|
+| ``(a: number \| `${number}`, b: number \| `${number}`) => number`` | Function to use in Array.sort |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -922,9 +922,9 @@ arr.sort(fn.array(fn.asc)); // [[1, 2], [3, 4], [5, 6]]
 |:---:|:---------------|:---------|:------------|:---------------|:---------------------|
 | *0* | `sortFn`       | *No*     | `SortFn<T>` | `fn.sorts.asc` | Sort function to use |
 
-| Return Type                  |
-|------------------------------|
-| `(a: T[], b: T[]) => number` |
+| Return Type                  |                               |
+|------------------------------|-------------------------------|
+| `(a: T[], b: T[]) => number` | Function to use in Array.sort |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -950,9 +950,9 @@ arr.sort(fn.arrayAsc); // [[1, 2], [3, 4], [5, 6]]
 | *0* | `a`            | **Yes**  | `T`  | Item to compare |
 | *1* | `b`            | **Yes**  | `T`  | Item to compare |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                         |
+|-------------|-------------------------|
+| `number`    | Number used for sorting |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -978,9 +978,9 @@ arr.sort(fn.arrayDesc); // [[5, 6], [3, 4], [1, 2]]
 | *0* | `a`            | **Yes**  | `T`  | Item to compare |
 | *1* | `b`            | **Yes**  | `T`  | Item to compare |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                         |
+|-------------|-------------------------|
+| `number`    | Number used for sorting |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -1014,9 +1014,9 @@ Adds or concats the items
 | *0* | `a`            | **Yes**  | `T`  | Item to combine |
 | *1* | `b`            | **Yes**  | `T`  | Item to combine |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |               |
+|-------------|---------------|
+| `T`         | Combined item |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -1042,9 +1042,9 @@ people.reduce(fn.combineProp('name'), ''); // 'abc'
 |:---:|:---------------|:---------|:----------|:--------------------|
 | *0* | `propName`     | **Yes**  | `keyof O` | Property to combine |
 
-| Return Type                           |
-|---------------------------------------|
-| `(a: O[keyof O], b: O) => O[keyof O]` |
+| Return Type                           |                                 |
+|---------------------------------------|---------------------------------|
+| `(a: O[keyof O], b: O) => O[keyof O]` | Function to use in Array.reduce |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -1069,9 +1069,9 @@ Returns the most common value in an array.
 | *2* | `index`        | **Yes**  | `number` | Index of the current value |
 | *3* | `arr`          | **Yes**  | `T[]`    | Array of values            |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |                          |
+|-------------|--------------------------|
+| `T`         | Most common value so far |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -1093,9 +1093,9 @@ Returns the most common value in an array, based on a given map function.
 |:---:|:---------------|:---------|:---------------------------------------------|:--------------------|
 | *0* | `mapFn`        | **Yes**  | `(value: T, index: number, array: T[]) => U` | Map function to use |
 
-| Return Type                                        |
-|----------------------------------------------------|
-| `(prev: T, curr: T, index: number, arr: T[]) => T` |
+| Return Type                                        |                                 |
+|----------------------------------------------------|---------------------------------|
+| `(prev: T, curr: T, index: number, arr: T[]) => T` | Function to use in Array.reduce |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -1130,9 +1130,9 @@ Returns if all the items are equal to one another.
 | *1* | `i`            | **Yes**  | `number` | Index of the value |
 | *2* | `arr`          | **Yes**  | `T[]`    | Array of values    |
 
-| Return Type |
-|-------------|
-| `boolean`   |
+| Return Type |                                                       |
+|-------------|-------------------------------------------------------|
+| `boolean`   | True if all the items are equal to one another so far |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -1158,9 +1158,9 @@ Returns true if the item is unique in the array.
 | *1* | `i`            | **Yes**  | `number` | Index of the value |
 | *2* | `arr`          | **Yes**  | `T[]`    | Array of values    |
 
-| Return Type |
-|-------------|
-| `boolean`   |
+| Return Type |                                                |
+|-------------|------------------------------------------------|
+| `boolean`   | True if the item is unique in the array so far |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -1199,9 +1199,9 @@ ArrayTools.group(nums, fn.bySize(3)); // [[1, 2, 3], [4, 5, 6], [7, 8]]
 |:---:|:---------------|:---------|:---------|:-------------------|
 | *0* | `size`         | **Yes**  | `number` | Size of the groups |
 
-| Return Type                                       |
-|---------------------------------------------------|
-| `(value: T, index: number, array: T[]) => number` |
+| Return Type                                       |                                     |
+|---------------------------------------------------|-------------------------------------|
+| `(value: T, index: number, array: T[]) => number` | Function to use in ArrayTools.group |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -1226,9 +1226,9 @@ ArrayTools.group(nums, fn.byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 1
 |:---:|:---------------|:---------|:---------|:---------------------------|
 | *0* | `numGroups`    | **Yes**  | `number` | Number of groups to create |
 
-| Return Type                                    |
-|------------------------------------------------|
-| `(value: T, index: number, array: T[]) => any` |
+| Return Type                                    |                                     |
+|------------------------------------------------|-------------------------------------|
+| `(value: T, index: number, array: T[]) => any` | Function to use in ArrayTools.group |
 
 <p style="text-align: right" align="right"><a href="#fn"> [↑ Back to <b>fn</b> ↑] </a></p>
 
@@ -1281,9 +1281,9 @@ ArrayTools.create(3, 1); // [ 1, 1, 1 ]
 | *0* | `length`       | *No*     | `number` | `1`                 | Length of the array to create |
 | *1* | `value`        | *No*     | `T`      | `1 as unknown as T` | Value to fill the array with  |
 
-| Return Type |
-|-------------|
-| `T[]`       |
+| Return Type |                                                    |
+|-------------|----------------------------------------------------|
+| `T[]`       | Array of the given length, full of the given value |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1307,9 +1307,9 @@ ArrayTools.filled(3, 1); // [ 1, 1, 1 ]
 | *0* | `length`       | *No*     | `number` | `1`     | Length of the array to create |
 | *1* | `value`        | **Yes**  | `T`      |         | Value to fill the array with  |
 
-| Return Type |
-|-------------|
-| `T[]`       |
+| Return Type |                                                    |
+|-------------|----------------------------------------------------|
+| `T[]`       | Array of the given length, full of the given value |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1339,9 +1339,9 @@ ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
 | *1* | `multiplier`   | *No*     | `number` | `1`     | Multiplier to apply to each value                    |
 | *2* | `offset`       | *No*     | `number` | `0`     | Offset to apply to each value (after the multiplier) |
 
-| Return Type |
-|-------------|
-| `number[]`  |
+| Return Type |                                                                    |
+|-------------|--------------------------------------------------------------------|
+| `number[]`  | Array of the given length, where each value is equal to it's index |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1366,9 +1366,9 @@ ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c']
 |:----:|:---------------|:---------|:------|:-----------------------|
 | *0…* | `arrs`         | *No*     | `T[]` | Arrays to zip together |
 
-| Return Type         |
-|---------------------|
-| `ZippedArrays<T>[]` |
+| Return Type         |                                                               |
+|---------------------|---------------------------------------------------------------|
+| `ZippedArrays<T>[]` | Array of 'tuples' for each value at the corresponding indexes |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1393,9 +1393,9 @@ ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 
 |:----:|:---------------|:---------|:------|:-----------------------|
 | *0…* | `arrs`         | *No*     | `T[]` | Arrays to zip together |
 
-| Return Type         |
-|---------------------|
-| `ZippedArrays<T>[]` |
+| Return Type         |                                                               |
+|---------------------|---------------------------------------------------------------|
+| `ZippedArrays<T>[]` | Array of 'tuples' for each value at the corresponding indexes |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1423,9 +1423,9 @@ ArrayTools.sortByMapped(
 | *1* | `mapFn`        | **Yes**  | `(value: T, index: number, array: T[]) => M` |          | Function to map the values to         |
 | *2* | `sortFn`       | *No*     | `(a: M, b: M) => number`                     | `fn.asc` | Function to sort the mapped values by |
 
-| Return Type |
-|-------------|
-| `T[]`       |
+| Return Type |                            |
+|-------------|----------------------------|
+| `T[]`       | Sorted array (non-mutated) |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1450,9 +1450,9 @@ ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
 |:---:|:---------------|:---------|:------|:-------------------|
 | *0* | `arr`          | **Yes**  | `T[]` | Array to randomise |
 
-| Return Type |
-|-------------|
-| `T[]`       |
+| Return Type |                                |
+|-------------|--------------------------------|
+| `T[]`       | Randomised array (non-mutated) |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1481,9 +1481,9 @@ arr2            // [1, 2, 3] - not mutated
 |:---:|:---------------|:---------|:------|:-----------------|
 | *0* | `arr`          | **Yes**  | `T[]` | Array to reverse |
 
-| Return Type |
-|-------------|
-| `T[]`       |
+| Return Type |                              |
+|-------------|------------------------------|
+| `T[]`       | Reversed array (non-mutated) |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1510,9 +1510,9 @@ for (let [index, value] of ArrayTools.entries(arr)) {
 |:---:|:---------------|:---------|:------|:--------------------------|
 | *0* | `arr`          | **Yes**  | `T[]` | Array to get entries from |
 
-| Return Type     |
-|-----------------|
-| `[number, T][]` |
+| Return Type     |                                        |
+|-----------------|----------------------------------------|
+| `[number, T][]` | Array of 'tuples' of index/value pairs |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1535,9 +1535,9 @@ ArrayTools.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
 | *0*  | `maxLength`    | **Yes**  | `number` | Maximum length of the array |
 | *1…* | `items`        | *No*     | `T[]`    | Items to repeat             |
 
-| Return Type |
-|-------------|
-| `T[]`       |
+| Return Type |                                     |
+|-------------|-------------------------------------|
+| `T[]`       | Array with the given items repeated |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1560,9 +1560,9 @@ ArrayTools.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
 | *0* | `distance`     | **Yes**  | `number` | Distance to roll the array by |
 | *1* | `arr`          | **Yes**  | `T[]`    | Array to roll                 |
 
-| Return Type |
-|-------------|
-| `T[]`       |
+| Return Type |                            |
+|-------------|----------------------------|
+| `T[]`       | Rolled array (non-mutated) |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1586,9 +1586,9 @@ ArrayTools.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'nam
 | *0* | `texts`        | **Yes**  | `string[]` |         | Texts to sort                       |
 | *1* | `ignoreCase`   | *No*     | `boolean`  | `true`  | Whether to ignore case when sorting |
 
-| Return Type |
-|-------------|
-| `string[]`  |
+| Return Type |                            |
+|-------------|----------------------------|
+| `string[]`  | Sorted array (non-mutated) |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1614,9 +1614,9 @@ ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ]
 | *0* | `array`         | **Yes**  | `T[]`    |                               | Array to partition     |
 | *1* | `partitionSize` | *No*     | `number` | `Math.ceil(array.length / 2)` | Size of each partition |
 
-| Return Type |
-|-------------|
-| `T[][]`     |
+| Return Type |                                                                    |
+|-------------|--------------------------------------------------------------------|
+| `T[][]`     | Array of arrays, each containing a partition of the original array |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1642,9 +1642,9 @@ ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 
 | *0* | `array`            | **Yes**  | `T[]`    |                               | Array to partition             |
 | *1* | `maxPartitionSize` | *No*     | `number` | `Math.ceil(array.length / 2)` | Maximum size of each partition |
 
-| Return Type |
-|-------------|
-| `T[][]`     |
+| Return Type |                                                                    |
+|-------------|--------------------------------------------------------------------|
+| `T[][]`     | Array of arrays, each containing a partition of the original array |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1674,9 +1674,9 @@ ArrayTools.groupObj(arr, item => item.group); // {
 | *0* | `array`        | **Yes**  | `T[]`                                                    | Array to group                                  |
 | *1* | `mapFn`        | **Yes**  | `(item: T, index: number, arr: T[]) => string \| number` | Map function to get the group key for each item |
 
-| Return Type                                 |
-|---------------------------------------------|
-| `{ [id: string]: T[]; [id: number]: T[]; }` |
+| Return Type                                 |                                                             |
+|---------------------------------------------|-------------------------------------------------------------|
+| `{ [id: string]: T[]; [id: number]: T[]; }` | Object with the group keys as keys, and the items as values |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1706,9 +1706,9 @@ ArrayTools.group(arr, item => item.group); // [
 | *0* | `array`        | **Yes**  | `T[]`                                                    | Array to group                                  |
 | *1* | `mapFn`        | **Yes**  | `(item: T, index: number, arr: T[]) => string \| number` | Map function to get the group key for each item |
 
-| Return Type |
-|-------------|
-| `T[][]`     |
+| Return Type |                                                                |
+|-------------|----------------------------------------------------------------|
+| `T[][]`     | Array of arrays, each containing a group of the original array |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1822,9 +1822,9 @@ ArrayTools.utils.isNumString('123a'); // false
 |:---:|:---------------|:---------|:---------|:--------------------------------|
 | *0* | `text`         | **Yes**  | `string` | Text to check if it is a number |
 
-| Return Type |
-|-------------|
-| `boolean`   |
+| Return Type |                                      |
+|-------------|--------------------------------------|
+| `boolean`   | True if the given string is a number |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1845,9 +1845,9 @@ ArrayTools.utils.partitionNums(false)('123a'); // [ '123', 'a' ]
 |:---:|:---------------|:---------|:----------|:-----------------------|
 | *0* | `ignoreCase`   | **Yes**  | `boolean` | Whether to ignore case |
 
-| Return Type                              |
-|------------------------------------------|
-| `(name: string) => (string \| number)[]` |
+| Return Type                              |                                                            |
+|------------------------------------------|------------------------------------------------------------|
+| `(name: string) => (string \| number)[]` | Function to split a string into array of strings & numbers |
 
 <p style="text-align: right" align="right"><a href="#arraytools"> [↑ Back to <b>ArrayTools</b> ↑] </a></p>
 
@@ -1884,9 +1884,9 @@ ObjectTools.remodel(input, (entries) => entries.filter(([k, v]) => v % 2 === 0))
 | *0* | `obj`          | **Yes**  | `T`                                         | Object to remodel                      |
 | *1* | `func`         | **Yes**  | `(entries: [string, V][]) => [string, W][]` | Function to apply to the entries array |
 
-| Return Type |
-|-------------|
-| `O`         |
+| Return Type |                  |
+|-------------|------------------|
+| `O`         | Remodeled object |
 
 <p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to <b>ObjectTools</b> ↑] </a></p>
 
@@ -1910,9 +1910,9 @@ ObjectTools.remodelEach(input, ([k, v]) => [k, v * 2]) // { foo: 4, bar: 2, baz:
 | *0* | `obj`          | **Yes**  | `T`                                                                             | Object to remodel                        |
 | *1* | `func`         | **Yes**  | `(entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]` | Function to apply to each of the entries |
 
-| Return Type |
-|-------------|
-| `O`         |
+| Return Type |                  |
+|-------------|------------------|
+| `O`         | Remodeled object |
 
 <p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to <b>ObjectTools</b> ↑] </a></p>
 
@@ -1933,9 +1933,9 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => [key, key + value]); // {a: 
 | *0* | `obj`          | **Yes**  | `T`                                                       | Object to map                            |
 | *1* | `func`         | **Yes**  | `(key: string, value: Vi, index: number) => [string, Vo]` | Function to apply to each of the entries |
 
-| Return Type |
-|-------------|
-| `any`       |
+| Return Type |               |
+|-------------|---------------|
+| `any`       | Mapped object |
 
 <p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to <b>ObjectTools</b> ↑] </a></p>
 
@@ -1956,9 +1956,9 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: '
 | *0* | `obj`          | **Yes**  | `T`                                             | Object to map                            |
 | *1* | `func`         | **Yes**  | `(key: string, value: Vi, index: number) => Vo` | Function to apply to each of the entries |
 
-| Return Type |
-|-------------|
-| `any`       |
+| Return Type |               |
+|-------------|---------------|
+| `any`       | Mapped object |
 
 <p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to <b>ObjectTools</b> ↑] </a></p>
 
@@ -1979,9 +1979,9 @@ ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: 1
 | *0* | `obj`          | **Yes**  | `T`                                                | Object to map                            |
 | *1* | `func`         | **Yes**  | `(key: string, value: V, index: number) => string` | Function to apply to each of the entries |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |               |
+|-------------|---------------|
+| `T`         | Mapped object |
 
 <p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to <b>ObjectTools</b> ↑] </a></p>
 
@@ -2002,9 +2002,9 @@ ObjectTools.filter({a: 1, b: 2, c: 3}, (k, v) => v % 2 === 0) // { b: 2 }
 | *0* | `obj`          | **Yes**  | `T`                                                 | Object to filter                         |
 | *1* | `func`         | **Yes**  | `(key: string, value: V, index: number) => boolean` | Function to apply to each of the entries |
 
-| Return Type |
-|-------------|
-| `O`         |
+| Return Type |                 |
+|-------------|-----------------|
+| `O`         | Filtered object |
 
 <p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to <b>ObjectTools</b> ↑] </a></p>
 
@@ -2024,9 +2024,9 @@ ObjectTools.clean({a: 1, b: undefined, c: 3}) // { a: 1, c: 3 }
 |:---:|:---------------|:---------|:-----|:----------------|
 | *0* | `obj`          | **Yes**  | `T`  | Object to clean |
 
-| Return Type |
-|-------------|
-| `O`         |
+| Return Type |                |
+|-------------|----------------|
+| `O`         | Cleaned object |
 
 <p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to <b>ObjectTools</b> ↑] </a></p>
 
@@ -2046,9 +2046,9 @@ ObjectTools.invert({ a: 'foo', b: 'bar' }); // { foo: 'a', bar: 'b'}
 |:---:|:---------------|:---------|:-----|:-----------------|
 | *0* | `obj`          | **Yes**  | `T`  | Object to invert |
 
-| Return Type |
-|-------------|
-| `O`         |
+| Return Type |                 |
+|-------------|-----------------|
+| `O`         | Inverted object |
 
 <p style="text-align: right" align="right"><a href="#objecttools"> [↑ Back to <b>ObjectTools</b> ↑] </a></p>
 
@@ -2112,9 +2112,9 @@ StringTools.capitalise('hello world'); // 'Hello World'
 | *0* | `input`                | *No*     | `string`  | `''`    | String to capitalise                                  |
 | *1* | `forceRestToLowerCase` | *No*     | `boolean` | `true`  | Whether to force the rest of the string to lower case |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                    |
+|-------------|--------------------|
+| `string`    | Capitalised string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2134,9 +2134,9 @@ StringTools.angloise('éèêë'); // 'eeee'
 |:---:|:---------------|:---------|:---------|:-------------------|
 | *0* | `input`        | **Yes**  | `string` | String to angloise |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                             |
+|-------------|-----------------------------|
+| `string`    | String with accents removed |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2156,9 +2156,9 @@ StringTools.clean('éèêë_--ab0'); // 'eeeeab0'
 |:---:|:---------------|:---------|:---------|:--------|:----------------|
 | *0* | `input`        | *No*     | `string` | `''`    | String to clean |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                |
+|-------------|----------------|
+| `string`    | Cleaned string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2182,9 +2182,9 @@ StringTools.repeat(-1, '-') // ''
 | *0* | `maxLength`    | **Yes**  | `number` | Maximum length of the string |
 | *1* | `repeated`     | **Yes**  | `string` | String to repeat             |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                 |
+|-------------|-----------------|
+| `string`    | Repeated string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2211,9 +2211,9 @@ longText.replace(new RegExp(makeRegExpSafe(textWithSpecChars)), 'foobar'); // 'A
 |:---:|:---------------|:---------|:---------|:----------------------------------------|
 | *0* | `text`         | **Yes**  | `string` | String to make safe for use in a RegExp |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                                 |
+|-------------|---------------------------------|
+| `string`    | String safe for use in a RegExp |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2242,9 +2242,9 @@ StringTools.replaceAll(input, 'o', '#') // 'the quick br#wn f#x jumps #ver the l
 | *1* | `searchValue`  | **Yes**  | `string \| RegExp`                                          | String or RegExp to search for                      |
 | *2* | `replacer`     | **Yes**  | `string \| ((substring: string, ...args: any[]) => string)` | String or function to replace the search value with |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                                       |
+|-------------|---------------------------------------|
+| `string`    | String with the search value replaced |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2279,9 +2279,9 @@ StringTools.randomId('foo-', '-bar'); // 'foo-wapluosnf6-bar'
 | *0* | `prefix`       | *No*     | `string` | `''`    | Prefix to add to the random ID |
 | *1* | `suffix`       | *No*     | `string` | `''`    | Suffix to add to the random ID |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |           |
+|-------------|-----------|
+| `string`    | Random ID |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2308,9 +2308,9 @@ clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
 |:----:|:---------------|:---------|:------------|:--------------------------------------|
 | *0…* | `args`         | *No*     | `ClxType[]` | Classes (or objects/arrays to compose |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                     |
+|-------------|---------------------|
+| `string`    | Composed class name |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2333,9 +2333,9 @@ Convert a string to camel case (e.g. `thisIsCamelCase`)
 | *0* | `input`           | **Yes**  | `string \| string[]` |         | String or array of strings to convert  |
 | *1* | `capitaliseFirst` | *No*     | `boolean`            | `false` | Whether to capitalise the first letter |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                   |
+|-------------|-------------------|
+| `string`    | Camel case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2355,9 +2355,9 @@ Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
 |:---:|:---------------|:---------|:---------------------|:--------------------------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` | String or array of strings to convert |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                         |
+|-------------|-------------------------|
+| `string`    | Lower camel case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2377,9 +2377,9 @@ Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
 |:---:|:---------------|:---------|:---------------------|:--------------------------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` | String or array of strings to convert |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                         |
+|-------------|-------------------------|
+| `string`    | Upper camel case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2401,9 +2401,9 @@ Convert a string to text where words are separated by a given character (e.g. `t
 | *1* | `char`         | *No*     | `string`             | `','`   | Character to separate the words by         |
 | *2* | `toUpper`      | *No*     | `boolean`            | `false` | Whether to convert the words to upper case |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                            |
+|-------------|----------------------------|
+| `string`    | Character separated string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2424,9 +2424,9 @@ Convert a string to camel case (e.g. `this-is-slug-case`)
 | *0* | `input`        | **Yes**  | `string \| string[]` |         | String or array of strings to convert      |
 | *1* | `toUpper`      | *No*     | `boolean`            | `false` | Whether to convert the words to upper case |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                  |
+|-------------|------------------|
+| `string`    | Slug case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2446,9 +2446,9 @@ Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
 |:---:|:---------------|:---------|:---------------------|:--------------------------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` | String or array of strings to convert |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                        |
+|-------------|------------------------|
+| `string`    | Lower slug case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2468,9 +2468,9 @@ Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
 |:---:|:---------------|:---------|:---------------------|:--------------------------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` | String or array of strings to convert |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                        |
+|-------------|------------------------|
+| `string`    | Upper slug case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2491,9 +2491,9 @@ Convert a string to snake case (e.g. `this_is_snake_case`)
 | *0* | `input`        | **Yes**  | `string \| string[]` |         | String or array of strings to convert      |
 | *1* | `toUpper`      | *No*     | `boolean`            | `false` | Whether to convert the words to upper case |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                   |
+|-------------|-------------------|
+| `string`    | Snake case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2513,9 +2513,9 @@ Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
 |:---:|:---------------|:---------|:---------------------|:--------------------------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` | String or array of strings to convert |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                         |
+|-------------|-------------------------|
+| `string`    | Lower snake case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2535,9 +2535,9 @@ Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
 |:---:|:---------------|:---------|:---------------------|:--------------------------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` | String or array of strings to convert |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                         |
+|-------------|-------------------------|
+| `string`    | Upper snake case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2558,9 +2558,9 @@ Convert a string to spaced case (e.g. `this is spaced case`)
 | *0* | `input`        | **Yes**  | `string \| string[]` |         | String or array of strings to convert      |
 | *1* | `toUpper`      | *No*     | `boolean`            | `false` | Whether to convert the words to upper case |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                    |
+|-------------|--------------------|
+| `string`    | Spaced case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2580,9 +2580,9 @@ Convert a string to lower spaced case (e.g. `this is lower spaced case`)
 |:---:|:---------------|:---------|:---------------------|:--------------------------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` | String or array of strings to convert |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                          |
+|-------------|--------------------------|
+| `string`    | Lower spaced case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2602,9 +2602,9 @@ Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
 |:---:|:---------------|:---------|:---------------------|:--------------------------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` | String or array of strings to convert |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                          |
+|-------------|--------------------------|
+| `string`    | Upper spaced case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2624,9 +2624,9 @@ Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Ca
 |:---:|:---------------|:---------|:---------------------|:--------------------------------------|
 | *0* | `input`        | **Yes**  | `string \| string[]` | String or array of strings to convert |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                                |
+|-------------|--------------------------------|
+| `string`    | Capitalised spaced case string |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2746,9 +2746,9 @@ uniqued; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tenn
 | *0* | `input`          | **Yes**  | `string`                         |         | String to match brackets in          |
 | *1* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>` | `{}`    | Symbols to replace the brackets with |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                                                        |
+|-------------|--------------------------------------------------------|
+| `string`    | String with the brackets replaced with special symbols |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2771,9 +2771,9 @@ depthed; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tenn
 | *0* | `input`          | **Yes**  | `string`                         |         | String to match brackets in          |
 | *1* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>` | `{}`    | Symbols to replace the brackets with |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                                                        |
+|-------------|--------------------------------------------------------|
+| `string`    | String with the brackets replaced with special symbols |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2799,9 +2799,9 @@ cleaned; // '{name: "Jane", info: { age: 31, interests: ["Tennis", "Board Games"
 | *0* | `input`          | **Yes**  | `string`                         |         | String to clean                      |
 | *1* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>` | `{}`    | Symbols to replace the brackets with |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                                       |
+|-------------|---------------------------------------|
+| `string`    | String cleaned of the special symbols |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2834,9 +2834,9 @@ grabbed; // [ '[1, 2, 3]', '[4, 5, 6]', '[7, 8, 9]' ]
 | *2* | `depthID`        | *No*     | `number`                                                                    | `0`       | Depth ID to match                    |
 | *3* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>`                                            | `{}`      | Symbols to replace the brackets with |
 
-| Return Type |
-|-------------|
-| `string[]`  |
+| Return Type |                               |
+|-------------|-------------------------------|
+| `string[]`  | Array of bracketed substrings |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2870,9 +2870,9 @@ grabbed; // '[4, 5, 6]'
 | *2* | `uniqueID`       | *No*     | `number`                                                                    | `0`       | Unique ID to match                   |
 | *3* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>`                                            | `{}`      | Symbols to replace the brackets with |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                     |
+|-------------|---------------------|
+| `string`    | Bracketed substring |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2903,9 +2903,9 @@ matchBrackets.grab(example, 'square');
 | *1* | `bracketType`    | *No*     | `'()' \| '[]' \| '{}' \| '<>' \| 'round' \| 'square' \| 'curly' \| 'angle'` | `'round'` | Bracket type to match                |
 | *2* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>`                                            | `{}`      | Symbols to replace the brackets with |
 
-| Return Type |
-|-------------|
-| `string[]`  |
+| Return Type |                               |
+|-------------|-------------------------------|
+| `string[]`  | Array of bracketed substrings |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -2953,9 +2953,9 @@ matchBrackets.getReplaceSymbols({
 |:---:|:-----------------|:---------|:---------------------------------|:--------|:--------------------------------------|
 | *0* | `replaceSymbols` | *No*     | `Partial<BracketReplaceSymbols>` | `{}`    | Partial set of replace symbols to use |
 
-| Return Type             |
-|-------------------------|
-| `BracketReplaceSymbols` |
+| Return Type             |                             |
+|-------------------------|-----------------------------|
+| `BracketReplaceSymbols` | Full set of replace symbols |
 
 <p style="text-align: right" align="right"><a href="#stringtools"> [↑ Back to <b>StringTools</b> ↑] </a></p>
 
@@ -3027,9 +3027,9 @@ MathsTools.fixFloat(0.1 + 0.2) // 0.3
 | *0* | `num`          | **Yes**  | `number` |         | Number to fix         |
 | *1* | `precision`    | *No*     | `number` | `6`     | Precision to round to |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                 |
+|-------------|-----------------|
+| `number`    | Unbroken number |
 
 <p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to <b>MathsTools</b> ↑] </a></p>
 
@@ -3049,9 +3049,9 @@ MathsTools.addAll(1, 2, 3, 4, 5); // 15
 |:----:|:---------------|:---------|:-----------|:---------------|
 | *0…* | `nums`         | *No*     | `number[]` | Numbers to add |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                    |
+|-------------|--------------------|
+| `number`    | Sum of all numbers |
 
 <p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to <b>MathsTools</b> ↑] </a></p>
 
@@ -3077,9 +3077,9 @@ MathsTools.round.floorTo(0.1, 0.25); // 0.2
 | *0* | `to`           | **Yes**  | `number` | Target to floor to |
 | *1* | `value`        | **Yes**  | `number` | Number to floor    |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                |
+|-------------|----------------|
+| `number`    | Floored number |
 
 <p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to <b>MathsTools</b> ↑] </a></p>
 
@@ -3104,9 +3104,9 @@ MathsTools.round.to(0.1, 0.25); // 0.3
 | *0* | `to`           | **Yes**  | `number` | Target to round to |
 | *1* | `value`        | **Yes**  | `number` | Number to round    |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                |
+|-------------|----------------|
+| `number`    | Rounded number |
 
 <p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to <b>MathsTools</b> ↑] </a></p>
 
@@ -3130,9 +3130,9 @@ MathsTools.round.ceilTo(0.1, 0.25); // 0.3
 | *0* | `to`           | **Yes**  | `number` | Target to ceil to |
 | *1* | `value`        | **Yes**  | `number` | Number to ceil    |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |               |
+|-------------|---------------|
+| `number`    | Ceiled number |
 
 <p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to <b>MathsTools</b> ↑] </a></p>
 
@@ -3154,9 +3154,9 @@ MathsTools.lerp(0.5, 0, 10); // 5
 | *1* | `fromVal`      | **Yes**  | `number` | Start value (what the progress is at `0`) |
 | *2* | `toVal`        | **Yes**  | `number` | End value (what the progress is at `1`)   |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                     |
+|-------------|---------------------|
+| `number`    | Interpolated number |
 
 <p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to <b>MathsTools</b> ↑] </a></p>
 
@@ -3178,9 +3178,9 @@ MathsTools.lerpArray(0.5, [0, 0, 0], [10, 100, 1000]) // [5, 50, 500]
 | *1* | `fromArr`      | **Yes**  | `number[]` | Start values (what the progress is at `0`) |
 | *2* | `toArr`        | **Yes**  | `number[]` | End values (what the progress is at `1`)   |
 
-| Return Type |
-|-------------|
-| `number[]`  |
+| Return Type |                    |
+|-------------|--------------------|
+| `number[]`  | Interpolated array |
 
 <p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to <b>MathsTools</b> ↑] </a></p>
 
@@ -3202,9 +3202,9 @@ MathsTools.lerpObj(0.5, {'ARS': 0, 'CHE': 0, 'FUL': 0}, {'ARS': 100, 'CHE': 10, 
 | *1* | `fromObj`      | **Yes**  | `T`      | Start values (what the progress is at `0`) |
 | *2* | `toObj`        | **Yes**  | `T`      | End values (what the progress is at `1`)   |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |                     |
+|-------------|---------------------|
+| `T`         | Interpolated object |
 
 <p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to <b>MathsTools</b> ↑] </a></p>
 
@@ -3227,9 +3227,9 @@ MathsTools.clamp(-5, 0, 10); // 0
 | *1* | `min`          | **Yes**  | `number` | Minimum value  |
 | *2* | `max`          | **Yes**  | `number` | Maximum value  |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                |
+|-------------|----------------|
+| `number`    | Clamped number |
 
 <p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to <b>MathsTools</b> ↑] </a></p>
 
@@ -3265,9 +3265,9 @@ MathsTools.getOrdinal(24); // 'th'
 |:---:|:---------------|:---------|:---------|:--------|:------------------------------|
 | *0* | `num`          | *No*     | `number` | `0`     | Number to get the ordinal for |
 
-| Return Type                    |
-|--------------------------------|
-| `"th" \| "st" \| "nd" \| "rd"` |
+| Return Type                    |                |
+|--------------------------------|----------------|
+| `"th" \| "st" \| "nd" \| "rd"` | Ordinal suffix |
 
 <p style="text-align: right" align="right"><a href="#mathstools"> [↑ Back to <b>MathsTools</b> ↑] </a></p>
 
@@ -3317,9 +3317,9 @@ const run = () => {
 const luckyNumber: number = await run();
 ```
 
-| Return Type          |
-|----------------------|
-| `DeferredPromise<T>` |
+| Return Type          |                  |
+|----------------------|------------------|
+| `DeferredPromise<T>` | Deferred promise |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
@@ -3336,9 +3336,9 @@ Similar to Promise.all, but accepts values, functions, and promises.
 |:---:|:---------------|:---------|:--------------------------------|:------------------|
 | *0* | `items`        | **Yes**  | `PromiseTools.PromiseItem<T>[]` | Items to wait for |
 
-| Return Type    |
-|----------------|
-| `Promise<T[]>` |
+| Return Type    |                                                  |
+|----------------|--------------------------------------------------|
+| `Promise<T[]>` | Promise that resolves to an array of the results |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
@@ -3390,9 +3390,9 @@ timer.log();
 | *1* | `items`        | **Yes**  | `PromiseTools.PromiseItem<T>[]` |         | Items to wait for                           |
 | *2* | `noThrow`      | *No*     | `boolean`                       | `false` | Whether to prevent throwing errors          |
 
-| Return Type    |
-|----------------|
-| `Promise<T[]>` |
+| Return Type    |                                                  |
+|----------------|--------------------------------------------------|
+| `Promise<T[]>` | Promise that resolves to an array of the results |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
@@ -3422,9 +3422,9 @@ console.log(''); // after 2 seconds
 | *0* | `items`        | **Yes**  | `T[]`                                                  | Items to iterate over          |
 | *1* | `func`         | **Yes**  | `(item: T, index: number, array: T[]) => Promise<any>` | Function to apply to each item |
 
-| Return Type     |
-|-----------------|
-| `Promise<void>` |
+| Return Type     |                                                          |
+|-----------------|----------------------------------------------------------|
+| `Promise<void>` | Promise that resolves when all items have been processed |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
@@ -3457,9 +3457,9 @@ console.log(''); // after 4 seconds
 | *1* | `items`        | **Yes**  | `T[]`                                                  | Items to iterate over                       |
 | *2* | `func`         | **Yes**  | `(item: T, index: number, array: T[]) => Promise<any>` | Function to apply to each item              |
 
-| Return Type     |
-|-----------------|
-| `Promise<void>` |
+| Return Type     |                                                          |
+|-----------------|----------------------------------------------------------|
+| `Promise<void>` | Promise that resolves when all items have been processed |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
@@ -3490,9 +3490,9 @@ console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
 | *0* | `items`        | **Yes**  | `T[]`                                                | Items to iterate over              |
 | *1* | `func`         | **Yes**  | `(item: T, index: number, array: T[]) => Promise<U>` | Map function to apply to each item |
 
-| Return Type    |
-|----------------|
-| `Promise<U[]>` |
+| Return Type    |                                                        |
+|----------------|--------------------------------------------------------|
+| `Promise<U[]>` | Promise that resolves to a mapped array of the results |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
@@ -3526,9 +3526,9 @@ console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
 | *1* | `items`        | **Yes**  | `T[]`                                                | Items to iterate over                       |
 | *2* | `func`         | **Yes**  | `(item: T, index: number, array: T[]) => Promise<U>` | Map function to apply to each item          |
 
-| Return Type    |
-|----------------|
-| `Promise<U[]>` |
+| Return Type    |                                                        |
+|----------------|--------------------------------------------------------|
+| `Promise<U[]>` | Promise that resolves to a mapped array of the results |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
@@ -3574,9 +3574,9 @@ timer.log();
 |:---:|:---------------|:---------|:-----|:-----------------------------------|
 | *0* | `input`        | **Yes**  | `T`  | Object with properties to wait for |
 
-| Return Type                 |
-|-----------------------------|
-| `Promise<AwaitedObject<T>>` |
+| Return Type                 |                                                     |
+|-----------------------------|-----------------------------------------------------|
+| `Promise<AwaitedObject<T>>` | Promise that resolves to an object with the results |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
@@ -3628,9 +3628,9 @@ timer.log();
 | *1* | `input`        | **Yes**  | `T`       |         | Object with properties to wait for          |
 | *2* | `noThrow`      | *No*     | `boolean` | `false` | Whether to prevent throwing errors          |
 
-| Return Type                 |
-|-----------------------------|
-| `Promise<AwaitedObject<T>>` |
+| Return Type                 |                                                     |
+|-----------------------------|-----------------------------------------------------|
+| `Promise<AwaitedObject<T>>` | Promise that resolves to an object with the results |
 
 <p style="text-align: right" align="right"><a href="#promisetools"> [↑ Back to <b>PromiseTools</b> ↑] </a></p>
 
@@ -4008,9 +4008,9 @@ ColourTools.parse('red') // [255, 0, 0]
 |:---:|:---------------|:---------|:---------|:----------------------|
 | *0* | `input`        | **Yes**  | `string` | Input string to parse |
 
-| Return Type    |
-|----------------|
-| `ColourValues` |
+| Return Type    |                                |
+|----------------|--------------------------------|
+| `ColourValues` | RGB array of the parsed colour |
 
 <p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to <b>ColourTools</b> ↑] </a></p>
 
@@ -4030,9 +4030,9 @@ ColourTools.toHex([255, 0, 0]) // '#FF0000'
 |:---:|:---------------|:---------|:---------------|:----------------------------------|
 | *0* | `colour`       | **Yes**  | `ColourValues` | Colour to convert to a hex string |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                          |
+|-------------|--------------------------|
+| `string`    | Hex string of the colour |
 
 <p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to <b>ColourTools</b> ↑] </a></p>
 
@@ -4061,9 +4061,9 @@ ColourTools.getLuminance([0, 0, 255]); // 29.07
 |:---:|:---------------|:---------|:---------------|:-------------------------------|
 | *0* | `rgb`          | **Yes**  | `ColourValues` | Colour to get the luminance of |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                               |
+|-------------|-------------------------------|
+| `number`    | Luminance value of the colour |
 
 <p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to <b>ColourTools</b> ↑] </a></p>
 
@@ -4085,9 +4085,9 @@ ColourTools.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
 |:---:|:---------------|:---------|:---------------|:---------------------------------|
 | *0* | `rgb`          | **Yes**  | `ColourValues` | Colour to convert to a YUV array |
 
-| Return Type    |
-|----------------|
-| `ColourValues` |
+| Return Type    |                         |
+|----------------|-------------------------|
+| `ColourValues` | YUV array of the colour |
 
 <p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to <b>ColourTools</b> ↑] </a></p>
 
@@ -4111,9 +4111,9 @@ ColourTools.toHSL([0, 255, 0]); // [120, 100, 50]
 | *0* | `colour`       | **Yes**  | `ColourValues` |         | Colour to convert to a HSL array |
 | *1* | `round`        | *No*     | `boolean`      | `true`  | Whether to round the result      |
 
-| Return Type |
-|-------------|
-| `HSLValues` |
+| Return Type |                         |
+|-------------|-------------------------|
+| `HSLValues` | HSL array of the colour |
 
 <p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to <b>ColourTools</b> ↑] </a></p>
 
@@ -4137,9 +4137,9 @@ ColourTools.fromHSL([120, 100, 50]); // [0, 255, 0]
 | *0* | `hsl`          | **Yes**  | `HSLValues` |         | HSL array to convert to a RGB array |
 | *1* | `round`        | *No*     | `boolean`   | `true`  | Whether to round the result         |
 
-| Return Type    |
-|----------------|
-| `ColourValues` |
+| Return Type    |                         |
+|----------------|-------------------------|
+| `ColourValues` | RGB array of the colour |
 
 <p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to <b>ColourTools</b> ↑] </a></p>
 
@@ -4161,9 +4161,9 @@ ColourTools.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
 |:---:|:---------------|:---------|:---------------|:-----------------|
 | *0* | `rgb`          | **Yes**  | `ColourValues` | Colour to invert |
 
-| Return Type    |
-|----------------|
-| `ColourValues` |
+| Return Type    |                                  |
+|----------------|----------------------------------|
+| `ColourValues` | RGB array of the inverted colour |
 
 <p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to <b>ColourTools</b> ↑] </a></p>
 
@@ -4186,9 +4186,9 @@ ColourTools.getContrastedColour([255, 255, 0]); // [0, 0, 0]
 |:---:|:---------------|:---------|:---------------|:---------------------------------------|
 | *0* | `colour`       | **Yes**  | `ColourValues` | Colour to get the contrasted colour of |
 
-| Return Type    |
-|----------------|
-| `ColourValues` |
+| Return Type    |                                    |
+|----------------|------------------------------------|
+| `ColourValues` | RGB array of the contrasted colour |
 
 <p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to <b>ColourTools</b> ↑] </a></p>
 
@@ -4214,9 +4214,9 @@ ColourTools.getLimitedColour([128, 128, 128], ([h,s,l]) => l > 90, ([h,s,l]) => 
 | *1* | `checkFn`      | **Yes**  | `(hsl: HSLValues) => boolean`   | Function to check if the colour should be limited     |
 | *2* | `adjustFn`     | **Yes**  | `(hsl: HSLValues) => HSLValues` | Function to adjust the colour if it should be limited |
 
-| Return Type    |
-|----------------|
-| `ColourValues` |
+| Return Type    |                                 |
+|----------------|---------------------------------|
+| `ColourValues` | RGB array of the limited colour |
 
 <p style="text-align: right" align="right"><a href="#colourtools"> [↑ Back to <b>ColourTools</b> ↑] </a></p>
 
@@ -4299,9 +4299,9 @@ const result = ErrorTools.tryOr('default', () => getSomething());
 | *1*  | `func`         | **Yes**  | `(...args: A[]) => Promise<T>` | Function to try                               |
 | *2…* | `args`         | *No*     | `A[]`                          | Arguments to pass to the function             |
 
-| Return Type  |
-|--------------|
-| `Promise<T>` |
+| Return Type  |                                                                                       |
+|--------------|---------------------------------------------------------------------------------------|
+| `Promise<T>` | Promise that resolves to the result of the function, or the default value if it fails |
 
 <p style="text-align: right" align="right"><a href="#errortools"> [↑ Back to <b>ErrorTools</b> ↑] </a></p>
 
@@ -4325,9 +4325,9 @@ const result = ErrorTools.retry(5, seconds(1), true, () => getSomething());
 | *2* | `suppress`     | *No*     | `boolean`              | `true`                      | Whether to suppress the error   |
 | *3* | `run`          | *No*     | `(attemptNumber) => T` | `fn.result(undefined as T)` | Function to run on each attempt |
 
-| Return Type  |
-|--------------|
-| `Promise<T>` |
+| Return Type  |                                                                                               |
+|--------------|-----------------------------------------------------------------------------------------------|
+| `Promise<T>` | Promise that resolves to the result of the function, or undefined if it fails after all tries |
 
 <p style="text-align: right" align="right"><a href="#errortools"> [↑ Back to <b>ErrorTools</b> ↑] </a></p>
 
@@ -4353,9 +4353,9 @@ const result = ErrorTools.retryOr('default', 5, seconds(1), () => getSomething()
 | *2* | `delay`        | *No*     | `ms`                    | `0`                  | Delay between tries                           |
 | *3* | `run`          | *No*     | `() => T \| Promise<T>` | `fn.result(orValue)` | Function to run on each attempt               |
 
-| Return Type  |
-|--------------|
-| `Promise<T>` |
+| Return Type  |                                                                                                       |
+|--------------|-------------------------------------------------------------------------------------------------------|
+| `Promise<T>` | Promise that resolves to the result of the function, or the default value if it fails after all tries |
 
 <p style="text-align: right" align="right"><a href="#errortools"> [↑ Back to <b>ErrorTools</b> ↑] </a></p>
 
@@ -4388,9 +4388,9 @@ const example3 = await ErrorTools.tryCatch(() => {
 |:---:|:----------------|:---------|:----------------------------------------|:---------------------------|
 | *0* | `promiseOrFunc` | **Yes**  | `Promise<T> \| (() => T \| Promise<T>)` | Promise or function to try |
 
-| Return Type                     |
-|---------------------------------|
-| `Promise<TryCatchResult<T, E>>` |
+| Return Type                     |                              |
+|---------------------------------|------------------------------|
+| `Promise<TryCatchResult<T, E>>` | Promise with result or error |
 
 <p style="text-align: right" align="right"><a href="#errortools"> [↑ Back to <b>ErrorTools</b> ↑] </a></p>
 
@@ -4496,9 +4496,9 @@ cachier.get('foo'); // { "name": "foo" }
 | *0* | `id`           | **Yes**  | `string`  |         | ID of the item to get                                      |
 | *1* | `ignoreExpiry` | *No*     | `boolean` | `false` | If true, the item will be returned even if it has expired. |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |                                                                  |
+|-------------|------------------------------------------------------------------|
+| `T`         | The cached item, or undefined if it doesn't exist or has expired |
 
 <p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
 
@@ -4531,9 +4531,9 @@ cachier.get('bar'); // { "name": "bar" }
 | *2* | `expiresIn`    | *No*     | `ms`      | `getDefaultExpiresIn()` | Expiration time in milliseconds for the item (if saving orValue) |
 | *3* | `ignoreExpiry` | *No*     | `boolean` | `false`                 | If true, the item will be returned even if it has expired.       |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |                                                                    |
+|-------------|--------------------------------------------------------------------|
+| `T`         | The cached item, or the orValue if it doesn't exist or has expired |
 
 <p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
 
@@ -4568,9 +4568,9 @@ cachier.get('baz'); // { "name": "baz" }
 | *2* | `expiresIn`    | *No*     | `ms`                 | `getDefaultExpiresIn()` | Expiration time in milliseconds for the item (if running orFunc)          |
 | *3* | `ignoreExpiry` | *No*     | `boolean`            | `false`                 | If true, the item will be returned even if it has expired.                |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |                                                                                 |
+|-------------|---------------------------------------------------------------------------------|
+| `T`         | The cached item, or the result of the orFunc if it doesn't exist or has expired |
 
 <p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
 
@@ -4612,9 +4612,9 @@ cachier.get('qux'); // { name: 'qux' }
 | *2* | `expiresIn`    | *No*     | `ms`                               | `getDefaultExpiresIn()` | Expiration time in milliseconds for the item (if running orFunc)          |
 | *3* | `ignoreExpiry` | *No*     | `boolean`                          | `false`                 | If true, the item will be returned even if it has expired.                |
 
-| Return Type  |
-|--------------|
-| `Promise<T>` |
+| Return Type  |                                                                                                          |
+|--------------|----------------------------------------------------------------------------------------------------------|
+| `Promise<T>` | Promise that resolves to the cached item, or the result of the orFunc if it doesn't exist or has expired |
 
 <p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
 
@@ -4643,9 +4643,9 @@ cachier.get('quux'); // { "name": "quux" }
 | *1* | `item`         | **Yes**  | `T`      |                         | Item to save                                 |
 | *2* | `expiresIn`    | *No*     | `ms`     | `getDefaultExpiresIn()` | Expiration time in milliseconds for the item |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |                |
+|-------------|----------------|
+| `T`         | The saved item |
 
 <p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
 
@@ -4720,9 +4720,9 @@ cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz"
 |:---:|:---------------|:---------|:----------|:--------|:-----------------------------------------------------------|
 | *0* | `ignoreExpiry` | *No*     | `boolean` | `false` | If true, the item will be returned even if it has expired. |
 
-| Return Type         |
-|---------------------|
-| `Record<string, T>` |
+| Return Type         |                           |
+|---------------------|---------------------------|
+| `Record<string, T>` | Object of all saved items |
 
 <p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
 
@@ -4741,9 +4741,9 @@ cachier.setDefaultExpiresIn(1000);
 cachier.getDefaultExpiresIn(); // 1000
 ```
 
-| Return Type |
-|-------------|
-| `ms`        |
+| Return Type |                                         |
+|-------------|-----------------------------------------|
+| `ms`        | Default expiration time in milliseconds |
 
 <p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
 
@@ -4766,9 +4766,9 @@ cachier.getDefaultExpiresIn(); // 1000
 |:---:|:---------------|:---------|:-----|:-----------|:--------------------------------------------|
 | *0* | `newValue`     | *No*     | `ms` | `Infinity` | New default expiration time in milliseconds |
 
-| Return Type |
-|-------------|
-| `ms`        |
+| Return Type |                                             |
+|-------------|---------------------------------------------|
+| `ms`        | New default expiration time in milliseconds |
 
 <p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
 
@@ -4800,9 +4800,9 @@ tempCache.save('bar', 'bar', seconds(5)); // overrides default, expires in 5 sec
 |:---:|:-------------------|:---------|:-----|:-----------|:----------------------------------------------------------|
 | *0* | `defaultExpiresIn` | *No*     | `ms` | `Infinity` | Default expiration time in milliseconds for the new cache |
 
-| Return Type  |
-|--------------|
-| `Cachier<U>` |
+| Return Type  |                    |
+|--------------|--------------------|
+| `Cachier<U>` | New cachier object |
 
 <p style="text-align: right" align="right"><a href="#cachier"> [↑ Back to <b>Cachier</b> ↑] </a></p>
 
@@ -4880,9 +4880,9 @@ type Example = typeof demanded; // {
 |:---:|:---------------|:---------|:-------------------------|:-------------|
 | *0* | `input`        | **Yes**  | `OnDemandInputObject<T>` | Input object |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |                                                         |
+|-------------|---------------------------------------------------------|
+| `T`         | Object where each value is only evaluated when accessed |
 
 <p style="text-align: right" align="right"><a href="#"> [↑ Back to top ↑] </a></p>
 
@@ -5162,9 +5162,9 @@ queue.add('printer', async () => {
 | *0* | `id`           | **Yes**  | `string`                      | Queue ID                     |
 | *1* | `promiseItem`  | **Yes**  | `PromiseTools.PromiseItem<T>` | Function to add to the queue |
 
-| Return Type  |
-|--------------|
-| `Promise<T>` |
+| Return Type  |                                                                               |
+|--------------|-------------------------------------------------------------------------------|
+| `Promise<T>` | Promise that resolves to the result of the function once it has been executed |
 
 <p style="text-align: right" align="right"><a href="#queue"> [↑ Back to <b>queue</b> ↑] </a></p>
 
@@ -5186,9 +5186,9 @@ const newQueue = queue.new();
 |:---:|:-------------------|:---------|:-----|:--------|:--------------------------------------------|
 | *0* | `defaultPauseTime` | *No*     | `ms` | `0`     | Amount of time to pause between queue items |
 
-| Return Type    |
-|----------------|
-| `QueueManager` |
+| Return Type    |                           |
+|----------------|---------------------------|
+| `QueueManager` | New QueueManager instance |
 
 <p style="text-align: right" align="right"><a href="#queue"> [↑ Back to <b>queue</b> ↑] </a></p>
 
@@ -5592,9 +5592,9 @@ safe.num(undefined, true, 0, 100, 99); // 99
 | *3* | `max`          | *No*     | `number`  |         | Maximum value                                |
 | *4* | `fallback`     | *No*     | `number`  | `0`     | Fallback value                               |
 
-| Return Type |
-|-------------|
-| `number`    |
+| Return Type |                            |
+|-------------|----------------------------|
+| `number`    | Number that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -5632,9 +5632,9 @@ safe.str(undefined, true, 'bar'); // 'bar'
 | *1* | `allowBasicStringify` | *No*     | `boolean` | `false` | Whether to allow basic stringification |
 | *2* | `fallback`            | *No*     | `string`  | `''`    | Fallback value                         |
 
-| Return Type |
-|-------------|
-| `string`    |
+| Return Type |                            |
+|-------------|----------------------------|
+| `string`    | String that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -5678,9 +5678,9 @@ safe.bool(undefined, true); // true
 | *0* | `input`        | **Yes**  | `boolean` |         | Boolean to process |
 | *1* | `fallback`     | *No*     | `boolean` | `false` | Fallback value     |
 
-| Return Type |
-|-------------|
-| `boolean`   |
+| Return Type |                             |
+|-------------|-----------------------------|
+| `boolean`   | Boolean that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -5719,9 +5719,9 @@ safe.func(undefined, (q: number) => 456); // (q: number) => 456
 | *0* | `input`        | **Yes**  | `T`  |                              | Function to process |
 | *1* | `fallback`     | *No*     | `T`  | `(() => {}) as unknown as T` | Fallback value      |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |                              |
+|-------------|------------------------------|
+| `T`         | Function that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -5759,9 +5759,9 @@ safe.obj(undefined, true, {baz: 123}); // {baz: 123}
 | *1* | `allowArrays`  | *No*     | `boolean` | `false`   | Whether to allow arrays |
 | *2* | `fallback`     | *No*     | `T`       | `{} as T` | Fallback value          |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |                            |
+|-------------|----------------------------|
+| `T`         | Object that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -5818,9 +5818,9 @@ safe.objWith(undefined, config2); // { foo: 'a', bar: 78 }
 | *1* | `objConfig`        | **Yes**  | `ObjWithConfig<T>` |         | Object safety configuration  |
 | *2* | `allowComposition` | *No*     | `boolean`          | `true`  | Whether to allow composition |
 
-| Return Type |
-|-------------|
-| `T`         |
+| Return Type |                            |
+|-------------|----------------------------|
+| `T`         | Object that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -5859,9 +5859,9 @@ safe.arr(undefined, [4, 5, 6]); // [ 4, 5, 6 ]
 | *2* | `minLength`    | *No*     | `number` | `0`        | Minimum length   |
 | *3* | `maxLength`    | *No*     | `number` | `Infinity` | Maximum length   |
 
-| Return Type |
-|-------------|
-| `T[]`       |
+| Return Type |                           |
+|-------------|---------------------------|
+| `T[]`       | Array that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -5900,9 +5900,9 @@ safe.prop(undefined, 'bar'); // 'bar'
 | *0* | `input`        | **Yes**  | `string \| number \| symbol` |         | Value to process |
 | *1* | `fallback`     | *No*     | `string \| number \| symbol` | `''`    | Fallback value   |
 
-| Return Type        |
-|--------------------|
-| `string \| number` |
+| Return Type        |                                   |
+|--------------------|-----------------------------------|
+| `string \| number` | Property name that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -5952,9 +5952,9 @@ safe.arrOf.num(undefined, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
 | *6* | `arrMinLength` | *No*     | `number`   | `0`        | Minimum length of the array                 |
 | *7* | `arrMaxLength` | *No*     | `number`   | `Infinity` | Maximum length of the array                 |
 
-| Return Type |
-|-------------|
-| `number[]`  |
+| Return Type |                                      |
+|-------------|--------------------------------------|
+| `number[]`  | Array of numbers that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -5997,9 +5997,9 @@ safe.arrOf.str(undefined, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
 | *4* | `arrMinLength`   | *No*     | `number`   | `0`        | Minimum length of the array      |
 | *5* | `arrMaxLength`   | *No*     | `number`   | `Infinity` | Maximum length of the array      |
 
-| Return Type |
-|-------------|
-| `string[]`  |
+| Return Type |                                      |
+|-------------|--------------------------------------|
+| `string[]`  | Array of strings that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -6041,9 +6041,9 @@ safe.arrOf.bool(undefined, true, [true, true]); // [ true, true ]
 | *3* | `arrMinLength` | *No*     | `number`    | `0`        | Minimum length of the array  |
 | *4* | `arrMaxLength` | *No*     | `number`    | `Infinity` | Maximum length of the array  |
 
-| Return Type |
-|-------------|
-| `boolean[]` |
+| Return Type |                                       |
+|-------------|---------------------------------------|
+| `boolean[]` | Array of booleans that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -6085,9 +6085,9 @@ safe.arrOf.func(undefined, (q) => 2, [(r) => 3]); //  [(r) => 3]
 | *3* | `arrMinLength` | *No*     | `number` | `0`        | Minimum length of the array   |
 | *4* | `arrMaxLength` | *No*     | `number` | `Infinity` | Maximum length of the array   |
 
-| Return Type |
-|-------------|
-| `T[]`       |
+| Return Type |                                        |
+|-------------|----------------------------------------|
+| `T[]`       | Array of functions that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -6130,9 +6130,9 @@ safe.arrOf.obj(undefined, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
 | *4* | `arrMinLength` | *No*     | `number`  | `0`        | Minimum length of the array |
 | *5* | `arrMaxLength` | *No*     | `number`  | `Infinity` | Maximum length of the array |
 
-| Return Type |
-|-------------|
-| `T[]`       |
+| Return Type |                                      |
+|-------------|--------------------------------------|
+| `T[]`       | Array of objects that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -6186,9 +6186,9 @@ safe.arrOf.objWith(null, config2); // []
 | *4* | `arrMinLength`     | *No*     | `number`           | `0`        | Minimum length of the array  |
 | *5* | `arrMaxLength`     | *No*     | `number`           | `Infinity` | Maximum length of the array  |
 
-| Return Type |
-|-------------|
-| `T[]`       |
+| Return Type |                                      |
+|-------------|--------------------------------------|
+| `T[]`       | Array of objects that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -6230,9 +6230,9 @@ safe.arrOf.arr(undefined, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
 | *3* | `arrMinLength` | *No*     | `number` | `0`        | Minimum length of the array |
 | *4* | `arrMaxLength` | *No*     | `number` | `Infinity` | Maximum length of the array |
 
-| Return Type |
-|-------------|
-| `T[][]`     |
+| Return Type |                                     |
+|-------------|-------------------------------------|
+| `T[][]`     | Array of arrays that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 
@@ -6274,9 +6274,9 @@ safe.arrOf.prop(undefined, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
 | *3* | `arrMinLength` | *No*     | `number`                         | `0`        | Minimum length of the array |
 | *4* | `arrMaxLength` | *No*     | `number`                         | `Infinity` | Maximum length of the array |
 
-| Return Type            |
-|------------------------|
-| `(string \| number)[]` |
+| Return Type            |                                             |
+|------------------------|---------------------------------------------|
+| `(string \| number)[]` | Array of property names that is safe to use |
 
 <p style="text-align: right" align="right"><a href="#safe"> [↑ Back to <b>safe</b> ↑] </a></p>
 

@@ -43,7 +43,7 @@ export namespace safe {
    * @param {number} [min] - Minimum value
    * @param {number} [max] - Maximum value
    * @param {number} [fallback=0] - Fallback value
-   * @returns {number}
+   * @returns {number} - Number that is safe to use
    */
   export const num = (input: number, isInt: boolean = false, min?: number, max?: number, fallback: number = 0): number => {
     let result = input;
@@ -88,7 +88,7 @@ export namespace safe {
    * @param {string} input - String to process
    * @param {boolean} [allowBasicStringify=false] - Whether to allow basic stringification
    * @param {string} [fallback=''] - Fallback value
-   * @returns {string}
+   * @returns {string} - String that is safe to use
    */
   export const str = (input: string, allowBasicStringify: boolean = false, fallback: string = ''): string => {
     let result = input;
@@ -144,7 +144,7 @@ export namespace safe {
    * safe.bool(undefined, true); // true
    * @param {boolean} input - Boolean to process
    * @param {boolean} [fallback=false] - Fallback value
-   * @returns {boolean}
+   * @returns {boolean} - Boolean that is safe to use
    */
   export const bool = (input: boolean, fallback: boolean = false): boolean => {
     let result = input;
@@ -191,7 +191,7 @@ export namespace safe {
    * ```
    * @param {T} input - Function to process
    * @param {T} [fallback=(() => {}) as unknown as T] - Fallback value
-   * @returns {T}
+   * @returns {T} - Function that is safe to use
    */
   export const func = <T extends Function>(input: T, fallback: T = (() => {}) as unknown as T): T => {
     let result = input;
@@ -228,7 +228,7 @@ export namespace safe {
    * @param {T} input - Object to process
    * @param {boolean} [allowArrays=false] - Whether to allow arrays
    * @param {T} [fallback={} as T] - Fallback value
-   * @returns {T}
+   * @returns {T} - Object that is safe to use
    */
   export const obj = <T extends object>(input: T, allowArrays: boolean = false, fallback: T = {} as T): T => {
     let result = input;
@@ -285,7 +285,7 @@ export namespace safe {
    * @param {T} input - Object to process
    * @param {ObjWithConfig<T>} objConfig - Object safety configuration
    * @param {boolean} [allowComposition=true] - Whether to allow composition
-   * @returns {T}
+   * @returns {T} - Object that is safe to use
    */
   export const objWith = <T extends object>(input: T, objConfig: ObjWithConfig<T>, allowComposition: boolean = true): T => {
     const inputObj = safe.obj(input, true, {}) as T;
@@ -343,7 +343,7 @@ export namespace safe {
    * @param {T[]} [fallback=[]] - Fallback value
    * @param {number} [minLength=0] - Minimum length
    * @param {number} [maxLength=Infinity] - Maximum length
-   * @returns {T[]}
+   * @returns {T[]} - Array that is safe to use
    */
   export const arr = <T>(input: T[], fallback: T[] = [], minLength: number = 0, maxLength: number = Infinity): T[] => {
     let result = input;
@@ -391,7 +391,7 @@ export namespace safe {
    * ```
    * @param {string | number | symbol} input - Value to process
    * @param {string | number | symbol} [fallback=''] - Fallback value
-   * @returns {string | number}
+   * @returns {string | number} - Property name that is safe to use
    */
   export const prop = (input: string | number | symbol, fallback: string | number | symbol = ''): string | number => {
     if (typeof input === 'symbol') {
@@ -447,7 +447,7 @@ export namespace safe {
      * @param {number[]} [fallbackArr=[]] - Fallback array
      * @param {number} [arrMinLength=0] - Minimum length of the array
      * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-     * @returns {number[]}
+     * @returns {number[]} - Array of numbers that is safe to use
      */
     export const num = (
       input: number[],
@@ -497,7 +497,7 @@ export namespace safe {
      * @param {string[]} [fallbackArr=[]] - Fallback array
      * @param {number} [arrMinLength=0] - Minimum length of the array
      * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-     * @returns {string[]}
+     * @returns {string[]} - Array of strings that is safe to use
      */
     export const str = (
       input: string[],
@@ -544,7 +544,7 @@ export namespace safe {
      * @param {boolean[]} [fallbackArr=[]] - Fallback array
      * @param {number} [arrMinLength=0] - Minimum length of the array
      * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-     * @returns {boolean[]}
+     * @returns {boolean[]} - Array of booleans that is safe to use
      */
     export const bool = (
       input: boolean[],
@@ -590,7 +590,7 @@ export namespace safe {
      * @param {T[]} [fallbackArr=[]] - Fallback array
      * @param {number} [arrMinLength=0] - Minimum length of the array
      * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-     * @returns {T[]}
+     * @returns {T[]} - Array of functions that is safe to use
      */
     export const func = <T extends Function>(
       input: T[],
@@ -637,7 +637,7 @@ export namespace safe {
      * @param {T[]} [fallbackArr=[]] - Fallback array
      * @param {number} [arrMinLength=0] - Minimum length of the array
      * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-     * @returns {T[]}
+     * @returns {T[]} - Array of objects that is safe to use
      */
     export const obj = <T extends object>(
       input: T[],
@@ -696,7 +696,7 @@ export namespace safe {
      * @param {T[]} [fallbackArr=[]] - Fallback array
      * @param {number} [arrMinLength=0] - Minimum length of the array
      * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-     * @returns {T[]}
+     * @returns {T[]} - Array of objects that is safe to use
      */
     export const objWith = <T extends object>(
       input: T[],
@@ -743,7 +743,7 @@ export namespace safe {
      * @param {T[][]} [fallbackArr=[]] - Fallback array
      * @param {number} [arrMinLength=0] - Minimum length of the array
      * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-     * @returns {T[][]}
+     * @returns {T[][]} - Array of arrays that is safe to use
      */
     export const arr = <T>(
       input: T[][],
@@ -789,7 +789,7 @@ export namespace safe {
      * @param {(string | number | symbol)[]} [fallbackArr=[]] - Fallback array
      * @param {number} [arrMinLength=0] - Minimum length of the array
      * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
-     * @returns {(string | number)[]}
+     * @returns {(string | number)[]} - Array of property names that is safe to use
      */
     export const prop = (
       input: (string | number | symbol)[],

@@ -264,7 +264,7 @@ export interface Cachier<T> {
    * ```
    * @param {string} id - ID of the item to get
    * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
-   * @returns {T}
+   * @returns {T} - The cached item, or undefined if it doesn't exist or has expired
    */
   get(id: string, ignoreExpiry?: boolean): T;
 
@@ -292,7 +292,7 @@ export interface Cachier<T> {
    * @param {T} orValue - Value to save if the item doesn't exist
    * @param {ms} [expiresIn=getDefaultExpiresIn()] - Expiration time in milliseconds for the item (if saving orValue)
    * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
-   * @returns {T}
+   * @returns {T} - The cached item, or the orValue if it doesn't exist or has expired
    */
   getOrSave(id: string, orValue: T, expiresIn?: ms, ignoreExpiry?: boolean): T;
 
@@ -322,7 +322,7 @@ export interface Cachier<T> {
    * @param {(id?: string) => T} orFunc - Function to run if the item doesn't exist. What it returns will be saved.
    * @param {ms} [expiresIn=getDefaultExpiresIn()] - Expiration time in milliseconds for the item (if running orFunc)
    * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
-   * @returns {T}
+   * @returns {T} - The cached item, or the result of the orFunc if it doesn't exist or has expired
    */
   getOrRun(id: string, orFunc: (id?: string) => T, expiresIn?: ms, ignoreExpiry?: boolean): T;
 
@@ -359,7 +359,7 @@ export interface Cachier<T> {
    * @param {(id?: string) => T | Promise<T>} orFunc - Function to run if the item doesn't exist. What it returns will be saved.
    * @param {ms} [expiresIn=getDefaultExpiresIn()] - Expiration time in milliseconds for the item (if running orFunc)
    * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
-   * @returns {Promise<T>}
+   * @returns {Promise<T>} - Promise that resolves to the cached item, or the result of the orFunc if it doesn't exist or has expired
    */
   getOrRunAsync(id: string, orFunc: (id?: string) => T | Promise<T>, expiresIn?: ms, ignoreExpiry?: boolean): Promise<T>;
 
@@ -383,7 +383,7 @@ export interface Cachier<T> {
    * @param {string} id - ID of the item to save
    * @param {T} item - Item to save
    * @param {ms} [expiresIn=getDefaultExpiresIn()] - Expiration time in milliseconds for the item
-   * @returns {T}
+   * @returns {T} - The saved item
    */
   save(id: string, item: T, expiresIn?: ms): T;
 
@@ -442,7 +442,7 @@ export interface Cachier<T> {
    * cachier.getAll(); // { "foo": { "name": "foo" }, "bar": { "name": "bar" }, "baz": { "name": "baz" } }
    * ```
    * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
-   * @returns {Record<string, T>}
+   * @returns {Record<string, T>} - Object of all saved items
    */
   getAll(ignoreExpiry?: boolean): Record<string, T>;
 
@@ -459,7 +459,7 @@ export interface Cachier<T> {
    * cachier.setDefaultExpiresIn(1000);
    * cachier.getDefaultExpiresIn(); // 1000
    * ```
-   * @returns {ms}
+   * @returns {ms} - Default expiration time in milliseconds
    */
   getDefaultExpiresIn(): ms;
 
@@ -478,7 +478,7 @@ export interface Cachier<T> {
    * ```
    *
    * @param {ms} [newValue=Infinity] - New default expiration time in milliseconds
-   * @returns {ms}
+   * @returns {ms} - New default expiration time in milliseconds
    */
   setDefaultExpiresIn(newValue?: ms): ms;
 
@@ -506,7 +506,7 @@ export interface Cachier<T> {
    * ```
    *
    * @param {ms} [defaultExpiresIn=Infinity] - Default expiration time in milliseconds for the new cache
-   * @returns {Cachier<U>}
+   * @returns {Cachier<U>} - New cachier object
    */
   create<U>(defaultExpiresIn?: ms): Cachier<U>;
 }

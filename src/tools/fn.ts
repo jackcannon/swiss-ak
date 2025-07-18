@@ -37,7 +37,7 @@ export namespace fn {
    *   .map(condition ? mapSomething : fn.noact)
    * ```
    * @param {T} [item] - Item to return
-   * @returns {T}
+   * @returns {T} - The first argument it receives
    */
   export const noact = <T = any>(item?: T): T => item;
 
@@ -53,7 +53,7 @@ export namespace fn {
    *   .filter(condition ? mapSomething : fn.result(true))
    * ```
    * @param {T} [item] - Item to return from the function
-   * @returns {() => T}
+   * @returns {() => T} - Function that returns the first argument
    */
   export const result =
     <T = any>(item?: T) =>
@@ -73,7 +73,7 @@ export namespace fn {
    * await Promise.all(stuff.map(fn.resolve()));
    * ```
    * @param {T} [item] - Item to resolve
-   * @returns {() => Promise<T>}
+   * @returns {() => Promise<T>} - Function that returns a Promise that resolves to the first argument
    */
   export const resolve =
     <T = any>(item?: T) =>
@@ -91,7 +91,7 @@ export namespace fn {
    * await Promise.all(stuff.map(fn.reject()));
    * ```
    * @param {T} [item] - Item to reject
-   * @returns {() => Promise<T>}
+   * @returns {() => Promise<T>} - Function that returns a Promise that rejects with the first argument
    */
   export const reject =
     <T = any>(item?: T) =>
@@ -118,7 +118,7 @@ export namespace fn {
    * [null, 1, undefined, 2].filter(fn.exists); // [1, 2]
    * ```
    * @param {T} item - Item to check if it exists
-   * @returns {boolean}
+   * @returns {boolean} - True if item isn't null or undefined
    */
   export const exists = <T = any>(item: T): boolean => item !== undefined && item !== null;
 
@@ -136,7 +136,7 @@ export namespace fn {
    * ['', 'a', 'b'].filter(fn.isTruthy); // ['a', 'b']
    * ```
    * @param {T} item - Item to check if it is truthy
-   * @returns {boolean}
+   * @returns {boolean} - True if item is truthy
    */
   export const isTruthy = <T = any>(item: T): boolean => Boolean(item);
 
@@ -154,7 +154,7 @@ export namespace fn {
    * ['', 'a', 'b'].filter(fn.isFalsy); // ['']
    * ```
    * @param {T} item - Item to check if it is falsy
-   * @returns {boolean}
+   * @returns {boolean} - True if item is falsy
    */
   export const isFalsy = <T = any>(item: T): boolean => !Boolean(item);
 
@@ -172,7 +172,7 @@ export namespace fn {
    * [[], [1], [2]].filter(fn.isEmpty); // [[]]
    * ```
    * @param {T[] | string} item - Item to check if it is empty
-   * @returns {boolean}
+   * @returns {boolean} - True if item's length is 0
    */
   export const isEmpty = <T = any>(item: T[] | string): boolean => Boolean(!item || !item.length);
 
@@ -190,7 +190,7 @@ export namespace fn {
    * [[], [1], [2]].filter(fn.isNotEmpty); // [[1], [2]]
    * ```
    * @param {T[] | string} item - Item to check if it is not empty
-   * @returns {boolean}
+   * @returns {boolean} - True if item's length is 1 or more
    */
   export const isNotEmpty = <T = any>(item: T[] | string): boolean => Boolean(item && item.length);
 
@@ -207,7 +207,7 @@ export namespace fn {
    * [0, 1, 2].filter(fn.isEqual(1)); // [1]
    * ```
    * @param {T} item - Item to check whether each item of the array is equal to
-   * @returns {(other: T) => boolean}
+   * @returns {(other: T) => boolean} - Function to use in Array.filter
    */
   export const isEqual =
     <T = any>(item: T) =>
@@ -227,7 +227,7 @@ export namespace fn {
    * [0, 1, 2].filter(fn.isNotEqual(1)); // [0, 2]
    * ```
    * @param {T} item - Item to check whether each item of the array is not equal to
-   * @returns {(other: T) => boolean}
+   * @returns {(other: T) => boolean} - Function to use in Array.filter
    */
   export const isNotEqual =
     <T = any>(item: T) =>
@@ -249,7 +249,7 @@ export namespace fn {
    * @param {T} item - Given item in array
    * @param {number} index - Index of the given item
    * @param {T[]} array - Array of items
-   * @returns {boolean}
+   * @returns {boolean} - True if the item is the first occurrence in the array
    */
   export const dedupe = <T>(item: T, index: number, array: T[]): boolean => array.indexOf(item) === index;
 
@@ -266,7 +266,7 @@ export namespace fn {
    * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
    * ```
    * @param {(value?: T, index?: number, array?: T[]) => U} mapFn - Function to map the item to a new value (will be used to check for duplicates)
-   * @returns {(item: T, index: number, array: T[]) => boolean}
+   * @returns {(item: T, index: number, array: T[]) => boolean} - Function to use in Array.filter
    */
   export const dedupeMapped = <T, U>(mapFn: (value?: T, index?: number, array?: T[]) => U) => {
     const args = {
@@ -299,7 +299,7 @@ export namespace fn {
    * [0, 1, 2].map(fn.toString); // ['0', '1', '2']
    * ```
    * @param {T} item - Item in an array
-   * @returns {string}
+   * @returns {string} - String of the item
    */
   export const toString = <T = any>(item: T): string => item + '';
 
@@ -316,7 +316,7 @@ export namespace fn {
    * ['0', '1', '2'].map(fn.toNumber); // [0, 1, 2]
    * ```
    * @param {T} item - Item in an array
-   * @returns {number}
+   * @returns {number} - Number of the item
    */
   export const toNumber = <T = any>(item: T): number => Number(item);
 
@@ -334,7 +334,7 @@ export namespace fn {
    * ['true', 'false', '', 'text'].map(fn.toBool); // [true, false, false, true]
    * ```
    * @param {T} item - Item in an array
-   * @returns {boolean}
+   * @returns {boolean} - Boolean of the item
    */
   export const toBool = <T = any>(item: T): boolean => (item as any) !== 'false' && Boolean(item);
 
@@ -351,7 +351,7 @@ export namespace fn {
    * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
    * ```
    * @param {keyof O} propName - Property to get from each item
-   * @returns {(item: O) => O[keyof O]}
+   * @returns {(item: O) => O[keyof O]} - Function to use in Array.map
    */
   export const toProp = <O extends object>(propName: keyof O) => {
     const args1 = {
@@ -379,7 +379,7 @@ export namespace fn {
    * [1.234, 5.678, 9.012].map(fn.toFixed(2)); // [1.23, 5.68, 9.01]
    * ```
    * @param {number} precision - Number of decimal places to round to
-   * @returns {(num: number) => number}
+   * @returns {(num: number) => number} - Function to use in Array.map
    */
   export const toFixed = (precision: number) => {
     const args1 = {
@@ -415,7 +415,7 @@ export namespace fn {
    * ```
    * @param {T} a - Item to compare
    * @param {T} b - Item to compare
-   * @returns {number}
+   * @returns {number} - Number used for sorting
    */
   export const asc = <T>(a: T, b: T): number => {
     if (a < b) return -1;
@@ -437,7 +437,7 @@ export namespace fn {
    * ```
    * @param {T} a - Item to compare
    * @param {T} b - Item to compare
-   * @returns {number}
+   * @returns {number} - Number used for sorting
    */
   export const desc = <T>(a: T, b: T): number => {
     if (a < b) return 1;
@@ -462,7 +462,7 @@ export namespace fn {
    * ```
    * @param {keyof O} propName - Property to sort by
    * @param {SortFn<O[keyof O]>} [sortFn=fn.sorts.asc] - Sort function to use
-   * @returns {SortFn<O>}
+   * @returns {SortFn<O>} - Function to use in Array.sort
    */
   export const byProp = <O extends object>(propName: keyof O, sortFn: SortFn<O[keyof O]> = fn.sorts.asc): SortFn<O> => {
     const args = {
@@ -488,7 +488,7 @@ export namespace fn {
    * people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
    * ```
    * @param {number | `${number}`} target - Target value to sort by
-   * @returns {(a: number | `${number}`, b: number | `${number}`) => number}
+   * @returns {(a: number | `${number}`, b: number | `${number}`) => number} - Function to use in Array.sort
    */
   export const nearestTo = (target: number | `${number}`) => (a: number | `${number}`, b: number | `${number}`) => {
     const diffA = Math.abs(Number(target) - Number(a));
@@ -510,7 +510,7 @@ export namespace fn {
    * people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
    * ```
    * @param {number | `${number}`} target - Target value to sort by
-   * @returns {(a: number | `${number}`, b: number | `${number}`) => number}
+   * @returns {(a: number | `${number}`, b: number | `${number}`) => number} - Function to use in Array.sort
    */
   export const furthestFrom = (target: number | `${number}`) => (a: number | `${number}`, b: number | `${number}`) => {
     const diffA = Math.abs(Number(target) - Number(a));
@@ -534,7 +534,7 @@ export namespace fn {
    * arr.sort(fn.array(fn.asc)); // [[1, 2], [3, 4], [5, 6]]
    * ```
    * @param {SortFn<T>} [sortFn=fn.sorts.asc] - Sort function to use
-   * @returns {(a: T[], b: T[]) => number}
+   * @returns {(a: T[], b: T[]) => number} - Function to use in Array.sort
    */
   export const array =
     <T>(sortFn: SortFn<T> = fn.sorts.asc) =>
@@ -563,7 +563,7 @@ export namespace fn {
    * ```
    * @param {T} a - Item to compare
    * @param {T} b - Item to compare
-   * @returns {number}
+   * @returns {number} - Number used for sorting
    */
   export const arrayAsc = array(asc);
 
@@ -584,7 +584,7 @@ export namespace fn {
    * ```
    * @param {T} a - Item to compare
    * @param {T} b - Item to compare
-   * @returns {number}
+   * @returns {number} - Number used for sorting
    */
   export const arrayDesc = array(desc);
 
@@ -611,7 +611,7 @@ export namespace fn {
    * ```
    * @param {T} a - Item to combine
    * @param {T} b - Item to combine
-   * @returns {T}
+   * @returns {T} - Combined item
    */
   export const combine = <T = number>(a: T, b: T): T => (a as any) + b;
 
@@ -632,7 +632,7 @@ export namespace fn {
    * people.reduce(fn.combineProp('name'), ''); // 'abc'
    * ```
    * @param {keyof O} propName - Property to combine
-   * @returns {(a: O[keyof O], b: O) => O[keyof O]}
+   * @returns {(a: O[keyof O], b: O) => O[keyof O]} - Function to use in Array.reduce
    */
   export const combineProp = <O extends object>(propName: keyof O) => {
     const args = {
@@ -657,7 +657,7 @@ export namespace fn {
    * @param {T} curr - Current value
    * @param {number} index - Index of the current value
    * @param {T[]} arr - Array of values
-   * @returns {T}
+   * @returns {T} - Most common value so far
    */
   export const mode = <T>(prev: T, curr: T, index: number, arr: T[]): T => {
     if (index > 1) {
@@ -685,7 +685,7 @@ export namespace fn {
    * [2, 4, 6, 8, 9, 12].reduce(fn.modeMapped((v) => v % 3)); // 6 (maps to [ 2, 1, 0, 2, 0, 0 ])
    * ```
    * @param {(value: T, index: number, array: T[]) => U} mapFn - Map function to use
-   * @returns {(prev: T, curr: T, index: number, arr: T[]) => T}
+   * @returns {(prev: T, curr: T, index: number, arr: T[]) => T} - Function to use in Array.reduce
    */
   export const modeMapped = <T, U>(mapFn: (value: T, index: number, array: T[]) => U) => {
     const args = {
@@ -735,7 +735,7 @@ export namespace fn {
    * @param {T} val - Value to check
    * @param {number} i - Index of the value
    * @param {T[]} arr - Array of values
-   * @returns {boolean}
+   * @returns {boolean} - True if all the items are equal to one another so far
    */
   export const isAllEqual = <T = any>(val: T, i: number, arr: T[]): boolean => {
     const args = {
@@ -763,7 +763,7 @@ export namespace fn {
    * @param {T} val - Value to check
    * @param {number} i - Index of the value
    * @param {T[]} arr - Array of values
-   * @returns {boolean}
+   * @returns {boolean} - True if the item is unique in the array so far
    */
   export const isUnique = <T>(val: T, i: number, arr: T[]): boolean => {
     const args = {
@@ -802,7 +802,7 @@ export namespace fn {
    * ArrayTools.group(nums, fn.bySize(3)); // [[1, 2, 3], [4, 5, 6], [7, 8]]
    * ```
    * @param {number} size - Size of the groups
-   * @returns {(value: T, index: number, array: T[]) => number}
+   * @returns {(value: T, index: number, array: T[]) => number} - Function to use in ArrayTools.group
    */
   export const bySize = <T>(size: number) => {
     const args = {
@@ -827,7 +827,7 @@ export namespace fn {
    * ArrayTools.group(nums, fn.byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
    * ```
    * @param {number} numGroups - Number of groups to create
-   * @returns {(value: T, index: number, array: T[]) => any}
+   * @returns {(value: T, index: number, array: T[]) => any} - Function to use in ArrayTools.group
    */
   export const byNumGroups = <T>(numGroups: number) => {
     const args = {
