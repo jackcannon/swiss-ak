@@ -21,8 +21,8 @@ export namespace ObjectTools {
    * const input = {'foo': 2, 'bar': 1, 'baz': 4}
    * ObjectTools.remodel(input, (entries) => entries.filter(([k, v]) => v % 2 === 0)) // { foo: 2, baz: 4 }
    * ```
-   * @param {T} obj
-   * @param {(entries: [string, V][]) => [string, W][]} func
+   * @param {T} obj - Object to remodel
+   * @param {(entries: [string, V][]) => [string, W][]} func - Function to apply to the entries array
    * @returns {O}
    */
   export const remodel = <T extends object, V = any, W = any, O = OfType<T, W>>(obj: T, func: (entries: [string, V][]) => [string, W][]): O => {
@@ -46,8 +46,8 @@ export namespace ObjectTools {
    * const input = {'foo': 2, 'bar': 1, 'baz': 4}
    * ObjectTools.remodelEach(input, ([k, v]) => [k, v * 2]) // { foo: 4, bar: 2, baz: 8 }
    * ```
-   * @param {T} obj
-   * @param {(entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]} func
+   * @param {T} obj - Object to remodel
+   * @param {(entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]} func - Function to apply to each of the entries
    * @returns {O}
    */
   export const remodelEach = <T extends object, Vi = any, Vo = any, O = OfType<T, Vo>>(
@@ -71,8 +71,8 @@ export namespace ObjectTools {
    * ```typescript
    * ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => [key, key + value]); // {a: 'a1', b: 'b2', c: 'c3'}
    * ```
-   * @param {T} obj
-   * @param {(key: string, value: Vi, index: number) => [string, Vo]} func
+   * @param {T} obj - Object to map
+   * @param {(key: string, value: Vi, index: number) => [string, Vo]} func - Function to apply to each of the entries
    * @returns {any}
    */
   export const map = <T extends object, Vi, Vo>(obj: T, func: (key: string, value: Vi, index: number) => [string, Vo]): OfType<T, Vo> => {
@@ -93,8 +93,8 @@ export namespace ObjectTools {
    * ```typescript
    * ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: 'a', b: 'bb', c: 'ccc'}
    * ```
-   * @param {T} obj
-   * @param {(key: string, value: Vi, index: number) => Vo} func
+   * @param {T} obj - Object to map
+   * @param {(key: string, value: Vi, index: number) => Vo} func - Function to apply to each of the entries
    * @returns {any}
    */
   export const mapValues = <T extends object, Vi, Vo>(obj: T, func: (key: string, value: Vi, index: number) => Vo): OfType<T, Vo> => {
@@ -115,8 +115,8 @@ export namespace ObjectTools {
    * ```typescript
    * ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: 1, bb: 2, ccc: 3}
    * ```
-   * @param {T} obj
-   * @param {(key: string, value: V, index: number) => string} func
+   * @param {T} obj - Object to map
+   * @param {(key: string, value: V, index: number) => string} func - Function to apply to each of the entries
    * @returns {T}
    */
   export const mapKeys = <T extends object, V>(obj: T, func: (key: string, value: V, index: number) => string): T => {
@@ -137,8 +137,8 @@ export namespace ObjectTools {
    * ```typescript
    * ObjectTools.filter({a: 1, b: 2, c: 3}, (k, v) => v % 2 === 0) // { b: 2 }
    * ```
-   * @param {T} obj
-   * @param {(key: string, value: V, index: number) => boolean} func
+   * @param {T} obj - Object to filter
+   * @param {(key: string, value: V, index: number) => boolean} func - Function to apply to each of the entries
    * @returns {O}
    */
   export const filter = <T extends object, V, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean): O => {
@@ -159,7 +159,7 @@ export namespace ObjectTools {
    * ```typescript
    * ObjectTools.clean({a: 1, b: undefined, c: 3}) // { a: 1, c: 3 }
    * ```
-   * @param {T} obj
+   * @param {T} obj - Object to clean
    * @returns {O}
    */
   export const clean = <T extends object, O extends Partial<T>>(obj: T): O => {
@@ -179,7 +179,7 @@ export namespace ObjectTools {
    * ```typescript
    * ObjectTools.invert({ a: 'foo', b: 'bar' }); // { foo: 'a', bar: 'b'}
    * ```
-   * @param {T} obj
+   * @param {T} obj - Object to invert
    * @returns {O}
    */
   export const invert = <T extends object, O extends ObjOfType<string>>(obj: T): O => {

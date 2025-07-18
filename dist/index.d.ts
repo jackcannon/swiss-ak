@@ -409,8 +409,8 @@ declare namespace times {
      * milliseconds(2); // 2 (2 milliseconds)
      * milliseconds(5); // 5 (5 milliseconds)
      * ```
-     * @param {ms} [x=1]
-     * @returns {number}
+     * @param {ms} [x=1] - Number of milliseconds to convert
+     * @returns {number} - Number of milliseconds
      */
     const milliseconds: (x?: ms) => ms;
     /**<!-- DOCS: times.seconds ### -1 @ -->
@@ -429,8 +429,8 @@ declare namespace times {
      * seconds(2); // 2_000 (2 seconds)
      * seconds(5); // 5_000 (5 seconds)
      * ```
-     * @param {second} [x=1]
-     * @returns {number}
+     * @param {second} [x=1] - Number of seconds to convert
+     * @returns {number} - Number of milliseconds
      */
     const seconds: (x?: second) => ms;
     /**<!-- DOCS: times.minutes ### -1 @ -->
@@ -449,8 +449,8 @@ declare namespace times {
      * minutes(2); // 120_000 (120 seconds)
      * minutes(5); // 300_000 (300 seconds)
      * ```
-     * @param {minute} [x=1]
-     * @returns {number}
+     * @param {minute} [x=1] - Number of minutes to convert
+     * @returns {number} - Number of milliseconds
      */
     const minutes: (x?: minute) => ms;
     /**<!-- DOCS: times.hours ### -1 @ -->
@@ -469,8 +469,8 @@ declare namespace times {
      * hours(2); // 7_200_000 (2 hours / 120 minutes)
      * hours(5); // 18_000_000 (5 hours / 300 minutes)
      * ```
-     * @param {hour} [x=1]
-     * @returns {number}
+     * @param {hour} [x=1] - Number of hours to convert
+     * @returns {number} - Number of milliseconds
      */
     const hours: (x?: hour) => ms;
     /**<!-- DOCS: times.days ### -1 @ -->
@@ -489,8 +489,8 @@ declare namespace times {
      * days(2); // 172_800_000 (2 days / 48 hours)
      * days(5); // 432_000_000 (5 days / 120 hours)
      * ```
-     * @param {day} [x=1]
-     * @returns {number}
+     * @param {day} [x=1] - Number of days to convert
+     * @returns {number} - Number of milliseconds
      */
     const days: (x?: day) => ms;
     /**<!-- DOCS: times.weeks ### -1 @ -->
@@ -509,8 +509,8 @@ declare namespace times {
      * weeks(2); // 1_209_600_000 (14 days / 336 hours)
      * weeks(5); // 3_024_000_000 (35 days / 840 hours)
      * ```
-     * @param {week} [x=1]
-     * @returns {number}
+     * @param {week} [x=1] - Number of weeks to convert
+     * @returns {number} - Number of milliseconds
      */
     const weeks: (x?: week) => ms;
     /**<!-- DOCS: times.months ### -1 @ -->
@@ -529,8 +529,8 @@ declare namespace times {
      * months(2); // 5_184_000_000 (60 days)
      * months(5); // 12_960_000_000 (150 days)
      * ```
-     * @param {month} [x=1]
-     * @returns {number}
+     * @param {month} [x=1] - Number of months to convert
+     * @returns {number} - Number of milliseconds
      */
     const months: (x?: month) => ms;
     /**<!-- DOCS: times.years ### -1 @ -->
@@ -549,8 +549,8 @@ declare namespace times {
      * years(2); // 63_115_200_000 (2 years / 730.5 days)
      * years(5); // 157_788_000_000 (5 years / 1,826.25 days)
      * ```
-     * @param {year} [x=1]
-     * @returns {number}
+     * @param {year} [x=1] - Number of years to convert
+     * @returns {number} - Number of milliseconds
      */
     const years: (x?: year) => ms;
     /**<!-- DOCS: times.decades ### -1 @ -->
@@ -569,8 +569,8 @@ declare namespace times {
      * decades(2); // 631_152_000_000 (20 years / 7,305 days)
      * decades(5); // 1_577_880_000_000 (50 years / 18,262.5 days)
      * ```
-     * @param {decade} [x=1]
-     * @returns {number}
+     * @param {decade} [x=1] - Number of decades to convert
+     * @returns {number} - Number of milliseconds
      */
     const decades: (x?: decade) => ms;
     /**<!-- DOCS: times.centuries ### -1 @ -->
@@ -589,8 +589,8 @@ declare namespace times {
      * centuries(2); // 6_311_520_000_000 (200 years / 73,050 days)
      * centuries(5); // 15_778_800_000_000 (500 years / 182,625 days)
      * ```
-     * @param {century} [x=1]
-     * @returns {number}
+     * @param {century} [x=1] - Number of centuries to convert
+     * @returns {number} - Number of milliseconds
      */
     const centuries: (x?: century) => ms;
     /**<!-- DOCS: times.millenniums ### -1 @ -->
@@ -609,8 +609,8 @@ declare namespace times {
      * millenniums(2); // 63_115_200_000_000 (2000 years / 730,500 days)
      * millenniums(5); // 157_788_000_000_000 (5000 years / 1,826,250 days)
      * ```
-     * @param {millennium} [x=1]
-     * @returns {number}
+     * @param {millennium} [x=1] - Number of millenniums to convert
+     * @returns {number} - Number of milliseconds
      */
     const millenniums: (x?: millennium) => ms;
 }
@@ -850,8 +850,8 @@ declare const MILLENNIUM: number;
  * milliseconds(2); // 2 (2 milliseconds)
  * milliseconds(5); // 5 (5 milliseconds)
  * ```
- * @param {ms} [x=1]
- * @returns {number}
+ * @param {ms} [x=1] - Number of milliseconds to convert
+ * @returns {number} - Number of milliseconds
  */
 declare const milliseconds: (x?: ms) => ms;
 /**<!-- DOCS-ALIAS: times.seconds -->
@@ -870,8 +870,8 @@ declare const milliseconds: (x?: ms) => ms;
  * seconds(2); // 2_000 (2 seconds)
  * seconds(5); // 5_000 (5 seconds)
  * ```
- * @param {second} [x=1]
- * @returns {number}
+ * @param {second} [x=1] - Number of seconds to convert
+ * @returns {number} - Number of milliseconds
  */
 declare const seconds: (x?: second) => ms;
 /**<!-- DOCS-ALIAS: times.minutes -->
@@ -890,8 +890,8 @@ declare const seconds: (x?: second) => ms;
  * minutes(2); // 120_000 (120 seconds)
  * minutes(5); // 300_000 (300 seconds)
  * ```
- * @param {minute} [x=1]
- * @returns {number}
+ * @param {minute} [x=1] - Number of minutes to convert
+ * @returns {number} - Number of milliseconds
  */
 declare const minutes: (x?: minute) => ms;
 /**<!-- DOCS-ALIAS: times.hours -->
@@ -910,8 +910,8 @@ declare const minutes: (x?: minute) => ms;
  * hours(2); // 7_200_000 (2 hours / 120 minutes)
  * hours(5); // 18_000_000 (5 hours / 300 minutes)
  * ```
- * @param {hour} [x=1]
- * @returns {number}
+ * @param {hour} [x=1] - Number of hours to convert
+ * @returns {number} - Number of milliseconds
  */
 declare const hours: (x?: hour) => ms;
 /**<!-- DOCS-ALIAS: times.days -->
@@ -930,8 +930,8 @@ declare const hours: (x?: hour) => ms;
  * days(2); // 172_800_000 (2 days / 48 hours)
  * days(5); // 432_000_000 (5 days / 120 hours)
  * ```
- * @param {day} [x=1]
- * @returns {number}
+ * @param {day} [x=1] - Number of days to convert
+ * @returns {number} - Number of milliseconds
  */
 declare const days: (x?: day) => ms;
 /**<!-- DOCS-ALIAS: times.weeks -->
@@ -950,8 +950,8 @@ declare const days: (x?: day) => ms;
  * weeks(2); // 1_209_600_000 (14 days / 336 hours)
  * weeks(5); // 3_024_000_000 (35 days / 840 hours)
  * ```
- * @param {week} [x=1]
- * @returns {number}
+ * @param {week} [x=1] - Number of weeks to convert
+ * @returns {number} - Number of milliseconds
  */
 declare const weeks: (x?: week) => ms;
 /**<!-- DOCS-ALIAS: times.months -->
@@ -970,8 +970,8 @@ declare const weeks: (x?: week) => ms;
  * months(2); // 5_184_000_000 (60 days)
  * months(5); // 12_960_000_000 (150 days)
  * ```
- * @param {month} [x=1]
- * @returns {number}
+ * @param {month} [x=1] - Number of months to convert
+ * @returns {number} - Number of milliseconds
  */
 declare const months: (x?: month) => ms;
 /**<!-- DOCS-ALIAS: times.years -->
@@ -990,8 +990,8 @@ declare const months: (x?: month) => ms;
  * years(2); // 63_115_200_000 (2 years / 730.5 days)
  * years(5); // 157_788_000_000 (5 years / 1,826.25 days)
  * ```
- * @param {year} [x=1]
- * @returns {number}
+ * @param {year} [x=1] - Number of years to convert
+ * @returns {number} - Number of milliseconds
  */
 declare const years: (x?: year) => ms;
 /**<!-- DOCS-ALIAS: times.decades -->
@@ -1010,8 +1010,8 @@ declare const years: (x?: year) => ms;
  * decades(2); // 631_152_000_000 (20 years / 7,305 days)
  * decades(5); // 1_577_880_000_000 (50 years / 18,262.5 days)
  * ```
- * @param {decade} [x=1]
- * @returns {number}
+ * @param {decade} [x=1] - Number of decades to convert
+ * @returns {number} - Number of milliseconds
  */
 declare const decades: (x?: decade) => ms;
 /**<!-- DOCS-ALIAS: times.centuries -->
@@ -1030,8 +1030,8 @@ declare const decades: (x?: decade) => ms;
  * centuries(2); // 6_311_520_000_000 (200 years / 73,050 days)
  * centuries(5); // 15_778_800_000_000 (500 years / 182,625 days)
  * ```
- * @param {century} [x=1]
- * @returns {number}
+ * @param {century} [x=1] - Number of centuries to convert
+ * @returns {number} - Number of milliseconds
  */
 declare const centuries: (x?: century) => ms;
 /**<!-- DOCS-ALIAS: times.millenniums -->
@@ -1050,8 +1050,8 @@ declare const centuries: (x?: century) => ms;
  * millenniums(2); // 63_115_200_000_000 (2000 years / 730,500 days)
  * millenniums(5); // 157_788_000_000_000 (5000 years / 1,826,250 days)
  * ```
- * @param {millennium} [x=1]
- * @returns {number}
+ * @param {millennium} [x=1] - Number of millenniums to convert
+ * @returns {number} - Number of milliseconds
  */
 declare const millenniums: (x?: millennium) => ms;
 
@@ -1086,8 +1086,8 @@ declare namespace waiters {
      * await wait(minutes(2));
      * console.log(new Date().toTimeString()); // 12:32:10
      * ```
-     * @param {ms} time
-     * @returns {Promise<unknown>}
+     * @param {ms} time - Time to wait in milliseconds
+     * @returns {Promise<unknown>} - Promise that resolves after the given time
      */
     const wait: (time: ms) => Promise<unknown>;
     /**<!-- DOCS: waiters.waitUntil ### @ -->
@@ -1105,8 +1105,8 @@ declare namespace waiters {
      * await waitUntil(Date.now() + minutes(10));
      * console.log(new Date().toTimeString()); // 12:40:10
      * ```
-     * @param {ms} time
-     * @returns {Promise<null>}
+     * @param {ms} time - Unix time to wait until
+     * @returns {Promise<null>} - Promise that resolves at the given time
      */
     const waitUntil: (time: ms) => Promise<null>;
     /**<!-- DOCS: waiters.waitFor ### @ -->
@@ -1124,8 +1124,8 @@ declare namespace waiters {
      * await waitFor(minutes(5));
      * console.log(new Date().toTimeString()); // 12:35:10
      * ```
-     * @param {ms} time
-     * @returns {Promise<null>}
+     * @param {ms} time - Time to wait in milliseconds
+     * @returns {Promise<null>} - Promise that resolves after the given time
      */
     const waitFor: (time: ms) => Promise<null>;
     /**<!-- DOCS: waiters.waitEvery ### @ -->
@@ -1143,9 +1143,9 @@ declare namespace waiters {
      * await waitEvery(hours(2));
      * console.log(new Date().toTimeString()); // 14:00:00
      * ```
-     * @param {ms} timing
-     * @param {ms} [offset]
-     * @returns {Promise<null>}
+     * @param {ms} timing - Timing period in milliseconds
+     * @param {ms} [offset] - Offset in milliseconds
+     * @returns {Promise<null>} - Promise that resolves at the next 'every X' event
      */
     const waitEvery: (timing: ms, offset?: ms) => Promise<null>;
     /**<!-- DOCS: waiters.stopInterval ### @ -->
@@ -1165,7 +1165,7 @@ declare namespace waiters {
      *   }
      * }, hours(1));
      * ```
-     * @param {number} intID
+     * @param {number} intID - Interval ID
      * @returns {void}
      */
     const stopInterval: (intID: number) => void;
@@ -1188,9 +1188,9 @@ declare namespace waiters {
      *   }
      * }, hours(1));
      * ```
-     * @param {(intID?: number, count?: number) => any} action
-     * @param {ms} timing
-     * @returns {number}
+     * @param {(intID?: number, count?: number) => any} action - Action to run on each interval
+     * @param {ms} timing - Timing period in milliseconds
+     * @returns {number} - Interval ID
      */
     const interval: (action: (intID?: number, count?: number) => any, timing: ms) => number;
 }
@@ -1209,8 +1209,8 @@ declare namespace waiters {
  * await wait(minutes(2));
  * console.log(new Date().toTimeString()); // 12:32:10
  * ```
- * @param {ms} time
- * @returns {Promise<unknown>}
+ * @param {ms} time - Time to wait in milliseconds
+ * @returns {Promise<unknown>} - Promise that resolves after the given time
  */
 declare const wait: (time: ms) => Promise<unknown>;
 /**<!-- DOCS-ALIAS: waiters.waitUntil -->
@@ -1228,8 +1228,8 @@ declare const wait: (time: ms) => Promise<unknown>;
  * await waitUntil(Date.now() + minutes(10));
  * console.log(new Date().toTimeString()); // 12:40:10
  * ```
- * @param {ms} time
- * @returns {Promise<null>}
+ * @param {ms} time - Unix time to wait until
+ * @returns {Promise<null>} - Promise that resolves at the given time
  */
 declare const waitUntil: (time: ms) => Promise<null>;
 /**<!-- DOCS-ALIAS: waiters.waitFor -->
@@ -1247,8 +1247,8 @@ declare const waitUntil: (time: ms) => Promise<null>;
  * await waitFor(minutes(5));
  * console.log(new Date().toTimeString()); // 12:35:10
  * ```
- * @param {ms} time
- * @returns {Promise<null>}
+ * @param {ms} time - Time to wait in milliseconds
+ * @returns {Promise<null>} - Promise that resolves after the given time
  */
 declare const waitFor: (time: ms) => Promise<null>;
 /**<!-- DOCS-ALIAS: waiters.waitEvery -->
@@ -1266,9 +1266,9 @@ declare const waitFor: (time: ms) => Promise<null>;
  * await waitEvery(hours(2));
  * console.log(new Date().toTimeString()); // 14:00:00
  * ```
- * @param {ms} timing
- * @param {ms} [offset]
- * @returns {Promise<null>}
+ * @param {ms} timing - Timing period in milliseconds
+ * @param {ms} [offset] - Offset in milliseconds
+ * @returns {Promise<null>} - Promise that resolves at the next 'every X' event
  */
 declare const waitEvery: (timing: ms, offset?: ms) => Promise<null>;
 /**<!-- DOCS-ALIAS: waiters.stopInterval -->
@@ -1288,7 +1288,7 @@ declare const waitEvery: (timing: ms, offset?: ms) => Promise<null>;
  *   }
  * }, hours(1));
  * ```
- * @param {number} intID
+ * @param {number} intID - Interval ID
  * @returns {void}
  */
 declare const stopInterval: (intID: number) => void;
@@ -1311,9 +1311,9 @@ declare const stopInterval: (intID: number) => void;
  *   }
  * }, hours(1));
  * ```
- * @param {(intID?: number, count?: number) => any} action
- * @param {ms} timing
- * @returns {number}
+ * @param {(intID?: number, count?: number) => any} action - Action to run on each interval
+ * @param {ms} timing - Timing period in milliseconds
+ * @returns {number} - Interval ID
  */
 declare const interval: (action: (intID?: number, count?: number) => any, timing: ms) => number;
 
@@ -1348,7 +1348,7 @@ declare namespace fn {
      * const items = stuff
      *   .map(condition ? mapSomething : fn.noact)
      * ```
-     * @param {T} [item]
+     * @param {T} [item] - Item to return
      * @returns {T}
      */
     export const noact: <T = any>(item?: T) => T;
@@ -1363,7 +1363,7 @@ declare namespace fn {
      * const items = stuff
      *   .filter(condition ? mapSomething : fn.result(true))
      * ```
-     * @param {T} [item]
+     * @param {T} [item] - Item to return from the function
      * @returns {() => T}
      */
     export const result: <T = any>(item?: T) => () => T;
@@ -1379,7 +1379,7 @@ declare namespace fn {
      * ```typescript
      * await Promise.all(stuff.map(fn.resolve()));
      * ```
-     * @param {T} [item]
+     * @param {T} [item] - Item to resolve
      * @returns {() => Promise<T>}
      */
     export const resolve: <T = any>(item?: T) => () => Promise<T>;
@@ -1393,7 +1393,7 @@ declare namespace fn {
      * ```typescript
      * await Promise.all(stuff.map(fn.reject()));
      * ```
-     * @param {T} [item]
+     * @param {T} [item] - Item to reject
      * @returns {() => Promise<T>}
      */
     export const reject: <T = any>(item?: T) => () => Promise<T>;
@@ -1416,7 +1416,7 @@ declare namespace fn {
      * ```typescript
      * [null, 1, undefined, 2].filter(fn.exists); // [1, 2]
      * ```
-     * @param {T} item
+     * @param {T} item - Item to check if it exists
      * @returns {boolean}
      */
     export const exists: <T = any>(item: T) => boolean;
@@ -1433,7 +1433,7 @@ declare namespace fn {
      * [0, 1, 2].filter(fn.isTruthy); // [1, 2]
      * ['', 'a', 'b'].filter(fn.isTruthy); // ['a', 'b']
      * ```
-     * @param {T} item
+     * @param {T} item - Item to check if it is truthy
      * @returns {boolean}
      */
     export const isTruthy: <T = any>(item: T) => boolean;
@@ -1450,7 +1450,7 @@ declare namespace fn {
      * [0, 1, 2].filter(fn.isFalsy); // [0]
      * ['', 'a', 'b'].filter(fn.isFalsy); // ['']
      * ```
-     * @param {T} item
+     * @param {T} item - Item to check if it is falsy
      * @returns {boolean}
      */
     export const isFalsy: <T = any>(item: T) => boolean;
@@ -1467,7 +1467,7 @@ declare namespace fn {
      * ['', 'a', 'b'].filter(fn.isEmpty); // ['']
      * [[], [1], [2]].filter(fn.isEmpty); // [[]]
      * ```
-     * @param {T[] | string} item
+     * @param {T[] | string} item - Item to check if it is empty
      * @returns {boolean}
      */
     export const isEmpty: <T = any>(item: string | T[]) => boolean;
@@ -1484,7 +1484,7 @@ declare namespace fn {
      * ['', 'a', 'b'].filter(fn.isNotEmpty); // ['a', 'b']
      * [[], [1], [2]].filter(fn.isNotEmpty); // [[1], [2]]
      * ```
-     * @param {T[] | string} item
+     * @param {T[] | string} item - Item to check if it is not empty
      * @returns {boolean}
      */
     export const isNotEmpty: <T = any>(item: string | T[]) => boolean;
@@ -1500,7 +1500,7 @@ declare namespace fn {
      * ```typescript
      * [0, 1, 2].filter(fn.isEqual(1)); // [1]
      * ```
-     * @param {T} item
+     * @param {T} item - Item to check whether each item of the array is equal to
      * @returns {(other: T) => boolean}
      */
     export const isEqual: <T = any>(item: T) => (other: T) => boolean;
@@ -1516,7 +1516,7 @@ declare namespace fn {
      * ```typescript
      * [0, 1, 2].filter(fn.isNotEqual(1)); // [0, 2]
      * ```
-     * @param {T} item
+     * @param {T} item - Item to check whether each item of the array is not equal to
      * @returns {(other: T) => boolean}
      */
     export const isNotEqual: <T = any>(item: T) => (other: T) => boolean;
@@ -1532,9 +1532,9 @@ declare namespace fn {
      * ```typescript
      * [0, 1, 2, 1, 0].filter(fn.dedupe); // [0, 1, 2]
      * ```
-     * @param {T} item
-     * @param {number} index
-     * @param {T[]} array
+     * @param {T} item - Given item in array
+     * @param {number} index - Index of the given item
+     * @param {T[]} array - Array of items
      * @returns {boolean}
      */
     export const dedupe: <T>(item: T, index: number, array: T[]) => boolean;
@@ -1550,7 +1550,7 @@ declare namespace fn {
      * ```typescript
      * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
      * ```
-     * @param {(value?: T, index?: number, array?: T[]) => U} mapFn
+     * @param {(value?: T, index?: number, array?: T[]) => U} mapFn - Function to map the item to a new value (will be used to check for duplicates)
      * @returns {(item: T, index: number, array: T[]) => boolean}
      */
     export const dedupeMapped: <T, U>(mapFn: (value?: T, index?: number, array?: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
@@ -1573,7 +1573,7 @@ declare namespace fn {
      * ```typescript
      * [0, 1, 2].map(fn.toString); // ['0', '1', '2']
      * ```
-     * @param {T} item
+     * @param {T} item - Item in an array
      * @returns {string}
      */
     export const toString: <T = any>(item: T) => string;
@@ -1589,7 +1589,7 @@ declare namespace fn {
      * ```typescript
      * ['0', '1', '2'].map(fn.toNumber); // [0, 1, 2]
      * ```
-     * @param {T} item
+     * @param {T} item - Item in an array
      * @returns {number}
      */
     export const toNumber: <T = any>(item: T) => number;
@@ -1606,7 +1606,7 @@ declare namespace fn {
      * [0, 1, 2].map(fn.toBool); // [false, true, true]
      * ['true', 'false', '', 'text'].map(fn.toBool); // [true, false, false, true]
      * ```
-     * @param {T} item
+     * @param {T} item - Item in an array
      * @returns {boolean}
      */
     export const toBool: <T = any>(item: T) => boolean;
@@ -1622,10 +1622,10 @@ declare namespace fn {
      * ```typescript
      * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
      * ```
-     * @param {string | number} prop
-     * @returns {(item: O) => P}
+     * @param {keyof O} propName - Property to get from each item
+     * @returns {(item: O) => O[keyof O]}
      */
-    export const toProp: <P = string, O extends object = object>(prop: string | number) => (item: O) => P;
+    export const toProp: <O extends object>(propName: keyof O) => (item: O) => O[keyof O];
     /**<!-- DOCS: fn.toFixed #### @ -->
      * toFixed
      *
@@ -1638,7 +1638,7 @@ declare namespace fn {
      * ```typescript
      * [1.234, 5.678, 9.012].map(fn.toFixed(2)); // [1.23, 5.68, 9.01]
      * ```
-     * @param {number} precision
+     * @param {number} precision - Number of decimal places to round to
      * @returns {(num: number) => number}
      */
     export const toFixed: (precision: number) => (num: number) => number;
@@ -1661,11 +1661,11 @@ declare namespace fn {
      * ```typescript
      * [2, 4, 3, 1].sort(fn.asc); // [1, 2, 3, 4]
      * ```
-     * @param {any} a
-     * @param {any} b
+     * @param {T} a - Item to compare
+     * @param {T} b - Item to compare
      * @returns {number}
      */
-    export const asc: (a: any, b: any) => number;
+    export const asc: <T>(a: T, b: T) => number;
     /**<!-- DOCS: fn.desc #### @ -->
      * desc
      *
@@ -1678,11 +1678,11 @@ declare namespace fn {
      * ```typescript
      * [2, 4, 3, 1].sort(fn.desc); // [4, 3, 2, 1]
      * ```
-     * @param {any} a
-     * @param {any} b
+     * @param {T} a - Item to compare
+     * @param {T} b - Item to compare
      * @returns {number}
      */
-    export const desc: (a: any, b: any) => number;
+    export const desc: <T>(a: T, b: T) => number;
     type SortFn<T = number> = (a: T, b: T) => number;
     /**<!-- DOCS: fn.byProp #### @ -->
      * byProp
@@ -1697,11 +1697,11 @@ declare namespace fn {
      * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
      * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
      * ```
-     * @param {keyof O} propName
-     * @param {SortFn<T>} [sortFn=asc]
+     * @param {keyof O} propName - Property to sort by
+     * @param {SortFn<O[keyof O]>} [sortFn=fn.sorts.asc] - Sort function to use
      * @returns {SortFn<O>}
      */
-    export const byProp: <T = number, O extends object = object>(propName: keyof O, sortFn?: SortFn<T>) => SortFn<O>;
+    export const byProp: <O extends object>(propName: keyof O, sortFn?: SortFn<O[keyof O]>) => SortFn<O>;
     /**<!-- DOCS: fn.nearestTo #### @ -->
      * nearestTo
      *
@@ -1717,10 +1717,10 @@ declare namespace fn {
      * const people = [2, 4, 3, 1];
      * people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
      * ```
-     * @param {T} target
-     * @returns {(a: any, b: any) => number}
+     * @param {number | `${number}`} target - Target value to sort by
+     * @returns {(a: number | `${number}`, b: number | `${number}`) => number}
      */
-    export const nearestTo: <T = number>(target: T) => (a: any, b: any) => number;
+    export const nearestTo: (target: number | `${number}`) => (a: number | `${number}`, b: number | `${number}`) => number;
     /**<!-- DOCS: fn.furthestFrom #### @ -->
      * furthestFrom
      *
@@ -1734,10 +1734,10 @@ declare namespace fn {
      * const people = [2, 4, 3, 1];
      * people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
      * ```
-     * @param {T} target
-     * @returns {(a: any, b: any) => number}
+     * @param {number | `${number}`} target - Target value to sort by
+     * @returns {(a: number | `${number}`, b: number | `${number}`) => number}
      */
-    export const furthestFrom: <T = number>(target: T) => (a: any, b: any) => number;
+    export const furthestFrom: (target: number | `${number}`) => (a: number | `${number}`, b: number | `${number}`) => number;
     /**<!-- DOCS: fn.array #### @ -->
      * array
      *
@@ -1753,7 +1753,7 @@ declare namespace fn {
      * const arr = [[1, 2], [3, 4], [5, 6]];
      * arr.sort(fn.array(fn.asc)); // [[1, 2], [3, 4], [5, 6]]
      * ```
-     * @param {SortFn<T>} [sortFn=asc]
+     * @param {SortFn<T>} [sortFn=fn.sorts.asc] - Sort function to use
      * @returns {(a: T[], b: T[]) => number}
      */
     export const array: <T>(sortFn?: SortFn<T>) => (a: T[], b: T[]) => number;
@@ -1772,11 +1772,11 @@ declare namespace fn {
      * const arr = [[1, 2], [3, 4], [5, 6]];
      * arr.sort(fn.arrayAsc); // [[1, 2], [3, 4], [5, 6]]
      * ```
-     * @param {T} a
-     * @param {T} b
+     * @param {T} a - Item to compare
+     * @param {T} b - Item to compare
      * @returns {number}
      */
-    export const arrayAsc: (a: any[], b: any[]) => number;
+    export const arrayAsc: <T>(a: T[], b: T[]) => number;
     /**<!-- DOCS: fn.arrayDesc #### @ -->
      * arrayDesc
      *
@@ -1792,11 +1792,11 @@ declare namespace fn {
      * const arr = [[1, 2], [3, 4], [5, 6]];
      * arr.sort(fn.arrayDesc); // [[5, 6], [3, 4], [1, 2]]
      * ```
-     * @param {T} a
-     * @param {T} b
+     * @param {T} a - Item to compare
+     * @param {T} b - Item to compare
      * @returns {number}
      */
-    export const arrayDesc: (a: any[], b: any[]) => number;
+    export const arrayDesc: <T>(a: T[], b: T[]) => number;
     /**<!-- DOCS: fn.reduces ### -->
      * reduces
      *
@@ -1817,8 +1817,8 @@ declare namespace fn {
      * [1, 2, 3].reduce(fn.combine); // 6
      * ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
      * ```
-     * @param {T} a
-     * @param {T} b
+     * @param {T} a - Item to combine
+     * @param {T} b - Item to combine
      * @returns {T}
      */
     export const combine: <T = number>(a: T, b: T) => T;
@@ -1831,15 +1831,17 @@ declare namespace fn {
      *
      * Adds or concats the given property of the items
      *
+     * > __Note:__ The initial value is required, because the first item is not yet an object.
+     *
      * ```typescript
      * const people = [{name: 'a', age: 1}, {name: 'b', age: 2}, {name: 'c', age: 3}];
-     * people.reduce(fn.combineProp('age')); // 6
-     * people.reduce(fn.combineProp('name')); // 'abc'
+     * people.reduce(fn.combineProp('age'), 0); // 6
+     * people.reduce(fn.combineProp('name'), ''); // 'abc'
      * ```
-     * @param {string | number} propName
-     * @returns {(a: O | T, b: O) => T}
+     * @param {keyof O} propName - Property to combine
+     * @returns {(a: O[keyof O], b: O) => O[keyof O]}
      */
-    export const combineProp: <O, T = number>(propName: string | number) => (a: O | T, b: O) => T;
+    export const combineProp: <O extends object>(propName: keyof O) => (a: O[keyof O], b: O) => O[keyof O];
     /**<!-- DOCS: fn.mode #### @ -->
      * mode
      *
@@ -1852,10 +1854,10 @@ declare namespace fn {
      * ```typescript
      * [1, 2, 3, 2, 1, 1].reduce(fn.mode); // 1
      * ```
-     * @param {T} prev
-     * @param {T} curr
-     * @param {number} index
-     * @param {T[]} arr
+     * @param {T} prev - Previous value
+     * @param {T} curr - Current value
+     * @param {number} index - Index of the current value
+     * @param {T[]} arr - Array of values
      * @returns {T}
      */
     export const mode: <T>(prev: T, curr: T, index: number, arr: T[]) => T;
@@ -1871,7 +1873,7 @@ declare namespace fn {
      * ```typescript
      * [2, 4, 6, 8, 9, 12].reduce(fn.modeMapped((v) => v % 3)); // 6 (maps to [ 2, 1, 0, 2, 0, 0 ])
      * ```
-     * @param {(value: T, index: number, array: T[]) => U} mapFn
+     * @param {(value: T, index: number, array: T[]) => U} mapFn - Map function to use
      * @returns {(prev: T, curr: T, index: number, arr: T[]) => T}
      */
     export const modeMapped: <T, U>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
@@ -1895,9 +1897,9 @@ declare namespace fn {
      * [1, 1, 1].every(fn.isAllEqual); // true
      * [1, 2, 1].every(fn.isAllEqual); // false
      * ```
-     * @param {T} val
-     * @param {number} i
-     * @param {T[]} arr
+     * @param {T} val - Value to check
+     * @param {number} i - Index of the value
+     * @param {T[]} arr - Array of values
      * @returns {boolean}
      */
     export const isAllEqual: <T = any>(val: T, i: number, arr: T[]) => boolean;
@@ -1915,9 +1917,9 @@ declare namespace fn {
      * [1, 2, 1].every(fn.isUnique); // false
      * [1, 2, 3].every(fn.isUnique); // true
      * ```
-     * @param {T} val
-     * @param {number} i
-     * @param {T[]} arr
+     * @param {T} val - Value to check
+     * @param {number} i - Index of the value
+     * @param {T[]} arr - Array of values
      * @returns {boolean}
      */
     export const isUnique: <T>(val: T, i: number, arr: T[]) => boolean;
@@ -1941,11 +1943,13 @@ declare namespace fn {
      *
      * > __Note:__ The groups a distributed in order, so the first group will be filled up first, then the next, etc.
      *
+     * > __Note:__ Consider using `ArrayTools.partition` instead
+     *
      * ```typescript
      * const nums = [1, 2, 3, 4, 5, 6, 7, 8];
      * ArrayTools.group(nums, fn.bySize(3)); // [[1, 2, 3], [4, 5, 6], [7, 8]]
      * ```
-     * @param {number} size
+     * @param {number} size - Size of the groups
      * @returns {(value: T, index: number, array: T[]) => number}
      */
     export const bySize: <T>(size: number) => (value: T, index: number, array: T[]) => number;
@@ -1958,13 +1962,13 @@ declare namespace fn {
      *
      * Group an array into a certain number of groups as evenly as possible.
      *
-     * > __Note:__ The groups a distributed in order, so the first group will be filled up first, then the next, etc.
+     * > __Note:__ The groups are distributed in order, so the first group will be filled up first, then the next, etc.
      *
      * ```typescript
      * const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
      * ArrayTools.group(nums, fn.byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
      * ```
-     * @param {number} numGroups
+     * @param {number} numGroups - Number of groups to create
      * @returns {(value: T, index: number, array: T[]) => any}
      */
     export const byNumGroups: <T>(numGroups: number) => (value: T, index: number, array: T[]) => any;
@@ -1988,7 +1992,7 @@ declare namespace fn {
          * ```typescript
          * [null, 1, undefined, 2].filter(fn.exists); // [1, 2]
          * ```
-         * @param {T} item
+         * @param {T} item - Item to check if it exists
          * @returns {boolean}
          */
         const exists: <T = any>(item: T) => boolean;
@@ -2005,7 +2009,7 @@ declare namespace fn {
          * [0, 1, 2].filter(fn.isTruthy); // [1, 2]
          * ['', 'a', 'b'].filter(fn.isTruthy); // ['a', 'b']
          * ```
-         * @param {T} item
+         * @param {T} item - Item to check if it is truthy
          * @returns {boolean}
          */
         const isTruthy: <T = any>(item: T) => boolean;
@@ -2022,7 +2026,7 @@ declare namespace fn {
          * [0, 1, 2].filter(fn.isFalsy); // [0]
          * ['', 'a', 'b'].filter(fn.isFalsy); // ['']
          * ```
-         * @param {T} item
+         * @param {T} item - Item to check if it is falsy
          * @returns {boolean}
          */
         const isFalsy: <T = any>(item: T) => boolean;
@@ -2039,7 +2043,7 @@ declare namespace fn {
          * ['', 'a', 'b'].filter(fn.isEmpty); // ['']
          * [[], [1], [2]].filter(fn.isEmpty); // [[]]
          * ```
-         * @param {T[] | string} item
+         * @param {T[] | string} item - Item to check if it is empty
          * @returns {boolean}
          */
         const isEmpty: <T = any>(item: string | T[]) => boolean;
@@ -2056,7 +2060,7 @@ declare namespace fn {
          * ['', 'a', 'b'].filter(fn.isNotEmpty); // ['a', 'b']
          * [[], [1], [2]].filter(fn.isNotEmpty); // [[1], [2]]
          * ```
-         * @param {T[] | string} item
+         * @param {T[] | string} item - Item to check if it is not empty
          * @returns {boolean}
          */
         const isNotEmpty: <T = any>(item: string | T[]) => boolean;
@@ -2072,7 +2076,7 @@ declare namespace fn {
          * ```typescript
          * [0, 1, 2].filter(fn.isEqual(1)); // [1]
          * ```
-         * @param {T} item
+         * @param {T} item - Item to check whether each item of the array is equal to
          * @returns {(other: T) => boolean}
          */
         const isEqual: <T = any>(item: T) => (other: T) => boolean;
@@ -2088,7 +2092,7 @@ declare namespace fn {
          * ```typescript
          * [0, 1, 2].filter(fn.isNotEqual(1)); // [0, 2]
          * ```
-         * @param {T} item
+         * @param {T} item - Item to check whether each item of the array is not equal to
          * @returns {(other: T) => boolean}
          */
         const isNotEqual: <T = any>(item: T) => (other: T) => boolean;
@@ -2104,9 +2108,9 @@ declare namespace fn {
          * ```typescript
          * [0, 1, 2, 1, 0].filter(fn.dedupe); // [0, 1, 2]
          * ```
-         * @param {T} item
-         * @param {number} index
-         * @param {T[]} array
+         * @param {T} item - Given item in array
+         * @param {number} index - Index of the given item
+         * @param {T[]} array - Array of items
          * @returns {boolean}
          */
         const dedupe: <T>(item: T, index: number, array: T[]) => boolean;
@@ -2122,7 +2126,7 @@ declare namespace fn {
          * ```typescript
          * [2, 4, 6, 8, 10, 12].filter(fn.dedupeMapped((v) => v % 3)); // [ 2, 4, 6 ] (maps to [ 2, 1, 0, 2, 1, 0 ])
          * ```
-         * @param {(value?: T, index?: number, array?: T[]) => U} mapFn
+         * @param {(value?: T, index?: number, array?: T[]) => U} mapFn - Function to map the item to a new value (will be used to check for duplicates)
          * @returns {(item: T, index: number, array: T[]) => boolean}
          */
         const dedupeMapped: <T, U>(mapFn: (value?: T, index?: number, array?: T[]) => U) => (item: T, index: number, array: T[]) => boolean;
@@ -2147,7 +2151,7 @@ declare namespace fn {
          * ```typescript
          * [0, 1, 2].map(fn.toString); // ['0', '1', '2']
          * ```
-         * @param {T} item
+         * @param {T} item - Item in an array
          * @returns {string}
          */
         const toString: <T = any>(item: T) => string;
@@ -2163,7 +2167,7 @@ declare namespace fn {
          * ```typescript
          * ['0', '1', '2'].map(fn.toNumber); // [0, 1, 2]
          * ```
-         * @param {T} item
+         * @param {T} item - Item in an array
          * @returns {number}
          */
         const toNumber: <T = any>(item: T) => number;
@@ -2180,7 +2184,7 @@ declare namespace fn {
          * [0, 1, 2].map(fn.toBool); // [false, true, true]
          * ['true', 'false', '', 'text'].map(fn.toBool); // [true, false, false, true]
          * ```
-         * @param {T} item
+         * @param {T} item - Item in an array
          * @returns {boolean}
          */
         const toBool: <T = any>(item: T) => boolean;
@@ -2196,10 +2200,10 @@ declare namespace fn {
          * ```typescript
          * [{name: 'Jack'}, {name: 'Jill'}].map(fn.toProp('name')); // ['Jack', 'Jill']
          * ```
-         * @param {string | number} prop
-         * @returns {(item: O) => P}
+         * @param {keyof O} propName - Property to get from each item
+         * @returns {(item: O) => O[keyof O]}
          */
-        const toProp: <P = string, O extends object = object>(prop: string | number) => (item: O) => P;
+        const toProp: <O extends object>(propName: keyof O) => (item: O) => O[keyof O];
         /**<!-- DOCS-ALIAS: fn.toFixed -->
          * toFixed
          * 
@@ -2212,7 +2216,7 @@ declare namespace fn {
          * ```typescript
          * [1.234, 5.678, 9.012].map(fn.toFixed(2)); // [1.23, 5.68, 9.01]
          * ```
-         * @param {number} precision
+         * @param {number} precision - Number of decimal places to round to
          * @returns {(num: number) => number}
          */
         const toFixed: (precision: number) => (num: number) => number;
@@ -2237,11 +2241,11 @@ declare namespace fn {
          * ```typescript
          * [2, 4, 3, 1].sort(fn.asc); // [1, 2, 3, 4]
          * ```
-         * @param {any} a
-         * @param {any} b
+         * @param {T} a - Item to compare
+         * @param {T} b - Item to compare
          * @returns {number}
          */
-        const asc: (a: any, b: any) => number;
+        const asc: <T>(a: T, b: T) => number;
         /**<!-- DOCS-ALIAS: fn.desc -->
          * desc
          * 
@@ -2254,11 +2258,11 @@ declare namespace fn {
          * ```typescript
          * [2, 4, 3, 1].sort(fn.desc); // [4, 3, 2, 1]
          * ```
-         * @param {any} a
-         * @param {any} b
+         * @param {T} a - Item to compare
+         * @param {T} b - Item to compare
          * @returns {number}
          */
-        const desc: (a: any, b: any) => number;
+        const desc: <T>(a: T, b: T) => number;
         /**<!-- DOCS-ALIAS: fn.byProp -->
          * byProp
          * 
@@ -2272,11 +2276,11 @@ declare namespace fn {
          * const people = [{age: 2}, {age: 4}, {age: 3}, {age: 1}];
          * people.sort(fn.byProp('age', fn.asc)); // [{age: 1}, {age: 2}, {age: 3}, {age: 4}]
          * ```
-         * @param {keyof O} propName
-         * @param {SortFn<T>} [sortFn=asc]
+         * @param {keyof O} propName - Property to sort by
+         * @param {SortFn<O[keyof O]>} [sortFn=fn.sorts.asc] - Sort function to use
          * @returns {SortFn<O>}
          */
-        const byProp: <T = number, O extends object = object>(propName: keyof O, sortFn?: SortFn<T>) => SortFn<O>;
+        const byProp: <O extends object>(propName: keyof O, sortFn?: SortFn<O[keyof O]>) => SortFn<O>;
         /**<!-- DOCS-ALIAS: fn.nearestTo -->
          * nearestTo
          * 
@@ -2292,10 +2296,10 @@ declare namespace fn {
          * const people = [2, 4, 3, 1];
          * people.sort(fn.nearestTo(3)); // [3, 2, 4, 1]
          * ```
-         * @param {T} target
-         * @returns {(a: any, b: any) => number}
+         * @param {number | `${number}`} target - Target value to sort by
+         * @returns {(a: number | `${number}`, b: number | `${number}`) => number}
          */
-        const nearestTo: <T = number>(target: T) => (a: any, b: any) => number;
+        const nearestTo: (target: number | `${number}`) => (a: number | `${number}`, b: number | `${number}`) => number;
         /**<!-- DOCS-ALIAS: fn.furthestFrom -->
          * furthestFrom
          * 
@@ -2309,10 +2313,10 @@ declare namespace fn {
          * const people = [2, 4, 3, 1];
          * people.sort(fn.furthestFrom(3)); // [1, 2, 4, 3]
          * ```
-         * @param {T} target
-         * @returns {(a: any, b: any) => number}
+         * @param {number | `${number}`} target - Target value to sort by
+         * @returns {(a: number | `${number}`, b: number | `${number}`) => number}
          */
-        const furthestFrom: <T = number>(target: T) => (a: any, b: any) => number;
+        const furthestFrom: (target: number | `${number}`) => (a: number | `${number}`, b: number | `${number}`) => number;
         /**<!-- DOCS-ALIAS: fn.array -->
          * array
          * 
@@ -2328,7 +2332,7 @@ declare namespace fn {
          * const arr = [[1, 2], [3, 4], [5, 6]];
          * arr.sort(fn.array(fn.asc)); // [[1, 2], [3, 4], [5, 6]]
          * ```
-         * @param {SortFn<T>} [sortFn=asc]
+         * @param {SortFn<T>} [sortFn=fn.sorts.asc] - Sort function to use
          * @returns {(a: T[], b: T[]) => number}
          */
         const array: <T>(sortFn?: SortFn<T>) => (a: T[], b: T[]) => number;
@@ -2347,11 +2351,11 @@ declare namespace fn {
          * const arr = [[1, 2], [3, 4], [5, 6]];
          * arr.sort(fn.arrayAsc); // [[1, 2], [3, 4], [5, 6]]
          * ```
-         * @param {T} a
-         * @param {T} b
+         * @param {T} a - Item to compare
+         * @param {T} b - Item to compare
          * @returns {number}
          */
-        const arrayAsc: (a: any[], b: any[]) => number;
+        const arrayAsc: <T>(a: T[], b: T[]) => number;
         /**<!-- DOCS-ALIAS: fn.arrayDesc -->
          * arrayDesc
          * 
@@ -2367,11 +2371,11 @@ declare namespace fn {
          * const arr = [[1, 2], [3, 4], [5, 6]];
          * arr.sort(fn.arrayDesc); // [[5, 6], [3, 4], [1, 2]]
          * ```
-         * @param {T} a
-         * @param {T} b
+         * @param {T} a - Item to compare
+         * @param {T} b - Item to compare
          * @returns {number}
          */
-        const arrayDesc: (a: any[], b: any[]) => number;
+        const arrayDesc: <T>(a: T[], b: T[]) => number;
     }
     /**<!-- DOCS-ALIAS: fn.reduces -->
      * reduces
@@ -2394,8 +2398,8 @@ declare namespace fn {
          * [1, 2, 3].reduce(fn.combine); // 6
          * ['a', 'b', 'c'].reduce(fn.combine); // 'abc'
          * ```
-         * @param {T} a
-         * @param {T} b
+         * @param {T} a - Item to combine
+         * @param {T} b - Item to combine
          * @returns {T}
          */
         const combine: <T = number>(a: T, b: T) => T;
@@ -2408,15 +2412,17 @@ declare namespace fn {
          * 
          * Adds or concats the given property of the items
          * 
+         * > __Note:__ The initial value is required, because the first item is not yet an object.
+         * 
          * ```typescript
          * const people = [{name: 'a', age: 1}, {name: 'b', age: 2}, {name: 'c', age: 3}];
-         * people.reduce(fn.combineProp('age')); // 6
-         * people.reduce(fn.combineProp('name')); // 'abc'
+         * people.reduce(fn.combineProp('age'), 0); // 6
+         * people.reduce(fn.combineProp('name'), ''); // 'abc'
          * ```
-         * @param {string | number} propName
-         * @returns {(a: O | T, b: O) => T}
+         * @param {keyof O} propName - Property to combine
+         * @returns {(a: O[keyof O], b: O) => O[keyof O]}
          */
-        const combineProp: <O, T = number>(propName: string | number) => (a: O | T, b: O) => T;
+        const combineProp: <O extends object>(propName: keyof O) => (a: O[keyof O], b: O) => O[keyof O];
         /**<!-- DOCS-ALIAS: fn.mode -->
          * mode
          * 
@@ -2429,10 +2435,10 @@ declare namespace fn {
          * ```typescript
          * [1, 2, 3, 2, 1, 1].reduce(fn.mode); // 1
          * ```
-         * @param {T} prev
-         * @param {T} curr
-         * @param {number} index
-         * @param {T[]} arr
+         * @param {T} prev - Previous value
+         * @param {T} curr - Current value
+         * @param {number} index - Index of the current value
+         * @param {T[]} arr - Array of values
          * @returns {T}
          */
         const mode: <T>(prev: T, curr: T, index: number, arr: T[]) => T;
@@ -2448,7 +2454,7 @@ declare namespace fn {
          * ```typescript
          * [2, 4, 6, 8, 9, 12].reduce(fn.modeMapped((v) => v % 3)); // 6 (maps to [ 2, 1, 0, 2, 0, 0 ])
          * ```
-         * @param {(value: T, index: number, array: T[]) => U} mapFn
+         * @param {(value: T, index: number, array: T[]) => U} mapFn - Map function to use
          * @returns {(prev: T, curr: T, index: number, arr: T[]) => T}
          */
         const modeMapped: <T, U>(mapFn: (value: T, index: number, array: T[]) => U) => (prev: T, curr: T, index: number, arr: T[]) => T;
@@ -2474,9 +2480,9 @@ declare namespace fn {
          * [1, 1, 1].every(fn.isAllEqual); // true
          * [1, 2, 1].every(fn.isAllEqual); // false
          * ```
-         * @param {T} val
-         * @param {number} i
-         * @param {T[]} arr
+         * @param {T} val - Value to check
+         * @param {number} i - Index of the value
+         * @param {T[]} arr - Array of values
          * @returns {boolean}
          */
         const isAllEqual: <T = any>(val: T, i: number, arr: T[]) => boolean;
@@ -2494,9 +2500,9 @@ declare namespace fn {
          * [1, 2, 1].every(fn.isUnique); // false
          * [1, 2, 3].every(fn.isUnique); // true
          * ```
-         * @param {T} val
-         * @param {number} i
-         * @param {T[]} arr
+         * @param {T} val - Value to check
+         * @param {number} i - Index of the value
+         * @param {T[]} arr - Array of values
          * @returns {boolean}
          */
         const isUnique: <T>(val: T, i: number, arr: T[]) => boolean;
@@ -2522,11 +2528,13 @@ declare namespace fn {
          * 
          * > __Note:__ The groups a distributed in order, so the first group will be filled up first, then the next, etc.
          * 
+         * > __Note:__ Consider using `ArrayTools.partition` instead
+         * 
          * ```typescript
          * const nums = [1, 2, 3, 4, 5, 6, 7, 8];
          * ArrayTools.group(nums, fn.bySize(3)); // [[1, 2, 3], [4, 5, 6], [7, 8]]
          * ```
-         * @param {number} size
+         * @param {number} size - Size of the groups
          * @returns {(value: T, index: number, array: T[]) => number}
          */
         const bySize: <T>(size: number) => (value: T, index: number, array: T[]) => number;
@@ -2539,13 +2547,13 @@ declare namespace fn {
          * 
          * Group an array into a certain number of groups as evenly as possible.
          * 
-         * > __Note:__ The groups a distributed in order, so the first group will be filled up first, then the next, etc.
+         * > __Note:__ The groups are distributed in order, so the first group will be filled up first, then the next, etc.
          * 
          * ```typescript
          * const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
          * ArrayTools.group(nums, fn.byNumGroups(3)); // [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
          * ```
-         * @param {number} numGroups
+         * @param {number} numGroups - Number of groups to create
          * @returns {(value: T, index: number, array: T[]) => any}
          */
         const byNumGroups: <T>(numGroups: number) => (value: T, index: number, array: T[]) => any;
@@ -2635,7 +2643,7 @@ interface ITimer<TName> {
      * ```typescript
      * timer.start('TOTAL', 'Intro');
      * ```
-     * @param {...string} labels
+     * @param {...string} labels - Labels to start
      * @returns {void}
      */
     start(...labels: string[]): void;
@@ -2650,7 +2658,7 @@ interface ITimer<TName> {
      * ```typescript
      * timer.end('TOTAL', 'Intro');
      * ```
-     * @param {...string} labels
+     * @param {...string} labels - Labels to end
      * @returns {void}
      */
     end(...labels: string[]): void;
@@ -2666,8 +2674,8 @@ interface ITimer<TName> {
      * ```typescript
      * timer.switch('Intro', 'Ending');
      * ```
-     * @param {string | string[]} endLabel
-     * @param {string | string[]} startLabel
+     * @param {string | string[]} endLabel - Label(s) to end
+     * @param {string | string[]} startLabel - Label(s) to start
      * @returns {void}
      */
     switch(endLabel: string | string[], startLabel: string | string[]): void;
@@ -2682,8 +2690,8 @@ interface ITimer<TName> {
      * ```typescript
      * timer.getTable();
      * ```
-     * @param {string} [prefix]
-     * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries]
+     * @param {string} [prefix] - Prefix to add to the timing table
+     * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries] - Custom entries to add to the timing table
      * @returns {string} - the timing table
      */
     getTable(prefix?: string, customEntries?: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): string;
@@ -2698,8 +2706,8 @@ interface ITimer<TName> {
      * ```typescript
      * timer.log();
      * ```
-     * @param {string} [prefix]
-     * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries]
+     * @param {string} [prefix] - Prefix to add to the timing table
+     * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries] - Custom entries to add to the timing table
      * @returns {number} - the number of lines logged
      */
     log(prefix?: string, customEntries?: ((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>): number;
@@ -2730,8 +2738,8 @@ interface ITimer<TName> {
      * timer.getDuration('Intro');
      * ```
      *
-     * @param {string} label
-     * @returns {ms}
+     * @param {string} label - Label to get the duration of
+     * @returns {ms} - The duration of the timer
      */
     getDuration(label: string): ms;
     /**<!-- DOCS: ITimer.names #### -->
@@ -2819,11 +2827,11 @@ interface ITimer<TName> {
  * 	⎯⎯⎯⎯⎯⎯⎯
  * 	TOTAL:    10s
  * ```
- * @param {string} [name]
- * @param {boolean} [verbose=false]
- * @param {any} [wrapperFn=colr.dark.white]
- * @param {TName} [displayNames]
- * @returns {any}
+ * @param {string} [name] - Name of the timer
+ * @param {boolean} [verbose=false] - Whether to log the timing table
+ * @param {any} [wrapperFn=colr.dark.white] - Function to wrap the timing table in
+ * @param {TName} [displayNames] - Display names of the timers
+ * @returns {any} - The timer instance
  */
 declare const getTimer: <TName extends INames>(name?: string, verbose?: boolean, wrapperFn?: any, displayNames?: TName) => ITimer<TName> & KeysOnly<TName>;
 /**<!-- DOCS: timer.timer ### -->
@@ -2875,8 +2883,8 @@ declare namespace ArrayTools {
      * ArrayTools.create(3, 'a'); // [ 'a', 'a', 'a' ]
      * ArrayTools.create(3, 1); // [ 1, 1, 1 ]
      * ```
-     * @param {number} [length=1]
-     * @param {T} [value=1 as unknown as T]
+     * @param {number} [length=1] - Length of the array to create
+     * @param {T} [value=1 as unknown as T] - Value to fill the array with
      * @returns {T[]}
      */
     export const create: <T = number>(length?: number, value?: T) => T[];
@@ -2893,8 +2901,8 @@ declare namespace ArrayTools {
      * ArrayTools.filled(3, 'a'); // [ 'a', 'a', 'a' ]
      * ArrayTools.filled(3, 1); // [ 1, 1, 1 ]
      * ```
-     * @param {number} [length=1]
-     * @param {T} value
+     * @param {number} [length=1] - Length of the array to create
+     * @param {T} value - Value to fill the array with
      * @returns {T[]}
      */
     export const filled: <T>(length: number, value: T) => T[];
@@ -2916,9 +2924,9 @@ declare namespace ArrayTools {
      * ArrayTools.range(5, 2);  // [0, 2, 4, 6, 8]
      * ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
      * ```
-     * @param {number} [length=1]
-     * @param {number} [multiplier=1]
-     * @param {number} [offset=0]
+     * @param {number} [length=1] - Length of the array to create
+     * @param {number} [multiplier=1] - Multiplier to apply to each value
+     * @param {number} [offset=0] - Offset to apply to each value (after the multiplier)
      * @returns {number[]}
      */
     export const range: (length?: number, multiplier?: number, offset?: number) => number[];
@@ -2939,7 +2947,7 @@ declare namespace ArrayTools {
      * ```typescript
      * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
      * ```
-     * @param {...T} [arrs]
+     * @param {...T} [arrs] - Arrays to zip together
      * @returns {ZippedArrays<T>[]}
      */
     export const zip: <T extends any[]>(...arrs: T) => ZippedArrays<T>[];
@@ -2958,7 +2966,7 @@ declare namespace ArrayTools {
      * ```typescript
      * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
      * ```
-     * @param {...T} [arrs]
+     * @param {...T} [arrs] - Arrays to zip together
      * @returns {ZippedArrays<T>[]}
      */
     export const zipMax: <T extends any[]>(...arrs: T) => ZippedArrays<T>[];
@@ -2978,9 +2986,9 @@ declare namespace ArrayTools {
      *   (a, b) => b - a
      * ); // ['3p', '2p', '1p']
      * ```
-     * @param {T[]} arr
-     * @param {(value: T, index: number, array: T[]) => M} mapFn
-     * @param {(a: M, b: M) => number} [sortFn=fn.asc]
+     * @param {T[]} arr - Array to sort
+     * @param {(value: T, index: number, array: T[]) => M} mapFn - Function to map the values to
+     * @param {(a: M, b: M) => number} [sortFn=fn.asc] - Function to sort the mapped values by
      * @returns {T[]}
      */
     export const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn?: (a: M, b: M) => number) => T[];
@@ -2999,7 +3007,7 @@ declare namespace ArrayTools {
      * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
      * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
      * ```
-     * @param {T[]} arr
+     * @param {T[]} arr - Array to randomise
      * @returns {T[]}
      */
     export const randomise: <T = string>(arr: T[]) => T[];
@@ -3022,7 +3030,7 @@ declare namespace ArrayTools {
      * ArrayTools.reverse(arr2);  // [3, 2, 1]
      * arr2            // [1, 2, 3] - not mutated
      * ```
-     * @param {T[]} arr
+     * @param {T[]} arr - Array to reverse
      * @returns {T[]}
      */
     export const reverse: <T = string>(arr: T[]) => T[];
@@ -3043,7 +3051,7 @@ declare namespace ArrayTools {
      *  console.log(value); // 'a', 'b', 'c'
      * }
      * ```
-     * @param {T[]} arr
+     * @param {T[]} arr - Array to get entries from
      * @returns {[number, T][]}
      */
     export const entries: <T = string>(arr: T[]) => [number, T][];
@@ -3059,8 +3067,8 @@ declare namespace ArrayTools {
      * ArrayTools.repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
      * ArrayTools.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
      * ```
-     * @param {number} maxLength
-     * @param {...T} [items]
+     * @param {number} maxLength - Maximum length of the array
+     * @param {...T} [items] - Items to repeat
      * @returns {T[]}
      */
     export const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
@@ -3076,8 +3084,8 @@ declare namespace ArrayTools {
      * ArrayTools.roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
      * ArrayTools.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
      * ```
-     * @param {number} distance
-     * @param {T[]} arr
+     * @param {number} distance - Distance to roll the array by
+     * @param {T[]} arr - Array to roll
      * @returns {T[]}
      */
     export const roll: <T>(distance: number, arr: T[]) => T[];
@@ -3094,8 +3102,8 @@ declare namespace ArrayTools {
      * names.sort(); // [ 'foo10', 'foo20', 'foo9', 'name1', 'name10', 'name2' ]
      * ArrayTools.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
      * ```
-     * @param {string[]} texts
-     * @param {boolean} [ignoreCase=true]
+     * @param {string[]} texts - Texts to sort
+     * @param {boolean} [ignoreCase=true] - Whether to ignore case when sorting
      * @returns {string[]}
      */
     export const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
@@ -3114,8 +3122,8 @@ declare namespace ArrayTools {
      * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 9, 10 ] ]
      * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
      * ```
-     * @param {T[]} array
-     * @param {number} [partitionSize=Math.ceil(array.length / 2)]
+     * @param {T[]} array - Array to partition
+     * @param {number} [partitionSize=Math.ceil(array.length / 2)] - Size of each partition
      * @returns {T[][]}
      */
     export const partition: <T>(array: T[], partitionSize?: number) => T[][];
@@ -3134,8 +3142,8 @@ declare namespace ArrayTools {
      * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7 ], [ 8, 9, 10 ] ]
      * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
      * ```
-     * @param {T[]} array
-     * @param {number} [maxPartitionSize=Math.ceil(array.length / 2)]
+     * @param {T[]} array - Array to partition
+     * @param {number} [maxPartitionSize=Math.ceil(array.length / 2)] - Maximum size of each partition
      * @returns {T[][]}
      */
     export const partitionEvenly: <T>(array: T[], maxPartitionSize?: number) => T[][];
@@ -3158,8 +3166,8 @@ declare namespace ArrayTools {
      * //   2: [ { group: 2, name: 'b' } ]
      * // }
      * ```
-     * @param {T[]} array
-     * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
+     * @param {T[]} array - Array to group
+     * @param {(item: T, index: number, arr: T[]) => string | number} mapFn - Map function to get the group key for each item
      * @returns {{ [id: string]: T[]; [id: number]: T[]; }}
      */
     export const groupObj: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => {
@@ -3185,8 +3193,8 @@ declare namespace ArrayTools {
      * //   [ { group: 2, name: 'b' } ]
      * // ]
      * ```
-     * @param {T[]} array
-     * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
+     * @param {T[]} array - Array to group
+     * @param {(item: T, index: number, arr: T[]) => string | number} mapFn - Map function to get the group key for each item
      * @returns {T[][]}
      */
     export const group: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
@@ -3204,10 +3212,10 @@ declare namespace ArrayTools {
      * ArrayTools.findAndRemove(arr, (item) => item === 3); // 3
      * arr; // [1, 2, 4, 5]
      * ```
-     * @param {T[]} array the array to mutate
-     * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
-     * @param {...T} [insertItems] items to insert in place of the removed item
-     * @returns {T} the removed item (undefined if not found)
+     * @param {T[]} array - Array to mutate
+     * @param {(item: T, index: number, arr: T[]) => any} predicate - Function that returns true/truthy if the item should be removed
+     * @param {...T} [insertItems] - Items to insert in place of the removed item
+     * @returns {T} - The removed item (undefined if not found)
      */
     export const findAndRemove: <T>(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]) => T;
     /**<!-- DOCS: ArrayTools.findLastAndRemove ### @ -->
@@ -3224,10 +3232,10 @@ declare namespace ArrayTools {
      * ArrayTools.findLastAndRemove(arr, (item) => item === 3); // 3
      * arr; // [1, 2, 4, 5]
      * ```
-     * @param {T[]} array the array to mutate
-     * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
-     * @param {...T} [insertItems] items to insert in place of the removed item
-     * @returns {T} the removed item (undefined if not found)
+     * @param {T[]} array - Array to mutate
+     * @param {(item: T, index: number, arr: T[]) => any} predicate - Function that returns true/truthy if the item should be removed
+     * @param {...T} [insertItems] - Items to insert in place of the removed item
+     * @returns {T} - The removed item (undefined if not found)
      */
     export const findLastAndRemove: <T>(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]) => T;
     /**<!-- DOCS: ArrayTools.filterAndRemove ### @ -->
@@ -3244,9 +3252,9 @@ declare namespace ArrayTools {
      * ArrayTools.filterAndRemove(arr, (item) => item === 3); // [3]
      * arr; // [1, 2, 4, 5]
      * ```
-     * @param {T[]} array the array to mutate
-     * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
-     * @returns {T[]} the removed items
+     * @param {T[]} array - Array to mutate
+     * @param {(item: T, index: number, arr: T[]) => any} predicate - Function that returns true/truthy if the item should be removed
+     * @returns {T[]} - The removed items
      */
     export const filterAndRemove: <T>(array: T[], predicate: (item: T, index: number, arr: T[]) => any) => T[];
     /**<!-- DOCS: ArrayTools.utils ### @ -->
@@ -3268,7 +3276,7 @@ declare namespace ArrayTools {
          * ArrayTools.utils.isNumString('123'); // true
          * ArrayTools.utils.isNumString('123a'); // false
          * ```
-         * @param {string} text
+         * @param {string} text - Text to check if it is a number
          * @returns {boolean}
          */
         const isNumString: (text: string) => boolean;
@@ -3283,7 +3291,7 @@ declare namespace ArrayTools {
          * ArrayTools.utils.partitionNums(true)('123a'); // [ '123', 'a' ]
          * ArrayTools.utils.partitionNums(false)('123a'); // [ '123', 'a' ]
          * ```
-         * @param {boolean} ignoreCase
+         * @param {boolean} ignoreCase - Whether to ignore case
          * @returns {(name: string) => (string | number)[]}
          */
         const partitionNums: (ignoreCase: boolean) => (name: string) => (string | number)[];
@@ -3303,8 +3311,8 @@ declare namespace ArrayTools {
  * ArrayTools.create(3, 'a'); // [ 'a', 'a', 'a' ]
  * ArrayTools.create(3, 1); // [ 1, 1, 1 ]
  * ```
- * @param {number} [length=1]
- * @param {T} [value=1 as unknown as T]
+ * @param {number} [length=1] - Length of the array to create
+ * @param {T} [value=1 as unknown as T] - Value to fill the array with
  * @returns {T[]}
  */
 declare const create: <T = number>(length?: number, value?: T) => T[];
@@ -3321,8 +3329,8 @@ declare const create: <T = number>(length?: number, value?: T) => T[];
  * ArrayTools.filled(3, 'a'); // [ 'a', 'a', 'a' ]
  * ArrayTools.filled(3, 1); // [ 1, 1, 1 ]
  * ```
- * @param {number} [length=1]
- * @param {T} value
+ * @param {number} [length=1] - Length of the array to create
+ * @param {T} value - Value to fill the array with
  * @returns {T[]}
  */
 declare const filled: <T>(length: number, value: T) => T[];
@@ -3344,9 +3352,9 @@ declare const filled: <T>(length: number, value: T) => T[];
  * ArrayTools.range(5, 2);  // [0, 2, 4, 6, 8]
  * ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
  * ```
- * @param {number} [length=1]
- * @param {number} [multiplier=1]
- * @param {number} [offset=0]
+ * @param {number} [length=1] - Length of the array to create
+ * @param {number} [multiplier=1] - Multiplier to apply to each value
+ * @param {number} [offset=0] - Offset to apply to each value (after the multiplier)
  * @returns {number[]}
  */
 declare const range: (length?: number, multiplier?: number, offset?: number) => number[];
@@ -3365,7 +3373,7 @@ declare const range: (length?: number, multiplier?: number, offset?: number) => 
  * ```typescript
  * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
  * ```
- * @param {...T} [arrs]
+ * @param {...T} [arrs] - Arrays to zip together
  * @returns {ZippedArrays<T>[]}
  */
 declare const zip: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...any] : []] : []] : []] : []] : []] : []] : []] : []] : []] : []] : [])[];
@@ -3384,7 +3392,7 @@ declare const zip: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...i
  * ```typescript
  * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
  * ```
- * @param {...T} [arrs]
+ * @param {...T} [arrs] - Arrays to zip together
  * @returns {ZippedArrays<T>[]}
  */
 declare const zipMax: <T extends any[]>(...arrs: T) => (T extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...Tail extends [infer Head, ...infer Tail] ? [Head extends (infer U)[] ? U : Head, ...any] : []] : []] : []] : []] : []] : []] : []] : []] : []] : []] : [])[];
@@ -3404,9 +3412,9 @@ declare const zipMax: <T extends any[]>(...arrs: T) => (T extends [infer Head, .
  *   (a, b) => b - a
  * ); // ['3p', '2p', '1p']
  * ```
- * @param {T[]} arr
- * @param {(value: T, index: number, array: T[]) => M} mapFn
- * @param {(a: M, b: M) => number} [sortFn=fn.asc]
+ * @param {T[]} arr - Array to sort
+ * @param {(value: T, index: number, array: T[]) => M} mapFn - Function to map the values to
+ * @param {(a: M, b: M) => number} [sortFn=fn.asc] - Function to sort the mapped values by
  * @returns {T[]}
  */
 declare const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T, index: number, array: T[]) => M, sortFn?: (a: M, b: M) => number) => T[];
@@ -3425,7 +3433,7 @@ declare const sortByMapped: <T = string, M = number>(arr: T[], mapFn: (value: T,
  * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
  * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
  * ```
- * @param {T[]} arr
+ * @param {T[]} arr - Array to randomise
  * @returns {T[]}
  */
 declare const randomise: <T = string>(arr: T[]) => T[];
@@ -3448,7 +3456,7 @@ declare const randomise: <T = string>(arr: T[]) => T[];
  * ArrayTools.reverse(arr2);  // [3, 2, 1]
  * arr2            // [1, 2, 3] - not mutated
  * ```
- * @param {T[]} arr
+ * @param {T[]} arr - Array to reverse
  * @returns {T[]}
  */
 declare const reverse: <T = string>(arr: T[]) => T[];
@@ -3469,7 +3477,7 @@ declare const reverse: <T = string>(arr: T[]) => T[];
  *  console.log(value); // 'a', 'b', 'c'
  * }
  * ```
- * @param {T[]} arr
+ * @param {T[]} arr - Array to get entries from
  * @returns {[number, T][]}
  */
 declare const entries: <T = string>(arr: T[]) => [number, T][];
@@ -3485,8 +3493,8 @@ declare const entries: <T = string>(arr: T[]) => [number, T][];
  * ArrayTools.repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
  * ArrayTools.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
  * ```
- * @param {number} maxLength
- * @param {...T} [items]
+ * @param {number} maxLength - Maximum length of the array
+ * @param {...T} [items] - Items to repeat
  * @returns {T[]}
  */
 declare const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
@@ -3502,8 +3510,8 @@ declare const repeat: <T = string>(maxLength: number, ...items: T[]) => T[];
  * ArrayTools.roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
  * ArrayTools.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
  * ```
- * @param {number} distance
- * @param {T[]} arr
+ * @param {number} distance - Distance to roll the array by
+ * @param {T[]} arr - Array to roll
  * @returns {T[]}
  */
 declare const roll: <T>(distance: number, arr: T[]) => T[];
@@ -3520,8 +3528,8 @@ declare const roll: <T>(distance: number, arr: T[]) => T[];
  * names.sort(); // [ 'foo10', 'foo20', 'foo9', 'name1', 'name10', 'name2' ]
  * ArrayTools.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
  * ```
- * @param {string[]} texts
- * @param {boolean} [ignoreCase=true]
+ * @param {string[]} texts - Texts to sort
+ * @param {boolean} [ignoreCase=true] - Whether to ignore case when sorting
  * @returns {string[]}
  */
 declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => string[];
@@ -3540,8 +3548,8 @@ declare const sortNumberedText: (texts: string[], ignoreCase?: boolean) => strin
  * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 9, 10 ] ]
  * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
  * ```
- * @param {T[]} array
- * @param {number} [partitionSize=Math.ceil(array.length / 2)]
+ * @param {T[]} array - Array to partition
+ * @param {number} [partitionSize=Math.ceil(array.length / 2)] - Size of each partition
  * @returns {T[][]}
  */
 declare const partition: <T>(array: T[], partitionSize?: number) => T[][];
@@ -3560,8 +3568,8 @@ declare const partition: <T>(array: T[], partitionSize?: number) => T[][];
  * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7 ], [ 8, 9, 10 ] ]
  * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
  * ```
- * @param {T[]} array
- * @param {number} [maxPartitionSize=Math.ceil(array.length / 2)]
+ * @param {T[]} array - Array to partition
+ * @param {number} [maxPartitionSize=Math.ceil(array.length / 2)] - Maximum size of each partition
  * @returns {T[][]}
  */
 declare const partitionEvenly: <T>(array: T[], maxPartitionSize?: number) => T[][];
@@ -3584,8 +3592,8 @@ declare const partitionEvenly: <T>(array: T[], maxPartitionSize?: number) => T[]
  * //   2: [ { group: 2, name: 'b' } ]
  * // }
  * ```
- * @param {T[]} array
- * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
+ * @param {T[]} array - Array to group
+ * @param {(item: T, index: number, arr: T[]) => string | number} mapFn - Map function to get the group key for each item
  * @returns {{ [id: string]: T[]; [id: number]: T[]; }}
  */
 declare const groupObj: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => {
@@ -3611,8 +3619,8 @@ declare const groupObj: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]
  * //   [ { group: 2, name: 'b' } ]
  * // ]
  * ```
- * @param {T[]} array
- * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
+ * @param {T[]} array - Array to group
+ * @param {(item: T, index: number, arr: T[]) => string | number} mapFn - Map function to get the group key for each item
  * @returns {T[][]}
  */
 declare const group: <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number) => T[][];
@@ -3634,8 +3642,8 @@ declare namespace ObjectTools {
      * const input = {'foo': 2, 'bar': 1, 'baz': 4}
      * ObjectTools.remodel(input, (entries) => entries.filter(([k, v]) => v % 2 === 0)) // { foo: 2, baz: 4 }
      * ```
-     * @param {T} obj
-     * @param {(entries: [string, V][]) => [string, W][]} func
+     * @param {T} obj - Object to remodel
+     * @param {(entries: [string, V][]) => [string, W][]} func - Function to apply to the entries array
      * @returns {O}
      */
     const remodel: <T extends object, V = any, W = any, O = OfType<T, W>>(obj: T, func: (entries: [string, V][]) => [string, W][]) => O;
@@ -3652,8 +3660,8 @@ declare namespace ObjectTools {
      * const input = {'foo': 2, 'bar': 1, 'baz': 4}
      * ObjectTools.remodelEach(input, ([k, v]) => [k, v * 2]) // { foo: 4, bar: 2, baz: 8 }
      * ```
-     * @param {T} obj
-     * @param {(entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]} func
+     * @param {T} obj - Object to remodel
+     * @param {(entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]} func - Function to apply to each of the entries
      * @returns {O}
      */
     const remodelEach: <T extends object, Vi = any, Vo = any, O = OfType<T, Vo>>(obj: T, func: (entry: [string, Vi], index: number, entries: [string, Vi][]) => [string, Vo]) => O;
@@ -3667,8 +3675,8 @@ declare namespace ObjectTools {
      * ```typescript
      * ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => [key, key + value]); // {a: 'a1', b: 'b2', c: 'c3'}
      * ```
-     * @param {T} obj
-     * @param {(key: string, value: Vi, index: number) => [string, Vo]} func
+     * @param {T} obj - Object to map
+     * @param {(key: string, value: Vi, index: number) => [string, Vo]} func - Function to apply to each of the entries
      * @returns {any}
      */
     const map: <T extends object, Vi, Vo>(obj: T, func: (key: string, value: Vi, index: number) => [string, Vo]) => OfType<T, Vo>;
@@ -3682,8 +3690,8 @@ declare namespace ObjectTools {
      * ```typescript
      * ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: 'a', b: 'bb', c: 'ccc'}
      * ```
-     * @param {T} obj
-     * @param {(key: string, value: Vi, index: number) => Vo} func
+     * @param {T} obj - Object to map
+     * @param {(key: string, value: Vi, index: number) => Vo} func - Function to apply to each of the entries
      * @returns {any}
      */
     const mapValues: <T extends object, Vi, Vo>(obj: T, func: (key: string, value: Vi, index: number) => Vo) => OfType<T, Vo>;
@@ -3697,8 +3705,8 @@ declare namespace ObjectTools {
      * ```typescript
      * ObjectTools.map({a: 1, b: 2, c: 3}, (key, value) => key.repeat(value)); // {a: 1, bb: 2, ccc: 3}
      * ```
-     * @param {T} obj
-     * @param {(key: string, value: V, index: number) => string} func
+     * @param {T} obj - Object to map
+     * @param {(key: string, value: V, index: number) => string} func - Function to apply to each of the entries
      * @returns {T}
      */
     const mapKeys: <T extends object, V>(obj: T, func: (key: string, value: V, index: number) => string) => T;
@@ -3712,8 +3720,8 @@ declare namespace ObjectTools {
      * ```typescript
      * ObjectTools.filter({a: 1, b: 2, c: 3}, (k, v) => v % 2 === 0) // { b: 2 }
      * ```
-     * @param {T} obj
-     * @param {(key: string, value: V, index: number) => boolean} func
+     * @param {T} obj - Object to filter
+     * @param {(key: string, value: V, index: number) => boolean} func - Function to apply to each of the entries
      * @returns {O}
      */
     const filter: <T extends object, V, O extends Partial<T>>(obj: T, func: (key: string, value: V, index: number) => boolean) => O;
@@ -3727,7 +3735,7 @@ declare namespace ObjectTools {
      * ```typescript
      * ObjectTools.clean({a: 1, b: undefined, c: 3}) // { a: 1, c: 3 }
      * ```
-     * @param {T} obj
+     * @param {T} obj - Object to clean
      * @returns {O}
      */
     const clean: <T extends object, O extends Partial<T>>(obj: T) => O;
@@ -3741,7 +3749,7 @@ declare namespace ObjectTools {
      * ```typescript
      * ObjectTools.invert({ a: 'foo', b: 'bar' }); // { foo: 'a', bar: 'b'}
      * ```
-     * @param {T} obj
+     * @param {T} obj - Object to invert
      * @returns {O}
      */
     const invert: <T extends object, O extends ObjOfType<string>>(obj: T) => O;
@@ -3766,8 +3774,8 @@ declare namespace StringTools {
      * ```typescript
      * StringTools.capitalise('hello world'); // 'Hello World'
      * ```
-     * @param {string} [input='']
-     * @param {boolean} [forceRestToLowerCase=true]
+     * @param {string} [input=''] - String to capitalise
+     * @param {boolean} [forceRestToLowerCase=true] - Whether to force the rest of the string to lower case
      * @returns {string}
      */
     const capitalise: (input?: string, forceRestToLowerCase?: boolean) => string;
@@ -3781,7 +3789,7 @@ declare namespace StringTools {
      * ```typescript
      * StringTools.angloise('éèêë'); // 'eeee'
      * ```
-     * @param {string} input
+     * @param {string} input - String to angloise
      * @returns {string}
      */
     const angloise: (input: string) => string;
@@ -3795,7 +3803,7 @@ declare namespace StringTools {
      * ```typescript
      * StringTools.clean('éèêë_--ab0'); // 'eeeeab0'
      * ```
-     * @param {string} [input='']
+     * @param {string} [input=''] - String to clean
      * @returns {string}
      */
     const clean: (input?: string) => string;
@@ -3812,8 +3820,8 @@ declare namespace StringTools {
      * StringTools.repeat(0, '-') // ''
      * StringTools.repeat(-1, '-') // ''
      * ```
-     * @param {number} maxLength
-     * @param {string} repeated
+     * @param {number} maxLength - Maximum length of the string
+     * @param {string} repeated - String to repeat
      * @returns {string}
      */
     const repeat: (maxLength: number, repeated: string) => string;
@@ -3834,7 +3842,7 @@ declare namespace StringTools {
      *
      * longText.replace(new RegExp(makeRegExpSafe(textWithSpecChars)), 'foobar'); // 'A long line with foobar in it'
      * ```
-     * @param {string} text
+     * @param {string} text - String to make safe for use in a RegExp
      * @returns {string}
      */
     const makeRegExpSafe: (text: string) => string;
@@ -3855,9 +3863,9 @@ declare namespace StringTools {
      * StringTools.replaceAll(input, 'o', (match) => match.toUpperCase()) // 'the quick brOwn fOx jumps Over the lazy dOg'
      * StringTools.replaceAll(input, 'o', '#') // 'the quick br#wn f#x jumps #ver the lazy d#g'
      * ```
-     * @param {string} text
-     * @param {string | RegExp} searchValue
-     * @param {string | ((substring: string, ...args: any[]) => string)} replacer
+     * @param {string} text - String to replace in
+     * @param {string | RegExp} searchValue - String or RegExp to search for
+     * @param {string | ((substring: string, ...args: any[]) => string)} replacer - String or function to replace the search value with
      * @returns {string}
      */
     const replaceAll: (text: string, searchValue: string | RegExp, replacer: string | ((substring: string, ...args: any[]) => string)) => string;
@@ -3885,8 +3893,8 @@ declare namespace StringTools {
      * StringTools.randomId('', '-bar'); // 'dpyq3i2uwq-bar'
      * StringTools.randomId('foo-', '-bar'); // 'foo-wapluosnf6-bar'
      * ```
-     * @param {string} [prefix='']
-     * @param {string} [suffix='']
+     * @param {string} [prefix=''] - Prefix to add to the random ID
+     * @param {string} [suffix=''] - Suffix to add to the random ID
      * @returns {string}
      */
     const randomId: (prefix?: string, suffix?: string) => string;
@@ -3907,7 +3915,7 @@ declare namespace StringTools {
      * clx('abc', conditionB && 'def') // 'abc def'
      * clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
      * ```
-     * @param {...ClxType} [args]
+     * @param {...ClxType} [args] - Classes (or objects/arrays to compose
      * @returns {string}
      */
     const clx: (...args: ClxType[]) => string;
@@ -3925,7 +3933,7 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toLowerCamelCase`
          * 
          * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
-         * @param {string | string[]} input
+         * @param {string | string[]} input - String or array of strings to convert
          * @returns {string}
          */
         toLowerCamelCase(input: string | string[]): string;
@@ -3939,7 +3947,7 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toUpperCamelCase`
          * 
          * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
-         * @param {string | string[]} input
+         * @param {string | string[]} input - String or array of strings to convert
          * @returns {string}
          */
         toUpperCamelCase(input: string | string[]): string;
@@ -3953,8 +3961,8 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toCamelCase`
          * 
          * Convert a string to camel case (e.g. `thisIsCamelCase`)
-         * @param {string | string[]} input
-         * @param {boolean} [capitaliseFirst=false]
+         * @param {string | string[]} input - String or array of strings to convert
+         * @param {boolean} [capitaliseFirst=false] - Whether to capitalise the first letter
          * @returns {string}
          */
         toCamelCase(input: string | string[], capitaliseFirst?: boolean): string;
@@ -3968,7 +3976,7 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toLowerSlugCase`
          * 
          * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
-         * @param {string | string[]} input
+         * @param {string | string[]} input - String or array of strings to convert
          * @returns {string}
          */
         toLowerSlugCase(input: string | string[]): string;
@@ -3982,7 +3990,7 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toUpperSlugCase`
          * 
          * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
-         * @param {string | string[]} input
+         * @param {string | string[]} input - String or array of strings to convert
          * @returns {string}
          */
         toUpperSlugCase(input: string | string[]): string;
@@ -3996,8 +4004,8 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toSlugCase`
          * 
          * Convert a string to camel case (e.g. `this-is-slug-case`)
-         * @param {string | string[]} input
-         * @param {boolean} [toUpper=false]
+         * @param {string | string[]} input - String or array of strings to convert
+         * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
          * @returns {string}
          */
         toSlugCase(input: string | string[], toUpper?: boolean): string;
@@ -4011,7 +4019,7 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toLowerSnakeCase`
          * 
          * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
-         * @param {string | string[]} input
+         * @param {string | string[]} input - String or array of strings to convert
          * @returns {string}
          */
         toLowerSnakeCase(input: string | string[]): string;
@@ -4025,7 +4033,7 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toUpperSnakeCase`
          * 
          * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
-         * @param {string | string[]} input
+         * @param {string | string[]} input - String or array of strings to convert
          * @returns {string}
          */
         toUpperSnakeCase(input: string | string[]): string;
@@ -4039,8 +4047,8 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toSnakeCase`
          * 
          * Convert a string to snake case (e.g. `this_is_snake_case`)
-         * @param {string | string[]} input
-         * @param {boolean} [toUpper=false]
+         * @param {string | string[]} input - String or array of strings to convert
+         * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
          * @returns {string}
          */
         toSnakeCase(input: string | string[], toUpper?: boolean): string;
@@ -4054,7 +4062,7 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toLowerSpaced`
          * 
          * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
-         * @param {string | string[]} input
+         * @param {string | string[]} input - String or array of strings to convert
          * @returns {string}
          */
         toLowerSpaced(input: string | string[]): string;
@@ -4068,7 +4076,7 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toUpperSpaced`
          * 
          * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
-         * @param {string | string[]} input
+         * @param {string | string[]} input - String or array of strings to convert
          * @returns {string}
          */
         toUpperSpaced(input: string | string[]): string;
@@ -4082,7 +4090,7 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toCapitalisedSpaced`
          * 
          * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
-         * @param {string | string[]} input
+         * @param {string | string[]} input - String or array of strings to convert
          * @returns {string}
          */
         toCapitalisedSpaced(input: string | string[]): string;
@@ -4096,8 +4104,8 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toSpaced`
          * 
          * Convert a string to spaced case (e.g. `this is spaced case`)
-         * @param {string | string[]} input
-         * @param {boolean} [toUpper=false]
+         * @param {string | string[]} input - String or array of strings to convert
+         * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
          * @returns {string}
          */
         toSpaced(input: string | string[], toUpper?: boolean): string;
@@ -4111,9 +4119,9 @@ declare namespace StringTools {
          * - `StringTools.fromCamelCase.toCharacterSeparated`
          * 
          * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
-         * @param {string | string[]} input
-         * @param {string} [char=',']
-         * @param {boolean} [toUpper=false]
+         * @param {string | string[]} input - String or array of strings to convert
+         * @param {string} [char=','] - Character to separate the words by
+         * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
          * @returns {string}
          */
         toCharacterSeparated(input: string | string[], char: string, toUpper?: boolean): string;
@@ -4129,7 +4137,7 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toLowerCamelCase`
      * 
      * Convert a string to lower camel case (e.g. `thisIsLowerCamelCase`)
-     * @param {string | string[]} input
+     * @param {string | string[]} input - String or array of strings to convert
      * @returns {string}
      */
     toLowerCamelCase: (input: string | string[]) => string, 
@@ -4143,7 +4151,7 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toUpperCamelCase`
      * 
      * Convert a string to upper camel case (e.g. `ThisIsLowerCamelCase`)
-     * @param {string | string[]} input
+     * @param {string | string[]} input - String or array of strings to convert
      * @returns {string}
      */
     toUpperCamelCase: (input: string | string[]) => string, 
@@ -4157,8 +4165,8 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toCamelCase`
      * 
      * Convert a string to camel case (e.g. `thisIsCamelCase`)
-     * @param {string | string[]} input
-     * @param {boolean} [capitaliseFirst=false]
+     * @param {string | string[]} input - String or array of strings to convert
+     * @param {boolean} [capitaliseFirst=false] - Whether to capitalise the first letter
      * @returns {string}
      */
     toCamelCase: (input: string | string[], capitaliseFirst?: boolean) => string, 
@@ -4172,7 +4180,7 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toLowerSlugCase`
      * 
      * Convert a string to lower slug case (e.g. `this-is-lower-slug-case`)
-     * @param {string | string[]} input
+     * @param {string | string[]} input - String or array of strings to convert
      * @returns {string}
      */
     toLowerSlugCase: (input: string | string[]) => string, 
@@ -4186,7 +4194,7 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toUpperSlugCase`
      * 
      * Convert a string to upper camel case (e.g. `THIS-IS-UPPER-SLUG-CASE`)
-     * @param {string | string[]} input
+     * @param {string | string[]} input - String or array of strings to convert
      * @returns {string}
      */
     toUpperSlugCase: (input: string | string[]) => string, 
@@ -4200,8 +4208,8 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toSlugCase`
      * 
      * Convert a string to camel case (e.g. `this-is-slug-case`)
-     * @param {string | string[]} input
-     * @param {boolean} [toUpper=false]
+     * @param {string | string[]} input - String or array of strings to convert
+     * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
      * @returns {string}
      */
     toSlugCase: (input: string | string[], toUpper?: boolean) => string, 
@@ -4215,7 +4223,7 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toLowerSnakeCase`
      * 
      * Convert a string to lower snake case (e.g. `this_is_lower_snake_case`)
-     * @param {string | string[]} input
+     * @param {string | string[]} input - String or array of strings to convert
      * @returns {string}
      */
     toLowerSnakeCase: (input: string | string[]) => string, 
@@ -4229,7 +4237,7 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toUpperSnakeCase`
      * 
      * Convert a string to upper snake case (e.g. `THIS_IS_UPPER_SNAKE_CASE`)
-     * @param {string | string[]} input
+     * @param {string | string[]} input - String or array of strings to convert
      * @returns {string}
      */
     toUpperSnakeCase: (input: string | string[]) => string, 
@@ -4243,8 +4251,8 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toSnakeCase`
      * 
      * Convert a string to snake case (e.g. `this_is_snake_case`)
-     * @param {string | string[]} input
-     * @param {boolean} [toUpper=false]
+     * @param {string | string[]} input - String or array of strings to convert
+     * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
      * @returns {string}
      */
     toSnakeCase: (input: string | string[], toUpper?: boolean) => string, 
@@ -4258,7 +4266,7 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toLowerSpaced`
      * 
      * Convert a string to lower spaced case (e.g. `this is lower spaced case`)
-     * @param {string | string[]} input
+     * @param {string | string[]} input - String or array of strings to convert
      * @returns {string}
      */
     toLowerSpaced: (input: string | string[]) => string, 
@@ -4272,7 +4280,7 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toUpperSpaced`
      * 
      * Convert a string to upper spaced case (e.g. `THIS IS UPPER SPACED CASE`)
-     * @param {string | string[]} input
+     * @param {string | string[]} input - String or array of strings to convert
      * @returns {string}
      */
     toUpperSpaced: (input: string | string[]) => string, 
@@ -4286,7 +4294,7 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toCapitalisedSpaced`
      * 
      * Convert a string to capitalised spaced case (e.g. `This Is Capitalised Spaced Case`)
-     * @param {string | string[]} input
+     * @param {string | string[]} input - String or array of strings to convert
      * @returns {string}
      */
     toCapitalisedSpaced: (input: string | string[]) => string, 
@@ -4300,8 +4308,8 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toSpaced`
      * 
      * Convert a string to spaced case (e.g. `this is spaced case`)
-     * @param {string | string[]} input
-     * @param {boolean} [toUpper=false]
+     * @param {string | string[]} input - String or array of strings to convert
+     * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
      * @returns {string}
      */
     toSpaced: (input: string | string[], toUpper?: boolean) => string, 
@@ -4315,9 +4323,9 @@ declare namespace StringTools {
      * - `StringTools.fromCamelCase.toCharacterSeparated`
      * 
      * Convert a string to text where words are separated by a given character (e.g. `this#is#character#separated`)
-     * @param {string | string[]} input
-     * @param {string} [char=',']
-     * @param {boolean} [toUpper=false]
+     * @param {string | string[]} input - String or array of strings to convert
+     * @param {string} [char=','] - Character to separate the words by
+     * @param {boolean} [toUpper=false] - Whether to convert the words to upper case
      * @returns {string}
      */
     toCharacterSeparated: (input: string | string[], char: string, toUpper?: boolean) => string;
@@ -4419,8 +4427,8 @@ declare namespace StringTools {
          * const uniqued = matchBrackets.unique(example);
          * uniqued; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tennis", "Board Games"❳0✧ ❵1✧❵0✧'
          * ```
-         * @param {string} input
-         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+         * @param {string} input - String to match brackets in
+         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
          * @returns {string}
          */
         const unique: (input: string, replaceSymbols?: Partial<BracketReplaceSymbols>) => string;
@@ -4436,8 +4444,8 @@ declare namespace StringTools {
          * const depthed = matchBrackets.depth(example);
          * depthed; // '❴0✧name: "Jane", info: ❴1✧ age: 31, interests: ❲0✧"Tennis", "Board Games"❳0✧ ❵1✧❵0✧'
          * ```
-         * @param {string} input
-         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+         * @param {string} input - String to match brackets in
+         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
          * @returns {string}
          */
         const depth: (input: string, replaceSymbols?: Partial<BracketReplaceSymbols>) => string;
@@ -4456,8 +4464,8 @@ declare namespace StringTools {
          * const cleaned = matchBrackets.clean(uniqued);
          * cleaned; // '{name: "Jane", info: { age: 31, interests: ["Tennis", "Board Games"] }}'
          * ```
-         * @param {string} input
-         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+         * @param {string} input - String to clean
+         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
          * @returns {string}
          */
         const clean: (input: string, replaceSymbols?: Partial<BracketReplaceSymbols>) => string;
@@ -4481,10 +4489,10 @@ declare namespace StringTools {
          * const grabbed = matchBrackets.grabDepth(example, 'square', 2);
          * grabbed; // [ '[1, 2, 3]', '[4, 5, 6]', '[7, 8, 9]' ]
          * ```
-         * @param {string} input
-         * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round']
-         * @param {number} [depthID=0]
-         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+         * @param {string} input - String to match brackets in
+         * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round'] - Bracket type to match
+         * @param {number} [depthID=0] - Depth ID to match
+         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
          * @returns {string[]}
          */
         const grabDepth: (input: string, bracketType?: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle', depthID?: number, replaceSymbols?: Partial<BracketReplaceSymbols>) => string[];
@@ -4509,10 +4517,10 @@ declare namespace StringTools {
          * const grabbed = matchBrackets.grabUnique(example, 'square', 3);
          * grabbed; // '[4, 5, 6]'
          * ```
-         * @param {string} input
-         * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round']
-         * @param {number} [uniqueID=0]
-         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+         * @param {string} input - String to match brackets in
+         * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round'] - Bracket type to match
+         * @param {number} [uniqueID=0] - Unique ID to match
+         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
          * @returns {string}
          */
         const grabUnique: (input: string, bracketType?: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle', uniqueID?: number, replaceSymbols?: Partial<BracketReplaceSymbols>) => string;
@@ -4535,9 +4543,9 @@ declare namespace StringTools {
          * //   '[7, 8, 9]'
          * // ]
          * ```
-         * @param {string} input
-         * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round']
-         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+         * @param {string} input - String to match brackets in
+         * @param {'()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle'} [bracketType='round'] - Bracket type to match
+         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Symbols to replace the brackets with
          * @returns {string[]}
          */
         const grab: (input: string, bracketType?: '()' | '[]' | '{}' | '<>' | 'round' | 'square' | 'curly' | 'angle', replaceSymbols?: Partial<BracketReplaceSymbols>) => string[];
@@ -4579,7 +4587,7 @@ declare namespace StringTools {
          * //   '>': '❱'
          * // }
          * ```
-         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}]
+         * @param {Partial<BracketReplaceSymbols>} [replaceSymbols={}] - Partial set of replace symbols to use
          * @returns {BracketReplaceSymbols}
          */
         const getReplaceSymbols: (replaceSymbols?: Partial<BracketReplaceSymbols>) => BracketReplaceSymbols;
@@ -4634,7 +4642,7 @@ declare namespace StringTools {
  * clx('abc', conditionB && 'def') // 'abc def'
  * clx({'lorem': conditionA, 'ipsum': conditionB}) // 'ipsum'
  * ```
- * @param {...ClxType} [args]
+ * @param {...ClxType} [args] - Classes (or objects/arrays to compose
  * @returns {string}
  */
 declare const clx: (...args: ClxType[]) => string;
@@ -4693,7 +4701,7 @@ declare namespace PromiseTools {
      * - `PromiseTools.all`
      *
      * Similar to Promise.all, but accepts values, functions, and promises.
-     * @param {PromiseTools.PromiseItem<T>[]} items
+     * @param {PromiseTools.PromiseItem<T>[]} items - Items to wait for
      * @returns {Promise<T[]>}
      */
     export const all: <T>(items: PromiseItem<T>[]) => Promise<T[]>;
@@ -4737,9 +4745,9 @@ declare namespace PromiseTools {
      * // 	c: 10s
      * // 	d: 10s
      * ```
-     * @param {number} limit
-     * @param {PromiseTools.PromiseItem<T>[]} items
-     * @param {boolean} [noThrow=false]
+     * @param {number} limit - Maximum number of items to run concurrently
+     * @param {PromiseTools.PromiseItem<T>[]} items - Items to wait for
+     * @param {boolean} [noThrow=false] - Whether to prevent throwing errors
      * @returns {Promise<T[]>}
      */
     export const allLimit: <T>(limit: number, items: PromiseItem<T>[], noThrow?: boolean) => Promise<T[]>;
@@ -4762,8 +4770,8 @@ declare namespace PromiseTools {
      * });
      * console.log(''); // after 2 seconds
      * ```
-     * @param {T[]} items
-     * @param {(item: T, index: number, array: T[]) => Promise<any>} func
+     * @param {T[]} items - Items to iterate over
+     * @param {(item: T, index: number, array: T[]) => Promise<any>} func - Function to apply to each item
      * @returns {Promise<void>}
      */
     export const each: <T>(items: T[], func: (item: T, index: number, array: T[]) => Promise<any>) => Promise<void>;
@@ -4788,9 +4796,9 @@ declare namespace PromiseTools {
      * });
      * console.log(''); // after 4 seconds
      * ```
-     * @param {number} limit
-     * @param {T[]} items
-     * @param {(item: T, index: number, array: T[]) => Promise<any>} func
+     * @param {number} limit - Maximum number of items to run concurrently
+     * @param {T[]} items - Items to iterate over
+     * @param {(item: T, index: number, array: T[]) => Promise<any>} func - Function to apply to each item
      * @returns {Promise<void>}
      */
     export const eachLimit: <T>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<any>) => Promise<void>;
@@ -4814,8 +4822,8 @@ declare namespace PromiseTools {
      *
      * console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
      * ```
-     * @param {T[]} items
-     * @param {(item: T, index: number, array: T[]) => Promise<U>} func
+     * @param {T[]} items - Items to iterate over
+     * @param {(item: T, index: number, array: T[]) => Promise<U>} func - Map function to apply to each item
      * @returns {Promise<U[]>}
      */
     export const map: <T, U>(items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
@@ -4841,9 +4849,9 @@ declare namespace PromiseTools {
      *
      * console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
      * ```
-     * @param {number} limit
-     * @param {T[]} items
-     * @param {(item: T, index: number, array: T[]) => Promise<U>} func
+     * @param {number} limit - Maximum number of items to run concurrently
+     * @param {T[]} items - Items to iterate over
+     * @param {(item: T, index: number, array: T[]) => Promise<U>} func - Map function to apply to each item
      * @returns {Promise<U[]>}
      */
     export const mapLimit: <T, U>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
@@ -4887,7 +4895,7 @@ declare namespace PromiseTools {
      * // 	b: 15s
      * // 	c: 20s
      * ```
-     * @param {T} input
+     * @param {T} input - Object with properties to wait for
      * @returns {Promise<AwaitedObject<T>>}
      */
     export const allObj: <T extends object>(input: T) => Promise<{ [K_1 in keyof T]: AwaitedItem<T[K_1]>; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: AwaitedItem<T[K_1]>; }[K]; } : never>;
@@ -4931,9 +4939,9 @@ declare namespace PromiseTools {
      * // 	c: 10s
      * // 	d: 10s
      * ```
-     * @param {number} limit
-     * @param {T} input
-     * @param {boolean} [noThrow=false]
+     * @param {number} limit - Maximum number of items to run concurrently
+     * @param {T} input - Object with properties to wait for
+     * @param {boolean} [noThrow=false] - Whether to prevent throwing errors
      * @returns {Promise<AwaitedObject<T>>}
      */
     export const allLimitObj: <T extends object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K_1 in keyof T]: AwaitedItem<T[K_1]>; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: AwaitedItem<T[K_1]>; }[K]; } : never>;
@@ -5001,7 +5009,7 @@ declare const getDeferred: <T>() => PromiseTools.DeferredPromise<T>;
  * - `PromiseTools.all`
  * 
  * Similar to Promise.all, but accepts values, functions, and promises.
- * @param {PromiseTools.PromiseItem<T>[]} items
+ * @param {PromiseTools.PromiseItem<T>[]} items - Items to wait for
  * @returns {Promise<T[]>}
  */
 declare const all: <T>(items: PromiseTools.PromiseItem<T>[]) => Promise<T[]>;
@@ -5045,9 +5053,9 @@ declare const all: <T>(items: PromiseTools.PromiseItem<T>[]) => Promise<T[]>;
  * // 	c: 10s
  * // 	d: 10s
  * ```
- * @param {number} limit
- * @param {PromiseTools.PromiseItem<T>[]} items
- * @param {boolean} [noThrow=false]
+ * @param {number} limit - Maximum number of items to run concurrently
+ * @param {PromiseTools.PromiseItem<T>[]} items - Items to wait for
+ * @param {boolean} [noThrow=false] - Whether to prevent throwing errors
  * @returns {Promise<T[]>}
  */
 declare const allLimit: <T>(limit: number, items: PromiseTools.PromiseItem<T>[], noThrow?: boolean) => Promise<T[]>;
@@ -5070,8 +5078,8 @@ declare const allLimit: <T>(limit: number, items: PromiseTools.PromiseItem<T>[],
  * });
  * console.log(''); // after 2 seconds
  * ```
- * @param {T[]} items
- * @param {(item: T, index: number, array: T[]) => Promise<any>} func
+ * @param {T[]} items - Items to iterate over
+ * @param {(item: T, index: number, array: T[]) => Promise<any>} func - Function to apply to each item
  * @returns {Promise<void>}
  */
 declare const each: <T>(items: T[], func: (item: T, index: number, array: T[]) => Promise<any>) => Promise<void>;
@@ -5096,9 +5104,9 @@ declare const each: <T>(items: T[], func: (item: T, index: number, array: T[]) =
  * });
  * console.log(''); // after 4 seconds
  * ```
- * @param {number} limit
- * @param {T[]} items
- * @param {(item: T, index: number, array: T[]) => Promise<any>} func
+ * @param {number} limit - Maximum number of items to run concurrently
+ * @param {T[]} items - Items to iterate over
+ * @param {(item: T, index: number, array: T[]) => Promise<any>} func - Function to apply to each item
  * @returns {Promise<void>}
  */
 declare const eachLimit: <T>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<any>) => Promise<void>;
@@ -5122,8 +5130,8 @@ declare const eachLimit: <T>(limit: number, items: T[], func: (item: T, index: n
  * 
  * console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
  * ```
- * @param {T[]} items
- * @param {(item: T, index: number, array: T[]) => Promise<U>} func
+ * @param {T[]} items - Items to iterate over
+ * @param {(item: T, index: number, array: T[]) => Promise<U>} func - Map function to apply to each item
  * @returns {Promise<U[]>}
  */
 declare const map: <T, U>(items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
@@ -5149,9 +5157,9 @@ declare const map: <T, U>(items: T[], func: (item: T, index: number, array: T[])
  * 
  * console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
  * ```
- * @param {number} limit
- * @param {T[]} items
- * @param {(item: T, index: number, array: T[]) => Promise<U>} func
+ * @param {number} limit - Maximum number of items to run concurrently
+ * @param {T[]} items - Items to iterate over
+ * @param {(item: T, index: number, array: T[]) => Promise<U>} func - Map function to apply to each item
  * @returns {Promise<U[]>}
  */
 declare const mapLimit: <T, U>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
@@ -5191,7 +5199,7 @@ declare const mapLimit: <T, U>(limit: number, items: T[], func: (item: T, index:
  * // 	b: 15s
  * // 	c: 20s
  * ```
- * @param {T} input
+ * @param {T} input - Object with properties to wait for
  * @returns {Promise<AwaitedObject<T>>}
  */
 declare const allObj: <T extends object>(input: T) => Promise<{ [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; }[K]; } : never>;
@@ -5235,9 +5243,9 @@ declare const allObj: <T extends object>(input: T) => Promise<{ [K_1 in keyof T]
  * // 	c: 10s
  * // 	d: 10s
  * ```
- * @param {number} limit
- * @param {T} input
- * @param {boolean} [noThrow=false]
+ * @param {number} limit - Maximum number of items to run concurrently
+ * @param {T} input - Object with properties to wait for
+ * @param {boolean} [noThrow=false] - Whether to prevent throwing errors
  * @returns {Promise<AwaitedObject<T>>}
  */
 declare const allLimitObj: <T extends object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; }[K]; } : never>;
@@ -5259,9 +5267,9 @@ declare namespace ErrorTools {
      * ```typescript
      * const result = ErrorTools.tryOr('default', () => getSomething());
      * ```
-     * @param {T} orValue
-     * @param {(...args: A[]) => Promise<T>} func
-     * @param {...A} [args]
+     * @param {T} orValue - Default value to return if the function fails
+     * @param {(...args: A[]) => Promise<T>} func - Function to try
+     * @param {...A} [args] - Arguments to pass to the function
      * @returns {Promise<T>}
      */
     export const tryOr: <T, A>(orValue: T, func: (...args: A[]) => Promise<T>, ...args: A[]) => Promise<T>;
@@ -5276,10 +5284,10 @@ declare namespace ErrorTools {
      * ```typescript
      * const result = ErrorTools.retry(5, seconds(1), true, () => getSomething());
      * ```
-     * @param {number} [maxTries=10]
-     * @param {ms} [delay=0]
-     * @param {boolean} [suppress=true]
-     * @param {(attemptNumber) => T} [run=fn.result(undefined as T)]
+     * @param {number} [maxTries=10] - Maximum number of tries
+     * @param {ms} [delay=0] - Delay between tries
+     * @param {boolean} [suppress=true] - Whether to suppress the error
+     * @param {(attemptNumber) => T} [run=fn.result(undefined as T)] - Function to run on each attempt
      * @returns {Promise<T>}
      */
     export const retry: <T>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
@@ -5296,10 +5304,10 @@ declare namespace ErrorTools {
      * ```typescript
      * const result = ErrorTools.retryOr('default', 5, seconds(1), () => getSomething());
      * ```
-     * @param {T} orValue
-     * @param {number} [maxTries=10]
-     * @param {ms} [delay=0]
-     * @param {() => T | Promise<T>} [run=fn.result(orValue)]
+     * @param {T} orValue - Default value to return if the function fails
+     * @param {number} [maxTries=10] - Maximum number of tries
+     * @param {ms} [delay=0] - Delay between tries
+     * @param {() => T | Promise<T>} [run=fn.result(orValue)] - Function to run on each attempt
      * @returns {Promise<T>}
      */
     export const retryOr: <T>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
@@ -5333,7 +5341,7 @@ declare namespace ErrorTools {
      *   return 'bar';
      * }); // { result: 'bar', error: null }
      * ```
-     * @param {Promise<T> | (() => T | Promise<T>)} promiseOrFunc
+     * @param {Promise<T> | (() => T | Promise<T>)} promiseOrFunc - Promise or function to try
      * @returns {Promise<TryCatchResult<T, E>>}
      */
     export function tryCatch<T, E = Error>(promiseOrFunc: Promise<T> | (() => T | Promise<T>)): Promise<TryCatchResult<T, E>>;
@@ -5350,9 +5358,9 @@ declare namespace ErrorTools {
  * ```typescript
  * const result = ErrorTools.tryOr('default', () => getSomething());
  * ```
- * @param {T} orValue
- * @param {(...args: A[]) => Promise<T>} func
- * @param {...A} [args]
+ * @param {T} orValue - Default value to return if the function fails
+ * @param {(...args: A[]) => Promise<T>} func - Function to try
+ * @param {...A} [args] - Arguments to pass to the function
  * @returns {Promise<T>}
  */
 declare const tryOr: <T, A>(orValue: T, func: (...args: A[]) => Promise<T>, ...args: A[]) => Promise<T>;
@@ -5367,10 +5375,10 @@ declare const tryOr: <T, A>(orValue: T, func: (...args: A[]) => Promise<T>, ...a
  * ```typescript
  * const result = ErrorTools.retry(5, seconds(1), true, () => getSomething());
  * ```
- * @param {number} [maxTries=10]
- * @param {ms} [delay=0]
- * @param {boolean} [suppress=true]
- * @param {(attemptNumber) => T} [run=fn.result(undefined as T)]
+ * @param {number} [maxTries=10] - Maximum number of tries
+ * @param {ms} [delay=0] - Delay between tries
+ * @param {boolean} [suppress=true] - Whether to suppress the error
+ * @param {(attemptNumber) => T} [run=fn.result(undefined as T)] - Function to run on each attempt
  * @returns {Promise<T>}
  */
 declare const retry: <T>(maxTries?: number, delay?: ms, suppress?: boolean, run?: (attemptNumber: any) => T) => Promise<T>;
@@ -5387,10 +5395,10 @@ declare const retry: <T>(maxTries?: number, delay?: ms, suppress?: boolean, run?
  * ```typescript
  * const result = ErrorTools.retryOr('default', 5, seconds(1), () => getSomething());
  * ```
- * @param {T} orValue
- * @param {number} [maxTries=10]
- * @param {ms} [delay=0]
- * @param {() => T | Promise<T>} [run=fn.result(orValue)]
+ * @param {T} orValue - Default value to return if the function fails
+ * @param {number} [maxTries=10] - Maximum number of tries
+ * @param {ms} [delay=0] - Delay between tries
+ * @param {() => T | Promise<T>} [run=fn.result(orValue)] - Function to run on each attempt
  * @returns {Promise<T>}
  */
 declare const retryOr: <T>(orValue: T, maxTries?: number, delay?: ms, run?: () => T | Promise<T>) => Promise<T>;
@@ -5417,7 +5425,7 @@ declare const retryOr: <T>(orValue: T, maxTries?: number, delay?: ms, run?: () =
  *   return 'bar';
  * }); // { result: 'bar', error: null }
  * ```
- * @param {Promise<T> | (() => T | Promise<T>)} promiseOrFunc
+ * @param {Promise<T> | (() => T | Promise<T>)} promiseOrFunc - Promise or function to try
  * @returns {Promise<TryCatchResult<T, E>>}
  */
 declare const tryCatch: typeof ErrorTools.tryCatch;
@@ -5447,7 +5455,8 @@ declare namespace MathsTools {
      * 0.1 + 0.2 // 0.30000000000000004
      * MathsTools.fixFloat(0.1 + 0.2) // 0.3
      * ```
-     * @param {number} num
+     * @param {number} num - Number to fix
+     * @param {number} [precision=6] - Precision to round to
      * @returns {number}
      */
     const fixFloat: (num: number, precision?: number) => number;
@@ -5468,7 +5477,8 @@ declare namespace MathsTools {
      * 0.1 + 0.2 // 0.30000000000000004
      * MathsTools.fixFloat(0.1 + 0.2) // 0.3
      * ```
-     * @param {number} num
+     * @param {number} num - Number to fix
+     * @param {number} [precision=6] - Precision to round to
      * @returns {number}
      */
     const ff: (num: number, precision?: number) => number;
@@ -5482,7 +5492,7 @@ declare namespace MathsTools {
      * ```typescript
      * MathsTools.addAll(1, 2, 3, 4, 5); // 15
      * ```
-     * @param {...number} [nums]
+     * @param {...number} [nums] - Numbers to add
      * @returns {number}
      */
     const addAll: (...nums: number[]) => number;
@@ -5502,8 +5512,8 @@ declare namespace MathsTools {
      * MathsTools.round.floorTo(5, 53); // 50
      * MathsTools.round.floorTo(0.1, 0.25); // 0.2
      * ```
-     * @param {number} to
-     * @param {number} value
+     * @param {number} to - Target to floor to
+     * @param {number} value - Number to floor
      * @returns {number}
      */
     const floorTo: (to: number, value: number) => number;
@@ -5521,8 +5531,8 @@ declare namespace MathsTools {
      * MathsTools.round.to(5, 53); // 55
      * MathsTools.round.to(0.1, 0.25); // 0.3
      * ```
-     * @param {number} to
-     * @param {number} value
+     * @param {number} to - Target to round to
+     * @param {number} value - Number to round
      * @returns {number}
      */
     const roundTo: (to: number, value: number) => number;
@@ -5539,8 +5549,8 @@ declare namespace MathsTools {
      * MathsTools.round.ceilTo(5, 53); // 55
      * MathsTools.round.ceilTo(0.1, 0.25); // 0.3
      * ```
-     * @param {number} to
-     * @param {number} value
+     * @param {number} to - Target to ceil to
+     * @param {number} value - Number to ceil
      * @returns {number}
      */
     const ceilTo: (to: number, value: number) => number;
@@ -5565,8 +5575,8 @@ declare namespace MathsTools {
          * MathsTools.round.floorTo(5, 53); // 50
          * MathsTools.round.floorTo(0.1, 0.25); // 0.2
          * ```
-         * @param {number} to
-         * @param {number} value
+         * @param {number} to - Target to floor to
+         * @param {number} value - Number to floor
          * @returns {number}
          */
         const floorTo: (to: number, value: number) => number;
@@ -5584,8 +5594,8 @@ declare namespace MathsTools {
          * MathsTools.round.to(5, 53); // 55
          * MathsTools.round.to(0.1, 0.25); // 0.3
          * ```
-         * @param {number} to
-         * @param {number} value
+         * @param {number} to - Target to round to
+         * @param {number} value - Number to round
          * @returns {number}
          */
         const roundTo: (to: number, value: number) => number;
@@ -5602,8 +5612,8 @@ declare namespace MathsTools {
          * MathsTools.round.ceilTo(5, 53); // 55
          * MathsTools.round.ceilTo(0.1, 0.25); // 0.3
          * ```
-         * @param {number} to
-         * @param {number} value
+         * @param {number} to - Target to ceil to
+         * @param {number} value - Number to ceil
          * @returns {number}
          */
         const ceilTo: (to: number, value: number) => number;
@@ -5621,8 +5631,8 @@ declare namespace MathsTools {
          * MathsTools.round.to(5, 53); // 55
          * MathsTools.round.to(0.1, 0.25); // 0.3
          * ```
-         * @param {number} to
-         * @param {number} value
+         * @param {number} to - Target to round to
+         * @param {number} value - Number to round
          * @returns {number}
          */
         const to: (to: number, value: number) => number;
@@ -5637,9 +5647,9 @@ declare namespace MathsTools {
      * ```typescript
      * MathsTools.lerp(0.5, 0, 10); // 5
      * ```
-     * @param {number} progress
-     * @param {number} fromVal
-     * @param {number} toVal
+     * @param {number} progress - Progress to interpolate (`0`-`1`)
+     * @param {number} fromVal - Start value (what the progress is at `0`)
+     * @param {number} toVal - End value (what the progress is at `1`)
      * @returns {number}
      */
     const lerp: (progress: number, fromVal: number, toVal: number) => number;
@@ -5653,9 +5663,9 @@ declare namespace MathsTools {
      * ```typescript
      * MathsTools.lerpArray(0.5, [0, 0, 0], [10, 100, 1000]) // [5, 50, 500]
      * ```
-     * @param {number} progress
-     * @param {number[]} fromArr
-     * @param {number[]} toArr
+     * @param {number} progress - Progress to interpolate (`0`-`1`)
+     * @param {number[]} fromArr - Start values (what the progress is at `0`)
+     * @param {number[]} toArr - End values (what the progress is at `1`)
      * @returns {number[]}
      */
     const lerpArray: (progress: number, fromArr: number[], toArr: number[]) => number[];
@@ -5669,9 +5679,9 @@ declare namespace MathsTools {
      * ```typescript
      * MathsTools.lerpObj(0.5, {'ARS': 0, 'CHE': 0, 'FUL': 0}, {'ARS': 100, 'CHE': 10, 'FUL': 20}) // {'ARS': 50, 'CHE': 5, 'FUL': 10}
      * ```
-     * @param {number} progress
-     * @param {T} fromObj
-     * @param {T} toObj
+     * @param {number} progress - Progress to interpolate (`0`-`1`)
+     * @param {T} fromObj - Start values (what the progress is at `0`)
+     * @param {T} toObj - End values (what the progress is at `1`)
      * @returns {T}
      */
     const lerpObj: <T extends object>(progress: number, fromObj: T, toObj: T) => T;
@@ -5686,9 +5696,9 @@ declare namespace MathsTools {
      * MathsTools.clamp(5, 0, 10); // 5
      * MathsTools.clamp(-5, 0, 10); // 0
      * ```
-     * @param {number} value
-     * @param {number} min
-     * @param {number} max
+     * @param {number} value - Value to clamp
+     * @param {number} min - Minimum value
+     * @param {number} max - Maximum value
      * @returns {number}
      */
     const clamp: (value: number, min: number, max: number) => number;
@@ -5718,7 +5728,7 @@ declare namespace MathsTools {
      * MathsTools.getOrdinal(23); // 'rd'
      * MathsTools.getOrdinal(24); // 'th'
      * ```
-     * @param {number} [num=0]
+     * @param {number} [num=0] - Number to get the ordinal for
      * @returns {"th" | "st" | "nd" | "rd"}
      */
     const getOrdinal: (num?: number) => "th" | "st" | "nd" | "rd";
@@ -5740,7 +5750,8 @@ declare namespace MathsTools {
  * 0.1 + 0.2 // 0.30000000000000004
  * MathsTools.fixFloat(0.1 + 0.2) // 0.3
  * ```
- * @param {number} num
+ * @param {number} num - Number to fix
+ * @param {number} [precision=6] - Precision to round to
  * @returns {number}
  */
 declare const ff: (num: number, precision?: number) => number;
@@ -6312,7 +6323,7 @@ declare namespace ColourTools {
      * ColourTools.parse('rgb(255, 0, 0)') // [255, 0, 0]
      * ColourTools.parse('red') // [255, 0, 0]
      * ```
-     * @param {string} input
+     * @param {string} input - Input string to parse
      * @returns {ColourValues}
      */
     const parse: (input: string) => ColourValues;
@@ -6326,7 +6337,7 @@ declare namespace ColourTools {
      * ```typescript
      * ColourTools.toHex([255, 0, 0]) // '#FF0000'
      * ```
-     * @param {ColourValues} colour
+     * @param {ColourValues} colour - Colour to convert to a hex string
      * @returns {string}
      */
     const toHex: (colour: ColourValues) => string;
@@ -6349,7 +6360,7 @@ declare namespace ColourTools {
      * ColourTools.getLuminance([0, 255, 0]); // 149.685
      * ColourTools.getLuminance([0, 0, 255]); // 29.07
      * ```
-     * @param {ColourValues} rgb
+     * @param {ColourValues} rgb - Colour to get the luminance of
      * @returns {number}
      */
     const getLuminance: (rgb: ColourValues) => number;
@@ -6365,7 +6376,7 @@ declare namespace ColourTools {
      * ```typescript
      * ColourTools.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
      * ```
-     * @param {ColourValues} rgb
+     * @param {ColourValues} rgb - Colour to convert to a YUV array
      * @returns {ColourValues}
      */
     const toYUV: (rgb: ColourValues) => ColourValues;
@@ -6382,8 +6393,8 @@ declare namespace ColourTools {
      * ColourTools.toHSL([255, 0, 0]); // [0, 100, 50]
      * ColourTools.toHSL([0, 255, 0]); // [120, 100, 50]
      * ```
-     * @param {ColourValues} colour
-     * @param {boolean} [round=true]
+     * @param {ColourValues} colour - Colour to convert to a HSL array
+     * @param {boolean} [round=true] - Whether to round the result
      * @returns {HSLValues}
      */
     const toHSL: (colour: ColourValues, round?: boolean) => HSLValues;
@@ -6400,8 +6411,8 @@ declare namespace ColourTools {
      * ColourTools.fromHSL([0, 100, 50]); // [255, 0, 0]
      * ColourTools.fromHSL([120, 100, 50]); // [0, 255, 0]
      * ```
-     * @param {HSLValues} hsl
-     * @param {boolean} [round=true]
+     * @param {HSLValues} hsl - HSL array to convert to a RGB array
+     * @param {boolean} [round=true] - Whether to round the result
      * @returns {ColourValues}
      */
     const fromHSL: (hsl: HSLValues, round?: boolean) => ColourValues;
@@ -6417,7 +6428,7 @@ declare namespace ColourTools {
      * ColourTools.invertColour([0, 255, 0]); // [ 255, 0, 255 ]
      * ColourTools.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
      * ```
-     * @param {ColourValues} rgb
+     * @param {ColourValues} rgb - Colour to invert
      * @returns {ColourValues}
      */
     const invertColour: (rgb: ColourValues) => ColourValues;
@@ -6434,7 +6445,7 @@ declare namespace ColourTools {
      * ColourTools.getContrastedColour([255, 0, 0]); // [255, 255, 255]
      * ColourTools.getContrastedColour([255, 255, 0]); // [0, 0, 0]
      * ```
-     * @param {ColourValues} colour
+     * @param {ColourValues} colour - Colour to get the contrasted colour of
      * @returns {ColourValues}
      */
     const getContrastedColour: (colour: ColourValues) => ColourValues;
@@ -6452,9 +6463,9 @@ declare namespace ColourTools {
      * ColourTools.getLimitedColour([255, 255, 255], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 230, 230, 230 ]
      * ColourTools.getLimitedColour([128, 128, 128], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 128, 128, 128 ]
      * ```
-     * @param {ColourValues} colour
-     * @param {(hsl: HSLValues) => boolean} checkFn
-     * @param {(hsl: HSLValues) => HSLValues} adjustFn
+     * @param {ColourValues} colour - Colour to limit
+     * @param {(hsl: HSLValues) => boolean} checkFn - Function to check if the colour should be limited
+     * @param {(hsl: HSLValues) => HSLValues} adjustFn - Function to adjust the colour if it should be limited
      * @returns {ColourValues}
      */
     const getLimitedColour: (colour: ColourValues, checkFn: (hsl: HSLValues) => boolean, adjustFn: (hsl: HSLValues) => HSLValues) => ColourValues;
@@ -6493,10 +6504,10 @@ declare namespace TimeTools {
      * TimeTools.toReadableDuration(realisticDuration, true) // '10 days, 2 hours & 31 seconds'
      * TimeTools.toReadableDuration(realisticDuration, true, 2) // '10 days & 2 hours'
      * ```
-     * @param {ms} duration
-     * @param {boolean} [longNames=false]
-     * @param {number} [maxUnits=3]
-     * @returns {string}
+     * @param {ms} duration - Duration in milliseconds
+     * @param {boolean} [longNames=false] - Whether to use long names
+     * @param {number} [maxUnits=3] - Maximum number of units to display
+     * @returns {string} - Human readable duration
      */
     const toReadableDuration: (duration: ms, longNames?: boolean, maxUnits?: number) => string;
 }
@@ -6826,8 +6837,8 @@ declare const symbols: {
  * superscript(219) // '²¹⁹'
  * superscript(1234567890) // '¹²³⁴⁵⁶⁷⁸⁹⁰'
  * ```
- * @param {number | string} num
- * @returns {string}
+ * @param {number | string} num - Number or string to convert to superscript
+ * @returns {string} - Superscript string
  */
 declare const superscript: (num: number | string) => string;
 
@@ -6894,7 +6905,7 @@ declare class QueueManager {
      * ```typescript
      * queue.setDefaultPauseTime(seconds(1));
      * ```
-     * @param {ms} time
+     * @param {ms} time - Amount of time to pause between queue items
      * @returns {void}
      */
     setDefaultPauseTime(time: ms): void;
@@ -6909,8 +6920,8 @@ declare class QueueManager {
      * ```typescript
      * queue.setPauseTime('printer', seconds(1));
      * ```
-     * @param {string} id
-     * @param {ms} time
+     * @param {string} id - Queue ID
+     * @param {ms} time - Amount of time to pause between queue items
      * @returns {void}
      */
     setPauseTime(id: string, time: ms): void;
@@ -6928,8 +6939,8 @@ declare class QueueManager {
      *   console.log('printed');
      * });
      * ```
-     * @param {string} id
-     * @param {PromiseTools.PromiseItem<T>} promiseItem
+     * @param {string} id - Queue ID
+     * @param {PromiseTools.PromiseItem<T>} promiseItem - Function to add to the queue
      * @returns {Promise<T>}
      */
     add<T>(id: string, promiseItem: PromiseTools.PromiseItem<T>): Promise<T>;
@@ -6945,7 +6956,7 @@ declare class QueueManager {
      * ```typescript
      * const newQueue = queue.new();
      * ```
-     * @param {ms} [defaultPauseTime=0]
+     * @param {ms} [defaultPauseTime=0] - Amount of time to pause between queue items
      * @returns {QueueManager}
      */
     new(defaultPauseTime?: ms): QueueManager;
@@ -6961,7 +6972,7 @@ declare class QueueManager {
      * ```typescript
      * const newQueue = queue.new();
      * ```
-     * @param {ms} [defaultPauseTime=0]
+     * @param {ms} [defaultPauseTime=0] - Amount of time to pause between queue items
      * @returns {QueueManager}
      */
     static new(defaultPauseTime?: ms): QueueManager;
@@ -7013,11 +7024,11 @@ declare namespace safe {
      * safe.num(null, true, 0, 100, 99); // 99
      * safe.num(undefined, true, 0, 100, 99); // 99
      * ```
-     * @param {number} input
-     * @param {boolean} [isInt=false]
-     * @param {number} [min]
-     * @param {number} [max]
-     * @param {number} [fallback=0]
+     * @param {number} input - Number to process
+     * @param {boolean} [isInt=false] - Whether to force the number to be an integer
+     * @param {number} [min] - Minimum value
+     * @param {number} [max] - Maximum value
+     * @param {number} [fallback=0] - Fallback value
      * @returns {number}
      */
     const num: (input: number, isInt?: boolean, min?: number, max?: number, fallback?: number) => number;
@@ -7047,9 +7058,9 @@ declare namespace safe {
      * safe.str(null, true, 'bar'); // 'bar'
      * safe.str(undefined, true, 'bar'); // 'bar'
      * ```
-     * @param {string} input
-     * @param {boolean} [allowBasicStringify=false]
-     * @param {string} [fallback='']
+     * @param {string} input - String to process
+     * @param {boolean} [allowBasicStringify=false] - Whether to allow basic stringification
+     * @param {string} [fallback=''] - Fallback value
      * @returns {string}
      */
     const str: (input: string, allowBasicStringify?: boolean, fallback?: string) => string;
@@ -7086,8 +7097,8 @@ declare namespace safe {
      * safe.bool([], true); // true
      * safe.bool(null, true); // true
      * safe.bool(undefined, true); // true
-     * @param {boolean} input
-     * @param {boolean} [fallback=false]
+     * @param {boolean} input - Boolean to process
+     * @param {boolean} [fallback=false] - Fallback value
      * @returns {boolean}
      */
     const bool: (input: boolean, fallback?: boolean) => boolean;
@@ -7119,8 +7130,8 @@ declare namespace safe {
      * safe.func(null, (q: number) => 456); // (q: number) => 456
      * safe.func(undefined, (q: number) => 456); // (q: number) => 456
      * ```
-     * @param {T} input
-     * @param {T} [fallback=(() => {}) as unknown as T]
+     * @param {T} input - Function to process
+     * @param {T} [fallback=(() => {}) as unknown as T] - Fallback value
      * @returns {T}
      */
     const func: <T extends Function>(input: T, fallback?: T) => T;
@@ -7150,9 +7161,9 @@ declare namespace safe {
      * safe.obj(null, true, {baz: 123}); // {baz: 123}
      * safe.obj(undefined, true, {baz: 123}); // {baz: 123}
      * ```
-     * @param {T} input
-     * @param {boolean} [allowArrays=false]
-     * @param {T} [fallback={} as T]
+     * @param {T} input - Object to process
+     * @param {boolean} [allowArrays=false] - Whether to allow arrays
+     * @param {T} [fallback={} as T] - Fallback value
      * @returns {T}
      */
     const obj: <T extends object>(input: T, allowArrays?: boolean, fallback?: T) => T;
@@ -7201,9 +7212,9 @@ declare namespace safe {
      * safe.objWith(null, config2); // { foo: 'a', bar: 78 }
      * safe.objWith(undefined, config2); // { foo: 'a', bar: 78 }
      * ```
-     * @param {T} input
-     * @param {ObjWithConfig<T>} objConfig
-     * @param {boolean} [allowComposition=true]
+     * @param {T} input - Object to process
+     * @param {ObjWithConfig<T>} objConfig - Object safety configuration
+     * @param {boolean} [allowComposition=true] - Whether to allow composition
      * @returns {T}
      */
     const objWith: <T extends object>(input: T, objConfig: ObjWithConfig<T>, allowComposition?: boolean) => T;
@@ -7233,10 +7244,10 @@ declare namespace safe {
      * safe.arr(null, [4, 5, 6]); // [ 4, 5, 6 ]
      * safe.arr(undefined, [4, 5, 6]); // [ 4, 5, 6 ]
      * ```
-     * @param {T[]} input
-     * @param {T[]} [fallback=[]]
-     * @param {number} [minLength=0]
-     * @param {number} [maxLength=Infinity]
+     * @param {T[]} input - Array to process
+     * @param {T[]} [fallback=[]] - Fallback value
+     * @param {number} [minLength=0] - Minimum length
+     * @param {number} [maxLength=Infinity] - Maximum length
      * @returns {T[]}
      */
     const arr: <T>(input: T[], fallback?: T[], minLength?: number, maxLength?: number) => T[];
@@ -7268,8 +7279,8 @@ declare namespace safe {
      * safe.prop(null, 'bar'); // 'bar'
      * safe.prop(undefined, 'bar'); // 'bar'
      * ```
-     * @param {string | number | symbol} input
-     * @param {string | number | symbol} [fallback='']
+     * @param {string | number | symbol} input - Value to process
+     * @param {string | number | symbol} [fallback=''] - Fallback value
      * @returns {string | number}
      */
     const prop: (input: string | number | symbol, fallback?: string | number | symbol) => string | number;
@@ -7307,14 +7318,14 @@ declare namespace safe {
          * safe.arrOf.num(null, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
          * safe.arrOf.num(undefined, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
          * ```
-         * @param {number[]} input
-         * @param {boolean} [isInt=false]
-         * @param {number} [min]
-         * @param {number} [max]
-         * @param {number} [fallback]
-         * @param {number[]} [fallbackArr=[]]
-         * @param {number} [arrMinLength=0]
-         * @param {number} [arrMaxLength=Infinity]
+         * @param {number[]} input - Array of numbers to process
+         * @param {boolean} [isInt=false] - Whether to force the numbers to be integers
+         * @param {number} [min] - Minimum number value
+         * @param {number} [max] - Maximum number value
+         * @param {number} [fallback] - Fallback number value
+         * @param {number[]} [fallbackArr=[]] - Fallback array
+         * @param {number} [arrMinLength=0] - Minimum length of the array
+         * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
          * @returns {number[]}
          */
         const num: (input: number[], isInt?: boolean, min?: number, max?: number, fallback?: number, fallbackArr?: number[], arrMinLength?: number, arrMaxLength?: number) => number[];
@@ -7346,12 +7357,12 @@ declare namespace safe {
          * safe.arrOf.str(null, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
          * safe.arrOf.str(undefined, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
          * ```
-         * @param {string[]} input
-         * @param {boolean} [allowStringify=false]
-         * @param {string} [fallback]
-         * @param {string[]} [fallbackArr=[]]
-         * @param {number} [arrMinLength=0]
-         * @param {number} [arrMaxLength=Infinity]
+         * @param {string[]} input - Array of strings to process
+         * @param {boolean} [allowStringify=false] - Whether to allow stringification
+         * @param {string} [fallback] - Fallback string value
+         * @param {string[]} [fallbackArr=[]] - Fallback array
+         * @param {number} [arrMinLength=0] - Minimum length of the array
+         * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
          * @returns {string[]}
          */
         const str: (input: string[], allowStringify?: boolean, fallback?: string, fallbackArr?: string[], arrMinLength?: number, arrMaxLength?: number) => string[];
@@ -7383,11 +7394,11 @@ declare namespace safe {
          * safe.arrOf.bool(null, true, [true, true]); // [ true, true ]
          * safe.arrOf.bool(undefined, true, [true, true]); // [ true, true ]
          * ```
-         * @param {boolean[]} input
-         * @param {boolean} [fallback]
-         * @param {boolean[]} [fallbackArr=[]]
-         * @param {number} [arrMinLength=0]
-         * @param {number} [arrMaxLength=Infinity]
+         * @param {boolean[]} input - Array of booleans to process
+         * @param {boolean} [fallback] - Fallback boolean value
+         * @param {boolean[]} [fallbackArr=[]] - Fallback array
+         * @param {number} [arrMinLength=0] - Minimum length of the array
+         * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
          * @returns {boolean[]}
          */
         const bool: (input: boolean[], fallback?: boolean, fallbackArr?: boolean[], arrMinLength?: number, arrMaxLength?: number) => boolean[];
@@ -7419,11 +7430,11 @@ declare namespace safe {
          * safe.arrOf.func(null, (q) => 2, [(r) => 3]); //  [(r) => 3]
          * safe.arrOf.func(undefined, (q) => 2, [(r) => 3]); //  [(r) => 3]
          * ```
-         * @param {T[]} input
-         * @param {T} [fallback]
-         * @param {T[]} [fallbackArr=[]]
-         * @param {number} [arrMinLength=0]
-         * @param {number} [arrMaxLength=Infinity]
+         * @param {T[]} input - Array of functions to process
+         * @param {T} [fallback] - Fallback function value
+         * @param {T[]} [fallbackArr=[]] - Fallback array
+         * @param {number} [arrMinLength=0] - Minimum length of the array
+         * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
          * @returns {T[]}
          */
         const func: <T extends Function>(input: T[], fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
@@ -7455,12 +7466,12 @@ declare namespace safe {
          * safe.arrOf.obj(null, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
          * safe.arrOf.obj(undefined, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
          * ```
-         * @param {T[]} input
-         * @param {boolean} [allowArrays=false]
-         * @param {T} [fallback]
-         * @param {T[]} [fallbackArr=[]]
-         * @param {number} [arrMinLength=0]
-         * @param {number} [arrMaxLength=Infinity]
+         * @param {T[]} input - Array of objects to process
+         * @param {boolean} [allowArrays=false] - Whether to allow arrays
+         * @param {T} [fallback] - Fallback object value
+         * @param {T[]} [fallbackArr=[]] - Fallback array
+         * @param {number} [arrMinLength=0] - Minimum length of the array
+         * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
          * @returns {T[]}
          */
         const obj: <T extends object>(input: T[], allowArrays?: boolean, fallback?: T, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
@@ -7503,12 +7514,12 @@ declare namespace safe {
          * safe.arrOf.objWith({ foo: 'bar' }, config2); // []
          * safe.arrOf.objWith(null, config2); // []
          * ```
-         * @param {T[]} input
-         * @param {ObjWithConfig<T>} objConfig
-         * @param {boolean} [allowComposition=true]
-         * @param {T[]} [fallbackArr=[]]
-         * @param {number} [arrMinLength=0]
-         * @param {number} [arrMaxLength=Infinity]
+         * @param {T[]} input - Array of objects to process
+         * @param {ObjWithConfig<T>} objConfig - Object safety configuration
+         * @param {boolean} [allowComposition=true] - Whether to allow composition
+         * @param {T[]} [fallbackArr=[]] - Fallback array
+         * @param {number} [arrMinLength=0] - Minimum length of the array
+         * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
          * @returns {T[]}
          */
         const objWith: <T extends object>(input: T[], objConfig: ObjWithConfig<T>, allowComposition?: boolean, fallbackArr?: T[], arrMinLength?: number, arrMaxLength?: number) => T[];
@@ -7540,11 +7551,11 @@ declare namespace safe {
          * safe.arrOf.arr(null, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
          * safe.arrOf.arr(undefined, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
          * ```
-         * @param {T[][]} input
-         * @param {T[]} [fallback]
-         * @param {T[][]} [fallbackArr=[]]
-         * @param {number} [arrMinLength=0]
-         * @param {number} [arrMaxLength=Infinity]
+         * @param {T[][]} input - Array of arrays to process
+         * @param {T[]} [fallback] - Fallback array
+         * @param {T[][]} [fallbackArr=[]] - Fallback array
+         * @param {number} [arrMinLength=0] - Minimum length of the array
+         * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
          * @returns {T[][]}
          */
         const arr: <T>(input: T[][], fallback?: T[], fallbackArr?: T[][], arrMinLength?: number, arrMaxLength?: number) => T[][];
@@ -7576,11 +7587,11 @@ declare namespace safe {
          * safe.arrOf.prop(null, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
          * safe.arrOf.prop(undefined, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
          * ```
-         * @param {(string | number | symbol)[]} input
-         * @param {string | number | symbol} [fallback]
-         * @param {(string | number | symbol)[]} [fallbackArr=[]]
-         * @param {number} [arrMinLength=0]
-         * @param {number} [arrMaxLength=Infinity]
+         * @param {(string | number | symbol)[]} input - Array of values to process
+         * @param {string | number | symbol} [fallback] - Fallback property value
+         * @param {(string | number | symbol)[]} [fallbackArr=[]] - Fallback array
+         * @param {number} [arrMinLength=0] - Minimum length of the array
+         * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
          * @returns {(string | number)[]}
          */
         const prop: (input: (string | number | symbol)[], fallback?: string | number | symbol, fallbackArr?: (string | number | symbol)[], arrMinLength?: number, arrMaxLength?: number) => (string | number)[];
@@ -7688,7 +7699,7 @@ interface Cachier<T> {
      * cachier.save('foo', { name: 'foo' });
      * cachier.get('foo'); // { "name": "foo" }
      * ```
-     * @param {string} id
+     * @param {string} id - ID of the item to get
      * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
      * @returns {T}
      */
@@ -7713,9 +7724,9 @@ interface Cachier<T> {
      * cachier.get('bar'); // { "name": "bar" }
      * // After 10 seconds: cachier.get('bar'); // undefined
      * ```
-     * @param {string} id
-     * @param {T} orValue
-     * @param {ms} [expiresIn=getDefaultExpiresIn()]
+     * @param {string} id - ID of the item to get or save
+     * @param {T} orValue - Value to save if the item doesn't exist
+     * @param {ms} [expiresIn=getDefaultExpiresIn()] - Expiration time in milliseconds for the item (if saving orValue)
      * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
      * @returns {T}
      */
@@ -7742,9 +7753,9 @@ interface Cachier<T> {
      * cachier.get('baz'); // { "name": "baz" }
      * // After 15 seconds: cachier.get('baz'); // undefined
      * ```
-     * @param {string} id
-     * @param {(id?: string) => T} orFunc
-     * @param {ms} [expiresIn=getDefaultExpiresIn()]
+     * @param {string} id - ID of the item to get or run
+     * @param {(id?: string) => T} orFunc - Function to run if the item doesn't exist. What it returns will be saved.
+     * @param {ms} [expiresIn=getDefaultExpiresIn()] - Expiration time in milliseconds for the item (if running orFunc)
      * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
      * @returns {T}
      */
@@ -7778,9 +7789,9 @@ interface Cachier<T> {
      * cachier.get('qux'); // { name: 'qux' }
      * // After 20 seconds: cachier.get('qux'); // undefined
      * ```
-     * @param {string} id
-     * @param {(id?: string) => T | Promise<T>} orFunc
-     * @param {ms} [expiresIn=getDefaultExpiresIn()]
+     * @param {string} id - ID of the item to get or run
+     * @param {(id?: string) => T | Promise<T>} orFunc - Function to run if the item doesn't exist. What it returns will be saved.
+     * @param {ms} [expiresIn=getDefaultExpiresIn()] - Expiration time in milliseconds for the item (if running orFunc)
      * @param {boolean} [ignoreExpiry=false] - If true, the item will be returned even if it has expired.
      * @returns {Promise<T>}
      */
@@ -7802,9 +7813,9 @@ interface Cachier<T> {
      * cachier.get('quux'); // { "name": "quux" }
      * // After 30 seconds: cachier.get('quux'); // undefined
      * ```
-     * @param {string} id
-     * @param {T} item
-     * @param {ms} [expiresIn=getDefaultExpiresIn()]
+     * @param {string} id - ID of the item to save
+     * @param {T} item - Item to save
+     * @param {ms} [expiresIn=getDefaultExpiresIn()] - Expiration time in milliseconds for the item
      * @returns {T}
      */
     save(id: string, item: T, expiresIn?: ms): T;
@@ -7823,7 +7834,7 @@ interface Cachier<T> {
      * cachier.remove('foo');
      * cachier.get('foo'); // undefined
      * ```
-     * @param {string} id
+     * @param {string} id - ID of the item to remove
      * @returns {void}
      */
     remove(id: string): void;
@@ -7894,7 +7905,7 @@ interface Cachier<T> {
      * cachier.getDefaultExpiresIn(); // 1000
      * ```
      *
-     * @param {ms} [newValue=Infinity]
+     * @param {ms} [newValue=Infinity] - New default expiration time in milliseconds
      * @returns {ms}
      */
     setDefaultExpiresIn(newValue?: ms): ms;
@@ -7921,7 +7932,7 @@ interface Cachier<T> {
      * tempCache.save('bar', 'bar', seconds(5)); // overrides default, expires in 5 seconds
      * ```
      *
-     * @param {ms} [defaultExpiresIn=Infinity]
+     * @param {ms} [defaultExpiresIn=Infinity] - Default expiration time in milliseconds for the new cache
      * @returns {Cachier<U>}
      */
     create<U>(defaultExpiresIn?: ms): Cachier<U>;
@@ -7982,7 +7993,7 @@ interface Cachier<T> {
  *   //  age: number;
  *   //}
  * ```
- * @param {OnDemandInputObject<T>} input
+ * @param {OnDemandInputObject<T>} input - Input object
  * @returns {T}
  */
 declare const onDemand: <T extends Record<string, any>>(input: OnDemandInputObject<T>) => T;

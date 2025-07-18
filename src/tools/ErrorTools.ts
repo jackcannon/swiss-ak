@@ -25,9 +25,9 @@ export namespace ErrorTools {
    * ```typescript
    * const result = ErrorTools.tryOr('default', () => getSomething());
    * ```
-   * @param {T} orValue
-   * @param {(...args: A[]) => Promise<T>} func
-   * @param {...A} [args]
+   * @param {T} orValue - Default value to return if the function fails
+   * @param {(...args: A[]) => Promise<T>} func - Function to try
+   * @param {...A} [args] - Arguments to pass to the function
    * @returns {Promise<T>}
    */
   export const tryOr = async <T, A>(orValue: T, func: (...args: A[]) => Promise<T>, ...args: A[]): Promise<T> => {
@@ -49,10 +49,10 @@ export namespace ErrorTools {
    * ```typescript
    * const result = ErrorTools.retry(5, seconds(1), true, () => getSomething());
    * ```
-   * @param {number} [maxTries=10]
-   * @param {ms} [delay=0]
-   * @param {boolean} [suppress=true]
-   * @param {(attemptNumber) => T} [run=fn.result(undefined as T)]
+   * @param {number} [maxTries=10] - Maximum number of tries
+   * @param {ms} [delay=0] - Delay between tries
+   * @param {boolean} [suppress=true] - Whether to suppress the error
+   * @param {(attemptNumber) => T} [run=fn.result(undefined as T)] - Function to run on each attempt
    * @returns {Promise<T>}
    */
   export const retry = async <T>(
@@ -97,10 +97,10 @@ export namespace ErrorTools {
    * ```typescript
    * const result = ErrorTools.retryOr('default', 5, seconds(1), () => getSomething());
    * ```
-   * @param {T} orValue
-   * @param {number} [maxTries=10]
-   * @param {ms} [delay=0]
-   * @param {() => T | Promise<T>} [run=fn.result(orValue)]
+   * @param {T} orValue - Default value to return if the function fails
+   * @param {number} [maxTries=10] - Maximum number of tries
+   * @param {ms} [delay=0] - Delay between tries
+   * @param {() => T | Promise<T>} [run=fn.result(orValue)] - Function to run on each attempt
    * @returns {Promise<T>}
    */
   export const retryOr = async <T>(orValue: T, maxTries: number = 10, delay: ms = 0, run: () => T | Promise<T> = fn.result(orValue)): Promise<T> => {
@@ -147,7 +147,7 @@ export namespace ErrorTools {
    *   return 'bar';
    * }); // { result: 'bar', error: null }
    * ```
-   * @param {Promise<T> | (() => T | Promise<T>)} promiseOrFunc
+   * @param {Promise<T> | (() => T | Promise<T>)} promiseOrFunc - Promise or function to try
    * @returns {Promise<TryCatchResult<T, E>>}
    */
   export async function tryCatch<T, E = Error>(promiseOrFunc: Promise<T> | (() => T | Promise<T>)): Promise<TryCatchResult<T, E>> {

@@ -77,7 +77,7 @@ export namespace PromiseTools {
    * - `PromiseTools.all`
    *
    * Similar to Promise.all, but accepts values, functions, and promises.
-   * @param {PromiseTools.PromiseItem<T>[]} items
+   * @param {PromiseTools.PromiseItem<T>[]} items - Items to wait for
    * @returns {Promise<T[]>}
    */
   export const all = async <T>(items: PromiseTools.PromiseItem<T>[]): Promise<T[]> => {
@@ -127,9 +127,9 @@ export namespace PromiseTools {
    * // 	c: 10s
    * // 	d: 10s
    * ```
-   * @param {number} limit
-   * @param {PromiseTools.PromiseItem<T>[]} items
-   * @param {boolean} [noThrow=false]
+   * @param {number} limit - Maximum number of items to run concurrently
+   * @param {PromiseTools.PromiseItem<T>[]} items - Items to wait for
+   * @param {boolean} [noThrow=false] - Whether to prevent throwing errors
    * @returns {Promise<T[]>}
    */
   export const allLimit = <T>(limit: number, items: PromiseTools.PromiseItem<T>[], noThrow: boolean = false): Promise<T[]> => {
@@ -201,8 +201,8 @@ export namespace PromiseTools {
    * });
    * console.log(''); // after 2 seconds
    * ```
-   * @param {T[]} items
-   * @param {(item: T, index: number, array: T[]) => Promise<any>} func
+   * @param {T[]} items - Items to iterate over
+   * @param {(item: T, index: number, array: T[]) => Promise<any>} func - Function to apply to each item
    * @returns {Promise<void>}
    */
   export const each = async <T>(items: T[], func: (item: T, index: number, array: T[]) => Promise<any>): Promise<void> => {
@@ -235,9 +235,9 @@ export namespace PromiseTools {
    * });
    * console.log(''); // after 4 seconds
    * ```
-   * @param {number} limit
-   * @param {T[]} items
-   * @param {(item: T, index: number, array: T[]) => Promise<any>} func
+   * @param {number} limit - Maximum number of items to run concurrently
+   * @param {T[]} items - Items to iterate over
+   * @param {(item: T, index: number, array: T[]) => Promise<any>} func - Function to apply to each item
    * @returns {Promise<void>}
    */
   export const eachLimit = async <T>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<any>): Promise<void> => {
@@ -273,8 +273,8 @@ export namespace PromiseTools {
    *
    * console.log(mapped); // [2, 4, 6, 8] (after 2 seconds)
    * ```
-   * @param {T[]} items
-   * @param {(item: T, index: number, array: T[]) => Promise<U>} func
+   * @param {T[]} items - Items to iterate over
+   * @param {(item: T, index: number, array: T[]) => Promise<U>} func - Map function to apply to each item
    * @returns {Promise<U[]>}
    */
   export const map = async <T, U>(items: T[], func: (item: T, index: number, array: T[]) => Promise<U>): Promise<U[]> => {
@@ -316,9 +316,9 @@ export namespace PromiseTools {
    *
    * console.log(mapped); // [2, 4, 6, 8] (after 4 seconds)
    * ```
-   * @param {number} limit
-   * @param {T[]} items
-   * @param {(item: T, index: number, array: T[]) => Promise<U>} func
+   * @param {number} limit - Maximum number of items to run concurrently
+   * @param {T[]} items - Items to iterate over
+   * @param {(item: T, index: number, array: T[]) => Promise<U>} func - Map function to apply to each item
    * @returns {Promise<U[]>}
    */
   export const mapLimit = async <T, U>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<U>): Promise<U[]> => {
@@ -386,7 +386,7 @@ export namespace PromiseTools {
    * // 	b: 15s
    * // 	c: 20s
    * ```
-   * @param {T} input
+   * @param {T} input - Object with properties to wait for
    * @returns {Promise<AwaitedObject<T>>}
    */
   export const allObj = async <T extends object>(input: T): Promise<AwaitedObject<T>> => {
@@ -436,9 +436,9 @@ export namespace PromiseTools {
    * // 	c: 10s
    * // 	d: 10s
    * ```
-   * @param {number} limit
-   * @param {T} input
-   * @param {boolean} [noThrow=false]
+   * @param {number} limit - Maximum number of items to run concurrently
+   * @param {T} input - Object with properties to wait for
+   * @param {boolean} [noThrow=false] - Whether to prevent throwing errors
    * @returns {Promise<AwaitedObject<T>>}
    */
   export const allLimitObj = async <T extends object>(limit: number, input: T, noThrow: boolean = false): Promise<AwaitedObject<T>> => {

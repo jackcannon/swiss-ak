@@ -38,11 +38,11 @@ export namespace safe {
    * safe.num(null, true, 0, 100, 99); // 99
    * safe.num(undefined, true, 0, 100, 99); // 99
    * ```
-   * @param {number} input
-   * @param {boolean} [isInt=false]
-   * @param {number} [min]
-   * @param {number} [max]
-   * @param {number} [fallback=0]
+   * @param {number} input - Number to process
+   * @param {boolean} [isInt=false] - Whether to force the number to be an integer
+   * @param {number} [min] - Minimum value
+   * @param {number} [max] - Maximum value
+   * @param {number} [fallback=0] - Fallback value
    * @returns {number}
    */
   export const num = (input: number, isInt: boolean = false, min?: number, max?: number, fallback: number = 0): number => {
@@ -85,9 +85,9 @@ export namespace safe {
    * safe.str(null, true, 'bar'); // 'bar'
    * safe.str(undefined, true, 'bar'); // 'bar'
    * ```
-   * @param {string} input
-   * @param {boolean} [allowBasicStringify=false]
-   * @param {string} [fallback='']
+   * @param {string} input - String to process
+   * @param {boolean} [allowBasicStringify=false] - Whether to allow basic stringification
+   * @param {string} [fallback=''] - Fallback value
    * @returns {string}
    */
   export const str = (input: string, allowBasicStringify: boolean = false, fallback: string = ''): string => {
@@ -142,8 +142,8 @@ export namespace safe {
    * safe.bool([], true); // true
    * safe.bool(null, true); // true
    * safe.bool(undefined, true); // true
-   * @param {boolean} input
-   * @param {boolean} [fallback=false]
+   * @param {boolean} input - Boolean to process
+   * @param {boolean} [fallback=false] - Fallback value
    * @returns {boolean}
    */
   export const bool = (input: boolean, fallback: boolean = false): boolean => {
@@ -189,8 +189,8 @@ export namespace safe {
    * safe.func(null, (q: number) => 456); // (q: number) => 456
    * safe.func(undefined, (q: number) => 456); // (q: number) => 456
    * ```
-   * @param {T} input
-   * @param {T} [fallback=(() => {}) as unknown as T]
+   * @param {T} input - Function to process
+   * @param {T} [fallback=(() => {}) as unknown as T] - Fallback value
    * @returns {T}
    */
   export const func = <T extends Function>(input: T, fallback: T = (() => {}) as unknown as T): T => {
@@ -225,9 +225,9 @@ export namespace safe {
    * safe.obj(null, true, {baz: 123}); // {baz: 123}
    * safe.obj(undefined, true, {baz: 123}); // {baz: 123}
    * ```
-   * @param {T} input
-   * @param {boolean} [allowArrays=false]
-   * @param {T} [fallback={} as T]
+   * @param {T} input - Object to process
+   * @param {boolean} [allowArrays=false] - Whether to allow arrays
+   * @param {T} [fallback={} as T] - Fallback value
    * @returns {T}
    */
   export const obj = <T extends object>(input: T, allowArrays: boolean = false, fallback: T = {} as T): T => {
@@ -282,9 +282,9 @@ export namespace safe {
    * safe.objWith(null, config2); // { foo: 'a', bar: 78 }
    * safe.objWith(undefined, config2); // { foo: 'a', bar: 78 }
    * ```
-   * @param {T} input
-   * @param {ObjWithConfig<T>} objConfig
-   * @param {boolean} [allowComposition=true]
+   * @param {T} input - Object to process
+   * @param {ObjWithConfig<T>} objConfig - Object safety configuration
+   * @param {boolean} [allowComposition=true] - Whether to allow composition
    * @returns {T}
    */
   export const objWith = <T extends object>(input: T, objConfig: ObjWithConfig<T>, allowComposition: boolean = true): T => {
@@ -339,10 +339,10 @@ export namespace safe {
    * safe.arr(null, [4, 5, 6]); // [ 4, 5, 6 ]
    * safe.arr(undefined, [4, 5, 6]); // [ 4, 5, 6 ]
    * ```
-   * @param {T[]} input
-   * @param {T[]} [fallback=[]]
-   * @param {number} [minLength=0]
-   * @param {number} [maxLength=Infinity]
+   * @param {T[]} input - Array to process
+   * @param {T[]} [fallback=[]] - Fallback value
+   * @param {number} [minLength=0] - Minimum length
+   * @param {number} [maxLength=Infinity] - Maximum length
    * @returns {T[]}
    */
   export const arr = <T>(input: T[], fallback: T[] = [], minLength: number = 0, maxLength: number = Infinity): T[] => {
@@ -389,8 +389,8 @@ export namespace safe {
    * safe.prop(null, 'bar'); // 'bar'
    * safe.prop(undefined, 'bar'); // 'bar'
    * ```
-   * @param {string | number | symbol} input
-   * @param {string | number | symbol} [fallback='']
+   * @param {string | number | symbol} input - Value to process
+   * @param {string | number | symbol} [fallback=''] - Fallback value
    * @returns {string | number}
    */
   export const prop = (input: string | number | symbol, fallback: string | number | symbol = ''): string | number => {
@@ -439,14 +439,14 @@ export namespace safe {
      * safe.arrOf.num(null, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
      * safe.arrOf.num(undefined, true, 0, 100, 99, [4, 5, 6]); // [ 4, 5, 6 ]
      * ```
-     * @param {number[]} input
-     * @param {boolean} [isInt=false]
-     * @param {number} [min]
-     * @param {number} [max]
-     * @param {number} [fallback]
-     * @param {number[]} [fallbackArr=[]]
-     * @param {number} [arrMinLength=0]
-     * @param {number} [arrMaxLength=Infinity]
+     * @param {number[]} input - Array of numbers to process
+     * @param {boolean} [isInt=false] - Whether to force the numbers to be integers
+     * @param {number} [min] - Minimum number value
+     * @param {number} [max] - Maximum number value
+     * @param {number} [fallback] - Fallback number value
+     * @param {number[]} [fallbackArr=[]] - Fallback array
+     * @param {number} [arrMinLength=0] - Minimum length of the array
+     * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
      * @returns {number[]}
      */
     export const num = (
@@ -491,12 +491,12 @@ export namespace safe {
      * safe.arrOf.str(null, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
      * safe.arrOf.str(undefined, true, 'LOREM', ['IPSUM']); // [ 'IPSUM' ]
      * ```
-     * @param {string[]} input
-     * @param {boolean} [allowStringify=false]
-     * @param {string} [fallback]
-     * @param {string[]} [fallbackArr=[]]
-     * @param {number} [arrMinLength=0]
-     * @param {number} [arrMaxLength=Infinity]
+     * @param {string[]} input - Array of strings to process
+     * @param {boolean} [allowStringify=false] - Whether to allow stringification
+     * @param {string} [fallback] - Fallback string value
+     * @param {string[]} [fallbackArr=[]] - Fallback array
+     * @param {number} [arrMinLength=0] - Minimum length of the array
+     * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
      * @returns {string[]}
      */
     export const str = (
@@ -539,11 +539,11 @@ export namespace safe {
      * safe.arrOf.bool(null, true, [true, true]); // [ true, true ]
      * safe.arrOf.bool(undefined, true, [true, true]); // [ true, true ]
      * ```
-     * @param {boolean[]} input
-     * @param {boolean} [fallback]
-     * @param {boolean[]} [fallbackArr=[]]
-     * @param {number} [arrMinLength=0]
-     * @param {number} [arrMaxLength=Infinity]
+     * @param {boolean[]} input - Array of booleans to process
+     * @param {boolean} [fallback] - Fallback boolean value
+     * @param {boolean[]} [fallbackArr=[]] - Fallback array
+     * @param {number} [arrMinLength=0] - Minimum length of the array
+     * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
      * @returns {boolean[]}
      */
     export const bool = (
@@ -585,11 +585,11 @@ export namespace safe {
      * safe.arrOf.func(null, (q) => 2, [(r) => 3]); //  [(r) => 3]
      * safe.arrOf.func(undefined, (q) => 2, [(r) => 3]); //  [(r) => 3]
      * ```
-     * @param {T[]} input
-     * @param {T} [fallback]
-     * @param {T[]} [fallbackArr=[]]
-     * @param {number} [arrMinLength=0]
-     * @param {number} [arrMaxLength=Infinity]
+     * @param {T[]} input - Array of functions to process
+     * @param {T} [fallback] - Fallback function value
+     * @param {T[]} [fallbackArr=[]] - Fallback array
+     * @param {number} [arrMinLength=0] - Minimum length of the array
+     * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
      * @returns {T[]}
      */
     export const func = <T extends Function>(
@@ -631,12 +631,12 @@ export namespace safe {
      * safe.arrOf.obj(null, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
      * safe.arrOf.obj(undefined, true, {l: 3}, [{i: 4}]); // [ { i: 4 } ]
      * ```
-     * @param {T[]} input
-     * @param {boolean} [allowArrays=false]
-     * @param {T} [fallback]
-     * @param {T[]} [fallbackArr=[]]
-     * @param {number} [arrMinLength=0]
-     * @param {number} [arrMaxLength=Infinity]
+     * @param {T[]} input - Array of objects to process
+     * @param {boolean} [allowArrays=false] - Whether to allow arrays
+     * @param {T} [fallback] - Fallback object value
+     * @param {T[]} [fallbackArr=[]] - Fallback array
+     * @param {number} [arrMinLength=0] - Minimum length of the array
+     * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
      * @returns {T[]}
      */
     export const obj = <T extends object>(
@@ -690,12 +690,12 @@ export namespace safe {
      * safe.arrOf.objWith({ foo: 'bar' }, config2); // []
      * safe.arrOf.objWith(null, config2); // []
      * ```
-     * @param {T[]} input
-     * @param {ObjWithConfig<T>} objConfig
-     * @param {boolean} [allowComposition=true]
-     * @param {T[]} [fallbackArr=[]]
-     * @param {number} [arrMinLength=0]
-     * @param {number} [arrMaxLength=Infinity]
+     * @param {T[]} input - Array of objects to process
+     * @param {ObjWithConfig<T>} objConfig - Object safety configuration
+     * @param {boolean} [allowComposition=true] - Whether to allow composition
+     * @param {T[]} [fallbackArr=[]] - Fallback array
+     * @param {number} [arrMinLength=0] - Minimum length of the array
+     * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
      * @returns {T[]}
      */
     export const objWith = <T extends object>(
@@ -738,11 +738,11 @@ export namespace safe {
      * safe.arrOf.arr(null, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
      * safe.arrOf.arr(undefined, ['baz'], [['IPSUM']]); // [ [ 'IPSUM' ] ]
      * ```
-     * @param {T[][]} input
-     * @param {T[]} [fallback]
-     * @param {T[][]} [fallbackArr=[]]
-     * @param {number} [arrMinLength=0]
-     * @param {number} [arrMaxLength=Infinity]
+     * @param {T[][]} input - Array of arrays to process
+     * @param {T[]} [fallback] - Fallback array
+     * @param {T[][]} [fallbackArr=[]] - Fallback array
+     * @param {number} [arrMinLength=0] - Minimum length of the array
+     * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
      * @returns {T[][]}
      */
     export const arr = <T>(
@@ -784,11 +784,11 @@ export namespace safe {
      * safe.arrOf.prop(null, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
      * safe.arrOf.prop(undefined, ['baz'], ['IPSUM']); // [ 'IPSUM' ]
      * ```
-     * @param {(string | number | symbol)[]} input
-     * @param {string | number | symbol} [fallback]
-     * @param {(string | number | symbol)[]} [fallbackArr=[]]
-     * @param {number} [arrMinLength=0]
-     * @param {number} [arrMaxLength=Infinity]
+     * @param {(string | number | symbol)[]} input - Array of values to process
+     * @param {string | number | symbol} [fallback] - Fallback property value
+     * @param {(string | number | symbol)[]} [fallbackArr=[]] - Fallback array
+     * @param {number} [arrMinLength=0] - Minimum length of the array
+     * @param {number} [arrMaxLength=Infinity] - Maximum length of the array
      * @returns {(string | number)[]}
      */
     export const prop = (

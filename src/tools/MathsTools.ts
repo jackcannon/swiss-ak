@@ -29,10 +29,11 @@ export namespace MathsTools {
    * 0.1 + 0.2 // 0.30000000000000004
    * MathsTools.fixFloat(0.1 + 0.2) // 0.3
    * ```
-   * @param {number} num
+   * @param {number} num - Number to fix
+   * @param {number} [precision=6] - Precision to round to
    * @returns {number}
    */
-  export const fixFloat = (num: number, precision = 6): number => {
+  export const fixFloat = (num: number, precision: number = 6): number => {
     const args = {
       num: safe.num(num),
       precision: safe.num(precision, true, 0)
@@ -53,7 +54,7 @@ export namespace MathsTools {
    * ```typescript
    * MathsTools.addAll(1, 2, 3, 4, 5); // 15
    * ```
-   * @param {...number} [nums]
+   * @param {...number} [nums] - Numbers to add
    * @returns {number}
    */
   export const addAll = (...nums: number[]): number => {
@@ -79,8 +80,8 @@ export namespace MathsTools {
    * MathsTools.round.floorTo(5, 53); // 50
    * MathsTools.round.floorTo(0.1, 0.25); // 0.2
    * ```
-   * @param {number} to
-   * @param {number} value
+   * @param {number} to - Target to floor to
+   * @param {number} value - Number to floor
    * @returns {number}
    */
   export const floorTo = (to: number, value: number) => {
@@ -105,8 +106,8 @@ export namespace MathsTools {
    * MathsTools.round.to(5, 53); // 55
    * MathsTools.round.to(0.1, 0.25); // 0.3
    * ```
-   * @param {number} to
-   * @param {number} value
+   * @param {number} to - Target to round to
+   * @param {number} value - Number to round
    * @returns {number}
    */
   export const roundTo = (to: number, value: number) => {
@@ -130,8 +131,8 @@ export namespace MathsTools {
    * MathsTools.round.ceilTo(5, 53); // 55
    * MathsTools.round.ceilTo(0.1, 0.25); // 0.3
    * ```
-   * @param {number} to
-   * @param {number} value
+   * @param {number} to - Target to ceil to
+   * @param {number} value - Number to ceil
    * @returns {number}
    */
   export const ceilTo = (to: number, value: number) => {
@@ -172,9 +173,9 @@ export namespace MathsTools {
    * ```typescript
    * MathsTools.lerp(0.5, 0, 10); // 5
    * ```
-   * @param {number} progress
-   * @param {number} fromVal
-   * @param {number} toVal
+   * @param {number} progress - Progress to interpolate (`0`-`1`)
+   * @param {number} fromVal - Start value (what the progress is at `0`)
+   * @param {number} toVal - End value (what the progress is at `1`)
    * @returns {number}
    */
   export const lerp = (progress: number, fromVal: number, toVal: number): number => {
@@ -196,9 +197,9 @@ export namespace MathsTools {
    * ```typescript
    * MathsTools.lerpArray(0.5, [0, 0, 0], [10, 100, 1000]) // [5, 50, 500]
    * ```
-   * @param {number} progress
-   * @param {number[]} fromArr
-   * @param {number[]} toArr
+   * @param {number} progress - Progress to interpolate (`0`-`1`)
+   * @param {number[]} fromArr - Start values (what the progress is at `0`)
+   * @param {number[]} toArr - End values (what the progress is at `1`)
    * @returns {number[]}
    */
   export const lerpArray = (progress: number, fromArr: number[], toArr: number[]): number[] => {
@@ -220,9 +221,9 @@ export namespace MathsTools {
    * ```typescript
    * MathsTools.lerpObj(0.5, {'ARS': 0, 'CHE': 0, 'FUL': 0}, {'ARS': 100, 'CHE': 10, 'FUL': 20}) // {'ARS': 50, 'CHE': 5, 'FUL': 10}
    * ```
-   * @param {number} progress
-   * @param {T} fromObj
-   * @param {T} toObj
+   * @param {number} progress - Progress to interpolate (`0`-`1`)
+   * @param {T} fromObj - Start values (what the progress is at `0`)
+   * @param {T} toObj - End values (what the progress is at `1`)
    * @returns {T}
    */
   export const lerpObj = <T extends object>(progress: number, fromObj: T, toObj: T): T => {
@@ -249,9 +250,9 @@ export namespace MathsTools {
    * MathsTools.clamp(5, 0, 10); // 5
    * MathsTools.clamp(-5, 0, 10); // 0
    * ```
-   * @param {number} value
-   * @param {number} min
-   * @param {number} max
+   * @param {number} value - Value to clamp
+   * @param {number} min - Minimum value
+   * @param {number} max - Maximum value
    * @returns {number}
    */
   export const clamp = (value: number, min: number, max: number) => {
@@ -291,7 +292,7 @@ export namespace MathsTools {
    * MathsTools.getOrdinal(23); // 'rd'
    * MathsTools.getOrdinal(24); // 'th'
    * ```
-   * @param {number} [num=0]
+   * @param {number} [num=0] - Number to get the ordinal for
    * @returns {"th" | "st" | "nd" | "rd"}
    */
   export const getOrdinal = (num: number = 0) => {

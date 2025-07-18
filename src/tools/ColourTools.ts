@@ -581,7 +581,7 @@ export namespace ColourTools {
    * ColourTools.parse('rgb(255, 0, 0)') // [255, 0, 0]
    * ColourTools.parse('red') // [255, 0, 0]
    * ```
-   * @param {string} input
+   * @param {string} input - Input string to parse
    * @returns {ColourValues}
    */
   export const parse = (input: string): ColourValues => {
@@ -626,7 +626,7 @@ export namespace ColourTools {
    * ```typescript
    * ColourTools.toHex([255, 0, 0]) // '#FF0000'
    * ```
-   * @param {ColourValues} colour
+   * @param {ColourValues} colour - Colour to convert to a hex string
    * @returns {string}
    */
   export const toHex = (colour: ColourValues): string => {
@@ -656,7 +656,7 @@ export namespace ColourTools {
    * ColourTools.getLuminance([0, 255, 0]); // 149.685
    * ColourTools.getLuminance([0, 0, 255]); // 29.07
    * ```
-   * @param {ColourValues} rgb
+   * @param {ColourValues} rgb - Colour to get the luminance of
    * @returns {number}
    */
   export const getLuminance = (rgb: ColourValues): number => {
@@ -679,7 +679,7 @@ export namespace ColourTools {
    * ```typescript
    * ColourTools.toYUV([255, 0, 0]); // [76.245, 112.439, -38.094]
    * ```
-   * @param {ColourValues} rgb
+   * @param {ColourValues} rgb - Colour to convert to a YUV array
    * @returns {ColourValues}
    */
   export const toYUV = (rgb: ColourValues): ColourValues => {
@@ -706,8 +706,8 @@ export namespace ColourTools {
    * ColourTools.toHSL([255, 0, 0]); // [0, 100, 50]
    * ColourTools.toHSL([0, 255, 0]); // [120, 100, 50]
    * ```
-   * @param {ColourValues} colour
-   * @param {boolean} [round=true]
+   * @param {ColourValues} colour - Colour to convert to a HSL array
+   * @param {boolean} [round=true] - Whether to round the result
    * @returns {HSLValues}
    */
   export const toHSL = (colour: ColourValues, round: boolean = true): HSLValues => {
@@ -763,8 +763,8 @@ export namespace ColourTools {
    * ColourTools.fromHSL([0, 100, 50]); // [255, 0, 0]
    * ColourTools.fromHSL([120, 100, 50]); // [0, 255, 0]
    * ```
-   * @param {HSLValues} hsl
-   * @param {boolean} [round=true]
+   * @param {HSLValues} hsl - HSL array to convert to a RGB array
+   * @param {boolean} [round=true] - Whether to round the result
    * @returns {ColourValues}
    */
   export const fromHSL = (hsl: HSLValues, round: boolean = true): ColourValues => {
@@ -800,7 +800,7 @@ export namespace ColourTools {
    * ColourTools.invertColour([0, 255, 0]); // [ 255, 0, 255 ]
    * ColourTools.invertColour([0, 0, 255]); // [ 255, 255, 0 ]
    * ```
-   * @param {ColourValues} rgb
+   * @param {ColourValues} rgb - Colour to invert
    * @returns {ColourValues}
    */
   export const invertColour = (rgb: ColourValues): ColourValues => {
@@ -827,7 +827,7 @@ export namespace ColourTools {
    * ColourTools.getContrastedColour([255, 0, 0]); // [255, 255, 255]
    * ColourTools.getContrastedColour([255, 255, 0]); // [0, 0, 0]
    * ```
-   * @param {ColourValues} colour
+   * @param {ColourValues} colour - Colour to get the contrasted colour of
    * @returns {ColourValues}
    */
   export const getContrastedColour = (colour: ColourValues): ColourValues => {
@@ -851,9 +851,9 @@ export namespace ColourTools {
    * ColourTools.getLimitedColour([255, 255, 255], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 230, 230, 230 ]
    * ColourTools.getLimitedColour([128, 128, 128], ([h,s,l]) => l > 90, ([h,s,l]) => [h, s, 90]); // [ 128, 128, 128 ]
    * ```
-   * @param {ColourValues} colour
-   * @param {(hsl: HSLValues) => boolean} checkFn
-   * @param {(hsl: HSLValues) => HSLValues} adjustFn
+   * @param {ColourValues} colour - Colour to limit
+   * @param {(hsl: HSLValues) => boolean} checkFn - Function to check if the colour should be limited
+   * @param {(hsl: HSLValues) => HSLValues} adjustFn - Function to adjust the colour if it should be limited
    * @returns {ColourValues}
    */
   export const getLimitedColour = (

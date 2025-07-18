@@ -60,7 +60,7 @@ export interface ITimer<TName> {
    * ```typescript
    * timer.start('TOTAL', 'Intro');
    * ```
-   * @param {...string} labels
+   * @param {...string} labels - Labels to start
    * @returns {void}
    */
   start(...labels: string[]): void;
@@ -76,7 +76,7 @@ export interface ITimer<TName> {
    * ```typescript
    * timer.end('TOTAL', 'Intro');
    * ```
-   * @param {...string} labels
+   * @param {...string} labels - Labels to end
    * @returns {void}
    */
   end(...labels: string[]): void;
@@ -93,8 +93,8 @@ export interface ITimer<TName> {
    * ```typescript
    * timer.switch('Intro', 'Ending');
    * ```
-   * @param {string | string[]} endLabel
-   * @param {string | string[]} startLabel
+   * @param {string | string[]} endLabel - Label(s) to end
+   * @param {string | string[]} startLabel - Label(s) to start
    * @returns {void}
    */
   switch(endLabel: string | string[], startLabel: string | string[]): void;
@@ -110,8 +110,8 @@ export interface ITimer<TName> {
    * ```typescript
    * timer.getTable();
    * ```
-   * @param {string} [prefix]
-   * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries]
+   * @param {string} [prefix] - Prefix to add to the timing table
+   * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries] - Custom entries to add to the timing table
    * @returns {string} - the timing table
    */
   getTable(
@@ -130,8 +130,8 @@ export interface ITimer<TName> {
    * ```typescript
    * timer.log();
    * ```
-   * @param {string} [prefix]
-   * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries]
+   * @param {string} [prefix] - Prefix to add to the timing table
+   * @param {((durations: TimerDurations<TName>) => CustomEntryObj)[] | CustomEntryDict<TimerDurations<TName>, TName>} [customEntries] - Custom entries to add to the timing table
    * @returns {number} - the number of lines logged
    */
   log(
@@ -167,8 +167,8 @@ export interface ITimer<TName> {
    * timer.getDuration('Intro');
    * ```
    *
-   * @param {string} label
-   * @returns {ms}
+   * @param {string} label - Label to get the duration of
+   * @returns {ms} - The duration of the timer
    */
   getDuration(label: string): ms;
 
@@ -261,11 +261,11 @@ export interface ITimer<TName> {
  * 	⎯⎯⎯⎯⎯⎯⎯
  * 	TOTAL:    10s
  * ```
- * @param {string} [name]
- * @param {boolean} [verbose=false]
- * @param {any} [wrapperFn=colr.dark.white]
- * @param {TName} [displayNames]
- * @returns {any}
+ * @param {string} [name] - Name of the timer
+ * @param {boolean} [verbose=false] - Whether to log the timing table
+ * @param {any} [wrapperFn=colr.dark.white] - Function to wrap the timing table in
+ * @param {TName} [displayNames] - Display names of the timers
+ * @returns {any} - The timer instance
  */
 export const getTimer = <TName extends INames>(
   name?: string,

@@ -36,8 +36,8 @@ export namespace waiters {
    * await wait(minutes(2));
    * console.log(new Date().toTimeString()); // 12:32:10
    * ```
-   * @param {ms} time
-   * @returns {Promise<unknown>}
+   * @param {ms} time - Time to wait in milliseconds
+   * @returns {Promise<unknown>} - Promise that resolves after the given time
    */
   export const wait = (time: ms) => new Promise((resolve) => setTimeout(resolve, safe.num(time, true, 0)));
 
@@ -61,8 +61,8 @@ export namespace waiters {
    * await waitUntil(Date.now() + minutes(10));
    * console.log(new Date().toTimeString()); // 12:40:10
    * ```
-   * @param {ms} time
-   * @returns {Promise<null>}
+   * @param {ms} time - Unix time to wait until
+   * @returns {Promise<null>} - Promise that resolves at the given time
    */
   export const waitUntil = async (time: ms): Promise<null> => {
     const args = {
@@ -89,8 +89,8 @@ export namespace waiters {
    * await waitFor(minutes(5));
    * console.log(new Date().toTimeString()); // 12:35:10
    * ```
-   * @param {ms} time
-   * @returns {Promise<null>}
+   * @param {ms} time - Time to wait in milliseconds
+   * @returns {Promise<null>} - Promise that resolves after the given time
    */
   export const waitFor = async (time: ms): Promise<null> => waitUntil(Date.now() + safe.num(time, true, 0));
 
@@ -116,9 +116,9 @@ export namespace waiters {
    * await waitEvery(hours(2));
    * console.log(new Date().toTimeString()); // 14:00:00
    * ```
-   * @param {ms} timing
-   * @param {ms} [offset]
-   * @returns {Promise<null>}
+   * @param {ms} timing - Timing period in milliseconds
+   * @param {ms} [offset] - Offset in milliseconds
+   * @returns {Promise<null>} - Promise that resolves at the next 'every X' event
    */
   export const waitEvery = (timing: ms, offset?: ms): Promise<null> => {
     const args = {
@@ -146,7 +146,7 @@ export namespace waiters {
    *   }
    * }, hours(1));
    * ```
-   * @param {number} intID
+   * @param {number} intID - Interval ID
    * @returns {void}
    */
   export const stopInterval = (intID: number): void => {
@@ -175,9 +175,9 @@ export namespace waiters {
    *   }
    * }, hours(1));
    * ```
-   * @param {(intID?: number, count?: number) => any} action
-   * @param {ms} timing
-   * @returns {number}
+   * @param {(intID?: number, count?: number) => any} action - Action to run on each interval
+   * @param {ms} timing - Timing period in milliseconds
+   * @returns {number} - Interval ID
    */
   export const interval = (action: (intID?: number, count?: number) => any, timing: ms): number => {
     const args = {

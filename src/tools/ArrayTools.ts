@@ -24,8 +24,8 @@ export namespace ArrayTools {
    * ArrayTools.create(3, 'a'); // [ 'a', 'a', 'a' ]
    * ArrayTools.create(3, 1); // [ 1, 1, 1 ]
    * ```
-   * @param {number} [length=1]
-   * @param {T} [value=1 as unknown as T]
+   * @param {number} [length=1] - Length of the array to create
+   * @param {T} [value=1 as unknown as T] - Value to fill the array with
    * @returns {T[]}
    */
   export const create = <T = number>(length: number = 1, value: T = 1 as unknown as T): T[] => {
@@ -50,8 +50,8 @@ export namespace ArrayTools {
    * ArrayTools.filled(3, 'a'); // [ 'a', 'a', 'a' ]
    * ArrayTools.filled(3, 1); // [ 1, 1, 1 ]
    * ```
-   * @param {number} [length=1]
-   * @param {T} value
+   * @param {number} [length=1] - Length of the array to create
+   * @param {T} value - Value to fill the array with
    * @returns {T[]}
    */
   export const filled = <T>(length: number = 1, value: T): T[] => {
@@ -81,9 +81,9 @@ export namespace ArrayTools {
    * ArrayTools.range(5, 2);  // [0, 2, 4, 6, 8]
    * ArrayTools.range(10, 10); // [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
    * ```
-   * @param {number} [length=1]
-   * @param {number} [multiplier=1]
-   * @param {number} [offset=0]
+   * @param {number} [length=1] - Length of the array to create
+   * @param {number} [multiplier=1] - Multiplier to apply to each value
+   * @param {number} [offset=0] - Offset to apply to each value (after the multiplier)
    * @returns {number[]}
    */
   export const range = (length: number = 1, multiplier: number = 1, offset: number = 0): number[] => {
@@ -116,7 +116,7 @@ export namespace ArrayTools {
    * ```typescript
    * ArrayTools.zip([1, 2, 3, 4], ['a', 'b', 'c']); // [ [1, 'a'], [2, 'b'], [3, 'c'] ]
    * ```
-   * @param {...T} [arrs]
+   * @param {...T} [arrs] - Arrays to zip together
    * @returns {ZippedArrays<T>[]}
    */
   export const zip = <T extends [...any[]]>(...arrs: T): ZippedArrays<T>[] => {
@@ -139,7 +139,7 @@ export namespace ArrayTools {
    * ```typescript
    * ArrayTools.zipMax([1, 2, 3, 4], ['a', 'b', 'c']); //[ [ 1, 'a' ], [ 2, 'b' ], [ 3, 'c' ], [ 4, undefined ] ]
    * ```
-   * @param {...T} [arrs]
+   * @param {...T} [arrs] - Arrays to zip together
    * @returns {ZippedArrays<T>[]}
    */
   export const zipMax = <T extends [...any[]]>(...arrs: T): ZippedArrays<T>[] => {
@@ -163,9 +163,9 @@ export namespace ArrayTools {
    *   (a, b) => b - a
    * ); // ['3p', '2p', '1p']
    * ```
-   * @param {T[]} arr
-   * @param {(value: T, index: number, array: T[]) => M} mapFn
-   * @param {(a: M, b: M) => number} [sortFn=fn.asc]
+   * @param {T[]} arr - Array to sort
+   * @param {(value: T, index: number, array: T[]) => M} mapFn - Function to map the values to
+   * @param {(a: M, b: M) => number} [sortFn=fn.asc] - Function to sort the mapped values by
    * @returns {T[]}
    */
   export const sortByMapped = <T = string, M = number>(
@@ -198,7 +198,7 @@ export namespace ArrayTools {
    * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 1, 4, 5, 2, 3, 6 ]
    * ArrayTools.randomise([1, 2, 3, 4, 5, 6]); // [ 2, 6, 1, 3, 4, 5 ]
    * ```
-   * @param {T[]} arr
+   * @param {T[]} arr - Array to randomise
    * @returns {T[]}
    */
   export const randomise = <T = string>(arr: T[]): T[] => {
@@ -225,7 +225,7 @@ export namespace ArrayTools {
    * ArrayTools.reverse(arr2);  // [3, 2, 1]
    * arr2            // [1, 2, 3] - not mutated
    * ```
-   * @param {T[]} arr
+   * @param {T[]} arr - Array to reverse
    * @returns {T[]}
    */
   export const reverse = <T = string>(arr: T[]): T[] => {
@@ -250,7 +250,7 @@ export namespace ArrayTools {
    *  console.log(value); // 'a', 'b', 'c'
    * }
    * ```
-   * @param {T[]} arr
+   * @param {T[]} arr - Array to get entries from
    * @returns {[number, T][]}
    */
   export const entries = <T = string>(arr: T[]): [number, T][] => {
@@ -270,8 +270,8 @@ export namespace ArrayTools {
    * ArrayTools.repeat(5, 'a'); // [ 'a', 'a', 'a', 'a', 'a' ]
    * ArrayTools.repeat(5, 'a', 'b'); // [ 'a', 'b', 'a', 'b', 'a' ]
    * ```
-   * @param {number} maxLength
-   * @param {...T} [items]
+   * @param {number} maxLength - Maximum length of the array
+   * @param {...T} [items] - Items to repeat
    * @returns {T[]}
    */
   export const repeat = <T = string>(maxLength: number, ...items: T[]): T[] => {
@@ -295,8 +295,8 @@ export namespace ArrayTools {
    * ArrayTools.roll(1, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 1, 2, 3, 4, 5, 6, 7, 0 ]
    * ArrayTools.roll(4, [0, 1, 2, 3, 4, 5, 6, 7]); // [ 4, 5, 6, 7, 0, 1, 2, 3 ]
    * ```
-   * @param {number} distance
-   * @param {T[]} arr
+   * @param {number} distance - Distance to roll the array by
+   * @param {T[]} arr - Array to roll
    * @returns {T[]}
    */
   export const roll = <T>(distance: number, arr: T[]): T[] => {
@@ -320,8 +320,8 @@ export namespace ArrayTools {
    * names.sort(); // [ 'foo10', 'foo20', 'foo9', 'name1', 'name10', 'name2' ]
    * ArrayTools.sortNumberedText(names); // [ 'foo9', 'foo10', 'foo20', 'name1', 'name2', 'name10' ]
    * ```
-   * @param {string[]} texts
-   * @param {boolean} [ignoreCase=true]
+   * @param {string[]} texts - Texts to sort
+   * @param {boolean} [ignoreCase=true] - Whether to ignore case when sorting
    * @returns {string[]}
    */
   export const sortNumberedText = (texts: string[], ignoreCase: boolean = true): string[] => {
@@ -353,8 +353,8 @@ export namespace ArrayTools {
    * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 9, 10 ] ]
    * ArrayTools.partition([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
    * ```
-   * @param {T[]} array
-   * @param {number} [partitionSize=Math.ceil(array.length / 2)]
+   * @param {T[]} array - Array to partition
+   * @param {number} [partitionSize=Math.ceil(array.length / 2)] - Size of each partition
    * @returns {T[][]}
    */
   export const partition = <T>(array: T[], partitionSize: number = Math.ceil(array.length / 2)): T[][] => {
@@ -385,8 +385,8 @@ export namespace ArrayTools {
    * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4); // [ [ 1, 2, 3, 4 ], [ 5, 6, 7 ], [ 8, 9, 10 ] ]
    * ArrayTools.partitionEvenly([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5); // [ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
    * ```
-   * @param {T[]} array
-   * @param {number} [maxPartitionSize=Math.ceil(array.length / 2)]
+   * @param {T[]} array - Array to partition
+   * @param {number} [maxPartitionSize=Math.ceil(array.length / 2)] - Maximum size of each partition
    * @returns {T[][]}
    */
   export const partitionEvenly = <T>(array: T[], maxPartitionSize: number = Math.ceil(array.length / 2)): T[][] => {
@@ -426,8 +426,8 @@ export namespace ArrayTools {
    * //   2: [ { group: 2, name: 'b' } ]
    * // }
    * ```
-   * @param {T[]} array
-   * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
+   * @param {T[]} array - Array to group
+   * @param {(item: T, index: number, arr: T[]) => string | number} mapFn - Map function to get the group key for each item
    * @returns {{ [id: string]: T[]; [id: number]: T[]; }}
    */
   export const groupObj = <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): { [id: string | number]: T[] } => {
@@ -469,8 +469,8 @@ export namespace ArrayTools {
    * //   [ { group: 2, name: 'b' } ]
    * // ]
    * ```
-   * @param {T[]} array
-   * @param {(item: T, index: number, arr: T[]) => string | number} mapFn
+   * @param {T[]} array - Array to group
+   * @param {(item: T, index: number, arr: T[]) => string | number} mapFn - Map function to get the group key for each item
    * @returns {T[][]}
    */
   export const group = <T>(array: T[], mapFn: (item: T, index: number, arr: T[]) => string | number): T[][] => {
@@ -496,10 +496,10 @@ export namespace ArrayTools {
    * ArrayTools.findAndRemove(arr, (item) => item === 3); // 3
    * arr; // [1, 2, 4, 5]
    * ```
-   * @param {T[]} array the array to mutate
-   * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
-   * @param {...T} [insertItems] items to insert in place of the removed item
-   * @returns {T} the removed item (undefined if not found)
+   * @param {T[]} array - Array to mutate
+   * @param {(item: T, index: number, arr: T[]) => any} predicate - Function that returns true/truthy if the item should be removed
+   * @param {...T} [insertItems] - Items to insert in place of the removed item
+   * @returns {T} - The removed item (undefined if not found)
    */
   export const findAndRemove = <T>(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]): T | undefined => {
     const args = {
@@ -526,10 +526,10 @@ export namespace ArrayTools {
    * ArrayTools.findLastAndRemove(arr, (item) => item === 3); // 3
    * arr; // [1, 2, 4, 5]
    * ```
-   * @param {T[]} array the array to mutate
-   * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
-   * @param {...T} [insertItems] items to insert in place of the removed item
-   * @returns {T} the removed item (undefined if not found)
+   * @param {T[]} array - Array to mutate
+   * @param {(item: T, index: number, arr: T[]) => any} predicate - Function that returns true/truthy if the item should be removed
+   * @param {...T} [insertItems] - Items to insert in place of the removed item
+   * @returns {T} - The removed item (undefined if not found)
    */
   export const findLastAndRemove = <T>(array: T[], predicate: (item: T, index: number, arr: T[]) => any, ...insertItems: T[]): T | undefined => {
     const args = {
@@ -557,9 +557,9 @@ export namespace ArrayTools {
    * ArrayTools.filterAndRemove(arr, (item) => item === 3); // [3]
    * arr; // [1, 2, 4, 5]
    * ```
-   * @param {T[]} array the array to mutate
-   * @param {(item: T, index: number, arr: T[]) => any} predicate a function that returns true/truthy if the item should be removed
-   * @returns {T[]} the removed items
+   * @param {T[]} array - Array to mutate
+   * @param {(item: T, index: number, arr: T[]) => any} predicate - Function that returns true/truthy if the item should be removed
+   * @returns {T[]} - The removed items
    */
   export const filterAndRemove = <T>(array: T[], predicate: (item: T, index: number, arr: T[]) => any): T[] => {
     const args = {
@@ -594,7 +594,7 @@ export namespace ArrayTools {
      * ArrayTools.utils.isNumString('123'); // true
      * ArrayTools.utils.isNumString('123a'); // false
      * ```
-     * @param {string} text
+     * @param {string} text - Text to check if it is a number
      * @returns {boolean}
      */
     export const isNumString = (text: string) => {
@@ -613,7 +613,7 @@ export namespace ArrayTools {
      * ArrayTools.utils.partitionNums(true)('123a'); // [ '123', 'a' ]
      * ArrayTools.utils.partitionNums(false)('123a'); // [ '123', 'a' ]
      * ```
-     * @param {boolean} ignoreCase
+     * @param {boolean} ignoreCase - Whether to ignore case
      * @returns {(name: string) => (string | number)[]}
      */
     export const partitionNums = (ignoreCase: boolean) => {

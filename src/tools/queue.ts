@@ -89,7 +89,7 @@ export class QueueManager {
    * ```typescript
    * queue.setDefaultPauseTime(seconds(1));
    * ```
-   * @param {ms} time
+   * @param {ms} time - Amount of time to pause between queue items
    * @returns {void}
    */
   setDefaultPauseTime(time: ms) {
@@ -110,8 +110,8 @@ export class QueueManager {
    * ```typescript
    * queue.setPauseTime('printer', seconds(1));
    * ```
-   * @param {string} id
-   * @param {ms} time
+   * @param {string} id - Queue ID
+   * @param {ms} time - Amount of time to pause between queue items
    * @returns {void}
    */
   setPauseTime(id: string, time: ms) {
@@ -136,8 +136,8 @@ export class QueueManager {
    *   console.log('printed');
    * });
    * ```
-   * @param {string} id
-   * @param {PromiseTools.PromiseItem<T>} promiseItem
+   * @param {string} id - Queue ID
+   * @param {PromiseTools.PromiseItem<T>} promiseItem - Function to add to the queue
    * @returns {Promise<T>}
    */
   add<T>(id: string, promiseItem: PromiseTools.PromiseItem<T>): Promise<T> {
@@ -169,7 +169,7 @@ export class QueueManager {
    * ```typescript
    * const newQueue = queue.new();
    * ```
-   * @param {ms} [defaultPauseTime=0]
+   * @param {ms} [defaultPauseTime=0] - Amount of time to pause between queue items
    * @returns {QueueManager}
    */
   new(defaultPauseTime: ms = 0) {

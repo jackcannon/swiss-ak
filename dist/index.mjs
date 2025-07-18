@@ -611,16 +611,16 @@ var fn;
   fn2.toString = (item) => item + "";
   fn2.toNumber = (item) => Number(item);
   fn2.toBool = (item) => item !== "false" && Boolean(item);
-  fn2.toProp = (prop) => {
+  fn2.toProp = (propName) => {
     const args1 = {
-      prop: safe.prop(prop, "")
+      propName: safe.prop(propName, "")
     };
     return (item) => {
       const args = {
         item: safe.obj(item, true),
         ...args1
       };
-      return args.item && args.item[args.prop];
+      return args.item && args.item[args.propName];
     };
   };
   fn2.toFixed = (precision) => {
@@ -649,7 +649,7 @@ var fn;
       return -1;
     return 0;
   };
-  fn2.byProp = (propName, sortFn = fn2.asc) => {
+  fn2.byProp = (propName, sortFn = fn2.sorts.asc) => {
     const args = {
       propName: safe.prop(propName, ""),
       sortFn: safe.func(sortFn, fn2.asc)
@@ -666,7 +666,7 @@ var fn;
     const diffB = Math.abs(Number(target) - Number(b));
     return (Number.isNaN(diffB) ? Infinity : diffB) - (Number.isNaN(diffA) ? Infinity : diffA);
   };
-  fn2.array = (sortFn = fn2.asc) => (a, b) => {
+  fn2.array = (sortFn = fn2.sorts.asc) => (a, b) => {
     for (let i in a) {
       const result2 = sortFn(a[i], b[i]);
       if (result2 !== 0)

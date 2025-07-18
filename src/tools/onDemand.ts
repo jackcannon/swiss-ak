@@ -57,7 +57,7 @@ import { safe } from './safe';
  *   //  age: number;
  *   //}
  * ```
- * @param {OnDemandInputObject<T>} input
+ * @param {OnDemandInputObject<T>} input - Input object
  * @returns {T}
  */
 export const onDemand = <T extends Record<string, any>>(input: OnDemandInputObject<T>): T => {
