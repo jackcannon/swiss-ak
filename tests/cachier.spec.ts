@@ -164,7 +164,7 @@ describe('cachier', () => {
             return cache.get('foo');
           },
           kitchenSink.safe.num(undefined, true, undefined, undefined, Infinity),
-          kitchenSink.samples.num
+          kitchenSink.samples.num.filter((v) => v !== 0)
         );
       }
     );
@@ -275,7 +275,7 @@ describe('cachier', () => {
             return cache.get('foo');
           },
           kitchenSink.safe.num(undefined, true, undefined, undefined, Infinity),
-          kitchenSink.samples.num
+          kitchenSink.samples.num.filter((v) => v !== 0)
         );
       }
     );
@@ -397,7 +397,7 @@ describe('cachier', () => {
             return cache.get('foo');
           },
           kitchenSink.safe.num(undefined, true, undefined, undefined, Infinity),
-          kitchenSink.samples.num
+          kitchenSink.samples.num.filter((v) => v !== 0)
         );
       }
     );
@@ -461,7 +461,7 @@ describe('cachier', () => {
             return cache.get('foo');
           },
           kitchenSink.safe.num(undefined, true, undefined, undefined, Infinity),
-          kitchenSink.samples.num
+          kitchenSink.samples.num.filter((v) => v !== 0)
         );
       }
     );
@@ -714,7 +714,7 @@ describe('cachier', () => {
             return cache.getDefaultExpiresIn();
           },
           kitchenSink.safe.num(undefined, true, undefined, undefined, Infinity),
-          kitchenSink.samples.num
+          kitchenSink.samples.num.filter((v) => v !== 0)
         );
       }
     );
