@@ -4856,9 +4856,9 @@ declare namespace PromiseTools {
      */
     export const mapLimit: <T, U>(limit: number, items: T[], func: (item: T, index: number, array: T[]) => Promise<U>) => Promise<U[]>;
     type AwaitedItem<T> = T extends Promise<infer U> ? Awaited<U> : T extends () => Promise<infer U> ? Awaited<U> : T;
-    type AwaitedObject<T> = Prettify<{
+    type AwaitedObject<T> = {
         [K in keyof T]: AwaitedItem<T[K]>;
-    }>;
+    };
     /**<!-- DOCS: PromiseTools.allObj ### -->
      * allObj
      *
@@ -4898,7 +4898,7 @@ declare namespace PromiseTools {
      * @param {T} input - Object with properties to wait for
      * @returns {Promise<AwaitedObject<T>>} - Promise that resolves to an object with the results
      */
-    export const allObj: <T extends object>(input: T) => Promise<{ [K_1 in keyof T]: AwaitedItem<T[K_1]>; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: AwaitedItem<T[K_1]>; }[K]; } : never>;
+    export const allObj: <T extends object>(input: T) => Promise<AwaitedObject<T>>;
     /**<!-- DOCS: PromiseTools.allLimitObj ### -->
      * allLimitObj
      *
@@ -4944,7 +4944,7 @@ declare namespace PromiseTools {
      * @param {boolean} [noThrow=false] - Whether to prevent throwing errors
      * @returns {Promise<AwaitedObject<T>>} - Promise that resolves to an object with the results
      */
-    export const allLimitObj: <T extends object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K_1 in keyof T]: AwaitedItem<T[K_1]>; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: AwaitedItem<T[K_1]>; }[K]; } : never>;
+    export const allLimitObj: <T extends object>(limit: number, input: T, noThrow?: boolean) => Promise<AwaitedObject<T>>;
     /**<!-- DOCS: PromiseTools.PromiseFunc ### -->
      * PromiseFunc<T>
      *
@@ -5202,7 +5202,7 @@ declare const mapLimit: <T, U>(limit: number, items: T[], func: (item: T, index:
  * @param {T} input - Object with properties to wait for
  * @returns {Promise<AwaitedObject<T>>} - Promise that resolves to an object with the results
  */
-declare const allObj: <T extends object>(input: T) => Promise<{ [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; }[K]; } : never>;
+declare const allObj: <T extends object>(input: T) => Promise<{ [K in keyof T]: T[K] extends infer T_1 ? T_1 extends T[K] ? T_1 extends Promise<unknown> ? unknown : T_1 extends () => Promise<infer U> ? Awaited<U> : T_1 : never : never; }>;
 /**<!-- DOCS-ALIAS: PromiseTools.allLimitObj -->
  * allLimitObj
  * 
@@ -5248,7 +5248,7 @@ declare const allObj: <T extends object>(input: T) => Promise<{ [K_1 in keyof T]
  * @param {boolean} [noThrow=false] - Whether to prevent throwing errors
  * @returns {Promise<AwaitedObject<T>>} - Promise that resolves to an object with the results
  */
-declare const allLimitObj: <T extends object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; } extends infer T_1 ? { [K in keyof T_1]: { [K_1 in keyof T]: T[K_1] extends infer T_2 ? T_2 extends T[K_1] ? T_2 extends Promise<unknown> ? unknown : T_2 extends () => Promise<infer U> ? Awaited<U> : T_2 : never : never; }[K]; } : never>;
+declare const allLimitObj: <T extends object>(limit: number, input: T, noThrow?: boolean) => Promise<{ [K in keyof T]: T[K] extends infer T_1 ? T_1 extends T[K] ? T_1 extends Promise<unknown> ? unknown : T_1 extends () => Promise<infer U> ? Awaited<U> : T_1 : never : never; }>;
 
 /**<!-- DOCS: ErrorTools ##! -->
  * ErrorTools

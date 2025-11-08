@@ -1,7 +1,6 @@
 //<!-- DOCS: 140 -->
 
 import { safe } from './safe';
-import { Prettify } from './types';
 
 /**<!-- DOCS: PromiseTools ##! -->
  * PromiseTools
@@ -348,7 +347,7 @@ export namespace PromiseTools {
   };
 
   type AwaitedItem<T> = T extends Promise<infer U> ? Awaited<U> : T extends () => Promise<infer U> ? Awaited<U> : T;
-  type AwaitedObject<T> = Prettify<{ [K in keyof T]: AwaitedItem<T[K]> }>;
+  type AwaitedObject<T> = { [K in keyof T]: AwaitedItem<T[K]> };
 
   /**<!-- DOCS: PromiseTools.allObj ### -->
    * allObj
